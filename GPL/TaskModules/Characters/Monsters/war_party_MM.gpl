@@ -1,0 +1,45 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+function war_party_birth ( agent thisagent )
+
+declare
+	string unit_name;
+
+begin
+	unit_name = thisagent's "Title";
+	
+	if ($IsExpansion(thisagent) != False)
+		begin
+			//See if ThisAgent needs to get a Hall of Champs effector over them
+			If ($GetUnitPlayerNumber (ThisAgent) == #Monster_Player)
+				begin
+
+					$SetHallFlag (ThisAgent);
+
+				end
+
+			//This is here because the goblin priest learn a new spell!
+			//Golbin Priest needs to learn a new spell!
+			If ( ThisAgent's "Title" == "Goblin_Priest" )
+				begin
+
+					$LearnSpell ( ThisAgent, "Speed_Monster" );
+
+				end
+		end
+
+	thisagent's "num_followers" = 0;
+	thisagent's "isleader" = FALSE;
+
+	if ($IsExpansion(thisagent) != False)
+		$check_override_behavior ( thisagent );
+		// Jesse added this override line.
+
+	$NewThread ( ThisAgent's "ActiveScript", #Normal_Cycle, ThisAgent );
+	
+	(thisagent's "Unit_Type_Attributes")( thisagent );
+	
+end

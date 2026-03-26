@@ -1,0 +1,435 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+Function Visit_Building (agent ThisAgent, string Building, integer Chance) is boolean
+Declare
+	list 		Potentials;
+	list 		NewList;
+	integer	Counter;
+	agent		Farthest;
+	agent 	Target;
+
+Begin
+	$DebugOut ("Should I visit a",Building,"?");
+	//See is I am interested enough
+	If ($RandomNumber (100) + 1 > Chance)
+		begin
+			$DebugOut ("No, not interested.");
+			return False;
+		end
+
+	//Find all buildings of Title Building
+	//Potentials = $ListCompletedTitles (ThisAgent, "Building", Building, -1);
+	$ListObjects (ThisAgent, "Building", -1, Potentials, #CheckTitles, Building, #ATTRIB_FirstStageBuilt, 1);
+
+	//Find the top #Max_Farthest_Building_Choices in the Potetials list, and put them on a list
+	While (Counter < #Max_Farthest_Building_Choices) do
+		begin
+			If ($ListSize (Potentials) > 0)
+				begin
+					//Farthest = $Pick_Farthest (ThisAgent, Potentials);
+					Farthest = $ListMember (Potentials, $ListSize (Potentials));
+
+					NewList << Farthest;
+					Potentials -= Farthest;
+				end
+			Counter++;
+		end
+
+	If ($ListSize (NewList) > 0)
+		begin
+			//This picks a random target from NewList
+			$DebugOut ("I'm going to an",Building);
+			ThisAgent's "Target" = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
+
+			Target = ThisAgent's "Target";
+
+			//This may get overwritten if they are visiting a Marketplace or a Trading_post - as that means they are up
+			//to something different (ie, entertaining)
+			ThisAgent's "Taskname" = "Visiting";
+
+			ThisAgent's "ActiveScript" = $Use_Building;
+
+			//If the building is a Marketplace or TradingPost, and I have a target, then set my taskname so I know which
+			//script to request when I arrive
+			//This is a special case, and just for elves
+			If (Building == "Marketplace" || Building == "Trading_Post")
+				begin
+
+					ThisAgent's "TaskName" = "Entertain_Shop";
+					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_GOINGTOPERFORMBARD");
+
+				end
+
+			Else
+				begin
+					//Specify the intent for gardens
+					If (Building == "Royal_Gardens")
+						begin
+
+							$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITROYALGARDENS");
+
+						end
+
+
+					else
+						begin
+							//The building is a gazebo or inn
+							if (ThisAgent's "Title" == "Elf")
+								begin
+									$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_GOINGTOPERFORMBARD");
+								end
+
+							else
+								begin
+
+									If (Target's "Subtype" == "Inn")
+										$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITINN");
+
+									Else
+										$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITGAZEBO");
+
+								end
+						end
+				end
+
+			return True;
+		end
+
+	$DebugOut ("No",building,"(s)");
+	return False;
+End
+///////////////////////////////////////////////////////////////////////////////
+Function Visit_Building_Other (agent ThisAgent, string Building, integer Chance) is boolean
+Declare
+	list 		Potentials;
+	list 		NewList;
+	integer	Counter, estate_chance;
+	agent		Farthest;
+	agent 	Target;
+
+Begin
+	$DebugOut ("Should I visit a",Building,"?");
+	//See is I am interested enough
+	If ($RandomNumber (100) + 1 > Chance)
+		begin
+			$DebugOut ("No, not interested.");
+			return False;
+		end
+	
+	estate_chance = ($randomnumber(5) + 1);
+	
+	//Find all buildings of Title Building
+	$ListObjects (ThisAgent, "Building", -1, Potentials, #CheckTitles, Building, #ATTRIB_FirstStageBuilt, 1);
+
+	//Find the top #Max_Farthest_Building_Choices in the Potetials list, and put them on a list
+	While (Counter < #Max_Farthest_Building_Choices) do
+		begin
+			If ($ListSize (Potentials) > 0)
+				begin
+					//Farthest = $Pick_Farthest (ThisAgent, Potentials);
+					Farthest = $ListMember (Potentials, $ListSize (Potentials));
+
+					NewList << Farthest;
+					Potentials -= Farthest;
+				end
+			Counter++;
+		end
+
+	If ($ListSize (NewList) > 0)
+		begin
+			//This picks a random target from NewList
+			$DebugOut ("I'm going to an",Building);
+			Target = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
+			if (Building == "General_Housing_Lv3")
+				begin
+					If ($Is_Free_Task (ThisAgent, $Use_Building, Target))
+						if (thisagent's "Prestige" > estate_chance)
+							if (Target's "ReceivingVisitors" != false)
+							begin
+								ThisAgent's "Target" = Target;
+
+								ThisAgent's "Taskname" = "Visiting";
+
+								ThisAgent's "ActiveScript" = $Use_Building;
+
+								ThisAgent's "TaskName" = "Enter_Estate";
+								$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITESTATE");
+								return True;
+							end
+				end
+			else if (Building == "Shrine")
+				begin
+				 if ($HasAttribute("Shrine_Cooldown", thisagent) == False)
+					begin
+						ThisAgent's "Target" = Target;
+
+						ThisAgent's "Taskname" = "Visiting";
+
+						ThisAgent's "ActiveScript" = $Use_Building;
+
+						ThisAgent's "TaskName" = "Enter_Estate";
+						$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITSHRINE");
+						return True;
+					end
+				else if ($IsRunning(thisagent's "Shrine_Cooldown") == False)
+					begin
+						ThisAgent's "Target" = Target;
+
+						ThisAgent's "Taskname" = "Visiting";
+
+						ThisAgent's "ActiveScript" = $Use_Building;
+
+						ThisAgent's "TaskName" = "Enter_Estate";
+						$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITSHRINE");
+						return True;
+					end
+				end
+		end
+
+	$DebugOut ("No",building,"(s)");
+	return False;
+End
+///////////////////////////////////////////////////////////////////////////////
+Function Visit_Building_Packet (agent ThisAgent) is boolean
+Declare
+	list 		Potentials;
+	list 		NewList;
+	integer	Counter, chance;
+	agent		Farthest;
+	agent 	Target;
+	string Building; 
+	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
+	string conditionsub, completecondition, visitsub, completevisit;
+
+
+Begin
+	$DebugOut ("Should I visit a",Building,"?");
+	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	Building = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
+	//See is I am interested enough
+	If ($RandomNumber (100) + 1 > Chance)
+		begin
+			$DebugOut ("No, not interested.");
+			return False;
+		end
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	tnamesub = "TaskPackageTaskName";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completetname = tnamesub + taskindex;
+
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+	
+	visitsub = "TaskPackageVisitingScript";
+	completevisit = visitsub + taskindex;
+	
+	//Find all buildings of Title Building
+	//Potentials = $ListCompletedTitles (ThisAgent, "Building", Building, -1);
+	$ListObjects (ThisAgent, "Building", -1, Potentials, #CheckTitles, Building, #ATTRIB_FirstStageBuilt, 1);
+
+	//Find the top #Max_Farthest_Building_Choices in the Potetials list, and put them on a list
+	While (Counter < #Max_Farthest_Building_Choices) do
+		begin
+			If ($ListSize (Potentials) > 0)
+				begin
+					//Farthest = $Pick_Farthest (ThisAgent, Potentials);
+					Farthest = $ListMember (Potentials, $ListSize (Potentials));
+
+					NewList << Farthest;
+					Potentials -= Farthest;
+				end
+			Counter++;
+		end
+
+	If ($ListSize (NewList) > 0)
+		begin
+			//This picks a random target from NewList
+			$DebugOut ("I'm going to an",Building);
+			ThisAgent's completetarget = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
+
+			Target = ThisAgent's completetarget;
+
+			//This may get overwritten if they are visiting a Marketplace or a Trading_post - as that means they are up
+			//to something different (ie, entertaining)
+			ThisAgent's completetname = "Visiting";
+
+			ThisAgent's completeaction = $Use_Building_Packet;
+			ThisAgent's completevisit = Target's "visited_script";
+			ThisAgent's completecondition = $isdead;
+
+			//If the building is a Marketplace or TradingPost, and I have a target, then set my taskname so I know which
+			//script to request when I arrive
+			//This is a special case, and just for elves
+			If (Building == "Marketplace" || Building == "Trading_Post")
+				begin
+
+					ThisAgent's completetname = "Entertain_Shop";
+					Thisagent's completeintent = "IDTXT_INTENT_GOINGTOPERFORMBARD";
+
+				end
+
+			Else
+				begin
+					//Specify the intent for gardens
+					If (Building == "Royal_Gardens")
+						begin
+
+							thisagent's completeintent = "IDTXT_INTENT_VISITROYALGARDENS";
+
+						end
+
+
+					else
+						begin
+							//The building is a gazebo or inn
+							if (ThisAgent's "Title" == "Elf")
+								begin
+									thisagent's completeintent = "IDTXT_INTENT_GOINGTOPERFORMBARD";
+								end
+
+							else
+								begin
+
+									If (Target's "Subtype" == "Inn")
+										Thisagent's completeintent = "IDTXT_INTENT_VISITINN";
+
+									Else
+										Thisagent's completeintent = "IDTXT_INTENT_VISITGAZEBO";
+
+								end
+						end
+				end
+
+			return $NotDuplicateTask(thisagent, taskindex);
+		end
+
+	$DebugOut ("No",building,"(s)");
+	return False;
+End
+///////////////////////////////////////////////////////////////////////////////
+Function Visit_Building_Other_Packet (agent ThisAgent) is boolean
+Declare
+	list 		Potentials;
+	list 		NewList;
+	integer	Counter, estate_chance, chance;
+	agent		Farthest;
+	agent 	Target;
+	string Building; 
+	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
+	string conditionsub, completecondition, visitsub, completevisit;
+
+Begin
+	$DebugOut ("Should I visit a",Building,"?");
+	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	Building = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
+	//See is I am interested enough
+	If ($RandomNumber (100) + 1 > Chance)
+		begin
+			$DebugOut ("No, not interested.");
+			return False;
+		end
+	
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	tnamesub = "TaskPackageTaskName";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completetname = tnamesub + taskindex;
+
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+	
+	visitsub = "TaskPackageVisitingScript";
+	completevisit = visitsub + taskindex;
+	
+	estate_chance = ($randomnumber(5) + 1);
+	
+	//Find all buildings of Title Building
+	$ListObjects (ThisAgent, "Building", -1, Potentials, #CheckTitles, Building, #ATTRIB_FirstStageBuilt, 1);
+
+	//Find the top #Max_Farthest_Building_Choices in the Potetials list, and put them on a list
+	While (Counter < #Max_Farthest_Building_Choices) do
+		begin
+			If ($ListSize (Potentials) > 0)
+				begin
+					//Farthest = $Pick_Farthest (ThisAgent, Potentials);
+					Farthest = $ListMember (Potentials, $ListSize (Potentials));
+
+					NewList << Farthest;
+					Potentials -= Farthest;
+				end
+			Counter++;
+		end
+
+	If ($ListSize (NewList) > 0)
+		begin
+			//This picks a random target from NewList
+			$DebugOut ("I'm going to an",Building);
+			Target = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
+			if (Building == "General_Housing_Lv3")
+				begin
+					If ($Is_Free_Task (ThisAgent, $Use_Building_Packet, Target))
+						if (thisagent's "Prestige" > estate_chance)
+							if (Target's "ReceivingVisitors" != false)
+							begin
+								ThisAgent's completetarget = Target;
+
+								ThisAgent's completeaction = $Use_Building_Packet;
+								ThisAgent's completevisit = Target's "visited_script";
+								ThisAgent's completecondition = $isdead;
+
+								ThisAgent's completetname = "Enter_Estate";
+
+								Thisagent's completeintent = "IDTXT_INTENT_VISITESTATE";
+								return $NotDuplicateTask(thisagent, taskindex);
+							end
+				end
+			else if (Building == "Shrine")
+				begin
+				if ($HasAttribute("Shrine_Cooldown", thisagent) == False)
+					begin
+						ThisAgent's completetarget = Target;
+
+						ThisAgent's completetname = "Visiting";
+
+						ThisAgent's completeaction = $Use_Building_Packet;
+						ThisAgent's completevisit = Target's "visited_script";
+						ThisAgent's completecondition = $isdead;
+						Thisagent's completeintent = "IDTXT_INTENT_VISITSHRINE";
+						return $NotDuplicateTask(thisagent, taskindex);
+					end
+				else if ($IsRunning(thisagent's "Shrine_Cooldown") == False)
+					begin
+						ThisAgent's completetarget = Target;
+
+						ThisAgent's completetname = "Visiting";
+
+						ThisAgent's completeaction = $Use_Building_Packet;
+						ThisAgent's completevisit = Target's "visited_script";
+						ThisAgent's completecondition = $isdead;
+						Thisagent's completeintent = "IDTXT_INTENT_VISITSHRINE";
+						return $NotDuplicateTask(thisagent, taskindex);
+					end
+				end
+		end
+
+	$DebugOut ("No",building,"(s)");
+	return False;
+End

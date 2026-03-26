@@ -1,0 +1,163 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function berserk_defend(agent thisagent)
+
+declare
+	integer targetrange,attackrange;
+	agent target;
+	string spell_name, newspell_name, supportlist_name;
+	boolean casting;
+
+begin
+	target = thisagent's "target";
+
+	if ($haslowMP(thisagent))
+		begin
+			$restore_mana_self(thisagent);
+		end
+	if ($haslowHP(thisagent))
+		begin
+			$heal_self(thisagent);
+		end
+	else if (thisagent's "Title" != "Wizard")
+		if ($notvalid(thisagent's "target"))
+			begin
+				// pick new target
+				$list_enemies(thisagent,2);
+
+				if ($listsize(thisagent's "Hostiles") > 0)
+					begin
+						$debugout("There are hostiles.");
+						thisagent's "target" = $pick_closest(thisagent,thisagent's "Hostiles");
+					end
+				else
+					begin
+						// no more enemies to fight!
+						$debugout("no more enemies to fight, un-berserking.");
+						thisagent's "activescript" = thisagent's "basicscript";
+					end
+			end
+		else
+			begin
+				// pick a weapon to use - a spell or regular weapon
+				spell_name = $getbestspell(thisagent,#list_attack);
+				supportlist_name = $Spell_List_Support(thisagent);
+
+				if ((spell_name == "nothing") && (supportlist_name == "nothing"))
+					begin
+						attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
+						casting = FALSE;
+						if ($IsSpellCaster(thisagent) != FALSE)
+							begin
+								attackrange = $SpellCastDistance(thisagent);
+							end
+					end
+				else
+					begin
+						attackrange = thisagent's "castingrange";
+						casting = TRUE;
+						if (supportlist_name != "nothing")
+							begin
+								attackrange = $SpellRangeListOnAttack( attackrange, supportlist_name);
+							end
+					end
+
+				targetrange = $distanceBetweenAgents(thisagent,target);
+
+				if (targetrange > attackrange)
+					begin
+						// move towards target
+						thisagent's "destination" = $locationof(target);
+//						thisagent's "activeScript" = $travel_to_safe;
+						thisagent's "activeScript" = $travel_to_berserk;
+						thisagent's "backScript" = $berserk_defend;
+						$move(thisagent,target);
+					end
+				else
+					begin
+						if (casting)
+							begin
+								newspell_name = $Spell_List_Support(thisagent);
+								if (newspell_name == "nothing")
+									begin
+										$CastSpellTarget(thisagent,spell_name,target);
+									end
+								else
+									begin
+										target = $ValidSpellTarget_hero(thisagent, target, newspell_name);
+										$CastSpellTarget(thisagent,newspell_name,target);
+									end
+							end
+						else
+							$PerformAction (ThisAgent, ThisAgent's "Attack_Action", Target);
+					end
+			end
+	else
+		if ($notvalid(thisagent's "target"))
+			begin
+				// pick new target
+				$list_enemies(thisagent,2);
+
+				if ($listsize(thisagent's "Hostiles") > 0)
+					begin
+						$debugout("There are hostiles.");
+						thisagent's "target" = $pick_closest(thisagent,thisagent's "Hostiles");
+					end
+				else
+					begin
+						// no more enemies to fight!
+						$debugout("no more enemies to fight, un-berserking.");
+						thisagent's "activescript" = thisagent's "basicscript";
+					end
+			end
+		else
+			begin
+				// pick a weapon to use - a spell or regular weapon
+				supportlist_name = $AttackSpellList(thisagent);
+
+				if ((supportlist_name == "nothing"))
+					begin
+						attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
+						casting = FALSE;
+						if ($IsSpellCaster(thisagent) != FALSE)
+							begin
+								attackrange = $SpellCastRange(thisagent);
+							end
+					end
+				else
+					begin
+						attackrange = thisagent's "castingrange";
+						casting = TRUE;
+						if (supportlist_name != "nothing")
+							begin
+								attackrange = $SpellRangeListOnAttack( attackrange, supportlist_name);
+							end
+					end
+
+				targetrange = $distanceBetweenAgents(thisagent,target);
+
+				if (targetrange > attackrange)
+					begin
+						// move towards target
+						thisagent's "destination" = $locationof(target);
+						thisagent's "activeScript" = $travel_to_berserk;
+						thisagent's "backScript" = $berserk_defend;
+						$move(thisagent,target);
+					end
+				else
+					begin
+						if (casting)
+							begin
+								newspell_name = $AttackSpellList(thisagent);
+								//target = $ValidSpellTarget_hero(thisagent, target, newspell_name);
+								$CastSpellTarget(thisagent,newspell_name,thisagent's "Spell_Target");
+							end
+						else if (thisagent's "Attack_Action" != "do_nothing")
+							$PerformAction (ThisAgent, ThisAgent's "Attack_Action", Target);
+					end
+			end
+end

@@ -1,0 +1,390 @@
+
+[MagicalTreatises1]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		MagicalTreatises1)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		1000)
+		(XPLevel_value		1)
+		(IntentExt		MAGICALTREATISES1)
+	}
+[end]
+
+[MagicalTreatises2]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		MagicalTreatises2)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		1600)
+		(XPLevel_value		2)
+		(IntentExt		MAGICALTREATISES2)
+	}
+[end]
+
+[MagicalTreatises3]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		MagicalTreatises3)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		2500)
+		(XPLevel_value		3)
+		(IntentExt		MAGICALTREATISES3)
+	}
+[end]
+
+[MagicalTreatises4]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		MagicalTreatises4)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		3600)
+		(XPLevel_value		4)
+		(IntentExt		MAGICALTREATISES4)
+	}
+[end]
+
+[MagicalTreatises5]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		MagicalTreatises5)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		4800)
+		(XPLevel_value		5)
+		(IntentExt		MAGICALTREATISES5)
+	}
+[end]
+
+[LostCults]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		LostCults)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		LOSTCULTS)
+	}
+[end]
+
+[MusingsOnTheAfterlife]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		MusingsOnTheAfterlife)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		MUSINGSONTHEAFTERLIFE)
+	}
+[end]
+
+[LegendaryMonsters]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		LegendaryMonsters)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		LEGENDARYMONSTERS)
+	}
+[end]
+
+[GoblinTribesOfArdania]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		GoblinTribesOfArdania)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		GOBLINTRIBESOFARDANIA)
+	}
+[end]
+
+[SanguineConclave]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		SanguineConclave)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		SANGUINECONCLAVE)
+	}
+[end]
+
+[Futility]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		Futility)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		FUTILITY)
+	}
+[end]
+
+[OneThousandSnowflakes]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		OneThousandSnowflakes)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		ONETHOUSANDSNOWFLAKES)
+	}
+[end]
+
+[CommonBlood1]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		CommonBlood1)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		COMMONBLOOD1)
+	}
+[end]
+
+[CommonBlood2]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		CommonBlood2)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		COMMONBLOOD2)
+	}
+[end]
+
+[CommonBlood3]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		CommonBlood3)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		COMMONBLOOD3)
+	}
+[end]
+
+[ShadowsOverArdania]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		ShadowsOverArdania)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		SHADOWSOVERARDANIA)
+	}
+[end]
+
+[Lunacy]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		Lunacy)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		LUNACY)
+	}
+[end]
+
+[ScionsOfChaos]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		ScionsOfChaos)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		SCIONSOFCHAOS)
+	}
+[end]
+
+[AGnomesLife]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		AGnomesLife)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		AGNOMESLIFE)
+	}
+[end]
+
+[TheVagrant]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		TheVagrant)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		THEVAGRANT)
+	}
+[end]
+
+[KROLM]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		KROLM)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		KROLM)
+	}
+[end]
+
+[VendralTheHarbinger]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		VendralTheHarbinger)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		VENDRALTHEHARBINGER)
+	}
+[end]
+
+[DaemonwoodForest]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		DaemonwoodForest)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		DAEMONWOODFOREST)
+	}
+[end]
+
+[SecretsOfTheOculus]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		SecretsOfTheOculus)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		SECRETSOFTHEOCULUS)
+	}
+[end]
+
+[Lycanthropy]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		Lycanthropy)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		LYCANTHROPY)
+	}
+[end]
+
+[Unchained]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		Unchained)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		UNCHAINED)
+	}
+[end]
+
+[DisappearanceOfTheDruids]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		DisappearanceOfTheDruids)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		DISAPPEARANCEOFTHEDRUIDS)
+	}
+[end]
+
+[DirgosFolly]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		DirgosFolly)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		DIRGOSFOLLY)
+	}
+[end]
+
+[SlumberingBeasts]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		SlumberingBeasts)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		SLUMBERINGBEASTS)
+	}
+[end]
+
+[IncompleteHistory]
+	{Book_Item
+		(type 		Special_Item)
+		(subtype henchman)
+		(Title		IncompleteHistory)
+		(BirthScript	Stack_Item_Birth)
+		(gold_value		70)
+		(XP_value		250)
+		(XPLevel_value		1)
+		(IntentExt		INCOMPLETEHISTORY)
+	}
+[end]

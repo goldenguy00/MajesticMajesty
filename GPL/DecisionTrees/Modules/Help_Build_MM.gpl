@@ -1,0 +1,116 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function help_build(agent thisagent,integer range,integer chance) is Boolean
+
+declare
+	agent palace,building, target;
+	list buildings,newlist;
+	string fullintent;
+
+begin
+	if ($randomnumber(100) > chance) return FALSE;
+
+	palace = $gettruepalace(thisagent);
+
+	if ($isvalidgamepiece(palace) == False)
+		return FALSE;
+
+	$reconstruct_lists(palace);
+
+	buildings = palace's "buildings_waiting";
+	buildings = $addlists(buildings,palace's "buildings_under_construction");
+
+	foreach building in buildings do
+		begin
+			if ($distancebetweenagents(thisagent,building) <= range)
+				newlist << building;
+		end
+
+	buildings = newlist;
+	
+	fullintent = "IDTXT_INTENT_BUILDING";
+	
+	if ($listsize(buildings) > 0)
+		begin
+			thisagent's "target" = $listmember(buildings,1);
+			palace's "buildings_waiting" -= thisagent's "target";
+			palace's "buildings_under_construction" -= thisagent's "target";
+
+			palace's "buildings_under_construction" << thisagent's "target";
+			
+			if ($HasAttribute("IntentExt", thisagent's "target") == True)
+				begin
+					target = thisagent's "target";
+					fullintent += target's "IntentExt";
+				end
+			
+			thisagent's "Activescript" = $hero_build;
+			$SpecifyIntentString (ThisAgent, fullintent);
+			return TRUE;
+		end
+		else
+			return FALSE;
+end
+///////////////////////////////////////////////////////////////////////////////
+function help_build_packet(agent thisagent) is Boolean
+
+declare
+	agent palace,building;
+	list buildings,newlist;
+	integer chance, range; 
+	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
+	string conditionsub, completecondition, intentext;
+
+begin
+	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	range = thisagent's "TaskPackageConstructionRadius";
+	if ($randomnumber(100) > chance) return FALSE;
+
+	palace = $gettruepalace(thisagent);
+
+	if ($isvalidgamepiece(palace) == False)
+		return FALSE;
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+	
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+
+	$reconstruct_lists(palace);
+
+	buildings = palace's "buildings_waiting";
+	buildings = $addlists(buildings,palace's "buildings_under_construction");
+
+	foreach building in buildings do
+		begin
+			if ($distancebetweenagents(thisagent,building) <= range)
+				newlist << building;
+		end
+
+	buildings = newlist;
+	if ($listsize(buildings) > 0)
+		begin
+			thisagent's completetarget = $listmember(buildings,1);
+			//palace's "buildings_waiting" -= thisagent's "target";                     //This could cause problems if this is carried out when it's in a que
+			//palace's "buildings_under_construction" -= thisagent's "target";	//For now commented out, if the hero helps build, its additional help alongside others, if not then it will cause a building to remain unconstructed
+
+			//palace's "buildings_under_construction" << thisagent's "target";
+			thisagent's completeaction = $hero_build;
+			thisagent's completecondition = $Hero_Build_Condition;
+			intentext = "IDTXT_INTENT_BUILDING" + $getintentext(thisagent's completetarget);
+			ThisAgent's completeintent = intentext;
+			return $NotDuplicateTask(thisagent, taskindex);
+		end
+		else
+			return FALSE;
+end

@@ -1,0 +1,37 @@
+///////////////////////////////////////////////////////////////////////////////
+// This function will be called once, before any objects have
+// been loaded into the map.  It should set up any agents
+// and functions that need to be in place before the game
+// pieces are loaded onto the map;
+function InitializeGpl()
+declare
+	agent AIRootAgent, TaskContainer;
+begin
+	AIRootAgent = $RetrieveAgent("GplAIRoot");
+	if ( AIRootAgent == $NullAgent() )
+	begin
+		// Set the script-calling function executing every 1/2 second;
+		// Create the container agent for the agents to be loaded onto the map;
+		$CreateAgent( "GplAIRoot", "GplAIRoot" );
+		// Retrieve the agent we just created
+		AIRootAgent = $RetrieveAgent("GplAIRoot");
+		// The following function will be run once, after map objects are loaded:
+		$RunThread( AIRootAgent's "KickoffFunction", 1 );
+	end
+	//$CreateAgent( "AITaskContainer", "AITaskContainer" ); //Lists store the text of the function, not the entire function, this is unnecessary
+	// Retrieve the agent we just created
+	//TaskContainer = $RetrieveAgent("AITaskContainer");
+	// The following function will be run once, after map objects are loaded:
+	//(TaskContainer's "TaskPackageScript")(TaskContainer);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// This function will be called ONCE, after all objects have been loaded onto
+// the game map, just before all the scripts begin executing;
+function GplKickoff()
+declare
+	agent AIRootAgent;
+	agent agentIdx;
+begin
+
+end

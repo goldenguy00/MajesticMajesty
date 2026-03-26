@@ -1,0 +1,65 @@
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//For items, the hero just buys the item from the shop, it wouldn't really need any additional code since hero Task_Name should hold the item's title.
+function ServiceHealingPotions_Birth(agent thisagent)
+declare
+
+begin
+	$Service_Birth(thisagent, "Health Potions");					//Covers Gold and HP values for the service
+end
+///////////////////////////////////////////////////////////////////////////////
+function ServiceManaPotions_Birth(agent thisagent)
+
+declare
+
+begin
+	$Service_Birth(thisagent, "Mana Potions");
+end
+///////////////////////////////////////////////////////////////////////////////
+function ServiceManaPotions_Check(agent thisagent)
+//The check function for this service
+declare
+	string name, fullname;
+
+begin
+
+	
+end
+///////////////////////////////////////////////////////////////////////////////
+function Service_Birth(agent thisagent, string name)
+//Research birth used by all researches
+declare
+	string fullname;
+begin
+	thisagent's "ServiceDisplayName" = name;
+	$SpecifyIntent(thisagent, "IDTXT_RESEARCH_INSTOCK");
+	fullname = "[color:999999]" + thisagent's "ServiceDisplayName";
+	fullname += "[/color]";
+	$SpecifyName(thisagent, fullname);
+	
+	$setattribute(thisagent, #ATTRIB_Gold, thisagent's "gold_value");
+	$setattribute(thisagent, #ATTRIB_MaxHP, thisagent's "Service_Time");
+	$setattribute(thisagent, #ATTRIB_HP, thisagent's "Service_Time_Increment");
+end
+///////////////////////////////////////////////////////////////////////////////
+// This function looks at the passed list of structures and finds if they have the service listed
+// Then it returns that list
+Function List_Service (list ThisList, string Service) is list
+Declare
+	agent Entry;
+	list 	NewList;
+Begin
+	Foreach Entry in ThisList do
+		begin
+			if ($titleinagentlist("Services", Entry's "Attachments"))
+				begin
+					if ($titleinagentlist(service, $GetBuildingContents($agenttitleinlist("Services", Entry's "Attachments"))))
+						begin
+							NewList << Entry;
+						end
+				end
+		end
+
+	return NewList;
+
+End

@@ -1,0 +1,908 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Fire_Bolt_Cast(agent thisagent, agent target)
+// - callback from cast action
+declare
+	integer stat_int, cooldown, mana_cost, spell_level, free_cost;
+	string spell_cast;
+
+begin
+	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
+	spell_cast = thisagent's "Fire_Bolt";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	free_cost = 0;
+	mana_cost =  $Spell_Resource_Cost(thisagent, "Fire_Bolt");
+	cooldown = #Fire_Bolt_Cooldown;
+	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
+	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
+	
+	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
+	
+	if (spell_level >= 5)
+		begin
+			free_cost = $RandomNumberNonZero(3);
+		end
+	
+	if (free_cost != 3)
+		$SpendMana(thisagent, - mana_cost);
+	
+	$NewThread(thisAgent's "Fire_Bolt_Cooldown", cooldown, thisAgent, "Fire_Bolt_Cooldown" );
+	
+	$createmissile("Fire_Bolt_Missile",thisagent,target);
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Fire_Bolt_Hit( agent thisagent, agent target )
+// - callback from missile hit
+declare
+	integer spell_level, min_damage, max_damage, increased_damage;
+	integer synergy_level_1, synergy_damage_1;
+	string spell_cast, synergy_1;
+	coordinate target_loc;
+
+begin
+	spell_cast = thisagent's "Fire_Bolt";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	synergy_1 = thisagent's "Fireball";
+	increased_damage = (((spell_level - 1) * #Fire_Bolt_Damage_Level_Mult) / #Fire_Bolt_Damage_Level_Div);
+	min_damage = (#Fire_Bolt_Damage_Min + increased_damage);
+	max_damage = (#Fire_Bolt_Damage_Max + increased_damage);
+	
+	if ($isvalidgamepiece(target) == False)
+		return;
+		
+	target_loc = $locationof(target);
+	
+	if (synergy_1 != "nothing")
+		begin
+			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_damage_1 = ((synergy_level_1 - 1) * #Fire_Bolt_Damage_Synergy_Fireball);
+			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
+			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
+		end
+	
+	$createeffector( target, "Fire_Bolt_Effector", 0 );
+	$RevealArea(thisagent, target_loc, 50 );
+	$spell_type_attack(thisagent, target, "Fire", min_damage, max_damage);
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Fireball_Cast(agent thisagent, agent target)
+// wizard spell - lvl 5
+// - callback from cast action
+declare
+	integer stat_int, stat_art, cooldown, mana_cost, spell_level;
+	string spell_cast;
+
+begin
+	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
+	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
+	spell_cast = thisagent's "Fireball";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	mana_cost =  $Spell_Resource_Cost(thisagent, "Fireball");
+	cooldown = #Fireball_Cooldown;
+	
+	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
+	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
+	
+	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
+	
+	$SpendMana(thisagent, - mana_cost);
+	
+	$NewThread(thisAgent's "Fireball_Cooldown", cooldown, thisAgent, "Fireball_Cooldown" );
+	
+	$createmissile("FireballTree_Missile",thisagent,target);
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Fireball_Hit( agent thisagent, agent target )
+// wizard spell - lvl 5
+// - callback from missile hit
+declare
+	integer stat_int, radius, max_damage, min_damage, spell_level, increased_damage, increased_radius, burn_duration_static, burn_duration, burn_count, burn_damage_min, burn_damage_max;
+	integer synergy_level_1, synergy_damage_1;
+	string spell_cast, synergy_1;
+	list targets;
+	agent guy;
+	coordinate target_loc;
+	boolean Tier1;
+
+begin
+	spell_cast = thisagent's "Fireball";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	synergy_1 = thisagent's "Fire_Bolt";
+	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
+	increased_damage = ((spell_level - 1) * #Fireball_Damage_Level_Mult);
+	increased_radius = ((spell_level - 1) * #Fireball_Damage_Radius_Level);
+	min_damage = #Fireball_Damage_Min + increased_damage;
+	max_damage = #Fireball_Damage_Max + increased_damage;
+	burn_damage_min = ((min_damage * #Fireball_Burn_Damage_Percent) / 100);
+	burn_damage_max = ((max_damage * #Fireball_Burn_Damage_Percent) / 100);
+	burn_count = #Fireball_Burn_Duration;
+	burn_duration_static = #Fireball_Burn_Cycle;
+	radius = (#Fireball_Damage_Radius + increased_radius);
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+		
+	if (synergy_1 != "nothing")
+		begin
+			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_damage_1 = ((synergy_level_1 - 1) * #Fireball_Damage_Synergy_Fire_Bolt);
+			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
+			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
+			burn_damage_min = ((min_damage * #Fireball_Burn_Damage_Percent) / 100);
+			burn_damage_max = ((max_damage * #Fireball_Burn_Damage_Percent) / 100);
+		end
+		
+	target_loc = $locationof(target);
+	
+	if ((Tier1 == True) && ($IsValidGamePiece(target) == TRUE) && ($isdead(target) != TRUE))
+		begin
+			$AddBurningEffect(target);
+			if ($IsRunning(target's "Burning_Duration") == False)
+				begin
+					burn_duration = $DurationDebuff(thisagent, target, burn_duration_static);
+					target's "Burning_Damage_Min" = burn_damage_min;
+					target's "Burning_Damage_Max" = burn_damage_max;
+					target's "Burning_Counter" = burn_count;
+					$NewThread(target's "Burning_Duration", burn_duration, target, thisagent);
+					$NewThread(target's "Burning_Cycle", burn_duration_static, target, thisagent);
+				end
+			else
+				begin
+					if (target's "Burning_Damage_Min" < burn_damage_min)
+						begin
+							target's "Burning_Damage_Min" = burn_damage_min;
+						end
+						
+					if (target's "Burning_Damage_Max" < burn_damage_max)
+						begin
+							target's "Burning_Damage_Max" = burn_damage_max;
+						end
+						
+					if (target's "Burning_Counter" < burn_count)
+						begin
+							target's "Burning_Counter" = burn_count;
+						end
+				end
+		end
+	
+	$RevealArea(thisagent, target_loc, radius );
+	
+	targets = $compiletarget_enemies_buildings(target,radius);
+	foreach guy in targets do
+		begin
+			$createeffector( guy, "fireball_effector2", 500 );
+			$spell_type_attack(thisagent, guy, "Fire", min_damage, max_damage);
+			
+			if ((Tier1 == True) && ($IsValidGamePiece(guy) == TRUE) && ($isdead(guy) != TRUE))
+				begin
+					$AddBurningEffect(guy);
+					if ($IsRunning(guy's "Burning_Duration") == False)
+						begin
+							burn_duration = $DurationDebuff(thisagent, guy, burn_duration_static);
+							guy's "Burning_Damage_Min" = burn_damage_min;
+							guy's "Burning_Damage_Max" = burn_damage_max;
+							guy's "Burning_Counter" = burn_count;
+							$NewThread(guy's "Burning_Duration", burn_duration, guy, thisagent);
+							$NewThread(guy's "Burning_Cycle", burn_duration_static, guy, thisagent);
+						end
+					else
+						begin
+							if (guy's "Burning_Damage_Min" < burn_damage_min)
+								begin
+									guy's "Burning_Damage_Min" = burn_damage_min;
+								end
+						
+							if (guy's "Burning_Damage_Max" < burn_damage_max)
+								begin
+									guy's "Burning_Damage_Max" = burn_damage_max;
+								end
+						
+							if (guy's "Burning_Counter" < burn_count)
+								begin
+									guy's "Burning_Counter" = burn_count;
+								end
+						end
+				end
+		end
+		
+	// have to create a new unit
+	$CreateSpellUnit( thisagent, "fire_ball", target );
+	
+	// attack the original target
+	$createeffector( target, "fireball_effector2", 500 );
+	$spell_type_attack(thisagent, target, "Fire", min_damage, max_damage);
+	
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Perdition_Barrage_Cast(agent thisagent, agent target)
+// wizard spell - lvl 5
+// - callback from cast action
+declare
+	integer cooldown, mana_cost, spell_level, projectiles, random, adjusted_random, cast_distance, max_distance, percent_distance, increased_projectiles, increased_random;
+	string spell_cast;
+	agent dummy_target;
+	coordinate target_loc, dummy_loc;
+	boolean Tier1;
+
+begin
+	spell_cast = thisagent's "Perdition_Barrage";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	target_loc = $LocationOf(target);
+	max_distance = $SpellRangeList(thisagent's "castingRange", "Perdition_Barrage");
+	cast_distance = $DistanceBetweenAgents(thisagent, target);
+	percent_distance = ((cast_distance * 100) / max_distance);
+	increased_projectiles = ((spell_level - 1) / #Perdition_Barrage_Projectiles_Level_Div);
+	increased_random = ((spell_level - 1) * #Perdition_Barrage_Random_Level);
+	projectiles = (#Perdition_Barrage_Projectiles + increased_projectiles);
+	random = (#Perdition_Barrage_Random + increased_random);
+	adjusted_random = $PercentOf(random, percent_distance, False);
+	mana_cost =  $Spell_Resource_Cost(thisagent, "Perdition_Barrage");
+	cooldown = #Perdition_Barrage_Cooldown;
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+		
+	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
+	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
+	
+	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
+	
+	$SpendMana(thisagent, - mana_cost);
+	
+	$NewThread(thisAgent's "Perdition_Barrage_Cooldown", cooldown, thisAgent, "Perdition_Barrage_Cooldown" );
+	
+	while (projectiles > 0) do
+		begin
+			//dummy_loc = $randomcoord(target_loc,adjusted_random);
+			dummy_loc = $LocationPointWithOffsetSimpleRandom(target_loc, adjusted_random);
+			dummy_target = $spawnunit(thisagent, "spell_dummy_unit", dummy_loc);
+			dummy_target's "DeathScript" = $spelldummydeath;
+			$SetDrawEffects( dummy_target, "none", 9 );
+			if (Tier1 == False)
+				$createmissile("Perdition_Barrage_missile",thisagent,dummy_target);
+			else
+				$createmissile("Perdition_Barrage_missile_fast",thisagent,dummy_target);
+				
+			projectiles --;
+		end
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Perdition_Barrage_Hit( agent thisagent, agent target )
+// wizard spell - lvl 15
+// - callback from missile hit
+declare
+	integer radius, max_damage, min_damage, spell_level, increased_damage, increased_radius;
+	integer synergy_level_1, synergy_damage_1, synergy_level_2, synergy_damage_2, synergy_radius_2;
+	string spell_cast, synergy_1, synergy_2;
+	list targets;
+	agent guy;
+	coordinate target_loc;
+	boolean Tier1;
+
+begin
+	spell_cast = thisagent's "Perdition_Barrage";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	synergy_1 = thisagent's "Fire_Bolt";
+	synergy_2 = thisagent's "Fireball";
+	increased_damage = ((spell_level - 1) * #Perdition_Barrage_Damage_Level_Mult);
+	increased_radius = ((spell_level - 1) * #Perdition_Barrage_Damage_Radius_Level);
+	min_damage = (#Perdition_Barrage_Damage_Min + increased_damage);
+	max_damage = (#Perdition_Barrage_Damage_Max + increased_damage);
+	radius = (#Perdition_Barrage_Damage_Radius + increased_radius);
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+
+	if (synergy_1 != "nothing")
+		begin
+			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_damage_1 = ((synergy_level_1 - 1) * #Perdition_Barrage_Damage_Synergy_Fire_Bolt);
+			if (synergy_2 == "nothing")
+				begin
+					min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
+					max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
+				end
+			else
+				begin
+					synergy_level_2 = $GetSpellAttribute( synergy_2, "spell_rank" );
+					synergy_radius_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Radius_Synergy_Fireball);
+					synergy_damage_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Damage_Synergy_Fireball);
+					radius = $IncreaseByPercent(radius, synergy_radius_2, False);
+					min_damage = $IncreaseByPercent(min_damage, synergy_damage_1 + synergy_damage_2, False);
+					max_damage = $IncreaseByPercent(max_damage, synergy_damage_1 + synergy_damage_2, False);
+				end
+		end
+
+//The synergy damage bonuses were being applied twice from this additional section
+//	if (synergy_2 != "nothing")
+//		begin
+//			synergy_level_2 = $GetSpellAttribute( synergy_2, "spell_rank" );
+//			synergy_damage_2 = ((synergy_level_2 - 1) * 7);
+//			synergy_radius_2 = ((synergy_level_2 - 1) * 6);
+//			radius = $IncreaseByPercent(radius, synergy_radius_2, False);
+//			if (synergy_1 == "nothing")
+//				begin
+//					min_damage = $IncreaseByPercent(min_damage, synergy_damage_2, False);
+//					max_damage = $IncreaseByPercent(max_damage, synergy_damage_2, False);
+//				end
+//			else
+//				begin
+//					synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+//					synergy_damage_1 = ((synergy_level_1 - 1) * 4);
+//					min_damage = $IncreaseByPercent(min_damage, synergy_damage_2 + synergy_damage_1, False);
+//					max_damage = $IncreaseByPercent(max_damage, synergy_damage_2 + synergy_damage_1, False);
+//				end
+//		end
+		
+	target_loc = $locationof(target);
+
+	$RevealArea(thisagent, target_loc, radius );
+	
+	targets = $compile_enemies_buildings(target,radius);
+	foreach guy in targets do
+		begin
+			$createeffector( guy, "SearingMantleDamage_Effector", 0 );
+			$spell_type_attack(thisagent, guy, "Fire", min_damage, max_damage);
+		end
+		
+	// Elimintate the original target
+	$createeffector( target, "Perdition_Barrage_effector", 0 );
+	$SetSpellUnitTimeout(target, 500);
+	
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Ignite_Cast(agent thisagent, agent target)
+// wizard spell - lvl 10
+// - callback from cast action
+declare
+	integer stat_int, radius, max_damage, min_damage, ignite_count, cooldown, mana_cost, increased_damage, increased_radius, increased_count, ignite_duration_static, ignite_duration, spell_level;
+	string spell_cast;
+	boolean Tier1;
+
+begin
+	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
+	spell_cast = thisagent's "Ignite";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	increased_damage = (((spell_level - 1) * #Ignite_Damage_Level_Mult) / #Ignite_Damage_Level_Div);
+	increased_radius = ((spell_level - 1) * #Ignite_Damage_Radius_Level);
+	increased_count = ((spell_level - 1) / #Ignite_Duration_Div);
+	min_damage = #Ignite_Damage_Min + increased_damage;
+	max_damage = #Ignite_Damage_Max + increased_damage;
+	radius = #Ignite_Damage_Radius + increased_radius;
+	ignite_count = #Ignite_Duration + increased_count;
+	ignite_duration_static = #Ignite_Cycle;
+	mana_cost =  $Spell_Resource_Cost(thisagent, "Ignite");
+	cooldown = #Ignite_Cooldown;
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+
+	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
+	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
+	
+	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
+	
+	$SpendMana(thisagent, - mana_cost);
+	
+	$NewThread(thisAgent's "Ignite_Cooldown", cooldown, thisAgent, "Ignite_Cooldown" );
+	
+	// attack the original target
+	$createeffector( target, "ignite_effector", 0 );
+	//$spell_type_attack(thisagent, target, "Fire", min_damage, max_damage);
+	
+	
+	if (($IsValidGamePiece(target) == TRUE) && ($isdead(target) != TRUE))
+		begin
+			$AddIgniteEffect(target);
+			if ($IsRunning(target's "Ignite_Duration") == False)
+				begin
+					$createeffector( target, "Ignite_Icon", 1, "Infinite");
+					ignite_duration = $DurationDebuff(thisagent, target, ignite_duration_static);
+					target's "Ignite_Damage_Min" = min_damage;
+					target's "Ignite_Damage_Max" = max_damage;
+					target's "Ignite_Counter" = ignite_count;
+					target's "Ignite_Buildings" = Tier1;
+					$NewThread(target's "Ignite_Duration", ignite_duration, target, thisagent, radius);
+					$NewThread(target's "Ignite_Cycle", ignite_duration_static, target, thisagent, radius);
+				end
+			else
+				begin
+					if (target's "Ignite_Damage_Min" < min_damage)
+						begin
+							target's "Ignite_Damage_Min" = min_damage;
+						end
+						
+					if (target's "Ignite_Damage_Max" < max_damage)
+						begin
+							target's "Ignite_Damage_Max" = max_damage;
+						end
+						
+					if (target's "Ignite_Counter" < ignite_count)
+						begin
+							target's "Ignite_Counter" = ignite_count;
+						end
+						
+					if (target's "Ignite_Buildings" == False)
+						begin
+							target's "Ignite_Buildings" = Tier1;
+						end
+				end
+		end
+	
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Incandescent_Ray_Cast(agent thisagent, agent target)
+// wizard spell - lvl 5
+// - callback from cast action
+declare
+	integer cooldown, mana_cost, spell_level, min_damage, max_damage, start_distance, start_distance_tier1, distance, distance_static, radius, distance_interval, increased_distance, increased_damage;
+	string spell_cast;
+	coordinate target_loc, thisagent_loc, offset_loc;
+	boolean Tier1;
+	list targets, t2, t3;
+	agent dummy_target, guy;
+
+begin
+	spell_cast = thisagent's "Incandescent_Ray";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	thisagent_loc = $LocationOf(thisagent);
+	target_loc = $LocationOf(target);
+	increased_distance = ((spell_level - 1) * #Incandescent_Ray_Distance_Level);
+	increased_damage = ((spell_level - 1) * #Incandescent_Ray_Damage_Level_Mult);
+	min_damage = #Incandescent_Ray_Damage_Min + increased_damage;
+	max_damage = #Incandescent_Ray_Damage_Max + increased_damage;
+	distance_interval = 60;
+	radius = #Incandescent_Ray_Damage_Radius;
+	distance_static = (#Incandescent_Ray_Distance + increased_distance);
+	distance = distance_static;
+	start_distance = 0;
+	start_distance_tier1 = 0;
+	mana_cost =  $Spell_Resource_Cost(thisagent, "Incandescent_Ray");
+	cooldown = #Incandescent_Ray_Cooldown;
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+		
+	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
+	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
+	
+	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
+	
+	$SpendMana(thisagent, - mana_cost);
+	
+	$NewThread(thisAgent's "Incandescent_Ray_Cooldown", cooldown, thisAgent, "Incandescent_Ray_Cooldown" );
+	
+	while (distance > distance_interval) do
+		begin
+			offset_loc = $PointPolarOffset(thisagent_loc,target_loc,start_distance);
+			start_distance += distance_interval;
+			dummy_target = $spawnunit(thisagent, "spell_dummy_unit", offset_loc);
+			
+			if (dummy_target != $nullagent())
+				dummy_target's "DeathScript" = $spelldummydeath;
+				
+			$SetDrawEffects( dummy_target, "none", 9 );
+			$createeffector( dummy_target, "Incandescent_Ray_effector", 0 );
+			t2 = $compile_enemies_buildings(dummy_target,radius);
+			if (Tier1 == True)
+				begin
+					start_distance_tier1 -= distance_interval;
+					offset_loc = $PointPolarOffset(thisagent_loc,target_loc,start_distance_tier1);
+					dummy_target = $spawnunit(thisagent, "spell_dummy_unit", offset_loc);
+					dummy_target's "DeathScript" = $spelldummydeath;
+					$SetDrawEffects( dummy_target, "none", 9 );
+					$createeffector( dummy_target, "Incandescent_Ray_effector", 0 );
+					t3 = $compile_enemies_buildings(dummy_target,radius);
+				end
+			targets = $addlists(targets, t2, t3);
+			distance -= distance_interval;
+		end
+	
+	foreach guy in targets do
+		begin
+			$createeffector( guy, "SearingMantleDamage_Effector", 0 );
+			$spell_type_attack(thisagent, guy, "Fire", min_damage, max_damage);
+		end
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Searing_Mantle_Begin( agent thisagent, agent target )
+// wizard spell - lvl 5
+// - callback from cast action
+declare
+	integer stat_int, stat_willpower, stat_wisdom, duration, cooldown, min_damage, max_damage, add_armor, fire_resistance, mana_cost, spell_level;
+	integer increased_damage, increased_armor, increased_fire_resistance, increased_duration;
+	string spell_cast;
+	boolean Tier1;
+
+begin
+	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
+	spell_cast = thisagent's "Searing_Mantle";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
+	stat_wisdom = thisagent's "Wisdom_Total";
+	mana_cost =  $Spell_Resource_Cost(thisagent,"Searing_Mantle");
+	increased_armor = ((spell_level - 1) / #Searing_Mantle_Armor_Level_Div);
+	increased_damage = ((spell_level - 1) + #Searing_Mantle_Damage_Level_Mult);
+	increased_fire_resistance = ((spell_level - 1) * #Searing_Mantle_Fire_Resistance_Level_Mult);
+	increased_duration = ((spell_level - 1) * #Searing_Mantle_Duration_Level);
+	duration = (#Searing_Mantle_Duration + increased_duration);
+	cooldown = #Searing_Mantle_Cooldown;
+	add_armor = (#Searing_Mantle_Armor + increased_armor);
+	min_damage = (#Searing_Mantle_Damage_Min + increased_damage);
+	max_damage = (#Searing_Mantle_Damage_Max + increased_damage);
+	fire_resistance = (#Searing_Mantle_Fire_Resistance + increased_fire_resistance);
+	duration = $DurationBuff(thisagent, target, duration);
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+		
+	$AddSearingMantleEffect(target);
+	
+	target's "SearingMantle_Tier_1" = Tier1;
+	
+	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
+	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
+	
+	add_armor = $EffectBuff(thisagent, target, add_armor);
+	fire_resistance = $EffectBuff(thisagent, target, fire_resistance);
+	
+	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
+	
+	$SpendMana(thisagent, - mana_cost);
+	
+	$createeffector( target, "searing_mantle_effector", 0 );
+	
+	$NewThread(thisAgent's "Searing_Mantle_Cooldown", cooldown, thisAgent, "Searing_Mantle_Cooldown" );
+	
+	if ($IsRunning (target's "SearingMantleBuff_End") == TRUE)
+		return;
+	
+	$createeffector( target, "Searing_Mantle_Icon", duration );
+	$NewThread(target's "SearingMantleBuff_End", duration, target, stat_int, stat_willpower, stat_wisdom, spell_level);
+
+	$adjustattribute(target,#ATTRIB_Armor_Basic_Damage,add_armor);
+	target's "SearingMantle_Damage_Min" = min_damage;
+	target's "SearingMantle_Damage_Max" = max_damage;
+	target's "SearingMantle_Fire_Resistance" = fire_resistance;
+	
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function SearingMantleBuff_End( agent thisagent, integer intelligence, integer willpower, integer wisdom, integer spell_level )
+// What happens when the buff ends.
+
+declare
+	integer add_armor;
+	integer increased_armor;
+
+begin
+	if ($IsValidGamePiece(thisagent) != TRUE)
+		return;
+		
+	increased_armor = ((spell_level - 1) / #Searing_Mantle_Armor_Level_Div);
+	add_armor = (#Searing_Mantle_Armor + increased_armor);
+	
+	add_armor = $EffectBuff_Thread(willpower, wisdom, add_armor);
+	
+	$adjustattribute(thisagent,#ATTRIB_Armor_Basic_Damage, - add_armor);
+	thisagent's "SearingMantle_Damage_Min" = 0;
+	thisagent's "SearingMantle_Damage_Max" = 0;
+	thisagent's "SearingMantle_Fire_Resistance" = 0;
+	
+	$KillThread(thisagent's "SearingMantleBuff_End");
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Pyrelight_Begin( agent thisagent, agent target )
+// wizard spell - lvl 5
+// - callback from cast action
+declare
+	integer stat_int, stat_willpower, stat_wisdom, duration, cooldown, fire_resistance_reduction, mana_cost, spell_level;
+	integer increased_fire_resistance_reduction, increased_duration;
+	string spell_cast;
+	boolean Tier1;
+
+begin
+	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
+	spell_cast = thisagent's "Pyrelight";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
+	stat_wisdom = thisagent's "Wisdom_Total";
+	mana_cost =  $Spell_Resource_Cost(thisagent,"Pyrelight");
+	increased_fire_resistance_reduction = ((spell_level - 1) * #Pyrelight_Fire_Resistance_Reduction_Level_Mult);
+	increased_duration = ((spell_level - 1) * #Pyrelight_Duration_Level);
+	duration = (#Pyrelight_Duration + increased_duration);
+	cooldown = #Pyrelight_Cooldown;
+	fire_resistance_reduction = (#Pyrelight_Fire_Resistance_Reduction + increased_fire_resistance_reduction);
+	duration = $DurationDebuff(thisagent, target, duration);
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+		
+	$AddPyrelightEffect(target);
+	
+	target's "Pyrelight_Tier_1" = Tier1;
+	
+	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
+	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
+	
+	fire_resistance_reduction = $EffectDebuff(thisagent, target, fire_resistance_reduction);
+	
+	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
+	
+	$SpendMana(thisagent, - mana_cost);
+	
+	//$createeffector( target, "Pyrelight_effector", 0 );
+	
+	$NewThread(thisAgent's "Pyrelight_Cooldown", cooldown, thisAgent, "Pyrelight_Cooldown" );
+	
+	if ($IsRunning (target's "PyrelightDebuff_End") == TRUE)
+		return;
+	
+	$createeffector( target, "Pyrelight_Icon", duration );
+	$NewThread(target's "PyrelightDebuff_End", duration, target, spell_level);
+
+	target's "Pyrelight_Mana_Spent" = mana_cost;
+	target's "Pyrelight_Fire_Resistance_Reduction" = - fire_resistance_reduction;
+	target's "Pyrelight_Caster" = thisagent;
+	
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function PyrelightDebuff_End( agent thisagent, integer spell_level )
+// What happens when the buff ends.
+
+declare
+
+begin
+	if ($IsValidGamePiece(thisagent) != TRUE)
+		return;
+		
+	thisagent's "Pyrelight_Mana_Spent" = 0;
+	thisagent's "Pyrelight_Fire_Resistance_Reduction" = 0;
+	thisagent's "Pyrelight_Tier_1" = False;
+	if ($IsValidGamePiece(thisagent's "Pyrelight_Caster"))
+		thisagent's "Pyrelight_Caster" = $NullAgent();
+	
+	$KillThread(thisagent's "PyrelightDebuff_End");
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function PyrelightDebuff_Death( agent thisagent )
+// What happens when the target dies while under the debuff.
+
+declare
+
+begin
+	if ($IsValidGamePiece(thisagent) != TRUE)
+		return;
+		
+	if (($IsValidGamePiece(thisagent's "Pyrelight_Caster")) && (thisagent's "Pyrelight_Tier_1" == True))
+		$RestoreMana($NullAgent(), thisagent's "Pyrelight_Caster", thisagent's "Pyrelight_Mana_Spent");
+		
+	$deleteeffector(thisagent,"Pyrelight_Icon");
+	thisagent's "Pyrelight_Mana_Spent" = 0;
+	thisagent's "Pyrelight_Fire_Resistance_Reduction" = 0;
+	
+	$KillThread(thisagent's "PyrelightDebuff_End");
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Embers_Passive(agent thisagent)
+// Function for Embers HP/MP Regeneration amount
+declare
+	integer current_mana, max_mana, spell_level, regen_Mana, regen_Health, Increase_regen_Mana;
+	string spell_cast;
+
+begin
+	spell_cast = thisagent's "Embers";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	Increase_regen_Mana = ((spell_level - 1) * 3);
+	regen_Mana = #Embers_Mana_Regen + Increase_regen_Mana;
+	
+	current_mana = thisagent's "CurrentMana_Base";
+	max_mana = thisagent's "MaxMana_Total";
+	
+	thisagent's "ManaRegeneration_Flat_Modifier" -= (thisagent's "Embers_ManaRegeneration" * 50);
+	thisagent's "HealthRegeneration_Flat_Modifier" -= (thisagent's "Embers_HealthRegeneration" * 50);
+	
+	if (max_mana < 1)
+		max_mana = 1;
+		
+ 	regen_Health = (Regen_Mana * current_mana) / max_mana;
+	regen_Mana -= regen_Health;
+	
+	
+	if (spell_level < 5)
+		begin
+			regen_Health = 0;
+		end
+		
+	thisagent's "Embers_ManaRegeneration" = regen_Mana;
+	thisagent's "Embers_HealthRegeneration" = regen_Health;
+	
+	thisagent's "ManaRegeneration_Flat_Modifier" += (thisagent's "Embers_ManaRegeneration" * 50);
+	thisagent's "HealthRegeneration_Flat_Modifier" += (thisagent's "Embers_HealthRegeneration" * 50);
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Heatwave_Passive(agent thisagent)
+// Function for Passive Fire Damage in AOE with each spell cast.
+declare
+	
+	integer spell_level, radius, min_damage, max_damage, increased_damage, increased_radius, Knockback_count, Knockback_damage_min, Knockback_damage_max ;
+	integer x1, y1, x2, y2, dx, dy;
+	integer synergy_level_1, synergy_damage_1, synergy_level_2, synergy_radius_2;
+	string spell_cast, synergy_1, synergy_2;
+	list targets;
+	coordinate thisagent_loc, target_loc, destination_loc;
+	boolean Tier1;
+	agent guy;
+
+begin
+	spell_cast = thisagent's "Heatwave";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	synergy_1 = thisagent's "Embers";
+	synergy_2 = thisagent's "Fireball";
+	increased_damage = ((spell_level - 1) * #Heatwave_Damage_Level_Mult);
+	increased_radius = ((spell_level - 1) * #Heatwave_Damage_Radius_Level);
+	Knockback_count = 2;
+	Knockback_damage_min = 0;
+	Knockback_damage_max = 0;
+	min_damage = #Heatwave_Damage_Min + increased_damage;
+	max_damage = #Heatwave_Damage_Max + increased_damage;
+	radius = (#Heatwave_Damage_Radius + increased_radius);
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+
+	if (synergy_1 != "nothing")
+		begin
+			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_damage_1 = ((synergy_level_1 - 1) * #Heatwave_Damage_Synergy_Embers);
+			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
+			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
+		end
+	
+	if (synergy_2 != "nothing")
+		begin
+			synergy_level_2 = $GetSpellAttribute( synergy_2, "spell_rank" );
+			synergy_radius_2 = ((synergy_level_2 - 1) * #Heatwave_Radius_Synergy_Fireball);
+			radius = $IncreaseByPercent(radius, synergy_radius_2, False);
+		end
+		
+	//Special Effect of Heatwave
+	$createeffector( thisagent, "Heatwave_Effector", 0 );
+	
+	thisagent_loc = $LocationOf(thisagent);
+	x1 = $GetX(thisagent_loc);
+	y1 = $GetY(thisagent_loc);
+	
+	targets = $compile_enemies_buildings(thisagent,radius);
+	foreach guy in targets do
+		begin
+			$createeffector( guy, "Heatwave_Effector", 0 );
+			$spell_type_attack(thisagent, guy, "Fire", min_damage, max_damage);
+			if ($IsValidGamePiece(guy) == TRUE)
+				begin
+					if ((Tier1 == True) && ($isdead(guy) != TRUE) &&(guy's "type" != "building") && (guy's "type" != "lair"))
+						begin
+							$AddKnockbackEffect(guy);
+							target_loc = $LocationOf(guy);
+							x2 = $GetX(target_loc);
+							y2 = $GetY(target_loc);
+			
+							dx = x2 + ((x2 - x1) * 2);
+							dy = y2 + ((y2 - y1) * 2);
+							destination_loc = $MakeCoord(dx, dy);
+							if ($IsRunning(guy's "Knockback_Cycle") == False)
+								begin
+									guy's "Knockback_Damage_Min" = Knockback_damage_min;
+									guy's "Knockback_Damage_Max" = Knockback_damage_max;
+									guy's "Knockback_Counter" = Knockback_count;
+									$NewThread(guy's "Knockback_Cycle", 50, guy, thisagent, destination_loc);
+								end
+							else
+								begin
+									if (guy's "Knockback_Damage_Min" < Knockback_damage_min)
+										begin
+											guy's "Knockback_Damage_Min" = Knockback_damage_min;
+										end
+								
+									if (guy's "Knockback_Damage_Max" < Knockback_damage_max)
+										begin
+											guy's "Knockback_Damage_Max" = Knockback_damage_max;
+										end
+										
+								end
+						end
+				end
+		end
+	
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Cinders_Passive( agent thisagent )
+// wizard spell - lvl 20
+// - callback from cast action
+declare
+	integer stat_int, Cinders_duration, cooldown, damage_flat, damage_percent, spell_level, cinders_count, cinders_stack;
+	integer increased_damage_flat, increased_duration;
+	string spell_cast;
+	boolean Tier1;
+
+begin
+	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
+	spell_cast = thisagent's "Cinders";
+	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	increased_damage_flat = ((spell_level - 1) + #Cinders_Damage_Level_Flat);
+	increased_duration = ((spell_level - 1) * #Cinders_Cycle_Level);
+	Cinders_duration = (#Cinders_Cycle + increased_duration);
+	cinders_stack = 0;
+	damage_flat = (#Cinders_Damage + increased_damage_flat);
+	damage_percent = 0;
+	cinders_count = #Cinders_Duration;
+	
+	Cinders_duration = $DurationBuff(thisagent, thisagent, Cinders_duration);
+	
+	if (spell_level >= 5)
+		Tier1 = True;
+	else
+		Tier1 = False;
+	
+	if (Tier1 == True)
+		damage_percent = 1;
+
+	if (($IsValidGamePiece(thisagent) == TRUE) && ($isdead(thisagent) != TRUE))
+		begin
+			if ($IsRunning(thisagent's "Cinders_Duration") == False)
+				begin
+					$createeffector( thisagent, "Cinders_Icon", 1, "Infinite");
+					thisagent's "Cinders_Damage_Flat" = damage_flat;
+					thisagent's "Cinders_Counter" = Cinders_count;
+					thisagent's "Cinders_Stack" = 1;
+					thisagent's "Cinders_Tier1" = Tier1;
+					if (thisagent's "Cinders_Tier1" == True)
+						begin
+							thisagent's "Cinders_Damage_Percent" = damage_percent;
+						end
+					$NewThread(thisagent's "Cinders_Duration", Cinders_duration, thisagent);
+				end
+			else
+				begin
+					thisagent's "Cinders_Stack" += 1;
+					cinders_stack = thisagent's "Cinders_Stack";
+					thisagent's "Cinders_Damage_Flat" = (damage_flat * cinders_stack);
+					thisagent's "Cinders_Counter" = Cinders_count;
+					thisagent's "Cinders_Tier1" = Tier1;
+					if (thisagent's "Cinders_Tier1" == True)
+						begin
+							thisagent's "Cinders_Damage_Percent" = (damage_percent * cinders_stack);
+						end
+				end
+		end
+	
+end

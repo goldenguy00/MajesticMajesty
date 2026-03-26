@@ -1,0 +1,623 @@
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+function ResearchHealingPotions_Birth(agent thisagent)
+
+declare
+
+begin
+	thisagent's "ResearchDisplayName" = "Research Healing Potions";		//Cannot be set in dat, so it must get its own function
+	$ResearchSet(thisagent, "AVAILABLE");
+	$Research_Birth(thisagent);					//Covers Gold and HP values for the research.
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchManaPotions_Birth(agent thisagent)
+
+declare
+
+begin
+	thisagent's "ResearchDisplayName" = "Research Mana Potions";
+	$ResearchSet(thisagent, "AVAILABLE");
+	$Research_Birth(thisagent);					
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchSleepingQuarters_Birth(agent thisagent)
+
+declare
+
+begin
+	thisagent's "ResearchDisplayName" = "Research Sleeping Quarters";
+	$ResearchSet(thisagent, "AVAILABLE");
+	$Research_Birth(thisagent);					
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchSleepingQuarters_Complete(agent thisagent)
+
+declare
+	agent p_structure;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	p_structure's "Properties" << "Can_Rest_Here"; //Add the Can Rest Here string to the structure's Properties
+	$Research_Complete(thisagent); 	
+end		
+///////////////////////////////////////////////////////////////////////////////
+function ResearchRecruitmentQuarters_Birth(agent thisagent)
+
+declare
+
+begin	
+	thisagent's "ResearchDisplayName" = "Research Recruitment Quarters";
+	thisagent's "Checklist" << "ResearchBarracks";
+	$ResearchSet(thisagent, "AVAILABLE");
+	$Research_Birth(thisagent);					
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchRecruitmentQuarters_Complete(agent thisagent)
+
+declare
+	agent p_structure, guard;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	p_structure's "Properties" << "Recruit_Here"; //Add the Can Rest Here string to the structure's Properties
+	p_structure's "Upgrades" << $Guardhouse_RecruitTime_Upgade;
+	
+	foreach guard in p_structure's "Guards" do
+		$Guardhouse_RecruitTime_Upgade(guard);
+		
+	$Research_Complete(thisagent); 	
+end		
+///////////////////////////////////////////////////////////////////////////////
+function ResearchBarracks_Birth(agent thisagent)
+
+declare
+	agent p_structure;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	thisagent's "ResearchDisplayName" = "Research Barracks";
+	
+	thisagent's "Checklist" << "ResearchRecruitAdditionalGuard"; //Because this adds to the structure's max guard count, recruiting additional guards must be a checked by this.
+	thisagent's "Checklist" << "ResearchRecruitAdditionalArcher";
+	
+	if ((thisagent's "ResearchCheck")(p_structure))
+		$ResearchSet(thisagent, "AVAILABLE");
+	else
+		$ResearchSet(thisagent, "UNAVAILABLE");
+		
+	$Research_Birth(thisagent);					
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchBarracks_Check(agent thisagent) is boolean
+declare
+
+begin
+	if ((thisagent's "Level" > 1) && ($HasProperty(thisagent, "Recruit_Here")))
+		return True;
+	return False;
+end		
+///////////////////////////////////////////////////////////////////////////////
+function ResearchBarracks_Complete(agent thisagent)
+
+declare
+	agent p_structure;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	p_structure's "Properties" << "Can_Rest_Here"; //Add the Can Rest Here string to the structure's Properties
+	p_structure's "Max_Guards" += 4;
+	p_structure's "MaxHP_Base" += 150;
+	$UpdateMaxHP(p_structure);
+	$adjustattribute(p_structure, #ATTRIB_HP, 150);
+	$Research_Complete(thisagent); 	
+end		
+///////////////////////////////////////////////////////////////////////////////
+function ResearchExpandedLivingQuarters_Birth(agent thisagent)
+
+declare
+	agent p_structure;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	thisagent's "ResearchDisplayName" = "Research Expanded Living Quarters";
+	
+	if ((thisagent's "ResearchCheck")(p_structure))
+		$ResearchSet(thisagent, "AVAILABLE");
+	else
+		$ResearchSet(thisagent, "UNAVAILABLE");
+		
+	$Research_Birth(thisagent);					
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchExpandedLivingQuarters_Check(agent thisagent) is boolean
+declare
+
+begin
+	if (thisagent's "Level" == thisagent's "Max_Level")
+		return True;
+	return False;
+end		
+///////////////////////////////////////////////////////////////////////////////
+function ResearchExpandedLivingQuarters_Complete(agent thisagent)
+
+declare
+	agent p_structure;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	$SetAttribute(p_structure,#ATTRIB_MaxGuildMembers,p_structure's "max_members");
+	$Research_Complete(thisagent);
+end	
+///////////////////////////////////////////////////////////////////////////////
+function ResearchRecruitAdditionalGuard_Birth(agent thisagent)
+
+declare
+	agent p_structure;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	thisagent's "ResearchDisplayName" = "Research Recruit Additional Guard";
+	
+	thisagent's "Checklist" << "ResearchRecruitAdditionalArcher";
+	
+	if ((thisagent's "ResearchCheck")(p_structure))
+		$ResearchSet(thisagent, "AVAILABLE");
+	else
+		$ResearchSet(thisagent, "UNAVAILABLE");
+		
+	$Research_Birth(thisagent);					
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchRecruitAdditionalArcher_Birth(agent thisagent)
+
+declare
+	agent p_structure;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	thisagent's "ResearchDisplayName" = "Research Recruit Additional Archer";
+	
+	thisagent's "Checklist" << "ResearchRecruitAdditionalGuard";
+	
+	if ((thisagent's "ResearchCheck")(p_structure))
+		$ResearchSet(thisagent, "AVAILABLE");
+	else
+		$ResearchSet(thisagent, "UNAVAILABLE");
+		
+	$Research_Birth(thisagent);					
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchRecruitAdditionalGuard_Check(agent thisagent) is boolean
+declare
+
+begin
+	if (thisagent's "Num_Guards" < thisagent's "Max_Guards")
+		return True;
+	return False;
+end		
+///////////////////////////////////////////////////////////////////////////////
+function ResearchRecruitAdditionalGuard_Complete(agent thisagent)
+
+declare
+	agent p_structure;
+	string max_guard;
+
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	max_guard = "Max_" + thisagent's "Service_Title";
+	p_structure's max_guard ++;
+	$GuardhouseRestartGuardSpawnThread(p_structure, 1, thisagent's "Service_Title"); //Recruit the new guard immediately, since the Research time is already a delay enough on it
+	$Research_Complete(thisagent); 
+end	
+///////////////////////////////////////////////////////////////////////////////
+function ResearchSet(agent thisagent, string status) //Requires capitalized string to pass to intent properly
+
+declare
+	string name, fullname, intent;
+
+begin
+	name = thisagent's "ResearchDisplayName";
+	thisagent's "ResearchStatus" = status;
+	intent = "IDTXT_RESEARCH_" + status;
+	$SpecifyIntent(thisagent, intent);
+	
+	if (status == "AVAILABLE")
+		begin
+			fullname = "[color:9696FF]" + name;
+		end
+	else if (status == "UNAVAILABLE")
+		begin
+			fullname = "[color:FF9696]" + name;
+		end
+	else if (status == "COMPLETE")
+		begin
+			fullname = "[color:96FF96]" + name;
+		end
+	else if (status == "RESEARCHING")
+		begin
+			fullname = "[color:FFFF96]" + name;
+		end
+	else if (status == "QUED")
+		begin
+			fullname = "[color:FF96FF]" + name;
+		end
+	
+	fullname += "[/color]";
+	$setattribute(thisagent, #ATTRIB_HP, 1);
+	$SpecifyName(thisagent, fullname);
+end
+///////////////////////////////////////////////////////////////////////////////
+// This function is called by the in-game code when a Research Option is dismissed
+function Research_Dismissed(agent thisagent)
+
+declare
+	agent Container, spawn, p_structure, r_text, check;
+	string name, increment;
+
+begin
+	if (thisagent's "ResearchStatus" == "AVAILABLE")
+		begin
+			p_structure = thisagent's "PrimaryStructure";
+			name = thisagent's "Title";
+			spawn = $spawnunit(thisagent's "Container", name);
+			spawn's "PrimaryStructure" = thisagent's "PrimaryStructure";
+			spawn's "Container" = thisagent's "Container";
+			if ($GetPlayerData(thisagent, "gold") < spawn's "gold_value")
+				begin
+					spawn's "Level" = thisagent's "Level";
+					$ResearchSet(spawn, "AVAILABLE");
+					(spawn's "BirthScript2")(spawn);
+					$Hide(spawn, thisagent's "Container", 1);
+					$deletegamepiece(thisagent);
+					return;
+				end
+			spawn's "Level" = thisagent's "Level" + 1;
+			if (thisagent's "Increment" != "None")
+				begin
+					increment = thisagent's "Increment";
+					p_structure's increment += thisagent's "Increment_Amount";
+					if ($listsize(thisagent's "Checklist") > 0)
+						begin
+							foreach name in thisagent's "Checklist" do
+								begin
+									check = $agenttitleinlist(name, $GetBuildingContents(thisagent's "Container"));
+									if ((check's "ResearchStatus") != "QUED" && (check's "ResearchStatus" != "RESEARCHING"))
+										begin
+											if ((check's "ResearchCheck")(p_structure))
+												$ResearchSet(check, "AVAILABLE");
+											else
+												$ResearchSet(check, "UNAVAILABLE");
+										end
+								end
+						end
+				end
+			(spawn's "BirthScript2")(spawn);
+			$Hide(spawn, thisagent's "Container", 1);
+			if (p_structure's "Is_Researching")
+				begin
+					$ResearchSet(spawn, "QUED");
+					r_text = p_structure's "research_text";
+					r_text's "Research_Que" += spawn;
+				end
+			else
+				begin
+					$ResearchSet(spawn, "RESEARCHING");
+					$ResearchBegin(spawn);
+				end
+			$deletegamepiece(thisagent);
+		end
+	else if (thisagent's "ResearchStatus" == "COMPLETE")
+		begin
+			name = thisagent's "Title";
+			spawn = $spawnunit(thisagent's "Container", name);
+			spawn's "PrimaryStructure" = thisagent's "PrimaryStructure";
+			spawn's "Container" = thisagent's "Container";
+			spawn's "Level" = thisagent's "Level";
+			(spawn's "BirthScript2")(spawn);
+			$Hide(spawn, thisagent's "Container", 1);
+			$setattribute(thisagent, #ATTRIB_HP, thisagent's "Research_Time");
+			$ResearchSet(spawn, "COMPLETE");
+			$deletegamepiece(thisagent);
+		end
+	else if (thisagent's "ResearchStatus" == "UNAVAILABLE")
+		begin
+			p_structure = thisagent's "PrimaryStructure";
+			name = thisagent's "Title";
+			spawn = $spawnunit(thisagent's "Container", name);
+			spawn's "PrimaryStructure" = thisagent's "PrimaryStructure";
+			spawn's "Container" = thisagent's "Container";
+			spawn's "Level" = thisagent's "Level";
+			(spawn's "BirthScript2")(spawn);
+			$Hide(spawn, thisagent's "Container", 1);
+			if ((spawn's "Repeatable") && ((spawn's "ResearchCheck")(p_structure)))
+				begin
+					if (((spawn's "RepeatableCheck")(spawn)) && (spawn's "Max_Level" > spawn's "Level"))
+						$ResearchSet(spawn, "AVAILABLE");
+					else
+						$ResearchSet(spawn, "UNAVAILABLE");
+				end
+			else
+				begin
+					if ((spawn's "ResearchCheck")(p_structure)) //To unstick a stuck research check
+						$ResearchSet(spawn, "AVAILABLE");		//Currently not updated for Repeatable researches/Researches with max levels
+					else
+						$ResearchSet(spawn, "UNAVAILABLE");
+				end
+			$deletegamepiece(thisagent);
+		end
+	else if ((thisagent's "ResearchStatus" == "RESEARCHING") || (thisagent's "ResearchStatus" == "QUED"))
+		begin
+			p_structure = thisagent's "PrimaryStructure";
+			name = thisagent's "Title";
+			spawn = $spawnunit(thisagent's "Container", name);
+			spawn's "PrimaryStructure" = thisagent's "PrimaryStructure";
+			spawn's "Container" = thisagent's "Container";
+			spawn's "ResearchText" = thisagent's "ResearchText";
+			spawn's "Level" = thisagent's "Level" - 1;
+			if (thisagent's "Increment" != "None")
+				begin
+					increment = thisagent's "Increment";
+					p_structure's increment -= thisagent's "Increment_Amount";
+					if ($listsize(thisagent's "Checklist") > 0)
+						begin
+							foreach name in thisagent's "Checklist" do
+								begin
+									check = $agenttitleinlist(name, $GetBuildingContents(thisagent's "Container"));
+								if ((check's "ResearchStatus") != "QUED" || (check's "ResearchStatus" != "RESEARCHING"))
+									begin
+										if ((check's "ResearchCheck")(p_structure))
+											$ResearchSet(check, "AVAILABLE");
+										else
+											$ResearchSet(check, "UNAVAILABLE");
+									end
+								end
+						end
+				end
+			(spawn's "BirthScript2")(spawn);
+			$Hide(spawn, thisagent's "Container", 1);
+			$ResearchSet(spawn, "AVAILABLE");
+			if (thisagent's "ResearchStatus" == "QUED")
+				begin
+					r_text = p_structure's "research_text";
+					r_text's "Research_Que" -= thisagent;
+				end
+			$ResearchCancel(thisagent);
+			$deletegamepiece(thisagent);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Research_Birth(agent thisagent)
+//Research birth used by all researches
+declare
+
+begin
+	$setattribute(thisagent, #ATTRIB_Gold, thisagent's "gold_value");
+	$setattribute(thisagent, #ATTRIB_MaxHP, thisagent's "Research_Time");
+	$setattribute(thisagent, #ATTRIB_HP, 1);
+	$setattribute(thisagent,#ATTRIB_ExperienceLevel, thisagent's "Level");
+end
+///////////////////////////////////////////////////////////////////////////////
+function Research_dummybirth(agent thisagent)
+declare
+
+begin
+end
+///////////////////////////////////////////////////////////////////////////////
+function Research_Complete(agent thisagent)
+//Research COMPLETE used by all researches
+declare
+	string name, fullname, chat_name;
+	agent primary_structure, spawn, container, check;
+
+begin
+	name = thisagent's "ResearchDisplayName";
+	primary_structure = thisagent's "PrimaryStructure";
+	chat_name = $gettitle(thisagent's "PrimaryStructure");
+	chat_name += " ";
+	chat_name += name;
+	chat_name += " Complete";
+	$playsound ( thisagent, thisagent's "ResearchVoice", "VFX_ADVISOR" );
+	
+	$SpecifyName(thisagent, chat_name); //This is only here for the split-second needed for the chat message name
+	
+	$LocalChatMessage( $GetUnitPlayerNumber(ThisAgent), #chat_building_upgraded, ThisAgent  );
+	
+	if (thisagent's "Repeatable")
+		begin
+			if (thisagent's "Max_Level" > 0)
+				begin
+					if (((thisagent's "ResearchCheck")(primary_structure)) && (thisagent's "Level" < thisagent's "Max_Level"))
+						$ResearchSet(thisagent, "AVAILABLE");
+					else
+						$ResearchSet(thisagent, "UNAVAILABLE");
+				end
+			else
+				begin
+					if ((thisagent's "ResearchCheck")(primary_structure))
+						$ResearchSet(thisagent, "AVAILABLE");
+					else
+						$ResearchSet(thisagent, "UNAVAILABLE");
+				end
+		end
+	else
+		$ResearchSet(thisagent, "COMPLETE");
+	
+	if (thisagent's "Service_Type" == "Item")
+		begin
+			container = $agenttitleinlist("Services", primary_structure's "Attachments");
+			spawn = $spawnunit(container, thisagent's "Service_Title");
+			spawn's "PrimaryStructure" = primary_structure;
+			spawn's "Container" = container;
+			(spawn's "BirthScript2")(spawn);
+			$Hide(spawn, spawn's "Container", 1);
+		end
+		
+	
+	if ($listsize(thisagent's "Checklist") > 0)
+		begin
+			container = $agenttitleinlist("Research", primary_structure's "Attachments");
+				foreach name in thisagent's "Checklist" do
+					begin
+						check = $agenttitleinlist(name, $GetBuildingContents(container));
+						if ((check's "ResearchStatus") != "QUED" && (check's "ResearchStatus" != "RESEARCHING"))
+							begin
+								if ((check's "ResearchCheck")(primary_structure))
+									$ResearchSet(check, "AVAILABLE");
+								else
+									$ResearchSet(check, "UNAVAILABLE");
+							end
+					end
+		end
+			
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchBeginQue(agent thisagent) //This is called by the floatingtext if a research is QUED
+
+declare
+	agent Qued_Research;
+	string text, name, fullname;
+	integer cost;
+	
+begin
+	Qued_Research = $listmember(thisagent's "Research_Que", 1);
+	
+	$ResearchSet(Qued_Research, "RESEARCHING");
+	
+	thisagent's "Research_Que" -= Qued_Research;
+	thisagent's "Target" = Qued_Research's "Container";
+	thisagent's "Research" = Qued_Research;
+	thisagent's "duration" = Qued_Research's "Research_Time";
+	thisagent's "duration_current" = 0;
+	thisagent's "callbackScript" = Qued_Research's "ResearchCOMPLETEScript";
+	thisagent's "gold_value" = Qued_Research's "gold_value";
+	Qued_Research's "ResearchText" = thisagent;
+	cost = thisagent's "gold_value" * -1;
+	$AdjustPlayerData ( Qued_Research, "gold", cost );
+	text = Qued_Research's "ResearchDisplayName";
+	text += ": ";
+	thisagent's "text" = text;
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchCancel(agent thisagent)
+
+declare
+	agent floatingtext, p_structure;
+	integer cost, que_size;
+	string text;
+	
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	if (thisagent's "ResearchStatus" == "RESEARCHING") //Going through the process of cancelling ongoing research
+		begin
+			floatingtext = thisagent's "ResearchText";
+			que_size = $listsize(floatingtext's "Research_Que");
+			cost = floatingtext's "gold_value";
+			$AdjustPlayerData ( thisagent, "gold", cost );
+			text = thisagent's "ResearchDisplayName";
+			text += ": Canceled";
+			floatingtext's "text" = text;
+			if (que_size > 0)
+				begin
+					$SpecifyName(floatingtext, text);
+					$teleporttounit(floatingtext, 1, floatingtext, 0);
+					$ResearchBeginQue(floatingtext);
+				end
+			else
+				begin
+					$KillThread( floatingtext's "textScript");
+					$SpecifyName(floatingtext, text);
+					$teleporttounit(floatingtext, 1, floatingtext, 0);
+					p_structure's "Is_Researching" = False;
+					$DeleteGamePiece(floatingtext);
+				end
+		end
+	else if (thisagent's "ResearchStatus" == "QUED") //Merely refunding the gold for a QUED research that never got to start
+		begin
+			$AdjustPlayerData ( thisagent, "gold", thisagent's "gold_value" );
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function ResearchBegin(agent thisagent)
+
+declare
+	agent floatingtext, p_structure;
+	string text;
+	integer cost;
+	coordinate r_loc;
+	
+begin
+	p_structure = thisagent's "PrimaryStructure";
+	p_structure's "Is_Researching" = True;
+	r_loc = p_structure's "Research_Loc";
+	floatingtext = $SpawnUnit(thisagent, "FloatingText", $UnitPointWithOffset(thisagent's "Container", $GetX(r_loc), $GetY(r_loc))); //Each structre needs it's own coordinates
+	floatingtext's "Target" = thisagent's "Container";
+	floatingtext's "Research" = thisagent;
+	floatingtext's "duration" = thisagent's "Research_Time";
+	floatingtext's "duration_current" = 0;
+	floatingtext's "callbackScript" = thisagent's "ResearchCOMPLETEScript";
+	floatingtext's "gold_value" = thisagent's "gold_value";
+	floatingtext's "textScript" = $FloatingTextUpdateResearch; //Change it's default textScript to a Research text script
+	p_structure's "research_text" = floatingtext;
+	thisagent's "ResearchText" = floatingtext;
+	cost = floatingtext's "gold_value" * -1;
+	$AdjustPlayerData ( thisagent, "gold", cost );
+	text = thisagent's "ResearchDisplayName";
+	text += ": ";
+	floatingtext's "text" = text;
+	$NewThread( floatingtext's "textScript", 500, floatingtext);
+end
+///////////////////////////////////////////////////////////////////////////////
+//Duration and current are divided by 100 since all durations are going to be multiples of 100.
+function FloatingTextUpdateResearch(agent thisagent)
+
+declare
+	agent target, p_structure;
+	string text;
+	integer percent_time, adjust_current, adjust_duration, que_size;
+	
+begin
+	if ($isdead(thisagent's "Target"))
+		begin
+			$KillThread(thisagent's "textScript");
+			$DeleteGamePiece(thisagent);
+			return;
+		end
+	thisagent's "Update_Counter" ++;
+	target = thisagent's "Target";
+	p_structure = target's "PrimaryStructure";
+	que_size = $listsize(thisagent's "Research_Que");
+	text = thisagent's "text";
+	thisagent's "duration_current" += 500;
+	adjust_current = (thisagent's "duration_current" / 100);
+	adjust_duration = (thisagent's "duration" / 100);
+	percent_time = ((adjust_current * 100) / adjust_duration);
+	
+	if (percent_time >= 100)
+		percent_time = 100;
+	
+	$setattribute(thisagent's "research", #ATTRIB_HP, thisagent's "duration_current");
+	if (thisagent's "Update_Counter" > 2)
+		begin
+			thisagent's "Update_Counter" = 0;
+			text += $i2s(percent_time);
+			text += "%";
+			$SpecifyName(thisagent, text);
+			$teleporttounit(thisagent, 1, thisagent, 0); //This is here to update the name in real time, otherwise the display name won't kick in reliably without an effect like this.
+		end
+	if (percent_time == 100)
+		begin
+			(thisagent's "callbackScript")(thisagent's "Research");
+			if (que_size > 0)
+				begin
+					thisagent's "Update_Counter" = 0;
+					$ResearchBeginQue(thisagent);
+				end
+			else
+				begin
+					p_structure's "Is_Researching" = False;
+					$KillThread(thisagent's "textScript");
+					$DeleteGamePiece(thisagent);
+				end
+		end
+end

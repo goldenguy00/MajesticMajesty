@@ -1,0 +1,126 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+function travel_to_exp(agent thisagent)
+// used for exploring and patrolling, in order to give experience
+declare
+	coordinate agent_loc, Palace_loc;
+	integer distance_level;
+
+begin
+	agent_loc = $locationof(thisagent);
+	Palace_loc = $locationof($GetTruePalace(thisagent));
+	distance_level = ($distanceBetweenCoords(Palace_loc,agent_loc) / 100); //The distance the agent is from the palace divided by 100 is the Level of travel the agent is undergoing
+	if ($has_arrived(thisagent,false))
+		begin
+			$give_exp_level(thisagent,#explore_exp,distance_level);
+		end
+	else
+		// am I low on HP
+		if ($haslowHP(thisagent) == FALSE)
+			begin
+			// evaluate danger nearby, do I change my plans?
+			if ((thisagent's "evaluationscript")(thisagent) == FALSE)
+
+				If ($TryTravelSpell( thisagent ) == FALSE)
+
+					If ($Eval_Items_Nearby (ThisAgent) == FALSE)
+						begin
+						end
+			end
+		else
+			begin
+				// hero is low on HP
+				$heal_self(thisagent);
+			end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+//#list_travel is spell type 4.
+function TryTravelSpell( agent thisagent ) is boolean
+
+declare
+	string spellname, travel_spellname;
+
+begin
+	// don't use spells if traveling to a waypoint
+	if ($HasWayPoints( thisagent ) == FALSE)
+		begin
+			// can I use any helpful travel spells?
+			spellname = $getbestspell(thisagent,#list_travel);
+			travel_spellname = $Spell_List_Travel(thisagent, thisagent);
+			if (spellname != "nothing")
+				begin
+					$cast(thisagent,spellname,thisagent, "");
+					return True;
+				end
+			else if (travel_spellname != "nothing")
+				begin
+					$cast(thisagent,travel_spellname,thisagent, "");
+					return True;
+				end
+			else if ($isspellAvailable(thisagent,"rogue_Assassin") == TRUE)
+				$rogue_Assassin_cast(thisagent);
+				//$cast(thisagent,"rogue_Assassin",thisagent, "");
+				
+			return False;
+
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function getattackrange(agent thisagent) is integer
+
+declare
+	integer arrivedist;
+	agent target;
+	string supportlist_name;
+
+begin
+	target = thisagent's "Target";
+	if (thisagent's "Title" != "Wizard")
+	begin
+		supportlist_name = $Spell_List_Support(thisagent);
+		if (($getbestspell(thisagent,#List_attack) == "nothing") && (supportlist_name  == "nothing"))
+			begin
+				arrivedist = $getattribute(thisagent,#ATTRIB_MaxAttackRange);
+				if ($IsSpellCaster(thisagent) != FALSE)
+					begin
+						arrivedist = $SpellCastDistance(thisagent);
+					end
+			end
+		else
+			begin
+				arrivedist = thisagent's "castingrange";
+				if (supportlist_name != "nothing")
+					begin
+						arrivedist = $SpellRangeListOnAttack( arrivedist, supportlist_name);
+					end
+			end
+	end
+	else
+	begin
+		supportlist_name = $AttackSpellList(thisagent);
+		if ((supportlist_name  == "nothing"))
+			begin
+				arrivedist = $getattribute(thisagent,#ATTRIB_MaxAttackRange);
+				if ($IsSpellCaster(thisagent) != FALSE)
+					begin
+						arrivedist = $SpellCastRange(thisagent);
+					end
+			end
+		else
+			begin
+				arrivedist = thisagent's "castingrange";
+				if (supportlist_name != "nothing")
+					begin
+						arrivedist = $SpellRangeListOnAttack( arrivedist, supportlist_name);
+					end
+			end
+	end
+	
+	return arrivedist;
+end
+
+///////////////////////////////////////////////////////////////////////////////

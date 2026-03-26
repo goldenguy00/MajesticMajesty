@@ -1,0 +1,60 @@
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function bank_visited(agent thisagent)
+
+declare
+	agent building;
+
+begin
+	building = thisagent's "target";
+			
+	$enter_building(thisagent,building);
+
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_OPENBANKACCOUNT");
+			
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Bank_Visit_Duration);
+
+	thisagent's "Activescript" = $create_bank_account;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function create_bank_account(agent thisagent)
+
+declare
+
+begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+	ThisAgent's "ActiveScript" = $done_visiting_bank;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function done_visiting_bank(agent thisagent)
+
+declare
+	agent bank;
+	integer untaxed_gold, stored_gold, total_gold;
+
+begin
+	bank = thisagent's "target";
+	$exit_building(thisagent,thisagent's "target");
+	
+	thisagent's "TaskPackageStatus" = "Complete";
+	
+	untaxed_gold = $GetAttribute(thisagent, #ATTRIB_Gold);
+	stored_gold = $GetAttribute(thisagent, #ATTRIB_StoredGold);
+	total_gold = untaxed_gold + stored_gold;
+	
+	if (untaxed_gold > 0)
+		begin
+			$SetAttribute(thisagent, #ATTRIB_Gold, 0);
+			$AdjustAttribute(thisagent, #ATTRIB_StoredGold, untaxed_gold);
+		end
+
+	thisagent's "Primary_Bank" << bank;
+	thisagent's "Has_Bank_Account" = True;
+	thisagent's "Bank_Account_Gold" = total_gold;
+	
+	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+end

@@ -1,0 +1,63 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+Function Poison_Weapons (agent ThisAgent)
+Declare
+	string Current_Intent;
+
+Begin
+	$Enter_Building (ThisAgent, ThisAgent's "Target");
+
+	Current_Intent = ThisAgent's "Running_Intent";
+	
+	if (Current_Intent == "IDTXT_INTENT_POISONINGWEAPON")
+		begin
+			$SetThreadInterval (ThisAgent's "ActiveScript", #Poison_Visit_Duration);
+			ThisAgent's "ActiveScript" = $Obtain_Poison;
+		end
+	else if (Current_Intent == "IDTXT_INTENT_BUYDARTSENTRY")
+		begin
+			$SetThreadInterval (ThisAgent's "ActiveScript", #Dart_Sentry_visit_duration);
+			ThisAgent's "ActiveScript" = $Obtain_Dart_Sentry;
+		end
+End
+
+///////////////////////////////////////////////////////////////////////////////
+Function Obtain_Poison (agent ThisAgent)
+Declare
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+
+	$SetAttribute (ThisAgent, #ATTRIB_WeaponPoisoned, 1);
+	$DebugOut (thisagent's "title","poisoned their weapon!");
+
+	ThisAgent's "ActiveScript" = $Leaving_Rogues_Guild;
+End
+
+///////////////////////////////////////////////////////////////////////////////
+Function Obtain_Dart_Sentry (agent ThisAgent)
+Declare
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+
+	$LearnSpell(thisagent, "deploy_dart_sentry");
+
+	ThisAgent's "ActiveScript" = $Leaving_Rogues_Guild;
+End
+
+///////////////////////////////////////////////////////////////////////////////
+Function Leaving_Rogues_Guild (agent ThisAgent)
+Declare
+
+Begin
+	$Exit_Building (ThisAgent, ThisAgent's "Target");
+	
+	thisagent's "TaskPackageStatus" = "Complete";
+	
+	$Reset_Tasks (ThisAgent);
+End

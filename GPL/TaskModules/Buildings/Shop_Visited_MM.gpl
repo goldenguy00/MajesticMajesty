@@ -1,0 +1,285 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+Function Shop_Visited (agent ThisAgent)
+Declare
+	agent Target;
+	string Current_Intent, New_Intent;
+
+// This checks to see if thisagent is GETTING HEAL POTIONS, GETTING RING
+// or if are there to make entertain, in the case of Elves
+Begin
+	Target = ThisAgent's "Target";
+
+	Current_Intent = ThisAgent's "Running_Intent";
+	
+	$enter_building(thisagent, target);
+
+	//Make sure that the bulding isn't closed (ie. Market Day)
+	If (Target's "Title" == "Closed")
+		begin
+
+			//The building is closed, so reset tasks
+			$Exit_Building (ThisAgent, Target);
+
+		end
+
+	Else
+		begin
+			$DebugOut ("TASKNAME:",ThisAGent's "Taskname");
+
+			If (ThisAgent's "Taskname" == "Entertain_Shop")
+	  			begin
+	  				ThisAgent's "ActiveScript" = $Entertain_Shop;
+				end
+
+ 			Else
+	 			begin
+					If (ThisAgent's "Taskname" == "Ring_Protection")
+						begin
+							ThisAgent's "ActiveScript" = $Get_Ring_Protection;
+						end
+
+
+					Else
+						begin
+							If (ThisAgent's "TaskName" == "Market3_Item")
+								begin
+
+									ThisAgent's "ActiveScript" = $Get_Market3_Item;
+
+								end
+							Else
+								If (ThisAgent's "TaskName" == "Healing_Potions")
+									begin
+
+										ThisAgent's "ActiveScript" = $Get_Heal_Potions;
+
+									end
+								Else
+									If (ThisAgent's "TaskName" == "Mana_Potions")
+										begin
+
+											ThisAgent's "ActiveScript" = $Get_Mana_Potions;
+
+										end
+									Else
+										If (ThisAgent's "TaskName" == "Sell_Loot")
+											begin
+
+												ThisAgent's "ActiveScript" = $Get_Loot_Sold;
+
+											end
+										Else
+											if ($HasProperty(Target, "Can_Rest_Here"))
+												begin
+													If (Current_Intent == "IDTXT_INTENT_FLEEING")
+														begin
+															If (Target's "Subtype" == "Trading_Post")
+																New_Intent = "IDTXT_INTENT_SEEKINGREFUGETRADINGPOST";
+														end
+
+													//They must have been visiting
+													Else If (Current_Intent == "IDTXT_INTENT_FLEEINGINJURED")
+														begin
+															If (Target's "Subtype" == "Trading_Post")
+																New_Intent = "IDTXT_INTENT_RECUPERATINGTRADINGPOST";
+														End
+
+												  Else
+														begin
+
+															If (Target's "Subtype" == "Trading_Post")
+																New_Intent = "IDTXT_INTENT_RESTINGTRADINGPOST";
+														end
+														
+													thisagent's "Activescript" = $rest_at_trading_post;
+
+													$SpecifyIntentString (ThisAgent, New_Intent);
+												end
+						end
+				end
+		end
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function rest_at_trading_post(agent thisagent)
+
+declare
+
+begin
+	$setattribute(thisagent,#ATTRIB_HP,$getattribute(thisagent,#ATTRIB_MaxHP));
+
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+	ThisAgent's "ActiveScript" = $done_resting_trading_post;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function done_resting_trading_post(agent thisagent)
+
+declare
+
+begin
+	$exit_building(thisagent,thisagent's "target");
+
+	thisagent's "TaskPackageStatus" = "Complete";
+
+	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+	thisAgent's "taskname" = "";
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+// This set holds ThisAgent for awhile, and then has them purchase potions
+Function Get_Heal_Potions (agent ThisAgent)
+Declare
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Buy_Prot_Ring_Visit_Duration);
+
+	ThisAgent's "ActiveScript" = $Purchase_Potions;
+End
+
+///////////////////////////////////////////////////////////////////////////////
+// This set holds ThisAgent for awhile, and then has them purchase potions
+Function Get_Mana_Potions (agent ThisAgent)
+Declare
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Buy_Prot_Ring_Visit_Duration);
+
+	ThisAgent's "ActiveScript" = $Purchase_ManaPotions;
+End
+
+///////////////////////////////////////////////////////////////////////////////
+// This set holds ThisAgent for awhile, and then has them purchase potions
+Function Get_Loot_Sold (agent ThisAgent)
+Declare
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Buy_Prot_Ring_Visit_Duration);
+
+	ThisAgent's "ActiveScript" = $Sell_Loot;
+End
+
+///////////////////////////////////////////////////////////////////////////////
+// Heroes purchase as many potion as they can afford and/or hold
+Function Purchase_Potions (agent ThisAgent)
+Declare
+	integer	Num_Purchased;
+	integer	Num_Needed;
+	integer	Gold_Spent;
+	integer Num_Current;
+	integer Num_FinalCount;
+	string potion_count;
+	string potion_type;
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+		
+	Num_Purchased = $Total_Gold (ThisAgent) / #Heal_Potion_Price;
+	Num_Current = $GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard);
+	Num_Needed = #Max_Heal_Potions - Num_Current;
+
+	If (Num_Purchased > Num_Needed)
+		Num_Purchased = Num_Needed;
+
+	Num_FinalCount = Num_Purchased + Num_Current;
+	
+	If (Num_Purchased > 0)
+		begin
+			Gold_Spent = Num_Purchased * #Heal_Potion_Price;
+			potion_type = "Healing";
+			$Spend_Gold (ThisAgent, ThisAgent's "Target", Gold_Spent);
+			if (Num_Current > 0)
+				begin
+					potion_count = ($Number_Potions(Num_Current, potion_type));
+					$DeleteInventoryItem(potion_count, thisagent);
+				end
+				
+			potion_count = ($Number_Potions(Num_FinalCount, potion_type));
+			$AdjustAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard, Num_Purchased);
+			$DebugOut (thisagent's "title","purchased",Num_Purchased,"healing potions!");
+
+			$CreateNewInventoryItem(potion_count, thisagent, 1);
+			
+		end
+		
+  ThisAgent's "ActiveScript" = $Done_Purchasing_Market_Stuff;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// Heroes purchase as many potion as they can afford and/or hold
+Function Purchase_ManaPotions (agent ThisAgent)
+Declare
+	integer	Num_Purchased;
+	integer	Num_Needed;
+	integer	Gold_Spent;
+	integer Num_Current;
+	integer Num_FinalCount;
+	string potion_count;
+	string potion_type;
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+		
+	Num_Purchased = $Total_Gold (ThisAgent) / #Mana_Potion_Price;
+	Num_Current = $GetAttribute(ThisAgent,#ATTRIB_ResearchArrows);
+	Num_Needed = #Max_Mana_Potions - Num_Current;
+
+	If (Num_Purchased > Num_Needed)
+		Num_Purchased = Num_Needed;
+
+	Num_FinalCount = Num_Purchased + Num_Current;
+	
+	If (Num_Purchased > 0)
+		begin
+			Gold_Spent = Num_Purchased * #Mana_Potion_Price;
+			potion_type = "Mana";
+			$Spend_Gold (ThisAgent, ThisAgent's "Target", Gold_Spent);
+			if (Num_Current > 0)
+				begin
+					potion_count = ($Number_Potions(Num_Current, potion_type));
+					$DeleteInventoryItem(potion_count, thisagent);
+				end
+				
+			potion_count = ($Number_Potions(Num_FinalCount, potion_type));
+			$AdjustAttribute(ThisAgent,#ATTRIB_ResearchArrows, Num_Purchased);
+			$DebugOut (thisagent's "title","purchased",Num_Purchased,"mana potions!");
+
+			$CreateNewInventoryItem(potion_count, thisagent, 1);
+		end
+		
+  ThisAgent's "ActiveScript" = $Done_Purchasing_Market_Stuff;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// Heroes sell all the loot they have
+Function Sell_Loot (agent ThisAgent)
+Declare
+
+Begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+		
+	$Give_Gold(thisagent, $Total_Loot_Value_MarketplaceAdjust(thisagent, ThisAgent's "Target"));	
+	
+	ThisAgent's "ActiveScript" = $Done_Purchasing_Market_Stuff;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// Heroes purchase as many potion as they can afford and/or hold
+Function Number_Potions(integer num_potions, string type) is string
+Declare
+	string exttype, fulltype;
+
+Begin
+	exttype = type + "Potions";
+	fulltype = exttype + $i2s(num_potions);
+	return fulltype;
+End

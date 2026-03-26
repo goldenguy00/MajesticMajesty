@@ -1,0 +1,73 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function shrine_visited(agent thisagent)
+
+declare
+	agent building;
+
+begin
+	building = thisagent's "target";
+			
+	$enter_building(thisagent,building);
+
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_INSIDESHRINE");
+			
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Shrine_Visit_Duration);
+
+	thisagent's "Activescript" = $praying_before_effigy;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function praying_before_effigy(agent thisagent)
+
+declare
+
+begin
+	$setattribute(thisagent,#ATTRIB_HP,$getattribute(thisagent,#ATTRIB_MaxHP));
+
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+	ThisAgent's "ActiveScript" = $done_visiting_shrine;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function done_visiting_shrine(agent thisagent)
+
+declare
+	integer i, insight_amount;
+	agent target;
+
+begin
+	target = thisagent's "target";
+	$exit_building(thisagent,thisagent's "target");
+	
+	thisagent's "TaskPackageStatus" = "Complete";
+	
+	if ($HasAttribute("Shrine_Cooldown", thisagent) == True)
+		begin
+			$NewThread(thisAgent's "Shrine_Cooldown", 45000, thisAgent, "Shrine_Cooldown" );
+		end
+	else
+		begin
+			$AddAttribute(thisagent, "Shrine_Cooldown", "function", $Cooldown_End);
+			$NewThread(thisAgent's "Shrine_Cooldown", 45000, thisAgent, "Shrine_Cooldown" );
+		end
+	
+	insight_amount = ($getAttribute(target, #ATTRIB_ResearchWizardFireBlast) / 2);
+	
+	if (insight_amount < 1)
+		begin
+			$setattribute(target, #ATTRIB_ResearchWizardFireBlast, 0);
+			insight_amount = 1;
+		end
+	else
+		begin
+			$adjustattribute(target, #ATTRIB_ResearchWizardFireBlast, - insight_amount);
+		end
+
+	$AddInsightPoints(thisagent, insight_amount);
+	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+end

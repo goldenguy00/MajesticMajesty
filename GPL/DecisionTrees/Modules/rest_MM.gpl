@@ -1,0 +1,230 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function rest(agent thisagent) is Boolean
+
+declare
+	integer HP;
+	integer maxHP;
+
+begin
+	HP = $getattribute(thisagent,#ATTRIB_HP);
+	maxHP = $getattribute(thisagent,#ATTRIB_MaxHP);
+
+	if (((HP * 100) / maxHP) <= thisagent's "PercentageHPretreat")
+		begin
+			// heal self task
+			$heal_self(thisagent);
+			return TRUE;
+		end
+
+	return FALSE;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function rest_Packet(agent thisagent) is Boolean
+//Rest comes in multiple different stages, need to consolidate them all into one packet function.
+//Rest also always passes for healing, so if the hero ends up being at full hp by the time it ques up, he might already be healed. This doesn't seem to belong since it's an immediate action.
+declare
+	integer HP;
+	integer maxHP;
+
+begin
+	HP = $getattribute(thisagent,#ATTRIB_HP);
+	maxHP = $getattribute(thisagent,#ATTRIB_MaxHP);
+
+	if (((HP * 100) / maxHP) <= thisagent's "PercentageHPretreat")
+		begin
+			// heal self task
+			$heal_self_Packet(thisagent);
+			return TRUE;
+		end
+
+	return FALSE;
+
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function heal_self_Packet(agent thisagent)
+
+declare
+	list inns, trading_posts, new_list,enemies,fountains;
+	agent speedy,fountain,go_here,inn;
+	boolean run_flag;
+	integer Potion,distance,vit_bonus;
+	string potion_count;
+	string potion_type;
+	string spell_name;
+	string intent;
+
+begin
+	$debugout("I need healing");
+
+	if ($GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard) > 0)
+		begin
+			//Use healing potion overlay
+			vit_bonus = ($getattribute(thisagent, #ATTRIB_Vitality) / 4);
+			$createeffector(thisagent,"potion_healing_effector",0);
+			$Heal (ThisAgent, ThisAgent, (#Heal_Potion_Recovery + vit_bonus));
+			potion_type = "Healing";
+			potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard), potion_type);
+			$DeleteInventoryItem(potion_count, thisagent);
+			$AdjustAttribute (ThisAgent, #ATTRIB_ResearchGoodGuard, -1);
+			if ($GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard) > 0)
+				begin
+					potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard), potion_type);
+					$CreateNewInventoryItem(potion_count, thisagent, 1);
+				end
+		end
+
+	else
+		begin
+			spell_name = $Spell_List_Heal(thisagent,thisagent);
+			if (spell_name != "nothing")
+				begin
+					// cast spell
+					$cast(thisagent,spell_name,thisagent, "");
+				end
+			else
+				begin
+						begin
+							// see if hero can outrun all hostiles
+							run_flag = False;
+							//$ListObjects(thisagent,thisagent's "enemytype",$getattribute(thisagent,#ATTRIB_sightrange) + 50, enemies );
+							enemies = $list_enemies_seen(thisagent,$getattribute(thisagent,#ATTRIB_sightrange) + 50);
+							enemies = $remove_buildings(enemies);
+
+							if ($listsize(enemies) < 1)
+								// there are no enemies, so I can run
+								run_flag = TRUE;
+							else
+								begin
+									speedy = $pick_fastest(thisagent,enemies);
+									if ($getattribute(speedy,#ATTRIB_speed) < $getattribute(thisagent,#ATTRIB_speed))
+										// I am the fastest, so I can run
+										run_flag = TRUE;
+								end
+
+							if (run_flag)
+								begin
+									$listobjects(thisagent, "building", -1,inns, #CheckTitles, "Inn", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
+									$listobjects(thisagent, "building", -1,trading_posts, #CheckTitles, "Trading_Post", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
+									
+									foreach inn in trading_posts do
+										if ($HasProperty(inn, "Can_Rest_Here"))
+											inns << inn;
+
+								//	if (thisagent's "home" != $nullagent())
+									if ($isvalidgamepiece(thisagent's "home"))
+										begin
+											if ($distancebetweenagents(thisagent,thisagent's "home") < #Near_home_dist)
+												begin
+													$list_enemies(thisagent,1);
+													if ($listsize(thisagent's "hostiles") > 0)
+														begin
+															$go_berserk(thisagent);
+															return;
+														end
+													else
+														begin
+															$clearlist(inns);
+															inns << thisagent's "home";
+
+															if ($listsize(inns) > 0)
+																begin
+																	go_here = $pick_closest(thisagent,inns);
+																end
+															else
+																begin
+																	// hero has no where to flee to!
+																	$go_berserk(thisagent);
+																	return;
+																end
+
+															if (go_here == thisagent's "home")
+																begin
+																	thisagent's "taskname" = "go_home";
+																end
+															else
+																thisagent's "taskname" = "visiting";
+															
+															thisagent's "TaskPackageFled" ++;
+															if ((thisagent's "TaskPackageFled" > $MinMax(3,7)) && (thisagent's "TaskPackageStatus" == "Ongoing"))
+																begin
+																	thisagent's "TaskPackageStatus" = "Failed";
+																end
+															intent = "IDTXT_INTENT_FLEEINGINJURED";
+															$SpecifyIntentString (ThisAgent, intent);
+															thisagent's "Activescript" = $use_building_safe;
+															thisagent's "backscript" = $use_building_safe;
+															thisagent's "target" = go_here;
+															thisagent's "destination" = $locationof(thisagent's "target");
+
+															$createeffector(thisagent,"thought_bubble_danger",#danger_bubble_time);
+															$say(thisagent,"VFX_FLEE_COMBAT");
+															return;
+														end
+												end
+											else
+												inns << thisagent's "home";
+										end
+
+									$list_enemies(thisagent,1);
+									if ($listsize(thisagent's "hostiles") > 0)
+										begin
+											// remove any buildings that are too close from the list
+											foreach inn in inns do
+												begin
+													if ($distancebetweenagents(thisagent,inn) > #Near_inn_dist)
+														new_list << inn;
+												end
+
+											inns = new_list;
+										end
+
+									if ($listsize(inns) > 0)
+										begin
+											go_here = $pick_closest(thisagent,inns);
+										end
+									else
+										begin
+											// hero has no where to flee to!
+											$go_berserk(thisagent);
+											return;
+										end
+
+									if (go_here == thisagent's "home")
+										begin
+											thisagent's "taskname" = "go_home";
+										end
+									else
+										thisagent's "taskname" = "visiting";
+									
+									thisagent's "TaskPackageFled" ++;
+									if ((thisagent's "TaskPackageFled" > $MinMax(3,7)) && (thisagent's "TaskPackageStatus" == "Ongoing"))
+										begin
+											thisagent's "TaskPackageStatus" = "Failed";
+										end
+									intent = "IDTXT_INTENT_FLEEINGINJURED";
+									$SpecifyIntentString (ThisAgent, intent);
+									thisagent's "Activescript" = $use_building_safe;
+									thisagent's "backscript" = $use_building_safe;
+									thisagent's "target" = go_here;
+									thisagent's "destination" = $locationof(thisagent's "target");
+
+									$createeffector(thisagent,"thought_bubble_danger",#danger_bubble_time);
+									$say(thisagent,"VFX_FLEE_COMBAT");
+
+								end
+							else
+								begin
+									// make last stand
+									$last_stand(thisagent,"IDTXT_INTENT_FLEEINGINJURED");
+								end
+						end
+				end
+		end
+end
+	

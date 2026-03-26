@@ -1,0 +1,854 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+// This function is called by the in-game code when a hero is dismissed
+function Unit_Dismissed(agent thisagent)
+
+declare
+	agent Home;
+
+begin
+	//Take unit off membership list if they are on one
+	if (thisagent's "Subtype" == "Hero")
+		begin
+			Home = ThisAgent's "Home";
+
+			If ($IsDead (Home) == False)
+
+				If ($HasAttribute ("Members", Home))
+
+					If ($AgentInList (ThisAgent, Home's "Members"))
+						begin
+
+							Home's "Members" -= ThisAgent;
+
+						end
+
+			// change units script to "pissed-off, I'm leaving the map..."
+			thisagent's "home" = $gettruepalace(thisagent);
+
+			thisagent's "basicscript" = $flee_map;
+
+			//If this agent is in a building, they should $Exit_Building (which will also reset tasks)
+			If ($InsideBuilding (ThisAgent))
+				$Exit_Building (ThisAgent, ThisAgent's "Target");
+			Else
+				$Reset_Tasks (ThisAgent);
+		end
+	else
+		(thisagent's "DismissScript")(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// This function is called by the in-game code when a unit's HP are set
+// to 0 or less
+function Unit_Call_Deathscript ( agent thisagent )
+
+declare
+
+begin
+
+	// TODO: REVIEW THE ADDITION OF THIS LINE! IT REPRESENTS A MAJOR LOW LEVEL CHANGE WITH
+	// POTENTIALLY SEVERE REPERCUSSIONS!!!
+	//$DeleteAllEffectors ( thisagent );
+	/////////////////////////////////
+
+	// call the unit's deathscript
+	if ($validfunction(thisagent's "IGDeathScript") == TRUE)
+		(thisagent's "IGDeathScript")(thisagent);
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function gravestone(agent thisagent)
+
+declare
+	integer 	grave_time, level;
+	agent		Target;
+
+begin
+	level = $getattribute ( thisagent, #ATTRIB_experiencelevel );
+
+	grave_time = #gravestone_lifespan * (( level / 3 ) + 1 );
+	if ( grave_time > #Gravestone_lifespan_max )
+		grave_time = #gravestone_lifespan_max;
+
+	if ($IsExpansion(thisagent) != FALSE)
+		if ( thisagent's "title" == "Solarus" )
+			if ( level >= #Solarii_Min_Supernova_Level )
+				$Supernova_Blast ( thisagent, thisagent );
+
+	thisagent's "type" = "Dead";
+
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEAD");
+
+	$MiniMapAnimation( ThisAgent, "hero_death" );
+
+	// NLS BUGFIX2
+	// need to do this to fix freeze spell gravestone bug
+	$ResumeThread(thisagent's "Activescript");
+
+	$stopmoving(thisagent);
+	// Drop some items, other will be dropped when be_dead is called.
+	$Hero_Drop_Immediate_Items(thisAgent);	
+	thisagent's "Activescript" = $be_dead;
+	$setthreadinterval(thisagent's "ActiveScript",grave_time);
+	$performaction(thisagent,"basic_death",thisagent);
+
+	//SINCE IT IS POSSIBLE FOR UNITS TO DIE INSIDE OF BUILDINGS, WE HAVE TO MAKE SURE
+	//TO CLEAN THE AGENT OFF OF AN OCCUPANTS LIST (IF THEY WERE ON ONE)...
+	Target = ThisAgent's "Target";
+	If ($IsValidGamePiece (ThisAgent's "Target") )
+		begin
+
+			//Does my target have an occupants list?
+			If ($HasAttribute ("Occupants", Target) )
+				//If so, am I on it?
+				If ( $AgentInList (ThisAgent, Target's "Occupants") )
+					//If yes, then take me off
+					Target's "Occupants" -= ThisAgent;
+
+		end
+
+
+	$LocalChatMessage( $GetUnitPlayerNumber( ThisAgent  ), #chat_character_died, ThisAgent );
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function be_dead(agent thisagent)
+declare
+	agent palace, home, spawn_target, AIRootAgent;
+	list buildings;
+	integer i;
+	boolean flag;
+
+begin
+	palace = $gettruepalace(thisagent);
+	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+
+	$Hero_Drop_Quest_Items (ThisAgent);
+
+	home = thisagent's "home";
+	if ( $isvalidgamepiece ( home ))
+		begin
+			if ( $hasattribute ( "members", home ))
+				home's "members" -= thisagent;
+		end
+
+	if ($IsExpansion(thisagent) != True)
+		begin
+			thisagent's "type" = "Waiting_to_die";
+			$Drop_All_Stack_Items(thisAgent);
+			(thisagent's "Unit_Type_Death")(thisagent);
+			$killthread(thisagent's "activescript");
+			$deletegamepiece(thisagent);
+
+			flag = TRUE;
+			if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
+				if ( AIRootAgent's "Deathmatch_Rules" == TRUE )
+					begin
+						if ($isvalidgamepiece(palace))
+							begin
+								$listobjects ( palace, "AutoBuilding", -1, buildings, #checktitles, "graveyard", #MyPlayer );
+
+								if ( $ListSize ( buildings ) >= #Deathmatch_Graveyard_Limit )
+									flag = FALSE;
+							end
+						else
+							flag = FALSE;
+					end
+
+			if ($isvalidgamepiece(palace))
+				begin
+					(palace's "num_deceased_heroes") ++;
+					if ( Flag == TRUE )
+						begin
+							if (palace's "num_deceased_heroes" >= #Graveyard_limit)
+								begin
+									palace's "num_deceased_heroes" = 0;
+
+									$listobjects ( palace, "building", -1, buildings, #MyPlayer, #ATTRIB_FirstStageBuilt, 1);
+
+									buildings << palace;
+
+									i = $listsize ( buildings );
+
+									spawn_target = $listmember ( buildings, $randomnumber ( i ) + 1 );
+
+									$spawngraveyard ( spawn_target, "graveyard" );
+								end
+						end
+				end
+			return;
+		end
+	if ( $Check_Mausoleum ( thisagent ) == FALSE )	// This check forces the script to bypass the normal death cycle
+		begin														// if a mausoleum inters the hero.
+		
+			$Drop_All_Stack_Items(thisAgent);
+			thisagent's "type" = "Waiting_to_die";
+			$killthread(thisagent's "activescript");
+			$deletegamepiece(thisagent);
+
+			flag = TRUE;
+			if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
+				if ( AIRootAgent's "Deathmatch_Rules" == TRUE )
+					begin
+						if ($isvalidgamepiece(palace))
+							begin
+								$listobjects ( palace, "AutoBuilding", -1, buildings, #checktitles, "graveyard", #MyPlayer );
+
+								if ( $ListSize ( buildings ) >= #Deathmatch_Graveyard_Limit )
+									flag = FALSE;
+							end
+						else
+							flag = FALSE;
+					end
+
+			If (AIRootAgent's "Quest_Number" == #QNumber_Vale_Serpents)
+				begin
+
+					Flag = False;
+
+				end
+
+			if ($isvalidgamepiece(palace))
+				begin
+					(palace's "num_deceased_heroes") ++;
+					if ( Flag == TRUE )
+						begin
+							if (palace's "num_deceased_heroes" >= #Graveyard_limit)
+								begin
+									palace's "num_deceased_heroes" = 0;
+
+									$listobjects ( palace, "building", -1, buildings, #MyPlayer, #ATTRIB_FirstStageBuilt, 1);
+
+									buildings << palace;
+
+									i = $listsize ( buildings );
+
+									spawn_target = $listmember ( buildings, $randomnumber ( i ) + 1 );
+
+									$spawngraveyard ( spawn_target, "graveyard" );
+								end
+						end
+				end
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function peasant_death(agent thisagent)
+
+declare
+	agent home, palace;
+
+begin
+	home = thisagent's "home";
+	palace = $GetPalace(thisagent);
+
+	$Sanguine_Pit_HenchmanDeath(thisagent);
+	
+	if ($isdead(palace) != TRUE)
+			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
+			
+	if ($isvalidgamepiece(home))
+		begin
+			home's "num_peasants" --;
+		//	if (home's "num_peasants" == 0)
+		//		begin
+		//		end
+		//	else
+				begin
+					if (thisagent's "target" != $nullagent())
+						if (thisagent's "target" != thisagent's "home")
+							if (thisagent's "target" != thisagent)
+							begin
+								// the peasant was on his way to a building
+								// make sure that building gets back on the list if neccessary
+		//						home's "buildings_under_construction" -= thisagent's "target";
+		//						home's "buildings_waiting" << thisagent's "target";
+								home's "busy_peasants"--;
+							end
+				end
+
+			if ($isrunning(home's "peasant_spawn") == FALSE)
+				$RunThread(home's "peasant_spawn",#Peasant_delay,home);
+
+		end
+   thisagent's "type" = "Waiting_to_die";
+
+	$killthread(thisagent's "activescript");
+
+	$performaction(thisagent,"henchman_death",thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Guard_Death (agent ThisAgent)
+Declare
+	agent		Home, palace;
+	string num_guards;
+
+Begin
+	Home = ThisAgent's "Home";
+	num_guards = "num_" + thisagent's "Title";
+	$StopMoving (ThisAgent);
+
+	palace = $GetPalace(thisagent);
+	
+//	$Sanguine_Pit_HenchmanDeath(thisagent);
+	
+//	if ($isdead(palace) != TRUE)
+//			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
+			
+	if ($isvalidgamepiece(home) == TRUE)
+		if ($isdead(home) == FALSE)
+			begin
+				Home's "Guards" -= ThisAgent;
+
+				If ($AgentInList (ThisAgent, Home's "Waiting_Guards"))
+					Home's "Waiting_Guards" -= ThisAgent;
+
+				if (thisagent's "Title" != "Palace_Guard")
+					begin
+						(Home's Num_Guards) --;
+
+						$GuardhouseRestartGuardSpawnThread(Home, thisagent's "Recruit_Time", thisagent's "Title");
+					end
+				else
+					begin
+						(Home's "Num_Guards") --;
+						$RestartGuardSpawnThread(Home, #Guard_Spawn_Time);
+					end
+			end
+
+   thisagent's "type" = "Waiting_to_die";
+	$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function Royal_Archer_Death (agent ThisAgent)
+Declare
+	agent		Home, palace;
+
+Begin
+	
+	Home = ThisAgent's "Home";
+	$StopMoving (ThisAgent);
+
+	palace = $GetPalace(thisagent);
+
+	$Sanguine_Pit_HenchmanDeath(thisagent);
+	
+	if ($isdead(palace) != TRUE)
+			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
+			
+	if ($isvalidgamepiece(home) == TRUE)
+		if ($isdead(home) == FALSE)
+			begin
+				$RestartGuardSpawnThread(Home, #Guard_Spawn_Time);
+			end
+
+   thisagent's "type" = "Waiting_to_die";
+	$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+///////////////////////////////////////////////////////////////////////////////
+function Mercenary_Arbalest_Death (agent ThisAgent)
+Declare
+	agent		Home, palace;
+
+Begin
+	
+	Home = ThisAgent's "Home";
+	$StopMoving (ThisAgent);
+
+	palace = $GetPalace(thisagent);
+
+	$Sanguine_Pit_HenchmanDeath(thisagent);
+	
+	if ($isdead(palace) != TRUE)
+			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
+			
+	if ($isvalidgamepiece(home) == TRUE)
+		if ($isdead(home) == FALSE)
+			begin
+				$RestartGuardSpawnThread(Home, #Guard_Spawn_Time);
+			end
+
+   thisagent's "type" = "Waiting_to_die";
+	$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function Court_Mage_Death (agent ThisAgent)
+Declare
+	agent		Home, palace;
+
+Begin
+	
+	Home = ThisAgent's "Home";
+	$StopMoving (ThisAgent);
+
+	palace = $GetPalace(thisagent);
+
+	$Sanguine_Pit_HenchmanDeath(thisagent);
+	
+	if ($isdead(palace) != TRUE)
+			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
+			
+	if ($isvalidgamepiece(home) == TRUE)
+		if ($isdead(home) == FALSE)
+			begin
+				$RestartGuardSpawnThread(Home, #Guard_Spawn_Time);
+			end
+
+   thisagent's "type" = "Waiting_to_die";
+	$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function Squire_Death (agent ThisAgent)
+Declare
+	agent		Home, palace;
+
+Begin
+	
+	Home = ThisAgent's "Home";
+	$StopMoving (ThisAgent);
+
+	palace = $GetPalace(thisagent);
+
+	$Sanguine_Pit_HenchmanDeath(thisagent);
+	
+	if ($isdead(palace) != TRUE)
+			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
+			
+	if ($isvalidgamepiece(home) == TRUE)
+		if ($isdead(home) == FALSE)
+			begin
+				$RestartGuardSpawnThread(Home, #Guard_Spawn_Time);
+			end
+
+   thisagent's "type" = "Waiting_to_die";
+	$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////SPELL UNIT DEATHS SECTION///////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+function SpellDummyDeath (agent ThisAgent)
+Declare
+	agent		parent;
+
+Begin
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////HERO SECTION//////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is what happens when a Hero's Regenerate spell buff ends.
+function Wizard_FireShieldBuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer stat, add_resistance, add_armor;
+
+Begin
+	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
+	add_armor = (1 + (stat / 8));
+	add_resistance = (10 + (stat / 5));
+	
+	add_resistance = $EffectBuff(thisagent, thisagent, add_resistance);
+	add_armor = $EffectBuff(thisagent, thisagent, add_armor);
+	
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			$MagicalAdjustAttribute(parent, #ATTRIB_magicresistance, - add_resistance);
+			$adjustattribute(parent,#ATTRIB_Armor_Basic_Damage, - add_armor);
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is what happens when a Hero's Regenerate spell buff ends.
+function Generic_RegenerateBuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer stat, regen_amount;
+
+Begin
+	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
+	regen_amount = (1 + (stat / 6));
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			//$SetAttribute ( parent, #ATTRIB_HasEffectRegeneration, 0 );
+
+			$AdjustAttribute ( parent, #ATTRIB_HealingRateModifier, regen_amount );
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is what happens when the Priestess's Wither spell debuff ends.
+function Priestess_WitherDebuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer stat, attack_slow, move_slow, minus_strength;
+
+Begin
+	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
+	minus_strength = (3 + (stat / 5));
+	attack_slow = (150 + (stat * 2));
+	move_slow = (60 + (stat));
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			//$AdjustAttribute( parent, #ATTRIB_HasEffectWither, -1 );
+
+			$AdjustAttribute(parent,#ATTRIB_Strength, minus_strength);
+			$adjustattribute(parent,#ATTRIB_ActionRateModifier, - attack_slow);
+			$adjustattribute(parent,#ATTRIB_MovementRateModifier, - move_slow );
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+////////////////////////////////////HENCHMAN SECTION//////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// This is overloaded because it is now responsible for spawning broken sewer
+// when a certain number of henchmen die.
+function henchman_dead(agent thisagent, agent target)
+declare
+	agent 	AIRootAgent, Palace, bldg;
+	list 		bldgs;
+	integer	i;
+	boolean	Flag;
+
+begin
+	Flag = True;
+
+	AIRootAgent = $RetrieveAgent ("GPLAiRoot");
+
+	//If this is Valley of the Serpents, then no infrastructure
+	//So don't enter the logic below that spawns Broken Sewers
+	If ( AIRootAgent's "Quest_Number" == #QNumber_Vale_Serpents )
+		begin
+
+			Flag = False;
+
+		end
+
+	If (Flag)
+		begin
+
+			//Get the real root palace
+			Palace = $GetTruePalace (ThisAgent);
+
+			If ($IsDead (Palace) == False)
+				begin
+					(Palace's "henchmen_dead_lately") ++;
+
+					if (palace's "henchmen_dead_lately" == #Broken_sewer_HDeath_limit)
+						begin
+							palace's "henchmen_dead_lately" = 0;
+
+							$listobjects(palace,"building",-1,bldgs,#MyPlayer, #ATTRIB_FirstStageBuilt, 1);
+							//bldgs = $listcompleted(bldgs);
+
+							bldgs << palace;
+
+							i = $listsize(bldgs);
+
+							bldg = $listmember(bldgs,$randomnumber(i) + 1);
+
+							$spawnunit(bldg, "BrokenSewerMain","maxhp");
+						end
+
+				end
+
+		end
+
+	(thisagent's "Unit_Type_Death")(thisagent);
+	$deletegamepiece(thisagent);
+
+end
+///////////////////////////////////////////////////////////////////////////////
+
+//This is what happens when Healing Salve comes off cooldown.
+function HealingSalveCooldown_Death (agent ThisAgent)
+Declare
+	agent		parent;
+
+Begin
+	
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			$AdjustAttribute (parent, #ATTRIB_NumHealingPotions, 1);
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+//This is what happens when Volley buff wears off.
+function ma_VolleyBuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer stat, attackspeed;
+
+Begin
+	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
+	attackspeed = 2000;
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			$adjustattribute(parent, #ATTRIB_ActionRateModifier, attackspeed);
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+///////////////////////////////////////////////////////////////////////////////
+//This is what happens when Corrosion Ball debuff wears off.
+function cm_CorrosionBallDebuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer minusarmor;
+
+Begin
+	minusarmor = $getattribute(thisagent, #ATTRIB_Armor_Basic_Damage);
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			$adjustattribute(parent, #ATTRIB_Armor_Basic_Damage, minusarmor);
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is what happens when the Court Mage's Enchant Wizard Tower spell buff ends.
+function cm_EnchantWizardTowerBuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer stat;
+
+Begin
+	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			$adjustattribute(parent,#ATTRIB_SightRange, - stat );
+			$adjustattribute(parent,#ATTRIB_Intelligence, - stat );
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is what happens when the Court Mage's Etherealize spell debuff ends.
+function cm_EtherealizeDebuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer stat, move_slow, attack_slow, minus_res;
+
+Begin
+	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
+	move_slow = ((stat * 3) / 2);
+	attack_slow = (stat * 3);
+	minus_res = (20 + (stat / 5));
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			$adjustattribute(parent,#ATTRIB_MovementRateModifier, - move_slow );
+			$adjustattribute(parent,#ATTRIB_ActionRateModifier, - attack_slow );
+			$adjustattribute(parent,#ATTRIB_MagicResistance, minus_res );
+			$GetProperUnitArt(parent);
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//This is what happens when the Court Mage's Acid Fog HP debuff ends.
+function cm_AcidFogDebuff_Death (agent ThisAgent)
+Declare
+	agent		parent;
+	integer HP_Amount;
+
+Begin
+	HP_Amount = $getattribute(thisagent, #ATTRIB_Intelligence);
+	parent = $GetParent(thisagent);
+	if ($IsValidGamePiece(parent) == TRUE)
+		begin
+			$adjustattribute(parent,#ATTRIB_MaxHP, HP_Amount );
+		end
+	
+   thisagent's "type" = "Waiting_to_die";
+	//$killthread(thisagent's "activescript");
+	$performaction(thisagent,"henchman_death",thisagent);
+End
+
+///////////////////////////////////MONSTER SECTION/////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+//This effect triggers everytime the period for buffing hits and restarts again.
+function cm_SpiritTrollBuff_Death (agent ThisAgent)
+Declare
+	integer regen_amount, armor_amount, MaxHP, IncreaseMaxHP, HealCurrentHP;
+
+Begin
+	if ($IsValidGamePiece(ThisAgent) == TRUE)
+		begin
+			regen_amount = $getattribute(thisagent, #ATTRIB_HealingRateModifier);
+			//armor_amount = $getattribute(thisagent, #ATTRIB_Armor_Basic_Damage);
+			MaxHP = $getattribute(thisagent, #ATTRIB_MaxHP);
+			IncreaseMaxHP = (MaxHP / 100);
+			
+			if (IncreaseMaxHP < 1)
+				IncreaseMaxHP = 1;
+				
+			HealCurrentHP = (IncreaseMaxHP / 2);
+			
+			if ($isdead(thisagent) != TRUE)
+				begin
+					if (regen_amount < 50)
+						$adjustattribute(thisagent, #ATTRIB_HealingRateModifier, -1);
+					//else if (armor_amount < 20)
+					//	$AdjustAttribute(thisagent, #ATTRIB_Armor_Basic_Damage, 1);
+					
+					if (MaxHP < 1500)
+						$adjustattribute(thisagent, #ATTRIB_MaxHP, IncreaseMaxHP);
+					
+					if (HealCurrentHP > 1)
+						$adjustattribute(thisagent, #ATTRIB_HP, HealCurrentHP);
+					
+					$SpellTimeoutEffect( thisagent, $cm_SpiritTrollBuff_Death, 300, #ATTRIB_Intelligence, 1, 0, 0,0,0,0  );
+					
+				end
+		end
+	
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function Barbarian_Death (agent ThisAgent)
+Declare
+	integer	Time, Chance;
+	agent		Target;
+
+Begin
+	if ($IsExpansion(thisagent)==False)
+		begin
+			$GraveStone (ThisAgent);
+			return;
+		end
+	
+	ThisAgent's "Type" = "Dead";
+	$StopMoving (ThisAgent);
+
+	// NLS BUGFIX2
+	// need to do this to fix freeze spell gravestone bug
+	$ResumeThread(thisagent's "Activescript");
+
+	//If the Barabarian makes their knockdown roll, then they don't die
+	//they just get knocked out for a random duration.
+
+	Chance = #Barbarian_Min_Knockdown_Chance + $GetAttribute (ThisAgent, #ATTRIB_ExperienceLevel);
+	If (Chance > #Barbarian_Max_Knockdown_Chance)
+		Chance = #Barbarian_Max_Knockdown_Chance;
+
+	//If the Barabarian makes their knockdown roll, then they don't die
+	//they just get knocked out for a random duration.
+	If ( Chance > ( $RandomNumber (100) + 1 ) )
+		begin
+
+			//SINCE IT IS POSSIBLE FOR UNITS TO DIE INSIDE OF BUILDINGS, WE HAVE TO MAKE SURE
+			//TO CLEAN THE AGENT OFF OF AN OCCUPANTS LIST (IF THEY WERE ON ONE)...
+			Target = ThisAgent's "Target";
+			If ($IsValidGamePiece (ThisAgent's "Target") )
+				begin
+
+					//Does my target have an occupants list?
+					If ($HasAttribute ("Occupants", Target) )
+						//If so, am I on it?
+						If ( $AgentInList (ThisAgent, Target's "Occupants") )
+							//If yes, then take me off
+							Target's "Occupants" -= ThisAgent;
+
+				end
+
+
+			$PerformAction (ThisAgent, "Knockout", ThisAgent);
+
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_UNCONSCIOUS");
+
+			$LocalChatMessage( $GetUnitPlayerNumber( ThisAgent  ), "IDTXT_INTENT_UNCONSCIOUS", ThisAgent );
+
+			//Can's be flagged or spell targetted
+			$SetAttribute (ThisAgent, #ATTRIB_NotFlaggable, 1);
+			$SetAttribute (ThisAgent, #ATTRIB_NotSpellTarget, 2);
+
+			Time = (#Barbarian_Min_Knockout_Time + $RandomNumber (#Barbarian_Max_Knockout_Time - #Barbarian_Min_Knockout_Time));
+
+			ThisAgent's "ActiveScript" = $Barbarian_Wakeup;
+
+			$SetThreadInterval (ThisAgent's "ActiveScript", Time);
+
+		end
+
+	Else
+		begin
+			$GraveStone (ThisAgent);
+		end
+End
+//////////////////////////////////////////////////////////////////////////////////////////////
+Function Barbarian_Wakeup (agent ThisAgent)
+Declare
+
+Begin
+
+	// Heal to half-full
+	$SetAttribute (ThisAgent, #ATTRIB_HP, $GetAttribute (ThisAgent, #ATTRIB_MaxHP) / 2 );
+
+	ThisAgent's "ActiveScript" = ThisAgent's "StartingScript";
+
+	ThisAgent's "Type" = "Hero";
+
+	//Can be flagged or spell targetted again
+	$SetAttribute (ThisAgent, #ATTRIB_NotFlaggable, 0);
+	$SetAttribute (ThisAgent, #ATTRIB_NotSpellTarget, 0);
+
+	$PerformAction (ThisAgent, "Standup", ThisAgent);
+
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+
+End

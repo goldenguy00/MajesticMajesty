@@ -1,0 +1,1058 @@
+<Majesty>
+	<Description type="Unit" subType="Character" ID="TaintedBark" Name="TaintedBark" Description="IDTXT_ITEM_TAINTEDBARK">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_TAINTEDBARK_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="TaintedBark" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="DragonScale" Name="DragonScale" Description="IDTXT_ITEM_DRAGONSCALE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_DRAGONSCALE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="DragonScale" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="DragonClaw" Name="DragonClaw" Description="IDTXT_ITEM_DRAGONCLAW">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_DRAGONCLAW_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="DragonClaw" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="DragonEye" Name="DragonEye" Description="IDTXT_ITEM_DRAGONEYE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_DRAGONEYE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="DragonEye" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="EtherealLeaf" Name="EtherealLeaf" Description="IDTXT_ITEM_ETHEREALLEAF">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_ETHEREALLEAF_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="EtherealLeaf" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="OculusEye" Name="OculusEye" Description="IDTXT_ITEM_OCULUSEYE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_OCULUSEYE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="OculusEye" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="SulphuricBlood" Name="SulphuricBlood" Description="IDTXT_ITEM_SULPHURICBLOOD">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_SULPHURICBLOOD_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="SulphuricBlood" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="StrangleweedNectar" Name="StrangleweedNectar" Description="IDTXT_ITEM_STRANGLEWEEDNECTAR">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_STRANGLEWEEDNECTAR_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="StrangleweedNectar" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="SpiderVenom" Name="SpiderVenom" Description="IDTXT_ITEM_SPIDERVENOM">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_SPIDERVENOM_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="SpiderVenom" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="SpiderSilk" Name="SpiderSilk" Description="IDTXT_ITEM_SPIDERSILK">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_SPIDERSILK_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="SpiderSilk" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="HarpyTalon" Name="HarpyTalon" Description="IDTXT_ITEM_HARPYTALON">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_HARPYTALON_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="HarpyTalon" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="BearPelt" Name="BearPelt" Description="IDTXT_ITEM_BEARPELT">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_BEARPELT_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="BearPelt" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="MedusaScale" Name="MedusaScale" Description="IDTXT_ITEM_MEDUSASCALE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MEDUSASCALE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="MedusaScale" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="PetrifiedEye" Name="PetrifiedEye" Description="IDTXT_ITEM_PETRIFIEDEYE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_PETRIFIEDEYE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="PetrifiedEye" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="MinotaurFur" Name="MinotaurFur" Description="IDTXT_ITEM_MINOTAURFUR">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MINOTAURFUR_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="MinotaurFur" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="MinotaurBlood" Name="MinotaurBlood" Description="IDTXT_ITEM_MINOTAURBLOOD">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MINOTAURBLOOD_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="MinotaurBlood" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="WarpedPaw" Name="WarpedPaw" Description="IDTXT_ITEM_WARPEDPAW">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_WARPEDPAW_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="WarpedPaw" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="GiantFeather" Name="GiantFeather" Description="IDTXT_ITEM_GIANTFEATHER">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_GIANTFEATHER_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="GiantFeather" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="RocTalon" Name="RocTalon" Description="IDTXT_ITEM_ROCTALON">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_ROCTALON_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="RocTalon" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="EnchantedEarth" Name="EnchantedEarth" Description="IDTXT_ITEM_ENCHANTEDEARTH">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_ENCHANTEDEARTH_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="EnchantedEarth" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="EnchantedMarble" Name="EnchantedMarble" Description="IDTXT_ITEM_ENCHANTEDMARBLE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_ENCHANTEDMARBLE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="EnchantedMarble" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="VialOfAcid" Name="VialOfAcid" Description="IDTXT_ITEM_VIALOFACID">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_VIALOFACID_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="VialOfAcid" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="FracturedSkull" Name="FracturedSkull" Description="IDTXT_ITEM_FRACTUREDSKULL">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_FRACTUREDSKULL_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="FracturedSkull" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="Bonemeal" Name="Bonemeal" Description="IDTXT_ITEM_BONEMEAL">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_BONEMEAL_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="Bonemeal" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ShiftingFungus" Name="ShiftingFungus" Description="IDTXT_ITEM_SHIFTINGFUNGUS">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_SHIFTINGFUNGUS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="ShiftingFungus" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="TrollSpores" Name="TrollSpores" Description="IDTXT_ITEM_TROLLSPORES">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_TROLLSPORES_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="TrollSpores" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="VampireDust" Name="VampireDust" Description="IDTXT_ITEM_VAMPIREDUST">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_VAMPIREDUST_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="VampireDust" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="VampireFang" Name="VampireFang" Description="IDTXT_ITEM_VAMPIREFANG">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_VAMPIREFANG_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="VampireFang" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="VargPelt" Name="VargPelt" Description="IDTXT_ITEM_VARGPELT">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_VARGPELT_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="VargPelt" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="EnlargedCanine" Name="EnlargedCanine" Description="IDTXT_ITEM_ENLARGEDCANINE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_ENLARGEDCANINE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="EnlargedCanine" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="WerewolfHide" Name="WerewolfHide" Description="IDTXT_ITEM_WEREWOLFHIDE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_WEREWOLFHIDE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="WerewolfHide" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="WerewolfClaw" Name="WerewolfClaw" Description="IDTXT_ITEM_WEREWOLFCLAW">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_WEREWOLFCLAW_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="WerewolfClaw" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="RottingFlesh" Name="RottingFlesh" Description="IDTXT_ITEM_ROTTINGFLESH">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_ROTTINGFLESH_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="RottingFlesh" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="RatTail" Name="RatTail" Description="IDTXT_ITEM_RATTAIL">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_RATTAIL_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="RatTail" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="GoblinEar" Name="GoblinEar" Description="IDTXT_ITEM_GOBLINEAR">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_GOBLINEAR_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="GoblinEar" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="DuskFang" Name="DuskFang" Description="IDTXT_ITEM_DUSKFANG">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_DUSKFANG_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="DuskFang" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="RustedGear" Name="RustedGear" Description="IDTXT_ITEM_RUSTEDGEAR">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_RUSTEDGEAR_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="RustedGear" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="MedicinePouch" Name="MedicinePouch" Description="IDTXT_ITEM_MEDICINEPOUCH">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MEDICINEPOUCH_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="MedicinePouch" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="MetalPlateArmor" Name="MetalPlateArmor" Description="IDTXT_ITEM_METALPLATEARMOR">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_METALPLATEARMOR_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="MetalPlateArmor" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="MassiveAxe" Name="MassiveAxe" Description="IDTXT_ITEM_MASSIVEAXE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MASSIVEAXE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="MassiveAxe" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="MassiveFang" Name="MassiveFang" Description="IDTXT_ITEM_MASSIVEFANG">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MASSIVEFANG_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="MassiveFang" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="GorgonHead" Name="GorgonHead" Description="IDTXT_ITEM_GORGONHEAD">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_GORGONHEAD_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="GorgonHead" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="Frostblood" Name="Frostblood" Description="IDTXT_ITEM_FROSTBLOOD">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_FROSTBLOOD_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="Frostblood" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="FrozenCore" Name="FrozenCore" Description="IDTXT_ITEM_FROZENCORE">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_FROZENCORE_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="FrozenCore" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+</Majesty>

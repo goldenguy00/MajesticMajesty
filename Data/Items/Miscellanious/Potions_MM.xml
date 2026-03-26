@@ -1,0 +1,290 @@
+<Majesty>
+	<Description type="Unit" subType="Character" ID="HealingPotions1" Name="Healing_Potions1" Description="IDTXT_ITEM_HEALINGPOTIONS_1">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_HEALINGPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="HealingPotions1" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="HealingPotions2" Name="Healing_Potions2" Description="IDTXT_ITEM_HEALINGPOTIONS_2">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_HEALINGPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="HealingPotions2" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="HealingPotions3" Name="Healing_Potions3" Description="IDTXT_ITEM_HEALINGPOTIONS_3">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_HEALINGPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="HealingPotions3" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="HealingPotions4" Name="Healing_Potions4" Description="IDTXT_ITEM_HEALINGPOTIONS_4">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_HEALINGPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="HealingPotions4" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="HealingPotions5" Name="Healing_Potions5" Description="IDTXT_ITEM_HEALINGPOTIONS_5">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_HEALINGPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="HealingPotions5" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="HealingPotions6" Name="Healing_Potions6" Description="IDTXT_ITEM_HEALINGPOTIONS_6">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_HEALINGPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="HealingPotions6" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ManaPotions1" Name="Mana_Potions1" Description="IDTXT_ITEM_MANAPOTIONS_1">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MANAPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="ManaPotions1" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ManaPotions2" Name="Mana_Potions2" Description="IDTXT_ITEM_MANAPOTIONS_2">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MANAPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="ManaPotions2" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ManaPotions3" Name="Mana_Potions3" Description="IDTXT_ITEM_MANAPOTIONS_3">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MANAPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="ManaPotions3" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ManaPotions4" Name="Mana_Potions4" Description="IDTXT_ITEM_MANAPOTIONS_4">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MANAPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="ManaPotions4" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ManaPotions5" Name="Mana_Potions5" Description="IDTXT_ITEM_MANAPOTIONS_5">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MANAPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="ManaPotions5" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ManaPotions6" Name="Mana_Potions6" Description="IDTXT_ITEM_MANAPOTIONS_6">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APb1"/>
+			<MaxHP value="10"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="IsInventoryItem"/>
+			<HelpID value="IDTXT_ITEM_MANAPOTIONS_HELP"/>
+			<Attributes>
+				<Attribute ID="CanDropItem" Value="0"/>			
+				<Attribute ID="ManaPotions6" Value="0"/>
+			</Attributes>
+		</Game>
+	</Description>
+</Majesty>

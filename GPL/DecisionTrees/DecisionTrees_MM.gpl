@@ -1,0 +1,3097 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function adept_tree(agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+
+	if ($Open_Bank_Account(thisagent) == False)
+	
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 45) == False)
+	
+	if ($Check_Champion_Rewards (ThisAgent, 85) == False)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($patrol(thisagent, "building", 65) == FALSE)
+
+	if ($Combat_wandering(thisagent,60) == False)
+
+	if ($combat_wandering_heroes(thisagent,55) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 20) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",25) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",40) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 60) == False)
+
+	if ($Go_home(thisagent,95) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function barbarian_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False) //Barbarians are attracted to attack flags
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Rangers_guild") == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($raid_enemy_building(thisagent,95) == False)
+
+	if ($Raid_lair(thisagent,95) == False)
+
+	if ($combat_wandering_heroes(thisagent,95) == False)
+
+	if ($Combat_wandering(thisagent,95) == False)
+
+	if	($explore_map(thisagent,45) == FALSE)
+
+	if ($check_library(thisagent, "Train_magic_resist",5) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",5) == FALSE)
+
+	if ($collect_special_item (ThisAgent, 30) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 5) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 40) == False)
+
+	if ($Go_home(thisagent,45) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Cultist_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+		
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+   if ($Build_Pack(ThisAgent,95) == False)
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Swarm (ThisAgent, 90) == False)
+
+	if ($Combat_wandering(thisagent,85) == False) //Cultists never attack animals, they try to charm them
+
+	if ($combat_wandering_heroes(thisagent,85) == False)
+
+	if ($Patrol (ThisAgent, "Animal_Den", 60) == False)
+
+	if ($Steal_Check(thisagent,25) == False)
+
+	if ($Seed_Resource_Check (ThisAgent, 55) == False)
+
+	if ($collect_special_item (ThisAgent, 45) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 20) == False)
+
+	if ($Go_home(thisagent,30) == False)
+
+	if ($Raid_lair(thisagent,20) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 50) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",25) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",30) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 50) == False)
+
+	if ($raid_enemy_building(thisagent,20) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Discord_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Temple_Fervus") == False)
+
+	if ($rest(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+//	if ($Join_Cult_Mob(thisagent,20) == False)
+
+	if ($raid_enemy_building(thisagent,95) == False)
+
+	if ($Raid_lair(thisagent,95) == False)
+
+	if ($combat_wandering_heroes(thisagent,95) == False)
+
+	if ($Combat_wandering(thisagent,95) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 20) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",5) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",5) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 10) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 5) == False)
+
+	if ($Go_home(thisagent,50) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Dwarf_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+		
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Blacksmith") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 35) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($Raid_lair(thisagent,75) == False)  //Dwarves do extra damage against buildings
+
+	if ($raid_enemy_building(thisagent,80) == False)
+
+	if ($Check_Champion_Rewards (ThisAgent, 70) == False)
+
+	if ($Combat_wandering(thisagent,15) == False)
+
+	if ($combat_wandering_heroes(thisagent,15) == False)
+
+	if ($help_build(thisagent,2000,85) == False)
+
+	if ($collect_special_item (ThisAgent, 40) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 20) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",15) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",25) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 20) == False)
+
+	if ($Go_home(thisagent,80) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Elf_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Gambling_hall") == FALSE)
+
+	if ($defend_building(thisagent,"Brothel") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 50) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 20) == False)
+
+	if ($Visit_Building(ThisAgent, "Trading_Post", 35) == False)
+
+	if ($Visit_Building(ThisAgent, "Marketplace", 20) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 60) == False)
+
+	if ($Combat_wandering(thisagent,80) == False)
+
+	if ($Combat_wandering_heroes(thisagent,80) == False)
+
+	if ($Raid_lair(thisagent,15) == False)
+
+	if ($Raid_enemy_building(thisagent,15) == False)
+
+	if ($Steal_Check(thisagent,50) == False)
+
+	if ($collect_special_item (ThisAgent, 80) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 45) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",25) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",55) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 20) == False)
+
+
+	if ($Go_home(thisagent,90) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Gnome_tree (agent thisagent)
+
+declare
+
+begin
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+//	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($help_build(thisagent,3500,75) == False)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($Combat_Wandering (ThisAgent, 20) == False)
+
+	if ($Combat_wandering_heroes( thisagent,10) == False)
+
+//  	if ($Swarm (thisagent,90) == False)
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 50) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",10) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",15) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 5) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 15) == False)
+
+	if ($Go_home(thisagent,90) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Healer_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+ 	if ($Heal_Others(ThisAgent,95) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 50) == False)
+	
+	if ($Follow_Heal_Check (ThisAgent, "Warrior", 75) == False)
+
+	if ($Follow_Heal_Check (ThisAgent, "Wizard", 35) == False)
+
+	if ($Follow_Heal_Check (thisagent, "tax_collector",50) == FALSE)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Seed_Resource_Check (ThisAgent, 50) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 20) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 50) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",35) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 70) == False)
+
+	if ($Go_home(thisagent,90) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Monk_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Marketplace") == FALSE)
+
+	if ($rest(thisagent) == False)
+
+//	if ($Guard_check(thisagent,"hero","Healer",95) == False)
+
+//	if ($Guard_check(ThisAgent,"hero","caravan",75) == False)
+
+	if ($Combat_wandering(thisagent,75) == False)
+
+	if ($Raid_Lair(ThisAgent,50) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 50) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 40) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",45) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",55) == FALSE)
+
+	if ($collect_special_item (ThisAgent, 70) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 10) == False)
+	
+	if ($Hall_Champs_Check(thisagent, 50) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 75) == False)
+
+	if ($Go_home(thisagent,60) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Paladin_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Temple_Dauros") == False)
+
+	if ($rest(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 80) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+	
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 60) == False)
+
+	if ($Raid_lair(thisagent,85) == False)
+
+	if ($raid_enemy_building(thisagent,85) == FALSE)
+
+	if ($Combat_wandering(thisagent,90) == False)
+
+	if ($combat_wandering_heroes(thisagent,80) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 10) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 60) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",25) == FALSE)
+
+	if ($Go_home(thisagent,80) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Priestess_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+   if ($Build_Horde(ThisAgent,95) == False)
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+	
+	if ($Check_Library(thisagent, "Priestess_Spell",90) == False)
+
+	if ($Combat_wandering(thisagent,75) == False) //Priestesses never attack undead-- they try to control them
+
+	if ($combat_wandering_heroes(thisagent,70) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 30) == False)
+	
+	if ($Raid_Lair(ThisAgent,40) == False)
+
+	if ($raid_enemy_building(thisagent,30) == FALSE)
+
+	if ($Explore_Map(thisagent,50) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 15) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",45) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",70) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 45) == False)
+
+	if ($Go_home(thisagent,80) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function ranger_tree (agent thisagent)
+
+declare
+
+begin
+
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"trading_post") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Collect_resource(thisagent,"healing_herbs",95) == FALSE)
+
+	if ($follow_support_check(thisagent,"barbarian",90) == FALSE)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 40) == False)
+	
+	if ($explore_map(thisagent,95) == false)
+
+	if ($Combat_wandering(thisagent,75) == False)
+
+	if ($combat_wandering_heroes(thisagent,55) == False)
+
+// if ($Heal_another(thisagent,80) == False)
+
+   if ($Journey_Offmap_Check (thisagent,30) == false)
+
+	if ($Go_home(thisagent,15) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",15) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",30) == FALSE)
+
+	if ($Raid_lair(thisagent,15) == False)
+
+	if ($raid_enemy_building(thisagent,10) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 30) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 35) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 15) == False)
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Rogue_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+	
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Gambling_hall") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Loot_Gravestones(ThisAgent,100) == False)
+
+	if ($Steal_Check(thisagent,95) == False)
+
+	if ($collect_special_item (ThisAgent, 90) == False)
+
+	if ($Collect_Resource(thisagent,"poison_plants",90) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",15) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",25) == FALSE)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($Combat_wandering(thisagent,65) == False)
+
+	if ($combat_wandering_heroes(thisagent,55) == False)
+
+//	if ($Raid_lair(thisagent,35) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 35) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 25) == False)
+	
+	if	($explore_map(thisagent,20) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 30) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 15) == False)
+
+	if ($Go_home(thisagent,95) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Solarus_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Marketplace") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 65) == False)
+	
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	//if ($Raid_lair(thisagent,95) == False)
+
+	if ($Check_Champion_Rewards (ThisAgent, 70) == False)
+
+	//This covers both hidden and unhidden lairs
+	if ($Find_Lair (ThisAgent, 95) == False)
+
+	if ($Raid_enemy_building(thisagent,95) == False)
+
+	//if ($patrol(thisagent, "guardhouse", 25) == FALSE)
+
+	if ($Garrison_Check(ThisAgent, 50) == False)
+
+	if ($explore_map(thisagent,75) == FALSE)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 15) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 40) == False)
+	
+	if ($check_library(thisagent, "Train_magic_resist",15) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",50) == FALSE)
+
+	if ($Go_home(thisagent,5) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function warrior_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	$Display_Total_Attack_Damage(thisagent);
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"temple_agrela") == FALSE)
+	
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 50) == False)
+	
+//	if ($Guard_check(thisagent,"hero","caravan",90) == FALSE)
+
+	if ($Raid_lair(thisagent,95) == False)
+
+	if ($raid_enemy_building(thisagent,90) == False)
+
+	if ($Combat_wandering(thisagent,95) == False)
+
+	if ($combat_wandering_heroes(thisagent,95) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 50) == False)
+
+	if ($check_library(thisagent, "Train_magic_resist",10) == FALSE)
+
+	if ($check_library(thisagent, "Learn_generic_spell",10) == FALSE)
+
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 30) == False)
+	
+	if ($collect_special_item (ThisAgent, 20) == False)
+
+	if ($Go_home(thisagent,90) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 20) == False)
+
+	if	($explore_map(thisagent,45) == FALSE)
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+
+function Wizard_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+					
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Library") == FALSE)
+
+	if ($defend_building(thisagent,"Marketplace") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 70) == False)
+	
+	if ($Collect_Resource (ThisAgent, "Magic_Crystals",90) == FALSE)
+
+	if ($Check_Library(thisagent, "Wizard_Spell",90) == False)
+
+	if ($check_library(thisagent, "Wizard_train_intel",55) == FALSE)
+
+	if ($check_library(thisagent, "Train_magic_resist",15) == FALSE)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($follow_support_check(thisagent,"barbarian",30) == FALSE)
+
+	if ($follow_support_check(thisagent,"monk",20) == FALSE)
+
+	if ($Raid_lair(thisagent,45) == False)
+
+	if ($raid_enemy_building(thisagent,30) == False)
+
+	if ($Combat_wandering(thisagent,65) == False)
+
+	if ($combat_wandering_heroes(thisagent,60) == False)
+
+	if ($Explore_Map(thisagent,50) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 25) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 5) == False)
+
+	if ($Go_Home(thisagent,85) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+//This function is for the most basic types of actions a hero can be expected to execute if one is imminently required
+function Generic_tree (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+					
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_rewards(thisagent) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Explore_Map(thisagent,thisagent's "TaskChanceExplore") == False)
+	
+	if ($Go_Home(thisagent,thisagent's "TaskChanceIdle") == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Adept_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 66, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 60, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+
+	flist << $Patrol_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "building", 65, "Combat"); //"building" is not checked for anyway, can leave it as None, but leaving it as is just in case.
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+
+	flist << $Check_Champion_Rewards_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 45, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 40, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 95, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Barbarian_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Rangers_guild", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 5, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 5, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 45, "Idle");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 45, "Explore");
+
+	flist << $collect_special_item_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Cultist_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 33, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Build_Pack_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	
+	flist << $Swarm_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+	
+	flist << $Patrol_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "Animal_Den", 60, "Combat");
+
+	flist << $Steal_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+
+	flist << $Seed_Resource_Check_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 55, "Prepare");
+
+	flist << $collect_special_item_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 45, "Combat");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 20, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 50, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 30, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Discord_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Temple_Fervus", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 15, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Visit_Building_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 5, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 50, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Dwarf_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Blacksmith", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 35, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 40, "Combat");
+	
+	flist << $Check_Champion_Rewards_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+
+	flist << $help_build_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 35, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Elf_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 0, "Defend");
+
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Brothel", 0, "Defend");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Trading_Post", 35, "Idle");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Marketplace", 20, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 60, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Steal_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 80, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 45, "Prepare");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Gnome_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 10, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare");
+
+	flist << $help_build_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 15, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Healer_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Heal_Others_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare"); //Prepare doesn't really fit.
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "Warrior", 75, "Combat");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "Wizard", 35, "Combat");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "tax_collector", 50, "Combat");
+
+	flist << $Seed_Resource_Check_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 35, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 70, "Prepare");
+	
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Monk_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Marketplace", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 50, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 40, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 75, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 60, "Idle");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Paladin_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Temple_Dauros", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 65, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None",90, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 10, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Priestess_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Build_Horde_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 90, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 30, "Prepare");
+	
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 40, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 45, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 70, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Priestess_Spell", 90, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Ranger_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Trading_Post", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Collect_Resource_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "healing_herbs", 95, "Prepare");
+
+	flist << $follow_support_check_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "barbarian", 90, "Combat");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 40, "Prepare");
+	
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 95, "Explore");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+
+	flist << $Journey_Offmap_Check_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 30, "Explore");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 15, "Idle");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare");
+
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 10, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 35, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 35, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 15, "Idle");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Rogue_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 0, "Defend");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Loot_Gravestones_Packet;		//Combat
+	$SetTaskParametersBasic(thisagent, "None", 100, "Combat");
+
+	flist << $Steal_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+
+	flist << $collect_special_item_Packet;		//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+
+	flist << $Collect_Resource_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "poison_plants", 90, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 65, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 35, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 25, "Prepare");
+	
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 20, "Explore");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare");
+
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 95, "Idle");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 30, "Prepare");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Solarus_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Marketplace", 0, "Defend");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 65, "Prepare");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Check_Champion_Rewards_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+
+	flist << $Find_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Garrison_Check_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 50, "Combat");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 75, "Explore");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 50, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare");
+
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 5, "Idle");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Warrior_Task_Packages (agent thisagent)
+declare
+	integer count, size;
+	string string1, string2, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "Combat");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 0, "Defend");
+
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Combat
+	$SetTaskParametersBasic(thisagent, "None", 0, "Combat");	//Warriors consider checking blacksmiths to be both part of preparation and combat.
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare");
+
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 10, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 30, "Prepare");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 20, "Prepare");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 45, "Explore");
+
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare"))
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat"
+				end
+		end
+		
+	thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Wizard_Task_Packages (agent thisagent)
+//Packets are only for functions that use indexing
+//the sets up the heroes initial task packets, it isn't the thread for calling new decisions, this is called once upon the hero's birth.
+//Might be best to have multiple Prepares into a heroes package lists.
+declare
+	integer count, size;
+	string string1, string2, string4, string5, string6, string7, string8;
+	list total_tasks, flist, clist;
+begin
+	count = 0;
+	string1 = "TaskPackageIndexList";			//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string5 = "TaskPackageIndex";				//Index list is directly tied to Condition, it should be followed by Combat/Prepare/etc., not by Current/Next/etc.
+	string7 = "TaskThreshold";
+	
+	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 0, "General");
+	
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
+	
+	//flist << $rest;						//Idle //Need to adress this or it'll just trigger instantly instead of waiting in a task que
+	//clist << $notvalid;					//Appears to be something that is determined on an immediate basis rather than something that is qued, probably have it be an action following each combat task?
+	//$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+	
+	flist << $Check_Wizards_Guild_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 0, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
+	
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 45, "Combat");
+	
+	flist << $raid_enemy_building_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	
+	flist << $Combat_wandering_packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "None", 65, "Combat");
+	
+	flist << $combat_wandering_heroes_packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "None", 60, "Combat");
+	
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+	
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 85, "Idle");
+	
+	flist << $check_library_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Wizard_train_intel", 55, "Prepare");
+	
+	flist << $check_library_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	
+	flist << $defend_building_Packet;	//Defend
+	$SetTaskParametersBasic(thisagent, "Library", 0, "Defend");
+	
+	flist << $defend_building_Packet;	//Defend
+	$SetTaskParametersBasic(thisagent, "Marketplace", 0, "Defend");
+	
+	flist << $follow_support_check_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "barbarian", 30, "Combat");
+	
+	flist << $follow_support_check_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "monk", 20, "Combat");
+	
+	flist << $Visit_Building_Other_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 70, "Prepare");
+	
+	flist << $Visit_Building_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 5, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Shrine", 25, "Prepare");
+	
+	size = $ListSize(flist); // If an agent gets new tasks packets dynamically, the list part can be added in manually without the need for
+	while (size > count) do			// another while/do action. This was to consolidate the total size of code for this part.
+		begin
+			count ++;
+			string2 = string1 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndexList" + "Combat"
+			string6 = string5 + $ListMember(thisagent's "TaskPackageTypeList", count); // For Example, "TaskPackageIndex" + "Combat"
+			thisagent's string2 << $ListMember(flist, count); // Add functions to "TaskPackageIndexList"
+			thisagent's string6 << count; 					  // Add the index itself, a numerical tracker for each task into "TaskPackageIndex";
+			if ((($ListMember(thisagent's "TaskPackageTypeList", count)) == "Combat") || (($ListMember(thisagent's "TaskPackageTypeList", count)) == "Prepare")) //Update this, everything except "Defend" and "General" should have thresholds.
+				begin
+					string8 = string7 + $ListMember(thisagent's "TaskPackageTypeList", count);
+					thisagent's string8 ++; // For Example, "TaskThreshold" + "Combat" //Threshold is the same as the list count of the amount of tasks in that task type.
+				end
+		end
+	
+	if (thisagent's "TaskPackageTargetActionCurrent" != $Use_Building_Packet)
+		thisagent's "TaskPackageTargetActionCurrent" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+	thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Wizard_Initial_Task (agent thisagent)
+declare
+	
+begin
+	if (thisagent's "Home" == $nullagent())
+		thisagent's "activescript" = $Wizard_Tree;
+	else if ($GetTitle(thisagent's "Home") == "Wizards_Guild")
+		begin
+			ThisAgent's "TaskPackageTargetCurrent" = thisagent's "Home";
+			ThisAgent's "TaskPackageTaskNameCurrent" = "MAGICALTREATISES1";
+			ThisAgent's "TaskPackageIntentCurrent" = "IDTXT_INTENT_STUDYINGATWIZARDSGUILD";
+			ThisAgent's "TaskPackageTargetActionCurrent" = $Use_Building_Packet;
+			ThisAgent's "TaskPackageVisitingScriptCurrent" = $wizards_guild_visited;
+			ThisAgent's "TaskPackageTargetConditionCurrent" = $isdead;
+			$reset_tasks(thisagent);
+		end
+	else
+		thisagent's "activescript" = $Wizard_Tree;
+end
+///////////////////////////////////////////////////////////////////////////////
+function reset_tasks(agent thisagent)
+
+declare
+
+begin
+	$StopMoving (ThisAgent);
+	thisagent's "TaskPackageStatus" = "Complete";
+	thisagent's "target" = $Nullagent();	
+	thisagent's "activescript" = thisagent's "basicscript";
+	thisagent's "backscript" = thisagent's "basicscript";
+	$clearlist(thisagent's "hostiles");
+end
+///////////////////////////////////////////////////////////////////////////////
+function NextTask (agent thisagent)
+
+declare
+
+begin
+
+//	$debugout("I'm deciding what to do!");
+	if ($isdead(thisagent))
+		thisagent's "activescript" = $be_dead;
+		
+	if ((thisagent's "TaskPackageStatus" == "Engaged")) 
+		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent") && (thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target this hero attacked is dead after already engaging the target once in combat.
+			begin																								//  By default, if it is, whether or not it died in the engagement with the hero, it will mark as complete
+				thisagent's "TaskPackageStatus" = "Complete";
+			end
+	if ((thisagent's "TaskPackageStatus" == "Ongoing") && ((thisagent's "TaskPackageTargetActionCurrent") != $Search_For_Task))		//Don't use && since condition and target might not be set up yet, and it will divide by 0
+		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent") && (thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target of the action is no longer valid.
+			begin																								//  On this case, it will be marked as Retry for the Status
+				thisagent's "TaskPackageStatus" = "Retry";
+			end											
+	if (thisagent's "TaskPackageStatus" == "Complete")
+		begin
+			thisagent's "TaskPackageStatus" = "Ongoing";
+			thisagent's "TaskPackageFled" = 0;
+			$NextTaskSequence(thisagent, "Current", "Next");
+			$NextTaskSequence(thisagent, "Backup", "Reserve");
+			thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+			thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
+		end
+	else if (thisagent's "TaskPackageStatus" == "Retry")
+		begin
+			thisagent's "TaskPackageStatus" = "Ongoing";
+			$NextTaskSequence(thisagent, "Current", "Backup");
+			$NextTaskSequence(thisagent, "Backup", "Reserve"); //This makes it so if the agent Retries a second time, he invariably moves onto the Next Task anyway instead of looping forever on one type of task.
+			thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
+		
+		end
+	else if (thisagent's "TaskPackageStatus" == "Failed") //Currently for if the agent has fled too many times while in pursuit of the task.
+		begin											//Has the same effect as completing the task though... Need to remedy that// Change the task set to Preparation/Idle?
+			thisagent's "TaskPackageStatus" = "Ongoing";
+			$NextTaskSequence(thisagent, "Current", "Next");
+			$NextTaskSequence(thisagent, "Backup", "Reserve");
+			thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
+			thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
+		end
+	else if ((thisagent's "TaskPackageTargetActionCurrent") != $Search_For_Task)
+		begin
+			thisagent's "Target" = thisagent's "TaskPackageTargetCurrent";
+			thisagent's "BackTarget" = thisagent's "TaskPackageTarget2Current";
+			thisagent's "ActiveScript" = thisagent's "TaskPackageTargetActionCurrent";
+			thisagent's "BackScript" = thisagent's "TaskPackageTargetAction2Current";
+			thisagent's "TaskName" = thisagent's "TaskPackageTaskNameCurrent";
+			thisagent's "Destination" = thisagent's "TaskPackageDestinationCurrent";
+			thisagent's "VisitingScript" = thisagent's "TaskPackageVisitingScriptCurrent";
+			$SpecifyIntentString (ThisAgent, thisagent's "TaskPackageIntentCurrent");
+			
+			if (thisagent's "TaskPackageMoveCurrent" == $move)
+				(thisagent's "TaskPackageMoveCurrent")(thisagent, thisagent's "TaskPackageDestinationCurrent");
+				//(thisagent's "TaskPackageMoveCurrent")(thisagent, $listmember(thisagent's "TaskPackageMoveDestinationsCurrent", 1));
+			else if (thisagent's "TaskPackageMoveCurrent" == $movewaypoint)
+				(thisagent's "TaskPackageMoveCurrent")(thisagent, thisagent's "TaskPackageMoveDestinationsCurrent");
+		end
+	else
+		begin
+			if ($RandomNumberNonZero(2)==1)
+				begin
+					//if ($explore_map(thisagent, 100)==FALSE)
+					//if ($go_home(thisagent, 100)==FALSE)
+					thisagent's "ActiveScript" = $Generic_Tree; //Look back at this again, since every hero uses the new system
+				end
+			else
+				begin
+					//if ($go_home(thisagent, 100)==FALSE)
+					//if ($explore_map(thisagent, 100)==FALSE)
+					thisagent's "ActiveScript" = $Generic_Tree;
+				end
+		end
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function NextTaskSequence (agent thisagent, string thistask, string nexttask)
+
+declare
+
+begin
+	thisagent's ("TaskPackageTargetCondition" + thistask) = thisagent's ("TaskPackageTargetCondition" + nexttask);
+	thisagent's ("TaskPackageDestination" + thistask) = thisagent's ("TaskPackageDestination" + nexttask);
+	thisagent's ("TaskPackageTarget" + thistask) = thisagent's ("TaskPackageTarget" + nexttask);
+	thisagent's ("TaskPackageTarget2" + thistask) = thisagent's ("TaskPackageTarget2" + nexttask);
+	thisagent's ("TaskPackageTargetAction" + thistask) = thisagent's ("TaskPackageTargetAction" + nexttask);
+	thisagent's ("TaskPackageTargetAction2" + thistask) = thisagent's ("TaskPackageTargetAction2" + nexttask);
+	thisagent's ("TaskPackageTaskName" + thistask) = thisagent's ("TaskPackageTaskName" + nexttask);
+	thisagent's ("TaskPackageIntent" + thistask) = thisagent's ("TaskPackageIntent" + nexttask);
+	thisagent's ("TaskPackageMove" + thistask) = thisagent's ("TaskPackageMove" + nexttask);
+	thisagent's ("TaskPackageMoveDestinations" + thistask) = thisagent's ("TaskPackageMoveDestinations" + nexttask);
+	thisagent's ("TaskPackageMoveAgents" + thistask) = thisagent's ("TaskPackageMoveAgents" + nexttask);
+	thisagent's ("TaskPackageVisitingScript" + thistask) = thisagent's ("TaskPackageVisitingScript" + nexttask);
+			
+end
+///////////////////////////////////////////////////////////////////////////////
+function NotDuplicateTask (agent thisagent, string index) is boolean
+//Checks to see if the task is a duplicate of other ones
+
+declare
+	boolean flag;
+	string targetsub, completetarget, othertarget, actionsub, completeaction, otheraction;
+	
+begin
+	flag = TRUE;
+	targetsub = "TaskPackageTarget";
+	completetarget = targetsub + index;
+	actionsub = "TaskPackageTargetAction";
+	completeaction = actionsub + index;
+		
+	if (index != "Current") //If Backup/Next/Reserve or any other index are duplicates of Current, then return false
+		begin
+			othertarget = targetsub + "Current";
+			otheraction = actionsub + "Current";
+			if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
+				begin
+					thisagent's completeaction = $Search_For_Task;
+					return False;
+				end
+		end
+		
+	if (index == "Reserve") //If Reserve is a duplicate of Backup or Next, then return false
+		begin
+			othertarget = targetsub + "Backup";
+			otheraction = actionsub + "Backup";
+			if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
+				begin
+					thisagent's completeaction = $Search_For_Task;
+					return False;
+				end
+			othertarget = targetsub + "Next";
+			otheraction = actionsub + "Next";
+			if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
+				begin
+					thisagent's completeaction = $Search_For_Task;
+					return False;
+				end
+		end
+		
+	return flag;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function General_Task_Cycle (agent thisagent)
+//This function cycles every few seconds to adjust the hero's task packets.
+declare
+	function func;
+	boolean flag;
+	string string1, string2;
+	integer count, size, exhaustion, fear;
+	integer item;
+	list items;
+
+begin
+	string1 = "TaskPackageIndexList";
+	flag = FALSE;
+	count = 0;
+	exhaustion = thisagent's "Exhaustion";
+	fear = thisagent's "Fear";
+	
+	//if (thisagent's "learned_newspell")
+	//	$ArrangeSpells(thisagent);
+	
+	if ($IsResting(thisagent))
+		begin
+			thisagent's "Fear" = 0;
+			if (exhaustion > 10)
+				thisagent's "Exhaustion" -= 10;
+			else if (exhaustion != 0)
+				thisagent's "Exhaustion" = 0;
+		end
+	else
+		begin
+			thisagent's "Exhaustion" ++;
+		end
+		
+	if (fear > 0)
+		thisagent's "Fear" --;
+		
+	if (thisagent's "Exhaustion" >= 500) //Dead tired, so plan to sleep a lot
+		begin
+			thisagent's "TaskPackageVar" = "Idle";
+			thisagent's "TaskPackageTypeIndex" = "Next";
+			$Search_For_Task(thisagent);
+			thisagent's "TaskPackageTypeIndex" = "Reserve";
+			$Search_For_Task(thisagent);
+			thisagent's "TaskPackageTypeIndex" = "Backup";
+			$Search_For_Task(thisagent);
+		end
+	else if (thisagent's "Exhaustion" >= 350) //More tired, so look for a few places to sleep
+		begin
+			thisagent's "TaskPackageVar" = "Idle";
+			thisagent's "TaskPackageTypeIndex" = "Next";
+			$Search_For_Task(thisagent);
+			thisagent's "TaskPackageTypeIndex" = "Reserve";
+			$Search_For_Task(thisagent);
+		end
+	else if (thisagent's "Exhaustion" >= 200) //Tired, so start looking for a place to sleep
+		begin
+			thisagent's "TaskPackageVar" = "Idle";
+			thisagent's "TaskPackageTypeIndex" = "Next";
+			$Search_For_Task(thisagent);
+		end
+		
+	if (thisagent's "TaskPackageTargetActionCurrent" == $Search_For_Task) //If Current needs to be updated, then so does Backup
+		begin															//Current should only every go through this once, after that is switches to Next/Reserved/Backup instead of searching again.
+			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet"; //Tasks should not update simultaneously. Current must update first. Then Next and Backup can update simultaneously following that. Reserve updates last.
+			thisagent's "TaskPackageTypeIndex" = "Current";				 //Otherwise the function that catches duplicates fails.
+			$Search_For_Task(thisagent);
+			thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
+			//thisagent's "TaskPackageTypeIndex" = "Backup";
+			//$Search_For_Task(thisagent);
+			return; //Return here since Current needs to update by itself first to prevent duplicates with Next/Backup
+		end
+		
+	if (thisagent's "TaskPackageTargetActionNext" == $Search_For_Task)
+		begin															//Next must not update simultaneously with Reserve. It can update simultaneously with Backup, since they don't directly conflict.
+			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
+			thisagent's "TaskPackageTypeIndex" = "Next";
+			$Search_For_Task(thisagent);
+			thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
+			//thisagent's "TaskPackageTypeIndex" = "Reserve";
+			//$Search_For_Task(thisagent);
+		end
+		
+	if (thisagent's "TaskPackageTargetActionBackup" == $Search_For_Task)
+		begin
+			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
+			thisagent's "TaskPackageTypeIndex" = "Backup";
+			$Search_For_Task(thisagent);
+			return; //Return here since instead of at Next since this can be chosen simultaneously with Next
+		end
+		
+	if (thisagent's "TaskPackageTargetActionReserve" == $Search_For_Task) //Reserve must update at the end, and alone, not simultaneously with other tasks.
+		begin
+			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
+			thisagent's "TaskPackageTypeIndex" = "Reserve";
+			$Search_For_Task(thisagent);
+		end
+		
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function Search_For_Task (agent thisagent)
+//This function searches for new tasks for packets lacking one.
+//This function should NOT have any setting for Primary/Current/Next/etc. Tasks
+declare
+	string taskindex, completetype, tasktype, subindex, index, orderindex;
+	string type, indexlist, completeindex, threshold, subthresh, current, subcurrent;
+	integer size, rand, chance_total;
+	boolean flag;
+
+begin
+	flag = FALSE;
+	indexlist =	"TaskPackageIndexList";
+	subindex = "TaskPackageIndex";
+	tasktype = "TaskPackageType"; //This currently isn't being set anywhere, determine if it is obsolete by another field.
+	orderindex = thisagent's "TaskPackageTypeIndex"; // Is this for the Current/Backup/Next? //Isn't used here yet, obsolete?
+	taskindex = thisagent's "TaskPackageVar";
+	completetype = tasktype + taskindex; // For Example, "TaskPackageType" + "Combat"
+	index = subindex + taskindex; //This is "TaskPackageIndex" + "Combat"
+	
+	completeindex = indexlist + taskindex;
+	
+	if (taskindex == thisagent's "TaskPackageSet")
+		begin
+			flag = TRUE;
+			subthresh = "TaskThreshold";
+			subcurrent = "Task";
+			threshold = subthresh + taskindex;//Right now current is the same as threshold, this results in the taskindex switching between prepare and combat each time.
+			current = subcurrent + taskindex;
+		end
+	
+	size = $listsize(thisagent's completeindex); //Is compiling as "TaskPackageIndexList" without the type included
+	rand = $RandomNumberNonZero(size);
+		
+	thisagent's "TaskPackageListIndex" = $listmember(thisagent's index, rand); //This gives the index # for the task set for the agent. Needs to happen before the If/then
+	
+	if (($listmember((thisagent's completeindex),rand))(thisagent)) //Need an else for when a task is returning negative constantly.
+		begin
+			thisagent's current ++;
+			thisagent's "TaskSearch_Limit" = 0;
+			if (flag)
+				if (thisagent's current >= thisagent's threshold)
+					begin
+						thisagent's current = 0;
+						if (taskindex == "Prepare")
+							begin
+								chance_total = $RandomNumberNonZero(thisagent's "TaskChanceCombat" + thisagent's "TaskChanceExplore" + thisagent's "TaskChanceIdle");
+								if (thisagent's "TaskChanceCombat" <= chance_total)
+									thisagent's "TaskPackageSet" = "Combat";
+								else if (thisagent's "TaskChanceCombat" +  thisagent's "TaskChanceExplore" <= chance_total)
+									thisagent's "TaskPackageSet" = "Explore";
+								else
+									thisagent's "TaskPackageSet" = "Idle";
+							end
+						else
+							begin
+								thisagent's "TaskPackageSet" = "Prepare";
+							end
+					end
+		end
+	else
+		begin
+			thisagent's "TaskSearch_Limit" ++;
+			if (thisagent's "TaskSearch_Limit" > 20)
+				begin
+					thisagent's "TaskSearch_Limit" -= 10;
+					if (taskindex == "Prepare")
+						begin
+							chance_total = $RandomNumberNonZero(thisagent's "TaskChanceCombat" + thisagent's "TaskChanceExplore" + thisagent's "TaskChanceIdle");
+							if (thisagent's "TaskChanceCombat" <= chance_total)
+								thisagent's "TaskPackageSet" = "Combat";
+							else if (thisagent's "TaskChanceCombat" +  thisagent's "TaskChanceExplore" <= chance_total)
+								thisagent's "TaskPackageSet" = "Explore";
+							else
+								thisagent's "TaskPackageSet" = "Idle";
+						end
+					else
+						begin
+							thisagent's "TaskPackageSet" = "Prepare";
+						end
+				end
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function SetTaskParametersBasic (agent thisagent, string name, integer chance, string type)
+//This function searches for new tasks for packets lacking one.
+
+declare
+
+begin
+	thisagent's "TaskPackageCombineStringList" << name;
+	thisagent's "TaskPackageCombineIntegerList" << chance;
+	thisagent's "TaskPackageTypeList" << type;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function SetTaskParametersExtended (agent thisagent, function Task, function Condition, string name, integer chance, string type)
+//This function searches for new tasks for packets lacking one.
+
+declare
+
+begin
+	thisagent's "TaskPackageCombineFunctionList" << Task;
+	thisagent's "TaskPackageCombineConditionList" << Condition;
+	thisagent's "TaskPackageCombineStringList" << name;
+	thisagent's "TaskPackageCombineIntegerList" << chance;
+	thisagent's "TaskPackageTypeList" << type;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function TaskContainerScript (agent thisagent)
+//This function starts at initialization to load in the general Task scripts for Heros.
+//This is unnecessary, the heroes have the functions added to their type lists anyway.
+declare
+
+begin
+	//The general tasks used by all heroes.
+	//Not used anymore
+	
+
+end
