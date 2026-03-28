@@ -166,18 +166,15 @@ declare
 	agent palace, AIRootagent;
 	boolean flag;
 	string string1, string2, string3;
-	integer starting_gold, random_gold, stat_adjust, stat_strength, stat_artifice, stat_vitality, stat_wisdom, MaxXP, MaxXP_diff, new_MaxXP, num_hovel, prestige_amount;
+	integer starting_gold, random_gold, stat_adjust, stat_strength, stat_artifice, stat_vitality, stat_wisdom, MaxXP, MaxXP_diff, new_MaxXP, num_hovel;
 
 begin
 	palace = $getpalace(thisagent);
 	random_gold = #hero_start_gold;
 	starting_gold = #hero_start_gold;
 	$CreateEffector (THisAgent, "SpawnEffect_New", 1);
-	//$setattribute(thisagent, #ATTRIB_ResearchMagicResistance, $getattribute(thisagent,#ATTRIB_LevelXP));
-	//$adjustattribute(thisagent, #ATTRIB_ResearchTrainIntelligence, $StartingWisdom(thisagent));
 	
-	$UpdateWisdom(thisagent);
-	prestige_amount = $StartingPrestige(thisagent);
+	$RecalculateStats(thisagent);
 	
 	$ListObjects(thisagent,"building",-1,list1, #MyPlayer);
 
@@ -201,8 +198,8 @@ begin
 		
 	$setattribute(thisagent,#ATTRIB_experience,0);
 	//$adjustattribute(thisagent,thisagent's "PrimaryStat",stat_adjust);
-	thisagent's (thisagent's "PrimaryStat_Base") += stat_adjust;
-	$UpdatePrimaryStat(thisagent);
+	//thisagent's (thisagent's "PrimaryStat_Name") += stat_adjust;
+	$AdjustPrimaryStat(thisagent, stat_adjust);
 	
 	//stat_strength = $getattribute(thisagent, #ATTRIB_Strength);
 	//if ($getattribute(thisagent, #ATTRIB_maxattackrange) < 100)

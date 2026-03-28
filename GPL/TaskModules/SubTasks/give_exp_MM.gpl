@@ -406,7 +406,7 @@ declare
 	string picked_attribute;
 
 begin
-	$Level_Up_Required_Attributes(thisagent); // For pre-placed scenario heroes that advance to higher levels on start-up
+	$RecalculateStats(thisagent); // For pre-placed scenario heroes that advance to higher levels on start-up
 	
 	exp_level = $getattribute(thisagent,#ATTRIB_experienceLevel);
 	stat_strength = $getattribute(thisagent, #ATTRIB_Strength);
@@ -419,17 +419,12 @@ begin
 			$setattribute(thisagent, #ATTRIB_HP, 2 + $getattribute(thisagent, #ATTRIB_Vitality));
 		end
 	
-	//stat_wisdom = $getattribute(thisagent, #ATTRIB_ResearchTrainIntelligence);
-	stat_wisdom = thisagent's "Wisdom_Base";
-	//$adjustattribute(thisagent, #ATTRIB_ResearchWizardFireBlast, stat_wisdom);
+	insight_points = thisagent's "InsightPoints_Base" + thisagent's "Wisdom_Base";
+	thisagent's "InsightPoints_Base" = insight_points;
 
-	thisagent's "InsightPoints_Base" += stat_wisdom;
-	//insight_points = $getAttribute(thisagent, #ATTRIB_ResearchWizardFireBlast);
-	insight_points = thisagent's "InsightPoints_Base";
 	while (insight_points >= #insight_point_limit) do
 		begin
 			attribute_points ++;
-			//$adjustattribute(thisagent, #ATTRIB_ResearchWizardFireBlast, -#insight_point_limit);
 			thisagent's "InsightPoints_Base" -= #insight_point_limit;
 			insight_points -= #insight_point_limit;
 		end
@@ -440,7 +435,7 @@ begin
 	// Give 1 point of a primary stat if exp_level evenly divided by 2
 	if ((exp_level % 2) == 1)
 		begin
-			picked_attribute = thisagent's "PrimaryStat_Base";
+			picked_attribute = thisagent's "PrimaryStat_Name";
 			thisagent's picked_attribute += 1;
 			if (picked_attribute == "Artifice_Base")
 				begin
@@ -568,7 +563,7 @@ begin
 
 				end
 				
-	thisagent's "MaxLevelXP_Base" += exp_level * thisagent's "ExperienceConst_Value_Base";
+	thisagent's "LevelXP_Base" += exp_level * thisagent's "ExperienceConst";
 	
 	$UpdateArtifice(thisagent);
 	$UpdateIntelligence(thisagent);
@@ -602,22 +597,7 @@ begin
 
 	stat_vitality = ($getattribute(thisagent, #ATTRIB_Vitality) / 10);
 	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, stat_vitality );
-	
-	//stat_wisdom = $getattribute(thisagent, #ATTRIB_ResearchTrainIntelligence);
-//	stat_wisdom = thisagent's "Wisdom_Base";
-//	if (stat_wisdom > 150)
-//		stat_wisdom = 150;
-		
-//	if (stat_wisdom > 0)
-//		begin
-//			MaxXP = $getattribute(thisagent, #ATTRIB_ResearchMagicResistance);
-//			MaxXP_diff = ((MaxXP * stat_wisdom) / 200);
-//			new_MaxXP = (MaxXP - MaxXP_diff);
-//			current_MaxXP = $getAttribute(thisagent, #ATTRIB_LevelXP);
-//			if ((current_MaxXP != new_MaxXP) && (new_maxXP > 0))
-//				$setattribute(thisagent, #ATTRIB_LevelXP, new_maxXP);
-//		end
-		
+
 	if (thisagent's "title" == "Wizard")
 		$SkillTreeLevelUp(thisagent);
 end
