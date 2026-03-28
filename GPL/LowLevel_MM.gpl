@@ -2549,31 +2549,57 @@ end
 ///////////////////////////////////////////////////////////////////////////////
 // The necessary function for if heroes have not loaded in their hero attributes for leveling up
 Function Level_Up_Required_Attributes(agent thisagent)
-
 declare
-
 begin
-	if (thisagent's "Has_Level_Up_Attributes" == True)
-		return;
-		
-	thisagent's "Has_Level_Up_Attributes" = True;
-	
-	thisagent's "Strength_Base" = $getAttribute(thisagent, #ATTRIB_Strength);
-	thisagent's "Vitality_Base" = $getAttribute(thisagent, #ATTRIB_Vitality);
-	thisagent's "Artifice_Base" = $getAttribute(thisagent, #ATTRIB_Artifice);
-	thisagent's "Intelligence_Base" = $getAttribute(thisagent, #ATTRIB_Intelligence);
-	thisagent's "Willpower_Base" = $getAttribute(thisagent, #ATTRIB_Willpower);
-	thisagent's "MaxLevelXP_Base" = ($getAttribute(thisagent, #ATTRIB_LevelXP) / 2);
-	thisagent's "ExperienceConst_Value_Base" = (thisagent's "MaxLevelXP_Base" / 20);
-	thisagent's "HealthRegeneration_Base" = (#Health_Regeneration_Base + (thisagent's "Vitality_Base" * #Health_Regeneration_Vit));
-	thisagent's "ManaRegeneration_Base" = (#Mana_Regeneration_Base + (thisagent's "Intelligence_Base" * #Mana_Regeneration_Int));
-	thisagent's "MaxMana_Base" = (#Base_Mana + (thisagent's "Intelligence_Base" * #Mana_Amount_Int));
-	$UpdateHealthRegeneration(thisagent);
-	$UpdateManaRegeneration(thisagent);
-	$UpdateMaxMana(thisagent);
+	$EnsureAllAttr(thisagent);
+
+	$UpdateArtifice(thisagent);
+	$UpdateStrength(thisagent);
+	$UpdateVitality(thisagent);
+	$UpdateIntelligence(thisagent);
+	$UpdateWillpower(thisagent);
+	$UpdateWisdom(thisagent);
+
 	$UpdateMaxXP(thisagent);
-	
-end	
+	$UpdateMaxHP(thisagent);
+	$UpdateMaxMana(thisagent);
+end
+
+function EnsureAllAttr(agent thisagent)
+declare
+begin
+
+	if ($HasAttribute("Has_Level_Up_Attributes", thisagent) == True)
+		begin
+			$AddAttribute(thisagent, "Has_Level_up_attributes", "boolean", true);
+
+			$AddAttribute(thisagent, "InsightPoints", "integer");
+			$AddAttribute(thisagent, "self_estimation", "integer");
+			$AddAttribute(thisagent, "percentageHPretreat", "integer");
+			$AddAttribute(thisagent, "loyalty", "integer");
+
+			$AddAttribute(thisagent, "PrimaryStat", "integer", #ATTRIB_Vitality);
+			$AddAttribute(thisagent, "PrimaryStat_Base", "string", "Vitality_Base");
+
+			$AddAttribute(thisagent, "UpArtificeChance", "integer", 10);
+			$AddAttribute(thisagent, "UpIntelligenceChance", "integer", 10);
+			$AddAttribute(thisagent, "UpStrengthChance", "integer", 10);
+			$AddAttribute(thisagent, "UpVitalityChance", "integer", 10);
+			$AddAttribute(thisagent, "UpWillpowerChance", "integer", 10);
+			$AddAttribute(thisagent, "UpWisdomChance", "integer", 10);
+
+			$AddAttribute(thisagent, "Experience_Value_Base", "integer", 100);
+		end
+end
+
+function EnsureStatAttr(agent thisagent, string stat, integer default)
+declare
+begin
+	$AddAttribute(thisagent, stat+"_Base", "integer", default);
+	$AddAttribute(thisagent, stat+"_Flat_Modifier", "integer");
+	$AddAttribute(thisagent, stat+"_Percent_Modifier", "integer");
+	$AddAttribute(thisagent, stat+"_Total", "integer");
+end
 ///////////////////////////////////////////////////////////////////////////////
 // this function is called by the in-game code when a vehicle is generated
 Function Generate_Character_Attributes(agent thisagent)
@@ -2733,232 +2759,112 @@ begin
 end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateArtifice(agent thisagent)
-
 declare
-	integer Artifice_Base, flat_artifice, percent_artifice, artifice_adjust, total_artifice;
-	boolean high_value;
-
 begin
-	Artifice_Base = thisagent's "Artifice_Base";
-	high_value = false;
-	flat_artifice = thisagent's "Artifice_Flat_Modifier";
-	percent_artifice = thisagent's "Artifice_Percent_Modifier";
-	if (Artifice_Base >= 1000)
-		high_value = true;
-	artifice_adjust = $PercentOf(Artifice_Base, percent_artifice, high_value);
-	total_artifice = Artifice_Base + flat_artifice + artifice_adjust;
-	thisagent's "Artifice_Total" = total_artifice;
-	$setattribute(thisagent, #ATTRIB_Artifice, total_artifice);
+	$UpdateAttribute(thisagent, #ATTRIB_Artifice, "Artifice");
 end
-////////////////////////////////////////////////////////////////////////////////
-function UpdateIntelligence(agent thisagent)
 
-declare
-	integer Intelligence_Base, flat_intelligence, percent_intelligence, intelligence_adjust, total_intelligence;
-	boolean high_value;
-
-begin
-	Intelligence_Base = thisagent's "Intelligence_Base";
-	high_value = false;
-	flat_intelligence = thisagent's "Intelligence_Flat_Modifier";
-	percent_intelligence = thisagent's "Intelligence_Percent_Modifier";
-	if (Intelligence_Base >= 1000)
-		high_value = true;
-	intelligence_adjust = $PercentOf(Intelligence_Base, percent_intelligence, high_value);
-	total_intelligence = Intelligence_Base + flat_intelligence + intelligence_adjust;
-	thisagent's "Intelligence_Total" = total_intelligence;
-	thisagent's "ManaRegeneration_Base" = (#Mana_Regeneration_Base + (total_intelligence * #Mana_Regeneration_Int));
-	$UpdateManaRegeneration(thisagent);
-	$setattribute(thisagent, #ATTRIB_Intelligence, total_intelligence);
-end
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 function UpdateStrength(agent thisagent)
 
 declare
-	integer Strength_Base, flat_strength, percent_strength, strength_adjust, total_strength;
-	boolean high_value;
-
 begin
-	Strength_Base = thisagent's "Strength_Base";
-	high_value = false;
-	flat_strength = thisagent's "Strength_Flat_Modifier";
-	percent_strength = thisagent's "Strength_Percent_Modifier";
-	if (Strength_Base >= 1000)
-		high_value = true;
-	strength_adjust = $PercentOf(Strength_Base, percent_strength, high_value);
-	total_strength = Strength_Base + flat_strength + strength_adjust;
-	thisagent's "Strength_Total" = total_strength;
-	$setattribute(thisagent, #ATTRIB_Strength, total_strength);
+	$UpdateAttribute(thisagent, #ATTRIB_Strength, "Strength");
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateVitality(agent thisagent)
-
 declare
-	integer Vitality_Base, flat_vitality, percent_vitality, vitality_adjust, total_vitality;
-	boolean high_value;
-
 begin
-	Vitality_Base = thisagent's "Vitality_Base";
-	high_value = false;
-	flat_vitality = thisagent's "Vitality_Flat_Modifier";
-	percent_vitality = thisagent's "Vitality_Percent_Modifier";
-	if (Vitality_Base >= 1000)
-		high_value = true;
-	vitality_adjust = $PercentOf(Vitality_Base, percent_vitality, high_value);
-	total_vitality = Vitality_Base + flat_vitality + vitality_adjust;
-	thisagent's "Vitality_Total" = total_vitality;
-	thisagent's "HealthRegeneration_Base" = (#Health_Regeneration_Base + (total_vitality * #Health_Regeneration_Vit));
+	$UpdateAttribute(thisagent, #ATTRIB_Vitality, "Vitality");
 	$UpdateHealthRegeneration(thisagent);
-	$setattribute(thisagent, #ATTRIB_Vitality, total_vitality);
 end
-////////////////////////////////////////////////////////////////////////////////
-function UpdateWillpower(agent thisagent)
 
-declare
-	integer Willpower_Base, flat_willpower, percent_willpower, willpower_adjust, total_willpower;
-	boolean high_value;
-
-begin
-	Willpower_Base = thisagent's "Willpower_Base";
-	high_value = false;
-	flat_willpower = thisagent's "Willpower_Flat_Modifier";
-	percent_willpower = thisagent's "Willpower_Percent_Modifier";
-	if (Willpower_Base >= 1000)
-		high_value = true;
-	willpower_adjust = $PercentOf(Willpower_Base, percent_willpower, high_value);
-	total_willpower = Willpower_Base + flat_willpower + willpower_adjust;
-	thisagent's "Willpower_Total" = total_willpower;
-	$setattribute(thisagent, #ATTRIB_Willpower, total_willpower);
-end
-////////////////////////////////////////////////////////////////////////////////
-function UpdateWisdom(agent thisagent)
-
-declare
-	integer Wisdom_Base, flat_wisdom, percent_wisdom, wisdom_adjust, total_wisdom;
-	boolean high_value;
-
-begin
-	Wisdom_Base = thisagent's "Wisdom_Base";
-	high_value = false;
-	flat_wisdom = thisagent's "Wisdom_Flat_Modifier";
-	percent_wisdom = thisagent's "Wisdom_Percent_Modifier";
-	if (Wisdom_Base >= 1000)
-		high_value = true;
-	wisdom_adjust = $PercentOf(Wisdom_Base, percent_wisdom, high_value);
-	total_wisdom = Wisdom_Base + flat_wisdom + wisdom_adjust;
-	thisagent's "Wisdom_Total" = total_wisdom;
-end
-////////////////////////////////////////////////////////////////////////////////
-//The Max XP before a hero reaches their next level.
-function UpdateMaxXP(agent thisagent)
-
-declare
-	integer base_maxlevelXP, flat_maxlevelXP, percent_maxlevelXP, maxlevelXP_adjust, total_maxlevelXP;
-	boolean high_value;
-
-begin
-	base_maxlevelXP = thisagent's "MaxLevelXP_Base";
-	high_value = false;
-	flat_maxlevelXP = thisagent's "MaxLevelXP_Flat_Modifier";
-	percent_maxlevelXP = thisagent's "MaxLevelXP_Percent_Modifier";
-	if (base_maxlevelXP >= 1000)
-		high_value = true;
-	maxlevelXP_adjust = $PercentOf(base_maxlevelXP, percent_maxlevelXP, high_value);
-	total_maxlevelXP = base_maxlevelXP + flat_maxlevelXP + maxlevelXP_adjust;
-	thisagent's "MaxLevelXP_Total" = total_maxlevelXP;
-	$setattribute(thisagent, #ATTRIB_LevelXP, total_maxlevelXP);
-end
-////////////////////////////////////////////////////////////////////////////////
-//The Max XP before a hero reaches their next level.
-function UpdateManaRegeneration(agent thisagent)
-
-declare
-	integer base_manaregeneration, flat_manaregeneration, percent_manaregeneration, manaregeneration_adjust, total_manaregeneration;
-	boolean high_value;
-
-begin
-	base_manaregeneration = thisagent's "ManaRegeneration_Base";
-	high_value = false;
-	flat_manaregeneration = thisagent's "ManaRegeneration_Flat_Modifier";
-	percent_manaregeneration = thisagent's "ManaRegeneration_Percent_Modifier";
-	if (base_manaregeneration >= 1000)
-		high_value = true;
-	manaregeneration_adjust = $PercentOf(base_manaregeneration, percent_manaregeneration, high_value);
-	total_manaregeneration = base_manaregeneration + flat_manaregeneration + manaregeneration_adjust;
-	thisagent's "ManaRegeneration_Total" = total_manaregeneration;
-end
 ////////////////////////////////////////////////////////////////////////////////
 //The Max XP before a hero reaches their next level.
 function UpdateHealthRegeneration(agent thisagent)
-
 declare
-	integer base_healthregeneration, flat_healthregeneration, percent_healthregeneration, healthregeneration_adjust, total_healthregeneration;
-	boolean high_value;
-
 begin
-	base_healthregeneration = thisagent's "HealthRegeneration_Base";
-	high_value = false;
-	flat_healthregeneration = thisagent's "HealthRegeneration_Flat_Modifier";
-	percent_healthregeneration = thisagent's "HealthRegeneration_Percent_Modifier";
-	if (base_healthregeneration >= 1000)
-		high_value = true;
-	healthregeneration_adjust = $PercentOf(base_healthregeneration, percent_healthregeneration, high_value);
-	total_healthregeneration = base_healthregeneration + flat_healthregeneration + healthregeneration_adjust;
-	thisagent's "HealthRegeneration_Total" = total_healthregeneration;
+	$EnsureStatAttr(thisagent, "HealthRegeneration", #Health_Regeneration_Base + (thisagent's "Vitality_Base" * #Health_Regeneration_Vit));
+	thisagent's "HealthRegeneration_Base" = #Health_Regeneration_Base + (thisagent's "Vitality_Total" * #Health_Regeneration_Vit);
+	$UpdateCustomAttribute(thisagent, "HealthRegeneration");
 end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateMaxHP(agent thisagent)
+declare
+begin
+	$UpdateAttribute(thisagent, #ATTRIB_MaxHP, "MaxHP");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateWillpower(agent thisagent)
+declare
+begin
+	$UpdateAttribute(thisagent, #ATTRIB_Willpower, "Willpower");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateWisdom(agent thisagent)
+declare
+	integer default;
+begin
+	if ($HasAttribute("Wisdom_Base", thisagent) == false)
+		default = $StartingWisdom(thisagent);
+	$EnsureStatAttr(thisagent, "Wisdom", default);
+	$UpdateCustomAttribute(thisagent, "Wisdom");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateIntelligence(agent thisagent)
+declare
+begin
+	$UpdateAttribute(thisagent, #ATTRIB_Intelligence, "Intelligence");
+	$UpdateManaRegeneration(thisagent);
+end
+
+////////////////////////////////////////////////////////////////////////////////
+//The Max XP before a hero reaches their next level.
+function UpdateManaRegeneration(agent thisagent)
+declare
+	integer default;
+begin
+	$EnsureStatAttr(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + (thisagent's "Intelligence_Base" * #Mana_Regeneration_Int));
+	thisagent's "ManaRegeneration_Base" = #Mana_Regeneration_Base + (thisagent's "Intelligence_Total" * #Mana_Regeneration_Int);
+	$UpdateCustomAttribute(thisagent, "ManaRegeneration");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateMaxMana(agent thisagent)
+declare
+begin
+	$EnsureStatAttr(thisagent, "MaxMana", #Base_Mana + (thisagent's "Intelligence_Base" * #Mana_Amount_Int));
+	thisagent's "MaxMana_Base" = #Base_Mana + (thisagent's "Intelligence_Total" * #Mana_Amount_Int);
+	$UpdateCustomAttribute(thisagent, "MaxMana");
+end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateCurrentMana(agent thisagent)
-
 declare
 	integer base_currentmana;
-
 begin
+	$AddAttribute(thisagent, "CurrentMana_Base", "integer", $GetAttribute(thisagent, #ATTRIB_NumHealingPotions));
 	base_currentmana = thisagent's "CurrentMana_Base";
 	$setattribute(thisagent, #ATTRIB_NumHealingPotions, base_currentmana);
 end
+
 ////////////////////////////////////////////////////////////////////////////////
-function UpdateMaxMana(agent thisagent)
-
+function UpdateAttribute(agent thisagent, integer attrib_int, string attrib)
 declare
-	integer base_maxmana, flat_maxmana, percent_maxmana, maxmana_adjust, total_maxmana;
-	boolean high_value;
-
 begin
-	base_maxmana = thisagent's "MaxMana_Base";
-	high_value = false;
-	flat_maxmana = thisagent's "MaxMana_Flat_Modifier";
-	percent_maxmana = thisagent's "MaxMana_Percent_Modifier";
-	if (base_maxmana >= 1000)
-		high_value = true;
-	maxmana_adjust = $PercentOf(base_maxmana, percent_maxmana, high_value);
-	total_maxmana = base_maxmana + flat_maxmana + maxmana_adjust;
-	thisagent's "MaxMana_Total" = total_maxmana;
+	$EnsureStatAttr(thisagent, attrib, $GetAttribute(thisagent, attrib_int));
+	$setattribute(thisagent, attrib_int, $UpdateCustomAttribute(thisagent, attrib));
 end
-////////////////////////////////////////////////////////////////////////////////
-function UpdateMaxHP(agent thisagent)
 
-declare
-	integer base_maxhp, flat_maxhp, percent_maxhp, maxhp_adjust, total_maxhp;
-	boolean high_value;
-
-begin
-	base_maxhp = thisagent's "MaxHP_Base";
-	high_value = false;
-	flat_maxhp = thisagent's "MaxHP_Flat_Modifier";
-	percent_maxhp = thisagent's "MaxHP_Percent_Modifier";
-	if (base_maxhp >= 1000)
-		high_value = true;
-	maxhp_adjust = $PercentOf(base_maxhp, percent_maxhp, high_value);
-	total_maxhp = base_maxhp + flat_maxhp + maxhp_adjust;
-	thisagent's "MaxHP_Total" = total_maxhp;
-	$setattribute(thisagent, #ATTRIB_MaxHP, total_maxhp);
-end
 ////////////////////////////////////////////////////////////////////////////////
-function UpdateAttribute(agent thisagent, string attrib)
-//For custom attributes that don't use any #ATTRIB data
+function UpdateCustomAttribute(agent thisagent, string attrib) is integer
 declare
-	integer base_attrib, flat_attrib, percent_attrib, attrib_adjust, total_attrib;
-	boolean high_value;
+	integer base_attrib, attrib_adjust, total_attrib;
 	string total, base, flat, percent;
 
 begin
@@ -2966,16 +2872,14 @@ begin
 	flat = attrib + "_Flat_Modifier";
 	percent = attrib + "_Percent_Modifier";
 	total = attrib + "_Total";
+	
 	base_attrib = thisagent's base;
-	high_value = false;
-	flat_attrib = thisagent's flat;
-	percent_attrib = thisagent's percent;
-	if (base_attrib >= 1000)
-		high_value = true;
-	attrib_adjust = $PercentOf(base_attrib, percent_attrib, high_value);
-	total_attrib = base_attrib + flat_attrib + attrib_adjust;
+	attrib_adjust = $PercentOf(base_attrib, thisagent's percent, (base_attrib >= 1000));
+	total_attrib = base_attrib + thisagent's flat + attrib_adjust;
 	thisagent's total = total_attrib;
+	return total_attrib;
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdatePhysicalArmor(agent thisagent)
 
@@ -2984,17 +2888,12 @@ declare
 	boolean high_value;
 
 begin
-	base_armor = thisagent's "Armor_Physical_Base";
-	high_value = false;
-	flat_armor = thisagent's "Armor_Physical_Flat_Modifier";
-	percent_armor = thisagent's "Armor_Physical_Percent_Modifier";
-	if (base_armor >= 1000)
-		high_value = true;
-	armor_adjust = $PercentOf(base_armor, percent_armor, high_value);
-	total_armor = base_armor + flat_armor + armor_adjust;
-	total_armor += thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves" + thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
+	total_armor = $UpdateCustomAttribute(thisagent, "Armor_Physical", 10);
+	total_armor += thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves"
+				 + thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
 	thisagent's "Armor_Physical_Total" = total_armor;
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function GenerateHeroAttributes(agent thisagent)
 //Cleaned out now that new attribute system is in place
