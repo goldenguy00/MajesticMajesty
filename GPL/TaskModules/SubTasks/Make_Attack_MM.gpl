@@ -40,7 +40,7 @@ begin
 	else
 		exp_given = #attack_exp_bonus;	//Exp given for attacking monsters, regardless of the attack landing
 
-	$attack_end(thisagent,exp_given, $XPLevel_Value_Base(target));
+	$attack_end_level(thisagent,exp_given, $XPLevel_Value_Base(target));
 
 	
 	if (hitresult == 1) // hit!
@@ -82,7 +82,7 @@ begin
 
 	hitresult = $spelltypehit(target, s_type);
 
-	$attack_end(thisagent,exp_given, $XPLevel_Value_Base(target));
+	$attack_end_level(thisagent,exp_given, $XPLevel_Value_Base(target));
 	
 	if (hitresult == 1) // hit
 		begin
@@ -95,9 +95,8 @@ begin
 
 end
 
-
 ///////////////////////////////////////////////////////////////////////////////
-function attack_end(agent thisagent,integer exp_given, integer level)
+function attack_end_level(agent thisagent,integer exp_given, integer level)
 //Attack end is just giving experience based on attributes
 declare
 	integer new_exp_div;
@@ -374,7 +373,8 @@ begin
 	
 	if (($GetAttribute(defender, #ATTRIB_HP) < dmg) && ($IsValidGamePiece(attacker) == True))
 		begin
-			defender's "Killing_Unit" = attacker;
+			if ($addattribute(defender, "Killing_unit", "agent", attacker) == False)
+				defender's "Killing_Unit" = attacker;
 			if ($HasAttribute("Cinders_Learned", attacker) == True)
 				$Cinders_Passive(attacker);
 			if ($Checkeffector(defender, "Pyrelight_icon") == True)
@@ -461,78 +461,19 @@ declare
 
 begin
 	return_damage = damage;
-	damage_amount_percent = 0;
-	damage_amount_flat = 0;
 	
 	if ((attacker == $nullagent()) || ($IsValidGamePiece(attacker) == False))
 		return return_damage;
-		
-	if (s_type == "Fire")
-		begin
-			Damage_type_percent = "Fire_Damage_Percent";
-			Damage_type_flat = "Fire_Damage_Flat";
-		end
-	else if (s_type == "Force")
-		begin
-			Damage_type_percent = "Force_Damage_Percent";
-			Damage_type_flat = "Force_Damage_Flat";
-		end
-	else if (s_type == "Cold")
-		begin
-			Damage_type_percent = "Cold_Damage_Percent";
-			Damage_type_flat = "Cold_Damage_Flat";
-		end
-	else if (s_type == "Electric")
-		begin
-			Damage_type_percent = "Electric_Damage_Percent";
-			Damage_type_flat = "Electric_Damage_Flat";
-		end
-	else if (s_type == "Poison")
-		begin
-			Damage_type_percent = "Poison_Damage_Percent";
-			Damage_type_flat = "Poison_Damage_Flat";
-		end
-	else if (s_type == "Arcane")
-		begin
-			Damage_type_percent = "Arcane_Damage_Percent";
-			Damage_type_flat = "Arcane_Damage_Flat";
-		end
-	else if (s_type == "Divine")
-		begin
-			Damage_type_percent = "Divine_Damage_Percent";
-			Damage_type_flat = "Divine_Damage_Flat";
-		end
-	else if (s_type == "Necrotic")
-		begin
-			Damage_type_percent = "Necrotic_Damage_Percent";
-			Damage_type_flat = "Necrotic_Damage_Flat";
-		end
-	else if (s_type == "Chaotic")
-		begin
-			Damage_type_percent = "Chaotic_Damage_Percent";
-			Damage_type_flat = "Chaotic_Damage_Flat";
-		end
-	else if (s_type == "Crushing")
-		begin
-			Damage_type_percent = "Crushing_Damage_Percent";
-			Damage_type_flat = "Crushing_Damage_Flat";
-		end
-	else if (s_type == "Slashing")
-		begin
-			Damage_type_percent = "Slashing_Damage_Percent";
-			Damage_type_flat = "Slashing_Damage_Flat";
-		end
-	else if (s_type == "Piercing")
-		begin
-			Damage_type_percent = "Piercing_Damage_Percent";
-			Damage_type_flat = "Piercing_Damage_Flat";
-		end
+
+	damage_amount_flat = 0;
+	Damage_type_flat = s_type+"_Damage_Flat";
+	if ($HasAttribute(damage_type_flat, attacker))
+	begin
+		damage_amount_flat = attacker's damage_type_flat;
+		damage_amount_flat = $DamageModifiersFlat(defender, attacker, s_type, damage_amount_flat);
+	end
 	
-	damage_amount_flat = attacker's damage_type_flat;
-	damage_amount_flat = $DamageModifiersFlat(defender, attacker, s_type, damage_amount_flat);
-	
-	//if (damage_amount_flat > 0)
-		return_damage += damage_amount_flat;
+	return_damage += damage_amount_flat;
 	
 	if (return_damage < 1)
 		begin
@@ -540,9 +481,14 @@ begin
 			return return_damage;
 		end
 	
-	damage_amount_percent = attacker's damage_type_percent;
-	damage_amount_percent = $DamageModifiersPercent(defender, attacker, s_type, damage_amount_percent);
-	
+	damage_amount_percent = 0;
+	Damage_type_percent = s_type+"_Damage_Percent";
+	if ($HasAttribute(damage_type_percent, attacker))
+	begin
+		damage_amount_percent = attacker's damage_type_percent;
+		damage_amount_percent = $DamageModifiersPercent(defender, attacker, s_type, damage_amount_percent);
+	end
+
 	if (damage_amount_percent == 0)
 		return return_damage;
 		
@@ -598,73 +544,12 @@ declare
 
 begin
 	return_damage = damage;
-	resist_amount_percent = 0;
-	resist_amount_flat = 0;
 	
 	if ((defender == $nullagent()) || ($IsValidGamePiece(defender) == False))
 		return return_damage;
 		
-	if (s_type == "Fire")
-		begin
-			resistance_type_percent = "Fire_Resistance_Percent";
-			resistance_type_flat = "Fire_Resistance_Flat";
-		end
-	else if (s_type == "Cold")
-		begin
-			resistance_type_percent = "Cold_Resistance_Percent";
-			resistance_type_flat = "Cold_Resistance_Flat";
-		end
-	else if (s_type == "Electric")
-		begin
-			resistance_type_percent = "Electric_Resistance_Percent";
-			resistance_type_flat = "Electric_Resistance_Flat";
-		end
-	else if (s_type == "Poison")
-		begin
-			resistance_type_percent = "Poison_Resistance_Percent";
-			resistance_type_flat = "Poison_Resistance_Flat";
-		end
-	else if (s_type == "Arcane")
-		begin
-			resistance_type_percent = "Arcane_Resistance_Percent";
-			resistance_type_flat = "Arcane_Resistance_Flat";
-		end
-	else if (s_type == "Force")
-		begin
-			resistance_type_percent = "Force_Resistance_Percent";
-			resistance_type_flat = "Force_Resistance_Flat";
-		end
-	else if (s_type == "Divine")
-		begin
-			resistance_type_percent = "Divine_Resistance_Percent";
-			resistance_type_flat = "Divine_Resistance_Flat";
-		end
-	else if (s_type == "Necrotic")
-		begin
-			resistance_type_percent = "Necrotic_Resistance_Percent";
-			resistance_type_flat = "Necrotic_Resistance_Flat";
-		end
-	else if (s_type == "Chaotic")
-		begin
-			resistance_type_percent = "Chaotic_Resistance_Percent";
-			resistance_type_flat = "Chaotic_Resistance_Flat";
-		end
-	else if (s_type == "Crushing")
-		begin
-			resistance_type_percent = "Crushing_Resistance_Percent";
-			resistance_type_flat = "Crushing_Resistance_Flat";
-		end
-	else if (s_type == "Slashing")
-		begin
-			resistance_type_percent = "Slashing_Resistance_Percent";
-			resistance_type_flat = "Slashing_Resistance_Flat";
-		end
-	else if (s_type == "Piercing")
-		begin
-			resistance_type_percent = "Piercing_Resistance_Percent";
-			resistance_type_flat = "Piercing_Resistance_Flat";
-		end
-	
+	resist_amount_flat = 0;
+	resistance_type_flat = s_type+"_Resistance_Flat";
 	if ($HasAttribute(resistance_type_flat, defender))
 		begin
 			resist_amount_flat = defender's resistance_type_flat;
@@ -678,6 +563,8 @@ begin
 			return return_damage;
 		end
 	
+	resist_amount_percent = 0;
+	resistance_type_percent = s_type+"_Resistance_Percent";
 	if ($HasAttribute(resistance_type_percent, defender))
 		begin
 			resist_amount_percent = defender's resistance_type_percent;
@@ -860,7 +747,8 @@ begin
 
 			if (($GetAttribute(defender, #ATTRIB_HP) < dmg) && ($IsValidGamePiece(attacker) == True))
 				begin
-					defender's "Killing_Unit" = attacker;
+					if ($addattribute(defender, "Killing_unit", "agent", attacker) == False)
+						defender's "Killing_Unit" = attacker;
 					if ($HasAttribute("Cinders_Learned", attacker) == True)
 						$Cinders_Passive(attacker);
 					if ($Checkeffector(defender, "Pyrelight_icon") == True)
@@ -869,6 +757,7 @@ begin
 	
 			if (attacker's "subtype" == "hero")
 				begin
+					$AddAttribute(defender, "Experience_Value_Base", "integer", 100);
 					dmg_exp = (dmg * defender's "Experience_Value_Base") / $getattribute(defender, #ATTRIB_MaxHP);
 					$give_exp_level(attacker, dmg_exp, $XPLevel_Value_Base(defender));
 				end
@@ -899,159 +788,131 @@ begin
 	dmg = 0;
 	dmg_total = 0;
 	STR_Modifier_Appplied = False;
+	damage_type = "None";
 	
 	if ((attacker == $nullagent()) || ($IsValidGamePiece(attacker) == False))
 		return dmg_total;
 		
-	if ((attacker's "Fire_Attack_Damage_Min" > 0) || (attacker's "Fire_Attack_Damage_Max" > 0) || (attacker's "Fire_Attack_Damage_Min_Modifier" != 0) || (attacker's "Fire_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Fire"))
 		begin
 			damage_type = "Fire";
-			dmg = $MinMax((attacker's "Fire_Attack_Damage_Min" + attacker's "Fire_Attack_Damage_Min_Modifier"), (attacker's "Fire_Attack_Damage_Max" + attacker's "Fire_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Cold_Attack_Damage_Min" > 0) || (attacker's "Cold_Attack_Damage_Max" > 0) || (attacker's "Cold_Attack_Damage_Min_Modifier" != 0) || (attacker's "Cold_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Cold"))
 		begin
 			damage_type = "Cold";
-			dmg = $MinMax((attacker's "Cold_Attack_Damage_Min" + attacker's "Cold_Attack_Damage_Min_Modifier"), (attacker's "Cold_Attack_Damage_Max" + attacker's "Cold_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 		
-	if ((attacker's "Electric_Attack_Damage_Min" > 0) || (attacker's "Electric_Attack_Damage_Max" > 0) || (attacker's "Electric_Attack_Damage_Min_Modifier" != 0) || (attacker's "Electric_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Electric"))
 		begin
 			damage_type = "Electric";
-			dmg = $MinMax((attacker's "Electric_Attack_Damage_Min" + attacker's "Electric_Attack_Damage_Min_Modifier"), (attacker's "Electric_Attack_Damage_Max" + attacker's "Electric_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 		
-	if ((attacker's "Poison_Attack_Damage_Min" > 0) || (attacker's "Poison_Attack_Damage_Max" > 0) || (attacker's "Poison_Attack_Damage_Min_Modifier" != 0) || (attacker's "Poison_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Poison"))
 		begin
 			damage_type = "Poison";
-			dmg = $MinMax((attacker's "Poison_Attack_Damage_Min" + attacker's "Poison_Attack_Damage_Min_Modifier"), (attacker's "Poison_Attack_Damage_Max" + attacker's "Poison_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 		
-	if ((attacker's "Arcane_Attack_Damage_Min" > 0) || (attacker's "Arcane_Attack_Damage_Max" > 0) || (attacker's "Arcane_Attack_Damage_Min_Modifier" != 0) || (attacker's "Arcane_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Arcane"))
 		begin
 			damage_type = "Arcane";
-			dmg = $MinMax((attacker's "Arcane_Attack_Damage_Min" + attacker's "Arcane_Attack_Damage_Min_Modifier"), (attacker's "Arcane_Attack_Damage_Max" + attacker's "Arcane_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Force_Attack_Damage_Min" > 0) || (attacker's "Force_Attack_Damage_Max" > 0) || (attacker's "Force_Attack_Damage_Min_Modifier" != 0) || (attacker's "Force_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Force"))
 		begin
 			damage_type = "Force";
-			dmg = $MinMax((attacker's "Force_Attack_Damage_Min" + attacker's "Force_Attack_Damage_Min_Modifier"), (attacker's "Force_Attack_Damage_Max" + attacker's "Force_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Divine_Attack_Damage_Min" > 0) || (attacker's "Divine_Attack_Damage_Max" > 0) || (attacker's "Divine_Attack_Damage_Min_Modifier" != 0) || (attacker's "Divine_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Divine"))
 		begin
 			damage_type = "Divine";
-			dmg = $MinMax((attacker's "Divine_Attack_Damage_Min" + attacker's "Divine_Attack_Damage_Min_Modifier"), (attacker's "Divine_Attack_Damage_Max" + attacker's "Divine_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Necrotic_Attack_Damage_Min" > 0) || (attacker's "Necrotic_Attack_Damage_Max" > 0) || (attacker's "Necrotic_Attack_Damage_Min_Modifier" != 0) || (attacker's "Necrotic_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Necrotic"))
 		begin
 			damage_type = "Necrotic";
-			dmg = $MinMax((attacker's "Necrotic_Attack_Damage_Min" + attacker's "Necrotic_Attack_Damage_Min_Modifier"), (attacker's "Necrotic_Attack_Damage_Max" + attacker's "Necrotic_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Chaotic_Attack_Damage_Min" > 0) || (attacker's "Chaotic_Attack_Damage_Max" > 0) || (attacker's "Chaotic_Attack_Damage_Min_Modifier" != 0) || (attacker's "Chaotic_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Chaotic"))
 		begin
 			damage_type = "Chaotic";
-			dmg = $MinMax((attacker's "Chaotic_Attack_Damage_Min" + attacker's "Chaotic_Attack_Damage_Min_Modifier"), (attacker's "Chaotic_Attack_Damage_Max" + attacker's "Chaotic_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Crushing_Attack_Damage_Min" > 0) || (attacker's "Crushing_Attack_Damage_Max" > 0) || (attacker's "Crushing_Attack_Damage_Min_Modifier" != 0) || (attacker's "Crushing_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Crushing"))
 		begin
 			damage_type = "Crushing";
-			if ((STR_Modifier_Appplied != True) && (attacker's "Crushing_Attack_Damage_Min" > 0) || (attacker's "Crushing_Attack_Damage_Max" > 0))
+			if (STR_Modifier_Appplied != True && attacker's (damage_type+"_Attack_Damage_Min") > 0 || attacker's (damage_type+"_Attack_Damage_Max") > 0)
 				begin
 					dmg_total += ($getattribute(attacker, #ATTRIB_Strength) / #strength_div);
 					STR_Modifier_Appplied = True;
 				end
-			dmg = $MinMax((attacker's "Crushing_Attack_Damage_Min" + attacker's "Crushing_Attack_Damage_Min_Modifier"), (attacker's "Crushing_Attack_Damage_Max" + attacker's "Crushing_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Slashing_Attack_Damage_Min" > 0) || (attacker's "Slashing_Attack_Damage_Max" > 0) || (attacker's "Slashing_Attack_Damage_Min_Modifier" != 0) || (attacker's "Slashing_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Slashing"))
 		begin
 			damage_type = "Slashing";
-			if ((STR_Modifier_Appplied != True) && (attacker's "Slashing_Attack_Damage_Min" > 0) || (attacker's "Slashing_Attack_Damage_Max" > 0))
+			if (STR_Modifier_Appplied != True && attacker's (damage_type+"_Attack_Damage_Min") > 0 || attacker's (damage_type+"_Attack_Damage_Max") > 0)
 				begin
 					dmg_total += ($getattribute(attacker, #ATTRIB_Strength) / #strength_div);
 					STR_Modifier_Appplied = True;
 				end
-			dmg = $MinMax((attacker's "Slashing_Attack_Damage_Min" + attacker's "Slashing_Attack_Damage_Min_Modifier"), (attacker's "Slashing_Attack_Damage_Max" + attacker's "Slashing_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
 	
-	if ((attacker's "Piercing_Attack_Damage_Min" > 0) || (attacker's "Piercing_Attack_Damage_Max" > 0) || (attacker's "Piercing_Attack_Damage_Min_Modifier" != 0) || (attacker's "Piercing_Attack_Damage_Max_Modifier" != 0))
+	if ($CanAttackWithType(attacker, "Piercing"))
 		begin
 			damage_type = "Piercing";
-			if ((STR_Modifier_Appplied != True) && (attacker's "Piercing_Attack_Damage_Min" > 0) || (attacker's "Piercing_Attack_Damage_Max" > 0))
+			if (STR_Modifier_Appplied != True && attacker's (damage_type+"_Attack_Damage_Min") > 0 || attacker's (damage_type+"_Attack_Damage_Max") > 0)
 				begin
 					dmg_total += ($getattribute(attacker, #ATTRIB_Strength) / #strength_div);
 					STR_Modifier_Appplied = True;
 				end
-			dmg = $MinMax((attacker's "Piercing_Attack_Damage_Min" + attacker's "Piercing_Attack_Damage_Min_Modifier"), (attacker's "Piercing_Attack_Damage_Max" + attacker's "Piercing_Attack_Damage_Max_Modifier"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-			if (dmg < 0)
-				dmg = 0;
-			dmg_total += dmg;
+			dmg_total += $GetDamage(attacker, defender, damage_type);
 		end
-	
+
+	if (damage_type == "None")
+		begin
+			dmg = $getattribute(attacker, #ATTRIB_Strength) / #strength_div;
+			dmg_total = $getattribute(attacker,#ATTRIB_strength) - dmg;
+			return 1 + dmg + $randomnumber(dmg_total);
+		end
+
 	return dmg_total;
-	
+end
+
+function CanAttackWithType(agent attacker, string type) is boolean
+
+declare
+
+begin
+	if ($HasAttribute((type+"_Attack_Damage_Min"), attacker) == false)
+		return false;
+	return attacker's (type + "_Attack_Damage_Min") > 0 || attacker's (type + "_Attack_Damage_Max") > 0 ||
+	 		attacker's (type + "_Attack_Damage_Min_Modifier") != 0 || attacker's (type + "_Attack_Damage_Max_Modifier") != 0;
+end
+
+function GetDamage(agent attacker, agent defender, string damage_type) is integer
+
+declare
+	integer dmg;
+
+begin
+		dmg = $MinMaxAttackType(attacker, damage_type);
+		dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
+		dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
+		if (dmg < 0)
+			dmg = 0;
+		return dmg;
 end
 
 ///////////////////////////////////////////////////////////////////////////////

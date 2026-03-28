@@ -115,7 +115,7 @@ Begin
 					If ($ListSize (Undead) > 0)
 						begin
 							ThisAgent's completetarget = $ListMember (Undead, 1);
-							$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's "Target"));
+							//$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's completetarget));
 							ThisAgent's completeaction = $Go_Control_Monster;
 							ThisAgent's completecondition = $isdead;
 							ThisAgent's completeintent = "IDTXT_INTENT_CONTROLLINGUNDEAD";

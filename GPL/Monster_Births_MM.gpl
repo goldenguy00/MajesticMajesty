@@ -36,7 +36,7 @@ begin
 
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 	
 end
 
@@ -84,7 +84,7 @@ begin
 	
 	$newthread(thisagent's "activeScript", 500 ,thisagent);
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 	
 end
 
@@ -110,7 +110,7 @@ begin
 
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -135,7 +135,7 @@ begin
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -160,7 +160,7 @@ begin
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -185,7 +185,7 @@ begin
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 ///////////////////////////////////////////////////////////////////////////////
 function blood_mage_birth(agent thisagent)
@@ -209,7 +209,7 @@ begin
 
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -236,7 +236,7 @@ begin
 	$NewThread(thisagent's "Spirit_Troll_Buff", 400, thisagent);
 	//$SpellTimeoutEffect( thisagent, $cm_SpiritTrollBuff_Death, 1000, 0, 0, 0, 0, 0,0,0,0 );
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 	
 end
 
@@ -258,7 +258,7 @@ begin
 
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -279,7 +279,7 @@ begin
 
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 	
 end
 

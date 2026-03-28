@@ -18,8 +18,6 @@ begin
 
 	$performaction( thisagent,"Become_Rubble",thisagent );
 	
-	(thisagent's "Unit_Type_Death")(thisagent);
-	
 	if ($HasAttribute("Options", thisagent))
 	if (thisagent's "Options" != $NullAgent())
 		begin
@@ -62,7 +60,6 @@ function Mausoleum_death ( agent thisagent )
 declare
 	integer spawns;
 begin
-
 	if ( $GetAttribute ( thisagent, #ATTRIB_FirstStageBuilt ) == 1 )
 		begin
 			spawns = $randomnumber ( 6 ) + 6;
@@ -87,8 +84,6 @@ begin
 	$Clean_Palace_Construction_Lists (ThisAgent);
 
 	$performaction( thisagent,"Become_Rubble",thisagent );
-	
-	(thisagent's "Unit_Type_Death")(thisagent);
 
 	$deleteagent(thisagent);
 end
@@ -143,7 +138,6 @@ begin
 
 		end
 
-	(thisagent's "Unit_Type_Death")(thisagent);
 	$deleteagent(thisagent);
 
 end

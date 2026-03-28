@@ -35,10 +35,10 @@ begin
 	
 	palace = $GetTruePalace(thisagent);
 	
-	if (palace == $NullAgent())
+//	if (palace == $NullAgent())
 		$ListObjects(thisagent,"lair",-1, lairs, #NoHiddenMap,#NotMyTeam);
-	else
-		lairs = palace's "Total_Lair_List";
+//	else
+//		lairs = palace's "Enemy_Lair_List";
 
 	//Find all the lairs that are visible
 	$ListObjects(thisagent,"lair",-1, seen_lairs, #NotMyTeam);
@@ -50,12 +50,17 @@ begin
 			easiest_lair = $NullAgent();
 			foreach lair in lairs do
 				begin
-					score = lair's "difficulty";
-					score = score * $distancebetweenagents(thisagent,lair) / #Solarii_Raid_Find_Lair_Mod;
-					if (score < easiest_lair_score)
+					if (lair != $NullAgent())
+					//	palace's "Enemy_Lair_List" -= lair;
+					//else
 						begin
-							easiest_lair_score = score;
-							easiest_lair = lair;
+							score = lair's "difficulty";
+							score = score * $distancebetweenagents(thisagent,lair) / #Solarii_Raid_Find_Lair_Mod;
+							if (score < easiest_lair_score)
+								begin
+									easiest_lair_score = score;
+									easiest_lair = lair;
+								end
 						end
 				end
 
@@ -63,7 +68,7 @@ begin
 
   //			$debugout("final score - ",easiest_lair_score);
 
-			if (easiest_lair_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
+			if (easiest_lair != $NullAgent() && easiest_lair_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
 				begin
 					ThisAgent's completecondition = $notvalid;
 					thisagent's completetarget = easiest_lair;

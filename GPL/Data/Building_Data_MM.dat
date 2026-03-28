@@ -11,10 +11,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Zoo)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Zoo)
@@ -35,10 +35,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Zoo)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Zoo)
@@ -58,10 +58,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Zoo)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Zoo)
@@ -83,10 +83,10 @@
 		(Magical_build_rate     2)
 		(Unit_Type			Building)
 		(Unit_Subtype		Sorcerers_Abode)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Sorcerers_Abode)
@@ -105,10 +105,10 @@
 		(upgradescript		magical_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Sorcerers_Abode)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Sorcerers_Abode)
@@ -126,10 +126,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Sorcerers_Abode)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Sorcerers_Abode)
@@ -151,10 +151,10 @@
 		(Sleep_For		10000)
 		(Unit_Type			Building)
 		(Unit_Subtype		Market)
-		(Unit_Type_Attributes		MagicBazaarGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			MagicBazaarGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Magic_Bazaar)
@@ -176,10 +176,10 @@
 		(Sleep_For		10000)
 		(Unit_Type			Building)
 		(Unit_Subtype		Market)
-		(Unit_Type_Attributes		MagicBazaarGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			MagicBazaarGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Magic_Bazaar)
@@ -201,10 +201,10 @@
 		(Sleep_For		10000)
 		(Unit_Type			Building)
 		(Unit_Subtype		Market)
-		(Unit_Type_Attributes		MagicBazaarGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			MagicBazaarGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Magic_Bazaar)
@@ -225,10 +225,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		HallOfChampions)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Hall_Of_Champions)
@@ -250,10 +250,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Mausoleum)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Mausoleum)
@@ -289,10 +289,8 @@
 		(IGdeathscript		Outpost_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Outpost)
-		(Unit_Type_Attributes		PalaceGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Outpost)
@@ -314,10 +312,10 @@
 		(IGdeathscript		Embassy_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Embassy)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Embassy)
@@ -344,10 +342,8 @@
 		(IGdeathscript		lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Watchtower)
@@ -374,10 +370,10 @@
 		(Max_Stored_Spawns	3)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Fortress) 
@@ -402,10 +398,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Rats_Nest) 
@@ -429,10 +425,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Ancient_Graveyard) 
@@ -462,10 +458,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Fortress_of_Ixmil) 
@@ -490,10 +486,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Broken_Sewer_Main) 
@@ -517,10 +513,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Ice_Cave) 
@@ -544,10 +540,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Ancient_Barrow) 
@@ -571,10 +567,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Wights_Tomb) 
@@ -599,10 +595,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Snake_Pit) 
@@ -633,10 +629,8 @@
 		(Dispersion_Range	200)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Spire_Of_Death) 
@@ -664,10 +658,8 @@
 		(IGdeathscript		Palace_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Palace)
-		(Unit_Type_Attributes		PalaceGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Evil_Palace) 
@@ -698,10 +690,9 @@
 		(upgradescript2		Palace_upgrade2)
 		(Unit_Type			Building)
 		(Unit_Subtype		Palace)
-		(Unit_Type_Attributes		PalaceGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Palace)
@@ -732,10 +723,9 @@
 		(upgradescript2		Palace_upgrade2)
 		(Unit_Type			Building)
 		(Unit_Subtype		Palace)
-		(Unit_Type_Attributes		PalaceGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Palace)
@@ -763,10 +753,9 @@
 		(IGdeathscript		Palace_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Palace)
-		(Unit_Type_Attributes		PalaceGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Palace)
@@ -792,8 +781,6 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Tower)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Ballista_Tower)
@@ -821,10 +808,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Blacksmith)
-		(Unit_Type_Attributes		BlacksmithGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			BlacksmithGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Blacksmith)
@@ -847,10 +834,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Blacksmith)
-		(Unit_Type_Attributes		BlacksmithGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			BlacksmithGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Blacksmith)
@@ -872,10 +859,10 @@
 		(IGdeathscript				building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Blacksmith)
-		(Unit_Type_Attributes		BlacksmithGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			BlacksmithGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Blacksmith)
@@ -899,10 +886,10 @@
 		(ResetScript		Fairgrounds_Reset)
 		(Unit_Type			Building)
 		(Unit_Subtype		Fairgrounds)
-		(Unit_Type_Attributes		FairgroundsGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			FairgroundsGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Fairgrounds)
@@ -936,10 +923,8 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guardhouse)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Guardhouse)
@@ -974,10 +959,8 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guardhouse)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
 		(Armor_Physical_Base		100)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Guardhouse)
@@ -998,11 +981,11 @@
 		(birthScript2					Building_Birth)
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
-		(Unit_Type_Attributes		InnGeneralAttributes)
+
 		(Unit_Subtype		Inn)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			InnGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Inn)
@@ -1029,10 +1012,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Library)
-		(Unit_Type_Attributes		LibraryGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LibraryGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Library)
@@ -1058,10 +1041,10 @@
 		(Initial_Research		Library_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Library)
-		(Unit_Type_Attributes		LibraryGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LibraryGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Library)
@@ -1087,10 +1070,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Market)
-		(Unit_Type_Attributes		MarketplaceGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			MarketplaceGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Marketplace)
@@ -1115,10 +1098,10 @@
 		(upgradescript		basic_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Market)
-		(Unit_Type_Attributes		MarketplaceGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			MarketplaceGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Marketplace)
@@ -1142,10 +1125,10 @@
 		(Initial_Research		Marketplace_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Market)
-		(Unit_Type_Attributes		MarketplaceGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			MarketplaceGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Marketplace)
@@ -1167,10 +1150,10 @@
 		(ActiveScript		Trading_Post)
 		(Unit_Type			Building)
 		(Unit_Subtype		Trading_Post)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Trading_Post)
@@ -1196,10 +1179,8 @@
 		(Magical_build_rate     5)
 		(Unit_Type			Building)
 		(Unit_Subtype		Wizard_Tower)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Wizards_Tower)
@@ -1218,10 +1199,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Brothel)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Brothel)
@@ -1254,10 +1235,8 @@
 		(IGdeathscript		Guild_destroyed_a)
 		(Unit_Type			Building)
 		(Unit_Subtype		Dwarven_Settlement)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Dwarven_Settlement)
@@ -1284,10 +1263,10 @@
 		(IGdeathscript		bungalow_destroyed)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Elven_Bungalow)
@@ -1311,8 +1290,8 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Graveyard)
@@ -1331,10 +1310,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Gambling_Hall)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Gambling_Hall)
@@ -1359,10 +1338,10 @@
 		(IGdeathscript		gnome_camp_destroyed)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Gnome_Hovel)
@@ -1379,10 +1358,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		House)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_House)
@@ -1399,10 +1378,10 @@
 		(IGdeathscript					 building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		House)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Manor)
@@ -1420,10 +1399,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		House)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Estate)
@@ -1448,10 +1427,10 @@
 		(Initial_Research		Warriors_Guild_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Warriors_Guild)
@@ -1478,10 +1457,10 @@
 		(Initial_Research		Rangers_Guild_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Rangers_Guild)
@@ -1510,10 +1489,10 @@
 		(Initial_Research		Rogues_Guild_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Rogues_Guild)
@@ -1541,10 +1520,10 @@
 		(Initial_Research		Rogues_Guild_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Rogues_Guild)
@@ -1574,10 +1553,10 @@
 		(Magical_build_rate     5)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Wizards_Guild)
@@ -1605,10 +1584,10 @@
 		(upgradescript		magical_upgrade)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Wizards_Guild)
@@ -1635,10 +1614,10 @@
 		(Initial_Research		Wizard_Guild_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Guild)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Wizards_Guild)
@@ -1666,10 +1645,10 @@
 		(Initial_Research		Temple_Agrela_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Agrela_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Agrela)
@@ -1696,10 +1675,10 @@
 		(Initial_Research		Temple_Agrela_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Agrela_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Agrela)
@@ -1725,10 +1704,10 @@
 		(Initial_Research		Temple_Agrela_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Agrela_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Agrela)
@@ -1756,10 +1735,10 @@
 		(Initial_Research		Temple_Dauros_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Dauros_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Dauros)
@@ -1786,10 +1765,10 @@
 		(Initial_Research		Temple_Dauros_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Dauros_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Dauros)
@@ -1815,10 +1794,10 @@
 		(Initial_Research		Temple_Dauros_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Dauros_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Dauros)
@@ -1847,10 +1826,10 @@
 		(Initial_Research		Temple_Fervus_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Fervus_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Fervus)
@@ -1878,10 +1857,10 @@
 		(Initial_Research		Temple_Fervus_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Fervus_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Fervus)
@@ -1908,10 +1887,10 @@
 		(Initial_Research		Temple_Fervus_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Fervus_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Fervus)
@@ -1939,10 +1918,10 @@
 		(Initial_Research		Temple_Helia_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Helia_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Helia)
@@ -1968,10 +1947,10 @@
 		(Initial_Research		Temple_Helia_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Helia_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Helia)
@@ -1998,10 +1977,10 @@
 		(Initial_Research		Temple_Krolm_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Krolm_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Krolm)
@@ -2029,10 +2008,10 @@
 		(Initial_Research		Temple_Krypta_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Krypta_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Krypta)
@@ -2059,10 +2038,10 @@
 		(Initial_Research		Temple_Krypta_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Krypta_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Krypta)
@@ -2088,10 +2067,10 @@
 		(Initial_Research		Temple_Krypta_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Krypta_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Krypta)
@@ -2119,10 +2098,10 @@
 		(Initial_Research		Temple_Lunord_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Lunord_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Lunord)
@@ -2148,10 +2127,10 @@
 		(Initial_Research		Temple_Lunord_Research)
 		(Unit_Type			Building)
 		(Unit_Subtype		Temple)
-		(Unit_Type_Attributes		GuildGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GuildGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Lunord_Cult)
 		(Kill_Credit_Specific	KCS_Temple_Lunord)
@@ -2175,10 +2154,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Camp) 
@@ -2202,10 +2181,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Hovel) 
@@ -2229,10 +2208,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Dark_Castle) 
@@ -2256,10 +2235,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Dark_Castle) 
@@ -2283,10 +2262,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Dark_Castle) 
@@ -2310,10 +2289,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Dark_Castle) 
@@ -2337,10 +2316,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Ruined_Altar) 
@@ -2364,10 +2343,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Ruined_Altar) 
@@ -2391,10 +2370,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Ruined_Shrine) 
@@ -2418,10 +2397,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Sewers) 
@@ -2447,10 +2426,10 @@
 		(IGdeathscript					Sphere_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Brashnards_Sphere) 
@@ -2476,10 +2455,10 @@
 		(IGdeathscript		Hideout_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Outlaw)
 		(Kill_Credit_Specific	KCS_Elven_Hideout)
@@ -2503,10 +2482,10 @@
 		(IGdeathscript		Slave_pits_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Slave_Pits)
@@ -2530,10 +2509,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Slave_Cross)
@@ -2559,10 +2538,10 @@
 		(IGdeathscript		Hidden_Sword_Death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Neutral)
 		(Kill_Credit_Specific	KCS_Hidden_Sword_Site)
@@ -2588,10 +2567,10 @@
 		(IGdeathscript				Hidden_Chalice_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Neutral)
 		(Kill_Credit_Specific	KCS_Hidden_Chalice_Site)
@@ -2617,10 +2596,10 @@
 		(IGdeathscript		Hidden_Ring_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Neutral)
 		(Kill_Credit_Specific	KCS_Hidden_Ring_Site)
@@ -2644,10 +2623,10 @@
 		(IGdeathscript		Crown_site_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Neutral)
 		(Kill_Credit_Specific	KCS_Crown_Site)
@@ -2671,10 +2650,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Neutral)
 		(Kill_Credit_Specific	KCS_Tower_Prison)
@@ -2698,10 +2677,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Dragon_Lair)
@@ -2725,10 +2704,10 @@
 		(IGdeathscript		Witch_king_tower_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Witch_King_Tower)
@@ -2752,10 +2731,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Dragon_Tomb)
@@ -2779,10 +2758,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Liche_Queen_lair)
@@ -2809,10 +2788,10 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Lair)
-		(Unit_Type_Attributes		LairGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			LairGeneralDeath)
+
 		(Kill_Credit_Type	Lair)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Animal_Den)
@@ -2830,10 +2809,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Gazebo)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Gazebo)
@@ -2850,10 +2829,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Fountain)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Fountain)
@@ -2875,10 +2854,10 @@
 		(IGdeathscript		gardens_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Royal_Gardens)
-		(Unit_Type_Attributes		GardensGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			GardensGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Royal_gardens)
@@ -2895,10 +2874,10 @@
 		(IGdeathscript		statue_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Statue)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Statue)
@@ -2915,10 +2894,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Arcane_Spire)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Arcane_Spire)
@@ -2936,10 +2915,10 @@
 		(IGdeathscript		building_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Shrine)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Shrine)
@@ -2961,10 +2940,10 @@
 		(IGdeathscript		bank_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Bank)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
+
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Bank)
@@ -2989,8 +2968,8 @@
 		(IGdeathscript		Lair_death)
 		(Unit_Type			Building)
 		(Unit_Subtype		Sanguine_Pit)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Sanguine_Pit)

@@ -2739,12 +2739,14 @@ begin
 		thisagent's "activescript" = $be_dead;
 		
 	if ((thisagent's "TaskPackageStatus" == "Engaged")) 
-		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent") && (thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target this hero attacked is dead after already engaging the target once in combat.
+		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent"))
+		if ((thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target this hero attacked is dead after already engaging the target once in combat.
 			begin																								//  By default, if it is, whether or not it died in the engagement with the hero, it will mark as complete
 				thisagent's "TaskPackageStatus" = "Complete";
 			end
 	if ((thisagent's "TaskPackageStatus" == "Ongoing") && ((thisagent's "TaskPackageTargetActionCurrent") != $Search_For_Task))		//Don't use && since condition and target might not be set up yet, and it will divide by 0
-		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent") && (thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target of the action is no longer valid.
+		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent"))
+		if ((thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target of the action is no longer valid.
 			begin																								//  On this case, it will be marked as Retry for the Status
 				thisagent's "TaskPackageStatus" = "Retry";
 			end											

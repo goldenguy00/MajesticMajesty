@@ -64,8 +64,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Lunord_Cult)
 		(Kill_Credit_Specific	KCS_Adept)
@@ -142,8 +142,8 @@
 		(IGdeathscript		Barbarian_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Krolm_Cult)
 		(Kill_Credit_Specific	KCS_Barbarian)
@@ -224,8 +224,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Fervus_Cult)
 		(Kill_Credit_Specific	KCS_Cultist)
@@ -305,8 +305,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Dwarf)
@@ -383,8 +383,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Elf)
@@ -461,8 +461,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Gnome)
@@ -540,8 +540,8 @@
 		(IGdeathscript				Healer_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Agrela_Cult)
 		(Kill_Credit_Specific	KCS_Healer)
@@ -618,8 +618,8 @@
 		(IGdeathscript				gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Dauros_Cult)
 		(Kill_Credit_Specific	KCS_Monk)
@@ -696,8 +696,8 @@
 		(IGdeathscript				gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Dauros_Cult)
 		(Kill_Credit_Specific	KCS_Paladin)
@@ -775,8 +775,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Krypta_Cult)
 		(Kill_Credit_Specific	KCS_Priestess)
@@ -854,8 +854,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Ranger)
@@ -933,8 +933,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Rogue)
@@ -1011,8 +1011,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Helia_Cult)
 		(Kill_Credit_Specific	KCS_Solarus)
@@ -1088,8 +1088,8 @@
 		(IGdeathscript					gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Uses_Equipment					True)
@@ -1166,8 +1166,8 @@
 		(IGdeathscript					gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Fervus_Cult)
 		(Kill_Credit_Specific	KCS_Warrior_Of_Discord)
@@ -1244,8 +1244,8 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Wizard)
@@ -1275,8 +1275,8 @@
 		(IGdeathscript				Guard_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_City_Guard)
@@ -1315,8 +1315,8 @@
 		(IGdeathscript				Guard_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Archer)
@@ -1351,8 +1351,8 @@
 		(IGdeathscript				Guard_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Veteran_City_Guard)
@@ -1388,8 +1388,8 @@
 		(IGdeathscript				Guard_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Palace_Guard)
@@ -1421,8 +1421,8 @@
 		(IGdeathscript				tax_collector_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Tax_Collector)
@@ -1447,8 +1447,8 @@
 		(IGdeathscript		peasant_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Peasant)
@@ -1473,8 +1473,8 @@
 		(IGdeathscript		peasant_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Peasant)
@@ -1499,8 +1499,8 @@
 		(IGdeathscript		Caravan_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Caravan)
@@ -1530,8 +1530,8 @@
 		(IGdeathscript			illusionary_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Illusion)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Illusion)
 		(Kill_Credit_Faction	KCF_Neutral)
 		(Kill_Credit_Specific	KCS_Illusion)
@@ -1562,8 +1562,8 @@
 		(IGdeathscript				Royal_Archer_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Royal_Archer)
@@ -1598,8 +1598,8 @@
 		(IGdeathscript				Mercenary_Arbalest_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Mercenary_Arbalest)
@@ -1634,8 +1634,8 @@
 		(IGdeathscript				Court_Mage_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Court_Mage)
@@ -1671,8 +1671,8 @@
 		(IGdeathscript				Squire_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeGeneralAttributes)
-		(Unit_Type_Death			UnitTypeGeneralDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Squire)

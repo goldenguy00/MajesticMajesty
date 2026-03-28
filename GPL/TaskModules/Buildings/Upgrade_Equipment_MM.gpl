@@ -79,7 +79,7 @@ Begin
 		end
 
 	//check weapon upgrading
-	Else
+	Else If (What_to_upgrade == #ATTRIB_Weapon_Struct_Bonus)
 		begin
 			equipment_type = "RightHand";
 			If ($GetAttribute (ThisAgent, What_To_Upgrade) == 0 && Total_Gold >= #Cost_Per_Struct_Upgrade1 && $GetAttribute (ThisBuilding, #ATTRIB_ResearchWeaponLevel_2) != 0)

@@ -60,6 +60,7 @@ declare
 	string Enemytype;				// What the agent attacks, can be "Hero", "Monster" or "Nothing"
 	integer attacktype;				// The agent's attack type
 	string attack_action;			// The name of the action to perform when attacking
+	string special_attack_action;			// The name of the action to perform when attacking
 	string cast_action;				// The name of the action to perform when casting a spell
 	string Pickup_Action;			// The name of the action to perform when picking something up
 	string Idle_Action;				// The name of the action to perform when going into idle

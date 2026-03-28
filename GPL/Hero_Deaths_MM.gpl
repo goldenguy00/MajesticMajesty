@@ -142,7 +142,6 @@ begin
 		begin
 			thisagent's "type" = "Waiting_to_die";
 			$Drop_All_Stack_Items(thisAgent);
-			(thisagent's "Unit_Type_Death")(thisagent);
 			$killthread(thisagent's "activescript");
 			$deletegamepiece(thisagent);
 
@@ -538,7 +537,7 @@ End
 
 // This is overloaded because it is now responsible for spawning broken sewer
 // when a certain number of henchmen die.
-function henchman_dead(agent thisagent, agent target)
+function henchman_dead_alt(agent thisagent, agent target)
 declare
 	agent 	AIRootAgent, Palace, bldg;
 	list 		bldgs;
@@ -589,7 +588,6 @@ begin
 
 		end
 
-	(thisagent's "Unit_Type_Death")(thisagent);
 	$deletegamepiece(thisagent);
 
 end

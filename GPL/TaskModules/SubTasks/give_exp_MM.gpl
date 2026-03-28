@@ -406,10 +406,9 @@ declare
 	string picked_attribute;
 
 begin
-	exp_level = $getattribute(thisagent,#ATTRIB_experienceLevel);
-	
 	$Level_Up_Required_Attributes(thisagent); // For pre-placed scenario heroes that advance to higher levels on start-up
 	
+	exp_level = $getattribute(thisagent,#ATTRIB_experienceLevel);
 	stat_strength = $getattribute(thisagent, #ATTRIB_Strength);
 	stat_artifice = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_vitality = ($getattribute(thisagent, #ATTRIB_Vitality) / 10);
@@ -423,6 +422,7 @@ begin
 	//stat_wisdom = $getattribute(thisagent, #ATTRIB_ResearchTrainIntelligence);
 	stat_wisdom = thisagent's "Wisdom_Base";
 	//$adjustattribute(thisagent, #ATTRIB_ResearchWizardFireBlast, stat_wisdom);
+
 	thisagent's "InsightPoints_Base" += stat_wisdom;
 	//insight_points = $getAttribute(thisagent, #ATTRIB_ResearchWizardFireBlast);
 	insight_points = thisagent's "InsightPoints_Base";

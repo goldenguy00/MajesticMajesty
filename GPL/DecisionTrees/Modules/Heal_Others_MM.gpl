@@ -77,6 +77,7 @@ Begin
 			ThisAgent's completetarget = My_Target;
 //			$DebugOut ("Yes!");
 			ThisAgent's completeaction = $Go_Heal;
+			ThisAgent's completecondition = $IsDead;
 			Thisagent's completeintent = "IDTXT_INTENT_HEALOTHERS";
 			return True;
 		end

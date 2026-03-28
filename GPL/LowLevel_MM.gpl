@@ -819,7 +819,8 @@ function getintentext(agent thisagent) is string
 declare
 
 begin
-
+	if ($HasAttribute("intentext", thisagent) == false)
+		return "";
 	return thisagent's "intentext";
 
 end
@@ -2386,6 +2387,15 @@ begin
 	return new_amount;
 end
 
+function MinMaxAttackType(agent attacker, string type) is integer
+
+declare
+
+begin
+	return $MinMax(attacker's (type+"_Attack_Damage_Min") + attacker's (type+"_Attack_Damage_Min_Modifier"), 
+					attacker's (type+"_Attack_Damage_Max") + attacker's (type+"_Attack_Damage_Max_Modifier"));
+end
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function MinMax(integer minimum, integer maximum) is integer
 
@@ -2491,7 +2501,7 @@ begin
 			$damage(thisagent,target);
 		end
 		
-	$attack_end(thisagent,exp_given, $XPLevel_Value_Base(target));
+	$attack_end_level(thisagent,exp_given, $XPLevel_Value_Base(target));
 
 end
 
@@ -3490,176 +3500,146 @@ begin
 		thisagent's "Piercing_Resistance_Flat" *= -1;
 
 end
+
 ////////////////////////////////////////////////////////////////////////////////
-function UnitTypeMonsterDeath(agent thisagent)
+function UnitAttributes(agent thisagent)
 
 declare
-	agent palace, AIRootAgent;
+
 begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_Monsters_List") == True)
-				palace's "Total_Monsters_List" -= thisagent;
-		end
+	$RemoveAttribute(thisagent,"visited_script");
+	$RemoveAttribute(thisagent,"Occupants");
+	$RemoveAttribute(thisagent,"RevenueScript");
+	$RemoveAttribute(thisagent,"Revenue_Amount");
+	$RemoveAttribute(thisagent,"Revenue_Time");
+	$RemoveAttribute(thisagent,"Magical_Build_Rate");
+	$RemoveAttribute(thisagent,"spawn_1");
+	$RemoveAttribute(thisagent,"spawn_2");
+	$RemoveAttribute(thisagent,"birthScript2");
+	$RemoveAttribute(thisagent,"upgradescript");
+	$RemoveAttribute(thisagent,"upgradescript2");
+	$RemoveAttribute(thisagent,"History_Modifier");
+	$RemoveAttribute(thisagent,"Spawn_Function");
+	$RemoveAttribute(thisagent,"Base_Spawn_Rate");
+	$RemoveAttribute(thisagent,"difficulty");
+	$RemoveAttribute(thisagent,"Spawn_Type");
+	$RemoveAttribute(thisagent,"Special_Spawn_Type");
+	$RemoveAttribute(thisagent,"Multi_Spawn_Num");
+	$RemoveAttribute(thisagent,"Stored_Spawns");
+	$RemoveAttribute(thisagent,"Max_Simul_Spawns");
+	$RemoveAttribute(thisagent,"Max_Stored_Spawns");
+	$RemoveAttribute(thisagent,"Has_Special_Spawn");
+	$RemoveAttribute(thisagent,"Cleaning_Combatants");
+	$RemoveAttribute(thisagent,"Combatants");
+	$RemoveAttribute(thisagent,"Current_Contest");
+	$RemoveAttribute(thisagent,"Current_XPLevel");
+	$RemoveAttribute(thisagent,"ResetScript");
+	$RemoveAttribute(thisagent,"Lived_In_Script");
+	$RemoveAttribute(thisagent,"hero_lvl_upgrade");
+	$RemoveAttribute(thisagent,"members");
+	$RemoveAttribute(thisagent,"member_title");
+	$RemoveAttribute(thisagent,"member_basicscript");
+	$RemoveAttribute(thisagent,"max_members");
+	$RemoveAttribute(thisagent,"SpecialScript");
+	$RemoveAttribute(thisagent,"SpecialList");
+	$RemoveAttribute(thisagent,"Guard_Function");
+	$RemoveAttribute(thisagent,"Guard_Spawn_Function");
+	$RemoveAttribute(thisagent,"Waiting_Guards");
+	$RemoveAttribute(thisagent,"Waiting_Guardhouses");
+	$RemoveAttribute(thisagent,"Guards");
+	$RemoveAttribute(thisagent,"Under_Const_In_Sight");
+	$RemoveAttribute(thisagent,"Max_Guards");
+	$RemoveAttribute(thisagent,"current_gun");
+	$RemoveAttribute(thisagent,"grovelist");
+	$RemoveAttribute(thisagent,"spell_callback");
+	$RemoveAttribute(thisagent,"tax_spawn");
+	$RemoveAttribute(thisagent,"num_tax_collectors");
+	$RemoveAttribute(thisagent,"max_tax_collectors");
+	$RemoveAttribute(thisagent,"tax_route");
+	$RemoveAttribute(thisagent,"tax_targets");
+	$RemoveAttribute(thisagent,"spawn_taxman_return_list");
+	$RemoveAttribute(thisagent,"spawn_taxman_pickup_list");
+	$RemoveAttribute(thisagent,"tax_route_dead");
+	$RemoveAttribute(thisagent,"peasant_spawn");
+	$RemoveAttribute(thisagent,"num_peasants");
+	$RemoveAttribute(thisagent,"max_peasants");
+	$RemoveAttribute(thisagent,"busy_peasants");
+	$RemoveAttribute(thisagent,"buildings_waiting");
+	$RemoveAttribute(thisagent,"buildings_under_construction");
+	$RemoveAttribute(thisagent,"Vaporized_Gold");
+	$RemoveAttribute(thisagent,"troll_gold");
+	$RemoveAttribute(thisagent,"gnome_camp_spawner");
+	$RemoveAttribute(thisagent,"Gambling_hall_building");
+	$RemoveAttribute(thisagent,"gazebo_building");
+	$RemoveAttribute(thisagent,"Population_counter");
+	$RemoveAttribute(thisagent,"Waiting_population");
+	$RemoveAttribute(thisagent,"num_deceased_heroes");
+	$RemoveAttribute(thisagent,"total_buildings");
+	$RemoveAttribute(thisagent,"buildings_lately");
+	$RemoveAttribute(thisagent,"henchmen_dead_lately");
+	$RemoveAttribute(thisagent,"fountain_buildings");
+	$RemoveAttribute(thisagent,"blacksmith_trips");
+	$RemoveAttribute(thisagent,"heroes_to_upgrade");
+	thisagent's "General" = "GeneralTree";
+	thisagent's "Item" = "ItemTree";
+	$LearnSpell(thisagent, "GeneralTree");
+	$LearnSpell(thisagent, "ItemTree");
+	thisagent's "SpellsGeneral" << "General";
+	thisagent's "SpellsItem" << "Item";
+	thisagent's "SpellArrange" << thisagent's "SpellsGeneral";
+	thisagent's "SpellArrange" << thisagent's "SpellsItem";
+	if (thisagent's "Type" == "Hero")
+		$RemoveAttribute(thisagent,"speed");
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function UnitTypeMonsterAttributes(agent thisagent)
+function PalaceAttributes(agent thisagent)
+//Setup for units in general
 
 declare
-	agent palace, AIRootAgent;
+	agent AIRootAgent;
+	list lairs, monsters, buildings, heroes;
 
 begin
+	
+	AIRootAgent = $AIRootCheck();
+	if ($AgentInList(thisagent, AIRootAgent's "Total_Palaces") == false)
+		AIRootAgent's "Total_Palaces" << thisagent;
+
 	$SetNegativeResistance(thisagent);
 	
-	$AIRootCheck();
+	$ListObjects(thisagent,"lair",-1, lairs, #NoHiddenMap, #NotMyTeam);
+	$AddAttribute(thisagent, "Enemy_Lair_List", "list", lairs);
 	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+	$ListObjects(thisagent,"monster",-1, monsters, #NoHiddenMap, #NotMyTeam);
+	$AddAttribute(thisagent, "Enemy_Monster_List", "list", monsters);
 	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($GetPlayerTeamNumber(thisagent) != $GetPlayerTeamNumber(palace))
-				palace's "Total_Monsters_List" << thisagent;
-		end
+	$ListObjects(thisagent,"hero",-1, heroes, #NoHiddenMap, #NotMyTeam);
+	$AddAttribute(thisagent, "Enemy_Hero_List", "list", heroes);
+	
+	$ListObjects(thisagent,"building",-1, buildings, #NoHiddenMap, #NotMyTeam);
+	$AddAttribute(thisagent, "Enemy_Building_List", "list", buildings);
 end
 
+
 ////////////////////////////////////////////////////////////////////////////////
-function UnitTypeGeneralAttributes(agent thisagent)
-
+function GeneralAttributes(agent thisagent)
 declare
-	agent palace, AIRootAgent;
-
 begin
-
+	$AddToPalaceEnemyList(thisagent);
+	
 	$SetNegativeResistance(thisagent);
 	thisagent's "MaxHP_Base" = $GetAttribute(thisagent, #ATTRIB_MaxHP);
 	
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));
-	
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+		
 	if (thisagent's "Unit_Type" == "Unit")
-		begin
-			$RemoveAttribute(thisagent,"visited_script");
-			$RemoveAttribute(thisagent,"Occupants");
-			$RemoveAttribute(thisagent,"RevenueScript");
-			$RemoveAttribute(thisagent,"Revenue_Amount");
-			$RemoveAttribute(thisagent,"Revenue_Time");
-			$RemoveAttribute(thisagent,"Magical_Build_Rate");
-			$RemoveAttribute(thisagent,"spawn_1");
-			$RemoveAttribute(thisagent,"spawn_2");
-			$RemoveAttribute(thisagent,"birthScript2");
-			$RemoveAttribute(thisagent,"upgradescript");
-			$RemoveAttribute(thisagent,"upgradescript2");
-			$RemoveAttribute(thisagent,"History_Modifier");
-			$RemoveAttribute(thisagent,"Spawn_Function");
-			$RemoveAttribute(thisagent,"Base_Spawn_Rate");
-			$RemoveAttribute(thisagent,"difficulty");
-			$RemoveAttribute(thisagent,"Spawn_Type");
-			$RemoveAttribute(thisagent,"Special_Spawn_Type");
-			$RemoveAttribute(thisagent,"Multi_Spawn_Num");
-			$RemoveAttribute(thisagent,"Stored_Spawns");
-			$RemoveAttribute(thisagent,"Max_Simul_Spawns");
-			$RemoveAttribute(thisagent,"Max_Stored_Spawns");
-			$RemoveAttribute(thisagent,"Has_Special_Spawn");
-			$RemoveAttribute(thisagent,"Cleaning_Combatants");
-			$RemoveAttribute(thisagent,"Combatants");
-			$RemoveAttribute(thisagent,"Current_Contest");
-			$RemoveAttribute(thisagent,"Current_XPLevel");
-			$RemoveAttribute(thisagent,"ResetScript");
-			$RemoveAttribute(thisagent,"Lived_In_Script");
-			$RemoveAttribute(thisagent,"hero_lvl_upgrade");
-			$RemoveAttribute(thisagent,"members");
-			$RemoveAttribute(thisagent,"member_title");
-			$RemoveAttribute(thisagent,"member_basicscript");
-			$RemoveAttribute(thisagent,"max_members");
-			$RemoveAttribute(thisagent,"SpecialScript");
-			$RemoveAttribute(thisagent,"SpecialList");
-			$RemoveAttribute(thisagent,"Guard_Function");
-			$RemoveAttribute(thisagent,"Guard_Spawn_Function");
-			$RemoveAttribute(thisagent,"Waiting_Guards");
-			$RemoveAttribute(thisagent,"Waiting_Guardhouses");
-			$RemoveAttribute(thisagent,"Guards");
-			$RemoveAttribute(thisagent,"Under_Const_In_Sight");
-			$RemoveAttribute(thisagent,"Max_Guards");
-			$RemoveAttribute(thisagent,"current_gun");
-			$RemoveAttribute(thisagent,"grovelist");
-			$RemoveAttribute(thisagent,"spell_callback");
-			$RemoveAttribute(thisagent,"tax_spawn");
-			$RemoveAttribute(thisagent,"num_tax_collectors");
-			$RemoveAttribute(thisagent,"max_tax_collectors");
-			$RemoveAttribute(thisagent,"tax_route");
-			$RemoveAttribute(thisagent,"tax_targets");
-			$RemoveAttribute(thisagent,"spawn_taxman_return_list");
-			$RemoveAttribute(thisagent,"spawn_taxman_pickup_list");
-			$RemoveAttribute(thisagent,"tax_route_dead");
-			$RemoveAttribute(thisagent,"peasant_spawn");
-			$RemoveAttribute(thisagent,"num_peasants");
-			$RemoveAttribute(thisagent,"max_peasants");
-			$RemoveAttribute(thisagent,"busy_peasants");
-			$RemoveAttribute(thisagent,"buildings_waiting");
-			$RemoveAttribute(thisagent,"buildings_under_construction");
-			$RemoveAttribute(thisagent,"Vaporized_Gold");
-			$RemoveAttribute(thisagent,"troll_gold");
-			$RemoveAttribute(thisagent,"gnome_camp_spawner");
-			$RemoveAttribute(thisagent,"Gambling_hall_building");
-			$RemoveAttribute(thisagent,"gazebo_building");
-			$RemoveAttribute(thisagent,"Population_counter");
-			$RemoveAttribute(thisagent,"Waiting_population");
-			$RemoveAttribute(thisagent,"num_deceased_heroes");
-			$RemoveAttribute(thisagent,"total_buildings");
-			$RemoveAttribute(thisagent,"buildings_lately");
-			$RemoveAttribute(thisagent,"henchmen_dead_lately");
-			$RemoveAttribute(thisagent,"fountain_buildings");
-			$RemoveAttribute(thisagent,"blacksmith_trips");
-			$RemoveAttribute(thisagent,"heroes_to_upgrade");
-			thisagent's "General" = "GeneralTree";
-			thisagent's "Item" = "ItemTree";
-			$LearnSpell(thisagent, "GeneralTree");
-			$LearnSpell(thisagent, "ItemTree");
-			thisagent's "SpellsGeneral" << "General";
-			thisagent's "SpellsItem" << "Item";
-			thisagent's "SpellArrange" << thisagent's "SpellsGeneral";
-			thisagent's "SpellArrange" << thisagent's "SpellsItem";
-			if (thisagent's "Type" == "Hero")
-				$RemoveAttribute(thisagent,"speed");
-		end
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($GetPlayerTeamNumber(thisagent) != $GetPlayerTeamNumber(palace))
-				palace's "Total_EnemyHero_List" << thisagent;
-				//palace's "Total_Unallied_List" << thisagent; //Basically everything unallied is added to this list because this function is called by everything generated.
-		end
+		$UnitAttributes(thisagent);
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function UnitTypeGeneralDeath(agent thisagent)
-
-declare
-	agent palace, AIRootAgent;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_EnemyHero_List") == True)
-				palace's "Total_EnemyHero_List" << thisagent;
-				//palace's "Total_Unallied_List" -= thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function AIRootCheck()
+function AIRootCheck() is Agent
 
 declare
 	agent AIRootAgent;
@@ -3668,366 +3648,28 @@ begin
 	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
 	if ($HasAttribute("Total_Palaces", AIRootAgent) == False)
 		$AddAttribute(AIRootAgent, "Total_Palaces", "list");
+	return AIRootAgent;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function PalaceGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent;
-	list buildings, monsters, unallied, enemyheroes;
-
-begin
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	if ($HasAttribute("Total_Palaces", AIRootAgent) == False) 
-		begin
-			$AddAttribute(AIRootAgent, "Total_Palaces", "list");
-			AIRootAgent's "Total_Palaces" << thisagent;
-		end
-	else
-		AIRootAgent's "Total_Palaces" << thisagent;
-
-	$SetNegativeResistance(thisagent);
-	$listobjects ( thisagent, "building", -1, buildings );
-	//$listobjects ( thisagent, "monster", -1, monsters );
-	
-	$AddAttribute(thisagent, "Total_Blacksmith_List", "list", $ListTitles(buildings, "Blacksmith"));
-	$AddAttribute(thisagent, "Total_Fairgrounds_List", "list", $ListTitles(buildings, "Fairgrounds"));
-	$AddAttribute(thisagent, "Total_Gardens_List", "list", $ListTitles(buildings, "Royal_Gardens"));
-	$AddAttribute(thisagent, "Total_Guilds_List", "list");
-	$AddAttribute(thisagent, "Total_Inn_List", "list", $ListTitles(buildings, "Inn"));
-	$AddAttribute(thisagent, "Total_Library_List", "list", $ListTitles(buildings, "Library"));
-	$AddAttribute(thisagent, "Total_MagicBazaar_List", "list", $ListTitles(buildings, "Magic_Bazaar"));
-	$AddAttribute(thisagent, "Total_Marketplace_List", "list", $ListTitles(buildings, "Marketplace"));
-	$ListObjects(thisagent,"lair",-1, buildings, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Total_Lair_List", "list", buildings);
-	
-	$ListObjects(thisagent,"monster",-1, monsters, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Total_Monsters_List", "list", monsters);
-	
-	$ListObjects(thisagent,"hero",-1, enemyheroes, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Total_EnemyHero_List", "list", enemyheroes);
-	
-	unallied = $AddLists(monsters, enemyheroes);
-	
-	//$ListObjects(thisagent,"hero",-1, unallied, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Total_Unallied_List", "list", unallied);
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function BlacksmithGeneralAttributes(agent thisagent)
-//Setup for units in general
+function AddToPalaceEnemyList(agent thisagent)
 
 declare
 	agent AIRootAgent, palace;
+	string type, listname;
 
 begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+	AIRootAgent = $AIRootCheck();
 
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			palace's "Total_Blacksmith_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function FairgroundsGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			palace's "Total_Fairgrounds_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function GardensGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			palace's "Total_Gardens_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function InnGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			palace's "Total_Inn_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function LibraryGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			palace's "Total_Library_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function MagicBazaarGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			palace's "Total_MagicBazaar_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function MarketplaceGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			palace's "Total_Marketplace_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function LairGeneralAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$SetNegativeResistance(thisagent);
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($GetPlayerTeamNumber(thisagent) != $GetPlayerTeamNumber(palace))
-				palace's "Total_Lair_List" << thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function BlacksmithGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_Blacksmith_List") == True)
-				palace's "Total_Blacksmith_List" -= thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function FairgroundsGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+	type = thisagent's "type";
+	if (type == "AutoBuilding")
+		type = "Building";
+	listname = "Enemy_" + type + "_List";
 
 	foreach palace in AIRootAgent's "Total_Palaces" do
 		begin
-			if ($AgentInList(thisagent, palace's "Total_Fairgrounds_List") == True)
-				palace's "Total_Fairgrounds_List" -= thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function GardensGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_Gardens_List") == True)
-				palace's "Total_Gardens_List" -= thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function InnGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_Inn_List") == True)
-				begin
-				palace's "Total_Inn_List" -= thisagent;
-				$adjustattribute(palace, #ATTRIB_MaxHP,100);
-				end
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function LibraryGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_Library_List") == True)
-				palace's "Total_Library_List" -= thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function MagicBazaarGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_MagicBazaar_List") == True)
-				palace's "Total_MagicBazaar_List" -= thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function MarketplaceGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_Marketplace_List") == True)
-				palace's "Total_Marketplace_List" -= thisagent;
-		end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function LairGeneralDeath(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent, palace;
-
-begin
-	$AIRootCheck();
-	
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($AgentInList(thisagent, palace's "Total_Lair_List") == True)
-				palace's "Total_Lair_List" -= thisagent;
+			if ($HasAttribute(listname, palace))
+			if ($GetPlayerTeamNumber(thisagent) != $GetPlayerTeamNumber(palace) && $AgentInList(thisagent, palace's listname) == false)
+				palace's listname << thisagent;
 		end
 end

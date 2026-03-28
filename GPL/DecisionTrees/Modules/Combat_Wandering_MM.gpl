@@ -26,8 +26,8 @@ begin
 	
 	current_best_score = 0;
 
-	//$ListObjects(thisagent,"monster",-1, wandering_monsters,#NotMyTeam);
-	wandering_monsters = palace's "Total_Monsters_List";
+	$ListObjects(thisagent,"monster",-1, wandering_monsters,#NotMyTeam);
+	//wandering_monsters = palace's "Enemy_Monster_List";
 
 	//Init local intent to champion intent
 	Local_intent = "IDTXT_INTENT_HEEDINGCHAMPIONSCALL";
@@ -36,8 +36,13 @@ begin
 		begin
 			if ($IsValidGamePiece(monster) == False)
 				begin
-					wandering_monsters -= monster;
-					palace's "Total_Monsters_List" -= monster;
+					//wandering_monsters -= monster;
+					//palace's "Enemy_Monster_List" -= monster;
+				end
+			else if ($GetPlayerTeamNumber(monster) == $GetPlayerTeamNumber(thisagent))
+				begin
+					//wandering_monsters -= monster;
+					//palace's "Enemy_Monster_List" -= monster;
 				end
 			else if ($IsHidden(monster) == False)
 				begin
@@ -122,15 +127,20 @@ begin
 	current_best_score = 0;
 	palace = $GetTruePalace(thisagent);
 
-	//$ListObjects(thisagent,"hero",-1,wandering_heroes,#NotMyTeam);
-	wandering_heroes = palace's "Total_EnemyHero_List"; //Need a list for unallied heroes/kingdom units, this one includes monsters in it.
+	$ListObjects(thisagent,"hero",-1,wandering_heroes,#NotMyTeam);
+	//wandering_heroes = palace's "Enemy_Hero_List";
 
 	foreach hero in wandering_heroes do
 		begin
 			if ($IsValidGamePiece(hero) == False)
 				begin
-					wandering_heroes -= hero;
-					palace's "Total_EnemyHero_List" -= hero;
+					//wandering_heroes -= hero;
+					//palace's "Enemy_Hero_List" -= hero;
+				end
+			else if ($GetPlayerTeamNumber(hero) == $GetPlayerTeamNumber(thisagent))
+				begin
+					//wandering_heroes -= hero;
+					//palace's "Enemy_Hero_List" -= hero;
 				end
 			else if ($IsHidden(hero) == False)
 				begin
@@ -191,65 +201,69 @@ begin
 	
 	current_best_score = 0;
 
-	//$ListObjects(thisagent,"monster",-1, wandering_monsters,#NotMyTeam);
-	wandering_monsters = palace's "Total_Monsters_List";
+	$ListObjects(thisagent,"monster",-1, wandering_monsters,#NotMyTeam);
+	//wandering_monsters = palace's "Enemy_Monster_List";
 
 	//Init local intent to champion intent
 	Local_intent = "IDTXT_INTENT_HEEDINGCHAMPIONSCALL";
 
 	foreach monster in wandering_monsters do
 		begin
-		if ($IsValidGamePiece(monster) == False)
-			begin
-			wandering_monsters -= monster;
-			palace's "Total_Monsters_List" -= monster;
-			end
-		else if ($IsHidden(monster) == False)
-			begin
-			//Does the monster have a champion icon over them?
-			If ($CheckEffector (Monster, "Champion_Icon"))
+			if ($IsValidGamePiece(monster) == False)
 				begin
-					//If yes, then target_eval them
-					temp_score = $target_eval(thisagent,monster);
-					temp_score += #champs_mod;
-					if (temp_score > current_best_score)
-					begin
-						current_best_score = temp_score;
-						current_best_monster = monster;
-					end
+					//wandering_monsters -= monster;
+					//palace's "Enemy_Monster_List" -= monster;
 				end
-			Else
-				//Otherwise put the monster on the leftover_monsters list,
-				//which is checked after the monsters with champion icons over them
-				leftover_monsters << monster;
-			end
-	end
+			else if ($GetPlayerTeamNumber(monster) == $GetPlayerTeamNumber(thisagent))
+				begin
+					//wandering_monsters -= monster;
+					//palace's "Enemy_Monster_List" -= monster;
+				end
+			else if ($IsHidden(monster) == False)
+				begin
+					//Does the monster have a champion icon over them?
+					If ($CheckEffector (Monster, "Champion_Icon"))
+						begin
+							//If yes, then target_eval them
+							temp_score = $target_eval(thisagent,monster);
+							temp_score += #champs_mod;
+							if (temp_score > current_best_score)
+							begin
+								current_best_score = temp_score;
+								current_best_monster = monster;
+							end
+						end
+					Else
+						//Otherwise put the monster on the leftover_monsters list,
+						//which is checked after the monsters with champion icons over them
+						leftover_monsters << monster;
+				end
+		end
 
 
 	if (current_best_score <= 0)
 		begin
-		local_intent = "IDTXT_INTENT_HUNTING";
-		foreach monster in leftover_monsters do
-			begin
-			temp_score = $target_eval(thisagent,monster);
-			if (temp_score > current_best_score)
+			local_intent = "IDTXT_INTENT_HUNTING";
+			foreach monster in leftover_monsters do
 				begin
-				current_best_score = temp_score;
-				current_best_monster = monster;
+					temp_score = $target_eval(thisagent,monster);
+					if (temp_score > current_best_score)
+						begin
+						current_best_score = temp_score;
+						current_best_monster = monster;
+						end
 				end
-			end
-
 		end
 
 	if (current_best_score > 0)
 		begin
-		thisagent's completeaction = $attack_object_pack;
-		ThisAgent's completecondition = $notvalid;
-		thisagent's completetarget = current_best_monster;
-		if (local_intent == "IDTXT_INTENT_HUNTING")
-			local_intent += $getintentext(thisagent's completetarget);
-		ThisAgent's completeintent =  local_intent;
-  //	    $debugout("Yes");
+			thisagent's completeaction = $attack_object_pack;
+			ThisAgent's completecondition = $notvalid;
+			thisagent's completetarget = current_best_monster;
+			if (local_intent == "IDTXT_INTENT_HUNTING")
+				local_intent += $getintentext(thisagent's completetarget);
+			ThisAgent's completeintent =  local_intent;
+	//	    $debugout("Yes");
 			return $NotDuplicateTask(thisagent, taskindex);
 		end
 
@@ -295,15 +309,20 @@ begin
 	current_best_score = 0;
 	palace = $GetTruePalace(thisagent);
 
-	//$ListObjects(thisagent,"hero",-1,wandering_heroes,#NotMyTeam);
-	wandering_heroes = palace's "Total_EnemyHero_List";
+	$ListObjects(thisagent,"hero",-1,wandering_heroes,#NotMyTeam);
+	//wandering_heroes = palace's "Enemy_Hero_List";
 
 	foreach hero in wandering_heroes do
 		begin
 			if ($IsValidGamePiece(hero) == False)
 				begin
-					wandering_heroes -= hero;
-					palace's "Total_EnemyHero_List" -= hero;
+					//wandering_heroes -= hero;
+					//palace's "Enemy_Hero_List" -= hero;
+				end
+			else if ($GetPlayerTeamNumber(hero) == $GetPlayerTeamNumber(thisagent))
+				begin
+					//wandering_heroes -= hero;
+					//palace's "Enemy_Hero_List" -= hero;
 				end
 			else if ($IsHidden(hero) == False)
 				begin
@@ -324,7 +343,7 @@ begin
 			intentext = "IDTXT_INTENT_BATTLINGENEMYHERO" + $getintentext(thisagent's completetarget);
 			ThisAgent's completeintent = intentext;
   //	          $debugout("Yes");
-			return TRUE;
+			return $NotDuplicateTask(thisagent, taskindex);
 		end
 
 //            $debugout("No");

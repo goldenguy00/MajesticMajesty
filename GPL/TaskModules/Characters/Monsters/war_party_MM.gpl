@@ -40,6 +40,5 @@ begin
 
 	$NewThread ( ThisAgent's "ActiveScript", #Normal_Cycle, ThisAgent );
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
-	
+	$GeneralAttributes(thisagent);	
 end

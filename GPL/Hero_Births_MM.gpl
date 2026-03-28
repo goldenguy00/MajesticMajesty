@@ -175,7 +175,7 @@ begin
 	$CreateEffector (THisAgent, "SpawnEffect_New", 1);
 	//$setattribute(thisagent, #ATTRIB_ResearchMagicResistance, $getattribute(thisagent,#ATTRIB_LevelXP));
 	//$adjustattribute(thisagent, #ATTRIB_ResearchTrainIntelligence, $StartingWisdom(thisagent));
-	thisagent's "Wisdom_Base" = $StartingWisdom(thisagent);
+	
 	$UpdateWisdom(thisagent);
 	prestige_amount = $StartingPrestige(thisagent);
 	
@@ -263,7 +263,7 @@ begin
 			$Tree_LearnSpell(thisagent, "Fire_Bolt");
 		end
 		
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 	$GenerateHeroAttributes(thisagent);
 	
 					
@@ -548,7 +548,7 @@ Begin
 	$playsound(thisagent,"begin");
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -573,7 +573,7 @@ begin
 
 	$newthread(thisagent's "activeScript", #Henchmen_Cycle ,thisagent);
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -620,7 +620,7 @@ begin
 	$newthread(thisagent's "activeScript", #Henchmen_Cycle ,thisagent);
 	
 
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -671,7 +671,7 @@ Begin
 
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -722,7 +722,7 @@ Begin
 
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -758,7 +758,7 @@ Begin
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End
 ///////////////////////////////////////////////////////////////////////////////
 Function Royal_Archer_Birth (agent ThisAgent)
@@ -789,7 +789,7 @@ Begin
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 
 
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -821,7 +821,7 @@ Begin
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 	
 
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -852,7 +852,7 @@ Begin
 		
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 	
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -883,5 +883,5 @@ Begin
 		
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
 
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$GeneralAttributes(thisagent);
 End

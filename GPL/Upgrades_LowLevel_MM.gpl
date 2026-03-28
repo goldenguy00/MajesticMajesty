@@ -8,6 +8,7 @@ declare
 	
 
 begin
+	if ($HasAttribute("Upgrades", source)) 
 	if ($listsize(source's "Upgrades") > 0)
 		begin
 			foreach thisfunc in source's "Upgrades" do

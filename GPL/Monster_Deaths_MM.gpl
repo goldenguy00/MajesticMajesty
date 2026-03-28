@@ -125,8 +125,7 @@ function be_dead_2(agent thisagent)
 declare
 
 begin
-   thisagent's "type" = "Waiting_to_die";
+    thisagent's "type" = "Waiting_to_die";
 	$killthread(thisagent's "activescript");
-	(thisagent's "Unit_Type_Death")(thisagent);
 	$deletegamepiece(thisagent);
 end

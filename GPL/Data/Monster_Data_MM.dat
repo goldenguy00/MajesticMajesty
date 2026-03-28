@@ -23,8 +23,8 @@
 		(IGdeathscript	 	Wight_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Stones)
@@ -72,8 +72,8 @@
 		(IGdeathscript	 	Wight_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Styx)
@@ -120,8 +120,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Ratman_Shaman)
@@ -158,8 +158,8 @@
 		(IGdeathscript	      	Overlord_Deathstrike)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Overlord)
@@ -204,8 +204,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Abomination)
@@ -248,8 +248,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Greater_Gorgon)
@@ -286,8 +286,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Medusa)
@@ -323,8 +323,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Ratman_Champion)
@@ -374,8 +374,8 @@
 		(IGdeathscript	       	monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Ratman_Catapult)
@@ -419,8 +419,8 @@
 		(IGdeathscript		Sleeper_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Ratman)
@@ -467,8 +467,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Priest)
@@ -507,8 +507,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Yeti)
@@ -557,8 +557,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Shadow_Beast)
@@ -604,8 +604,8 @@
 		(IGdeathscript		Rhoden_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Rhoden_King_Rat)
@@ -647,8 +647,8 @@
 		(IGdeathscript	      	monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Wendigo)
@@ -692,8 +692,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Evil_Oculus)
@@ -737,8 +737,8 @@
 		(IGdeathscript					Sleeper_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Dragon)
@@ -788,8 +788,8 @@
 		(IGdeathscript					Sleeper_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Ice_Dragon)
@@ -824,8 +824,8 @@
 		(IGdeathscript	 				monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Dryad)
@@ -868,8 +868,8 @@
 		(StartingScript				Animal)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Giant_Eagle)
@@ -912,8 +912,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Strangleweed)
@@ -957,8 +957,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Giant_Rat)
@@ -999,8 +999,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Giant_Spider)
@@ -1047,8 +1047,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_White_Wolf)
@@ -1091,8 +1091,8 @@
 		(IGdeathscript	 				monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Fighter)
@@ -1132,8 +1132,8 @@
 		(IGdeathscript	 				monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Archer)
@@ -1172,8 +1172,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Champion)
@@ -1215,8 +1215,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Harpy)
@@ -1256,8 +1256,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Daemonwood)
@@ -1302,8 +1302,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Minotaur)
@@ -1347,8 +1347,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Red_Bear)
@@ -1389,8 +1389,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Rock_Golem)
@@ -1435,8 +1435,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Rust_Spitter)
@@ -1476,8 +1476,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Skeleton)
@@ -1520,8 +1520,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Troll)
@@ -1573,8 +1573,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Vampire)
@@ -1622,8 +1622,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Nature)
 		(Kill_Credit_Specific	KCS_Werewolf)
@@ -1667,8 +1667,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Zombie)
@@ -1710,8 +1710,8 @@
 		(IGdeathscript		hooligan_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Hooligan)
@@ -1746,8 +1746,8 @@
 		(IGdeathscript					Monster_Gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Black_Phantom)
@@ -1791,8 +1791,8 @@
 		(IGdeathscript					Monster_Gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Url_Shekk)
@@ -1833,8 +1833,8 @@
 		(IGdeathscript					Monster_Gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Dirgo)
@@ -1872,8 +1872,8 @@
 		(IGdeathscript					Monster_Gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Rrongol)
@@ -1915,8 +1915,8 @@
 		(IGdeathscript					Monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Liche_Queen)
@@ -1961,8 +1961,8 @@
 		(IGdeathscript					Monster_Gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Witch_King)
@@ -2002,8 +2002,8 @@
 		(IGdeathscript					Vendral_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Vendral)
@@ -2036,8 +2036,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Sanguine_Peasant)
@@ -2068,8 +2068,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Sanguine_Peasant_Female)
@@ -2105,8 +2105,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Gore_Guard)
@@ -2149,8 +2149,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Scarlet_Squire)
@@ -2195,8 +2195,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Crimson_Archer)
@@ -2238,8 +2238,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Maniacal_Arbalest)
@@ -2281,8 +2281,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Blood_Mage)
@@ -2319,8 +2319,8 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Spirit_Troll)
@@ -2365,8 +2365,8 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Minotaur_Lord)
@@ -2407,8 +2407,7 @@
 		(IGdeathscript					monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-		(Unit_Type_Attributes		UnitTypeMonsterAttributes)
-		(Unit_Type_Death			UnitTypeMonsterDeath)
+
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Elder_Orbs)

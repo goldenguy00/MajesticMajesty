@@ -1022,6 +1022,7 @@
 
 		////////////////////////////////////////Intents - Specific//////////////////////////////////
 
+		<Text id="IDTXT_INTENT_LIBRARYREADING">[color:FFBCFF]Reading at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGLOSTCULTS">[color:FFBCFF]Reading [color:FFFFFF]Lost Cults[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGMUSINGSONTHEAFTERLIFE">[color:FFBCFF]Reading [color:FFFFFF]Musings on the Afterlife[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGLEGENDARYMONSTERS">[color:FFBCFF]Reading [color:FFFFFF]Legendary Monsters[/color] at the Library[/color]</Text>
@@ -1048,12 +1049,14 @@
 		<Text id="IDTXT_INTENT_LIBRARYREADINGSLUMBERINGBEASTS">[color:FFBCFF]Reading [color:FFFFFF]Slumbering Beasts[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGINCOMPLETEHISTORY">[color:FFBCFF]Reading [color:FFFFFF]Incomplete History[/color] at the Library[/color]</Text>
 
+		<Text id="IDTXT_INTENT_WIZARDGUILDSTUDYING">[color:FFBCFF]Studying at the Wizards Guild[/color]</Text>
 		<Text id="IDTXT_INTENT_WIZARDGUILDSTUDYINGMAGICALTREATISES1">[color:FFBCFF]Studying [color:FFFFFF]Magical Treasises Volume I[/color][/color]</Text>
 		<Text id="IDTXT_INTENT_WIZARDGUILDSTUDYINGMAGICALTREATISES2">[color:FFBCFF]Studying [color:FFFFFF]Magical Treasises Volume II[/color][/color]</Text>
 		<Text id="IDTXT_INTENT_WIZARDGUILDSTUDYINGMAGICALTREATISES3">[color:FFBCFF]Studying [color:FFFFFF]Magical Treasises Volume III[/color][/color]</Text>
 		<Text id="IDTXT_INTENT_WIZARDGUILDSTUDYINGMAGICALTREATISES4">[color:FFBCFF]Studying [color:FFFFFF]Magical Treasises Volume IV[/color][/color]</Text>
 		<Text id="IDTXT_INTENT_WIZARDGUILDSTUDYINGMAGICALTREATISES5">[color:FFBCFF]Studying [color:FFFFFF]Magical Treasises Volume V[/color][/color]</Text>
 
+		<Text id="IDTXT_INTENT_BATTLINGENEMY">[color:FF6464]Battling an enemy[/color]</Text>
 		<Text id="IDTXT_INTENT_BATTLINGENEMYCITYGUARD">[color:FF6464]Battling an enemy City Guard[/color]</Text>
 		<Text id="IDTXT_INTENT_BATTLINGENEMYARCHER">[color:FF6464]Battling an enemy Archer[/color]</Text>
 		<Text id="IDTXT_INTENT_BATTLINGENEMYPALACEGAURD">[color:FF6464]Battling an enemy Palace Guard[/color]</Text>
@@ -1081,6 +1084,7 @@
 		<Text id="IDTXT_INTENT_BATTLINGENEMYWARRIOROFDISCORD">[color:FF6464]Battling an enemy Warrior of Discord[/color]</Text>
 		<Text id="IDTXT_INTENT_BATTLINGENEMYWIZARD">[color:FF6464]Battling an enemy Wizard[/color]</Text>
 
+		<Text id="IDTXT_INTENT_ATTACKINGENEMY">[color:FF6464]Attacking an enemy[/color]</Text>
 		<Text id="IDTXT_INTENT_ATTACKINGENEMYPALACE">[color:FF6464]Attacking enemy Palace[/color]</Text>
 		<Text id="IDTXT_INTENT_ATTACKINGENEMYBLACKSMITH">[color:FF6464]Attacking enemy Blacksmith[/color]</Text>
 		<Text id="IDTXT_INTENT_ATTACKINGENEMYINN">[color:FF6464]Attacking enemy Inn[/color]</Text>
@@ -1129,6 +1133,7 @@
 		<Text id="IDTXT_INTENT_ATTACKINGENEMYTAXCOLLECTOR">[color:FF6464]Attacking enemy Tax Collector[/color]</Text>
 		<Text id="IDTXT_INTENT_ATTACKINGENEMYCARAVAN">[color:FF6464]Attacking enemy Caravan[/color]</Text>
 
+		<Text id="IDTXT_INTENT_RAIDING">[color:FF6464]Raiding a lair[/color]</Text>
 		<Text id="IDTXT_INTENT_RAIDINGGOBLINWATCHTOWER">[color:FF6464]Raiding a Goblin Watchtower[/color]</Text>
 		<Text id="IDTXT_INTENT_RAIDINGGOBLINFORTRESS">[color:FF6464]Raiding a Goblin Fortress[/color]</Text>
 		<Text id="IDTXT_INTENT_RAIDINGRATSNEST">[color:FF6464]Raiding a Rats Nest[/color]</Text>
@@ -1160,6 +1165,7 @@
 		<Text id="IDTXT_INTENT_RAIDINGLICHEQUEENLAIR">[color:FF6464]Raiding the Liche Queen Lair[/color]</Text>
 		<Text id="IDTXT_INTENT_RAIDINGANIMALDEN">[color:FF6464]Raiding an Animal Den[/color]</Text>
 
+		<Text id="IDTXT_INTENT_FIGHTING">[color:FF6464]Fighting an enemy[/color]</Text>
 		<Text id="IDTXT_INTENT_FIGHTINGSTONES">[color:FF6464]Fighting Stones[/color]</Text>
 		<Text id="IDTXT_INTENT_FIGHTINGSTYX">[color:FF6464]Fighting Styx[/color]</Text>
 		<Text id="IDTXT_INTENT_FIGHTINGRATMANSHAMAN">[color:FF6464]Fighting a Ratman Shaman[/color]</Text>
@@ -1216,6 +1222,7 @@
 		<Text id="IDTXT_INTENT_FIGHTINGELDERORBS">[color:FF6464]Fighting an Elder Orbs[/color]</Text>
 		<Text id="IDTXT_INTENT_FIGHTINGHOOLIGAN">[color:FF6464]Fighting a Hooligan[/color]</Text>
 
+		<Text id="IDTXT_INTENT_HUNTING">[color:FF6464]Hunting an enemy[/color]</Text>
 		<Text id="IDTXT_INTENT_HUNTINGSTONES">[color:FF6464]Hunting Stones[/color]</Text>
 		<Text id="IDTXT_INTENT_HUNTINGSTYX">[color:FF6464]Hunting Styx[/color]</Text>
 		<Text id="IDTXT_INTENT_HUNTINGRATMANSHAMAN">[color:FF6464]Hunting a Ratman Shaman[/color]</Text>
@@ -1272,6 +1279,7 @@
 		<Text id="IDTXT_INTENT_HUNTINGELDERORBS">[color:FF6464]Hunting an Elder Orbs[/color]</Text>
 		<Text id="IDTXT_INTENT_HUNTINGHOOLIGAN">[color:FF6464]Hunting a Hooligan[/color]</Text>
 
+		<Text id="IDTXT_INTENT_BUILDING">[color:FFD700]Building[/color]</Text>
 		<Text id="IDTXT_INTENT_BUILDINGPALACE">[color:FFD700]Building Palace[/color]</Text>
 		<Text id="IDTXT_INTENT_BUILDINGBLACKSMITH">[color:FFD700]Building Blacksmith[/color]</Text>
 		<Text id="IDTXT_INTENT_BUILDINGINN">[color:FFD700]Building Inn[/color]</Text>
@@ -1316,6 +1324,7 @@
 		<Text id="IDTXT_INTENT_BUILDINGTEMPLETODAUROS">[color:FFD700]Building Temple to Dauros[/color]</Text>
 		<Text id="IDTXT_INTENT_BUILDINGTEMPLETOAGRELA">[color:FFD700]Building Temple to Agrela[/color]</Text>
 
+		<Text id="IDTXT_INTENT_RECOVERINGITEM">[color:DDBB44]Recovering item[/color]</Text>
 		<Text id="IDTXT_INTENT_RECOVERINGITEMTAINTEDBARK">[color:DDBB44]Recovering Tainted Bark[/color]</Text>
 		<Text id="IDTXT_INTENT_RECOVERINGITEMDRAGONSCALE">[color:DDBB44]Recovering Dragon Scale[/color]</Text>
 		<Text id="IDTXT_INTENT_RECOVERINGITEMDRAGONCLAW">[color:DDBB44]Recovering Dragon Claw[/color]</Text>
@@ -1352,6 +1361,7 @@
 		<Text id="IDTXT_INTENT_RECOVERINGITEMGOBLINEAR">[color:DDBB44]Recovering Goblin Ear[/color]</Text>
 		<Text id="IDTXT_INTENT_RECOVERINGITEMRATTAIL">[color:DDBB44]Recovering Rat Tail[/color]</Text>
 
+		<Text id="IDTXT_INTENT_STEALING">[color:CDAB14]Stealing wealth[/color]</Text>
 		<Text id="IDTXT_INTENT_STEALINGPALACE">[color:CDAB14]Stealing from a Palace[/color]</Text>
 		<Text id="IDTXT_INTENT_STEALINGBLACKSMITH">[color:CDAB14]Stealing from a Blacksmith[/color]</Text>
 		<Text id="IDTXT_INTENT_STEALINGINN">[color:CDAB14]Stealing from an Inn[/color]</Text>
@@ -1427,6 +1437,7 @@
 		<Text id="IDTXT_INTENT_STEALINGLICHEQUEENLAIR">[color:CDAB14]Stealing from the Liche Queen Lair[/color]</Text>
 		<Text id="IDTXT_INTENT_STEALINGANIMALDEN">[color:CDAB14]Stealing from an Animal Den[/color]</Text>
 
+		<Text id="IDTXT_INTENT_BUYHEAL">[color:BCFFBC]Purchasing items[/color]</Text>
 		<Text id="IDTXT_INTENT_BUYHEALPOTIONS">[color:BCFFBC]Purchasing healing potions[/color]</Text>
 		<Text id="IDTXT_INTENT_BUYMANAPOTIONS">[color:BCFFBC]Purchasing mana potions[/color]</Text>
 		<Text id="IDTXT_INTENT_BUYPROTRING">[color:BCFFBC]Purchasing a ring of protection[/color]</Text>

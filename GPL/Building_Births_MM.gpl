@@ -652,7 +652,7 @@ Declare
 
 Begin
 
-	(thisagent's "Unit_Type_Attributes")( thisagent );
+	$PalaceAttributes(thisagent);
 	sign_loc = $UnitPointWithOffset(thisagent, -150, 35);
 	$AddHelpSign(thisagent, "Help_Sign_Attributes", sign_loc);
 	sign_loc = $UnitPointWithOffset(thisagent, 160, 35);
@@ -849,9 +849,8 @@ begin
 	palace = $gettruepalace ( thisagent );
 	flag = TRUE;
 	
-	if ($HasAttribute("Unit_Type_Attributes", thisagent))
-		(thisagent's "Unit_Type_Attributes")( thisagent );
-	
+	$GeneralAttributes(thisagent);
+
 	if ($isvalidgamepiece(palace))
 		begin
 				
