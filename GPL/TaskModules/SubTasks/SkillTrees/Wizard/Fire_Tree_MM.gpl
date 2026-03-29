@@ -724,8 +724,9 @@ begin
 	current_mana = thisagent's "CurrentMana";
 	max_mana = thisagent's "MaxMana_Total";
 	
-	thisagent's "ManaRegeneration_Flat_Modifier" -= (thisagent's "Embers_ManaRegeneration" * 50);
-	thisagent's "HealthRegeneration_Flat_Modifier" -= (thisagent's "Embers_HealthRegeneration" * 50);
+	
+	$AdjustAttributeSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_ManaRegeneration" * 50));
+	$AdjustAttributeSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_HealthRegeneration" * 50));
 	
 	if (max_mana < 1)
 		max_mana = 1;
@@ -742,8 +743,8 @@ begin
 	thisagent's "Embers_ManaRegeneration" = regen_Mana;
 	thisagent's "Embers_HealthRegeneration" = regen_Health;
 	
-	thisagent's "ManaRegeneration_Flat_Modifier" += (thisagent's "Embers_ManaRegeneration" * 50);
-	thisagent's "HealthRegeneration_Flat_Modifier" += (thisagent's "Embers_HealthRegeneration" * 50);
+	$AdjustAttributeSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_ManaRegeneration" * 50));
+	$AdjustAttributeSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_HealthRegeneration" * 50));
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2150,18 +2150,12 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateArtifice(agent thisagent)
 declare
-	integer level;
+	integer delta;
 begin
-	// smaller value == faster guy. reset to base by adding.
-	level = $GetAttribute(thisagent, #ATTRIB_Artifice);
-	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, level * #artifice_movespeed );
-	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, level * #artifice_attackspeed );
-
-	$RecalculateAttributeTotal(thisagent, #ATTRIB_Artifice, "Artifice");
-
-	level = -1 * $GetAttribute(thisagent, #ATTRIB_Artifice);
-	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, level * #artifice_movespeed );
-	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, level * #artifice_attackspeed );
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Artifice, "Artifice");
+	delta *= -1;
+	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, delta * #artifice_movespeed );
+	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, delta * #artifice_attackspeed );
 end
 
 ////////////////////////////////////////////////////////////////////////////
@@ -2246,12 +2240,13 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function RecalculateAttributeTotal(agent thisagent, integer attrib_int, string attrib)
+function RecalculateAttributeTotal(agent thisagent, integer attrib_int, string attrib) is integer
 declare
 	integer delta;
 begin
 	delta = $RecalculateStatTotal(thisagent, attrib);
 	$AdjustAttribute(thisagent, attrib_int, delta);
+	return delta;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2263,18 +2258,37 @@ begin
 	base = thisagent's (attrib+"_Base");
 	total = thisagent's (attrib+"_Total");
 
-	flat = 0;
-	if ($HasAttribute(attrib+"_Flat_Modifier", thisagent))
-		flat = thisagent's (attrib+"_Flat_Modifier");
-	
-	percent = 0;
-	if ($HasAttribute(attrib+"_Percent_Modifier", thisagent))
-		percent = $PercentOf(base, thisagent's (attrib+"_Percent_Modifier"), (base >= 1000));
+	flat = $GetAttributeSafe(thisagent, attrib+"_Flat_Modifier");
+	percent = $GetAttributeSafe(thisagent, attrib+"_Percent_Modifier");
+
+	if (percent != 0) 
+	percent = $PercentOf(base, thisagent's (attrib+"_Percent_Modifier"), (base >= 1000));
 
 	thisagent's (attrib+"_Total") = base + flat + percent;
 	return thisagent's (attrib+"_Total") - total;
 end
 
+function AdjustAttributeSafe(agent thisagent, string attr, integer delta)
+declare
+begin
+	if (delta == 0) return;
+	if ($AddAttribute(thisagent, attr, "integer", delta) == false)
+		thisagent's attr += delta;
+end
+
+function GetAttributeSafe(agent thisagent, string attr) is integer
+declare
+begin
+	if ($HasAttribute(attr, thisagent) == false) return 0;
+	return thisagent's attr;
+end
+
+function SetAttributeSafe(agent thisagent, string attr, integer value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "integer", value) == false)
+		thisagent's attr = value;
+end
 
 ////////////////////////////////////////////////////////////////////////////////
 function InitBaseStat(agent thisagent, string stat, integer default)

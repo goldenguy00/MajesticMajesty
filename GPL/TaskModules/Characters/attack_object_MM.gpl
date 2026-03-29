@@ -297,7 +297,7 @@ begin
 							// move towards target
 							thisagent's "destination" = $locationof(target);
 							thisagent's "activeScript" = $travel_to;
-							thisagent's "backScript" = $attack_object;
+							thisagent's "backScript" = $attack_object_pack;
 							$move(thisagent,target);
 						end
 					else
@@ -373,7 +373,7 @@ begin
 							// move towards target
 							thisagent's "destination" = $locationof(target);
 							thisagent's "activeScript" = $travel_to;
-							thisagent's "backScript" = $attack_object;
+							thisagent's "backScript" = $attack_object_pack;
 							$move(thisagent,target);
 						end
 					else

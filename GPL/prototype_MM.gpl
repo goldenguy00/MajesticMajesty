@@ -280,19 +280,6 @@ declare
 	integer Crushing_Resistance_Percent;
 	integer Piercing_Resistance_Percent;
 	
-	integer Fire_Resistance_Percent_Modifier;
-	integer Cold_Resistance_Percent_Modifier; 
-	integer Electric_Resistance_Percent_Modifier;
-	integer Poison_Resistance_Percent_Modifier;
-	integer Arcane_Resistance_Percent_Modifier;
-	integer Force_Resistance_Percent_Modifier;
-	integer Divine_Resistance_Percent_Modifier;
-	integer Necrotic_Resistance_Percent_Modifier;
-	integer Chaotic_Resistance_Percent_Modifier;
-	integer Slashing_Resistance_Percent_Modifier;
-	integer Crushing_Resistance_Percent_Modifier;
-	integer Piercing_Resistance_Percent_Modifier;
-	
 	boolean Fire_Resistance_Percent_Neg;
 	boolean Cold_Resistance_Percent_Neg; 
 	boolean Electric_Resistance_Percent_Neg;
@@ -346,8 +333,6 @@ declare
 	boolean Piercing_Resistance_Flat_Neg;
 	
 	integer Armor_Physical_Base;
-	integer Armor_Physical_Flat_Modifier;
-	integer Armor_Physical_Percent_Modifier;
 	integer Armor_Physical_Total;
 	integer Armor_Physical_BodyArmor;
 	integer Armor_Physical_Helm;
@@ -356,8 +341,6 @@ declare
 	integer Armor_Physical_Belt;
 	integer Armor_Physical_Shield;
 	integer Armor_Magical_Base;
-	integer Armor_Magical_Flat_Modifier;
-	integer Armor_Magical_Percent_Modifier;
 	integer Armor_Magical_Total;
 	
 	integer Fire_Attack_Damage_Min_Total;
