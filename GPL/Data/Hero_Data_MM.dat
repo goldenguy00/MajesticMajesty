@@ -562,7 +562,7 @@
 		(attack_action basic_attack)
 		(Cast_Action Basic_Cast)
 		(PrimaryStat ATTRIB_Willpower)
-		(PrimaryStat_Name Wisdom)
+		(PrimaryStat_Name Willpower)
 		(UpArtificeChance 	10)
 		(UpIntelligenceChance 	60)
 		(UpStrengthChance 	50)

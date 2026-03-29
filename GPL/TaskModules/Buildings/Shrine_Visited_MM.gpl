@@ -37,7 +37,7 @@ end
 function done_visiting_shrine(agent thisagent)
 
 declare
-	integer i, insight_amount;
+	integer i;
 	agent target;
 
 begin
@@ -56,18 +56,6 @@ begin
 			$NewThread(thisAgent's "Shrine_Cooldown", 45000, thisAgent, "Shrine_Cooldown" );
 		end
 	
-	insight_amount = ($getAttribute(target, #ATTRIB_ResearchWizardFireBlast) / 2);
-	
-	if (insight_amount < 1)
-		begin
-			$setattribute(target, #ATTRIB_ResearchWizardFireBlast, 0);
-			insight_amount = 1;
-		end
-	else
-		begin
-			$adjustattribute(target, #ATTRIB_ResearchWizardFireBlast, - insight_amount);
-		end
-
-	$AddInsightPoints(thisagent, insight_amount);
+	$AddInsightPoints(thisagent, 1);
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
 end

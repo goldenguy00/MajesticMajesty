@@ -2721,7 +2721,8 @@ declare
 
 begin
 	$StopMoving (ThisAgent);
-	thisagent's "TaskPackageStatus" = "Complete";
+	if ($HasAttribute("TaskPackageStatus", thisagent))
+		thisagent's "TaskPackageStatus" = "Complete";
 	thisagent's "target" = $Nullagent();	
 	thisagent's "activescript" = thisagent's "basicscript";
 	thisagent's "backscript" = thisagent's "basicscript";

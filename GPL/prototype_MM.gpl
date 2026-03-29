@@ -170,12 +170,246 @@ declare
 //////////////////////////////////////////Artifact attributes end///////////////
 	
 //////////////////////////////////////////Combat Attributes///////////////
+
+//expression #DAMAGE_Default = 0
+//expression #DAMAGE_Slashing = 1
+//expression #DAMAGE_Crushing = 2
+//expression #DAMAGE_Piercing = 4
+//expression #DAMAGE_Fire = 8
+//expression #DAMAGE_Cold = 16
+//expression #DAMAGE_Electric = 32
+//expression #DAMAGE_Poison = 64
+//expression #DAMAGE_Arcane = 128
+//expression #DAMAGE_Force = 256
+//expression #DAMAGE_Divine = 512
+//expression #DAMAGE_Necrotic = 1024
+//expression #DAMAGE_Chaotic = 2048
+
 	string Kill_Credit_Type;
 	string Kill_Credit_Faction;
 	string Kill_Credit_Specific;
 	integer Kill_Credit_Severity;
 	
 	boolean Uses_Ranged_Attack;
+
+	integer Fire_Attack_Damage_Min;
+	integer Fire_Attack_Damage_Min_Modifier;
+	integer Cold_Attack_Damage_Min; 
+	integer Cold_Attack_Damage_Min_Modifier;
+	integer Electric_Attack_Damage_Min;
+	integer Electric_Attack_Damage_Min_Modifier;
+	integer Poison_Attack_Damage_Min;
+	integer Poison_Attack_Damage_Min_Modifier;
+	integer Arcane_Attack_Damage_Min;
+	integer Arcane_Attack_Damage_Min_Modifier;
+	integer Force_Attack_Damage_Min;
+	integer Force_Attack_Damage_Min_Modifier;
+	integer Divine_Attack_Damage_Min;
+	integer Divine_Attack_Damage_Min_Modifier;
+	integer Necrotic_Attack_Damage_Min;
+	integer Necrotic_Attack_Damage_Min_Modifier;
+	integer Chaotic_Attack_Damage_Min;
+	integer Chaotic_Attack_Damage_Min_Modifier;
+	integer Slashing_Attack_Damage_Min;
+	integer Slashing_Attack_Damage_Min_Modifier;
+	integer Crushing_Attack_Damage_Min;
+	integer Crushing_Attack_Damage_Min_Modifier;
+	integer Piercing_Attack_Damage_Min;
+	integer Piercing_Attack_Damage_Min_Modifier;
+	
+	integer Fire_Attack_Damage_Max;
+	integer Fire_Attack_Damage_Max_Modifier;
+	integer Cold_Attack_Damage_Max; 
+	integer Cold_Attack_Damage_Max_Modifier;
+	integer Electric_Attack_Damage_Max;
+	integer Electric_Attack_Damage_Max_Modifier;
+	integer Poison_Attack_Damage_Max;
+	integer Poison_Attack_Damage_Max_Modifier;
+	integer Arcane_Attack_Damage_Max;
+	integer Arcane_Attack_Damage_Max_Modifier;
+	integer Force_Attack_Damage_Max;
+	integer Force_Attack_Damage_Max_Modifier;
+	integer Divine_Attack_Damage_Max;
+	integer Divine_Attack_Damage_Max_Modifier;
+	integer Necrotic_Attack_Damage_Max;
+	integer Necrotic_Attack_Damage_Max_Modifier;
+	integer Chaotic_Attack_Damage_Max;
+	integer Chaotic_Attack_Damage_Max_Modifier;
+	integer Slashing_Attack_Damage_Max;
+	integer Slashing_Attack_Damage_Max_Modifier;
+	integer Crushing_Attack_Damage_Max;
+	integer Crushing_Attack_Damage_Max_Modifier;
+	integer Piercing_Attack_Damage_Max;
+	integer Piercing_Attack_Damage_Max_Modifier;
+	
+	integer Fire_Damage_Percent;
+	integer Fire_Damage_Flat;
+	integer Force_Damage_Percent;
+	integer Force_Damage_Flat;
+	integer Cold_Damage_Percent;
+	integer Cold_Damage_Flat;
+	integer Electric_Damage_Percent;
+	integer Electric_Damage_Flat;
+	integer Poison_Damage_Percent;
+	integer Poison_Damage_Flat;
+	integer Arcane_Damage_Percent;
+	integer Arcane_Damage_Flat;
+	integer Divine_Damage_Percent;
+	integer Divine_Damage_Flat;
+	integer Necrotic_Damage_Percent;
+	integer Necrotic_Damage_Flat;
+	integer Chaotic_Damage_Percent;
+	integer Chaotic_Damage_Flat;
+	integer Crushing_Damage_Percent;
+	integer Crushing_Damage_Flat;
+	integer Slashing_Damage_Percent;
+	integer Slashing_Damage_Flat;
+	integer Piercing_Damage_Percent;
+	integer Piercing_Damage_Flat;
+	
+	integer Fire_Resistance_Percent;
+	integer Cold_Resistance_Percent; 
+	integer Electric_Resistance_Percent;
+	integer Poison_Resistance_Percent;
+	integer Arcane_Resistance_Percent;
+	integer Force_Resistance_Percent;
+	integer Divine_Resistance_Percent;
+	integer Necrotic_Resistance_Percent;
+	integer Chaotic_Resistance_Percent;
+	integer Slashing_Resistance_Percent;
+	integer Crushing_Resistance_Percent;
+	integer Piercing_Resistance_Percent;
+	
+	integer Fire_Resistance_Percent_Modifier;
+	integer Cold_Resistance_Percent_Modifier; 
+	integer Electric_Resistance_Percent_Modifier;
+	integer Poison_Resistance_Percent_Modifier;
+	integer Arcane_Resistance_Percent_Modifier;
+	integer Force_Resistance_Percent_Modifier;
+	integer Divine_Resistance_Percent_Modifier;
+	integer Necrotic_Resistance_Percent_Modifier;
+	integer Chaotic_Resistance_Percent_Modifier;
+	integer Slashing_Resistance_Percent_Modifier;
+	integer Crushing_Resistance_Percent_Modifier;
+	integer Piercing_Resistance_Percent_Modifier;
+	
+	boolean Fire_Resistance_Percent_Neg;
+	boolean Cold_Resistance_Percent_Neg; 
+	boolean Electric_Resistance_Percent_Neg;
+	boolean Poison_Resistance_Percent_Neg;
+	boolean Arcane_Resistance_Percent_Neg;
+	boolean Force_Resistance_Percent_Neg;
+	boolean Divine_Resistance_Percent_Neg;
+	boolean Necrotic_Resistance_Percent_Neg;
+	boolean Chaotic_Resistance_Percent_Neg;
+	boolean Slashing_Resistance_Percent_Neg;
+	boolean Crushing_Resistance_Percent_Neg;
+	boolean Piercing_Resistance_Percent_Neg;
+	
+	integer Fire_Resistance_Flat;
+	integer Cold_Resistance_Flat; 
+	integer Electric_Resistance_Flat;
+	integer Poison_Resistance_Flat;
+	integer Arcane_Resistance_Flat;
+	integer Force_Resistance_Flat;
+	integer Divine_Resistance_Flat;
+	integer Necrotic_Resistance_Flat;
+	integer Chaotic_Resistance_Flat;
+	integer Slashing_Resistance_Flat;
+	integer Crushing_Resistance_Flat;
+	integer Piercing_Resistance_Flat;
+	
+	integer Fire_Resistance_Flat_Modifier;
+	integer Cold_Resistance_Flat_Modifier; 
+	integer Electric_Resistance_Flat_Modifier;
+	integer Poison_Resistance_Flat_Modifier;
+	integer Arcane_Resistance_Flat_Modifier;
+	integer Force_Resistance_Flat_Modifier;
+	integer Divine_Resistance_Flat_Modifier;
+	integer Necrotic_Resistance_Flat_Modifier;
+	integer Chaotic_Resistance_Flat_Modifier;
+	integer Slashing_Resistance_Flat_Modifier;
+	integer Crushing_Resistance_Flat_Modifier;
+	integer Piercing_Resistance_Flat_Modifier;
+	
+	boolean Fire_Resistance_Flat_Neg;
+	boolean Cold_Resistance_Flat_Neg; 
+	boolean Electric_Resistance_Flat_Neg;
+	boolean Poison_Resistance_Flat_Neg;
+	boolean Arcane_Resistance_Flat_Neg;
+	boolean Force_Resistance_Flat_Neg;
+	boolean Divine_Resistance_Flat_Neg;
+	boolean Necrotic_Resistance_Flat_Neg;
+	boolean Chaotic_Resistance_Flat_Neg;
+	boolean Slashing_Resistance_Flat_Neg;
+	boolean Crushing_Resistance_Flat_Neg;
+	boolean Piercing_Resistance_Flat_Neg;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Flat_Modifier;
+	integer Armor_Physical_Percent_Modifier;
+	integer Armor_Physical_Total;
+	integer Armor_Physical_BodyArmor;
+	integer Armor_Physical_Helm;
+	integer Armor_Physical_Gloves;
+	integer Armor_Physical_Boots;
+	integer Armor_Physical_Belt;
+	integer Armor_Physical_Shield;
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Flat_Modifier;
+	integer Armor_Magical_Percent_Modifier;
+	integer Armor_Magical_Total;
+	
+	integer Fire_Attack_Damage_Min_Total;
+	integer Cold_Attack_Damage_Min_Total; 
+	integer Electric_Attack_Damage_Min_Total;
+	integer Poison_Attack_Damage_Min_Total;
+	integer Arcane_Attack_Damage_Min_Total;
+	integer Force_Attack_Damage_Min_Total;
+	integer Divine_Attack_Damage_Min_Total;
+	integer Necrotic_Attack_Damage_Min_Total;
+	integer Chaotic_Attack_Damage_Min_Total;
+	integer Slashing_Attack_Damage_Min_Total;
+	integer Crushing_Attack_Damage_Min_Total;
+	integer Piercing_Attack_Damage_Min_Total;
+	
+	integer Fire_Attack_Damage_Max_Total;
+	integer Cold_Attack_Damage_Max_Total; 
+	integer Electric_Attack_Damage_Max_Total;
+	integer Poison_Attack_Damage_Max_Total;
+	integer Arcane_Attack_Damage_Max_Total;
+	integer Force_Attack_Damage_Max_Total;
+	integer Divine_Attack_Damage_Max_Total;
+	integer Necrotic_Attack_Damage_Max_Total;
+	integer Chaotic_Attack_Damage_Max_Total;
+	integer Slashing_Attack_Damage_Max_Total;
+	integer Crushing_Attack_Damage_Max_Total;
+	integer Piercing_Attack_Damage_Max_Total;
+	
+	integer Fire_Resistance_Percent_Total;
+	integer Cold_Resistance_Percent_Total; 
+	integer Electric_Resistance_Percent_Total;
+	integer Poison_Resistance_Percent_Total;
+	integer Arcane_Resistance_Percent_Total;
+	integer Force_Resistance_Percent_Total;
+	integer Divine_Resistance_Percent_Total;
+	integer Necrotic_Resistance_Percent_Total;
+	integer Chaotic_Resistance_Percent_Total;
+	integer Slashing_Resistance_Percent_Total;
+	integer Crushing_Resistance_Percent_Total;
+	integer Piercing_Resistance_Percent_Total;
+	integer Fire_Resistance_Flat_Total;
+	integer Cold_Resistance_Flat_Total; 
+	integer Electric_Resistance_Flat_Total;
+	integer Poison_Resistance_Flat_Total;
+	integer Arcane_Resistance_Flat_Total;
+	integer Force_Resistance_Flat_Total;
+	integer Divine_Resistance_Flat_Total;
+	integer Necrotic_Resistance_Flat_Total;
+	integer Chaotic_Resistance_Flat_Total;
+	integer Slashing_Resistance_Flat_Total;
+	integer Crushing_Resistance_Flat_Total;
+	integer Piercing_Resistance_Flat_Total;
 	
 	integer Experience_Value_Base;
 	
@@ -444,8 +678,6 @@ declare
 	
 	function VisitingScript;
 	
-	boolean Has_Level_Up_Attributes;
-	
 	list SpellArrange; //The list for arranging the other spell lists for the hero. A list of lists.
 	list SpellsGeneral; //The list of general spells
 	list SpellsItem; //The list of item spells
@@ -467,7 +699,10 @@ declare
 							  //Not used currently.
 	//Base attributes remain static when buffs/debuffs are applied to them. Only non-buff means can increase Base-level stats (Levelling up, Insight Points)
 	//This is so in the event of multiple buffs and effects being applied, that there is a normalized state for the units attributes to return to
-	string PrimaryStat_Name;			//Base values are ones that are inherent to the hero
+	
+	integer CurrentMana;
+	integer ManaRegenPoints;
+	integer HealthRegenPoints;
 	
 	integer UpArtificeChance; //Chance for hero to increase this attribute on level-up/Insight point limit reached.
 	integer UpIntelligenceChance;

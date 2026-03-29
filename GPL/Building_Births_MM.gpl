@@ -651,13 +651,13 @@ Declare
 	coordinate sign_loc;
 
 Begin
-
 	$PalaceAttributes(thisagent);
 	sign_loc = $UnitPointWithOffset(thisagent, -150, 35);
 	$AddHelpSign(thisagent, "Help_Sign_Attributes", sign_loc);
 	sign_loc = $UnitPointWithOffset(thisagent, 160, 35);
 	$AddHelpSign(thisagent, "Help_Sign_Spell_System", sign_loc);
 	thisagent's "in_danger" = FALSE;
+
 	$clearlist(thisagent's "tax_route");
 	$clearlist(thisagent's "tax_targets");
 	$NewThread( thisagent's "activeScript", #palace_revenue_cycle, thisagent );

@@ -173,8 +173,7 @@ begin
 	random_gold = #hero_start_gold;
 	starting_gold = #hero_start_gold;
 	$CreateEffector (THisAgent, "SpawnEffect_New", 1);
-	
-	$RecalculateStats(thisagent);
+	$InitBaseStats(thisagent);
 	
 	$ListObjects(thisagent,"building",-1,list1, #MyPlayer);
 
@@ -188,50 +187,22 @@ begin
 	estates = $listcompleted(estates);
 	starting_gold += $listsize(estates) * #hero_estate_gold_bonus;
 	stat_adjust = $listsize(estates) * #estate_primarystat_bonus;
+	if (stat_adjust > 0)
+		$AdjustBaseStat(thisagent, thisagent's "PrimaryStat_Name", stat_adjust);
 
 	$spire_bonus(thisagent);
 	$shrine_bonus(thisagent);
 	
 	$setAttribute (ThisAgent, #ATTRIB_StoredGold, $randomnumber(random_gold) + starting_gold);
 	if ($getattribute(thisagent,#ATTRIB_experienceLevel) < 1)
-		$setattribute(thisagent,#ATTRIB_experiencelevel,1);
+		$setattribute(thisagent,#ATTRIB_experiencelevel, 1);
 		
-	$setattribute(thisagent,#ATTRIB_experience,0);
-	//$adjustattribute(thisagent,thisagent's "PrimaryStat",stat_adjust);
-	//thisagent's (thisagent's "PrimaryStat_Name") += stat_adjust;
-	$AdjustPrimaryStat(thisagent, stat_adjust);
-	
-	//stat_strength = $getattribute(thisagent, #ATTRIB_Strength);
-	//if ($getattribute(thisagent, #ATTRIB_maxattackrange) < 100)
-	//	thisagent's "critical_chance" += (stat_strength / 6);
-	//else
-	//	thisagent's "critical_chance" += (stat_strength / 10);
-	
-	
-	stat_artifice = $getattribute(thisagent, #ATTRIB_Artifice);
-	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, stat_artifice * -#artifice_movespeed );
-	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, stat_artifice * -#artifice_attackspeed );
-	//Range Increase based on Artifice if Applicable to the hero
-	
+	$setattribute(thisagent, #ATTRIB_experience, 0);
 	if (thisagent's "castingrange" < 100)
 		thisagent's "castingrange" = 100;
-		
-//	if (thisagent's "rangeIncrease" != TRUE)
-//		if ($getattribute(thisagent, #ATTRIB_maxattackrange) > 100)
-//			begin
-//				$adjustattribute(thisagent,#ATTRIB_maxattackrange, stat_artifice * #artifice_attackrange );
-//				$adjustattribute(thisagent,#ATTRIB_SightRange, stat_artifice * #artifice_sightrange );
-//				thisagent's "castingrange" = (($getattribute(thisagent, #ATTRIB_maxattackrange) * 3) / 2);
-//			end
-//		else
-//			begin
-//				$adjustattribute(thisagent,#ATTRIB_SightRange, stat_artifice * #artifice_sightrange );
-//				thisagent's "castingrange" += (stat_artifice * #artifice_castrange);
-//			end
-	
 	
 	stat_vitality = ($getattribute(thisagent, #ATTRIB_Vitality) / 10);
-		$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, stat_vitality );
+	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, stat_vitality);
 	
 		
 	if ($GetAttribute(thisagent, #ATTRIB_experiencelevel) == 1)
@@ -242,18 +213,7 @@ begin
 	
 	if ($getattribute(thisagent, #ATTRIB_armor_basic_damage) > 1)
 		$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, - 1 );
-	
-	//stat_wisdom = $getattribute(thisagent, #ATTRIB_ResearchTrainIntelligence);
-	//stat_wisdom = thisagent's "Wisdom_Base";
-//	if (stat_wisdom > 0)
-//		begin
-//			MaxXP = $getattribute(thisagent, #ATTRIB_LevelXP);
-//			MaxXP_diff = ((MaxXP * stat_wisdom) / 200);
-//			new_MaxXP = (MaxXP - MaxXP_diff);
-//			if (new_maxXP > 0)
-//				$setattribute(thisagent, #ATTRIB_LevelXP, new_maxXP);
-//		end
-
+		
 	if (thisagent's "title" == "wizard")
 		begin
 			$AddFireTree(thisagent);			//Need to rewrite the entire spell system first.
@@ -262,11 +222,7 @@ begin
 		
 	$GeneralAttributes(thisagent);
 	$GenerateHeroAttributes(thisagent);
-	
-					
-	//$AddManaRegenerationSystem(ThisAgent);
-	//$AddHealthRegenerationSystem(ThisAgent);
-	
+
 	$StartingSpellCooldowns(thisagent);
 	
 	if (thisagent's "title" == "monk")

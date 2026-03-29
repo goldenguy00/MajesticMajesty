@@ -406,12 +406,15 @@ declare
 	string picked_attribute;
 
 begin
-	$RecalculateStats(thisagent); // For pre-placed scenario heroes that advance to higher levels on start-up
+	$InitBaseStats(thisagent); // For pre-placed scenario heroes that advance to higher levels on start-up
 	
 	exp_level = $getattribute(thisagent,#ATTRIB_experienceLevel);
 	stat_strength = $getattribute(thisagent, #ATTRIB_Strength);
 	stat_artifice = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_vitality = ($getattribute(thisagent, #ATTRIB_Vitality) / 10);
+	
+	// Reset armor back to normal before readjusting them to match new Artifice amounts
+	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, - stat_vitality );
 	
 	if (($GetAttribute(thisagent, #ATTRIB_experiencelevel) - 1) == 1)
 		begin
@@ -419,90 +422,13 @@ begin
 			$setattribute(thisagent, #ATTRIB_HP, 2 + $getattribute(thisagent, #ATTRIB_Vitality));
 		end
 	
-	insight_points = thisagent's "InsightPoints_Base" + thisagent's "Wisdom_Base";
-	thisagent's "InsightPoints_Base" = insight_points;
-
-	while (insight_points >= #insight_point_limit) do
-		begin
-			attribute_points ++;
-			thisagent's "InsightPoints_Base" -= #insight_point_limit;
-			insight_points -= #insight_point_limit;
-		end
-
-	// Reset armor back to normal before readjusting them to match new Artifice amounts
-	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, - stat_vitality );
-	
 	// Give 1 point of a primary stat if exp_level evenly divided by 2
-	if ((exp_level % 2) == 1)
-		begin
-			picked_attribute = thisagent's "PrimaryStat_Name";
-			thisagent's picked_attribute += 1;
-			if (picked_attribute == "Artifice_Base")
-				begin
-					$ArtificeIncrease(thisagent);
-				end
-			else if (picked_attribute == "Vitality_Base")
-				begin
-					thisagent's "MaxHP_Base" += HPBonus;
-					$UpdateMaxHP(thisagent);
-					//$adjustattribute(thisagent, #ATTRIB_MaxHP, 1);
-					$adjustattribute(thisagent, #ATTRIB_HP, 1);
-				end
-		end
+	if ((exp_level % 2) == 0)
+		picked_attribute = thisagent's "PrimaryStat_Name";
 	else
-		begin
-			picked_attribute = $PreferredAttribute(thisagent);
-			thisagent's picked_attribute += 1;
-			if (picked_attribute == "Artifice_Base")
-				begin
-					$ArtificeIncrease(thisagent);
-				end
-			else if (picked_attribute == "Vitality_Base")
-				begin
-					thisagent's "MaxHP_Base" += HPBonus;
-					$UpdateMaxHP(thisagent);
-					//$adjustattribute(thisagent, #ATTRIB_MaxHP, 1);
-					$adjustattribute(thisagent, #ATTRIB_HP, 1);
-				end
-		end
+		picked_attribute = $PreferredAttribute(thisagent, false);
 		
-	While (attribute_points > 0) do
-		begin
-			if ((attribute_points % 2) == 1)
-				begin
-					picked_attribute = $PreferredAttributeExtra(thisagent, FALSE);
-					thisagent's picked_attribute += 1;
-					if (picked_attribute == "Artifice_Base")
-						begin
-							$ArtificeIncrease(thisagent);
-						end
-					else if (picked_attribute == "Vitality_Base")
-						begin
-							thisagent's "MaxHP_Base" += HPBonus;
-							$UpdateMaxHP(thisagent);
-							//$adjustattribute(thisagent, #ATTRIB_MaxHP, 1);
-							$adjustattribute(thisagent, #ATTRIB_HP, 1);
-						end
-				end
-			else
-				begin
-					picked_attribute = $PreferredAttributeExtra(thisagent, TRUE);
-					thisagent's picked_attribute += 1;
-					if (picked_attribute == "Artifice_Base")
-						begin
-							$ArtificeIncrease(thisagent);
-						end
-					else if (picked_attribute == "Vitality_Base")
-						begin
-							thisagent's "MaxHP_Base" += HPBonus;
-							$UpdateMaxHP(thisagent);
-							//$adjustattribute(thisagent, #ATTRIB_MaxHP, 1);
-							$adjustattribute(thisagent, #ATTRIB_HP, 1);
-						end
-				end
-				
-			attribute_points --;
-		end
+	thisagent's (picked_attribute+"_Base") += 1;
 
 	// give 1 point to all attack skills - to max of 98?
 	if (thisagent's "attacktype" == 1)
@@ -565,26 +491,15 @@ begin
 				
 	thisagent's "LevelXP_Base" += exp_level * thisagent's "ExperienceConst";
 	
-	$UpdateArtifice(thisagent);
-	$UpdateIntelligence(thisagent);
-	$UpdateStrength(thisagent);
-	$UpdateVitality(thisagent);
-	$UpdateWillpower(thisagent);
-	$UpdateWisdom(thisagent);
-	$UpdateMaxXP(thisagent);
-	
 	// give more MAXHP
 	HPBonus = ($getattribute(thisagent,#ATTRIB_vitality) / #vitality_div);
 	if (HPBonus < 1) HPBonus = 1;
 	b2 = $randomnumber(HPBonus) + 1;
 	HPBonus += b2;
 
-	NewHPMax = $getattribute(thisagent,#ATTRIB_MAXHP) + HPBonus;
-	
 	thisagent's "MaxHP_Base" += HPBonus;
 	$UpdateMaxHP(thisagent);
 	
-	//$setattribute(thisagent,#ATTRIB_MAXHP,NewHPMAX);
 	$adjustattribute(thisagent,#ATTRIB_HP,HPBonus);
 
 	// give more MAXMP
@@ -597,6 +512,8 @@ begin
 
 	stat_vitality = ($getattribute(thisagent, #ATTRIB_Vitality) / 10);
 	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, stat_vitality );
+
+	$RecalculateStats(thisagent);
 
 	if (thisagent's "title" == "Wizard")
 		$SkillTreeLevelUp(thisagent);

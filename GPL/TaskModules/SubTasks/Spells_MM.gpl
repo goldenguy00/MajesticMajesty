@@ -3877,7 +3877,6 @@ begin
 	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$createeffector ( target, "generic_Regenerate_icon", duration );
-	$AddHealthRegenerationSystem(target);
 	target's "HealthRegeneration_Increase" += regen_amount;
 end
 
