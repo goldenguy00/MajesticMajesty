@@ -1552,8 +1552,17 @@ begin
 			$damage(thisagent,target);
 		end
 		
-	$attack_end_level(thisagent,exp_given, $XPLevel_Value_Base(target));
+	$attack_end(thisagent,exp_given);
 
+end
+
+function CalcExpTotal(agent target) is integer
+declare
+	integer dmg_exp;
+begin
+	dmg_exp = $GetAttributeSafe(target, "Experience_Value_Base");
+	if (dmg_exp < 100) dmg_exp = 100;
+	return dmg_exp;
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1973,7 +1982,6 @@ declare
 
 begin
 	$InitBaseStats(thisagent);
-	thisagent's "LevelXP_Base" = ($getattribute(thisagent,#ATTRIB_LevelXP) * 10);
 
 	// fairground, library, Fervus, and Krolm affect attributes of all heros
 	// Fervus gives rogues artifice...
@@ -2098,7 +2106,6 @@ begin
 	$UpdateWillpower(thisagent);
 	$UpdateWisdom(thisagent);
 
-	$UpdateLevelXP(thisagent);
 	$UpdateMaxHP(thisagent);
 	$UpdateMaxMana(thisagent);
 end
@@ -2107,7 +2114,8 @@ end
 function InitBaseStats(agent thisagent)
 declare
 begin
-	if ($HasAttribute("ExperienceConst", thisagent) == false)
+	// just check if something only created here exists. not foolproof but the attribute bloat needs to stop.
+	if ($HasAttribute("Presige", thisagent) == false)
 		begin
 			$InitBaseStat(thisagent, "Artifice", $GetAttribute(thisagent, #ATTRIB_Artifice));
 			$InitBaseStat(thisagent, "Strength", $GetAttribute(thisagent, #ATTRIB_Strength));
@@ -2124,17 +2132,11 @@ begin
 			$AddAttribute(thisagent, "PrimaryStat", "integer", #ATTRIB_Vitality);
 			$AddAttribute(thisagent, "PrimaryStat_Name", "string", "Vitality");
 
-			$InitBaseStat(thisagent, "LevelXP", $getAttribute(thisagent, #ATTRIB_LevelXP) / 2);
-			$AddAttribute(thisagent, "ExperienceConst", "integer", thisagent's "LevelXP_Base" / 20);
 			$AddAttribute(thisagent, "Prestige", "integer", $StartingPrestige(thisagent));
 			$AddAttribute(thisagent, "InsightPoints", "integer");
 		end
 end
-function InitAttribute(agent thisagent, string attr, integer default)
-declare
-begin
 
-end
 ////////////////////////////////////////////////////////////////////////////////
 function AdjustBaseStat(agent thisagent, string stat_name, integer delta)
 declare
@@ -2224,13 +2226,6 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function UpdateLevelXP(agent thisagent)
-declare
-begin
-	$RecalculateAttributeTotal(thisagent, #ATTRIB_LevelXP, "LevelXP");
-end
-
-////////////////////////////////////////////////////////////////////////////////
 function UpdatePhysicalArmor(agent thisagent)
 declare
 begin
@@ -2262,7 +2257,7 @@ begin
 	percent = $GetAttributeSafe(thisagent, attrib+"_Percent_Modifier");
 
 	if (percent != 0) 
-	percent = $PercentOf(base, thisagent's (attrib+"_Percent_Modifier"), (base >= 1000));
+		percent = $PercentOf(base, thisagent's (attrib+"_Percent_Modifier"), (base >= 1000));
 
 	thisagent's (attrib+"_Total") = base + flat + percent;
 	return thisagent's (attrib+"_Total") - total;

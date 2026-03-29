@@ -47,14 +47,10 @@ begin
 	building = thisagent's "target";
 	book = $agentintentextinlist(thisagent's "TaskName", $GetBuildingContents($agenttitleinlist("Available_Books", building's "Attachments")));
 	experience = book's "XP_Value";
-	XPLevel = book's "XPLevel_Value";
 	
 	$exit_building(thisagent,building);
 	
-	$give_exp_level(thisagent, experience, XPLevel);
+	$give_exp(thisagent, experience);
 	thisagent's "Books_Read" << book's "IntentExt"; //For simplicity sake, the intentext may as well serve as the title when checking if the agent read the book before.
-	
-	thisagent's "TaskPackageStatus" = "Complete";
-	
-	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+	$reset_tasks(thisagent);
 end

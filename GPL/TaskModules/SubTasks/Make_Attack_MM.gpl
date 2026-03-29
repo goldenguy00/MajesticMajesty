@@ -40,7 +40,7 @@ begin
 	else
 		exp_given = #attack_exp_bonus;	//Exp given for attacking monsters, regardless of the attack landing
 
-	$attack_end_level(thisagent,exp_given, $XPLevel_Value_Base(target));
+	$attack_end(thisagent,exp_given);
 
 	
 	if (hitresult == 1) // hit!
@@ -82,7 +82,7 @@ begin
 
 	hitresult = $spelltypehit(target, s_type);
 
-	$attack_end_level(thisagent,exp_given, $XPLevel_Value_Base(target));
+	$attack_end(thisagent,exp_given);
 	
 	if (hitresult == 1) // hit
 		begin
@@ -93,76 +93,6 @@ begin
 			begin
 			end
 
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function attack_end_level(agent thisagent,integer exp_given, integer level)
-//Attack end is just giving experience based on attributes
-declare
-	integer new_exp_div;
-	agent leader;
-
-begin
-
-	if (thisagent's "subtype" == "hero")
-		begin
-//			new_exp_div = $getattribute(thisagent,#ATTRIB_experiencelevel) / #combat_exp_div;
-//			if (new_exp_div < 1)
-//				new_exp_div = 1;
-			$give_exp_level(thisagent,exp_given, level);
-		end
-
-	if ($hasattribute("familiar",thisagent))
-		if (thisagent's "familiar" == TRUE)
-			begin
-				leader = thisagent's "leader";
-				if ($isdead(leader) == FALSE)
-					$give_exp_level(leader,#familiar_fight_exp, level);
-			end
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function exp_value(agent thisagent,agent target) is integer
-
-declare
-	integer exp_given;
-
-begin
-	if (target's "type" == "monster")
-		begin
-			//exp_given = $getattribute(target,#ATTRIB_LevelXP);
-			//exp_given = target's "Experience_Value_Base" / 10;
-			$debugout(exp_given);
-		end
-	else
-		if (target's "type" == "lair")
-			exp_given = target's "difficulty" * #lair_exp;
-		else
-			if (target's "subtype" == "hero")// && ($getsubtype(target) != "Henchman" && $GetSubtype(target) != "Controlled"))
-				exp_given = $getattribute(target,#ATTRIB_experienceLevel) * #attack_hero_exp;
-			else
-				if ((target's "type" == "building") || (target's "subtype" == "henchman"))
-					begin
-						if ($getunitplayernumber(thisagent) == $getunitplayernumber(target))
-							exp_given = 0;
-						else
-							exp_given = #attack_other_exp;
-					end
-				else
-					exp_given = #attack_other_exp;
-
-	return exp_given;
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function XPLevel_Value_Base(agent thisagent) is integer
-
-declare
-
-begin
-	if ($HasAttribute("XPLevel_Value_Base", thisagent))
-		return thisagent's "XPLevel_Value_Base";
-	return 1;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -383,8 +313,8 @@ begin
 	
 	if (attacker's "subtype" == "hero")
 		begin
-			dmg_exp = (dmg * defender's "Experience_Value_Base") / $getattribute(defender, #ATTRIB_MaxHP);
-			$give_exp_level(attacker, dmg_exp, $XPLevel_Value_Base(defender));
+			dmg_exp = (dmg * $CalcExpTotal(defender)) / $getattribute(defender, #ATTRIB_MaxHP);
+			$give_exp(attacker, dmg_exp);
 		end
 				
 	$adjustattribute(defender,#ATTRIB_HP,-dmg);
@@ -754,19 +684,18 @@ begin
 					if ($Checkeffector(defender, "Pyrelight_icon") == True)
 						$PyrelightDebuff_Death(defender);
 				end
-	
+			
+			dmg_exp = (dmg * $CalcExpTotal(defender)) / $getattribute(defender, #ATTRIB_MaxHP);
 			if (attacker's "subtype" == "hero")
 				begin
-					$AddAttribute(defender, "Experience_Value_Base", "integer", 100);
-					dmg_exp = (dmg * defender's "Experience_Value_Base") / $getattribute(defender, #ATTRIB_MaxHP);
-					$give_exp_level(attacker, dmg_exp, $XPLevel_Value_Base(defender));
+					$give_exp(attacker, dmg_exp);
 				end
 				
 			if ($hasattribute("familiar",attacker))
 				if (attacker's "familiar" == TRUE)
 					begin
 						if ($isdead(attacker's "leader") == FALSE)
-							$give_exp_level(attacker's "leader", dmg_exp, $XPLevel_Value_Base(defender));
+							$give_exp(attacker's "leader", dmg_exp);
 					end
 					
 			$adjustattribute ( defender, #ATTRIB_HP, -dmg );

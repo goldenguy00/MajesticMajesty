@@ -396,6 +396,7 @@ declare
 	
 	integer Experience_Value_Base;
 	
+	// unused
 	integer XPLevel_Value_Base;
 	
 	agent Killing_Unit;
@@ -654,8 +655,6 @@ declare
 	
 	integer TaskPackageConstructionRadius; //For Help_Build tasks.
 	integer TaskSearch_Limit; //The tracker for the number of times a Search For Task function returns False.
-	
-	integer Prestige;
 	
 	string Running_Intent;
 	

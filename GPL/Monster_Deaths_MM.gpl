@@ -9,7 +9,7 @@ function dropgoldinradius(agent thisagent, integer amount)
 declare
 	list guysnearby,newguys,rangers,l4,l5;
 	agent guy, killer;
-	integer num_guys,goldper, amount_killer, amount_remain;
+	integer num_guys,goldper, amount_killer, amount_remain, xpval;
 	boolean killer_exists;
 begin
 	amount_remain = amount;
@@ -80,7 +80,7 @@ begin
 	if (amount_killer > 0)
 		begin
 			$give_gold(killer,amount_killer);
-			$kill_exp_level(killer, thisagent's "Experience_Value_Base", $XPLevel_Value_Base(thisagent));
+			$give_exp(killer, $CalcExpTotal(thisagent));
 			$Item_Stack(thisagent, killer);
 		end
 		
