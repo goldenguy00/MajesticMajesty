@@ -80,7 +80,7 @@ begin
 	if (amount_killer > 0)
 		begin
 			$give_gold(killer,amount_killer);
-			$give_exp(killer, $CalcExpTotal(thisagent));
+			$give_exp(killer, $exp_value(killer, thisagent) + $GetAttributeSafe(thisagent, "Experience_Value_Base"));
 			$Item_Stack(thisagent, killer);
 		end
 		

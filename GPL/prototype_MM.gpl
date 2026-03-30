@@ -397,7 +397,7 @@ declare
 	integer Experience_Value_Base;
 	
 	// unused
-	integer XPLevel_Value_Base;
+	integer XPMultiplier;
 	
 	agent Killing_Unit;
 	
@@ -909,7 +909,7 @@ Declare
 
 	integer gold_value;
 	integer XP_value; //Experience gained from reading this book
-	integer XPLevel_value; //The Level of experience gained from the book being read.
+	integer XPMultiplier; //The Level of experience gained from the book being read.
 
 	function transferScript;  	// This script will be called when the item is transfered to its new owner.
 	function birthScript;  	// This script will be called once, when the unit is created;

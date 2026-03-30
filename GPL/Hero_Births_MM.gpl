@@ -200,15 +200,11 @@ begin
 	$setattribute(thisagent, #ATTRIB_experience, 0);
 	if (thisagent's "castingrange" < 100)
 		thisagent's "castingrange" = 100;
-	
-	stat_vitality = ($getattribute(thisagent, #ATTRIB_Vitality) / 10);
-	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, stat_vitality);
-	
-		
+
 	if ($GetAttribute(thisagent, #ATTRIB_experiencelevel) == 1)
 		begin
-			$setattribute(thisagent, #ATTRIB_MaxHP, 2 + $getattribute(thisagent, #ATTRIB_Vitality));
-			$setattribute(thisagent, #ATTRIB_HP, 2 + $getattribute(thisagent, #ATTRIB_Vitality));
+			thisagent's "MaxHP_Base" = 2 + $getattribute(thisagent, #ATTRIB_Vitality);
+			$setattribute(thisagent, #ATTRIB_HP, thisagent's "MaxHP_Base");
 		end
 	
 	if ($getattribute(thisagent, #ATTRIB_armor_basic_damage) > 1)
@@ -225,8 +221,6 @@ begin
 
 	$StartingSpellCooldowns(thisagent);
 	
-	if (thisagent's "title" == "monk")
-		thisagent's "PrimaryStat" = #ATTRIB_ResearchTrainIntelligence;
 	if (thisagent's "Uses_Equipment"== True)
 		$HeroStartingEquipment(thisagent); // Take care of this part now that new prototype is used
 	

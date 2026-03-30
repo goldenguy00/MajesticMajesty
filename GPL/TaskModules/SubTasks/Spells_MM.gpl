@@ -1766,6 +1766,22 @@ begin
 	$make_attack(thisagent,target3);
 end
 
+function HandleSearingMantle(agent thisagent, agent target)
+declare
+begin
+		if ($IsDead(target) == True)
+			return;
+			
+		if ($HasAttribute("SearingMantleBuff_End", target) == True)
+		if ($IsRunning(Target's "SearingMantleBuff_End") == True)
+			begin
+				if ($GetAttribute(thisagent, #ATTRIB_MaxAttackRange) < 50)
+					begin
+						$createeffector( thisagent, "SearingMantleDamage_Effector", 0 );
+						$spelltypedamage(target, thisagent, "fire", target's "SearingMantle_Damage_Min",  target's "SearingMantle_Damage_Max");
+					end
+			end
+end
 // --- Howl of Discord Functions begin here --- //
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -36,14 +36,7 @@ begin
 	if (run_result >= fight_result)
 		$flee(thisagent,intent);
 	else
-		begin
-			thisagent's "target" = $NullAgent();
-			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BERSERKING");
-			if ($haslowHP(thisagent))
-				thisagent's "activescript" = $berserk;
-			else
-				thisagent's "activescript" = $berserk_defend;
-		end
+		$Go_berserk(thisagent);
 
 
 end

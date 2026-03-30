@@ -1348,10 +1348,12 @@ end
 function AddInsightPoints(agent thisagent, integer points)
 
 declare
-	integer insight_points, attribute_points, picked_attribute;
+	integer insight_points, attribute_points;
+	string picked_attribute;
 	
 begin
-	insight_points = thisagent's "InsightPoints_Base" + points;
+	$AdjustAttributeSafe(thisagent, "InsightPoints_Base", points);
+	insight_points = thisagent's "InsightPoints_Base";
 
 	while (insight_points >= #insight_point_limit) do
 		begin
@@ -1554,15 +1556,6 @@ begin
 		
 	$attack_end(thisagent,exp_given);
 
-end
-
-function CalcExpTotal(agent target) is integer
-declare
-	integer dmg_exp;
-begin
-	dmg_exp = $GetAttributeSafe(target, "Experience_Value_Base");
-	if (dmg_exp < 100) dmg_exp = 100;
-	return dmg_exp;
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2133,7 +2126,7 @@ begin
 			$AddAttribute(thisagent, "PrimaryStat_Name", "string", "Vitality");
 
 			$AddAttribute(thisagent, "Prestige", "integer", $StartingPrestige(thisagent));
-			$AddAttribute(thisagent, "InsightPoints", "integer");
+			$AddAttribute(thisagent, "InsightPoints_base", "integer");
 		end
 end
 
@@ -2142,7 +2135,7 @@ function AdjustBaseStat(agent thisagent, string stat_name, integer delta)
 declare
 	function update_func;
 begin
-	thisagent's stat_name += delta;
+	thisagent's (stat_name+"_Base") += delta;
 
 	update_func = $LookupFunction("Update"+stat_name);
 	if ($ValidFunction(update_func))
@@ -2170,8 +2163,10 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateVitality(agent thisagent)
 declare
+	integer delta;
 begin
-	$RecalculateAttributeTotal(thisagent, #ATTRIB_Vitality, "Vitality");
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Vitality, "Vitality");
+	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, (delta / 10));
 	$UpdateHealthRegeneration(thisagent);
 end
 
@@ -2221,8 +2216,10 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateMaxHP(agent thisagent)
 declare
+	integer delta;
 begin
-	$RecalculateAttributeTotal(thisagent, #ATTRIB_MaxHP, "MaxHP");
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_MaxHP, "MaxHP");
+	$AdjustAttribute(thisagent, #ATTRIB_HP, delta);
 end
 
 ////////////////////////////////////////////////////////////////////////////////

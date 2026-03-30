@@ -6,8 +6,8 @@
 		(Title		MagicalTreatises1)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		1000)
-		(XPLevel_value		1)
+		(XP_value		800)
+		(XPMultiplier		1)
 		(IntentExt		MAGICALTREATISES1)
 	}
 [end]
@@ -19,8 +19,8 @@
 		(Title		MagicalTreatises2)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		1600)
-		(XPLevel_value		2)
+		(XP_value		800)
+		(XPMultiplier		2)
 		(IntentExt		MAGICALTREATISES2)
 	}
 [end]
@@ -32,8 +32,8 @@
 		(Title		MagicalTreatises3)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		2500)
-		(XPLevel_value		3)
+		(XP_value		800)
+		(XPMultiplier		3)
 		(IntentExt		MAGICALTREATISES3)
 	}
 [end]
@@ -45,8 +45,8 @@
 		(Title		MagicalTreatises4)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		3600)
-		(XPLevel_value		4)
+		(XP_value		800)
+		(XPMultiplier		4)
 		(IntentExt		MAGICALTREATISES4)
 	}
 [end]
@@ -58,8 +58,8 @@
 		(Title		MagicalTreatises5)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		4800)
-		(XPLevel_value		5)
+		(XP_value		800)
+		(XPMultiplier		5)
 		(IntentExt		MAGICALTREATISES5)
 	}
 [end]
@@ -72,7 +72,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		LOSTCULTS)
 	}
 [end]
@@ -85,7 +85,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		MUSINGSONTHEAFTERLIFE)
 	}
 [end]
@@ -98,7 +98,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		LEGENDARYMONSTERS)
 	}
 [end]
@@ -111,7 +111,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		GOBLINTRIBESOFARDANIA)
 	}
 [end]
@@ -124,7 +124,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		SANGUINECONCLAVE)
 	}
 [end]
@@ -137,7 +137,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		FUTILITY)
 	}
 [end]
@@ -150,7 +150,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		ONETHOUSANDSNOWFLAKES)
 	}
 [end]
@@ -163,7 +163,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		COMMONBLOOD1)
 	}
 [end]
@@ -176,7 +176,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		COMMONBLOOD2)
 	}
 [end]
@@ -189,7 +189,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		COMMONBLOOD3)
 	}
 [end]
@@ -202,7 +202,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		SHADOWSOVERARDANIA)
 	}
 [end]
@@ -215,7 +215,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		LUNACY)
 	}
 [end]
@@ -228,7 +228,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		SCIONSOFCHAOS)
 	}
 [end]
@@ -241,7 +241,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		AGNOMESLIFE)
 	}
 [end]
@@ -254,7 +254,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		THEVAGRANT)
 	}
 [end]
@@ -267,7 +267,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		KROLM)
 	}
 [end]
@@ -280,7 +280,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		VENDRALTHEHARBINGER)
 	}
 [end]
@@ -293,7 +293,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		DAEMONWOODFOREST)
 	}
 [end]
@@ -306,7 +306,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		SECRETSOFTHEOCULUS)
 	}
 [end]
@@ -319,7 +319,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		LYCANTHROPY)
 	}
 [end]
@@ -332,7 +332,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		UNCHAINED)
 	}
 [end]
@@ -345,7 +345,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		DISAPPEARANCEOFTHEDRUIDS)
 	}
 [end]
@@ -358,7 +358,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		DIRGOSFOLLY)
 	}
 [end]
@@ -371,7 +371,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		SLUMBERINGBEASTS)
 	}
 [end]
@@ -384,7 +384,7 @@
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		250)
-		(XPLevel_value		1)
+		(XPMultiplier		1)
 		(IntentExt		INCOMPLETEHISTORY)
 	}
 [end]

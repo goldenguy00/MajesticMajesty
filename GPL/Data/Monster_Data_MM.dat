@@ -23,8 +23,6 @@
 		(IGdeathscript	 	Wight_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-
-
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Stones)
@@ -38,10 +36,10 @@
 		(Slashing_Resistance_Percent	20)
 		(Armor_Physical_Base					7)
 		(Armor_Magical_Base					4)
-		(Crushing_Attack_Damage_Min		17)
-		(Crushing_Attack_Damage_Max		21)
+		(Slashing_Attack_Damage_Min		17)
+		(Slashing_Attack_Damage_Max		21)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		STONES)
 	}
 [end]
@@ -72,8 +70,6 @@
 		(IGdeathscript	 	Wight_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-
-
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Undead)
 		(Kill_Credit_Specific	KCS_Styx)
@@ -87,10 +83,10 @@
 		(Slashing_Resistance_Percent	20)
 		(Armor_Physical_Base					7)
 		(Armor_Magical_Base					4)
-		(Slashing_Attack_Damage_Min		17)
-		(Slashing_Attack_Damage_Max		21)
+		(Crushing_Attack_Damage_Min		17)
+		(Crushing_Attack_Damage_Max		21)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		STYX)
 	}
 [end]
@@ -120,17 +116,17 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-
-
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Ratman_Shaman)
+		(Crushing_Attack_Damage_Min		12)
+		(Crushing_Attack_Damage_Max		15)
 		(Poison_Resistance_Percent		30)
 		(Armor_Magical_Base					3)
 		(ItemDrop1						MedicinePouch)
 		(ItemDropChance1				450000)
 		(Experience_Value_Base	525)
-		(XPLevel_Value_Base	4)
+		(XPMultiplier	4)
 		(IntentExt		RATMANSHAMAN)
 	}
 [end]
@@ -158,8 +154,6 @@
 		(IGdeathscript	      	Overlord_Deathstrike)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-
-
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Goblin)
 		(Kill_Credit_Specific	KCS_Goblin_Overlord)
@@ -174,7 +168,7 @@
 		(ItemDrop2						MassiveAxe)
 		(ItemDropChance2				600000)
 		(Experience_Value_Base	725)
-		(XPLevel_Value_Base	6)
+		(XPMultiplier	6)
 		(IntentExt		GOBLINOVERLORD)
 	}
 [end]
@@ -218,7 +212,7 @@
 		(Chaotic_Attack_Damage_Min		26)
 		(Chaotic_Attack_Damage_Max		39)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		ABOMINATION)
 	}
 [end]
@@ -248,15 +242,18 @@
 		(IGdeathscript		monster_gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
-
-
+		(Armor_Physical_Base 4)
+		(Fire_Resistance_Percent 25)
+		(Fire_Resistance_Percent_Neg true)
+		(Crushing_Attack_Damage_Min		12)
+		(Crushing_Attack_Damage_Max		15)
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Greater_Gorgon)
 		(ItemDrop1						GorgonHead)
 		(ItemDropChance1				500000)
 		(Experience_Value_Base	600)
-		(XPLevel_Value_Base	5)
+		(XPMultiplier	5)
 		(IntentExt		GREATERGORGON)
 	}
 [end]
@@ -287,12 +284,17 @@
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
 
-
+		(Armor_Physical_Base 4)
+		(Fire_Resistance_Percent 25)
+		(Fire_Resistance_Percent_Neg true)
+		(Crushing_Attack_Damage_Min		12)
+		(Crushing_Attack_Damage_Max		15)
+		
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Monster)
 		(Kill_Credit_Specific	KCS_Medusa)
 		(Experience_Value_Base	475)
-		(XPLevel_Value_Base	4)
+		(XPMultiplier	4)
 		(IntentExt		MEDUSA)
 	}
 [end]
@@ -342,7 +344,7 @@
 		(ItemDrop3						MetalPlateArmor)
 		(ItemDropChance3				400000)
 		(Experience_Value_Base	650)
-		(XPLevel_Value_Base	6)
+		(XPMultiplier	6)
 		(IntentExt		RATMANCHAMPION)
 	}
 [end]
@@ -389,7 +391,7 @@
 		(ItemDrop3						RustedGear)
 		(ItemDropChance3				400000)
 		(Experience_Value_Base	450)
-		(XPLevel_Value_Base	4)
+		(XPMultiplier	4)
 		(IntentExt		RATMANCATAPULT)
 	}
 [end]
@@ -436,7 +438,7 @@
 		(ItemDrop2						RatTail)
 		(ItemDropChance2				700000)
 		(Experience_Value_Base	375)
-		(XPLevel_Value_Base	4)
+		(XPMultiplier	4)
 		(IntentExt		RATMAN)
 	}
 [end]
@@ -479,7 +481,7 @@
 		(ItemDrop1						GoblinEar)
 		(ItemDropChance1				800000)
 		(Experience_Value_Base	400)
-		(XPLevel_Value_Base	3)
+		(XPMultiplier	3)
 		(IntentExt		GOBLINPRIEST)
 	}
 [end]
@@ -526,7 +528,7 @@
 		(ItemDrop1						Frostblood)
 		(ItemDropChance1				220000)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		YETI)
 	}
 [end]
@@ -572,7 +574,7 @@
 		(ItemDrop1						DuskFang)
 		(ItemDropChance1				500000)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		SHADOWBEAST)
 	}
 [end]
@@ -617,7 +619,7 @@
 		(Slashing_Attack_Damage_Min		18)
 		(Slashing_Attack_Damage_Max		22)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		RHODENKINGRAT)
 	}
 [end]
@@ -664,7 +666,7 @@
 		(ItemDrop1						MassiveFang)
 		(ItemDropChance1				750000)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		WENDIGO)
 	}
 [end]
@@ -708,7 +710,7 @@
 		(ItemDrop2						SulphuricBlood)
 		(ItemDropChance2				150000)
 		(Experience_Value_Base	900)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		EVILOCULUS)
 	}
 [end]
@@ -757,7 +759,7 @@
 		(ItemDrop3						DragonEye)
 		(ItemDropChance3				100000)
 		(Experience_Value_Base	1000)
-		(XPLevel_Value_Base	8)
+		(XPMultiplier	8)
 		(IntentExt		DRAGON)
 	}
 [end]
@@ -798,7 +800,7 @@
 		(ItemDrop1						FrozenCore)
 		(ItemDropChance1				170000)
 		(Experience_Value_Base	1100)
-		(XPLevel_Value_Base	8)
+		(XPMultiplier	8)
 		(IntentExt		ICEDRAGON)
 	}
 [end]
@@ -840,7 +842,7 @@
 		(ItemDrop1						EtherealLeaf)
 		(ItemDropChance1				330000)
 		(Experience_Value_Base	225)
-		(XPLevel_Value_Base	2)
+		(XPMultiplier	2)
 		(IntentExt		DRYAD)
 	}
 [end]
@@ -883,7 +885,7 @@
 		(ItemDrop2						RocTalon)
 		(ItemDropChance2				250000)
 		(Experience_Value_Base	200)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		ROC)
 	}
 [end]
@@ -930,7 +932,7 @@
 		(ItemDrop1						StrangleweedNectar)
 		(ItemDropChance1				450000)
 		(Experience_Value_Base	250)
-		(XPLevel_Value_Base	2)
+		(XPMultiplier	2)
 		(IntentExt		FLOWERINGSTRANGLEWEED)
 	}
 [end]
@@ -971,7 +973,7 @@
 		(ItemDrop1						RatTail)
 		(ItemDropChance1				750000)
 		(Experience_Value_Base	150)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		GIANTRAT)
 	}
 [end]
@@ -1020,7 +1022,7 @@
 		(ItemDrop2						SpiderSilk)
 		(ItemDropChance2				120000)
 		(Experience_Value_Base	300)
-		(XPLevel_Value_Base	2)
+		(XPMultiplier	2)
 		(IntentExt		GIANTSPIDER)
 	}
 [end]
@@ -1062,7 +1064,7 @@
 		(ItemDrop2						EnlargedCanine)
 		(ItemDropChance2				500000)
 		(Experience_Value_Base	425)
-		(XPLevel_Value_Base	3)
+		(XPMultiplier	3)
 		(IntentExt		VARG)
 	}
 [end]
@@ -1103,7 +1105,7 @@
 		(ItemDrop1						GoblinEar)
 		(ItemDropChance1				800000)
 		(Experience_Value_Base	275)
-		(XPLevel_Value_Base	2)
+		(XPMultiplier	2)
 		(IntentExt		GOBLINFIGHTER)
 	}
 [end]
@@ -1143,7 +1145,7 @@
 		(ItemDrop1						GoblinEar)
 		(ItemDropChance1				800000)
 		(Experience_Value_Base	275)
-		(XPLevel_Value_Base	2)
+		(XPMultiplier	2)
 		(IntentExt		GOBLINARCHER)
 	}
 [end]
@@ -1189,7 +1191,7 @@
 		(ItemDrop1						GoblinEar)
 		(ItemDropChance1				800000)
 		(Experience_Value_Base	450)
-		(XPLevel_Value_Base	4)
+		(XPMultiplier	4)
 		(IntentExt		GOBLINCHAMPION)
 	}
 [end]
@@ -1229,7 +1231,7 @@
 		(ItemDrop1						HarpyTalon)
 		(ItemDropChance1				500000)
 		(Experience_Value_Base	300)
-		(XPLevel_Value_Base	3)
+		(XPMultiplier	3)
 		(IntentExt		HARPY)
 	}
 [end]
@@ -1274,7 +1276,7 @@
 		(ItemDrop1						TaintedBark)
 		(ItemDropChance1				250000)
 		(Experience_Value_Base	1200)
-		(XPLevel_Value_Base	8)
+		(XPMultiplier	8)
 		(IntentExt		DAEMONWOOD)
 	}
 [end]
@@ -1319,7 +1321,7 @@
 		(ItemDrop2						MinotaurBlood)
 		(ItemDropChance2				300000)
 		(Experience_Value_Base	500)
-		(XPLevel_Value_Base	5)
+		(XPMultiplier	5)
 		(IntentExt		MINOTAUR)
 	}
 [end]
@@ -1362,7 +1364,7 @@
 		(ItemDrop1						BearPelt)
 		(ItemDropChance1				600000)
 		(Experience_Value_Base	700)
-		(XPLevel_Value_Base	6)
+		(XPMultiplier	6)
 		(IntentExt		HELLBEAR)
 	}
 [end]
@@ -1408,7 +1410,7 @@
 		(ItemDrop2						EnchantedMarble)
 		(ItemDropChance2				50000)
 		(Experience_Value_Base	1500)
-		(XPLevel_Value_Base	10)
+		(XPMultiplier	10)
 		(IntentExt		ROCKGOLEM)
 	}
 [end]
@@ -1448,7 +1450,7 @@
 		(ItemDrop1						VialOfAcid)
 		(ItemDropChance1				660000)
 		(Experience_Value_Base	375)
-		(XPLevel_Value_Base	3)
+		(XPMultiplier	3)
 		(IntentExt		RUSTSPITTER)
 	}
 [end]
@@ -1494,7 +1496,7 @@
 		(ItemDrop2						Bonemeal)
 		(ItemDropChance2				100000)
 		(Experience_Value_Base	350)
-		(XPLevel_Value_Base	3)
+		(XPMultiplier	3)
 		(IntentExt		SKELETON)
 	}
 [end]
@@ -1543,7 +1545,7 @@
 		(ItemDrop2						TrollSpores)
 		(ItemDropChance2				300000)
 		(Experience_Value_Base	550)
-		(XPLevel_Value_Base	5)
+		(XPMultiplier	5)
 		(IntentExt		TROLL)
 	}
 [end]
@@ -1595,7 +1597,7 @@
 		(ItemDropChance2				250000)
 
 		(Experience_Value_Base	750)
-		(XPLevel_Value_Base	7)
+		(XPMultiplier	7)
 		(IntentExt		VAMPIRE)
 	}
 [end]
@@ -1640,7 +1642,7 @@
 		(ItemDrop2						WerewolfClaw)
 		(ItemDropChance2				150000)
 		(Experience_Value_Base	500)
-		(XPLevel_Value_Base	5)
+		(XPMultiplier	5)
 		(IntentExt		WEREWOLF)
 	}
 [end]
@@ -1683,7 +1685,7 @@
 		(ItemDrop1						RottingFlesh)
 		(ItemDropChance1				660000)
 		(Experience_Value_Base	275)
-		(XPLevel_Value_Base	2)
+		(XPMultiplier	2)
 		(IntentExt		ZOMBIE)
 	}
 [end]
@@ -1716,7 +1718,7 @@
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Hooligan)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		HOOLIGAN)
 	}
 [end]
@@ -1761,7 +1763,7 @@
 		(Necrotic_Attack_Damage_Min		12)
 		(Necrotic_Attack_Damage_Max		17)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		BLACKPHANTOM)
 	}
 [end]
@@ -1806,7 +1808,7 @@
 		(Fire_Attack_Damage_Min		12)
 		(Fire_Attack_Damage_Max		15)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		URLSHEKK)
 	}
 [end]
@@ -1845,7 +1847,7 @@
 		(Crushing_Attack_Damage_Min		31)
 		(Crushing_Attack_Damage_Max		40)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		DIRGO)
 	}
 [end]
@@ -1884,7 +1886,7 @@
 		(Slashing_Attack_Damage_Min		19)
 		(Slashing_Attack_Damage_Max		25)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		RRONGOL)
 	}
 [end]
@@ -1932,7 +1934,7 @@
 		(Necrotic_Attack_Damage_Min		16)
 		(Necrotic_Attack_Damage_Max		24)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		LICHEQUEEN)
 	}
 [end]
@@ -1972,7 +1974,7 @@
 		(Poison_Attack_Damage_Min		13)
 		(Poison_Attack_Damage_Max		20)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		WITCHKING)
 	}
 [end]
@@ -2015,7 +2017,7 @@
 		(Armor_Physical_Base					10)
 		(Armor_Magical_Base					7)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		VENDRAL)
 	}
 [end]
@@ -2046,7 +2048,7 @@
 		(Divine_Resistance_Percent_Neg	True)
 		(Necrotic_Resistance_Percent	20)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		SANGUINEPEASANT)
 	}
 [end]
@@ -2078,7 +2080,7 @@
 		(Divine_Resistance_Percent_Neg	True)
 		(Necrotic_Resistance_Percent	20)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		SANGUINEPEASANT)
 	}
 [end]
@@ -2122,7 +2124,7 @@
 		(Slashing_Attack_Damage_Min		6)
 		(Slashing_Attack_Damage_Max		8)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		GOREGUARD)
 	}
 [end]
@@ -2167,7 +2169,7 @@
 		(Slashing_Attack_Damage_Min		8)
 		(Slashing_Attack_Damage_Max		9)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		SCARLETSQUIRE)
 	}
 [end]
@@ -2210,7 +2212,7 @@
 		(Piercing_Attack_Damage_Min		7)
 		(Piercing_Attack_Damage_Max		8)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		CRIMSONARCHER)
 	}
 [end]
@@ -2253,7 +2255,7 @@
 		(Piercing_Attack_Damage_Min		11)
 		(Piercing_Attack_Damage_Max		14)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		MANIACALARBALEST)
 	}
 [end]
@@ -2293,7 +2295,7 @@
 		(Necrotic_Resistance_Percent	50)
 		(Armor_Magical_Base					5)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		BLOODMAGE)
 	}
 [end]
@@ -2338,7 +2340,7 @@
 		(Crushing_Attack_Damage_Min		7)
 		(Crushing_Attack_Damage_Max		8)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		SPIRITTROLL)
 	}
 [end]
@@ -2380,7 +2382,7 @@
 		(Slashing_Attack_Damage_Min		12)
 		(Slashing_Attack_Damage_Max		16)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		MINOTAURLORD)
 	}
 [end]
@@ -2418,7 +2420,7 @@
 		(Chaotic_Resistance_Percent		15)
 		(Armor_Magical_Base					9)
 		(Experience_Value_Base	100)
-		(XPLevel_Value_Base	1)
+		(XPMultiplier	1)
 		(IntentExt		ELDERORBS)
 	}
 [end]
