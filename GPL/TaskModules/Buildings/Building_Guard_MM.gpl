@@ -696,7 +696,7 @@ Begin
 			//ThisAgent's "Target" = $Pick_Closest (ThisAgent, Targets);
 			$say(thisagent,"VFX_GO_COMBAT");
 			
-			intent = "IDTXT_INTENT_FIGHTING" + target's "IntentExt";
+			intent = "IDTXT_INTENT_FIGHTING" + $GetIntentExt(target);
 			$SpecifyIntentString (ThisAgent, intent);
 			
 			ThisAgent's "ActiveScript" = $GuardhouseGuard_attack_object;
@@ -880,7 +880,7 @@ begin
 					if (newtarget != thisagent's "target")
 						begin
 							thisagent's "Target" = newtarget;
-							$SpecifyIntentString(thisagent, "IDTXT_INTENT_FIGHTING" + newtarget's "IntentExt");
+							$SpecifyIntentString(thisagent, "IDTXT_INTENT_FIGHTING" + $GetIntentExt(newtarget));
  							thisagent's "ActiveScript" = $GuardhouseGuard_attack_object;
 						end
 				end
@@ -1004,7 +1004,7 @@ begin
 			if (newtarget != thisagent's "target")
 				begin
 					thisagent's "Target" = newtarget;
-					$SpecifyIntentString(thisagent, "IDTXT_INTENT_FIGHTING" + newtarget's "IntentExt");
+					$SpecifyIntentString(thisagent, "IDTXT_INTENT_FIGHTING" + $GetIntentExt(newtarget));
 					thisagent's "ActiveScript" = $GuardhouseVoyaging_Guard_Attack_Object;
 				end
 		end
@@ -1198,7 +1198,7 @@ begin
 		 			if (hometargetrange <= ($getattribute (Home,#ATTRIB_sightrange)  + $GetAttribute (ThisAgent, #ATTRIB_SightRange ) ))
 						begin
 							thisagent's "Target" = newtarget;
-							intent = "IDTXT_INTENT_FIGHTING" + newtarget's "IntentExt";
+							intent = "IDTXT_INTENT_FIGHTING" + $GetIntentExt(newtarget);
 							$SpecifyIntentString (ThisAgent, intent);
 							thisagent's "ActiveScript" = $GuardhouseWandering_Guard_attack_object;
 						end

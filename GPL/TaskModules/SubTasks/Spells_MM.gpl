@@ -3,7 +3,7 @@
 //CONFIDENTIAL MATERIAL
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //Keep this function in this section since it is somewhat spell-related for the Priestess of this quest.
-function SCIONS_CHAOS_OLD ()
+function SCIONS_CHAOS ()
 
 declare
 	agent AIRootAgent;
@@ -53,7 +53,7 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-Function Scions_victory_OLD()
+Function Scions_victory()
 
 declare
 	agent AIRootAgent;

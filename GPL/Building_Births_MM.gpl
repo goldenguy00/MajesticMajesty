@@ -7,9 +7,10 @@ function blacksmith_bonus_basic(agent thisagent)
 declare
 	agent building;
 	list buildings, list1, blacksmiths_lvl2, blacksmiths_lvl3;
-	integer num_blacksmith_lvl2, num_blacksmith_lvl3, armor, FullHP;
+	integer num_blacksmith_lvl2, num_blacksmith_lvl3, FullHP;
 
 begin
+	$InitBaseStats(thisagent);
 	$ListObjects(thisagent,"building",-1,buildings, #MyPlayer);
 	list1 = $listtitles(buildings,"Blacksmith");
 	
@@ -29,11 +30,8 @@ begin
 	
 	FullHP = (($GetAttribute(thisagent, #ATTRIB_MaxHP) * num_blacksmith_lvl3) / 50);
 	$AdjustAttribute(thisagent, #ATTRIB_MaxHP, FullHP);
-	
-	armor = num_blacksmith_lvl2;
-	
-	$AdjustArmorAmount(thisagent, "Magical", 10);
-	$AdjustArmorAmount(thisagent,  "Physical", (10 + num_blacksmith_lvl2));
+	$AdjustBaseStat(thisagent, "Armor_Magical", 10 * num_blacksmith_lvl2);
+	$AdjustBaseStat(thisagent, "Armor_Physical", num_blacksmith_lvl2);
 
 end
 
@@ -43,7 +41,7 @@ function blacksmith_bonus_upgrade(agent thisagent)
 declare
 	agent building;
 	list buildings, list1, blacksmiths_lvl2, blacksmiths_lvl3;
-	integer num_blacksmith_lvl2, num_blacksmith_lvl3, FullHP, armor;
+	integer num_blacksmith_lvl2, num_blacksmith_lvl3, FullHP;
 
 begin
 	$InitBaseStats(thisagent);
@@ -66,10 +64,8 @@ begin
 	
 	FullHP = (($GetAttribute(thisagent, #ATTRIB_MaxHP) * num_blacksmith_lvl3) / 50);
 	$AdjustBaseStat(thisagent, "MaxHP", FullHP);
-	
-	armor = num_blacksmith_lvl2;
-	
-	$AdjustArmorAmount(thisagent, "Physical", num_blacksmith_lvl2);
+	$AdjustBaseStat(thisagent, "Armor_Magical", 10 * num_blacksmith_lvl2);
+	$AdjustBaseStat(thisagent, "Armor_Physical", num_blacksmith_lvl2);
 end
 ///////////////////////////////////////////////////////////////////////////////
 // common code used by heroes,henchmen,and cheats for finishing up

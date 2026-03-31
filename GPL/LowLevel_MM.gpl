@@ -135,53 +135,6 @@ begin
 
 	return number;
 end
-
-//////////////////////////////////////////////////////////////////////////////
-function Display_Total_Attack_Damage(agent thisagent)
-
-declare
-	integer total_min, total_max, total_average;
-
-begin
-	total_min += thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min"
-	 + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min"
-	  + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min"
-	   + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
-
-	total_max += thisagent's "Fire_Attack_Damage_Max" + thisagent's "Cold_Attack_Damage_Max" + thisagent's "Electric_Attack_Damage_Max"
-	 + thisagent's "Poison_Attack_Damage_Max" + thisagent's "Arcane_Attack_Damage_Max" + thisagent's "Force_Attack_Damage_Max"
-	  + thisagent's "Divine_Attack_Damage_Max" + thisagent's "Necrotic_Attack_Damage_Max" + thisagent's "Chaotic_Attack_Damage_Max"
-	   + thisagent's "Slashing_Attack_Damage_Max" + thisagent's "Crushing_Attack_Damage_Max" + thisagent's "Piercing_Attack_Damage_Max";
-
-	total_average = ((total_min + total_max) / 2);
-	total_average -= $GetAttribute(thisagent, #ATTRIB_Weapon_Struct_Bonus);
-	$SetAttribute(thisagent, #ATTRIB_weapon_basic_damage, total_average);
-end
-//////////////////////////////////////////////////////////////////////////////
-function Display_Total_Armor(agent thisagent)
-
-declare
-	integer total;
-
-begin
-	total = $GetTotalArmorType(thisagent, "Physical");
-	total -= $GetAttribute(thisagent, #ATTRIB_Armor_Struct_Bonus);
-	$SetAttribute(thisagent, #ATTRIB_armor_basic_damage, total);
-end
-	
-//////////////////////////////////////////////////////////////////////////////
-function GetTotalArmorType(agent thisagent, string armor) is integer
-declare
-begin
-	return $GetAttributeSafe(thisagent, "Armor_"+armor+"_Total");
-end
-	
-//////////////////////////////////////////////////////////////////////////////
-function AdjustArmorAmount(agent thisagent, string armor, integer amount)
-declare
-begin
-	$AdjustAttributeSafe(thisagent, "Armor_"+armor+"_Base", amount);
-end
 	
 //////////////////////////////////////////////////////////////////////////////
 function i2s(integer int) is string
@@ -884,32 +837,6 @@ begin
 	
 end
 
-////////////////////////////////////////////////////////////////////////////////
-function AddAllAttributes(agent thisagent) is integer
-
-declare
-	integer stat_art, stat_int, stat_str, stat_vit, stat_will, stat_wis, stat_total;
-	
-begin
-	if ($isvalidgamepiece(thisagent) != TRUE)
-		return;
-	stat_total = 0;
-	stat_art = thisagent's "Artifice_Base";
-	stat_total += stat_art;
-	stat_int = thisagent's "Intelligence_Base";
-	stat_total += stat_int;
-	stat_str = thisagent's "Strength_Base";
-	stat_total += stat_str;
-	stat_vit = thisagent's "Vitality_Base";
-	stat_total += stat_vit;
-	stat_will = thisagent's "Willpower_Base";
-	stat_total += stat_will;
-	stat_wis = thisagent's "Wisdom_Base";
-	stat_total += stat_wis;
-		
-	return stat_total;
-end
-
 function GetStatOrder(string unit_name) is list
 declare
 	list stat_list;
@@ -1094,7 +1021,7 @@ begin
 
 	foreach stat in stat_list do
 		begin
-			chance = thisagent's (stat+"_Base") + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
+			chance = $GetBaseStat(thisagent,stat) + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
 			max_roll += chance;
 		end
 
@@ -1102,7 +1029,7 @@ begin
 
 	foreach stat in stat_list do
 		begin
-			chance = thisagent's (stat+"_Base") + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
+			chance = $GetBaseStat(thisagent,stat) + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
 			if (chance <= roll)
 				begin
 					pref_attribute = stat;
@@ -1237,15 +1164,15 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function AddInsightPoints(agent thisagent, integer points)
+function AddInsightPoints(agent thisagent, integer insight_points)
 
 declare
-	integer insight_points, attribute_points;
+	integer attribute_points;
 	string picked_attribute;
 	
 begin
-	$AdjustAttributeSafe(thisagent, "InsightPoints_Base", points);
-	insight_points = thisagent's "InsightPoints_Base";
+	if ($AddAttribute(thisagent, "InsightPoints", "integer") == false)
+		insight_points += thisagent's "InsightPoints";
 
 	while (insight_points >= #insight_point_limit) do
 		begin
@@ -1253,12 +1180,12 @@ begin
 			insight_points -= #insight_point_limit;
 		end
 
-	thisagent's "InsightPoints_Base" = insight_points;
+	thisagent's "InsightPoints" = insight_points;
 
 	While (attribute_points > 0) do
 		begin
 			picked_attribute = $PreferredAttribute(thisagent, (attribute_points % 2) == 0);
-			thisagent's (picked_attribute+"_Base") += 1;
+			$AdjustBaseStat(thisagent, picked_attribute, 1);
 			attribute_points--;
 		end
 
@@ -1339,8 +1266,6 @@ declare
 	integer return_int;
 
 begin
-	return_int = 0;
-	
 	//Makes it so the integer will be anywhere from minimum to maximum
 	
 	if (maximum > minimum)
@@ -1348,6 +1273,8 @@ begin
 
 	if (return_int < minimum)
 		 return_int = minimum;
+	else if (return_int > maximum)
+		return_int = maximum;
 		 
 	return return_int;
 end
@@ -1554,8 +1481,8 @@ begin
 	$UpdateManaRegeneration(thisagent);
 	$UpdateHealthRegeneration(thisagent);
 	
-	healthregen_amount = thisagent's "HealthRegeneration_Total";
-	manaregen_amount = thisagent's "ManaRegeneration_Total";
+	healthregen_amount = $GetBaseStatTotal(thisagent, "HealthRegeneration");
+	manaregen_amount = $GetBaseStatTotal(thisagent, "ManaRegeneration");
 	
 	if ($IsResting(thisagent)) // Will have to eventually roll these results into the prototype system instead of having a boolean check here all the time.
 		begin
@@ -1600,7 +1527,7 @@ begin
 			return;
 		end
 		
-	stat_int = thisagent's "Intelligence_Total";
+	stat_int = $GetAttribute(thisagent, #ATTRIB_Intelligence);
 	max_mana = thisagent's "MaxMana_Total";
 	
 	if ($HasAttribute("Embers_ManaRegeneration", thisagent))
@@ -1755,6 +1682,29 @@ Begin
 		end
 End
 
+//////////////////////////////////////////////////////////////////////////////
+function Display_Total_Attack_Damage(agent thisagent)
+
+declare
+	integer total_min, total_max, total_average;
+
+begin
+	total_min += thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min"
+	 + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min"
+	  + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min"
+	   + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
+
+	total_max += thisagent's "Fire_Attack_Damage_Max" + thisagent's "Cold_Attack_Damage_Max" + thisagent's "Electric_Attack_Damage_Max"
+	 + thisagent's "Poison_Attack_Damage_Max" + thisagent's "Arcane_Attack_Damage_Max" + thisagent's "Force_Attack_Damage_Max"
+	  + thisagent's "Divine_Attack_Damage_Max" + thisagent's "Necrotic_Attack_Damage_Max" + thisagent's "Chaotic_Attack_Damage_Max"
+	   + thisagent's "Slashing_Attack_Damage_Max" + thisagent's "Crushing_Attack_Damage_Max" + thisagent's "Piercing_Attack_Damage_Max";
+
+	total_average = ((total_min + total_max) / 2);
+	total_average -= $GetAttribute(thisagent, #ATTRIB_Weapon_Struct_Bonus);
+	$SetAttribute(thisagent, #ATTRIB_weapon_basic_damage, total_average);
+end
+
+	
 //Spell Cooldowns not in prototype
 ////////////////////////////////////////////////////////////////////////////////
 function StartingSpellCooldowns(agent thisagent)
@@ -1878,7 +1828,7 @@ begin
 
 			var_range = $randomnumber(5) - 2;
 
-			var_amount = thisagent's (thisvar+"_Base");
+			var_amount = $GetBaseStat(thisagent,thisvar);
 			var_amount += var_range;
 			if (var_amount < 1) var_amount = 1;
 
@@ -1967,18 +1917,6 @@ begin
 	$RecalculateStats(thisagent);
 end
 
-function ApplyBaseStats(agent thisagent)
-declare
-begin
-	$InitBaseStats(thisagent);
-	
-	$SetBaseStat(thisagent, "Artifice", $GetAttribute(thisagent, #ATTRIB_Artifice));
-	$SetBaseStat(thisagent, "Strength", $GetAttribute(thisagent, #ATTRIB_Strength));
-	$SetBaseStat(thisagent, "Vitality", $GetAttribute(thisagent, #ATTRIB_Vitality));
-	$SetBaseStat(thisagent, "Intelligence", $GetAttribute(thisagent, #ATTRIB_Intelligence));
-	$SetBaseStat(thisagent, "Willpower", $GetAttribute(thisagent, #ATTRIB_Willpower));
-end
-
 ///////////////////////////////////////////////////////////////////////////////
 // The necessary function for if heroes have not loaded in their hero attributes for leveling up
 Function RecalculateStats(agent thisagent)
@@ -2008,17 +1946,24 @@ begin
 			$InitBaseStat(thisagent, "Intelligence", $GetAttribute(thisagent, #ATTRIB_Intelligence));
 			$InitBaseStat(thisagent, "Willpower", $GetAttribute(thisagent, #ATTRIB_Willpower));
 			$InitBaseStat(thisagent, "Wisdom", $StartingWisdom(thisagent));
-			
+
+			$InitBaseStat(thisagent, "Armor_Magical", $GetAttribute(thisagent, #ATTRIB_MagicResistance));
+			if ($HasAttribute("Armor_Physical_Base", thisagent) == false)
+				$InitBaseStat(thisagent, "Armor_Physical", $GetAttribute(thisagent, #ATTRIB_armor_basic_damage));
+			$AddAttribute(thisagent, "Armor_Physical_Flat_Modifier", "integer");
+
 			$InitBaseStat(thisagent, "MaxHP", $GetAttribute(thisagent, #ATTRIB_MaxHP));
-			$InitBaseStat(thisagent, "MaxMana", #Base_Mana + (thisagent's "Intelligence_Base" * #Mana_Amount_Int));
-			$InitBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + (thisagent's "Vitality_Base" * #Health_Regeneration_Vit));
-			$InitBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + (thisagent's "Intelligence_Base" * #Mana_Regeneration_Int));
+			$InitBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
+			$InitBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
+			$InitBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
 			
 			$AddAttribute(thisagent, "PrimaryStat", "integer", #ATTRIB_Vitality);
 			$AddAttribute(thisagent, "PrimaryStat_Name", "string", "Vitality");
 
 			$AddAttribute(thisagent, "Prestige", "integer", $StartingPrestige(thisagent));
-			$AddAttribute(thisagent, "InsightPoints_base", "integer");
+			$AddAttribute(thisagent, "InsightPoints", "integer");
+			$SetNegativeResistance(thisagent);
+			$RecalculateStats(thisagent);
 		end
 end
 
@@ -2026,8 +1971,25 @@ end
 function InitBaseStat(agent thisagent, string stat, integer default)
 declare
 begin
-	$AddAttribute(thisagent, stat+"_Base", "integer", default);
-	$AddAttribute(thisagent, stat+"_Total", "integer", thisagent's (stat+"_Base"));
+	if ($AddAttribute(thisagent, stat+"_Base", "integer", default) == false)
+		thisagent's (stat+"_Base") = default;
+	
+	if ($AddAttribute(thisagent, stat+"_Total", "integer", default) == false)
+		thisagent's (stat+"_Total") = default;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetBaseStat(agent thisagent, string stat) is integer
+declare
+begin
+	return thisagent's (stat+"_Base");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetBaseStatTotal(agent thisagent, string stat) is integer
+declare
+begin
+	return thisagent's (stat+"_Total");
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2041,6 +2003,7 @@ begin
 	if ($ValidFunction(update_func))
 		update_func(thisagent);
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function SetBaseStat(agent thisagent, string stat_name, integer delta)
 declare
@@ -2054,14 +2017,42 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
+function GetAttributeSafe(agent thisagent, string attr) is integer
+declare
+begin
+	if ($HasAttribute(attr, thisagent) == false) return 0;
+	return thisagent's attr;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function AdjustAttributeSafe(agent thisagent, string attr, integer delta)
+declare
+begin
+	if (delta == 0) return;
+	if ($AddAttribute(thisagent, attr, "integer", delta) == false)
+		thisagent's attr += delta;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetAttributeSafe(agent thisagent, string attr, integer value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "integer", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
 function UpdateArtifice(agent thisagent)
 declare
 	integer delta;
 begin
 	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Artifice, "Artifice");
-	delta *= -1;
-	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, delta * #artifice_movespeed );
-	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, delta * #artifice_attackspeed );
+	if (delta != 0)
+		begin
+			delta *= -1;
+			$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, delta * #artifice_movespeed );
+			$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, delta * #artifice_attackspeed );
+		end
 end
 
 ////////////////////////////////////////////////////////////////////////////
@@ -2077,8 +2068,8 @@ declare
 	integer delta;
 begin
 	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Vitality, "Vitality");
-	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, (delta / 10));
-	$UpdateHealthRegeneration(thisagent);
+	//$AdjustBaseStat(thisagent, "Armor_Physical", (delta / 10));
+	//$SetBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2105,9 +2096,12 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateIntelligence(agent thisagent)
 declare
+	integer delta;
 begin
-	$RecalculateAttributeTotal(thisagent, #ATTRIB_Intelligence, "Intelligence");
-	$UpdateManaRegeneration(thisagent);
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Intelligence, "Intelligence");
+	//$AdjustBaseStat(thisagent, "Armor_Magical", (delta / 10));
+	$SetBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
+	//$SetBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2122,6 +2116,8 @@ function UpdateMaxMana(agent thisagent)
 declare
 begin
 	$RecalculateStatTotal(thisagent, "MaxMana");
+	if (thisagent's "CurrentMana" > $GetBaseStatTotal(thisagent, "MaxMana"))
+		thisagent's "CurrentMana" = $GetBaseStatTotal(thisagent, "MaxMana");
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2130,16 +2126,24 @@ declare
 	integer delta;
 begin
 	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_MaxHP, "MaxHP");
-	$AdjustAttribute(thisagent, #ATTRIB_HP, delta);
+	if (delta > 0)
+		$AdjustAttribute(thisagent, #ATTRIB_HP, delta / 2);
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function UpdatePhysicalArmor(agent thisagent)
+function UpdateArmor_Physical(agent thisagent)
 declare
 begin
-	$RecalculateStatTotal(thisagent, "Armor_Physical"); 
-	thisagent's "Armor_Physical_Total" += thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves"
-				 						+ thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
+	thisagent's "Armor_Physical_Flat_Modifier" = thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves"
+				 								+ thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_armor_basic_damage, "Armor_Physical");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateArmor_Magical(agent thisagent)
+declare
+begin
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_MagicResistance, "Armor_Magical");
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2148,49 +2152,29 @@ declare
 	integer delta;
 begin
 	delta = $RecalculateStatTotal(thisagent, attrib);
-	$AdjustAttribute(thisagent, attrib_int, delta);
+	if (delta != 0)
+		$AdjustAttribute(thisagent, attrib_int, delta);
+	//thisagent's (attrib+"_Total") = $GetAttribute(thisagent, attrib_int);
 	return delta;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
 function RecalculateStatTotal(agent thisagent, string attrib) is integer
 declare
-	integer total, base, flat, percent;
+	integer prev_total, base, flat, percent;
 
 begin
-	base = thisagent's (attrib+"_Base");
-	total = thisagent's (attrib+"_Total");
-
+	base = $GetBaseStat(thisagent, attrib);
 	flat = $GetAttributeSafe(thisagent, attrib+"_Flat_Modifier");
 	percent = $GetAttributeSafe(thisagent, attrib+"_Percent_Modifier");
 
 	if (percent != 0) 
-		percent = $PercentOf(base, thisagent's (attrib+"_Percent_Modifier"), (base >= 1000));
+		percent = $PercentOf(base, percent, (base >= 1000));
 
+	prev_total = $GetBaseStatTotal(thisagent, attrib);
 	thisagent's (attrib+"_Total") = base + flat + percent;
-	return thisagent's (attrib+"_Total") - total;
-end
 
-function AdjustAttributeSafe(agent thisagent, string attr, integer delta)
-declare
-begin
-	if (delta == 0) return;
-	if ($AddAttribute(thisagent, attr, "integer", delta) == false)
-		thisagent's attr += delta;
-end
-
-function GetAttributeSafe(agent thisagent, string attr) is integer
-declare
-begin
-	if ($HasAttribute(attr, thisagent) == false) return 0;
-	return thisagent's attr;
-end
-
-function SetAttributeSafe(agent thisagent, string attr, integer value)
-declare
-begin
-	if ($AddAttribute(thisagent, attr, "integer", value) == false)
-		thisagent's attr = value;
+	return $GetBaseStatTotal(thisagent, attrib) - prev_total;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2388,8 +2372,6 @@ function GeneralAttributes(agent thisagent)
 declare
 begin
 	$InitBaseStats(thisagent);
-	$RecalculateStats(thisagent);
-	$SetNegativeResistance(thisagent);
 	
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));

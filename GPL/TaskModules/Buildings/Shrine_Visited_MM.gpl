@@ -56,6 +56,6 @@ begin
 			$NewThread(thisAgent's "Shrine_Cooldown", 45000, thisAgent, "Shrine_Cooldown" );
 		end
 	
-	$AddInsightPoints(thisagent, 1);
+	$AddInsightPoints(thisagent, thisagent's "Wisdom_Total");
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
 end

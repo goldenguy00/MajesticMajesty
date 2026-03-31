@@ -247,6 +247,9 @@ declare
 	integer dmg, dmg_exp;
 
 begin
+	if ($notvalid(defender))
+		return;
+
 	//Makes it so the damage will be anywhere from Minimum damage to maximum damage
 	if (damage > damage_minimum)
 		dmg = $randomnumber(damage - damage_minimum) + damage_minimum;
@@ -255,25 +258,20 @@ begin
 		 dmg = damage_minimum;
 
 	// if attacker wasn't a spell unit, intelligence affects damage amount
-	if (attacker != $nullagent())
+	if ($IsValidGamePiece(attacker) == True)
 		begin
 			if (attacker's "type" == "hero")
 				dmg += $getattribute(attacker,#ATTRIB_intelligence) / #intelligence_div;
+			dmg = $DamageModifiers(attacker, s_type, dmg);
 		end
 
 	// if defender is hero with enchanted armor, reduce the damage
-	if (defender != $nullagent())
+	if (defender's "subtype" == "hero")
 		begin
-			if (defender's "subtype" == "hero")
-				begin
-					dmg -= $getattribute(defender,#ATTRIB_armor_magic_bonus) * #armor_magic_mult;
-					if (dmg < 0) dmg = 0;
-				end
+			dmg -= $getattribute(defender,#ATTRIB_armor_magic_bonus) * #armor_magic_mult;
 		end
-		
-	dmg = $DamageTypeIncrease(defender, attacker, s_type, dmg);
-	
-	dmg = $DamageTypeResistance(defender, attacker, s_type, dmg);
+	dmg = $ResistanceModifiers(defender, s_type, dmg);
+	if (dmg < 0) dmg = 0;
 	
 	if (($GetAttribute(defender, #ATTRIB_HP) < dmg) && ($IsValidGamePiece(attacker) == True))
 		begin
@@ -285,6 +283,7 @@ begin
 				$PyrelightDebuff_Death(defender);
 		end
 	
+	if ($IsValidGamePiece(attacker) == True)
 	if (attacker's "subtype" == "hero")
 		begin
 			dmg_exp = $exp_value(attacker, defender);
@@ -434,270 +433,188 @@ begin
 			dmg = $AttackDamageType_Calculations(defender, attacker);
 		end
 
-	dmg_stopped = $GetAttribute ( defender, #ATTRIB_armor_basic_damage );
-
-	if ( defender's "subtype" == "hero" )
-		begin
-			dmg_stopped += $GetAttribute ( defender, #ATTRIB_armor_struct_bonus );
-			dmg_stopped += $GetAttribute ( defender, #ATTRIB_armor_magic_bonus );
-		end
-
-	//t = dmg_stopped / 4;
-
-	t2 = $randomnumber ( dmg_stopped - t );
-
-//				$debugout(911,"lowdamage",t,"variabledamage",t2,defender's "type");
-				dmg_stopped = t + t2;
-
-				dmg -= dmg_stopped;
-	
 	if ($IsExpansion(attacker) == True)
 		if ( defender's "title" == "GoblinFortress" )
 			$GoblinFortHitSpawn ( defender );
 
-	if ( dmg < 0 ) dmg = 0;
-
-	if ( dmg > 0 )
+	if ( dmg < 1 )
+		return;
+		
+	if ( defender's "type" != "building" && defender's "type" != "lair" )
 		begin
-			if ( defender's "type" != "building" && defender's "type" != "lair" )
-				begin
-					if ( magic_effect )
-						$createeffector ( defender, "wound_special", 0 );
-					else
-						if ( critical_effect )
+			if ( magic_effect )
+				$createeffector ( defender, "wound_special", 0 );
+			else
+				if ( critical_effect )
+					begin
+						if ($IsExpansion(attacker)!=False)
 							begin
-								if ($IsExpansion(attacker)!=False)
-									begin
-										//Have the Attacker say their critical hit voice line!
-										$Say (Attacker, "VFX_Special2");
+								//Have the Attacker say their critical hit voice line!
+								$Say (Attacker, "VFX_Special2");
 
-
-										//$createeffector ( defender, "wound_critical",0 );
-										$CreateSpellUnit (Attacker, "Critical_hit", Defender);
-									end
-								else
-									$createeffector(defender,"wound_critical",0);
-
+								//$createeffector ( defender, "wound_critical",0 );
+								$CreateSpellUnit (Attacker, "Critical_hit", Defender);
 							end
 						else
-							$createeffector ( defender, "wounded_large", 0 );
+							$createeffector(defender,"wound_critical",0);
 
-					$playsound ( defender, "gethit" );
-
-					if ( $getattribute ( attacker, #ATTRIB_weaponpoisoned ) == 1 )
-						begin
-							do_poison = TRUE;
-							if ( $hasattribute ( "Immune_to_poison", defender ))
-								if ( defender's "immune_to_poison" == TRUE )
-									do_poison = FALSE;
-
-							if ( do_poison )
-								$poison_begin ( attacker, defender );
-						end
-				end
-			else
-				$playsound ( defender, "gethit" );
-
-			// does the creature have a special splat?
-			if ( $hasattribute ( "special_splat", attacker ))
-				if ( attacker's "special_splat" != "" )
-					begin
-						$createeffector ( defender, attacker's "special_splat", 0 );
 					end
+				else
+					$createeffector ( defender, "wounded_large", 0 );
 
-			if (($GetAttribute(defender, #ATTRIB_HP) < dmg) && ($IsValidGamePiece(attacker) == True))
+			$playsound ( defender, "gethit" );
+
+			if ( $getattribute ( attacker, #ATTRIB_weaponpoisoned ) == 1 )
 				begin
-					if ($addattribute(defender, "Killing_unit", "agent", attacker) == False)
-						defender's "Killing_Unit" = attacker;
-					if ($HasAttribute("Cinders_Learned", attacker) == True)
-						$Cinders_Passive(attacker);
-					if ($Checkeffector(defender, "Pyrelight_icon") == True)
-						$PyrelightDebuff_Death(defender);
+					do_poison = TRUE;
+					if ( $hasattribute ( "Immune_to_poison", defender ))
+						if ( defender's "immune_to_poison" == TRUE )
+							do_poison = FALSE;
+
+					if ( do_poison )
+						$poison_begin ( attacker, defender );
 				end
-			
-			dmg_exp = $exp_value(attacker, defender);
-			if (attacker's "subtype" == "hero")
-				begin
-					$give_exp(attacker, dmg_exp);
-				end
-				
-			if ($hasattribute("familiar",attacker))
-				if (attacker's "familiar" == TRUE)
-					begin
-						if ($isdead(attacker's "leader") == FALSE)
-							$give_exp(attacker's "leader", dmg_exp);
-					end
-					
-			$adjustattribute ( defender, #ATTRIB_HP, -dmg );
 		end
+	else
+		$playsound ( defender, "gethit" );
 
-	// check for defender recoil
+	// does the creature have a special splat?
+	if ( $hasattribute ( "special_splat", attacker ))
+		if ( attacker's "special_splat" != "" )
+			$createeffector ( defender, attacker's "special_splat", 0 );
 
+	if (($GetAttribute(defender, #ATTRIB_HP) < dmg) && ($IsValidGamePiece(attacker) == True))
+		begin
+			if ($addattribute(defender, "Killing_unit", "agent", attacker) == False)
+				defender's "Killing_Unit" = attacker;
+			if ($HasAttribute("Cinders_Learned", attacker) == True)
+				$Cinders_Passive(attacker);
+			if ($Checkeffector(defender, "Pyrelight_icon") == True)
+				$PyrelightDebuff_Death(defender);
+		end
+	
+	dmg_exp = $exp_value(attacker, defender);
+	if (attacker's "subtype" == "hero")
+		$give_exp(attacker, dmg_exp);
+		
+	if ($hasattribute("familiar",attacker))
+		if (attacker's "familiar" == TRUE)
+			if ($isdead(attacker's "leader") == FALSE)
+				$give_exp(attacker's "leader", dmg_exp);
+			
+	$adjustattribute ( defender, #ATTRIB_HP, -dmg );
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function AttackDamageType_Calculations(agent defender, agent attacker ) is integer
 declare
-	integer dmg_total;
+	integer dmg;
 
 begin
-	dmg_total = $getattribute(attacker, #ATTRIB_Strength) / #strength_div;
+	dmg += $TryAttackWithType(attacker, defender, "Crushing");
+	dmg += $TryAttackWithType(attacker, defender, "Slashing");
+	dmg += $TryAttackWithType(attacker, defender, "Piercing");
 
-	dmg_total += $TryAttackWithType(attacker, defender, "Crushing");
-	dmg_total += $TryAttackWithType(attacker, defender, "Slashing");
-	dmg_total += $TryAttackWithType(attacker, defender, "Piercing");
-
-	dmg_total += $TryAttackWithType(attacker, defender, "Fire");
-	dmg_total += $TryAttackWithType(attacker, defender, "Cold");
-	dmg_total += $TryAttackWithType(attacker, defender, "Electric");
-	dmg_total += $TryAttackWithType(attacker, defender, "Poison");
-	dmg_total += $TryAttackWithType(attacker, defender, "Arcane");
-	dmg_total += $TryAttackWithType(attacker, defender, "Force");
-	dmg_total += $TryAttackWithType(attacker, defender, "Divine");
-	dmg_total += $TryAttackWithType(attacker, defender, "Necrotic");
-	dmg_total += $TryAttackWithType(attacker, defender, "Chaotic");
-
-	return dmg_total;
+	dmg += $TryAttackWithType(attacker, defender, "Fire");
+	dmg += $TryAttackWithType(attacker, defender, "Cold");
+	dmg += $TryAttackWithType(attacker, defender, "Electric");
+	dmg += $TryAttackWithType(attacker, defender, "Poison");
+	dmg += $TryAttackWithType(attacker, defender, "Arcane");
+	dmg += $TryAttackWithType(attacker, defender, "Force");
+	dmg += $TryAttackWithType(attacker, defender, "Divine");
+	dmg += $TryAttackWithType(attacker, defender, "Necrotic");
+	dmg += $TryAttackWithType(attacker, defender, "Chaotic");
+	if (dmg == 0)
+		begin
+			$DebugOut(911,"Attacker",attacker,"hit zero against",defender,"! probably not good...");
+			dmg = $randomnumber ( $GetAttribute ( attacker, #ATTRIB_weapon_basic_damage )) + 1;
+			dmg += $GetAttribute ( attacker, #ATTRIB_weapon_struct_bonus );
+			dmg += $GetAttribute ( attacker, #ATTRIB_weapon_magic_bonus );
+			dmg += ( $getattribute ( attacker, #ATTRIB_Strength ) / #strength_div );
+			dmg -= $ArmorCalculations(defender, "Piercing");
+		end
+	return dmg;
 end
 
-function TryAttackWithType(agent attacker, agent defender, string damage_type) is integer
+function TryAttackWithType(agent attacker, agent defender, string s_type) is integer
 declare
 	integer dmg;
 begin
-	if ($GetAttributeSafe(attacker, damage_type+"_Attack_Damage_Min") < $GetAttributeSafe(attacker, damage_type+"_Attack_Damage_Max"))
+	if ($GetAttributeSafe(attacker, s_type+"_Attack_Damage_Max") > 0)
 		begin
-			dmg = $MinMax(attacker's (damage_type+"_Attack_Damage_Min"), attacker's (damage_type+"_Attack_Damage_Max"));
-			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
+			dmg = $MinMax(attacker's (s_type+"_Attack_Damage_Min"), attacker's (s_type+"_Attack_Damage_Max"));
+			dmg = $DamageModifiers(attacker, s_type, dmg);
+			dmg = $ResistanceModifiers(defender, s_type, dmg);
+			if (dmg < 1)
+				dmg = 1;
 		end
 	return dmg;
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function DamageTypeIncrease(agent defender, agent attacker, string s_type, integer damage ) is integer
-
+function DamageModifiers(agent attacker, string s_type, integer damage ) is integer
 declare
-	integer amount_percent, amount_flat;
-
+	integer multiplier;
 begin
-	amount_flat = $GetAttributeSafe(defender, s_type+"_Damage_Flat");
-	if (amount_flat != 0)
-		damage += $DamageModifiersFlat(defender, attacker, s_type, amount_flat);
-		
-	if (damage < 1)
-		return 0;
-
-	amount_percent = $GetAttributeSafe(defender, s_type+"_Damage_Percent");
-	if (amount_percent != 0)
-		begin
-			amount_percent = $DamageModifiersPercent(defender, attacker, s_type, amount_percent);
-			damage += ((damage * amount_percent) / 100);
-		end
-		
-	if (damage < 1)
-		return 0;
-	
-	return damage;
-	
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function DamageTypeResistance(agent defender, agent attacker, string s_type, integer damage ) is integer
-
-declare
-	integer amount_percent, amount_flat;
-
-begin
-	amount_flat = $GetAttributeSafe(defender, s_type+"_Resistance_Flat");
-	if (amount_flat != 0)
-		damage -= $ResistanceModifiersFlat(defender, attacker, s_type, amount_flat);
-		
-	if (damage < 1)
-		return 0;
-
-	amount_percent = $GetAttributeSafe(defender, s_type+"_Resistance_Percent");
-	if (amount_percent != 0)
-		begin
-			amount_percent = $ResistanceModifiersPercent(defender, attacker, s_type, amount_percent);
-			damage -= ((damage * amount_percent) / 100);
-		end
-		
-	if (damage < 1)
-		return 0;
-	
 	if ((s_type == "Crushing") || (s_type == "Slashing") || (s_type == "Piercing"))
-		damage = $ArmorCalculations(defender, damage, "Physical");
-	else
-		damage = $ArmorCalculations(defender, damage, "Magical");
-		
-	if (damage < 1)
-		return 0;
+		damage += $getattribute(attacker, #ATTRIB_Strength) / #strength_div;
 
-	return damage;
-	
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function ArmorCalculations(agent defender, integer dmg, string type ) is integer
-
-declare
-	integer armor, reduction;
-
-begin
-	armor = $GetTotalArmorType(defender, type);
-	if (armor > 0)
-		reduction = (((6 * armor) * dmg) / (100 + 6 * armor));
-	else if (armor < 0)
-		reduction = (((9 * armor) * dmg) / (100 + 9 * armor)) * -1;
-
-	return dmg - reduction;
-	
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function DamageModifiersPercent(agent defender, agent attacker, string s_type, integer damage ) is integer
-declare
-begin
-	if (s_type == "fire")
-		if ($HasAttribute("Cinders_Damage_Percent", attacker) == True)
-			damage += attacker's "Cinders_Damage_Percent";
-	return damage;
-end
-///////////////////////////////////////////////////////////////////////////////
-function DamageModifiersFlat(agent defender, agent attacker, string s_type, integer damage ) is integer
-declare
-begin
+	damage += $GetAttributeSafe(attacker, s_type+"_Damage_Flat");
 	if (s_type == "fire")
 		if ($HasAttribute("Cinders_Damage_Flat", attacker) == True)
 			damage += attacker's "Cinders_Damage_Flat";
 
+	multiplier = $GetAttributeSafe(attacker, s_type+"_Damage_Percent");
+	if (s_type == "fire")
+		if ($HasAttribute("Cinders_Damage_Percent", attacker) == True)
+			multiplier += attacker's "Cinders_Damage_Percent";
+
+	damage += ((damage * multiplier) / 100);
 	return damage;
 end
-///////////////////////////////////////////////////////////////////////////////
-function ResistanceModifiersPercent(agent defender, agent attacker, string s_type, integer resistance ) is integer
 
+///////////////////////////////////////////////////////////////////////////////
+function ResistanceModifiers(agent defender, string s_type, integer damage) is integer
 declare
+	integer multiplier;
 begin
+	damage -= $ArmorCalculations(defender, s_type);
+	
+	multiplier = $GetAttributeSafe(defender, s_type+"_Resistance_Percent");
 	if (s_type == "fire")
-		//SearingMantle_Fire_Resistance is a positive value. This is resistance increase.
-		if ($HasAttribute("SearingMantle_Fire_Resistance", defender) == True)
-			resistance += defender's "SearingMantle_Fire_Resistance";
-		//Pyrelight_Fire_Resistance_Reduction is a negative value. This is resistance reduction.
-		else if ($HasAttribute("Pyrelight_Fire_Resistance_Reduction", defender) == True)
-			resistance += defender's "Pyrelight_Fire_Resistance_Reduction";
+		begin
+			//SearingMantle_Fire_Resistance is a positive value. This is resistance increase.
+			multiplier += $GetAttributeSafe(defender, "SearingMantle_Fire_Resistance");
+			//Pyrelight_Fire_Resistance_Reduction is a negative value. This is resistance reduction.
+			multiplier += $GetAttributeSafe(defender, "Pyrelight_Fire_Resistance_Reduction");
+		end
 
-	return resistance;
+	damage -= ((damage * multiplier) / 100);
+	return damage;
 end
+
 ///////////////////////////////////////////////////////////////////////////////
-function ResistanceModifiersFlat(agent defender, agent attacker, string s_type, integer resistance ) is integer
+function ArmorCalculations(agent defender, string s_type ) is integer
+
 declare
+	integer armor, dmg_stopped_min, dmg_stopped;
+
 begin
-	//if (s_type == "fire")
-	//	begin
-	//		if ($HasAttribute("SearingMantle_Fire_Resistance", defender) == True)
-	//			begin
-	//				resistance += defender's "SearingMantle_Fire_Resistance";
-	//			end
-	//	end
-	return resistance;
+	armor = $GetAttributeSafe(defender, s_type+"_Resistance_Flat");
+
+	if ((s_type == "Crushing") || (s_type == "Slashing") || (s_type == "Piercing"))
+		begin
+			armor += $GetAttribute(defender, #ATTRIB_armor_basic_damage);
+
+			if ( defender's "subtype" == "hero" )
+				begin
+					armor += $GetAttribute ( defender, #ATTRIB_armor_struct_bonus );
+					armor += $GetAttribute ( defender, #ATTRIB_armor_magic_bonus );
+				end
+		end
+
+	dmg_stopped_min = armor / 4;
+	dmg_stopped = $randomnumber(armor - dmg_stopped_min);
+
+	return dmg_stopped;
 end

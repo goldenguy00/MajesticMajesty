@@ -154,7 +154,9 @@ begin
 	random_gold = #hero_start_gold;
 	starting_gold = #hero_start_gold;
 	$CreateEffector (THisAgent, "SpawnEffect_New", 1);
-	$InitBaseStats(thisagent);
+		
+	$GeneralAttributes(thisagent);
+	$GenerateHeroAttributes(thisagent);
 	
 	$ListObjects(thisagent,"building",-1,list1, #MyPlayer);
 
@@ -193,9 +195,6 @@ begin
 			$AddFireTree(thisagent);			//Need to rewrite the entire spell system first.
 			$Tree_LearnSpell(thisagent, "Fire_Bolt");
 		end
-		
-	$GeneralAttributes(thisagent);
-	$GenerateHeroAttributes(thisagent);
 
 	$StartingSpellCooldowns(thisagent);
 	

@@ -9,7 +9,6 @@ function level_up_stats_increase(agent thisagent)
 
 declare
 	integer HPbonus,b2,MPbonus,exp_level;
-	integer insight_points;
 	string picked_attribute;
 
 begin

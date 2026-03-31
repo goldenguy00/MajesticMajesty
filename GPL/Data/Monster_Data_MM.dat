@@ -699,7 +699,8 @@
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Evil_Oculus)
-
+		(Electric_Attack_Damage_Min		16)
+		(Electric_Attack_Damage_Max		21)
 		(Fire_Resistance_Percent		20)
 		(Electric_Resistance_Percent	40)
 		(Arcane_Resistance_Percent		50)
@@ -744,7 +745,8 @@
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Dragon)
-
+		(Fire_Attack_Damage_Min			18)
+		(Fire_Attack_Damage_Max			21)
 		(Fire_Resistance_Percent		90)
 		(Arcane_Resistance_Percent		60)
 		(Crushing_Resistance_Percent	30)
@@ -1682,6 +1684,8 @@
 		(Armor_Physical_Base					1)
 		(Crushing_Attack_Damage_Min		5)
 		(Crushing_Attack_Damage_Max		7)
+		(Necrotic_Attack_Damage_Min		1)
+		(Necrotic_Attack_Damage_Max		2)
 		(ItemDrop1						RottingFlesh)
 		(ItemDropChance1				660000)
 		(Experience_Value_Base	275)
@@ -1714,6 +1718,8 @@
 		(Unit_Subtype		Henchman)
 
 
+		(Crushing_Attack_Damage_Min		5)
+		(Crushing_Attack_Damage_Max		7)
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Hooligan)
@@ -2006,6 +2012,8 @@
 		(Unit_Subtype		Monster)
 
 
+		(Fire_Attack_Damage_Min		12)
+		(Fire_Attack_Damage_Max		15)
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Vendral)
@@ -2040,6 +2048,11 @@
 		(Unit_Subtype		Monster)
 
 
+
+		(Necrotic_Attack_Damage_Min		1)
+		(Necrotic_Attack_Damage_Max		2)
+		(Slashing_Attack_Damage_Min		1)
+		(Slashing_Attack_Damage_Max		3)
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Sanguine_Peasant)
@@ -2072,6 +2085,10 @@
 		(Unit_Subtype		Monster)
 
 
+		(Necrotic_Attack_Damage_Min		1)
+		(Necrotic_Attack_Damage_Max		2)
+		(Slashing_Attack_Damage_Min		1)
+		(Slashing_Attack_Damage_Max		3)
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Sanguine_Peasant_Female)
@@ -2284,7 +2301,8 @@
 		(Unit_Type			Unit)
 		(Unit_Subtype		Monster)
 
-
+		(Necrotic_Attack_Damage_Min		5)
+		(Necrotic_Attack_Damage_Max		7)
 		(Kill_Credit_Type	Monster)
 		(Kill_Credit_Faction	KCF_Sanguine_Cult)
 		(Kill_Credit_Specific	KCS_Blood_Mage)
@@ -2414,6 +2432,8 @@
 		(Kill_Credit_Faction	KCF_Dragonkin)
 		(Kill_Credit_Specific	KCS_Elder_Orbs)
 
+		(Electric_Attack_Damage_Min		16)
+		(Electric_Attack_Damage_Max		22)
 		(Fire_Resistance_Percent		30)
 		(Electric_Resistance_Percent	45)
 		(Arcane_Resistance_Percent		66)

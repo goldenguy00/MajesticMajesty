@@ -106,9 +106,7 @@ begin
 	p_structure = thisagent's "PrimaryStructure";
 	p_structure's "Properties" << "Can_Rest_Here"; //Add the Can Rest Here string to the structure's Properties
 	p_structure's "Max_Guards" += 4;
-	p_structure's "MaxHP_Base" += 150;
-	$UpdateMaxHP(p_structure);
-	$adjustattribute(p_structure, #ATTRIB_HP, 150);
+	$AdjustBaseStat(p_structure, "MaxHP", 150);
 	$Research_Complete(thisagent); 	
 end		
 ///////////////////////////////////////////////////////////////////////////////

@@ -888,7 +888,7 @@ function Spell_Mana_Cost( agent thisagent, string spell_name ) is integer
 
 declare
 	integer Mana_Amount, spell_level, mana_increase;
-	string spell_cast;
+	string spell_cast, spell_parent;
 
 begin
 	Mana_Amount = 0;
@@ -899,138 +899,139 @@ begin
 			Mana_Amount = 5;
 			return Mana_Amount;
 		end
-	else if (spell_name == "charm_monster")
+	if (spell_name == "charm_monster")
 		begin
 			Mana_Amount = 11;
 			return Mana_Amount;
 		end
-	else if (spell_name == "change_shape")
+	if (spell_name == "change_shape")
 		begin
 			Mana_Amount = 16;
 			return Mana_Amount;
 		end
 		
 	////HEALER
-	else if (spell_name == "healer_heal")
+	if (spell_name == "healer_heal")
 		begin
 			Mana_Amount = 2;
 			return Mana_Amount;
 		end
-	else if (spell_name == "meditation")
+	if (spell_name == "meditation")
 		begin
 			Mana_Amount = 9;
 			return Mana_Amount;
 		end
 		
 	////MONK
-	else if (spell_name == "hands_of_steel")
+	if (spell_name == "hands_of_steel")
 		begin
 			Mana_Amount = 2;
 			return Mana_Amount;
 		end
-	else if (spell_name == "monk_stone_skin")
+	if (spell_name == "monk_stone_skin")
 		begin
 			Mana_Amount = 5;
 			return Mana_Amount;
 		end
-	else if (spell_name == "iron_will")
+	if (spell_name == "iron_will")
 		begin
 			Mana_Amount = 12;
 			return Mana_Amount;
 		end
 		
 	////PALADIN
-	else if (spell_name == "shield_of_light")
+	if (spell_name == "shield_of_light")
 		begin
 			Mana_Amount = 6;
 			return Mana_Amount;
 		end
 		
 	////PRIESTESS
-	else if (spell_name == "drain_life")
+	if (spell_name == "drain_life")
 		begin
 			Mana_Amount = 2;
 			return Mana_Amount;
 		end
-	else if (spell_name == "animate_skeleton")
+	if (spell_name == "animate_skeleton")
 		begin
 			Mana_Amount = 7;
 			return Mana_Amount;
 		end
-	else if (spell_name == "control_undead")
+	if (spell_name == "control_undead")
 		begin
 			Mana_Amount = 9;
 			return Mana_Amount;
 		end
-	else if (spell_name == "priestess_wither")
+	if (spell_name == "priestess_wither")
 		begin
 			Mana_Amount = 5;
 			return Mana_Amount;
 		end
 		
 	////SOLARUS
-	else if (spell_name == "sun_scorch")
+	if (spell_name == "sun_scorch")
 		begin
 			Mana_Amount = 5;
 			return Mana_Amount;
 		end
 		
 	////WIZARD
-	else if (spell_name == "energy_blast")
+	if (spell_name == "energy_blast")
 		begin
 			Mana_Amount = 1;
 			return Mana_Amount;
 		end
-	else if (spell_name == "fire_shield")
+	if (spell_name == "fire_shield")
 		begin
 			Mana_Amount = 4;
 			return Mana_Amount;
 		end
-	else if (spell_name == "fire_blast")
+	if (spell_name == "fire_blast")
 		begin
 			Mana_Amount = 6;
 			return Mana_Amount;
 		end
-	else if (spell_name == "fire_ball")
+	if (spell_name == "fire_ball")
 		begin
 			Mana_Amount = 9;
 			return Mana_Amount;
 		end
-	else if (spell_name == "resist_magic")
+	if (spell_name == "resist_magic")
 		begin
 			Mana_Amount = 7;
 			return Mana_Amount;
 		end
-	else if (spell_name == "wizard_Transmute")
+	if (spell_name == "wizard_Transmute")
 		begin
 			Mana_Amount = 10;
 			return Mana_Amount;
 		end
-	else if (spell_name == "meteor_storm")
+	if (spell_name == "meteor_storm")
 		begin
 			Mana_Amount = 20;
 			return Mana_Amount;
 		end
 		
 	////GENERIC
-	else if (spell_name == "generic_regenerate")
+	if (spell_name == "generic_regenerate")
 		begin
 			Mana_Amount = 7;
 			return Mana_Amount;
 		end
-	else if (spell_name == "flame_shield")
+	if (spell_name == "flame_shield")
 		begin
 			Mana_Amount = 6;
 			return Mana_Amount;
 		end
-	else if (spell_name == "power_shock")
+	if (spell_name == "power_shock")
 		begin
 			Mana_Amount = 4;
 			return Mana_Amount;
 		end
-	
+		
+	spell_parent = $GetSpellParent(spell_name);
 	////FIRE TREE
-	else if ((spell_name == "Fire_Bolt") || ($GetSpellParent(spell_name) == "Fire_Bolt"))
+	if ((spell_name == "Fire_Bolt") || (spell_parent == "Fire_Bolt"))
 		begin
 			if (spell_name == "Fire_Bolt")
 				spell_cast = $GetSpellLevel(thisagent, spell_name);
@@ -1043,7 +1044,7 @@ begin
 			return Mana_Amount;
 		end
 		
-	else if ((spell_name == "Fireball") || ($GetSpellParent(spell_name) == "Fireball"))
+	if ((spell_name == "Fireball") || (spell_parent == "Fireball"))
 		begin
 			if (spell_name == "Fireball")
 				spell_cast = $GetSpellLevel(thisagent, spell_name);
@@ -1056,7 +1057,7 @@ begin
 			return Mana_Amount;
 		end
 	
-	else if ((spell_name == "Perdition_Barrage") || ($GetSpellParent(spell_name) == "Perdition_Barrage"))
+	if ((spell_name == "Perdition_Barrage") || (spell_parent == "Perdition_Barrage"))
 		begin
 			if (spell_name == "Perdition_Barrage")
 				spell_cast = $GetSpellLevel(thisagent, spell_name);
@@ -1069,7 +1070,7 @@ begin
 			return Mana_Amount;
 		end
 	
-	else if ((spell_name == "Incandescent_Ray") || ($GetSpellParent(spell_name) == "Incandescent_Ray"))
+	if ((spell_name == "Incandescent_Ray") || (spell_parent == "Incandescent_Ray"))
 		begin
 			if (spell_name == "Incandescent_Ray")
 				spell_cast = $GetSpellLevel(thisagent, spell_name);
@@ -1082,7 +1083,7 @@ begin
 			return Mana_Amount;
 		end
 	
-	else if ((spell_name == "Searing_Mantle") || ($GetSpellParent(spell_name) == "Searing_Mantle"))
+	if ((spell_name == "Searing_Mantle") || (spell_parent == "Searing_Mantle"))
 		begin
 			if (spell_name == "Searing_Mantle")
 				spell_cast = $GetSpellLevel(thisagent, spell_name);
@@ -1095,7 +1096,7 @@ begin
 			return Mana_Amount;
 		end
 	
-	else if ((spell_name == "Pyrelight") || ($GetSpellParent(spell_name) == "Pyrelight"))
+	if ((spell_name == "Pyrelight") || (spell_parent == "Pyrelight"))
 		begin
 			if (spell_name == "Pyrelight")
 				spell_cast = $GetSpellLevel(thisagent, spell_name);
@@ -1108,7 +1109,7 @@ begin
 			return Mana_Amount;
 		end
 	
-	else if ((spell_name == "Ignite") || ($GetSpellParent(spell_name) == "Ignite"))
+	if ((spell_name == "Ignite") || (spell_parent == "Ignite"))
 		begin
 			if (spell_name == "Ignite")
 				spell_cast = $GetSpellLevel(thisagent, spell_name);

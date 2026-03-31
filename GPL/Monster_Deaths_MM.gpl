@@ -15,6 +15,7 @@ begin
 	amount_remain = amount;
 	killer_exists = false;
 	
+	if ($hasattribute("Killing_Unit", thisagent))
 	if ($isvalidgamepiece(thisagent's "Killing_Unit") == True)
 		if ($IsDead(thisagent's "Killing_Unit") == False)
 			begin
