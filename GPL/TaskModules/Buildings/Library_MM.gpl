@@ -228,7 +228,7 @@ begin
 	
 	$SpecifyIntentString (ThisAgent, thisagent's "TaskPackageIntentCurrent");
 			
-	$SetThreadInterval (ThisAgent's "ActiveScript", #Book_Read_Duration + (2500 * book's "XPLevel_Value"));
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Book_Read_Duration + (2500 * book's "XPMultiplier"));
 
 	thisagent's "Activescript" = $reading_book_at_Library;
 end
@@ -254,14 +254,11 @@ begin
 	building = thisagent's "target";
 	book = $agentintentextinlist(thisagent's "TaskName", $GetBuildingContents($agenttitleinlist("Available_Books", building's "Attachments")));
 	experience = book's "XP_Value";
-	XPLevel = book's "XPLevel_Value";
+	XPLevel = book's "XPMultiplier";
 	
 	$exit_building(thisagent,building);
 	
-	$give_exp_level(thisagent, experience, XPLevel);
+	$give_exp(thisagent, experience * XPLevel);
 	thisagent's "Books_Read" << book's "IntentExt"; //For simplicity sake, the intentext may as well serve as the title when checking if the agent read the book before.
-	
-	thisagent's "TaskPackageStatus" = "Complete";
-	
-	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+	$reset_tasks(thisagent);
 end

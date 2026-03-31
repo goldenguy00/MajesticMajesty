@@ -5,9 +5,20 @@
 //////////////////////SPECIAL GLOBALS////////////////////
 
 //For Heroes
-//Wisdom will be #ATTRIB_ResearchTrainIntelligence
-//Original Level Experience will be #ATTRIB_ResearchMagicResistance
-//Wisdom Points per level will be #ATTRIB_ResearchWizardFireBlast
+expression #DAMAGE_Default 0
+expression #DAMAGE_Slashing 1
+expression #DAMAGE_Crushing 2
+expression #DAMAGE_Piercing 4
+expression #DAMAGE_Fire 8
+expression #DAMAGE_Cold 16
+expression #DAMAGE_Electric 32
+expression #DAMAGE_Poison 64
+expression #DAMAGE_Arcane 128
+expression #DAMAGE_Force 256
+expression #DAMAGE_Divine 512
+expression #DAMAGE_Necrotic 1024
+expression #DAMAGE_Chaotic 2048
+
 expression #artifice_movespeed 1
 expression #artifice_attackspeed 4
 expression #artifice_sightrange 2

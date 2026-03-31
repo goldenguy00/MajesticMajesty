@@ -51,9 +51,9 @@ Declare
 Begin
 	Foreach Entry in ThisList do
 		begin
-			if ($titleinagentlist("Services", Entry's "Attachments"))
+			if ($titleinagentlist("Research", Entry's "Attachments"))
 				begin
-					if ($titleinagentlist(service, $GetBuildingContents($agenttitleinlist("Services", Entry's "Attachments"))))
+					if ($titleinagentlist(service, $GetBuildingContents($agenttitleinlist("Research", Entry's "Attachments"))))
 						begin
 							NewList << Entry;
 						end

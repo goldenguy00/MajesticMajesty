@@ -387,6 +387,57 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
+function GetResearchContainer(agent thisagent) is agent
+declare
+	agent spawn;
+begin
+	if ($TitleInAgentList("Research", thisagent's "Attachments"))
+		begin
+			spawn = $agenttitleinlist("Research", thisagent's "Attachments");
+		end
+	else
+		begin
+			spawn = $SpawnUnit(thisagent, "Research", $UnitPointWithOffset(thisagent, -10, 50));
+			$setattribute(spawn, #ATTRIB_FirstStageBuilt, 1);
+			spawn's "PrimaryStructure" = thisagent;
+			thisagent's "Attachments" << spawn;
+		end
+
+	return spawn;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function AddHelpItem(agent thisagent, string name, agent parent)
+declare
+	agent spawn;
+begin
+	if ($TitleInAgentList(name, thisagent's "Attachments") == false)
+		begin
+			spawn = $SpawnUnit(parent, name);
+			$setattribute(spawn, #ATTRIB_FirstStageBuilt, 1);
+			spawn's "PrimaryStructure" = thisagent;
+			spawn's "Container" = parent;
+			thisagent's "Attachments" << spawn;
+			$Hide(spawn, parent, 1);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function AddResearchItem(agent thisagent, string name, agent parent)
+declare
+	agent spawn;
+begin
+	if ($TitleInAgentList(name, $GetBuildingContents(parent)) == false)
+		begin
+			spawn = $spawnunit(parent, name);
+			spawn's "PrimaryStructure" = thisagent;
+			spawn's "Container" = parent;
+			(spawn's "BirthScript2")(spawn);
+			$Hide(spawn, parent, 1);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
 function Research_Birth(agent thisagent)
 //Research birth used by all researches
 declare
@@ -445,29 +496,24 @@ begin
 	
 	if (thisagent's "Service_Type" == "Item")
 		begin
-			container = $agenttitleinlist("Services", primary_structure's "Attachments");
-			spawn = $spawnunit(container, thisagent's "Service_Title");
-			spawn's "PrimaryStructure" = primary_structure;
-			spawn's "Container" = container;
-			(spawn's "BirthScript2")(spawn);
-			$Hide(spawn, spawn's "Container", 1);
+			container = $agenttitleinlist("Research", primary_structure's "Attachments");
+			$AddResearchItem(primary_structure, thisagent's "Service_Title", container);
 		end
-		
 	
 	if ($listsize(thisagent's "Checklist") > 0)
 		begin
 			container = $agenttitleinlist("Research", primary_structure's "Attachments");
-				foreach name in thisagent's "Checklist" do
-					begin
-						check = $agenttitleinlist(name, $GetBuildingContents(container));
-						if ((check's "ResearchStatus") != "QUED" && (check's "ResearchStatus" != "RESEARCHING"))
-							begin
-								if ((check's "ResearchCheck")(primary_structure))
-									$ResearchSet(check, "AVAILABLE");
-								else
-									$ResearchSet(check, "UNAVAILABLE");
-							end
-					end
+			foreach name in thisagent's "Checklist" do
+				begin
+					check = $agenttitleinlist(name, $GetBuildingContents(container));
+					if ((check's "ResearchStatus") != "QUED" && (check's "ResearchStatus" != "RESEARCHING"))
+						begin
+							if ((check's "ResearchCheck")(primary_structure))
+								$ResearchSet(check, "AVAILABLE");
+							else
+								$ResearchSet(check, "UNAVAILABLE");
+						end
+				end
 		end
 			
 end

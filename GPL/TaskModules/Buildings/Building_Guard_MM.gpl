@@ -314,7 +314,6 @@ begin
 								end
 									else
 										$performAction(thisagent,(thisagent's "attack_action"),target);
-//										$make_attack(thisagent,target);
 						end
 				end
 		end
@@ -398,7 +397,6 @@ begin
 								end
 							else
 								$performAction(thisagent,(thisagent's "attack_action"),target);
-//								$make_attack(thisagent,target);
 						end
 				end
 		end
@@ -823,7 +821,6 @@ begin
 					else
 						begin
 							$PerformAction (ThisAgent, ThisAgent's "Attack_Action", Target);
-  //							$make_attack(thisagent,target);
 						end
 				end
 		end
@@ -1060,7 +1057,6 @@ begin
 								begin
 									// make attack on object
 									$PerformAction (ThisAgent, ThisAgent's "Attack_Action", Target);
-//									$make_attack(thisagent,target);
 								end
 						end
 				end
@@ -1273,7 +1269,6 @@ begin
 					else
 						begin
 							$PerformAction (ThisAgent, ThisAgent's "Attack_Action", Target);
-//							$make_attack(thisagent,target);
 						end
 				end
 		end

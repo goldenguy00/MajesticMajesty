@@ -143,12 +143,16 @@ declare
 	integer total_min, total_max, total_average;
 
 begin
-	total_min += thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min" + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min" + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min" + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
-	total_min += thisagent's "Fire_Attack_Damage_Min_Modifier" + thisagent's "Cold_Attack_Damage_Min_Modifier" + thisagent's "Electric_Attack_Damage_Min_Modifier" + thisagent's "Poison_Attack_Damage_Min_Modifier" + thisagent's "Arcane_Attack_Damage_Min_Modifier" + thisagent's "Force_Attack_Damage_Min_Modifier" + thisagent's "Divine_Attack_Damage_Min_Modifier" + thisagent's "Necrotic_Attack_Damage_Min_Modifier" + thisagent's "Chaotic_Attack_Damage_Min_Modifier" + thisagent's "Slashing_Attack_Damage_Min_Modifier" + thisagent's "Crushing_Attack_Damage_Min_Modifier" + thisagent's "Piercing_Attack_Damage_Min_Modifier";
-	
-	total_max += thisagent's "Fire_Attack_Damage_Max" + thisagent's "Cold_Attack_Damage_Max" + thisagent's "Electric_Attack_Damage_Max" + thisagent's "Poison_Attack_Damage_Max" + thisagent's "Arcane_Attack_Damage_Max" + thisagent's "Force_Attack_Damage_Max" + thisagent's "Divine_Attack_Damage_Max" + thisagent's "Necrotic_Attack_Damage_Max" + thisagent's "Chaotic_Attack_Damage_Max" + thisagent's "Slashing_Attack_Damage_Max" + thisagent's "Crushing_Attack_Damage_Max" + thisagent's "Piercing_Attack_Damage_Max";
-	total_max += thisagent's "Fire_Attack_Damage_Max_Modifier" + thisagent's "Cold_Attack_Damage_Max_Modifier" + thisagent's "Electric_Attack_Damage_Max_Modifier" + thisagent's "Poison_Attack_Damage_Max_Modifier" + thisagent's "Arcane_Attack_Damage_Max_Modifier" + thisagent's "Force_Attack_Damage_Max_Modifier" + thisagent's "Divine_Attack_Damage_Max_Modifier" + thisagent's "Necrotic_Attack_Damage_Max_Modifier" + thisagent's "Chaotic_Attack_Damage_Max_Modifier" + thisagent's "Slashing_Attack_Damage_Max_Modifier" + thisagent's "Crushing_Attack_Damage_Max_Modifier" + thisagent's "Piercing_Attack_Damage_Max_Modifier";
-	
+	total_min += thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min"
+	 + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min"
+	  + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min"
+	   + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
+
+	total_max += thisagent's "Fire_Attack_Damage_Max" + thisagent's "Cold_Attack_Damage_Max" + thisagent's "Electric_Attack_Damage_Max"
+	 + thisagent's "Poison_Attack_Damage_Max" + thisagent's "Arcane_Attack_Damage_Max" + thisagent's "Force_Attack_Damage_Max"
+	  + thisagent's "Divine_Attack_Damage_Max" + thisagent's "Necrotic_Attack_Damage_Max" + thisagent's "Chaotic_Attack_Damage_Max"
+	   + thisagent's "Slashing_Attack_Damage_Max" + thisagent's "Crushing_Attack_Damage_Max" + thisagent's "Piercing_Attack_Damage_Max";
+
 	total_average = ((total_min + total_max) / 2);
 	total_average -= $GetAttribute(thisagent, #ATTRIB_Weapon_Struct_Bonus);
 	$SetAttribute(thisagent, #ATTRIB_weapon_basic_damage, total_average);
@@ -160,52 +164,23 @@ declare
 	integer total;
 
 begin
-	total += thisagent's "Armor_Physical_Total";
+	total = $GetTotalArmorType(thisagent, "Physical");
 	total -= $GetAttribute(thisagent, #ATTRIB_Armor_Struct_Bonus);
 	$SetAttribute(thisagent, #ATTRIB_armor_basic_damage, total);
-end
-//////////////////////////////////////////////////////////////////////////////
-function CustomAdjustAttributeInteger(agent thisagent, string Attribute, integer amount)
-
-declare
-
-begin
-	if ($HasAttribute(Attribute, thisagent)!=True)
-		$AddAttribute(thisagent, Attribute, "integer", amount);
-	else
-		thisagent's Attribute += amount;
-end
-//////////////////////////////////////////////////////////////////////////////
-function CustomSetAttributeInteger(agent thisagent, string Attribute, integer amount)
-
-declare
-
-begin
-	if ($HasAttribute(Attribute, thisagent)!=True)
-		$AddAttribute(thisagent, Attribute, "integer", amount);
-	else
-		thisagent's Attribute = amount;
 end
 	
 //////////////////////////////////////////////////////////////////////////////
 function GetTotalArmorType(agent thisagent, string armor) is integer
-
 declare
-	integer return_int;
-
 begin
-	if ($HasAttribute(armor+"_Total", thisagent))
-		return thisagent's (armor+"_Total";
-	return 0;
+	return $GetAttributeSafe(thisagent, "Armor_"+armor+"_Total");
 end
 	
 //////////////////////////////////////////////////////////////////////////////
 function AdjustArmorAmount(agent thisagent, string armor, integer amount)
-
 declare
-
 begin
-	$CustomAdjustAttributeInteger(thisagent, armor, amount);
+	$AdjustAttributeSafe(thisagent, "Armor_"+armor+"_Base", amount);
 end
 	
 //////////////////////////////////////////////////////////////////////////////
@@ -289,33 +264,59 @@ function stringinlist(string thistitle,list thislist) is boolean
 //Find out if a list has the supplied string. This is only for lists containing strings.
 declare
 	string joe_smith;
-	boolean is_it_here;
+	boolean result;
 
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
 		if (joe_smith == thistitle) 
-			is_it_here = TRUE;
+			begin
+				result = true;
+			end
 
-	return is_it_here;
+	return result;
 
+end
+///////////////////////////////////////////////////////////////////////////////
+function addstringtolist(string thistitle,list thislist)
+//Find out if a list has the supplied string. This is only for lists containing strings.
+declare
+begin
+	if ($StringInList(thistitle, thislist) == false)
+		thislist << thistitle;
 end
 ///////////////////////////////////////////////////////////////////////////////
 function intentextinlist(string thisintent,list thislist) is boolean
 //Find out if a list has a title the same as the title.
 declare
 	string joe_smith;
-	boolean is_it_here;
-
+	boolean result;
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
 		if (joe_smith == thisintent) 
-			is_it_here = TRUE;
+			begin
+				result = true;
+			end
 
-	return is_it_here;
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function agentinagentlist(agent thisagent,list thislist) is boolean
+//Find out if a list has an agent's title the same as the supplied title.
+declare
+	agent joe_smith;
+	boolean result;
+begin
+	result = false;
+	foreach joe_smith in thislist do
+		if (joe_smith == thisagent) 
+			begin
+				result = true;
+			end
+
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -323,16 +324,16 @@ function titleinagentlist(string thistitle,list thislist) is boolean
 //Find out if a list has an agent's title the same as the supplied title.
 declare
 	agent joe_smith;
-	boolean is_it_here;
-
+	boolean result;
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
 		if (joe_smith's "Title" == thistitle) 
-			is_it_here = TRUE;
+			begin
+				result = true;
+			end
 
-	return is_it_here;
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -340,46 +341,49 @@ function intentextinagentlist(string thisintent,list thislist) is boolean
 //Find out if a list has an agent's title the same as the supplied title.
 declare
 	agent joe_smith;
-	boolean is_it_here;
-
+	boolean result;
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
-		if (joe_smith's "IntentExt" == thisintent) 
-			is_it_here = TRUE;
+		if ($getintentext(joe_smith) == thisintent)
+			begin
+				result = true;
+			end
 
-	return is_it_here;
-
+	return result;
 end
 ///////////////////////////////////////////////////////////////////////////////
 function agenttitleinlist(string thistitle,list thislist) is agent
 //Find out if a list has an agent with the supplied title and return that agent.
 declare
-	agent joe_smith, is_it_here;
+	agent joe_smith, result;
 
 begin
-
+	result = $nullagent();
 	foreach joe_smith in thislist do
 		if (joe_smith's "Title" == thistitle) 
-			is_it_here = joe_smith;
+			begin
+				result = joe_smith;
+			end
 
-	return is_it_here;
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
 function agentintentextinlist(string thisintent,list thislist) is agent
 //Find out if a list has an agent with the supplied intent and return that agent.
 declare
-	agent joe_smith, is_it_here;
+	agent joe_smith, result;
 
 begin
-
+	result = $nullagent();
 	foreach joe_smith in thislist do
-		if (joe_smith's "IntentExt" == thisintent) 
-			is_it_here = joe_smith;
+		if ($getintentext(joe_smith) == thisintent)
+			begin
+				result = joe_smith;
+			end
 
-	return is_it_here;
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -420,6 +424,17 @@ begin
 	else if (int == 9)
 		return_s = "9";
 	return return_s;
+end
+
+// https://stackoverflow.com/questions/31241304/how-can-i-check-that-a-bit-is-set-without-bitwise-operation
+// floor(value/mask) mod 2 = 1
+function HasFlag(integer value, integer mask) is integer
+declare
+	integer result;
+begin
+	result = value / mask;
+	result = result % 2;
+	return result == 1; 
 end
 	
 ///////////////////////////////////////////////////////////////////////////////
@@ -895,706 +910,230 @@ begin
 	return stat_total;
 end
 
-////////////////////////////////////////////////////////////////////////////////
-function PreferredAttribute(agent thisagent) is string
-
+function GetStatOrder(string unit_name) is list
 declare
-	boolean passed;
-	string unit_name, pref_attribute;
-	integer chance, total_attributes;
-	integer stat_art, stat_int, stat_str, stat_vit, stat_will, stat_wis;
-	integer chance_total, seq_task;
-	
+	list stat_list;
 begin
-	chance_total = $RandomNumberNonZero(thisagent's "UpArtificeChance" + thisagent's "UpIntelligenceChance" + thisagent's "UpStrengthChance" + thisagent's "UpVitalityChance" + thisagent's "UpWillpowerChance" + thisagent's "UpWisdomChance");
-	unit_name = thisagent's "title";
-	passed = TRUE;
-	chance = 100;
-	stat_art = thisagent's "Artifice_Base";
-	stat_int = thisagent's "Intelligence_Base";
-	stat_str = thisagent's "Strength_Base";
-	stat_vit = thisagent's "Vitality_Base";
-	stat_will = thisagent's "Willpower_Base";
-	stat_wis = thisagent's "Wisdom_Base";
-	total_attributes = $AddAllAttributes(thisagent);
-	pref_attribute = thisagent's "PrimaryStat_Base";
-	
-	if (thisagent's "UpArtificeChance" <= chance_total)
-		pref_attribute = "Artifice_Base";
-	else if ((thisagent's "UpArtificeChance" + thisagent's "UpIntelligenceChance")  <= chance_total)
-		pref_attribute = "Intelligence_Base";
-	else if ((thisagent's "UpArtificeChance" + thisagent's "UpIntelligenceChance" + thisagent's "UpStrengthChance")  <= chance_total)
-		pref_attribute = "Strength_Base";
-	else if ((thisagent's "UpArtificeChance" + thisagent's "UpIntelligenceChance" + thisagent's "UpStrengthChance" + thisagent's "UpVitalityChance")  <= chance_total)
-		pref_attribute = "Vitality_Base";
-	else if ((thisagent's "UpArtificeChance" + thisagent's "UpIntelligenceChance" + thisagent's "UpStrengthChance" + thisagent's "UpVitalityChance" + thisagent's "UpWillpowerChance")  <= chance_total)
-		pref_attribute = "Willpower_Base";
-	else if ((thisagent's "UpArtificeChance" + thisagent's "UpIntelligenceChance" + thisagent's "UpStrengthChance" + thisagent's "UpVitalityChance" + thisagent's "UpWillpowerChance" + thisagent's "UpWisdomChance")  <= chance_total)
-		pref_attribute = "Wisdom_Base";
-	
 	if (unit_name == "warrior")
 		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_will) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_art) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Artifice";
+			stat_list << "Wisdom";
 		end
 		
 	else if (unit_name == "ranger")
 		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_art) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_str) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_vit) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else
-				passed = FALSE;
+			stat_list << "Willpower";
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Strength";
+			stat_list << "Wisdom";
+			stat_list << "Vitality";
 		end
 		
 	else if (unit_name == "rogue")
 		begin
-			if ($RandomNumber(stat_art) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
 		end
 		
 	else if (unit_name == "wizard")
 		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_will) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_art) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_vit) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
+			stat_list << "Intelligence";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+			stat_list << "Artifice";
+			stat_list << "Vitality";
+			stat_list << "Strength";
 		end
 		
 	else if (unit_name == "paladin")
 		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_str) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
+			stat_list << "Willpower";
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list << "Intelligence";
+			stat_list <<  "Artifice";
 		end
 		
 	else if (unit_name == "warrior_of_discord")
 		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_will) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_art) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Willpower";
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
 		end
 		
 	else if (unit_name == "adept")
 		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_str) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
+			stat_list << "Intelligence";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list <<  "Artifice";
 		end
 		
 	else if (unit_name == "barbarian")
 		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_art) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_will) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Artifice";
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
 		end
 		
 	else if (unit_name == "cultist")
 		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_art) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_str) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_will) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else
-				passed = FALSE;
+			stat_list << "Intelligence";
+			stat_list << "Artifice";
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list << "Willpower";
 		end
 		
 	else if (unit_name == "healer")
 		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_art) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
+			stat_list << "Vitality";
+			stat_list << "Artifice";
+			stat_list << "Strength";
 		end
 		
 	else if (unit_name == "monk")
 		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list <<  "Artifice";
 		end
 		
 	else if (unit_name == "priestess")
 		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_will) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_art) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
+			stat_list << "Intelligence";
+			stat_list << "Willpower";
+			stat_list <<  "Wisdom";
+			stat_list << "Vitality";
+			stat_list << "Artifice";
+			stat_list << "Strength";
 		end
 		
 	else if (unit_name == "solarus")
 		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_will) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Intelligence";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+			stat_list << "Artifice";
 		end
 		
 	else if (unit_name == "dwarf")
 		begin
-			if ($RandomNumber(stat_art) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
+			stat_list << "Artifice";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
 		end
 		
 	else if (unit_name == "elf")
 		begin
-			if ($RandomNumber(stat_art) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
 		end
 		
 	else if (unit_name == "gnome")
 		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_art) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
+			stat_list << "Willpower";
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list << "Strength";
 		end
-		
-	if (passed != TRUE)
-		pref_attribute = $RandomAttribute(passed);
-		
-	//if (pref_attribute == #ATTRIB_Artifice)
-	//	thisagent's "Artifice_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Intelligence)
-	//	thisagent's "Intelligence_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Strength)
-	//	thisagent's "Strength_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Vitality)
-	//	thisagent's "Vitality_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Willpower)
-	//	thisagent's "Willpower_Base" += 1;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function PreferredAttribute(agent thisagent, boolean allow_primary) is string
+
+declare
+	list stat_list;
+	string pref_attribute, stat;
+	integer chance, max_roll, roll;
+	
+begin
+	stat_list = $GetStatOrder(thisagent's "title");
+	if ($ListSize(stat_list) == 0)
+		return $RandomAttribute();
+
+	pref_attribute = thisagent's "PrimaryStat_Name";
+	if (allow_primary == false)
+		stat_list -= pref_attribute;
+
+	foreach stat in stat_list do
+		begin
+			chance = thisagent's (stat+"_Base") + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
+			max_roll += chance;
+		end
+
+	roll = $RandomNumber(max_roll);
+
+	foreach stat in stat_list do
+		begin
+			chance = thisagent's (stat+"_Base") + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
+			if (chance <= roll)
+				begin
+					pref_attribute = stat;
+					break;
+				end
+		end
 		
 	return pref_attribute;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function PreferredAttributeExtra(agent thisagent, boolean primary_allowed) is string
-
-declare
-	boolean passed;
-	string unit_name, pref_attribute;
-	integer chance, total_attributes;
-	integer stat_art, stat_int, stat_str, stat_vit, stat_will, stat_wis;
-	
-begin
-	unit_name = thisagent's "title";
-	passed = TRUE;
-	chance = 100;
-	pref_attribute = thisagent's "PrimaryStat_Base";
-	stat_art = thisagent's "Artifice_Base";
-	stat_int = thisagent's "Intelligence_Base";
-	stat_str = thisagent's "Strength_Base";
-	stat_vit = thisagent's "Vitality_Base";
-	stat_will = thisagent's "Willpower_Base";
-	stat_wis = thisagent's "Wisdom_Base";
-	total_attributes = $AddAllAttributes(thisagent);
-	
-	if (unit_name == "warrior")
-		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_will) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_art) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "ranger")
-		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_art) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_str) + 50 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_vit) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "rogue")
-		begin
-			if ($RandomNumber(stat_art) + 80 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "wizard")
-		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_will) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_art) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_vit) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "paladin")
-		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_str) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "warrior_of_discord")
-		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_will) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_art) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "adept")
-		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_str) + 70 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "barbarian")
-		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_art) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_will) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "cultist")
-		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_art) + 70 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_str) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_will) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "healer")
-		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 70 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_art) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "monk")
-		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 70 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "priestess")
-		begin
-			if ($RandomNumber(stat_int) + 80 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_will) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_art) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "solarus")
-		begin
-			if ($RandomNumber(stat_str) + 80 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_will) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_art) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "dwarf")
-		begin
-			if ($RandomNumber(stat_art) + 80 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_vit) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 60 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_int) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "elf")
-		begin
-			if ($RandomNumber(stat_art) + 80 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_str) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else if ($RandomNumber(stat_will) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_wis) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else
-				passed = FALSE;
-		end
-		
-	else if (unit_name == "gnome")
-		begin
-			if ($RandomNumber(stat_will) + 80 < $RandomNumber(total_attributes) && (primary_allowed != FALSE))
-				pref_attribute = "Willpower_Base";
-			else if ($RandomNumber(stat_art) + 70 < $RandomNumber(total_attributes))
-				pref_attribute = "Artifice_Base";
-			else if ($RandomNumber(stat_int) + 60 < $RandomNumber(total_attributes))
-				pref_attribute = "Intelligence_Base";
-			else if ($RandomNumber(stat_vit) + 50 < $RandomNumber(total_attributes))
-				pref_attribute = "Vitality_Base";
-			else if ($RandomNumber(stat_wis) + 40 < $RandomNumber(total_attributes))
-				pref_attribute = "Wisdom_Base";
-			else if ($RandomNumber(stat_str) + 30 < $RandomNumber(total_attributes))
-				pref_attribute = "Strength_Base";
-			else
-				passed = FALSE;
-		end
-		
-	if (passed != TRUE)
-		pref_attribute = $RandomAttribute(passed);
-		
-	if (primary_allowed != TRUE)
-		while (pref_attribute == thisagent's "PrimaryStat_Base") do
-			pref_attribute = $RandomAttribute(FALSE);
-		
-	//if (pref_attribute == #ATTRIB_Artifice)
-	//	thisagent's "Artifice_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Intelligence)
-	//	thisagent's "Intelligence_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Strength)
-	//	thisagent's "Strength_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Vitality)
-	//	thisagent's "Vitality_Base" += 1;
-	//else if (pref_attribute == #ATTRIB_Willpower)
-	//	thisagent's "Willpower_Base" += 1;
-		
-	return pref_attribute;
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function RandomAttribute(boolean passed) is string
+function RandomAttribute() is string
 
 declare
 	integer rand;
-	string r_attribute;
 	
 begin
-	if (passed == TRUE)
-		return;
-		
-	rand = ($RandomNumber(6) + 1);
+	rand = $RandomNumber(5);
 	
-	if (rand == 1)
-		r_attribute = "Strength_Base";
+	if (rand == 0)
+		return "Intelligence";
+	else if (rand == 1)
+		return "Artifice";
 	else if (rand == 2)
-		r_attribute = "Intelligence_Base";
+		return "Vitality";
 	else if (rand == 3)
-		r_attribute = "Artifice_Base";
+		return "Willpower";
 	else if (rand == 4)
-		r_attribute = "Vitality_Base";
-	else if (rand == 5)
-		r_attribute = "Willpower_Base";
-	else if (rand == 6)
-		r_attribute = "Wisdom_Base";
+		return "Wisdom";
 		
-	return r_attribute;
+	return "Strength";
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1602,104 +1141,49 @@ function StartingWisdom(agent thisagent) is integer
 
 declare
 	string unit_name;
-	integer adjust, random_n, negative, amount;
+	integer random_n, amount;
 begin
 	unit_name = thisagent's "title";
-	amount = 0;
-	adjust = 0;
+
 	random_n = $randomnumber(3);
-	negative = $randomnumber(2) + 1;
-	
 	if (random_n > 0)
-		begin
-			if (negative == 1)
-				adjust += random_n;
-			else
-				adjust -= random_n;
-		end
-		
-	amount += adjust;
-	
+		if (($randomnumber(2) + 1) == 1)
+			amount += random_n;
+		else
+			amount -= random_n;
+
 	if (unit_name == "warrior")
-		begin
-			amount += 5;
-		end
-		
+		amount += 5;
 	else if (unit_name == "ranger")
-		begin
-			amount += 14;
-		end
-		
+		amount += 14;
 	else if (unit_name == "rogue")
-		begin
-			amount += 2;
-		end
-		
+		amount += 2;
 	else if (unit_name == "wizard")
-		begin
-			amount += 15;
-		end
-		
+		amount += 15;
 	else if (unit_name == "paladin")
-		begin
-			amount += 16;
-		end
-		
+		amount += 16;
 	else if (unit_name == "warrior_of_discord")
-		begin
-			amount += 1;
-		end
-		
+		amount += 1;
 	else if (unit_name == "adept")
-		begin
-			amount += 14;
-		end
-		
+		amount += 14;
 	else if (unit_name == "barbarian")
-		begin
-			amount += 3;
-		end
-		
+		amount += 6;
 	else if (unit_name == "cultist")
-		begin
-			amount += 6;
-		end
-		
+		amount += 6;
 	else if (unit_name == "healer")
-		begin
-			amount += 17;
-		end
-		
+		amount += 17;
 	else if (unit_name == "monk")
-		begin
-			amount += 21;
-		end
-		
+		amount += 21;
 	else if (unit_name == "priestess")
-		begin
-			amount += 9;
-		end
-		
+		amount += 9;
 	else if (unit_name == "solarus")
-		begin
-			amount += 7;
-		end
-		
+		amount += 7;
 	else if (unit_name == "dwarf")
-		begin
-			amount += 8;
-		end
-		
+		amount += 8;
 	else if (unit_name == "elf")
-		begin
-			amount += 4;
-		end
-		
+		amount += 4;
 	else if (unit_name == "gnome")
-		begin
-			amount += 2;
-		end
-		
+		amount += 2;
 	return amount;
 end
 
@@ -1708,98 +1192,47 @@ function StartingPrestige(agent thisagent) is integer
 
 declare
 	string unit_name;
-	integer amount, adjust;
+	integer amount;
 begin
 	unit_name = thisagent's "title";
-	amount = 0;
-	
+
 	if (thisagent's "loyalty" > 30)
-		adjust += 1;
+		amount += 1;
 	if (thisagent's "loyalty" > 50)
-		adjust += 1;
+		amount += 1;
 		
-	amount += adjust;
-	
-	if (unit_name == "warrior")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "ranger")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "rogue")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "wizard")
-		begin
-			amount += 1;
-		end
-		
+//	if (unit_name == "warrior")
+//		amount += 0;
+//	else if (unit_name == "ranger")
+//		amount += 0;
+//	else if (unit_name == "rogue")
+//		amount += 0;
+	if (unit_name == "wizard")
+		amount += 1;
 	else if (unit_name == "paladin")
-		begin
-			amount += 3;
-		end
-		
-	else if (unit_name == "warrior_of_discord")
-		begin
-			amount += 0;
-		end
-		
+		amount += 3;
+//	else if (unit_name == "warrior_of_discord")
+//		amount += 0;
 	else if (unit_name == "adept")
-		begin
-			amount += 1;
-		end
-		
-	else if (unit_name == "barbarian")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "cultist")
-		begin
-			amount += 0;
-		end
-		
+		amount += 1;
+//	else if (unit_name == "barbarian")
+//		amount += 0;
+//	else if (unit_name == "cultist")
+//		amount += 0;
 	else if (unit_name == "healer")
-		begin
-			amount += 2;
-		end
-		
-	else if (unit_name == "monk")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "priestess")
-		begin
-			amount += 0;
-		end
-		
+		amount += 2;
+//	else if (unit_name == "monk")
+//		amount += 0;
+//	else if (unit_name == "priestess")
+//		amount += 0;
 	else if (unit_name == "solarus")
-		begin
-			amount += 1;
-		end
-		
+		amount += 1;
 	else if (unit_name == "dwarf")
-		begin
-			amount += 1;
-		end
-		
+		amount += 1;
 	else if (unit_name == "elf")
-		begin
-			amount += 2;
-		end
-		
-	else if (unit_name == "gnome")
-		begin
-			amount += 0;
-		end
-		
+		amount += 2;
+//	else if (unit_name == "gnome")
+//		amount += 0;
 	return amount;
 end
 
@@ -1807,85 +1240,28 @@ end
 function AddInsightPoints(agent thisagent, integer points)
 
 declare
-	integer total_points, attribute_points, picked_attribute;
+	integer insight_points, attribute_points;
+	string picked_attribute;
 	
 begin
-	$adjustattribute(thisagent, #ATTRIB_ResearchWizardFireBlast, points);
-	total_points = $getAttribute(thisagent, #ATTRIB_ResearchWizardFireBlast);
-	while (total_points >= #insight_point_limit) do
+	$AdjustAttributeSafe(thisagent, "InsightPoints_Base", points);
+	insight_points = thisagent's "InsightPoints_Base";
+
+	while (insight_points >= #insight_point_limit) do
 		begin
 			attribute_points ++;
-			$adjustattribute(thisagent, #ATTRIB_ResearchWizardFireBlast, -#insight_point_limit);
-			total_points -= #insight_point_limit;
+			insight_points -= #insight_point_limit;
 		end
-		
+
+	thisagent's "InsightPoints_Base" = insight_points;
+
 	While (attribute_points > 0) do
 		begin
-			if ((attribute_points % 2) == 1)
-				begin
-					picked_attribute = $PreferredAttributeExtra(thisagent, FALSE);
-					$adjustattribute(thisagent,picked_attribute,1);
-					if (picked_attribute == #ATTRIB_Artifice)
-						begin
-							$ArtificeIncrease(thisagent);
-						end
-				end
-			else
-				begin
-					picked_attribute = $PreferredAttributeExtra(thisagent, TRUE);
-					$adjustattribute(thisagent,picked_attribute,1);
-					if (picked_attribute == #ATTRIB_Artifice)
-						begin
-							$ArtificeIncrease(thisagent);
-						end
-				end
-				
-			attribute_points --;
+			picked_attribute = $PreferredAttribute(thisagent, (attribute_points % 2) == 0);
+			thisagent's (picked_attribute+"_Base") += 1;
+			attribute_points--;
 		end
-end
 
-////////////////////////////////////////////////////////////////////////////////
-function ArtificeIncrease(agent thisagent)
-
-declare
-	
-begin
-	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, -#artifice_movespeed );
-	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, -#artifice_attackspeed );
-//	if (thisagent's "rangeIncrease" != TRUE)
-//		if ($getattribute(thisagent, #ATTRIB_maxattackrange) > 100)
-//				begin
-//					$adjustattribute(thisagent,#ATTRIB_maxattackrange, #artifice_attackrange );
-//					$adjustattribute(thisagent,#ATTRIB_SightRange, #artifice_sightrange );
-//					thisagent's "castingrange" = (($getattribute(thisagent, #ATTRIB_maxattackrange) * 3) / 2);
-//				end
-//		else
-//			begin
-//				$adjustattribute(thisagent,#ATTRIB_SightRange, #artifice_sightrange );
-//				thisagent's "castingrange" += #artifice_castrange;
-//			end
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function ArtificeDecrease(agent thisagent)
-
-declare
-	
-begin
-	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, #artifice_movespeed );
-	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, #artifice_attackspeed );
-//	if (thisagent's "rangeIncrease" != TRUE)
-//		if ($getattribute(thisagent, #ATTRIB_maxattackrange) > 100)
-//				begin
-//					$adjustattribute(thisagent,#ATTRIB_maxattackrange, -#artifice_attackrange );
-//					$adjustattribute(thisagent,#ATTRIB_SightRange, -#artifice_sightrange );
-//					thisagent's "castingrange" = (($getattribute(thisagent, #ATTRIB_maxattackrange) * 3) / 2);
-//				end
-//		else
-//			begin
-//				$adjustattribute(thisagent,#ATTRIB_SightRange, -#artifice_sightrange );
-//				thisagent's "castingrange" -= #artifice_castrange;
-//			end
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1954,15 +1330,6 @@ begin
 			return new_amount;
 		end
 	return new_amount;
-end
-
-function MinMaxAttackType(agent attacker, string type) is integer
-
-declare
-
-begin
-	return $MinMax(attacker's (type+"_Attack_Damage_Min") + attacker's (type+"_Attack_Damage_Min_Modifier"), 
-					attacker's (type+"_Attack_Damage_Max") + attacker's (type+"_Attack_Damage_Max_Modifier"));
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2070,7 +1437,7 @@ begin
 			$damage(thisagent,target);
 		end
 		
-	$attack_end_level(thisagent,exp_given, $XPLevel_Value_Base(target));
+	$attack_end(thisagent,exp_given);
 
 end
 
@@ -2233,29 +1600,15 @@ begin
 			return;
 		end
 		
-	//stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	//max_mana = (#Base_Mana + thisagent's "MaxMana_Bonus" + (stat_int * #Mana_Amount_Int));
-	
 	stat_int = thisagent's "Intelligence_Total";
 	max_mana = thisagent's "MaxMana_Total";
 	
 	if ($HasAttribute("Embers_ManaRegeneration", thisagent))
 		begin
 			$Embers_Passive(thisagent);
-			//embers_increase = thisagent's "Embers_ManaRegeneration";
-			//manaregen_amount += (embers_increase * 50);
 		end
 	$UpdateManaRegeneration(thisagent);
-	//if (stat_int > 0)
-	//	manaregen_amount += (stat_int * #Mana_Regeneration_Int);
-		
-	//if (thisagent's "ManaRegeneration_Increase" > 0)
-	//	manaregen_amount += (thisagent's "ManaRegeneration_Increase" * 50);
-	
-	
-	//if (thisagent's "ManaRegeneration_Percent" > 0)
-	//	manaregen_amount = $IncreaseByPercent(manaregen_amount, thisagent's "ManaRegeneration_Percent", False);
-	
+
 	manaregen_amount = thisagent's "ManaRegeneration_Total";
 	
 	if ($IsResting(thisagent) != False) // Will have to eventually roll these results into the prototype system instead of having a boolean check here all the time.
@@ -2268,7 +1621,6 @@ begin
 	if ($isdead(thisagent) != TRUE)
 		begin
 			$AddManaPoints(thisagent, manaregen_amount);
-	//		$SetAttribute(thisagent, #ATTRIB_ResearchEnergyBlast, max_mana);
 		end
 end
 
@@ -2278,14 +1630,11 @@ function AddManaPoints( Agent ThisAgent, integer ManaPoint_Amount )
 Declare
 
 Begin
-	//$adjustattribute(thisagent, #ATTRIB_ResearchHealingPotions, ManaPoint_Amount);
-	thisagent's "CurrentManaPoints_Base" += ManaPoint_Amount;
-	//current_manapoints = $getattribute(thisagent, #ATTRIB_ResearchHealingPotions);
-	while (thisagent's "CurrentManaPoints_Base" >= #Mana_point_limit) do
+	thisagent's "ManaRegenPoints" += ManaPoint_Amount;
+	while (thisagent's "ManaRegenPoints" >= #Mana_point_limit) do
 		begin
 			$RestoreMana(thisagent, thisagent, 1);
-			//$adjustattribute(thisagent, #ATTRIB_ResearchHealingPotions, -#Mana_point_limit);
-			thisagent's "CurrentManaPoints_Base" -= #Mana_point_limit;
+			thisagent's "ManaRegenPoints" -= #Mana_point_limit;
 		end
 End
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2299,15 +1648,12 @@ Begin
 		return;
 
 	//This is the maximum amount of mana restored that a target can endure before they are over their maximum
-	//Max_Mana = ($getattribute( Target,#ATTRIB_ResearchEnergyBlast )) - ($getattribute( Target,#ATTRIB_NumHealingPotions ));
-	Max_Mana = (thisagent's "MaxMana_Total" - thisagent's "CurrentMana_Base");
+	Max_Mana = (thisagent's "MaxMana_Total" - thisagent's "CurrentMana");
 
 	If (Mana_Amount > Max_Mana)
 		Mana_Amount = Max_Mana;
 
-	thisagent's "CurrentMana_Base" += Mana_Amount;
-	$UpdateCurrentMana(thisagent);
-	//$adjustattribute( Target, #ATTRIB_NumHealingPotions, Mana_Amount );
+	thisagent's "CurrentMana" += Mana_Amount;
 End
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2319,8 +1665,7 @@ Begin
 	if ($isdead(thisagent))
 		return;
 
-	thisagent's "CurrentMana_Base" += Mana_Amount;
-	$UpdateCurrentMana(thisagent);
+	thisagent's "CurrentMana" += Mana_Amount;
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2330,7 +1675,7 @@ declare
 	integer MP,maxMP;
 
 begin
-	MP = thisagent's "CurrentMana_Base";
+	MP = thisagent's "CurrentMana";
 	maxMP = thisagent's "MaxMana_Total";
 	
 	if (maxMP == 0)
@@ -2348,7 +1693,7 @@ declare
 	integer MP,maxMP;
 
 begin
-	MP = thisagent's "CurrentMana_Base";
+	MP = thisagent's "CurrentMana";
 	maxMP = thisagent's "MaxMana_Total";
 
 	if (maxMP == 0)
@@ -2365,23 +1710,13 @@ declare
 	integer MP,maxMP;
 
 begin
-	MP = thisagent's "CurrentMana_Base";
+	MP = thisagent's "CurrentMana";
 
  	if (MP >= whatamount) return TRUE;
 	else
 		return FALSE;
 end
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-function AddManaRegenerationSystem( Agent ThisAgent)
-//Remake this part now that new prototype is in use
-Declare
 
-Begin
-	//if ($HasAttribute("ManaRegeneration", thisagent) == True)
-	//	return;
-	//$AddAttribute(ThisAgent, "ManaRegeneration", "function", $Mana_Regeneration); //In_Prototype
-	//$NewThread(ThisAgent's "ManaRegeneration", 200, ThisAgent );
-End
 ///////////////////////////////////HP REGEN SYSTEM//////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // a perpetual callback system for health regeneration for valid heroes.
@@ -2395,29 +1730,11 @@ begin
 			$KillThread(thisagent's "HealthRegeneration");
 			return;
 		end
-		
-	//stat_vit = $getattribute(thisagent, #ATTRIB_Vitality);
-	//healthregen_amount = (#Health_Regeneration_Base);
-	
+
 	stat_vit = thisagent's "Vitality_Total";
-	
-	//if (stat_vit > 0)
-	//	healthregen_amount += (stat_vit * #Health_Regeneration_Vit);
-	
-	//if ($HasAttribute("Embers_HealthRegeneration", thisagent) == True)
-	//	begin
-	//		embers_increase = thisagent's "Embers_HealthRegeneration";
-	//		healthregen_amount += (embers_increase * 50);
-	//	end
 		
 	$UpdateHealthRegeneration(thisagent);
-	
-	//if (thisagent's "HealthRegeneration_Increase" > 0)
-	//	healthregen_amount += (thisagent's "HealthRegeneration_Increase" * 50);
-	
-	//if (thisagent's "HealthRegeneration_Percent" > 0)
-	//	healthregen_amount = $IncreaseByPercent(healthregen_amount, thisagent's "HealthRegeneration_Percent", False);
-	
+
 	healthregen_amount = thisagent's "HealthRegeneration_Total";
 	
 	if ($isdead(thisagent) != TRUE)
@@ -2427,34 +1744,17 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function AddHealthPoints( Agent ThisAgent, integer HealthPoint_Amount )
-
-Declare
-
+function AddHealthPoints( Agent ThisAgent, integer HealthPoint_Amount ) 
+declare
 Begin
-	//$adjustattribute(thisagent, #ATTRIB_ResearchWizardMeteorStorm, HealthPoint_Amount);
-	thisagent's "CurrentHealthPoints_Base" += HealthPoint_Amount;
-	//current_healthpoints = $getattribute(thisagent, #ATTRIB_ResearchWizardMeteorStorm);
-	while (thisagent's "CurrentHealthPoints_Base" >= #Health_point_limit) do
+	thisagent's "HealthRegenPoints" += HealthPoint_Amount;
+	while (thisagent's "HealthRegenPoints" >= #Health_point_limit) do
 		begin
 			$Heal(thisagent, thisagent, 1);
-			//$adjustattribute(thisagent, #ATTRIB_ResearchWizardMeteorStorm, -#Health_point_limit);
-			thisagent's "CurrentHealthPoints_Base" -= #Health_point_limit;
+			thisagent's "HealthRegenPoints" -= #Health_point_limit;
 		end
 End
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-function AddHealthRegenerationSystem( Agent ThisAgent)
-//remake this part now that new prototype is in use
-Declare
 
-Begin
-	//if ($HasAttribute("HealthRegeneration", thisagent) == True)
-	//	return;
-	//$AddAttribute(ThisAgent, "HealthRegeneration_Increase", "integer"); //In_Prototype
-	//$AddAttribute(ThisAgent, "HealthRegeneration_Percent", "integer"); //In_Prototype
-	//$AddAttribute(ThisAgent, "HealthRegeneration", "function", $Health_Regeneration); //In_Prototype
-	//$NewThread(ThisAgent's "HealthRegeneration", 200, ThisAgent );
-End
 //Spell Cooldowns not in prototype
 ////////////////////////////////////////////////////////////////////////////////
 function StartingSpellCooldowns(agent thisagent)
@@ -2547,56 +1847,28 @@ begin
 			
 end
 ///////////////////////////////////////////////////////////////////////////////
-// The necessary function for if heroes have not loaded in their hero attributes for leveling up
-Function Level_Up_Required_Attributes(agent thisagent)
-
-declare
-
-begin
-	if (thisagent's "Has_Level_Up_Attributes" == True)
-		return;
-		
-	thisagent's "Has_Level_Up_Attributes" = True;
-	
-	thisagent's "Strength_Base" = $getAttribute(thisagent, #ATTRIB_Strength);
-	thisagent's "Vitality_Base" = $getAttribute(thisagent, #ATTRIB_Vitality);
-	thisagent's "Artifice_Base" = $getAttribute(thisagent, #ATTRIB_Artifice);
-	thisagent's "Intelligence_Base" = $getAttribute(thisagent, #ATTRIB_Intelligence);
-	thisagent's "Willpower_Base" = $getAttribute(thisagent, #ATTRIB_Willpower);
-	thisagent's "MaxLevelXP_Base" = ($getAttribute(thisagent, #ATTRIB_LevelXP) / 2);
-	thisagent's "ExperienceConst_Value_Base" = (thisagent's "MaxLevelXP_Base" / 20);
-	thisagent's "HealthRegeneration_Base" = (#Health_Regeneration_Base + (thisagent's "Vitality_Base" * #Health_Regeneration_Vit));
-	thisagent's "ManaRegeneration_Base" = (#Mana_Regeneration_Base + (thisagent's "Intelligence_Base" * #Mana_Regeneration_Int));
-	thisagent's "MaxMana_Base" = (#Base_Mana + (thisagent's "Intelligence_Base" * #Mana_Amount_Int));
-	$UpdateHealthRegeneration(thisagent);
-	$UpdateManaRegeneration(thisagent);
-	$UpdateMaxMana(thisagent);
-	$UpdateMaxXP(thisagent);
-	
-end	
-///////////////////////////////////////////////////////////////////////////////
 // this function is called by the in-game code when a vehicle is generated
 Function Generate_Character_Attributes(agent thisagent)
 
 declare
 	integer var_range,i,var_amount,adjustment,mult;
 	list var_names,buildings,sublist1;
-	integer thisvar;
+	string thisvar;
 	agent RootAgent;
 
 begin
+	$InitBaseStats(thisagent);
+
 	// fairground, library, Fervus, and Krolm affect attributes of all heros
 	// Fervus gives rogues artifice...
 
 	// do the basic randomness per var
-	var_names << #ATTRIB_strength;
-	var_names << #ATTRIB_vitality;
-	var_names << #ATTRIB_Artifice;
-	var_names << #ATTRIB_intelligence;
-	var_names << #ATTRIB_willpower;
+	var_names << "strength";
+	var_names << "vitality";
+	var_names << "Artifice";
+	var_names << "intelligence";
+	var_names << "willpower";
 	
-	thisagent's "MaxLevelXP_Base" = ($getattribute(thisagent,#ATTRIB_LevelXP) * 10);
-
 	i = 0;
 
 	while (i < 4) do
@@ -2606,16 +1878,14 @@ begin
 
 			var_range = $randomnumber(5) - 2;
 
-			var_amount = $getattribute(thisagent,thisvar);
+			var_amount = thisagent's (thisvar+"_Base");
 			var_amount += var_range;
 			if (var_amount < 1) var_amount = 1;
 
-			$setattribute(thisagent,thisvar,var_amount);
+			$AdjustBaseStat(thisagent,thisvar,var_amount);
 			i++;
 		end
-		
-	$Level_Up_Required_Attributes(thisagent);	
-		
+	
 	// check for special conditions in the kingdom
 	$ListObjects(thisagent,"building",-1,buildings,#MyPlayer);
 
@@ -2635,16 +1905,13 @@ begin
 			$removelistmember(sublist1,1);
 		end
 
-	$adjustattribute(thisagent,#ATTRIB_intelligence,adjustment);
-	thisagent's "Intelligence_Base" = $getAttribute(thisagent, #ATTRIB_intelligence);
+	$AdjustBaseStat(thisagent, "Intelligence", adjustment);
 
 	// fairground +1 stregnth
 	sublist1 = $removetitles(buildings,"fairgrounds");
 
 	if ($listsize(sublist1) > 0)
-		$adjustattribute(thisagent,#ATTRIB_strength,1);
-
-	thisagent's "Strength_Base" = $getAttribute(thisagent, #ATTRIB_strength);
+		$AdjustBaseStat(thisagent,"strength", 1);
 	
 	// fervus rogues +3 artifice, everyone +1 luck
 
@@ -2689,322 +1956,247 @@ begin
 
 					//Make the hero stupid, with the worst intel being 1
 					If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) <= #WCurse_Dumb_Penalty)
-						$SetAttribute (ThisAgent, #ATTRIB_Intelligence, 1);
+						$SetBaseStat (ThisAgent, "Intelligence", 1);
 
 					Else
-						$AdjustAttribute (ThisAgent, #ATTRIB_Intelligence, -(#WCurse_Dumb_Penalty));
+						$AdjustBaseStat (ThisAgent, "Intelligence", -(#WCurse_Dumb_Penalty));
 
 				end
 		end
+
+	$RecalculateStats(thisagent);
+end
+
+function ApplyBaseStats(agent thisagent)
+declare
+begin
+	$InitBaseStats(thisagent);
+	
+	$SetBaseStat(thisagent, "Artifice", $GetAttribute(thisagent, #ATTRIB_Artifice));
+	$SetBaseStat(thisagent, "Strength", $GetAttribute(thisagent, #ATTRIB_Strength));
+	$SetBaseStat(thisagent, "Vitality", $GetAttribute(thisagent, #ATTRIB_Vitality));
+	$SetBaseStat(thisagent, "Intelligence", $GetAttribute(thisagent, #ATTRIB_Intelligence));
+	$SetBaseStat(thisagent, "Willpower", $GetAttribute(thisagent, #ATTRIB_Willpower));
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// The necessary function for if heroes have not loaded in their hero attributes for leveling up
+Function RecalculateStats(agent thisagent)
+declare
+begin
+	$UpdateArtifice(thisagent);
+	$UpdateStrength(thisagent);
+	$UpdateVitality(thisagent);
+	$UpdateIntelligence(thisagent);
+	$UpdateWillpower(thisagent);
+	$UpdateWisdom(thisagent);
+
+	$UpdateMaxHP(thisagent);
+	$UpdateMaxMana(thisagent);
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function AdjustAttributeBase(agent thisagent, integer gameAttrib, string attribute, integer amount)
-
+function InitBaseStats(agent thisagent)
 declare
-
 begin
-	if (gameAttrib != 0)
+	// just check if something only created here exists. not foolproof but the attribute bloat needs to stop.
+	if ($HasAttribute("Presige", thisagent) == false)
 		begin
-			$adjustattribute(thisagent, gameAttrib, amount);
-			thisagent's attribute += amount;
+			$InitBaseStat(thisagent, "Artifice", $GetAttribute(thisagent, #ATTRIB_Artifice));
+			$InitBaseStat(thisagent, "Strength", $GetAttribute(thisagent, #ATTRIB_Strength));
+			$InitBaseStat(thisagent, "Vitality", $GetAttribute(thisagent, #ATTRIB_Vitality));
+			$InitBaseStat(thisagent, "Intelligence", $GetAttribute(thisagent, #ATTRIB_Intelligence));
+			$InitBaseStat(thisagent, "Willpower", $GetAttribute(thisagent, #ATTRIB_Willpower));
+			$InitBaseStat(thisagent, "Wisdom", $StartingWisdom(thisagent));
+			
+			$InitBaseStat(thisagent, "MaxHP", $GetAttribute(thisagent, #ATTRIB_MaxHP));
+			$InitBaseStat(thisagent, "MaxMana", #Base_Mana + (thisagent's "Intelligence_Base" * #Mana_Amount_Int));
+			$InitBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + (thisagent's "Vitality_Base" * #Health_Regeneration_Vit));
+			$InitBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + (thisagent's "Intelligence_Base" * #Mana_Regeneration_Int));
+			
+			$AddAttribute(thisagent, "PrimaryStat", "integer", #ATTRIB_Vitality);
+			$AddAttribute(thisagent, "PrimaryStat_Name", "string", "Vitality");
+
+			$AddAttribute(thisagent, "Prestige", "integer", $StartingPrestige(thisagent));
+			$AddAttribute(thisagent, "InsightPoints_base", "integer");
 		end
-	else
-		thisagent's attribute += amount;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function InitBaseStat(agent thisagent, string stat, integer default)
+declare
+begin
+	$AddAttribute(thisagent, stat+"_Base", "integer", default);
+	$AddAttribute(thisagent, stat+"_Total", "integer", thisagent's (stat+"_Base"));
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function AdjustBaseStat(agent thisagent, string stat_name, integer delta)
+declare
+	function update_func;
+begin
+	thisagent's (stat_name+"_Base") += delta;
+
+	update_func = $LookupFunction("Update"+stat_name);
+	if ($ValidFunction(update_func))
+		update_func(thisagent);
 end
 ////////////////////////////////////////////////////////////////////////////////
-function UpdatePrimaryStat(agent thisagent)
-
+function SetBaseStat(agent thisagent, string stat_name, integer delta)
 declare
-
+	function update_func;
 begin
-	if (thisagent's "PrimaryStat_Base" == "Artifice_Base")
-		$UpdateArtifice(thisagent);
-	else if (thisagent's "PrimaryStat_Base" == "Intelligence_Base")
-		$UpdateIntelligence(thisagent);
-	else if (thisagent's "PrimaryStat_Base" == "Strength_Base")
-		$UpdateStrength(thisagent);
-	else if (thisagent's "PrimaryStat_Base" == "Vitality_Base")
-		$UpdateVitality(thisagent);
-	else if (thisagent's "PrimaryStat_Base" == "Willpower_Base")
-		$UpdateWillpower(thisagent);
-	else if (thisagent's "PrimaryStat_Base" == "Wisdom_Base")
-		$UpdateWisdom(thisagent);
+	thisagent's (stat_name+"_Base") = delta;
+
+	update_func = $LookupFunction("Update"+stat_name);
+	if ($ValidFunction(update_func))
+		update_func(thisagent);
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateArtifice(agent thisagent)
-
 declare
-	integer Artifice_Base, flat_artifice, percent_artifice, artifice_adjust, total_artifice;
-	boolean high_value;
-
+	integer delta;
 begin
-	Artifice_Base = thisagent's "Artifice_Base";
-	high_value = false;
-	flat_artifice = thisagent's "Artifice_Flat_Modifier";
-	percent_artifice = thisagent's "Artifice_Percent_Modifier";
-	if (Artifice_Base >= 1000)
-		high_value = true;
-	artifice_adjust = $PercentOf(Artifice_Base, percent_artifice, high_value);
-	total_artifice = Artifice_Base + flat_artifice + artifice_adjust;
-	thisagent's "Artifice_Total" = total_artifice;
-	$setattribute(thisagent, #ATTRIB_Artifice, total_artifice);
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Artifice, "Artifice");
+	delta *= -1;
+	$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, delta * #artifice_movespeed );
+	$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, delta * #artifice_attackspeed );
 end
-////////////////////////////////////////////////////////////////////////////////
-function UpdateIntelligence(agent thisagent)
 
-declare
-	integer Intelligence_Base, flat_intelligence, percent_intelligence, intelligence_adjust, total_intelligence;
-	boolean high_value;
-
-begin
-	Intelligence_Base = thisagent's "Intelligence_Base";
-	high_value = false;
-	flat_intelligence = thisagent's "Intelligence_Flat_Modifier";
-	percent_intelligence = thisagent's "Intelligence_Percent_Modifier";
-	if (Intelligence_Base >= 1000)
-		high_value = true;
-	intelligence_adjust = $PercentOf(Intelligence_Base, percent_intelligence, high_value);
-	total_intelligence = Intelligence_Base + flat_intelligence + intelligence_adjust;
-	thisagent's "Intelligence_Total" = total_intelligence;
-	thisagent's "ManaRegeneration_Base" = (#Mana_Regeneration_Base + (total_intelligence * #Mana_Regeneration_Int));
-	$UpdateManaRegeneration(thisagent);
-	$setattribute(thisagent, #ATTRIB_Intelligence, total_intelligence);
-end
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 function UpdateStrength(agent thisagent)
-
 declare
-	integer Strength_Base, flat_strength, percent_strength, strength_adjust, total_strength;
-	boolean high_value;
-
 begin
-	Strength_Base = thisagent's "Strength_Base";
-	high_value = false;
-	flat_strength = thisagent's "Strength_Flat_Modifier";
-	percent_strength = thisagent's "Strength_Percent_Modifier";
-	if (Strength_Base >= 1000)
-		high_value = true;
-	strength_adjust = $PercentOf(Strength_Base, percent_strength, high_value);
-	total_strength = Strength_Base + flat_strength + strength_adjust;
-	thisagent's "Strength_Total" = total_strength;
-	$setattribute(thisagent, #ATTRIB_Strength, total_strength);
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_Strength, "Strength");
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateVitality(agent thisagent)
-
 declare
-	integer Vitality_Base, flat_vitality, percent_vitality, vitality_adjust, total_vitality;
-	boolean high_value;
-
+	integer delta;
 begin
-	Vitality_Base = thisagent's "Vitality_Base";
-	high_value = false;
-	flat_vitality = thisagent's "Vitality_Flat_Modifier";
-	percent_vitality = thisagent's "Vitality_Percent_Modifier";
-	if (Vitality_Base >= 1000)
-		high_value = true;
-	vitality_adjust = $PercentOf(Vitality_Base, percent_vitality, high_value);
-	total_vitality = Vitality_Base + flat_vitality + vitality_adjust;
-	thisagent's "Vitality_Total" = total_vitality;
-	thisagent's "HealthRegeneration_Base" = (#Health_Regeneration_Base + (total_vitality * #Health_Regeneration_Vit));
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Vitality, "Vitality");
+	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, (delta / 10));
 	$UpdateHealthRegeneration(thisagent);
-	$setattribute(thisagent, #ATTRIB_Vitality, total_vitality);
 end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateHealthRegeneration(agent thisagent)
+declare
+begin
+	$RecalculateStatTotal(thisagent, "HealthRegeneration");
+end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateWillpower(agent thisagent)
-
 declare
-	integer Willpower_Base, flat_willpower, percent_willpower, willpower_adjust, total_willpower;
-	boolean high_value;
-
 begin
-	Willpower_Base = thisagent's "Willpower_Base";
-	high_value = false;
-	flat_willpower = thisagent's "Willpower_Flat_Modifier";
-	percent_willpower = thisagent's "Willpower_Percent_Modifier";
-	if (Willpower_Base >= 1000)
-		high_value = true;
-	willpower_adjust = $PercentOf(Willpower_Base, percent_willpower, high_value);
-	total_willpower = Willpower_Base + flat_willpower + willpower_adjust;
-	thisagent's "Willpower_Total" = total_willpower;
-	$setattribute(thisagent, #ATTRIB_Willpower, total_willpower);
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_Willpower, "Willpower");
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateWisdom(agent thisagent)
-
 declare
-	integer Wisdom_Base, flat_wisdom, percent_wisdom, wisdom_adjust, total_wisdom;
-	boolean high_value;
-
 begin
-	Wisdom_Base = thisagent's "Wisdom_Base";
-	high_value = false;
-	flat_wisdom = thisagent's "Wisdom_Flat_Modifier";
-	percent_wisdom = thisagent's "Wisdom_Percent_Modifier";
-	if (Wisdom_Base >= 1000)
-		high_value = true;
-	wisdom_adjust = $PercentOf(Wisdom_Base, percent_wisdom, high_value);
-	total_wisdom = Wisdom_Base + flat_wisdom + wisdom_adjust;
-	thisagent's "Wisdom_Total" = total_wisdom;
+	$RecalculateStatTotal(thisagent, "Wisdom");
 end
-////////////////////////////////////////////////////////////////////////////////
-//The Max XP before a hero reaches their next level.
-function UpdateMaxXP(agent thisagent)
 
+////////////////////////////////////////////////////////////////////////////////
+function UpdateIntelligence(agent thisagent)
 declare
-	integer base_maxlevelXP, flat_maxlevelXP, percent_maxlevelXP, maxlevelXP_adjust, total_maxlevelXP;
-	boolean high_value;
-
 begin
-	base_maxlevelXP = thisagent's "MaxLevelXP_Base";
-	high_value = false;
-	flat_maxlevelXP = thisagent's "MaxLevelXP_Flat_Modifier";
-	percent_maxlevelXP = thisagent's "MaxLevelXP_Percent_Modifier";
-	if (base_maxlevelXP >= 1000)
-		high_value = true;
-	maxlevelXP_adjust = $PercentOf(base_maxlevelXP, percent_maxlevelXP, high_value);
-	total_maxlevelXP = base_maxlevelXP + flat_maxlevelXP + maxlevelXP_adjust;
-	thisagent's "MaxLevelXP_Total" = total_maxlevelXP;
-	$setattribute(thisagent, #ATTRIB_LevelXP, total_maxlevelXP);
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_Intelligence, "Intelligence");
+	$UpdateManaRegeneration(thisagent);
 end
+
 ////////////////////////////////////////////////////////////////////////////////
-//The Max XP before a hero reaches their next level.
 function UpdateManaRegeneration(agent thisagent)
-
 declare
-	integer base_manaregeneration, flat_manaregeneration, percent_manaregeneration, manaregeneration_adjust, total_manaregeneration;
-	boolean high_value;
-
 begin
-	base_manaregeneration = thisagent's "ManaRegeneration_Base";
-	high_value = false;
-	flat_manaregeneration = thisagent's "ManaRegeneration_Flat_Modifier";
-	percent_manaregeneration = thisagent's "ManaRegeneration_Percent_Modifier";
-	if (base_manaregeneration >= 1000)
-		high_value = true;
-	manaregeneration_adjust = $PercentOf(base_manaregeneration, percent_manaregeneration, high_value);
-	total_manaregeneration = base_manaregeneration + flat_manaregeneration + manaregeneration_adjust;
-	thisagent's "ManaRegeneration_Total" = total_manaregeneration;
+	$RecalculateStatTotal(thisagent, "ManaRegeneration");
 end
-////////////////////////////////////////////////////////////////////////////////
-//The Max XP before a hero reaches their next level.
-function UpdateHealthRegeneration(agent thisagent)
 
-declare
-	integer base_healthregeneration, flat_healthregeneration, percent_healthregeneration, healthregeneration_adjust, total_healthregeneration;
-	boolean high_value;
-
-begin
-	base_healthregeneration = thisagent's "HealthRegeneration_Base";
-	high_value = false;
-	flat_healthregeneration = thisagent's "HealthRegeneration_Flat_Modifier";
-	percent_healthregeneration = thisagent's "HealthRegeneration_Percent_Modifier";
-	if (base_healthregeneration >= 1000)
-		high_value = true;
-	healthregeneration_adjust = $PercentOf(base_healthregeneration, percent_healthregeneration, high_value);
-	total_healthregeneration = base_healthregeneration + flat_healthregeneration + healthregeneration_adjust;
-	thisagent's "HealthRegeneration_Total" = total_healthregeneration;
-end
-////////////////////////////////////////////////////////////////////////////////
-function UpdateCurrentMana(agent thisagent)
-
-declare
-	integer base_currentmana;
-
-begin
-	base_currentmana = thisagent's "CurrentMana_Base";
-	$setattribute(thisagent, #ATTRIB_NumHealingPotions, base_currentmana);
-end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateMaxMana(agent thisagent)
-
 declare
-	integer base_maxmana, flat_maxmana, percent_maxmana, maxmana_adjust, total_maxmana;
-	boolean high_value;
-
 begin
-	base_maxmana = thisagent's "MaxMana_Base";
-	high_value = false;
-	flat_maxmana = thisagent's "MaxMana_Flat_Modifier";
-	percent_maxmana = thisagent's "MaxMana_Percent_Modifier";
-	if (base_maxmana >= 1000)
-		high_value = true;
-	maxmana_adjust = $PercentOf(base_maxmana, percent_maxmana, high_value);
-	total_maxmana = base_maxmana + flat_maxmana + maxmana_adjust;
-	thisagent's "MaxMana_Total" = total_maxmana;
+	$RecalculateStatTotal(thisagent, "MaxMana");
 end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateMaxHP(agent thisagent)
-
 declare
-	integer base_maxhp, flat_maxhp, percent_maxhp, maxhp_adjust, total_maxhp;
-	boolean high_value;
-
+	integer delta;
 begin
-	base_maxhp = thisagent's "MaxHP_Base";
-	high_value = false;
-	flat_maxhp = thisagent's "MaxHP_Flat_Modifier";
-	percent_maxhp = thisagent's "MaxHP_Percent_Modifier";
-	if (base_maxhp >= 1000)
-		high_value = true;
-	maxhp_adjust = $PercentOf(base_maxhp, percent_maxhp, high_value);
-	total_maxhp = base_maxhp + flat_maxhp + maxhp_adjust;
-	thisagent's "MaxHP_Total" = total_maxhp;
-	$setattribute(thisagent, #ATTRIB_MaxHP, total_maxhp);
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_MaxHP, "MaxHP");
+	$AdjustAttribute(thisagent, #ATTRIB_HP, delta);
 end
-////////////////////////////////////////////////////////////////////////////////
-function UpdateAttribute(agent thisagent, string attrib)
-//For custom attributes that don't use any #ATTRIB data
-declare
-	integer base_attrib, flat_attrib, percent_attrib, attrib_adjust, total_attrib;
-	boolean high_value;
-	string total, base, flat, percent;
 
-begin
-	base = attrib + "_Base";
-	flat = attrib + "_Flat_Modifier";
-	percent = attrib + "_Percent_Modifier";
-	total = attrib + "_Total";
-	base_attrib = thisagent's base;
-	high_value = false;
-	flat_attrib = thisagent's flat;
-	percent_attrib = thisagent's percent;
-	if (base_attrib >= 1000)
-		high_value = true;
-	attrib_adjust = $PercentOf(base_attrib, percent_attrib, high_value);
-	total_attrib = base_attrib + flat_attrib + attrib_adjust;
-	thisagent's total = total_attrib;
-end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdatePhysicalArmor(agent thisagent)
-
 declare
-	integer base_armor, flat_armor, percent_armor, armor_adjust, total_armor;
-	boolean high_value;
+begin
+	$RecalculateStatTotal(thisagent, "Armor_Physical"); 
+	thisagent's "Armor_Physical_Total" += thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves"
+				 						+ thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function RecalculateAttributeTotal(agent thisagent, integer attrib_int, string attrib) is integer
+declare
+	integer delta;
+begin
+	delta = $RecalculateStatTotal(thisagent, attrib);
+	$AdjustAttribute(thisagent, attrib_int, delta);
+	return delta;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function RecalculateStatTotal(agent thisagent, string attrib) is integer
+declare
+	integer total, base, flat, percent;
 
 begin
-	base_armor = thisagent's "Armor_Physical_Base";
-	high_value = false;
-	flat_armor = thisagent's "Armor_Physical_Flat_Modifier";
-	percent_armor = thisagent's "Armor_Physical_Percent_Modifier";
-	if (base_armor >= 1000)
-		high_value = true;
-	armor_adjust = $PercentOf(base_armor, percent_armor, high_value);
-	total_armor = base_armor + flat_armor + armor_adjust;
-	total_armor += thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves" + thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
-	thisagent's "Armor_Physical_Total" = total_armor;
+	base = thisagent's (attrib+"_Base");
+	total = thisagent's (attrib+"_Total");
+
+	flat = $GetAttributeSafe(thisagent, attrib+"_Flat_Modifier");
+	percent = $GetAttributeSafe(thisagent, attrib+"_Percent_Modifier");
+
+	if (percent != 0) 
+		percent = $PercentOf(base, thisagent's (attrib+"_Percent_Modifier"), (base >= 1000));
+
+	thisagent's (attrib+"_Total") = base + flat + percent;
+	return thisagent's (attrib+"_Total") - total;
 end
+
+function AdjustAttributeSafe(agent thisagent, string attr, integer delta)
+declare
+begin
+	if (delta == 0) return;
+	if ($AddAttribute(thisagent, attr, "integer", delta) == false)
+		thisagent's attr += delta;
+end
+
+function GetAttributeSafe(agent thisagent, string attr) is integer
+declare
+begin
+	if ($HasAttribute(attr, thisagent) == false) return 0;
+	return thisagent's attr;
+end
+
+function SetAttributeSafe(agent thisagent, string attr, integer value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "integer", value) == false)
+		thisagent's attr = value;
+end
+
 ////////////////////////////////////////////////////////////////////////////////
 function GenerateHeroAttributes(agent thisagent)
-//Cleaned out now that new attribute system is in place
-//This isn't being used yet, but will be.
-
 declare
-
 begin
-	//$NewThread(ThisAgent's "ManaRegeneration", 200, ThisAgent ); // Might be able to roll the regenerations into just one function
-	//$NewThread(ThisAgent's "HealthRegeneration", 200, ThisAgent );
 	$NewThread(ThisAgent's "RegenerationSystem", 300, ThisAgent ); //Doubled the cycle time, halved the threshold for regen
 	$RestoreMana(thisagent, thisagent, thisagent's "MaxMana_Total");
 	thisagent's "Primary_Orientation" = $HeroSkillOrientationPrimary(thisagent);
@@ -3195,10 +2387,9 @@ end
 function GeneralAttributes(agent thisagent)
 declare
 begin
-	$AddToPalaceEnemyList(thisagent);
-	
+	$InitBaseStats(thisagent);
+	$RecalculateStats(thisagent);
 	$SetNegativeResistance(thisagent);
-	thisagent's "MaxHP_Base" = $GetAttribute(thisagent, #ATTRIB_MaxHP);
 	
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));

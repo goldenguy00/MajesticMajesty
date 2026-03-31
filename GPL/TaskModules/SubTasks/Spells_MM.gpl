@@ -3,7 +3,7 @@
 //CONFIDENTIAL MATERIAL
 /////////////////////////////////////////////////////////////////////////////////////////////////
 //Keep this function in this section since it is somewhat spell-related for the Priestess of this quest.
-function SCIONS_CHAOS ()
+function SCIONS_CHAOS_OLD ()
 
 declare
 	agent AIRootAgent;
@@ -53,7 +53,7 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-Function Scions_victory()
+Function Scions_victory_OLD()
 
 declare
 	agent AIRootAgent;
@@ -1766,6 +1766,22 @@ begin
 	$make_attack(thisagent,target3);
 end
 
+function HandleSearingMantle(agent thisagent, agent target)
+declare
+begin
+		if ($IsDead(target) == True)
+			return;
+			
+		if ($HasAttribute("SearingMantleBuff_End", target) == True)
+		if ($IsRunning(Target's "SearingMantleBuff_End") == True)
+			begin
+				if ($GetAttribute(thisagent, #ATTRIB_MaxAttackRange) < 50)
+					begin
+						$createeffector( thisagent, "SearingMantleDamage_Effector", 0 );
+						$spelltypedamage(target, thisagent, "fire", target's "SearingMantle_Damage_Min",  target's "SearingMantle_Damage_Max");
+					end
+			end
+end
 // --- Howl of Discord Functions begin here --- //
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1901,7 +1917,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", 0 - mana_cost);
 	
 	$NewThread(thisAgent's "generic_powershock_cooldown", cooldown, thisAgent, "generic_powershock_cooldown" );
 	
@@ -1953,7 +1969,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( target, "fire_shield_effector", 0 );
 	
@@ -2024,7 +2040,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( thisagent, "camouflage_effector", 0 );
 	$createeffector( thisagent, "camouflage_icon", duration );
@@ -2092,7 +2108,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( thisagent, "charm_monster_effector", 0 );
 	
@@ -2147,7 +2163,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( thisagent, "change_shape_effector", 0 );
 	$createeffector( thisagent, "change_shape_icon", duration );
@@ -2164,15 +2180,18 @@ begin
 
 	// increase various attributes
 	$adjustattribute(thisagent,#ATTRIB_Armor_Basic_Damage,add_armor);
+
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength,add_strength);
-	thisagent's "Strength_Flat_Modifier" += add_strength;
-	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality,add_vitality);
-	thisagent's "Vitality_Flat_Modifier" += add_vitality;
-	$UpdateVitality(thisagent);
+
+	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", add_strength);
+	$AdjustAttributeSafe(thisagent, "Vitality_Flat_Modifier", add_vitality);
+	$AdjustAttributeSafe(thisagent, "MaxHP_Flat_Modifier", add_vitality);
+
 	$adjustattribute(thisagent,#ATTRIB_MaxHP,add_MaxHP);
-	thisagent's "MaxHP_Flat_Modifier" += add_vitality;
 	$adjustattribute(thisagent,#ATTRIB_HP,add_MaxHP);
+
+	$RecalculateStats(thisagent);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2200,21 +2219,25 @@ begin
 	$RevertUnitType( thisagent );
 
 	// revert the attributes
-	$adjustattribute(thisagent,#ATTRIB_Armor_Basic_Damage,- add_armor);
-	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength,- add_strength);
-	thisagent's "Strength_Flat_Modifier" -= add_strength;
-	$UpdateStrength(thisagent);
-	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality,- add_vitality);
-	thisagent's "Vitality_Flat_Modifier" -= add_vitality;
-	$UpdateVitality(thisagent);
-	$adjustattribute(thisagent,#ATTRIB_MaxHP,- add_MaxHP);
-	thisagent's "MaxHP_Flat_Modifier" -= add_vitality;
+	$adjustattribute(thisagent,#ATTRIB_Armor_Basic_Damage, -add_armor);
+	
+	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength, -add_strength);
+	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality, -add_vitality);
+
+	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
+	$AdjustAttributeSafe(thisagent, "Vitality_Flat_Modifier", -add_vitality);
+	$AdjustAttributeSafe(thisagent, "MaxHP_Flat_Modifier", -add_vitality);
+
+	$adjustattribute(thisagent,#ATTRIB_MaxHP, -add_MaxHP);
+	$adjustattribute(thisagent,#ATTRIB_HP, -add_MaxHP);
+
 
 	// revert HP to full, if are above max
 	maxHP = $getattribute(thisagent,#ATTRIB_MaxHP);
 	if ($getattribute(thisagent,#ATTRIB_HP) > maxHP)
 		$SetAttribute( thisagent, #ATTRIB_HP, maxHP );
-		
+	
+	$RecalculateStats(thisagent);
 	$KillThread(thisagent's "Cultist_ChangeShapeBuff_End");
 end
 
@@ -2242,7 +2265,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "healer_healerheal_cooldown", cooldown, thisAgent, "healer_healerheal_cooldown" );
 	
@@ -2313,7 +2336,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector(target,"Meditation_effector",0);
 		
@@ -2400,7 +2423,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( thisagent, "hands_of_steel_effector", 0 );
 	$createeffector( thisagent, "hands_of_steel_icon", duration );
@@ -2419,7 +2442,7 @@ begin
 
 
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_strength, add_strength);
-	thisagent's "Strength_Flat_Modifier" += add_strength;
+	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", add_strength);
 	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, add_htoh);
 	
@@ -2443,7 +2466,7 @@ begin
 	add_htoh = $EffectBuff_Thread(willpower, wisdom, add_htoh);
 	
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_strength, - add_strength);
-	thisagent's "Strength_Flat_Modifier" -= add_strength;
+	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
 	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, - add_htoh);
 	
@@ -2478,7 +2501,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( target, "monk_stone_skin_effector", 0 );
 
@@ -2549,7 +2572,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( target, "iron_will_effector", 0 );
 
@@ -2633,7 +2656,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector(thisagent,"shield_of_light_effector",0);
 	
@@ -2704,7 +2727,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "priestess_drainlife_cooldown", cooldown, thisAgent, "priestess_drainlife_cooldown" );
 	
@@ -2790,7 +2813,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "priestess_animateskeleton_cooldown", cooldown, thisAgent, "priestess_animateskeleton_cooldown" );
 	
@@ -2846,7 +2869,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( thisagent, "control_undead_effector", 0 );
 	
@@ -2904,7 +2927,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "solarus_sunscorch_cooldown", cooldown, thisAgent, "solarus_sunscorch_cooldown" );
 	
@@ -2939,7 +2962,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "wizard_energyblast_cooldown", cooldown, thisAgent, "wizard_energyblast_cooldown" );
 	
@@ -2989,7 +3012,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( target, "fire_shield_effector", 0 );
 	
@@ -3055,7 +3078,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "wizard_fireblast_cooldown", cooldown, thisAgent, "wizard_fireblast_cooldown" );
 	
@@ -3107,7 +3130,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "wizard_fireball_cooldown", cooldown, thisAgent, "wizard_fireball_cooldown" );
 	
@@ -3185,7 +3208,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector( target, "Resist_magic_effector", 0 );
 	
@@ -3244,7 +3267,7 @@ begin
 	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$NewThread(thisAgent's "wizard_meteorstorm_cooldown", cooldown, thisAgent, "wizard_meteorstorm_cooldown" );
 	
@@ -3858,7 +3881,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector ( target, "generic_Regenerate_effector", 0 );
 	
@@ -3877,7 +3900,6 @@ begin
 	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$createeffector ( target, "generic_Regenerate_icon", duration );
-	$AddHealthRegenerationSystem(target);
 	target's "HealthRegeneration_Increase" += regen_amount;
 end
 
@@ -3932,7 +3954,7 @@ begin
 	
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
-	$adjustattribute(thisagent, #ATTRIB_NumHealingPotions, - mana_cost);
+	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
 	$createeffector(target,"priestess_wither_effector",0);
 	
@@ -3950,8 +3972,9 @@ begin
 	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
 	$MagicalAdjustAttribute(target,#ATTRIB_Strength,- minus_strength);
-	target's "Strength_Flat_Modifier" -= minus_strength;
-	$UpdateStrength(thisagent);
+	
+	$AdjustAttributeSafe(target, "Strength_Flat_Modifier", - minus_strength);
+	$UpdateStrength(target);
 	$adjustattribute(target,#ATTRIB_ActionRateModifier, attack_slow);
 	$adjustattribute(target,#ATTRIB_MovementRateModifier, move_slow );
 end
@@ -3978,7 +4001,7 @@ begin
 	$AdjustAttribute(thisagent,#ATTRIB_ActionRateModifier, - attack_slow);
 	$AdjustAttribute(thisagent,#ATTRIB_MovementRateModifier, - move_slow);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength, minus_strength);
-	thisagent's "Strength_Flat_Modifier" += minus_strength;
+	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", minus_strength);
 	$UpdateStrength(thisagent);
 	
 	$KillThread(thisagent's "Priestess_WitherDebuff_End");
@@ -6711,20 +6734,11 @@ end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function Spell_Mana_Available( agent thisagent, string spell_name ) is boolean
-// List of spells to retrieve for a hero
-
 declare
-	boolean available;
-	integer current_mana;
-
 begin
-	available = FALSE;
-	current_mana = $getattribute(thisagent, #ATTRIB_NumHealingPotions);
-	
-	if (current_mana >= $Spell_Mana_Cost(thisagent, spell_name))
-		available = TRUE;
-	
-	return available;
+	if ($getattributesafe(thisagent, "CurrentMana") >= $Spell_Mana_Cost(thisagent, spell_name))
+		return TRUE;
+	return FALSE;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -6732,9 +6746,8 @@ function Spell_Resource_Available( agent thisagent, string spell_name ) is boole
 // Checks for mana/stamina availability
 // Currently only checks for mana
 declare
-
 begin
-	if ($getattribute(thisagent, #ATTRIB_NumHealingPotions) >= $Spell_Resource_Cost(thisagent, spell_name))
+	if ($getattributesafe(thisagent, "CurrentMana") >= $Spell_Resource_Cost(thisagent, spell_name))
 		return TRUE;
 	return FALSE;
 end

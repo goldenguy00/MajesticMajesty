@@ -53,7 +53,7 @@ Begin
 					if ($listsize(books_read) > 0)
 						foreach book in available_books do
 							begin
-								if ($intentextinlist(book's "IntentExt", books_read) == FALSE)
+								if ($stringinlist(book's "IntentExt", books_read) == FALSE)
 									begin
 										thisagent's completetname = book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild
 										flag = TRUE;

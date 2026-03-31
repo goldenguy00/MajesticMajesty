@@ -238,168 +238,89 @@ function attack_object_pack(agent thisagent)
 declare
 	integer targetrange,attackrange;
 	agent target;
-	string spell_name, supportlist_name;
-	boolean casting;
+	string spell_name, supportlist_name, attacklist_name;
 
 begin
-	target = thisagent's "target";
-
-
 	// is target still valid
-	if ($notvalid(target))
+	if ($notvalid(thisagent's "target"))
 		begin
 			$reset_tasks(thisagent);
+			return;
 		end
-	else if (thisagent's "Title" != "Wizard")
+
+	// is thisagent low on MP
+	if ($haslowMP(thisagent))
 		begin
-			// is thisagent low on MP
-			if ($haslowMP(thisagent))
-				begin
-					$restore_mana_self(thisagent);
-				end
-			if ($haslowHP(thisagent))
-				begin
-					$heal_self(thisagent);
-				end
-			else
-				begin
-					// pick a weapon to use - a spell or regular weapon
-					spell_name = $getbestspell(thisagent,#list_attack);
-					supportlist_name = $Spell_List_Support(thisagent);
-					if ((spell_name == "nothing") && (supportlist_name == "nothing"))
-						begin
-							attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
-							casting = FALSE;
-							if ($IsSpellCaster(thisagent) != FALSE)
-								begin
-									attackrange = $SpellCastDistance(thisagent);
-								end
-						end
-					else
-						begin
-							attackrange = thisagent's "castingrange";
-							casting = TRUE;
-							if (supportlist_name != "nothing")
-								begin
-									spell_name = supportlist_name;
-									target = $ValidSpellTarget_hero(thisagent, target, spell_name);
-									attackrange = $SpellRangeListOnAttack( attackrange, spell_name);
-								end
-						end
+			$restore_mana_self(thisagent);
+		end
 
-					// combat prep module
+	if ($haslowHP(thisagent))
+		begin
+			$heal_self(thisagent);
+			return;
+		end		
 
-					// is thiaagent in attackrange of target
-					targetrange = $distanceBetweenAgents(thisagent,target);
-
-					if (targetrange > attackrange)
-						begin
-							// move towards target
-							thisagent's "destination" = $locationof(target);
-							thisagent's "activeScript" = $travel_to;
-							thisagent's "backScript" = $attack_object;
-							$move(thisagent,target);
-						end
-					else
-						begin
-							// is target within min attack range? - later
-							if (($listsize(thisagent's "hostiles") > 0) && ((target's "type" == "building") || (target's "type") == "lair"))
-								begin
-									(thisagent's "evaluationscript") (thisagent);
-								end
-							else
-								begin
-									if ($Hero_Peasant_check(thisagent) == FALSE)
-										begin
-											if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
-												thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
-											// make attack on object
-											if (casting)
-												begin
-													$PlaySound (ThisAgent, "VFX_CAST_SPELL1");
-													$CastSpellTarget(thisagent,spell_name,target);
-												end
-											else if (thisagent's "Attack_Action" != "do_nothing")
-												$performAction(thisagent,(thisagent's "attack_action"),target);
-										end	
-								end
-						end
-				end
+	// pick a weapon to use - a spell or regular weapon
+	spell_name = $getbestspell(thisagent,#list_attack);
+	attacklist_name = $AttackSpellList(thisagent);
+	supportlist_name = $Spell_List_Support(thisagent);
+	if (supportlist_name != "nothing")
+		begin
+			spell_name = supportlist_name;
+			target = $ValidSpellTarget_hero(thisagent, thisagent's "target", spell_name);
+			attackrange = $SpellRangeListOnAttack(thisagent's "castingrange", spell_name);
+		end
+	else if (attacklist_name != "nothing")
+		begin
+			spell_name = attacklist_name;
+			target = thisagent's "Spell_Target";
+			attackrange = $SpellRangeListOnAttack( thisagent's "castingrange", spell_name);
+		end
+	else if (spell_name != "nothing")
+		begin
+			target = thisagent's "target";
+			attackrange = thisagent's "castingrange";
+			if ($IsSpellCaster(thisagent) != FALSE)
+				attackrange = $SpellCastRange(thisagent);
 		end
 	else
 		begin
-			// is thisagent low on MP
-			if ($haslowMP(thisagent))
+			target = thisagent's "target";
+			attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
+			if ($IsSpellCaster(thisagent) != FALSE)
+				attackrange = $SpellCastRange(thisagent);
+		end
+
+	targetrange = $distanceBetweenAgents(thisagent,target);
+
+	if (targetrange > attackrange)
+		begin
+			// move towards target
+			thisagent's "destination" = $locationof(target);
+			thisagent's "activeScript" = $travel_to;
+			thisagent's "backScript" = $attack_object_pack;
+			$move(thisagent,target);
+		end
+	else
+		begin
+			// is target within min attack range? - later
+			if (($listsize(thisagent's "hostiles") > 0) && ((target's "type" == "building") || (target's "type") == "lair"))
 				begin
-					$restore_mana_self(thisagent);
+					(thisagent's "evaluationscript") (thisagent);
 				end
-			if ($haslowHP(thisagent))
+			else if ($Hero_Peasant_check(thisagent) == FALSE)
 				begin
-					$heal_self(thisagent);
-				end
-			else
-				begin
-					// pick a weapon to use - a spell or regular weapon
-					spell_name = $getbestspell(thisagent,#list_attack);
-					supportlist_name = $AttackSpellList(thisagent);
-					if ((spell_name == "nothing") && (supportlist_name == "nothing"))
-						begin
-							attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
-							casting = FALSE;
-							if ($IsSpellCaster(thisagent) != FALSE)
-								begin
-									attackrange = $SpellCastRange(thisagent);
-								end
-						end
-					else
-						begin
-							attackrange = thisagent's "castingrange";
-							casting = TRUE;
-							if (supportlist_name != "nothing")
-								begin
-									spell_name = supportlist_name;
-									target = thisagent's "Spell_Target";
-									attackrange = $SpellRangeListOnAttack( attackrange, spell_name);
-								end
-						end
+					if ($HasAttribute("TaskPackageStatus", thisagent))
+					if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
+						thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
 
-					// combat prep module
-
-					// is thiaagent in attackrange of target
-					targetrange = $distanceBetweenAgents(thisagent,target);
-
-					if (targetrange > attackrange)
+					if (spell_name != "nothing")
 						begin
-							// move towards target
-							thisagent's "destination" = $locationof(target);
-							thisagent's "activeScript" = $travel_to;
-							thisagent's "backScript" = $attack_object;
-							$move(thisagent,target);
+							$PlaySound (ThisAgent, "VFX_CAST_SPELL1");
+							$CastSpellTarget(thisagent,spell_name,target);
 						end
-					else
-						begin
-							// is target within min attack range? - later
-							if (($listsize(thisagent's "hostiles") > 0) && ((target's "type" == "building") || (target's "type") == "lair"))
-								begin
-									(thisagent's "evaluationscript") (thisagent);
-								end
-							else
-								begin
-									//if ($Hero_Peasant_check(thisagent) == FALSE)
-									//	begin
-											if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
-												thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
-											// make attack on object
-											if (casting)
-												begin
-													$PlaySound (ThisAgent, "VFX_CAST_SPELL1");
-													$CastSpellTarget(thisagent,spell_name,target);
-												end
-											else if (thisagent's "Attack_Action" != "do_nothing")	//This is here since having a hero perform an action of do_nothing causes bugs
-												$performAction(thisagent,(thisagent's "attack_action"),target);
-									//	end	
-								end
-						end
+					else if (thisagent's "Attack_Action" != "do_nothing")
+						$PerformAction (ThisAgent, ThisAgent's "Attack_Action", Target);
 				end
 		end
 end

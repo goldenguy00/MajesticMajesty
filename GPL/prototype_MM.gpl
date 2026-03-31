@@ -170,87 +170,53 @@ declare
 //////////////////////////////////////////Artifact attributes end///////////////
 	
 //////////////////////////////////////////Combat Attributes///////////////
+
+//expression #DAMAGE_Default = 0
+//expression #DAMAGE_Slashing = 1
+//expression #DAMAGE_Crushing = 2
+//expression #DAMAGE_Piercing = 4
+//expression #DAMAGE_Fire = 8
+//expression #DAMAGE_Cold = 16
+//expression #DAMAGE_Electric = 32
+//expression #DAMAGE_Poison = 64
+//expression #DAMAGE_Arcane = 128
+//expression #DAMAGE_Force = 256
+//expression #DAMAGE_Divine = 512
+//expression #DAMAGE_Necrotic = 1024
+//expression #DAMAGE_Chaotic = 2048
+
 	string Kill_Credit_Type;
 	string Kill_Credit_Faction;
 	string Kill_Credit_Specific;
 	integer Kill_Credit_Severity;
 	
 	boolean Uses_Ranged_Attack;
-	
+
 	integer Fire_Attack_Damage_Min;
-	integer Fire_Attack_Damage_Min_Modifier;
 	integer Cold_Attack_Damage_Min; 
-	integer Cold_Attack_Damage_Min_Modifier;
 	integer Electric_Attack_Damage_Min;
-	integer Electric_Attack_Damage_Min_Modifier;
 	integer Poison_Attack_Damage_Min;
-	integer Poison_Attack_Damage_Min_Modifier;
 	integer Arcane_Attack_Damage_Min;
-	integer Arcane_Attack_Damage_Min_Modifier;
 	integer Force_Attack_Damage_Min;
-	integer Force_Attack_Damage_Min_Modifier;
 	integer Divine_Attack_Damage_Min;
-	integer Divine_Attack_Damage_Min_Modifier;
 	integer Necrotic_Attack_Damage_Min;
-	integer Necrotic_Attack_Damage_Min_Modifier;
 	integer Chaotic_Attack_Damage_Min;
-	integer Chaotic_Attack_Damage_Min_Modifier;
 	integer Slashing_Attack_Damage_Min;
-	integer Slashing_Attack_Damage_Min_Modifier;
 	integer Crushing_Attack_Damage_Min;
-	integer Crushing_Attack_Damage_Min_Modifier;
 	integer Piercing_Attack_Damage_Min;
-	integer Piercing_Attack_Damage_Min_Modifier;
 	
 	integer Fire_Attack_Damage_Max;
-	integer Fire_Attack_Damage_Max_Modifier;
-	integer Cold_Attack_Damage_Max; 
-	integer Cold_Attack_Damage_Max_Modifier;
+	integer Cold_Attack_Damage_Max;
 	integer Electric_Attack_Damage_Max;
-	integer Electric_Attack_Damage_Max_Modifier;
 	integer Poison_Attack_Damage_Max;
-	integer Poison_Attack_Damage_Max_Modifier;
 	integer Arcane_Attack_Damage_Max;
-	integer Arcane_Attack_Damage_Max_Modifier;
 	integer Force_Attack_Damage_Max;
-	integer Force_Attack_Damage_Max_Modifier;
 	integer Divine_Attack_Damage_Max;
-	integer Divine_Attack_Damage_Max_Modifier;
 	integer Necrotic_Attack_Damage_Max;
-	integer Necrotic_Attack_Damage_Max_Modifier;
 	integer Chaotic_Attack_Damage_Max;
-	integer Chaotic_Attack_Damage_Max_Modifier;
 	integer Slashing_Attack_Damage_Max;
-	integer Slashing_Attack_Damage_Max_Modifier;
 	integer Crushing_Attack_Damage_Max;
-	integer Crushing_Attack_Damage_Max_Modifier;
 	integer Piercing_Attack_Damage_Max;
-	integer Piercing_Attack_Damage_Max_Modifier;
-	
-	integer Fire_Damage_Percent;
-	integer Fire_Damage_Flat;
-	integer Force_Damage_Percent;
-	integer Force_Damage_Flat;
-	integer Cold_Damage_Percent;
-	integer Cold_Damage_Flat;
-	integer Electric_Damage_Percent;
-	integer Electric_Damage_Flat;
-	integer Poison_Damage_Percent;
-	integer Poison_Damage_Flat;
-	integer Arcane_Damage_Percent;
-	integer Arcane_Damage_Flat;
-	integer Divine_Damage_Percent;
-	integer Divine_Damage_Flat;
-	integer Necrotic_Damage_Percent;
-	integer Necrotic_Damage_Flat;
-	integer Chaotic_Damage_Percent;
-	integer Chaotic_Damage_Flat;
-	integer Crushing_Damage_Percent;
-	integer Crushing_Damage_Flat;
-	integer Slashing_Damage_Percent;
-	integer Slashing_Damage_Flat;
-	integer Piercing_Damage_Percent;
-	integer Piercing_Damage_Flat;
 	
 	integer Fire_Resistance_Percent;
 	integer Cold_Resistance_Percent; 
@@ -264,19 +230,6 @@ declare
 	integer Slashing_Resistance_Percent;
 	integer Crushing_Resistance_Percent;
 	integer Piercing_Resistance_Percent;
-	
-	integer Fire_Resistance_Percent_Modifier;
-	integer Cold_Resistance_Percent_Modifier; 
-	integer Electric_Resistance_Percent_Modifier;
-	integer Poison_Resistance_Percent_Modifier;
-	integer Arcane_Resistance_Percent_Modifier;
-	integer Force_Resistance_Percent_Modifier;
-	integer Divine_Resistance_Percent_Modifier;
-	integer Necrotic_Resistance_Percent_Modifier;
-	integer Chaotic_Resistance_Percent_Modifier;
-	integer Slashing_Resistance_Percent_Modifier;
-	integer Crushing_Resistance_Percent_Modifier;
-	integer Piercing_Resistance_Percent_Modifier;
 	
 	boolean Fire_Resistance_Percent_Neg;
 	boolean Cold_Resistance_Percent_Neg; 
@@ -304,19 +257,6 @@ declare
 	integer Crushing_Resistance_Flat;
 	integer Piercing_Resistance_Flat;
 	
-	integer Fire_Resistance_Flat_Modifier;
-	integer Cold_Resistance_Flat_Modifier; 
-	integer Electric_Resistance_Flat_Modifier;
-	integer Poison_Resistance_Flat_Modifier;
-	integer Arcane_Resistance_Flat_Modifier;
-	integer Force_Resistance_Flat_Modifier;
-	integer Divine_Resistance_Flat_Modifier;
-	integer Necrotic_Resistance_Flat_Modifier;
-	integer Chaotic_Resistance_Flat_Modifier;
-	integer Slashing_Resistance_Flat_Modifier;
-	integer Crushing_Resistance_Flat_Modifier;
-	integer Piercing_Resistance_Flat_Modifier;
-	
 	boolean Fire_Resistance_Flat_Neg;
 	boolean Cold_Resistance_Flat_Neg; 
 	boolean Electric_Resistance_Flat_Neg;
@@ -331,8 +271,6 @@ declare
 	boolean Piercing_Resistance_Flat_Neg;
 	
 	integer Armor_Physical_Base;
-	integer Armor_Physical_Flat_Modifier;
-	integer Armor_Physical_Percent_Modifier;
 	integer Armor_Physical_Total;
 	integer Armor_Physical_BodyArmor;
 	integer Armor_Physical_Helm;
@@ -340,78 +278,14 @@ declare
 	integer Armor_Physical_Boots;
 	integer Armor_Physical_Belt;
 	integer Armor_Physical_Shield;
+	
 	integer Armor_Magical_Base;
-	integer Armor_Magical_Flat_Modifier;
-	integer Armor_Magical_Percent_Modifier;
 	integer Armor_Magical_Total;
 	
-	integer Fire_Attack_Damage_Min_Total;
-	integer Cold_Attack_Damage_Min_Total; 
-	integer Electric_Attack_Damage_Min_Total;
-	integer Poison_Attack_Damage_Min_Total;
-	integer Arcane_Attack_Damage_Min_Total;
-	integer Force_Attack_Damage_Min_Total;
-	integer Divine_Attack_Damage_Min_Total;
-	integer Necrotic_Attack_Damage_Min_Total;
-	integer Chaotic_Attack_Damage_Min_Total;
-	integer Slashing_Attack_Damage_Min_Total;
-	integer Crushing_Attack_Damage_Min_Total;
-	integer Piercing_Attack_Damage_Min_Total;
-	
-	integer Fire_Attack_Damage_Max_Total;
-	integer Cold_Attack_Damage_Max_Total; 
-	integer Electric_Attack_Damage_Max_Total;
-	integer Poison_Attack_Damage_Max_Total;
-	integer Arcane_Attack_Damage_Max_Total;
-	integer Force_Attack_Damage_Max_Total;
-	integer Divine_Attack_Damage_Max_Total;
-	integer Necrotic_Attack_Damage_Max_Total;
-	integer Chaotic_Attack_Damage_Max_Total;
-	integer Slashing_Attack_Damage_Max_Total;
-	integer Crushing_Attack_Damage_Max_Total;
-	integer Piercing_Attack_Damage_Max_Total;
-	
-	integer Fire_Resistance_Percent_Total;
-	integer Cold_Resistance_Percent_Total; 
-	integer Electric_Resistance_Percent_Total;
-	integer Poison_Resistance_Percent_Total;
-	integer Arcane_Resistance_Percent_Total;
-	integer Force_Resistance_Percent_Total;
-	integer Divine_Resistance_Percent_Total;
-	integer Necrotic_Resistance_Percent_Total;
-	integer Chaotic_Resistance_Percent_Total;
-	integer Slashing_Resistance_Percent_Total;
-	integer Crushing_Resistance_Percent_Total;
-	integer Piercing_Resistance_Percent_Total;
-	integer Fire_Resistance_Flat_Total;
-	integer Cold_Resistance_Flat_Total; 
-	integer Electric_Resistance_Flat_Total;
-	integer Poison_Resistance_Flat_Total;
-	integer Arcane_Resistance_Flat_Total;
-	integer Force_Resistance_Flat_Total;
-	integer Divine_Resistance_Flat_Total;
-	integer Necrotic_Resistance_Flat_Total;
-	integer Chaotic_Resistance_Flat_Total;
-	integer Slashing_Resistance_Flat_Total;
-	integer Crushing_Resistance_Flat_Total;
-	integer Piercing_Resistance_Flat_Total;
-	
-	integer ExperienceConst_Value_Base;
-	
 	integer Experience_Value_Base;
-	integer Experience_Value_Flat_Modifier;
-	integer Experience_Value_Percent_Modifier;
-	integer Experience_Value_Total;
 	
-	integer KillExperience_Value_Base;
-	integer KillExperience_Value_Flat_Modifier;
-	integer KillExperience_Value_Percent_Modifier;
-	integer KillExperience_Value_Total;
-	
-	integer XPLevel_Value_Base;
-	integer XPLevel_Value_Flat_Modifier;
-	integer XPLevel_Value_Percent_Modifier;
-	integer XPLevel_Value_Total;
+	// unused
+	integer XPMultiplier;
 	
 	agent Killing_Unit;
 	
@@ -670,13 +544,9 @@ declare
 	integer TaskPackageConstructionRadius; //For Help_Build tasks.
 	integer TaskSearch_Limit; //The tracker for the number of times a Search For Task function returns False.
 	
-	integer Prestige;
-	
 	string Running_Intent;
 	
 	function VisitingScript;
-	
-	boolean Has_Level_Up_Attributes;
 	
 	list SpellArrange; //The list for arranging the other spell lists for the hero. A list of lists.
 	list SpellsGeneral; //The list of general spells
@@ -699,86 +569,10 @@ declare
 							  //Not used currently.
 	//Base attributes remain static when buffs/debuffs are applied to them. Only non-buff means can increase Base-level stats (Levelling up, Insight Points)
 	//This is so in the event of multiple buffs and effects being applied, that there is a normalized state for the units attributes to return to
-	string PrimaryStat_Base;			//Base values are ones that are inherent to the hero
 	
-	integer HeroLevel_Base;
-	integer CurrentMana_Base;
-	integer CurrentManaPoints_Base;
-	
-	integer CurrentHealthPoints_Base;
-	
-	integer MaxLevelXP_Base;
-	integer CurrentLevelXP_Base;
-	integer HealthRegeneration_Base;
-	integer ManaRegeneration_Base;
-	integer MaxMana_Base;
-	integer MaxHP_Base;
-	integer Artifice_Base;
-	integer Intelligence_Base;
-	integer Strength_Base;
-	integer Vitality_Base;
-	integer Willpower_Base;
-	integer Wisdom_Base;
-	integer InsightPoints_Base;
-	integer Range_Base;
-	integer CastRange_Base;
-	integer SightRange_Base;
-	
-	integer MaxLevelXP_Flat_Modifier;			//Flat modifier values are a flat added bonus to the base value
-	integer CurrentLevelXP_Flat_Modifier;
-	integer HealthRegeneration_Flat_Modifier;
-	integer ManaRegeneration_Flat_Modifier;
-	integer MaxMana_Flat_Modifier;
-	integer MaxHP_Flat_Modifier;
-	integer Artifice_Flat_Modifier;
-	integer Intelligence_Flat_Modifier;
-	integer Strength_Flat_Modifier;
-	integer Vitality_Flat_Modifier;
-	integer Willpower_Flat_Modifier;
-	integer Wisdom_Flat_Modifier;
-	integer InsightPoints_Flat_Modifier;
-	integer Range_Flat_Modifier;
-	integer CastRange_Flat_Modifier;
-	integer SightRange_Flat_Modifier;
-	
-	integer MaxLevelXP_Percent_Modifier;		//Percent modifier values are a percent bonus to only the base value
-	integer CurrentLevelXP_Percent_Modifier;
-	integer HealthRegeneration_Percent_Modifier;
-	integer ManaRegeneration_Percent_Modifier;
-	integer MaxMana_Percent_Modifier;
-	integer MaxHP_Percent_Modifier;
-	integer Artifice_Percent_Modifier;
-	integer Intelligence_Percent_Modifier;
-	integer Strength_Percent_Modifier;
-	integer Vitality_Percent_Modifier;
-	integer Willpower_Percent_Modifier;
-	integer Wisdom_Percent_Modifier;
-	integer InsightPoints_Percent_Modifier;
-	integer Range_Percent_Modifier;
-	integer CastRange_Percent_Modifier;
-	integer SightRange_Percent_Modifier;
-	
-	integer MaxLevelXP_Total;					//Total is the Base Value + Flat Value + (Percent * Base) Value
-	integer CurrentLevelXP_Total;
-	integer HealthRegeneration_Total;
-	integer ManaRegeneration_Total;
-	integer MaxMana_Total;
-	integer MaxHP_Total;
-	integer Artifice_Total;
-	integer Intelligence_Total;
-	integer Strength_Total;
-	integer Vitality_Total;
-	integer Willpower_Total;
-	integer Wisdom_Total;
-	integer InsightPoints_Total;
-	integer Range_Total;
-	integer CastRange_Total;
-	integer SightRange_Total;
-	
-	integer HP_Gain_Per_Vitality;
-	integer HPRegen_Gain_Per_Vitality;
-	integer MP_Gain_Per_Intelligence;
-	integer MPRegen_Gain_Per_Intelligence;
+	integer CurrentMana;
+	integer ManaRegenPoints;
+	integer HealthRegenPoints;
 	
 	integer UpArtificeChance; //Chance for hero to increase this attribute on level-up/Insight point limit reached.
 	integer UpIntelligenceChance;
@@ -950,7 +744,6 @@ declare
 	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
 	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
 	
-	agent Options; //The Options agent for the structure, in which attachments are contained.
 	list Attachments; //The list for structures that have attachments on them (Help Signs or Available Upgrades)
 	list Available_Misc; //The list of miscellanious objects available at a structure to add to the list of their attachments.
 	list Available_Research; //The list of upgrades available at a structure to add to the list of their attachments.
@@ -1003,7 +796,7 @@ Declare
 
 	integer gold_value;
 	integer XP_value; //Experience gained from reading this book
-	integer XPLevel_value; //The Level of experience gained from the book being read.
+	integer XPMultiplier; //The Level of experience gained from the book being read.
 
 	function transferScript;  	// This script will be called when the item is transfered to its new owner.
 	function birthScript;  	// This script will be called once, when the unit is created;

@@ -80,7 +80,7 @@ begin
 					//Say See Hostile voice line if Target's "Type" is monster
 					If (New_Target's "Type" == "Monster")
 						$Say (ThisAgent, "VFX_See_Hostile");
-					intent = "IDTXT_INTENT_FIGHTING" + New_Target's "IntentExt";
+					intent = "IDTXT_INTENT_FIGHTING" + $getintentext(New_Target);
 					$SpecifyIntentString (ThisAgent, intent);
 					thisagent's "ActiveScript" = $attack_object;
 				end

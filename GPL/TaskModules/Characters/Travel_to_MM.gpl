@@ -14,7 +14,7 @@ begin
 	distance_level = ($distanceBetweenCoords(Palace_loc,agent_loc) / 100); //The distance the agent is from the palace divided by 100 is the Level of travel the agent is undergoing
 	if ($has_arrived(thisagent,false))
 		begin
-			$give_exp_level(thisagent,#explore_exp,distance_level);
+			$give_exp(thisagent,#explore_exp);
 		end
 	else
 		// am I low on HP

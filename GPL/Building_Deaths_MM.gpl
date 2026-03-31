@@ -7,6 +7,7 @@ function building_death(agent thisagent)
 
 declare
 	agent attach, widget, widget2;
+	list attachments;
 
 begin
   	thisagent's "type" = "Dead";
@@ -17,39 +18,22 @@ begin
 	$Clean_Palace_Construction_Lists (ThisAgent);
 
 	$performaction( thisagent,"Become_Rubble",thisagent );
-	
-	if ($HasAttribute("Options", thisagent))
-	if (thisagent's "Options" != $NullAgent())
-		begin
-			foreach attach in thisagent's "Attachments" do
-				begin
-					foreach widget in $GetBuildingContents(attach) do
-						begin
-							$deleteagent(widget);
-						end
-					$unhide(attach);	
-					$performaction( attach,"Become_Rubble",attach );
-					$deleteagent(attach);
-				end
-			$performaction( thisagent's "Options","Become_Rubble", thisagent's "Options" );
-			$deleteagent(thisagent's "Options");
-			
-			$deleteagent(thisagent);
-			return;
-		end
-	
+
 	if ($HasAttribute("Attachments", thisagent))
-	if ($ListSize(thisagent's "Attachments") > 0)
-		foreach attach in thisagent's "Attachments" do
-			begin
-				foreach widget in $GetBuildingContents(attach) do
+		begin
+			attachments = thisagent's "Attachments";
+			if ($ListSize(attachments) > 0)
+				foreach attach in attachments do
 					begin
-						$deleteagent(widget);
+						foreach widget in $GetBuildingContents(attach) do
+							if ($agentinagentlist(widget, attachments) == false)
+								$deleteagent(widget);
+						
+						$unhide(attach);
+						$performaction( attach,"Become_Rubble",attach );
+						$deleteagent(attach);
 					end
-				$performaction( attach,"Become_Rubble",attach );
-				$deleteagent(attach);
-			end
-				
+		end
 
 	$deleteagent(thisagent);
 end
