@@ -31,9 +31,10 @@ begin
 	hitresult = $hit(thisagent,target);
 
 	// expereience checking
-	//if (target's "type" != "monster")
-	exp_given = $exp_value(thisagent,target);	//Exp given for attacking non-monsters
-	exp_given += #attack_exp_bonus;	//Exp given for attacking monsters, regardless of the attack landing
+	if (target's "type" != "monster")
+		exp_given = $exp_value(thisagent,target);	//Exp given for attacking non-monsters
+	else	
+		exp_given = #attack_exp_bonus + $GetAttributeSafe(target, "XPMultiplier");	//Exp given for attacking monsters, regardless of the attack landing
 
 	if (hitresult == 1) // hit!
 		begin
@@ -536,19 +537,11 @@ end
 
 ///////////////////////////////////////////////////////////////////////////////
 function AttackDamageType_Calculations(agent defender, agent attacker ) is integer
-
 declare
-	string damage_type;
-	integer dmg, dmg_total;
+	integer dmg_total;
 
 begin
-	dmg_total = 0;
-	
-	if (attacker == $nullagent() || $IsValidGamePiece(attacker) == False)
-		return dmg_total;
-
-	if (attacker's "attacktype" == 1)
-		dmg_total = $getattribute(attacker, #ATTRIB_Strength) / #strength_div;
+	dmg_total = $getattribute(attacker, #ATTRIB_Strength) / #strength_div;
 
 	dmg_total += $TryAttackWithType(attacker, defender, "Crushing");
 	dmg_total += $TryAttackWithType(attacker, defender, "Slashing");
@@ -567,82 +560,44 @@ begin
 	return dmg_total;
 end
 
-function CanAttackWithType(agent attacker, string type) is boolean
-declare
-begin
-
-	if ($HasAttribute((type+"_Attack_Damage_Min"), attacker) == false)
-		return false;
-	return attacker's (type + "_Attack_Damage_Min") > 0 || attacker's (type + "_Attack_Damage_Max") > 0 ||
-			attacker's (type + "_Attack_Damage_Min_Modifier") != 0 || attacker's (type + "_Attack_Damage_Max_Modifier") != 0;
-end
-
-function TryAttackWithType(agent attacker, agent defender, string type) is integer
-declare
-begin
-	if ($CanAttackWithType(attacker, type))
-		return $GetDamage(attacker, defender, type);
-	return 0;
-end
-
-function GetDamage(agent attacker, agent defender, string damage_type) is integer
-
+function TryAttackWithType(agent attacker, agent defender, string damage_type) is integer
 declare
 	integer dmg;
-
 begin
-		dmg = $MinMaxAttackType(attacker, damage_type);
-		dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
-		dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
-		return dmg;
+	if ($GetAttributeSafe(attacker, damage_type+"_Attack_Damage_Min") < $GetAttributeSafe(attacker, damage_type+"_Attack_Damage_Max"))
+		begin
+			dmg = $MinMax(attacker's (damage_type+"_Attack_Damage_Min"), attacker's (damage_type+"_Attack_Damage_Max"));
+			dmg = $DamageTypeIncrease(defender, attacker, damage_type, dmg);
+			dmg = $DamageTypeResistance(defender, attacker, damage_type, dmg);
+		end
+	return dmg;
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function DamageTypeIncrease(agent defender, agent attacker, string s_type, integer damage ) is integer
 
 declare
-	string damage_type_percent, damage_type_flat;
-	integer damage_amount_percent, damage_amount_flat, return_damage, damage_mod_percent, damage_mod_flat;
+	integer amount_percent, amount_flat;
 
 begin
-	return_damage = damage;
-	
-	if ((attacker == $nullagent()) || ($IsValidGamePiece(attacker) == False))
-		return return_damage;
-
-	damage_amount_flat = 0;
-	Damage_type_flat = s_type+"_Damage_Flat";
-	if ($HasAttribute(damage_type_flat, attacker))
-	begin
-		damage_amount_flat = attacker's damage_type_flat;
-		damage_amount_flat = $DamageModifiersFlat(defender, attacker, s_type, damage_amount_flat);
-	end
-	
-	return_damage += damage_amount_flat;
-	
-	if (return_damage < 1)
-		begin
-			return_damage = 0;
-			return return_damage;
-		end
-	
-	damage_amount_percent = 0;
-	Damage_type_percent = s_type+"_Damage_Percent";
-	if ($HasAttribute(damage_type_percent, attacker))
-	begin
-		damage_amount_percent = attacker's damage_type_percent;
-		damage_amount_percent = $DamageModifiersPercent(defender, attacker, s_type, damage_amount_percent);
-	end
-
-	if (damage_amount_percent == 0)
-		return return_damage;
+	amount_flat = $GetAttributeSafe(defender, s_type+"_Damage_Flat");
+	if (amount_flat != 0)
+		damage += $DamageModifiersFlat(defender, attacker, s_type, amount_flat);
 		
-	return_damage += ((return_damage * damage_amount_percent) / 100);
+	if (damage < 1)
+		return 0;
+
+	amount_percent = $GetAttributeSafe(defender, s_type+"_Damage_Percent");
+	if (amount_percent != 0)
+		begin
+			amount_percent = $DamageModifiersPercent(defender, attacker, s_type, amount_percent);
+			damage += ((damage * amount_percent) / 100);
+		end
+		
+	if (damage < 1)
+		return 0;
 	
-	if (return_damage < 0)
-		return_damage = 0;
-	
-	return return_damage;
+	return damage;
 	
 end
 
@@ -650,177 +605,99 @@ end
 function DamageTypeResistance(agent defender, agent attacker, string s_type, integer damage ) is integer
 
 declare
-	string resistance_type_percent, resistance_type_flat;
-	integer resist_amount_percent, resist_amount_flat, return_damage, damage_mod_percent, damage_mod_flat;
+	integer amount_percent, amount_flat;
 
 begin
-	return_damage = damage;
-	
-	if ((defender == $nullagent()) || ($IsValidGamePiece(defender) == False))
-		return return_damage;
+	amount_flat = $GetAttributeSafe(defender, s_type+"_Resistance_Flat");
+	if (amount_flat != 0)
+		damage -= $ResistanceModifiersFlat(defender, attacker, s_type, amount_flat);
 		
-	resist_amount_flat = 0;
-	resistance_type_flat = s_type+"_Resistance_Flat";
-	if ($HasAttribute(resistance_type_flat, defender))
+	if (damage < 1)
+		return 0;
+
+	amount_percent = $GetAttributeSafe(defender, s_type+"_Resistance_Percent");
+	if (amount_percent != 0)
 		begin
-			resist_amount_flat = defender's resistance_type_flat;
-			resist_amount_flat = $ResistanceModifiersFlat(defender, attacker, s_type, resist_amount_flat);
-			return_damage -= resist_amount_flat;
-		end
-		
-	if (return_damage < 1)
-		begin
-			return_damage = 0;
-			return return_damage;
-		end
-	
-	resist_amount_percent = 0;
-	resistance_type_percent = s_type+"_Resistance_Percent";
-	if ($HasAttribute(resistance_type_percent, defender))
-		begin
-			resist_amount_percent = defender's resistance_type_percent;
-			resist_amount_percent = $ResistanceModifiersPercent(defender, attacker, s_type, resist_amount_percent);
-			return_damage -= ((return_damage * resist_amount_percent) / 100);
+			amount_percent = $ResistanceModifiersPercent(defender, attacker, s_type, amount_percent);
+			damage -= ((damage * amount_percent) / 100);
 		end
 		
-	if (return_damage < 0)
-		begin
-			return_damage = 0;
-			return return_damage;
-		end
+	if (damage < 1)
+		return 0;
 	
 	if ((s_type == "Crushing") || (s_type == "Slashing") || (s_type == "Piercing"))
-		return_damage = $PhysicalArmor_Calculations(defender, return_damage);
+		damage = $ArmorCalculations(defender, damage, "Physical");
 	else
-		return_damage = $MagicalArmor_Calculations(defender, return_damage);
+		damage = $ArmorCalculations(defender, damage, "Magical");
 		
-		
-	if (return_damage < 0)
-		return_damage = 0;
-	
-	return return_damage;
+	if (damage < 1)
+		return 0;
+
+	return damage;
 	
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function PhysicalArmor_Calculations(agent defender, integer damage ) is integer
+function ArmorCalculations(agent defender, integer dmg, string type ) is integer
 
 declare
-	integer dmg, dmg_total, armor, reduction;
+	integer armor, reduction;
 
 begin
-	dmg = damage;
-	
-	dmg_total = damage;
-	
-	armor = $GetTotalArmorType(defender, "Armor_Physical");
+	armor = $GetTotalArmorType(defender, type);
 	if (armor > 0)
 		reduction = (((6 * armor) * dmg) / (100 + 6 * armor));
-	else
+	else if (armor < 0)
 		reduction = (((9 * armor) * dmg) / (100 + 9 * armor)) * -1;
-		
-	
-	dmg_total -= reduction;
-	 
-	return dmg_total;
-	
-end
 
-///////////////////////////////////////////////////////////////////////////////
-function MagicalArmor_Calculations(agent defender, integer damage ) is integer
-
-declare
-	integer dmg, dmg_total, armor, reduction;
-
-begin
-	dmg = damage;
-	
-	dmg_total = damage;
-	
-	armor = $GetTotalArmorType(defender, "Armor_Magical");
-	
-	if (armor > 0)
-		reduction = (((6 * armor) * dmg) / (100 + 6 * armor));
-	else
-		reduction = (((9 * armor) * dmg) / (100 + 9 * armor)) * -1;
-	
-	dmg_total -= reduction;
-	 
-	return dmg_total;
+	return dmg - reduction;
 	
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function DamageModifiersPercent(agent defender, agent attacker, string s_type, integer damage ) is integer
-
 declare
-	integer return_damage;
-
 begin
-	return_damage = damage;
 	if (s_type == "fire")
-		begin
-			if ($HasAttribute("Cinders_Damage_Percent", attacker) == True)
-				begin
-					return_damage += attacker's "Cinders_Damage_Percent";
-				end
-		end
-	return return_damage;
+		if ($HasAttribute("Cinders_Damage_Percent", attacker) == True)
+			damage += attacker's "Cinders_Damage_Percent";
+	return damage;
 end
 ///////////////////////////////////////////////////////////////////////////////
 function DamageModifiersFlat(agent defender, agent attacker, string s_type, integer damage ) is integer
-
 declare
-	integer return_damage;
-
 begin
-	return_damage = damage;
 	if (s_type == "fire")
-		begin
-			if ($HasAttribute("Cinders_Damage_Flat", attacker) == True)
-				begin
-					return_damage += attacker's "Cinders_Damage_Flat";
-				end
-		end
-	return return_damage;
+		if ($HasAttribute("Cinders_Damage_Flat", attacker) == True)
+			damage += attacker's "Cinders_Damage_Flat";
+
+	return damage;
 end
 ///////////////////////////////////////////////////////////////////////////////
 function ResistanceModifiersPercent(agent defender, agent attacker, string s_type, integer resistance ) is integer
 
 declare
-	integer return_resistance;
-
 begin
-	return_resistance = resistance;
 	if (s_type == "fire")
-		begin
-			//SearingMantle_Fire_Resistance is a positive value. This is resistance increase.
-			if ($HasAttribute("SearingMantle_Fire_Resistance", defender) == True)
-				begin
-					return_resistance += defender's "SearingMantle_Fire_Resistance";
-				end
-			//Pyrelight_Fire_Resistance_Reduction is a negative value. This is resistance reduction.
-			else if ($HasAttribute("Pyrelight_Fire_Resistance_Reduction", defender) == True)
-				begin
-					return_resistance += defender's "Pyrelight_Fire_Resistance_Reduction";
-				end
-		end
-	return return_resistance;
+		//SearingMantle_Fire_Resistance is a positive value. This is resistance increase.
+		if ($HasAttribute("SearingMantle_Fire_Resistance", defender) == True)
+			resistance += defender's "SearingMantle_Fire_Resistance";
+		//Pyrelight_Fire_Resistance_Reduction is a negative value. This is resistance reduction.
+		else if ($HasAttribute("Pyrelight_Fire_Resistance_Reduction", defender) == True)
+			resistance += defender's "Pyrelight_Fire_Resistance_Reduction";
+
+	return resistance;
 end
 ///////////////////////////////////////////////////////////////////////////////
 function ResistanceModifiersFlat(agent defender, agent attacker, string s_type, integer resistance ) is integer
-
 declare
-	integer return_resistance;
-
 begin
-	return_resistance = resistance;
 	//if (s_type == "fire")
 	//	begin
 	//		if ($HasAttribute("SearingMantle_Fire_Resistance", defender) == True)
 	//			begin
-	//				return_resistance += defender's "SearingMantle_Fire_Resistance";
+	//				resistance += defender's "SearingMantle_Fire_Resistance";
 	//			end
 	//	end
-	return return_resistance;
+	return resistance;
 end

@@ -193,79 +193,30 @@ declare
 	boolean Uses_Ranged_Attack;
 
 	integer Fire_Attack_Damage_Min;
-	integer Fire_Attack_Damage_Min_Modifier;
 	integer Cold_Attack_Damage_Min; 
-	integer Cold_Attack_Damage_Min_Modifier;
 	integer Electric_Attack_Damage_Min;
-	integer Electric_Attack_Damage_Min_Modifier;
 	integer Poison_Attack_Damage_Min;
-	integer Poison_Attack_Damage_Min_Modifier;
 	integer Arcane_Attack_Damage_Min;
-	integer Arcane_Attack_Damage_Min_Modifier;
 	integer Force_Attack_Damage_Min;
-	integer Force_Attack_Damage_Min_Modifier;
 	integer Divine_Attack_Damage_Min;
-	integer Divine_Attack_Damage_Min_Modifier;
 	integer Necrotic_Attack_Damage_Min;
-	integer Necrotic_Attack_Damage_Min_Modifier;
 	integer Chaotic_Attack_Damage_Min;
-	integer Chaotic_Attack_Damage_Min_Modifier;
 	integer Slashing_Attack_Damage_Min;
-	integer Slashing_Attack_Damage_Min_Modifier;
 	integer Crushing_Attack_Damage_Min;
-	integer Crushing_Attack_Damage_Min_Modifier;
 	integer Piercing_Attack_Damage_Min;
-	integer Piercing_Attack_Damage_Min_Modifier;
 	
 	integer Fire_Attack_Damage_Max;
-	integer Fire_Attack_Damage_Max_Modifier;
-	integer Cold_Attack_Damage_Max; 
-	integer Cold_Attack_Damage_Max_Modifier;
+	integer Cold_Attack_Damage_Max;
 	integer Electric_Attack_Damage_Max;
-	integer Electric_Attack_Damage_Max_Modifier;
 	integer Poison_Attack_Damage_Max;
-	integer Poison_Attack_Damage_Max_Modifier;
 	integer Arcane_Attack_Damage_Max;
-	integer Arcane_Attack_Damage_Max_Modifier;
 	integer Force_Attack_Damage_Max;
-	integer Force_Attack_Damage_Max_Modifier;
 	integer Divine_Attack_Damage_Max;
-	integer Divine_Attack_Damage_Max_Modifier;
 	integer Necrotic_Attack_Damage_Max;
-	integer Necrotic_Attack_Damage_Max_Modifier;
 	integer Chaotic_Attack_Damage_Max;
-	integer Chaotic_Attack_Damage_Max_Modifier;
 	integer Slashing_Attack_Damage_Max;
-	integer Slashing_Attack_Damage_Max_Modifier;
 	integer Crushing_Attack_Damage_Max;
-	integer Crushing_Attack_Damage_Max_Modifier;
 	integer Piercing_Attack_Damage_Max;
-	integer Piercing_Attack_Damage_Max_Modifier;
-	
-	integer Fire_Damage_Percent;
-	integer Fire_Damage_Flat;
-	integer Force_Damage_Percent;
-	integer Force_Damage_Flat;
-	integer Cold_Damage_Percent;
-	integer Cold_Damage_Flat;
-	integer Electric_Damage_Percent;
-	integer Electric_Damage_Flat;
-	integer Poison_Damage_Percent;
-	integer Poison_Damage_Flat;
-	integer Arcane_Damage_Percent;
-	integer Arcane_Damage_Flat;
-	integer Divine_Damage_Percent;
-	integer Divine_Damage_Flat;
-	integer Necrotic_Damage_Percent;
-	integer Necrotic_Damage_Flat;
-	integer Chaotic_Damage_Percent;
-	integer Chaotic_Damage_Flat;
-	integer Crushing_Damage_Percent;
-	integer Crushing_Damage_Flat;
-	integer Slashing_Damage_Percent;
-	integer Slashing_Damage_Flat;
-	integer Piercing_Damage_Percent;
-	integer Piercing_Damage_Flat;
 	
 	integer Fire_Resistance_Percent;
 	integer Cold_Resistance_Percent; 
@@ -306,19 +257,6 @@ declare
 	integer Crushing_Resistance_Flat;
 	integer Piercing_Resistance_Flat;
 	
-	integer Fire_Resistance_Flat_Modifier;
-	integer Cold_Resistance_Flat_Modifier; 
-	integer Electric_Resistance_Flat_Modifier;
-	integer Poison_Resistance_Flat_Modifier;
-	integer Arcane_Resistance_Flat_Modifier;
-	integer Force_Resistance_Flat_Modifier;
-	integer Divine_Resistance_Flat_Modifier;
-	integer Necrotic_Resistance_Flat_Modifier;
-	integer Chaotic_Resistance_Flat_Modifier;
-	integer Slashing_Resistance_Flat_Modifier;
-	integer Crushing_Resistance_Flat_Modifier;
-	integer Piercing_Resistance_Flat_Modifier;
-	
 	boolean Fire_Resistance_Flat_Neg;
 	boolean Cold_Resistance_Flat_Neg; 
 	boolean Electric_Resistance_Flat_Neg;
@@ -340,59 +278,9 @@ declare
 	integer Armor_Physical_Boots;
 	integer Armor_Physical_Belt;
 	integer Armor_Physical_Shield;
+	
 	integer Armor_Magical_Base;
 	integer Armor_Magical_Total;
-	
-	integer Fire_Attack_Damage_Min_Total;
-	integer Cold_Attack_Damage_Min_Total; 
-	integer Electric_Attack_Damage_Min_Total;
-	integer Poison_Attack_Damage_Min_Total;
-	integer Arcane_Attack_Damage_Min_Total;
-	integer Force_Attack_Damage_Min_Total;
-	integer Divine_Attack_Damage_Min_Total;
-	integer Necrotic_Attack_Damage_Min_Total;
-	integer Chaotic_Attack_Damage_Min_Total;
-	integer Slashing_Attack_Damage_Min_Total;
-	integer Crushing_Attack_Damage_Min_Total;
-	integer Piercing_Attack_Damage_Min_Total;
-	
-	integer Fire_Attack_Damage_Max_Total;
-	integer Cold_Attack_Damage_Max_Total; 
-	integer Electric_Attack_Damage_Max_Total;
-	integer Poison_Attack_Damage_Max_Total;
-	integer Arcane_Attack_Damage_Max_Total;
-	integer Force_Attack_Damage_Max_Total;
-	integer Divine_Attack_Damage_Max_Total;
-	integer Necrotic_Attack_Damage_Max_Total;
-	integer Chaotic_Attack_Damage_Max_Total;
-	integer Slashing_Attack_Damage_Max_Total;
-	integer Crushing_Attack_Damage_Max_Total;
-	integer Piercing_Attack_Damage_Max_Total;
-	
-	integer Fire_Resistance_Percent_Total;
-	integer Cold_Resistance_Percent_Total; 
-	integer Electric_Resistance_Percent_Total;
-	integer Poison_Resistance_Percent_Total;
-	integer Arcane_Resistance_Percent_Total;
-	integer Force_Resistance_Percent_Total;
-	integer Divine_Resistance_Percent_Total;
-	integer Necrotic_Resistance_Percent_Total;
-	integer Chaotic_Resistance_Percent_Total;
-	integer Slashing_Resistance_Percent_Total;
-	integer Crushing_Resistance_Percent_Total;
-	integer Piercing_Resistance_Percent_Total;
-	integer Fire_Resistance_Flat_Total;
-	integer Cold_Resistance_Flat_Total; 
-	integer Electric_Resistance_Flat_Total;
-	integer Poison_Resistance_Flat_Total;
-	integer Arcane_Resistance_Flat_Total;
-	integer Force_Resistance_Flat_Total;
-	integer Divine_Resistance_Flat_Total;
-	integer Necrotic_Resistance_Flat_Total;
-	integer Chaotic_Resistance_Flat_Total;
-	integer Slashing_Resistance_Flat_Total;
-	integer Crushing_Resistance_Flat_Total;
-	integer Piercing_Resistance_Flat_Total;
 	
 	integer Experience_Value_Base;
 	
@@ -856,7 +744,6 @@ declare
 	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
 	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
 	
-	agent Options; //The Options agent for the structure, in which attachments are contained.
 	list Attachments; //The list for structures that have attachments on them (Help Signs or Available Upgrades)
 	list Available_Misc; //The list of miscellanious objects available at a structure to add to the list of their attachments.
 	list Available_Research; //The list of upgrades available at a structure to add to the list of their attachments.

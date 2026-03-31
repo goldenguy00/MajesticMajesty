@@ -143,12 +143,16 @@ declare
 	integer total_min, total_max, total_average;
 
 begin
-	total_min += thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min" + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min" + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min" + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
-	total_min += thisagent's "Fire_Attack_Damage_Min_Modifier" + thisagent's "Cold_Attack_Damage_Min_Modifier" + thisagent's "Electric_Attack_Damage_Min_Modifier" + thisagent's "Poison_Attack_Damage_Min_Modifier" + thisagent's "Arcane_Attack_Damage_Min_Modifier" + thisagent's "Force_Attack_Damage_Min_Modifier" + thisagent's "Divine_Attack_Damage_Min_Modifier" + thisagent's "Necrotic_Attack_Damage_Min_Modifier" + thisagent's "Chaotic_Attack_Damage_Min_Modifier" + thisagent's "Slashing_Attack_Damage_Min_Modifier" + thisagent's "Crushing_Attack_Damage_Min_Modifier" + thisagent's "Piercing_Attack_Damage_Min_Modifier";
-	
-	total_max += thisagent's "Fire_Attack_Damage_Max" + thisagent's "Cold_Attack_Damage_Max" + thisagent's "Electric_Attack_Damage_Max" + thisagent's "Poison_Attack_Damage_Max" + thisagent's "Arcane_Attack_Damage_Max" + thisagent's "Force_Attack_Damage_Max" + thisagent's "Divine_Attack_Damage_Max" + thisagent's "Necrotic_Attack_Damage_Max" + thisagent's "Chaotic_Attack_Damage_Max" + thisagent's "Slashing_Attack_Damage_Max" + thisagent's "Crushing_Attack_Damage_Max" + thisagent's "Piercing_Attack_Damage_Max";
-	total_max += thisagent's "Fire_Attack_Damage_Max_Modifier" + thisagent's "Cold_Attack_Damage_Max_Modifier" + thisagent's "Electric_Attack_Damage_Max_Modifier" + thisagent's "Poison_Attack_Damage_Max_Modifier" + thisagent's "Arcane_Attack_Damage_Max_Modifier" + thisagent's "Force_Attack_Damage_Max_Modifier" + thisagent's "Divine_Attack_Damage_Max_Modifier" + thisagent's "Necrotic_Attack_Damage_Max_Modifier" + thisagent's "Chaotic_Attack_Damage_Max_Modifier" + thisagent's "Slashing_Attack_Damage_Max_Modifier" + thisagent's "Crushing_Attack_Damage_Max_Modifier" + thisagent's "Piercing_Attack_Damage_Max_Modifier";
-	
+	total_min += thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min"
+	 + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min"
+	  + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min"
+	   + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
+
+	total_max += thisagent's "Fire_Attack_Damage_Max" + thisagent's "Cold_Attack_Damage_Max" + thisagent's "Electric_Attack_Damage_Max"
+	 + thisagent's "Poison_Attack_Damage_Max" + thisagent's "Arcane_Attack_Damage_Max" + thisagent's "Force_Attack_Damage_Max"
+	  + thisagent's "Divine_Attack_Damage_Max" + thisagent's "Necrotic_Attack_Damage_Max" + thisagent's "Chaotic_Attack_Damage_Max"
+	   + thisagent's "Slashing_Attack_Damage_Max" + thisagent's "Crushing_Attack_Damage_Max" + thisagent's "Piercing_Attack_Damage_Max";
+
 	total_average = ((total_min + total_max) / 2);
 	total_average -= $GetAttribute(thisagent, #ATTRIB_Weapon_Struct_Bonus);
 	$SetAttribute(thisagent, #ATTRIB_weapon_basic_damage, total_average);
@@ -160,52 +164,23 @@ declare
 	integer total;
 
 begin
-	total += thisagent's "Armor_Physical_Total";
+	total = $GetTotalArmorType(thisagent, "Physical");
 	total -= $GetAttribute(thisagent, #ATTRIB_Armor_Struct_Bonus);
 	$SetAttribute(thisagent, #ATTRIB_armor_basic_damage, total);
-end
-//////////////////////////////////////////////////////////////////////////////
-function CustomAdjustAttributeInteger(agent thisagent, string Attribute, integer amount)
-
-declare
-
-begin
-	if ($HasAttribute(Attribute, thisagent)!=True)
-		$AddAttribute(thisagent, Attribute, "integer", amount);
-	else
-		thisagent's Attribute += amount;
-end
-//////////////////////////////////////////////////////////////////////////////
-function CustomSetAttributeInteger(agent thisagent, string Attribute, integer amount)
-
-declare
-
-begin
-	if ($HasAttribute(Attribute, thisagent)!=True)
-		$AddAttribute(thisagent, Attribute, "integer", amount);
-	else
-		thisagent's Attribute = amount;
 end
 	
 //////////////////////////////////////////////////////////////////////////////
 function GetTotalArmorType(agent thisagent, string armor) is integer
-
 declare
-	integer return_int;
-
 begin
-	if ($HasAttribute(armor+"_Total", thisagent))
-		return thisagent's (armor+"_Total");
-	return 0;
+	return $GetAttributeSafe(thisagent, "Armor_"+armor+"_Total");
 end
 	
 //////////////////////////////////////////////////////////////////////////////
 function AdjustArmorAmount(agent thisagent, string armor, integer amount)
-
 declare
-
 begin
-	$CustomAdjustAttributeInteger(thisagent, armor, amount);
+	$AdjustAttributeSafe(thisagent, "Armor_"+armor+"_Base", amount);
 end
 	
 //////////////////////////////////////////////////////////////////////////////
@@ -289,33 +264,59 @@ function stringinlist(string thistitle,list thislist) is boolean
 //Find out if a list has the supplied string. This is only for lists containing strings.
 declare
 	string joe_smith;
-	boolean is_it_here;
+	boolean result;
 
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
 		if (joe_smith == thistitle) 
-			is_it_here = TRUE;
+			begin
+				result = true;
+			end
 
-	return is_it_here;
+	return result;
 
+end
+///////////////////////////////////////////////////////////////////////////////
+function addstringtolist(string thistitle,list thislist)
+//Find out if a list has the supplied string. This is only for lists containing strings.
+declare
+begin
+	if ($StringInList(thistitle, thislist) == false)
+		thislist << thistitle;
 end
 ///////////////////////////////////////////////////////////////////////////////
 function intentextinlist(string thisintent,list thislist) is boolean
 //Find out if a list has a title the same as the title.
 declare
 	string joe_smith;
-	boolean is_it_here;
-
+	boolean result;
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
 		if (joe_smith == thisintent) 
-			is_it_here = TRUE;
+			begin
+				result = true;
+			end
 
-	return is_it_here;
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function agentinagentlist(agent thisagent,list thislist) is boolean
+//Find out if a list has an agent's title the same as the supplied title.
+declare
+	agent joe_smith;
+	boolean result;
+begin
+	result = false;
+	foreach joe_smith in thislist do
+		if (joe_smith == thisagent) 
+			begin
+				result = true;
+			end
+
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -323,16 +324,16 @@ function titleinagentlist(string thistitle,list thislist) is boolean
 //Find out if a list has an agent's title the same as the supplied title.
 declare
 	agent joe_smith;
-	boolean is_it_here;
-
+	boolean result;
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
 		if (joe_smith's "Title" == thistitle) 
-			is_it_here = TRUE;
+			begin
+				result = true;
+			end
 
-	return is_it_here;
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -340,46 +341,49 @@ function intentextinagentlist(string thisintent,list thislist) is boolean
 //Find out if a list has an agent's title the same as the supplied title.
 declare
 	agent joe_smith;
-	boolean is_it_here;
-
+	boolean result;
 begin
-	is_it_here = FALSE;
-
+	result = false;
 	foreach joe_smith in thislist do
-		if (joe_smith's "IntentExt" == thisintent) 
-			is_it_here = TRUE;
+		if ($getintentext(joe_smith) == thisintent)
+			begin
+				result = true;
+			end
 
-	return is_it_here;
-
+	return result;
 end
 ///////////////////////////////////////////////////////////////////////////////
 function agenttitleinlist(string thistitle,list thislist) is agent
 //Find out if a list has an agent with the supplied title and return that agent.
 declare
-	agent joe_smith, is_it_here;
+	agent joe_smith, result;
 
 begin
-
+	result = $nullagent();
 	foreach joe_smith in thislist do
 		if (joe_smith's "Title" == thistitle) 
-			is_it_here = joe_smith;
+			begin
+				result = joe_smith;
+			end
 
-	return is_it_here;
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
 function agentintentextinlist(string thisintent,list thislist) is agent
 //Find out if a list has an agent with the supplied intent and return that agent.
 declare
-	agent joe_smith, is_it_here;
+	agent joe_smith, result;
 
 begin
-
+	result = $nullagent();
 	foreach joe_smith in thislist do
-		if (joe_smith's "IntentExt" == thisintent) 
-			is_it_here = joe_smith;
+		if ($getintentext(joe_smith) == thisintent)
+			begin
+				result = joe_smith;
+			end
 
-	return is_it_here;
+	return result;
 
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -1004,7 +1008,7 @@ begin
 		begin
 			stat_list << "Willpower";
 			stat_list << "Intelligence";
-			stat_list <<  "Wisdom";
+			stat_list << "Wisdom";
 			stat_list << "Vitality";
 			stat_list << "Artifice";
 			stat_list << "Strength";
@@ -1090,7 +1094,7 @@ begin
 
 	foreach stat in stat_list do
 		begin
-			chance = thisagent's (stat+"_Base") + thisagent's ("Up"+stat+"Chance");
+			chance = thisagent's (stat+"_Base") + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
 			max_roll += chance;
 		end
 
@@ -1098,7 +1102,7 @@ begin
 
 	foreach stat in stat_list do
 		begin
-			chance = thisagent's (stat+"_Base") + thisagent's ("Up"+stat+"Chance");
+			chance = thisagent's (stat+"_Base") + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
 			if (chance <= roll)
 				begin
 					pref_attribute = stat;
@@ -1114,25 +1118,22 @@ function RandomAttribute() is string
 
 declare
 	integer rand;
-	string r_attribute;
 	
 begin
 	rand = $RandomNumber(5);
 	
 	if (rand == 0)
-		r_attribute = "Strength";
+		return "Intelligence";
 	else if (rand == 1)
-		r_attribute = "Intelligence";
+		return "Artifice";
 	else if (rand == 2)
-		r_attribute = "Artifice";
+		return "Vitality";
 	else if (rand == 3)
-		r_attribute = "Vitality";
+		return "Willpower";
 	else if (rand == 4)
-		r_attribute = "Willpower";
-	else if (rand >= 5)
-		r_attribute = "Wisdom";
+		return "Wisdom";
 		
-	return r_attribute;
+	return "Strength";
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1140,107 +1141,49 @@ function StartingWisdom(agent thisagent) is integer
 
 declare
 	string unit_name;
-	integer adjust, random_n, negative, amount;
+	integer random_n, amount;
 begin
-	if ($HasAttribute("Wisdom_Base", thisagent) == true)
-		return;
-
 	unit_name = thisagent's "title";
-	amount = 0;
-	adjust = 0;
+
 	random_n = $randomnumber(3);
-	negative = $randomnumber(2) + 1;
-	
 	if (random_n > 0)
-		begin
-			if (negative == 1)
-				adjust += random_n;
-			else
-				adjust -= random_n;
-		end
-		
-	amount += adjust;
-	
+		if (($randomnumber(2) + 1) == 1)
+			amount += random_n;
+		else
+			amount -= random_n;
+
 	if (unit_name == "warrior")
-		begin
-			amount += 5;
-		end
-		
+		amount += 5;
 	else if (unit_name == "ranger")
-		begin
-			amount += 14;
-		end
-		
+		amount += 14;
 	else if (unit_name == "rogue")
-		begin
-			amount += 2;
-		end
-		
+		amount += 2;
 	else if (unit_name == "wizard")
-		begin
-			amount += 15;
-		end
-		
+		amount += 15;
 	else if (unit_name == "paladin")
-		begin
-			amount += 16;
-		end
-		
+		amount += 16;
 	else if (unit_name == "warrior_of_discord")
-		begin
-			amount += 1;
-		end
-		
+		amount += 1;
 	else if (unit_name == "adept")
-		begin
-			amount += 14;
-		end
-		
+		amount += 14;
 	else if (unit_name == "barbarian")
-		begin
-			amount += 3;
-		end
-		
+		amount += 6;
 	else if (unit_name == "cultist")
-		begin
-			amount += 6;
-		end
-		
+		amount += 6;
 	else if (unit_name == "healer")
-		begin
-			amount += 17;
-		end
-		
+		amount += 17;
 	else if (unit_name == "monk")
-		begin
-			amount += 21;
-		end
-		
+		amount += 21;
 	else if (unit_name == "priestess")
-		begin
-			amount += 9;
-		end
-		
+		amount += 9;
 	else if (unit_name == "solarus")
-		begin
-			amount += 7;
-		end
-		
+		amount += 7;
 	else if (unit_name == "dwarf")
-		begin
-			amount += 8;
-		end
-		
+		amount += 8;
 	else if (unit_name == "elf")
-		begin
-			amount += 4;
-		end
-		
+		amount += 4;
 	else if (unit_name == "gnome")
-		begin
-			amount += 2;
-		end
-		
+		amount += 2;
 	return amount;
 end
 
@@ -1249,98 +1192,47 @@ function StartingPrestige(agent thisagent) is integer
 
 declare
 	string unit_name;
-	integer amount, adjust;
+	integer amount;
 begin
 	unit_name = thisagent's "title";
-	amount = 0;
-	
+
 	if (thisagent's "loyalty" > 30)
-		adjust += 1;
+		amount += 1;
 	if (thisagent's "loyalty" > 50)
-		adjust += 1;
+		amount += 1;
 		
-	amount += adjust;
-	
-	if (unit_name == "warrior")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "ranger")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "rogue")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "wizard")
-		begin
-			amount += 1;
-		end
-		
+//	if (unit_name == "warrior")
+//		amount += 0;
+//	else if (unit_name == "ranger")
+//		amount += 0;
+//	else if (unit_name == "rogue")
+//		amount += 0;
+	if (unit_name == "wizard")
+		amount += 1;
 	else if (unit_name == "paladin")
-		begin
-			amount += 3;
-		end
-		
-	else if (unit_name == "warrior_of_discord")
-		begin
-			amount += 0;
-		end
-		
+		amount += 3;
+//	else if (unit_name == "warrior_of_discord")
+//		amount += 0;
 	else if (unit_name == "adept")
-		begin
-			amount += 1;
-		end
-		
-	else if (unit_name == "barbarian")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "cultist")
-		begin
-			amount += 0;
-		end
-		
+		amount += 1;
+//	else if (unit_name == "barbarian")
+//		amount += 0;
+//	else if (unit_name == "cultist")
+//		amount += 0;
 	else if (unit_name == "healer")
-		begin
-			amount += 2;
-		end
-		
-	else if (unit_name == "monk")
-		begin
-			amount += 0;
-		end
-		
-	else if (unit_name == "priestess")
-		begin
-			amount += 0;
-		end
-		
+		amount += 2;
+//	else if (unit_name == "monk")
+//		amount += 0;
+//	else if (unit_name == "priestess")
+//		amount += 0;
 	else if (unit_name == "solarus")
-		begin
-			amount += 1;
-		end
-		
+		amount += 1;
 	else if (unit_name == "dwarf")
-		begin
-			amount += 1;
-		end
-		
+		amount += 1;
 	else if (unit_name == "elf")
-		begin
-			amount += 2;
-		end
-		
-	else if (unit_name == "gnome")
-		begin
-			amount += 0;
-		end
-		
+		amount += 2;
+//	else if (unit_name == "gnome")
+//		amount += 0;
 	return amount;
 end
 
@@ -1438,15 +1330,6 @@ begin
 			return new_amount;
 		end
 	return new_amount;
-end
-
-function MinMaxAttackType(agent attacker, string type) is integer
-
-declare
-
-begin
-	return $MinMax(attacker's (type+"_Attack_Damage_Min") + attacker's (type+"_Attack_Damage_Min_Modifier"), 
-					attacker's (type+"_Attack_Damage_Max") + attacker's (type+"_Attack_Damage_Max_Modifier"));
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1970,7 +1853,7 @@ Function Generate_Character_Attributes(agent thisagent)
 declare
 	integer var_range,i,var_amount,adjustment,mult;
 	list var_names,buildings,sublist1;
-	integer thisvar;
+	string thisvar;
 	agent RootAgent;
 
 begin
@@ -1980,11 +1863,11 @@ begin
 	// Fervus gives rogues artifice...
 
 	// do the basic randomness per var
-	var_names << #ATTRIB_strength;
-	var_names << #ATTRIB_vitality;
-	var_names << #ATTRIB_Artifice;
-	var_names << #ATTRIB_intelligence;
-	var_names << #ATTRIB_willpower;
+	var_names << "strength";
+	var_names << "vitality";
+	var_names << "Artifice";
+	var_names << "intelligence";
+	var_names << "willpower";
 	
 	i = 0;
 
@@ -1995,13 +1878,14 @@ begin
 
 			var_range = $randomnumber(5) - 2;
 
-			var_amount = $getattribute(thisagent,thisvar);
+			var_amount = thisagent's (thisvar+"_Base");
 			var_amount += var_range;
 			if (var_amount < 1) var_amount = 1;
 
-			$setattribute(thisagent,thisvar,var_amount);
+			$AdjustBaseStat(thisagent,thisvar,var_amount);
 			i++;
 		end
+	
 	// check for special conditions in the kingdom
 	$ListObjects(thisagent,"building",-1,buildings,#MyPlayer);
 
@@ -2021,16 +1905,13 @@ begin
 			$removelistmember(sublist1,1);
 		end
 
-	$adjustattribute(thisagent,#ATTRIB_intelligence,adjustment);
-	thisagent's "Intelligence_Base" = $getAttribute(thisagent, #ATTRIB_intelligence);
+	$AdjustBaseStat(thisagent, "Intelligence", adjustment);
 
 	// fairground +1 stregnth
 	sublist1 = $removetitles(buildings,"fairgrounds");
 
 	if ($listsize(sublist1) > 0)
-		$adjustattribute(thisagent,#ATTRIB_strength,1);
-
-	thisagent's "Strength_Base" = $getAttribute(thisagent, #ATTRIB_strength);
+		$AdjustBaseStat(thisagent,"strength", 1);
 	
 	// fervus rogues +3 artifice, everyone +1 luck
 
@@ -2075,16 +1956,27 @@ begin
 
 					//Make the hero stupid, with the worst intel being 1
 					If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) <= #WCurse_Dumb_Penalty)
-						$SetAttribute (ThisAgent, #ATTRIB_Intelligence, 1);
+						$SetBaseStat (ThisAgent, "Intelligence", 1);
 
 					Else
-						$AdjustAttribute (ThisAgent, #ATTRIB_Intelligence, -(#WCurse_Dumb_Penalty));
+						$AdjustBaseStat (ThisAgent, "Intelligence", -(#WCurse_Dumb_Penalty));
 
 				end
 		end
-		
-	thisagent's "Intelligence_Base" = $getAttribute(thisagent, #ATTRIB_Intelligence);
+
 	$RecalculateStats(thisagent);
+end
+
+function ApplyBaseStats(agent thisagent)
+declare
+begin
+	$InitBaseStats(thisagent);
+	
+	$SetBaseStat(thisagent, "Artifice", $GetAttribute(thisagent, #ATTRIB_Artifice));
+	$SetBaseStat(thisagent, "Strength", $GetAttribute(thisagent, #ATTRIB_Strength));
+	$SetBaseStat(thisagent, "Vitality", $GetAttribute(thisagent, #ATTRIB_Vitality));
+	$SetBaseStat(thisagent, "Intelligence", $GetAttribute(thisagent, #ATTRIB_Intelligence));
+	$SetBaseStat(thisagent, "Willpower", $GetAttribute(thisagent, #ATTRIB_Willpower));
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2131,11 +2023,30 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
+function InitBaseStat(agent thisagent, string stat, integer default)
+declare
+begin
+	$AddAttribute(thisagent, stat+"_Base", "integer", default);
+	$AddAttribute(thisagent, stat+"_Total", "integer", thisagent's (stat+"_Base"));
+end
+
+////////////////////////////////////////////////////////////////////////////////
 function AdjustBaseStat(agent thisagent, string stat_name, integer delta)
 declare
 	function update_func;
 begin
 	thisagent's (stat_name+"_Base") += delta;
+
+	update_func = $LookupFunction("Update"+stat_name);
+	if ($ValidFunction(update_func))
+		update_func(thisagent);
+end
+////////////////////////////////////////////////////////////////////////////////
+function SetBaseStat(agent thisagent, string stat_name, integer delta)
+declare
+	function update_func;
+begin
+	thisagent's (stat_name+"_Base") = delta;
 
 	update_func = $LookupFunction("Update"+stat_name);
 	if ($ValidFunction(update_func))
@@ -2280,14 +2191,6 @@ declare
 begin
 	if ($AddAttribute(thisagent, attr, "integer", value) == false)
 		thisagent's attr = value;
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function InitBaseStat(agent thisagent, string stat, integer default)
-declare
-begin
-	$AddAttribute(thisagent, stat+"_Base", "integer", default);
-	$AddAttribute(thisagent, stat+"_Total", "integer", thisagent's (stat+"_Base"));
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2487,7 +2390,6 @@ begin
 	$InitBaseStats(thisagent);
 	$RecalculateStats(thisagent);
 	$SetNegativeResistance(thisagent);
-	thisagent's "MaxHP_Base" = $GetAttribute(thisagent, #ATTRIB_MaxHP);
 	
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));

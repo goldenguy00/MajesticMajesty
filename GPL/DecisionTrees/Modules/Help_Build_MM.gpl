@@ -9,7 +9,6 @@ function help_build(agent thisagent,integer range,integer chance) is Boolean
 declare
 	agent palace,building, target;
 	list buildings,newlist;
-	string fullintent;
 
 begin
 	if ($randomnumber(100) > chance) return FALSE;
@@ -32,24 +31,16 @@ begin
 
 	buildings = newlist;
 	
-	fullintent = "IDTXT_INTENT_BUILDING";
-	
 	if ($listsize(buildings) > 0)
 		begin
-			thisagent's "target" = $listmember(buildings,1);
-			palace's "buildings_waiting" -= thisagent's "target";
-			palace's "buildings_under_construction" -= thisagent's "target";
+			target = $listmember(buildings,1);
+			thisagent's "target" = target;
+			palace's "buildings_waiting" -= target;
+			palace's "buildings_under_construction" -= target;
+			palace's "buildings_under_construction" << target;
 
-			palace's "buildings_under_construction" << thisagent's "target";
-			
-			if ($HasAttribute("IntentExt", thisagent's "target") == True)
-				begin
-					target = thisagent's "target";
-					fullintent += target's "IntentExt";
-				end
-			
 			thisagent's "Activescript" = $hero_build;
-			$SpecifyIntentString (ThisAgent, fullintent);
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUILDING" + $GetIntentExt(target));
 			return TRUE;
 		end
 		else
