@@ -12,7 +12,7 @@ declare
 	agent inn;
 
 begin
-	$debugout(thisagent's "title"," wants to flee!");
+	//$DebugOut(thisagent's "title"," wants to flee!");
 
 	$listobjects(thisagent, "building", -1,inns, #CheckTitles, "Inn", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
 

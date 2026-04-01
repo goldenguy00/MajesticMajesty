@@ -675,7 +675,7 @@ begin
 			$spell_type_attack(thisagent, target, "Necrotic", 19, 20);
 			//$spell_attack( thisagent, target, 20 );
 			$createeffector( target, "vortex_effector2", 0 );
-			//$debugout(911, "hit", target);
+			////$DebugOut(911, "hit", target);
 		end
 end
 

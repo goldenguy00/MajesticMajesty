@@ -37,7 +37,7 @@ Begin
 	If ($ListSize (Targets) > 0)
 		begin
 			// targets! pick closest, then set script to attack
-			$DebugOut ("Guard has targets...picking closest!");
+			//$DebugOut ("Guard has targets...picking closest!");
 
 			ThisAgent's "Target" = $ListMember (Targets, 1);
 
@@ -45,7 +45,7 @@ Begin
 			$say(thisagent,"VFX_GO_COMBAT");
 			ThisAgent's "ActiveScript" = $Guard_Attack_Object;
 //			Home's "Waiting_Guards" -= ThisAgent;
-  //			$debugout("Guard has targets.");
+  //			//$DebugOut("Guard has targets.");
 		end
 	Else
 		begin
@@ -114,10 +114,10 @@ Begin
 							begin
 								Home's "Waiting_Guards" << ThisAgent;
 								Home's "Guard_Function" = $Building_Guard;
-								$DebugOut ("Setting newthread (scanning) on Guardhouse because there aren't any targets.");
+								//$DebugOut ("Setting newthread (scanning) on Guardhouse because there aren't any targets.");
 								ThisAgent's "ActiveScript" = $Guard_Return_Home;
-								$debugout("Guard has no targets!");
-								$DebugOut (ThisAgent,"is returning home.");
+								//$DebugOut("Guard has no targets!");
+								//$DebugOut (ThisAgent,"is returning home.");
 							end
 
 					end
@@ -134,7 +134,7 @@ Begin
 										ThisAgent's "Target" = ThisAgent;
 										ThisAgent's "BackScript" = $Guard_Find_Target;
 										ThisAgent's "ActiveScript" = $Voyaging_Guard_Travel_To;
-										//$debugout(911,"add_waypoint: ", building );
+										////$DebugOut(911,"add_waypoint: ", building );
 									end
 
 							end
@@ -158,7 +158,7 @@ Begin
 										ThisAgent's "Target" = ThisAgent;
 										ThisAgent's "BackScript" = $Guard_Find_Target;
 										ThisAgent's "ActiveScript" = $Voyaging_Guard_Travel_To;
-										//$debugout(911,"add_waypoint: ", building );
+										////$DebugOut(911,"add_waypoint: ", building );
 									end
 
 							end
@@ -182,7 +182,7 @@ Begin
 										ThisAgent's "Target" = ThisAgent;
 										ThisAgent's "BackScript" = $Guard_Find_Target;
 										ThisAgent's "ActiveScript" = $Voyaging_Guard_Travel_To;
-										//$debugout(911,"add_waypoint: ", building );
+										////$DebugOut(911,"add_waypoint: ", building );
 									end
 
 							end
@@ -206,7 +206,7 @@ Begin
 										ThisAgent's "Target" = ThisAgent;
 										ThisAgent's "BackScript" = $Guard_Find_Target;
 										ThisAgent's "ActiveScript" = $Voyaging_Guard_Travel_To;
-										//$debugout(911,"add_waypoint: ", building );
+										////$DebugOut(911,"add_waypoint: ", building );
 									end
 
 							end
@@ -276,8 +276,8 @@ begin
 			hometargetrange = $distanceBetweenAgents (Home, Target);
 		 	if (hometargetrange > $getattribute (Home,#ATTRIB_sightrange))
 				begin
-					$DebugOut ("Enemy is too far away.");
-					$DebugOut ("Resetting my target, and looking for another one.");
+					//$DebugOut ("Enemy is too far away.");
+					//$DebugOut ("Resetting my target, and looking for another one.");
 					ThisAgent's "Target" = $NullAgent ();
 					ThisAgent's "ActiveScript" = $Guard_Find_Target;
 				end
@@ -287,7 +287,7 @@ begin
 					if (mytargetrange > $getattribute(thisagent,#ATTRIB_maxattackrange))
 						begin
 							// move towards target
-							$DebugOut ("I need to get closer to attack my target.");
+							//$DebugOut ("I need to get closer to attack my target.");
 							thisagent's "destination" = $locationof(target);
 							thisagent's "activeScript" = $Guard_travel_to;
 							thisagent's "backScript" = $Guard_attack_object;
@@ -445,7 +445,7 @@ Begin
 	num_S = $listsize(RG_squire);
 	
 	num_total = num_garden + (thisagent's "max_guards");
-	//$debugout(num_gds,thisagent's "max_guards");
+	////$DebugOut(num_gds,thisagent's "max_guards");
 	if (num_gds < num_total)
 		begin
 			$spawnunit(thisagent, "Palace_Guard");
@@ -584,7 +584,7 @@ Begin
 
 	If ($ListSize (Intruders) > 0)
 		begin
-			$DebugOut ("Releasing Guards: Intruders");
+			//$DebugOut ("Releasing Guards: Intruders");
 			ThisAgent's "Guard_Function" = $GuardhouseRelease_Guards;
 		end
 
@@ -596,7 +596,7 @@ Begin
 
 			If ($ListSize (ThisAgent's "Under_Const_In_Sight") > 0)
 				begin
-					$DebugOut ("Releasing Guards: Buildings Under Construction");
+					//$DebugOut ("Releasing Guards: Buildings Under Construction");
 					ThisAgent's "Guard_Function" = $GuardhouseRelease_Guards;
 				end
 
@@ -644,13 +644,13 @@ Begin
 		begin
 			If ($IsHidden (Guard))
 				begin
-					$DebugOut ("Guardhouse releases a Hidden Guard!");
+					//$DebugOut ("Guardhouse releases a Hidden Guard!");
 					Guard's "Type" = "Hero";
 					$UnHide (Guard);
 				end
-			$DebugOut ("Guardhouse is setting Guard's ActiveScript to Guard Find Target.");
+			//$DebugOut ("Guardhouse is setting Guard's ActiveScript to Guard Find Target.");
 			Guard's "ActiveScript" = $GuardhouseGuard_Find_Target;
-			$DebugOut ("Resuming Guard's ActiveScript");
+			//$DebugOut ("Resuming Guard's ActiveScript");
 			$ResumeThread (Guard's "ActiveScript");
 			thisagent's "waiting_guards" -= guard;
 		end
@@ -687,7 +687,7 @@ Begin
 	If ($ListSize (Targets) > 0)
 		begin
 			// targets! pick closest, then set script to attack
-			$DebugOut ("Guard has targets...picking closest!");
+			//$DebugOut ("Guard has targets...picking closest!");
 			
 			target = $ListMember (Targets, 1);
 
@@ -750,10 +750,10 @@ Begin
 								$SpecifyIntentString (ThisAgent, intent);
 								Home's "Waiting_Guards" << ThisAgent;
 								Home's "Guard_Function" = $Guardhouse_Guard;
-								$DebugOut ("Setting newthread (scanning) on Guardhouse because there aren't any targets.");
+								//$DebugOut ("Setting newthread (scanning) on Guardhouse because there aren't any targets.");
 								ThisAgent's "ActiveScript" = $GuardhouseGuard_Return_Home;
-								$debugout("Guard has no targets!");
-								$DebugOut (ThisAgent,"is returning home.");
+								//$DebugOut("Guard has no targets!");
+								//$DebugOut (ThisAgent,"is returning home.");
 							end
 
 					end
@@ -801,8 +801,8 @@ begin
 			hometargetrange = $distanceBetweenAgents (Home, Target);
 		 	if (hometargetrange > $getattribute (Home,#ATTRIB_sightrange))
 				begin
-					$DebugOut ("Enemy is too far away.");
-					$DebugOut ("Resetting my target, and looking for another one.");
+					//$DebugOut ("Enemy is too far away.");
+					//$DebugOut ("Resetting my target, and looking for another one.");
 					ThisAgent's "Target" = $NullAgent ();
 					ThisAgent's "ActiveScript" = $GuardhouseGuard_Find_Target;
 				end
@@ -812,7 +812,7 @@ begin
 					if (mytargetrange > $getattribute(thisagent,#ATTRIB_maxattackrange))
 						begin
 							// move towards target
-							$DebugOut ("I need to get closer to attack my target.");
+							//$DebugOut ("I need to get closer to attack my target.");
 							thisagent's "destination" = $locationof(target);
 							thisagent's "activeScript" = $GuardhouseGuard_Travel_To;
 							thisagent's "backScript" = $GuardhouseGuard_attack_object;
@@ -864,7 +864,7 @@ begin
 	//Check to make sure that the enemy I am chasing isn't out of range of my home
 	If ($DistanceBetweenAgents (Home, Target) > $getattribute (Home, #ATTRIB_SightRange))
 		begin
-			$DebugOut ("My target is too far away. Going back to Guard_Find_Target!");
+			//$DebugOut ("My target is too far away. Going back to Guard_Find_Target!");
 			ThisAgent's "ActiveScript" = $GuardhouseGuard_Find_Target;
 			ThisAgent's "BackScript" = $GuardhouseGuard_Find_Target;
 		end
@@ -875,7 +875,7 @@ begin
 
  			if ($listsize(in_sight) > 0)
 				begin
-					$DebugOut ("I found targets while Evaluating Nearby. Picking CLosest.");
+					//$DebugOut ("I found targets while Evaluating Nearby. Picking CLosest.");
 					newtarget = $pick_closest(thisagent,in_sight);
 					if (newtarget != thisagent's "target")
 						begin
@@ -910,7 +910,7 @@ Begin
 
 	if ($insidebuilding(thisagent))
 		begin
-			$DebugOut ("Guard sleeping.");
+			//$DebugOut ("Guard sleeping.");
 			ThisAgent's "Type" = "Hidden";
 			$SuspendThread (ThisAgent's "ActiveScript");
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RESTINGHOME");
@@ -922,7 +922,7 @@ Begin
 			ThisAgent's "BackScript" = $GuardhouseGuard_Return_Home;
 
 			$hide(thisagent,home);
-			$debugout("Guard going home.");
+			//$DebugOut("Guard going home.");
 		end
 End
 
@@ -951,7 +951,7 @@ Begin
 			ThisAgent's "ActiveScript" = $GuardhouseGuard_Find_Target;
 			ThisAgent's "BackScript" = $GuardhouseGuard_Find_Target;
 			ThisAgent's "BasicScript" = $GuardhouseGuard_Find_Target;
-			$debugout("guard set to find target.");
+			//$DebugOut("guard set to find target.");
 		end
 
 	Else
@@ -961,7 +961,7 @@ Begin
 			$hide(thisagent,thisagent's "home");
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_GOINGHOME");
 			ThisAgent's "ActiveScript" = $GuardhouseVoyaging_Guard_Travel_To;
-			$debugout("Guard set to travel home.");
+			//$DebugOut("Guard set to travel home.");
 		end
 End
 
@@ -996,7 +996,7 @@ begin
 
 	//in_sight = $possibly_remove_target(thisagent,in_sight);
 
-//	$debugout($listsize(in_sight));
+//	//$DebugOut($listsize(in_sight));
  	if ($listsize(in_sight) > 0)
 		begin
 			// pick the closest guy to attack - in_sight may be unsorted
@@ -1183,7 +1183,7 @@ begin
 
 	//in_sight = $possibly_remove_target(thisagent,in_sight);
 
-//	$debugout($listsize(in_sight));
+//	//$DebugOut($listsize(in_sight));
  	if ($listsize(in_sight) > 0)
 		begin
 			// pick the closest guy to attack - in_sight may be unsorted
@@ -1249,8 +1249,8 @@ begin
 			hometargetrange = $distanceBetweenAgents (Home, Target);
 		 	if (hometargetrange > ($getattribute (Home,#ATTRIB_sightrange) + $GetAttribute (ThisAgent, #ATTRIB_SightRange )))
 				begin
-					$DebugOut ("Enemy is too far away.");
-					$DebugOut ("Resetting my target, and looking for another one.");
+					//$DebugOut ("Enemy is too far away.");
+					//$DebugOut ("Resetting my target, and looking for another one.");
 					ThisAgent's "Target" = $NullAgent ();
 					ThisAgent's "ActiveScript" = $GuardhouseGuard_Wander;
 				end
@@ -1260,7 +1260,7 @@ begin
 					if (mytargetrange > $getattribute(thisagent,#ATTRIB_maxattackrange))
 						begin
 							// move towards target
-							$DebugOut ("I need to get closer to attack my target.");
+							//$DebugOut ("I need to get closer to attack my target.");
 							thisagent's "destination" = $locationof(target);
 							thisagent's "activeScript" = $GuardhouseWandering_Guard_Travel_To;
 							thisagent's "backScript" = $GuardhouseWandering_Guard_attack_object;
@@ -1304,7 +1304,7 @@ Begin
 			// go back to regular functioning
 			thisagent's "activeScript" = $GuardhouseGuard_Wander;
 			thisagent's "backscript" = $GuardhouseGuard_Wander;
-			$DebugOut (ThisAgent's "Type","thinks that the target is too far away.");
+			//$DebugOut (ThisAgent's "Type","thinks that the target is too far away.");
 			ThisAgent's "Target" = $NullAgent ();
 		end
 

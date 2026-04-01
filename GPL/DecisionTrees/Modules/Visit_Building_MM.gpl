@@ -17,11 +17,11 @@ Declare
 	agent 	Target;
 
 Begin
-	$DebugOut ("Should I visit a",Building,"?");
+	//$DebugOut ("Should I visit a",Building,"?");
 	//See is I am interested enough
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("No, not interested.");
+			//$DebugOut ("No, not interested.");
 			return False;
 		end
 
@@ -46,7 +46,7 @@ Begin
 	If ($ListSize (NewList) > 0)
 		begin
 			//This picks a random target from NewList
-			$DebugOut ("I'm going to an",Building);
+			//$DebugOut ("I'm going to an",Building);
 			ThisAgent's "Target" = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
 
 			Target = ThisAgent's "Target";
@@ -103,7 +103,7 @@ Begin
 			return True;
 		end
 
-	$DebugOut ("No",building,"(s)");
+	//$DebugOut ("No",building,"(s)");
 	return False;
 End
 ///////////////////////////////////////////////////////////////////////////////
@@ -116,11 +116,11 @@ Declare
 	agent 	Target;
 
 Begin
-	$DebugOut ("Should I visit a",Building,"?");
+	//$DebugOut ("Should I visit a",Building,"?");
 	//See is I am interested enough
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("No, not interested.");
+			//$DebugOut ("No, not interested.");
 			return False;
 		end
 	
@@ -146,7 +146,7 @@ Begin
 	If ($ListSize (NewList) > 0)
 		begin
 			//This picks a random target from NewList
-			$DebugOut ("I'm going to an",Building);
+			//$DebugOut ("I'm going to an",Building);
 			Target = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
 			if (Building == "General_Housing_Lv3")
 				begin
@@ -194,7 +194,7 @@ Begin
 				end
 		end
 
-	$DebugOut ("No",building,"(s)");
+	//$DebugOut ("No",building,"(s)");
 	return False;
 End
 ///////////////////////////////////////////////////////////////////////////////
@@ -211,13 +211,13 @@ Declare
 
 
 Begin
-	$DebugOut ("Should I visit a",Building,"?");
+	//$DebugOut ("Should I visit a",Building,"?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Building = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
 	//See is I am interested enough
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("No, not interested.");
+			//$DebugOut ("No, not interested.");
 			return False;
 		end
 
@@ -258,7 +258,7 @@ Begin
 	If ($ListSize (NewList) > 0)
 		begin
 			//This picks a random target from NewList
-			$DebugOut ("I'm going to an",Building);
+			//$DebugOut ("I'm going to an",Building);
 			ThisAgent's completetarget = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
 
 			Target = ThisAgent's completetarget;
@@ -317,7 +317,7 @@ Begin
 			return $NotDuplicateTask(thisagent, taskindex);
 		end
 
-	$DebugOut ("No",building,"(s)");
+	//$DebugOut ("No",building,"(s)");
 	return False;
 End
 ///////////////////////////////////////////////////////////////////////////////
@@ -333,13 +333,13 @@ Declare
 	string conditionsub, completecondition, visitsub, completevisit;
 
 Begin
-	$DebugOut ("Should I visit a",Building,"?");
+	//$DebugOut ("Should I visit a",Building,"?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Building = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
 	//See is I am interested enough
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("No, not interested.");
+			//$DebugOut ("No, not interested.");
 			return False;
 		end
 	
@@ -381,7 +381,7 @@ Begin
 	If ($ListSize (NewList) > 0)
 		begin
 			//This picks a random target from NewList
-			$DebugOut ("I'm going to an",Building);
+			//$DebugOut ("I'm going to an",Building);
 			Target = $ListMember (NewList, $RandomNumber ($ListSize (NewList)) +1 );
 			if (Building == "General_Housing_Lv3")
 				begin
@@ -430,6 +430,6 @@ Begin
 				end
 		end
 
-	$DebugOut ("No",building,"(s)");
+	//$DebugOut ("No",building,"(s)");
 	return False;
 End

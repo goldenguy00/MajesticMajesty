@@ -27,9 +27,9 @@ Begin
 
 	$ListObjects (ThisAgent, Resource_Type, $GetAttribute (ThisAgent, #ATTRIB_SightRange), Resources );
 
-  //	$DebugOut (911, $GetAttribute (ThisAgent, #ATTRIB_SightRange));
+  //	//$DebugOut (911, $GetAttribute (ThisAgent, #ATTRIB_SightRange));
 
- //	$DebugOut (911, $ListSize (Resources));
+ //	//$DebugOut (911, $ListSize (Resources));
 
 	If ($ListSize (Resources) == 0)
 		begin
@@ -41,7 +41,7 @@ Begin
 		end
 
   //	Else
-	 //	$DebugOut (911, "I can see another resource, so I am not going to seed.");
+	 //	//$DebugOut (911, "I can see another resource, so I am not going to seed.");
 
 	$Reset_Tasks (ThisAgent);
 End

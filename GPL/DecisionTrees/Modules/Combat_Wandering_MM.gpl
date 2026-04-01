@@ -19,7 +19,7 @@ declare
 	agent monster, palace;
 
 begin
-//	$debugout("Should I combat wandering monsters?");
+//	//$DebugOut("Should I combat wandering monsters?");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 
 	palace = $GetTruePalace(thisagent);
@@ -96,11 +96,11 @@ begin
 			thisagent's "target" = current_best_monster;
 
 			$SpecifyIntentString (ThisAgent, local_intent);
-  //		$debugout("Yes");
+  //		//$DebugOut("Yes");
 			return TRUE;
 		end
 
-//	$debugout("No");
+//	//$DebugOut("No");
 	return FALSE;
 
 end
@@ -121,7 +121,7 @@ declare
 	agent hero, palace;
 
 begin
-//	$debugout("Should I combat wandering monsters?");
+//	//$DebugOut("Should I combat wandering monsters?");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 
 	current_best_score = 0;
@@ -159,11 +159,11 @@ begin
 			thisagent's "target" = current_best_hero;
 
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BATTLINGENEMYHERO");
-  //		$debugout("Yes");
+  //		//$DebugOut("Yes");
 			return TRUE;
 		end
 
-//	$debugout("No");
+//	//$DebugOut("No");
 	return FALSE;
 
 end
@@ -182,7 +182,7 @@ declare
 
 
 begin
-//            $debugout("Should I combat wandering monsters?");
+//            //$DebugOut("Should I combat wandering monsters?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 
@@ -263,11 +263,11 @@ begin
 			if (local_intent == "IDTXT_INTENT_HUNTING")
 				local_intent += $getintentext(thisagent's completetarget);
 			ThisAgent's completeintent =  local_intent;
-	//	    $debugout("Yes");
+	//	    //$DebugOut("Yes");
 			return $NotDuplicateTask(thisagent, taskindex);
 		end
 
-//            $debugout("No");
+//            //$DebugOut("No");
 	return FALSE;
 
 end
@@ -291,7 +291,7 @@ declare
 
 
 begin
-//            $debugout("Should I combat wandering monsters?");
+//            //$DebugOut("Should I combat wandering monsters?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 
@@ -342,11 +342,11 @@ begin
 			thisagent's completetarget = current_best_hero;
 			intentext = "IDTXT_INTENT_BATTLINGENEMYHERO" + $getintentext(thisagent's completetarget);
 			ThisAgent's completeintent = intentext;
-  //	          $debugout("Yes");
+  //	          //$DebugOut("Yes");
 			return $NotDuplicateTask(thisagent, taskindex);
 		end
 
-//            $debugout("No");
+//            //$DebugOut("No");
 	return FALSE;
 
 end

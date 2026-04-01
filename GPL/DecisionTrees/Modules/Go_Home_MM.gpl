@@ -9,16 +9,16 @@ function go_home(agent thisagent, integer chance) is Boolean
 declare
 
 begin
-//	$debugout("Should I go home?");
+//	//$DebugOut("Should I go home?");
 	if ($randomnumber(100) + 1 > chance)
 		begin
-//			$debugout("Not interesting enough to think about!");
+//			//$DebugOut("Not interesting enough to think about!");
 			return FALSE;
 		end
 
 	if (thisagent's "home" == $Nullagent())
 		begin
-//			$debugout("I don't have a home!");
+//			//$DebugOut("I don't have a home!");
 			
 			return False;
 		end
@@ -31,7 +31,7 @@ begin
 
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_GOINGHOME");
 
-//	$debugout("Yes!");
+//	//$DebugOut("Yes!");
 	return TRUE;
 
 end
@@ -45,17 +45,17 @@ declare
 	string conditionsub, completecondition, visitsub, completevisit;
 
 begin
-//            $debugout("Should I go home?");
+//            //$DebugOut("Should I go home?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance)
 		begin
-//		            $debugout("Not interesting enough to think about!");
+//		            //$DebugOut("Not interesting enough to think about!");
 			return FALSE;
 		end
 
 	if (thisagent's "home" == $Nullagent())
 		begin
-//		            $debugout("I don't have a home!");
+//		            //$DebugOut("I don't have a home!");
 			
 			return False;
 		end
@@ -87,7 +87,7 @@ begin
 
 	Thisagent's completeintent = "IDTXT_INTENT_GOINGHOME";
 
-//            $debugout("Yes!");
+//            //$DebugOut("Yes!");
 	return TRUE;
 
 end

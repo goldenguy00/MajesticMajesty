@@ -10,7 +10,7 @@ declare
 	coordinate dest;
 
 begin
-//	$debugout("Should I explore map?");
+//	//$DebugOut("Should I explore map?");
 	if ($randomnumber(100) + 1 > chance)
 		return FALSE;
 
@@ -23,7 +23,7 @@ begin
 	thisagent's "ActiveScript" = $Travel_to_exp;
 	thisagent's "backscript" = thisagent's "basicscript";
 
-//	$debugout(" Yes.",dest);
+//	//$DebugOut(" Yes.",dest);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_EXPLORING");
 
 	return TRUE;
@@ -39,7 +39,7 @@ declare
 
 
 begin
-//            $debugout("Should I explore map?");
+//            //$DebugOut("Should I explore map?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance)
 		return FALSE;
@@ -78,7 +78,7 @@ begin
 	thisagent's completeaction2 = thisagent's "basicscript";
 	ThisAgent's completecondition = $notvalid;
 
-//            $debugout(" Yes.",dest);
+//            //$DebugOut(" Yes.",dest);
 	thisagent's completeintent = "IDTXT_INTENT_EXPLORING";
 
 	return TRUE;

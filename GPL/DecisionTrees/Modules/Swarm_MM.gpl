@@ -15,7 +15,7 @@ Declare
 	agent	Palace;
 
 begin
-	$debugout("Should I Swarm?");
+	//$DebugOut("Should I Swarm?");
 	Palace = $GetTruePalace (ThisAgent);
 
 	if ($isdead(palace))
@@ -61,13 +61,13 @@ begin
 					thisagent's "activescript" = $Attack_object;
 					thisagent's "target" = current_best_monster;
 
-  					$debugout("Yes");
+  					//$DebugOut("Yes");
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_SWARMING");
 					return TRUE;
 				end
 		end
 
-	$debugout("No");
+	//$DebugOut("No");
 	return FALSE;
 
 end
@@ -85,7 +85,7 @@ Declare
 	string conditionsub, completecondition;
 
 begin
-	$debugout("Should I Swarm?");
+	//$DebugOut("Should I Swarm?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Palace = $GetTruePalace (ThisAgent);
 
@@ -145,13 +145,13 @@ begin
 					thisagent's completetarget = current_best_monster;
 					ThisAgent's completecondition = $notvalid;
 
-  					$debugout("Yes");
+  					//$DebugOut("Yes");
 					Thisagent's completeintent = "IDTXT_INTENT_SWARMING";
 					return $NotDuplicateTask(thisagent, taskindex);
 				end
 		end
 
-	$debugout("No");
+	//$DebugOut("No");
 	return FALSE;
 
 end

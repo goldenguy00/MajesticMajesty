@@ -13,10 +13,10 @@ Declare
 
 Begin
 
-	$DebugOut ("Should I build a Horde?");
+	////$DebugOut ("Should I build a Horde?");
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("Not Interested!");
+			////$DebugOut ("Not Interested!");
 			return False;
 		End
 
@@ -38,7 +38,7 @@ Begin
 						begin
 							ThisAgent's "Target" = $ListMember (Undead, 1);
 							//ThisAgent's "Target" = $Pick_Closest (ThisAgent, Undead);
-							$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's "Target"));
+							////$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's "Target"));
 							ThisAgent's "ActiveScript" = $Go_Control_Monster;
 							$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_CONTROLLINGUNDEAD");
 							return True;
@@ -46,7 +46,7 @@ Begin
 
 					Else
 						begin
-							$DebugOut ("No Undead nearby.");
+							////$DebugOut ("No Undead nearby.");
 						end
 				end
 
@@ -65,7 +65,7 @@ Begin
 		end
 	Else
 		begin
-			$DebugOut ("All of my slots are full!!!");
+			////$DebugOut ("All of my slots are full!!!");
 			return False;
 		end
 End
@@ -80,11 +80,11 @@ Declare
 	string conditionsub, completecondition;
 
 Begin
-	$DebugOut ("Should I build a Horde?");
+	////$DebugOut ("Should I build a Horde?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("Not Interested!");
+			//$DebugOut ("Not Interested!");
 			return False;
 		End
 	taskindex = thisagent's "TaskPackageTypeIndex";
@@ -115,7 +115,7 @@ Begin
 					If ($ListSize (Undead) > 0)
 						begin
 							ThisAgent's completetarget = $ListMember (Undead, 1);
-							//$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's completetarget));
+							////$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's completetarget));
 							ThisAgent's completeaction = $Go_Control_Monster;
 							ThisAgent's completecondition = $isdead;
 							ThisAgent's completeintent = "IDTXT_INTENT_CONTROLLINGUNDEAD";
@@ -124,7 +124,7 @@ Begin
 
 					Else
 						begin
-							$DebugOut ("No Undead nearby.");
+							//$DebugOut ("No Undead nearby.");
 						end
 				end
 
@@ -143,7 +143,7 @@ Begin
 		end
 	Else
 		begin
-			$DebugOut ("All of my slots are full!!!");
+			//$DebugOut ("All of my slots are full!!!");
 			return False;
 		end
 End

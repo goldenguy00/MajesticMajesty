@@ -98,20 +98,20 @@ begin
 			begin
 				$createeffector(thisagent,"got_gold",0, Amount);
 				$adjustattribute(thisagent,#ATTRIB_gold,amount);
-				$debugout(thisagent's "title","got",amount,"gold.");
+				////$DebugOut(thisagent's "title","got",amount,"gold.");
 			end
 		else if ($HasAttribute("Has_Bank_Account", thisagent) != False)
 			if (thisagent's "Has_Bank_Account" != True)
 				begin
 					$createeffector(thisagent,"got_gold",0, Amount);
 					$adjustattribute(thisagent,#ATTRIB_gold,amount);
-					$debugout(thisagent's "title","got",amount,"gold.");
+					////$DebugOut(thisagent's "title","got",amount,"gold.");
 				end
 			else if (thisagent's "Has_Bank_Account" != False)
 				begin
 					$createeffector(thisagent,"got_gold",0, Amount);
 					$adjustattribute(thisagent,#ATTRIB_StoredGold,amount);
-					$debugout(thisagent's "title","got",amount,"gold.");
+					////$DebugOut(thisagent's "title","got",amount,"gold.");
 					thisagent's "Bank_Account_Gold" = $GetAttribute(thisagent, #ATTRIB_StoredGold);
 				end
 end

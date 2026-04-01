@@ -295,7 +295,7 @@ begin
 		return "Wizards_Guild";
 	else
 		begin
-			$debugout ( 911, "No guild type found for hero!?" );
+			//$DebugOut ( 911, "No guild type found for hero!?" );
 			return "No guild type found...";
 		end
 end

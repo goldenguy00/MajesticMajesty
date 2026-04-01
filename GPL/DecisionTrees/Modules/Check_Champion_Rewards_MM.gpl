@@ -16,7 +16,7 @@ declare
 	agent monster;
 
 begin
-//	$debugout("Should I combat wandering monsters?");
+//	//$DebugOut("Should I combat wandering monsters?");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 	
 	if ($IsExpansion(thisagent) != TRUE)
@@ -51,11 +51,11 @@ begin
 			thisagent's "activescript" = $Attack_object;
 			thisagent's "target" = current_best_monster;
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_HEEDINGCHAMPIONSCALL");
-  //		$debugout("Yes");
+  //		//$DebugOut("Yes");
 			return TRUE;
 		end
 
-//	$debugout("No");
+//	//$DebugOut("No");
 	return FALSE;
 
 end
@@ -73,7 +73,7 @@ declare
 	string conditionsub, completecondition;
 
 begin
-//	$debugout("Should I combat wandering monsters?");
+//	//$DebugOut("Should I combat wandering monsters?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 	
@@ -121,11 +121,11 @@ begin
 			thisagent's completetarget = current_best_monster;
 			ThisAgent's completeintent = "IDTXT_INTENT_HEEDINGCHAMPIONSCALL";
 			ThisAgent's completecondition = $notvalid;
-  //		$debugout("Yes");
+  //		//$DebugOut("Yes");
 			return $NotDuplicateTask(thisagent, taskindex);
 		end
 
-//	$debugout("No");
+//	//$DebugOut("No");
 	return FALSE;
 
 end

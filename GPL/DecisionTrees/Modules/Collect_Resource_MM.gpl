@@ -13,7 +13,7 @@ declare
 	integer search_dist;
 
 begin
-//	$debugout("Should I collect",resource,"?");
+//	//$DebugOut("Should I collect",resource,"?");
 
 	if ($randomNumber(100) + 1 > chance)
 		return FALSE;
@@ -32,7 +32,7 @@ begin
 			 	begin
 					thisagent's "Activescript" = $collect_object;
 					thisagent's "target" = this_resource;
-				//	$debugout("Yes.");
+				//	//$DebugOut("Yes.");
 
 					If (Resource == "healing_herbs")
 						$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_COLLECTINGHEALINGHERBS");
@@ -69,7 +69,7 @@ declare
 
 
 begin
-//            $debugout("Should I collect",resource,"?");
+//            //$DebugOut("Should I collect",resource,"?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	resource = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
 
@@ -101,7 +101,7 @@ begin
 				begin
 					thisagent's completeaction = $collect_object;
 					thisagent's completetarget = this_resource;
-				//            $debugout("Yes.");
+				//            //$DebugOut("Yes.");
 
 					If (Resource == "healing_herbs")
 						thisagent's completeintent = "IDTXT_INTENT_COLLECTINGHEALINGHERBS";

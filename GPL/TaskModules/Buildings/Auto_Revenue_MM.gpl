@@ -599,7 +599,7 @@ Declare
 
 Begin
 
-	//$DebugOut (911, "Market day called!");
+	////$DebugOut (911, "Market day called!");
 
 	gold = (#Market_Day_Duration / thisagent's "revenue_time") * thisagent's "revenue_amount";
 
@@ -630,7 +630,7 @@ Begin
 	$PlaySound (ThisAgent, "MarketPlace", "Select");
 
 
-	//$DebugOut (911, "Market day completed!");
+	////$DebugOut (911, "Market day completed!");
 
 	$ResumeThread (ThisAgent's "RevenueScript");
 

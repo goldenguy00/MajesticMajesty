@@ -13,15 +13,15 @@ Declare
 	string	Local_Gen_Spell, Local_Intent,hero_name, library_spell; //Used to arrive at prices
 
 Begin
-//	$DebugOut ("Should I check Libraries for spells?");
+//	//$DebugOut ("Should I check Libraries for spells?");
 
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("Not interested.");
+//			//$DebugOut ("Not interested.");
 			return False;
 		end
 
-//	$DebugOut ("Sure!");
+//	//$DebugOut ("Sure!");
 
 	hero_name = thisagent's "title";
 
@@ -180,7 +180,7 @@ Begin
 		end
 
 
-//	$DebugOut ("No spells for me to learn.");
+//	//$DebugOut ("No spells for me to learn.");
 	Return False;
 
 End
@@ -197,17 +197,17 @@ Declare
 	string conditionsub, completecondition, visitsub, completevisit;
 
 Begin
-//	$DebugOut ("Should I check Libraries for spells?");
+//	//$DebugOut ("Should I check Libraries for spells?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Intention = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
 
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("Not interested.");
+//			//$DebugOut ("Not interested.");
 			return False;
 		end
 
-//	$DebugOut ("Sure!");
+//	//$DebugOut ("Sure!");
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
@@ -384,7 +384,7 @@ Begin
 		end
 
 
-//	$DebugOut ("No spells for me to learn.");
+//	//$DebugOut ("No spells for me to learn.");
 	Return False;
 
 End

@@ -66,7 +66,7 @@ begin
 
 			// modify easiest_lair score by thisagent's enemy_estimation
 
-  //			$debugout("final score - ",easiest_lair_score);
+  //			//$DebugOut("final score - ",easiest_lair_score);
 
 			if (easiest_lair != $NullAgent() && easiest_lair_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
 				begin
@@ -87,7 +87,7 @@ begin
 				end
 		end
 
-//	$debugout("No.");
+//	//$DebugOut("No.");
 	return False;
 end
 ///////////////////////////////////////////////////////////////////////////////

@@ -15,7 +15,7 @@ declare
 	integer score;
 
 begin
-//	$debugout("Should I raid a monster lair?");
+//	//$DebugOut("Should I raid a monster lair?");
 
 	if ($randomnumber(100) + 1 > chance) return;
 	
@@ -41,7 +41,7 @@ begin
 							else
 								score = $getattribute(lair,#ATTRIB_HP) / 100;
 							score = score * $distancebetweenagents(thisagent,lair);
-		//					$debugout(score);
+		//					//$DebugOut(score);
 							if (score < easiest_lair_score)
 								begin
 									easiest_lair_score = score;
@@ -52,7 +52,7 @@ begin
 
 			// modify easiest_lair score by thisagent's enemy_estimation
 
-  //			$debugout("final score - ",easiest_lair_score);
+  //			//$DebugOut("final score - ",easiest_lair_score);
 
 			if (easiest_lair_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
 				begin
@@ -60,12 +60,12 @@ begin
 					thisagent's "Target" = easiest_lair;
 
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RAIDINGLAIR");
-//					$debugout("Yes.");
+//					//$DebugOut("Yes.");
 					return True;
 				end
 		end
 
-//	$debugout("No.");
+//	//$DebugOut("No.");
 	return False;
 end
 
@@ -81,7 +81,7 @@ declare
 	integer score;
 
 begin
-//	$debugout("Should I raid a monster lair?");
+//	//$DebugOut("Should I raid a monster lair?");
 
 	if ($randomnumber(100) + 1 > chance) return;
 
@@ -140,7 +140,7 @@ declare
 
 
 begin
-//	$debugout("Should I raid a monster lair?");
+//	//$DebugOut("Should I raid a monster lair?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 
 	if ($randomnumber(100) + 1 > chance) return;
@@ -178,7 +178,7 @@ begin
 							else
 								score = $getattribute(lair,#ATTRIB_HP) / 100;
 							score = score * $distancebetweenagents(thisagent,lair);
-		//					$debugout(score);
+		//					//$DebugOut(score);
 							if (score < easiest_lair_score)
 								begin
 									easiest_lair_score = score;
@@ -189,7 +189,7 @@ begin
 
 			// modify easiest_lair score by thisagent's enemy_estimation
 
-  //			$debugout("final score - ",easiest_lair_score);
+  //			//$DebugOut("final score - ",easiest_lair_score);
 
 			if (easiest_lair != $nullAgent() && easiest_lair_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
 				begin
@@ -199,12 +199,12 @@ begin
 
 					intentext = "IDTXT_INTENT_RAIDINGLAIR" + $getintentext(thisagent's completetarget);
 					ThisAgent's completeintent = intentext;
-//					$debugout("Yes.");
+//					//$DebugOut("Yes.");
 					return $NotDuplicateTask(thisagent, taskindex);
 				end
 		end
 
-//	$debugout("No.");
+//	//$DebugOut("No.");
 	return False;
 end
 
@@ -223,7 +223,7 @@ declare
 
 
 begin
-//	$debugout("Should I raid a monster lair?");
+//	//$DebugOut("Should I raid a monster lair?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 
 	if ($randomnumber(100) + 1 > chance) return;

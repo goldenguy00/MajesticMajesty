@@ -287,6 +287,7 @@ begin
 	if (attacker's "subtype" == "hero")
 		begin
 			dmg_exp = $exp_value(attacker, defender);
+			dmg_exp = (dmg_exp * dmg) / $GetAttribute(defender, #ATTRIB_MaxHP);
 			$give_exp(attacker, dmg_exp);
 		end
 				
@@ -365,7 +366,7 @@ begin
 	if (target's "type" == "monster")
 		begin
 			exp_given = $getattribute(target,#ATTRIB_LevelXP);
-			$debugout(exp_given);
+			//$DebugOut(exp_given);
 		end
 	else
 		if (target's "type" == "lair")
@@ -494,6 +495,7 @@ begin
 		end
 	
 	dmg_exp = $exp_value(attacker, defender);
+	dmg_exp = (dmg_exp * dmg) / $GetAttribute(defender, #ATTRIB_MaxHP);
 	if (attacker's "subtype" == "hero")
 		$give_exp(attacker, dmg_exp);
 		
@@ -526,7 +528,7 @@ begin
 	dmg += $TryAttackWithType(attacker, defender, "Chaotic");
 	if (dmg == 0)
 		begin
-			$DebugOut(911,"Attacker",attacker,"hit zero against",defender,"! probably not good...");
+			//$DebugOut(911,"Attacker",attacker,"hit zero against",defender,"! probably not good...");
 			dmg = $randomnumber ( $GetAttribute ( attacker, #ATTRIB_weapon_basic_damage )) + 1;
 			dmg += $GetAttribute ( attacker, #ATTRIB_weapon_struct_bonus );
 			dmg += $GetAttribute ( attacker, #ATTRIB_weapon_magic_bonus );

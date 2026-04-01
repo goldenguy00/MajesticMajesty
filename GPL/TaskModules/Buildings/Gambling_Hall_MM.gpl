@@ -16,7 +16,7 @@ Begin
 	//if ($IsHidden (ThisAgent) == False)
 		//begin
 	$Enter_Building (ThisAgent, Target);
-			//$DebugOut (thisagent's "title","is entering a Gambling Hall!");
+			////$DebugOut (thisagent's "title","is entering a Gambling Hall!");
 		//end
 	$SetThreadInterval (ThisAgent's "ActiveScript", Target's "Sleep_For");
 
@@ -59,7 +59,7 @@ Begin
 		begin
 			Won_Gold += Wager;
 			Won = TRUE;
-			$DebugOut ("I MADE my LUCK roll. Winnings:",Won_Gold,"gold!");
+			//$DebugOut ("I MADE my LUCK roll. Winnings:",Won_Gold,"gold!");
 		end
 
 	Else
@@ -68,7 +68,7 @@ Begin
 				Begin
 					Won_Gold += Wager;
 					Won = True;
-					$DebugOut ("I FAILED my LUCK roll, but MADE my ARTIFICE roll. Winnings:",Won_Gold,"gold!");
+					//$DebugOut ("I FAILED my LUCK roll, but MADE my ARTIFICE roll. Winnings:",Won_Gold,"gold!");
 				end
 		end
 
@@ -81,18 +81,18 @@ Begin
 	If (Won)
 		begin
 			$Give_Gold (ThisAgent, Won_Gold);
-			$DebugOut (thisagent's "title","started with",Gold,"and ended with",$getattribute (ThisAgent, #ATTRIB_Gold));
+			//$DebugOut (thisagent's "title","started with",Gold,"and ended with",$getattribute (ThisAgent, #ATTRIB_Gold));
 		end
 
 	Else
 		begin
-			$DebugOut ("I FAILED both ARTIFICE and LUCK rolls, and lost,",Wager,"gold!");
+			//$DebugOut ("I FAILED both ARTIFICE and LUCK rolls, and lost,",Wager,"gold!");
 
 			//This won't actually give the building gold, but it will make it look like the building
 			//got gold, and the hero DOES lose gold
 			$Hero_Pay_Distractor (ThisAgent, Target, Wager);
 
-			$DebugOut (thisagent's "title","started with",Gold,"and ended with",$getattribute (ThisAgent, #ATTRIB_Gold));
+			//$DebugOut (thisagent's "title","started with",Gold,"and ended with",$getattribute (ThisAgent, #ATTRIB_Gold));
 		end
 
 End

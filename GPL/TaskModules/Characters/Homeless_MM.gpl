@@ -11,7 +11,7 @@ declare
 	agent where_now;
 
 begin
-	$debugout("I'm homeless.");
+	//$DebugOut("I'm homeless.");
 
 	// check for danger
 	if ($check_nearby(thisagent) == FALSE)

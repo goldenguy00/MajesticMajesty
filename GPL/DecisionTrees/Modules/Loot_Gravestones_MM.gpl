@@ -13,7 +13,7 @@ Declare
 	float		Greed;
 
 Begin
-//	$DebugOut ("Should I steal from somewhere?");
+//	//$DebugOut ("Should I steal from somewhere?");
 	if ($RandomNumber (100) + 1 > Chance)
 		begin
 			return False;
@@ -74,20 +74,20 @@ Begin
 
 					ThisAgent's "Target" = Best_One;
 					ThisAgent's "ActiveScript" = $Go_Steal;
-  //					$DebugOut ("I'm gonna go steal some #$*#!@ !!");
+  //					//$DebugOut ("I'm gonna go steal some #$*#!@ !!");
 
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_LOOTINGGRAVESTONES");
 					return True;
 				end
 			Else
 				begin
-	 //				$DebugOut ("None of the Buildings have any gold !");
+	 //				//$DebugOut ("None of the Buildings have any gold !");
 
 					return False;
 				end
 		end
 
-//	$DebugOut ("There aren't any Buildings to steal from!");
+//	//$DebugOut ("There aren't any Buildings to steal from!");
 	return False;
 End
 ///////////////////////////////////////////////////////////////////////////////
@@ -103,7 +103,7 @@ Declare
 	string conditionsub, completecondition;
 
 Begin
-//	$DebugOut ("Should I steal from somewhere?");
+//	//$DebugOut ("Should I steal from somewhere?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($RandomNumber (100) + 1 > Chance)
 		begin
@@ -177,19 +177,19 @@ Begin
 					ThisAgent's completetarget = Best_One;
 					ThisAgent's completeaction = $Go_Steal;
 					ThisAgent's completecondition = $notvalidsteal;
-  //					$DebugOut ("I'm gonna go steal some #$*#!@ !!");
+  //					//$DebugOut ("I'm gonna go steal some #$*#!@ !!");
 
 					Thisagent's completeintent = "IDTXT_INTENT_LOOTINGGRAVESTONES";
 					return $NotDuplicateTask(thisagent, taskindex);
 				end
 			Else
 				begin
-	//				$DebugOut ("None of the Buildings have any gold !");
+	//				//$DebugOut ("None of the Buildings have any gold !");
 
 					return False;
 				end
 		end
 
-//	$DebugOut ("There aren't any Buildings to steal from!");
+//	//$DebugOut ("There aren't any Buildings to steal from!");
 	return False;
 End

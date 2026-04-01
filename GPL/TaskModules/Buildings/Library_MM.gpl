@@ -13,7 +13,7 @@ Begin
 	Target = ThisAgent's "Target";
 
 	$Enter_Building (ThisAgent, Target);
-	$DebugOut (thisagent's "title","is entering a Library.");
+	//$DebugOut (thisagent's "title","is entering a Library.");
 
 	ThisAgent's "ActiveScript" = $Study_at_Library;
 	$SetThreadInterval (ThisAgent's "ActiveScript", Target's "Sleep_For");

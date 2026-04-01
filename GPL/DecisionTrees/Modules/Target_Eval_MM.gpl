@@ -340,7 +340,7 @@ begin
 				t = $getattribute(hero,#ATTRIB_experienceLevel);
 				friend_mod += t;
 			end
-		$debugout(friend_mod," friends");
+		//$DebugOut(friend_mod," friends");
 	end
 
 	killorbekilled += friend_mod;
@@ -355,14 +355,14 @@ begin
 			if ($getattribute(thisagent,#ATTRIB_speed) > $getspeed(speedy))
 				begin
 					// flight
-//					$debugout("I must flee!");
+//					//$DebugOut("I must flee!");
 					$flee(thisagent,"IDTXT_INTENT_FLEEING");
 					return TRUE;
 
 				end
 			else
 				begin
-//					$debugout("I can't flee. Oh Well!");
+//					//$DebugOut("I can't flee. Oh Well!");
 					$last_stand(thisagent,"IDTXT_INTENT_FLEEING");
 					return TRUE;
 				end

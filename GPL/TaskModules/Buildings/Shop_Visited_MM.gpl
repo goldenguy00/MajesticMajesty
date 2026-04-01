@@ -29,7 +29,7 @@ Begin
 
 	Else
 		begin
-			$DebugOut ("TASKNAME:",ThisAGent's "Taskname");
+			//$DebugOut ("TASKNAME:",ThisAGent's "Taskname");
 
 			If (ThisAgent's "Taskname" == "Entertain_Shop")
 	  			begin
@@ -202,7 +202,7 @@ Begin
 				
 			potion_count = ($Number_Potions(Num_FinalCount, potion_type));
 			$AdjustAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard, Num_Purchased);
-			$DebugOut (thisagent's "title","purchased",Num_Purchased,"healing potions!");
+			//$DebugOut (thisagent's "title","purchased",Num_Purchased,"healing potions!");
 
 			$CreateNewInventoryItem(potion_count, thisagent, 1);
 			
@@ -249,7 +249,7 @@ Begin
 				
 			potion_count = ($Number_Potions(Num_FinalCount, potion_type));
 			$AdjustAttribute(ThisAgent,#ATTRIB_ResearchArrows, Num_Purchased);
-			$DebugOut (thisagent's "title","purchased",Num_Purchased,"mana potions!");
+			//$DebugOut (thisagent's "title","purchased",Num_Purchased,"mana potions!");
 
 			$CreateNewInventoryItem(potion_count, thisagent, 1);
 		end

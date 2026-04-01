@@ -10,7 +10,7 @@ Declare
 	string item_intent;
 
 Begin
-	$DebugOut ( "Should I buy item#", item, "?" );
+	//$DebugOut ( "Should I buy item#", item, "?" );
 
 	// Don't let cultists buy shapechange potions.
 	if (( thisagent's "title" == "cultist" ) && ( item == #Bazaar_Item_Six ))
@@ -24,13 +24,13 @@ Begin
 	// See if ThisAgent already has the item on them
 	If ( $AgentHasInventoryItem ( item, thisagent ))
 		begin
-			$DebugOut ( "I already have item #", item, ", so I dont need one." );
+			//$DebugOut ( "I already have item #", item, ", so I dont need one." );
 			return False;
 		end
 
 	If ( $Total_Gold ( ThisAgent ) < Item_Cost )
 		begin
-			$DebugOut ("I don't have enough money for item #", item, "!");
+			//$DebugOut ("I don't have enough money for item #", item, "!");
 			return False;
 		end
 
@@ -40,13 +40,13 @@ Begin
 		begin
 			ThisAgent's "TaskName" = $Get_Bazaar_Task_Name ( item );
 			ThisAgent's "Target" = $Loyalty_Mod_Pick_Closest ( ThisAgent, Potentials );
-			$DebugOut ( "Yes!" );
+			//$DebugOut ( "Yes!" );
 			item_intent = $Bazaar_Intents(Item);
 			$SpecifyIntentString ( ThisAgent, item_intent );
 			return True;
 		end
 
-	$DebugOut ("No!");
+	//$DebugOut ("No!");
 	return False;
 End
 
@@ -82,7 +82,7 @@ Begin
 	Target = ThisAgent's "Target";
 
 	$Enter_Building ( ThisAgent, Target );
-	$DebugOut ( thisagent's "title", "is entering a Bazaar." );
+	//$DebugOut ( thisagent's "title", "is entering a Bazaar." );
 
 	ThisAgent's "ActiveScript" = $Purchasing_at_Bazaar;
 	$SetThreadInterval ( ThisAgent's "ActiveScript", target's "sleep_for" );
@@ -277,7 +277,7 @@ begin
 		Return #Bazaar_Item_Six_Price;
 
 	else Begin
-			$DebugOut ( 911, "Bad Item ID #", Item, " passed to function $Get_Bazaar_Cost!" );
+			//$DebugOut ( 911, "Bad Item ID #", Item, " passed to function $Get_Bazaar_Cost!" );
 			Return 0;  // This is a faliure condition in case it falls all the way through.
 		end
 end
@@ -306,7 +306,7 @@ begin
 		Return "Bazaar_Item_Six";
 
 	else Begin
-			$DebugOut ( 911, "Bad Item ID #", Item, " passed to function $Get_Bazaar_Task_Name!" );
+			//$DebugOut ( 911, "Bad Item ID #", Item, " passed to function $Get_Bazaar_Task_Name!" );
 			Return "!!!Failed!!!";  // This is a faliure condition in case it falls all the way through.
 		end
 end
@@ -335,7 +335,7 @@ begin
 		$SpecifyIntentString ( ThisAgent, #Intent_purchasing_Bazaar_Item_Six );
 
 	else Begin
-			$DebugOut ( 911, "Bad Item ID #", Item, " passed to function $SetBuyerIntent!" );
+			//$DebugOut ( 911, "Bad Item ID #", Item, " passed to function $SetBuyerIntent!" );
 			// This is a faliure condition in case it falls all the way through.
 		end
 end

@@ -15,7 +15,7 @@ Begin
 
 	If ($getattribute(ThisAgent,#ATTRIB_Artifice) >= Random)
 		begin
-			$DebugOut (thisagent's "title","steals",$getattribute (target, #ATTRIB_gold),"gold from", target's "title");
+			//$DebugOut (thisagent's "title","steals",$getattribute (target, #ATTRIB_gold),"gold from", target's "title");
 
 			Gold = $getattribute (Target, #ATTRIB_Gold);
 			if (gold < 100) gold_stolen = $randomNumber(gold) + 1;
@@ -35,7 +35,7 @@ Begin
 	Else
 		begin
 			Half_Gold = ($getattribute (Target, #ATTRIB_Gold)) / 2;
-			$DebugOut (thisagent's "title","fails to steal any Gold, and wastes", Half_Gold);
+			//$DebugOut (thisagent's "title","fails to steal any Gold, and wastes", Half_Gold);
 			$adjustattribute (Target, #ATTRIB_gold,  - Half_Gold);
 
 			//RUN LAIR'S ReactionScript, and spawn a monster on ThisAgent's ass!

@@ -9,14 +9,14 @@ Declare
 
 
 Begin
-	$DebugOut ("Should I plant resources?");
+	//$DebugOut ("Should I plant resources?");
 	If (Chance < $RandomNumber (100) + 1)
 		begin
-			$DebugOut ("Not interested.");
+			//$DebugOut ("Not interested.");
 			return False;
 		end
 
-	$DebugOut ("Sure!");
+	//$DebugOut ("Sure!");
 
 	ThisAgent's "Target" = ThisAgent;
 	ThisAgent's "Destination" = $RandomCoord (ThisAgent, $getattribute (ThisAgent, #ATTRIB_SightRange) * #Seed_Resource_Mod);
@@ -43,15 +43,15 @@ Declare
 	string conditionsub, completecondition;
 
 Begin
-	$DebugOut ("Should I plant resources?");
+	//$DebugOut ("Should I plant resources?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	If (Chance < $RandomNumber (100) + 1)
 		begin
-			$DebugOut ("Not interested.");
+			//$DebugOut ("Not interested.");
 			return False;
 		end
 
-	$DebugOut ("Sure!");
+	//$DebugOut ("Sure!");
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";

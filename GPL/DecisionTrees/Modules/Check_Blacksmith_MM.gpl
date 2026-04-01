@@ -115,7 +115,7 @@ Begin
 		
 	If ($ListSize (Potentials) == 0)
 		begin
-			$DebugOut ("No Blacksmiths that are high enough level to upgrade my",equipment);
+			//$DebugOut ("No Blacksmiths that are high enough level to upgrade my",equipment);
 			return False;
 		end
 	
@@ -125,7 +125,7 @@ Begin
 	ThisAgent's completeaction = $Use_Building_Packet;
 	ThisAgent's completevisit = target's "visited_script";
 	ThisAgent's completecondition = $isdead;
-	$DebugOut ("I've got a Blacksmith- going to upgrade my",equipment);
+	//$DebugOut ("I've got a Blacksmith- going to upgrade my",equipment);
 	thisagent's completetname = "visiting";
 	return $NotDuplicateTask(thisagent, taskindex);
 End

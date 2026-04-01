@@ -129,7 +129,7 @@ begin
 								begin
 									$Reset_Tasks (ThisAgent);
 
-									$DebugOut (911, "An Item Marker was dropped on the board that didn't have an Item associated with it!");
+									//$DebugOut (911, "An Item Marker was dropped on the board that didn't have an Item associated with it!");
 								end
 
 						end
@@ -147,7 +147,7 @@ declare
 	string intentext;
 
 begin
-//	$debugout("Should I collect",resource,"?");
+//	//$DebugOut("Should I collect",resource,"?");
 
 	if ($randomNumber(100) + 1 > chance)
 		return FALSE;
@@ -201,7 +201,7 @@ declare
 	string conditionsub, completecondition, intentext;
 
 begin
-//            $debugout("Should I collect",resource,"?");
+//            //$DebugOut("Should I collect",resource,"?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 
 	if ($randomNumber(100) + 1 > chance)

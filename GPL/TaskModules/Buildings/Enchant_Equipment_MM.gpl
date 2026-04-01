@@ -79,7 +79,7 @@ Begin
 			$Spend_Gold (ThisAgent, ThisBuilding, Gold);
 			$SetAttribute (ThisAgent, What_To_Upgrade, Upgrade);
 			$EnchantEquipment(thisagent, equipment_type, Upgrade);
-			$DebugOut (thisagent's "title","purchased",Upgrade,what_to_upgrade,"enchantments!");
+			//$DebugOut (thisagent's "title","purchased",Upgrade,what_to_upgrade,"enchantments!");
 		end
 
 

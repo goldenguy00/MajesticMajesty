@@ -453,13 +453,13 @@ Begin
 							end
 
 					$SetAttribute (ThisAgent, #ATTRIB_Gold, Gold);
-//					$debugout(911,"caravan choose",thisagent's "target","as a target.");
+//					//$DebugOut(911,"caravan choose",thisagent's "target","as a target.");
 				end
 
 			Else
 				begin
 					ThisAgent's "Target" = $Parent (ThisAgent);
-//					$debugout(911,"Caravan chose parent as target");
+//					//$DebugOut(911,"Caravan chose parent as target");
 				end
 		end
 

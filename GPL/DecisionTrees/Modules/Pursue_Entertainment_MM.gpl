@@ -11,7 +11,7 @@ Declare
 	agent	Target;
 
 Begin
-//	$DebugOut ("Shall I Pursue Entertainment?");
+//	//$DebugOut ("Shall I Pursue Entertainment?");
 
 	$listobjects(thisagent,"building",-1,buildings, #ATTRIB_FirstStageBuilt, 1);
 
@@ -74,7 +74,7 @@ Declare
 
 
 Begin
-//	$DebugOut ("Shall I Pursue Entertainment?");
+//	//$DebugOut ("Shall I Pursue Entertainment?");
 
 	$listobjects(thisagent,"building",-1,buildings, #ATTRIB_FirstStageBuilt, 1);
 
@@ -183,7 +183,7 @@ Begin
 					//roll to see if they make a Distance Modified Willpower roll
 					If (Willpower_Roll > ($getattribute (ThisAgent, #ATTRIB_Willpower) + ($DistanceBetweenAgents (ThisAgent, Best_One) / 100)))
 						Begin
-//							$DebugOut ("Yeahh! I want to party at the BROTHEL!");
+//							//$DebugOut ("Yeahh! I want to party at the BROTHEL!");
 							ThisAgent's completetarget = Best_One;
 							return True;
 						End
@@ -200,7 +200,7 @@ Begin
 								begin
 									If (Willpower_Roll > ($getattribute (ThisAgent, #ATTRIB_Willpower) + ($DistanceBetweenAgents (ThisAgent, Best_One) / 100)))
 										begin
-											$DebugOut ("Yeahh! I want to party at the GAMBLING HALL!");
+											//$DebugOut ("Yeahh! I want to party at the GAMBLING HALL!");
 											ThisAgent's completetarget = Best_One;
 											return True;
 										end
@@ -317,7 +317,7 @@ Begin
 					//roll to see if they make a Distance Modified Willpower roll
 					If (Willpower_Roll > ($getattribute (ThisAgent, #ATTRIB_Willpower) + ($DistanceBetweenAgents (ThisAgent, Best_One) / 100)))
 						Begin
-//							$DebugOut ("Yeahh! I want to party at the BROTHEL!");
+//							//$DebugOut ("Yeahh! I want to party at the BROTHEL!");
 							ThisAgent's "Target" = Best_One;
 							return True;
 						End
@@ -334,7 +334,7 @@ Begin
 								begin
 									If (Willpower_Roll > ($getattribute (ThisAgent, #ATTRIB_Willpower) + ($DistanceBetweenAgents (ThisAgent, Best_One) / 100)))
 										begin
-											$DebugOut ("Yeahh! I want to party at the GAMBLING HALL!");
+											//$DebugOut ("Yeahh! I want to party at the GAMBLING HALL!");
 											ThisAgent's "Target" = Best_One;
 											return True;
 										end

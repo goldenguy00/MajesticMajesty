@@ -29,7 +29,7 @@ begin
 
 					$hide(thisagent,target);
 
-					$debugout("I'm traveling to hide at",target);
+					//$DebugOut("I'm traveling to hide at",target);
 				end
 			else
 				begin
@@ -44,7 +44,7 @@ begin
 						begin
 							thisagent's "Activescript" = target's "Lived_in_Script";
 							thisagent's "taskname" = "";
-							$debugout("I'm living in",target);
+							//$DebugOut("I'm living in",target);
 						end
 					else if ($ValidFunction(thisagent's "VisitingScript"))
 						begin
@@ -53,7 +53,7 @@ begin
 					else
 						begin
 							thisagent's "activescript" = target's "visited_script";
-							$debugout("I'm visiting the",target);
+							//$DebugOut("I'm visiting the",target);
 						end
 				end
 		end
@@ -103,7 +103,7 @@ begin
 
 					$hide(thisagent,target);
 
-					$debugout("I'm traveling to hide at",target);
+					//$DebugOut("I'm traveling to hide at",target);
 				end
 			else
 				begin
@@ -118,7 +118,7 @@ begin
 						begin
 							thisagent's "Activescript" = target's "Lived_in_Script";
 							thisagent's "taskname" = "";
-							$debugout("I'm living in",target);
+							//$DebugOut("I'm living in",target);
 						end
 					else if ($ValidFunction(thisagent's "VisitingScript"))
 						begin
@@ -127,7 +127,7 @@ begin
 					else
 						begin
 							thisagent's "activescript" = target's "visited_script";
-							$debugout("I'm visiting the",target);
+							//$DebugOut("I'm visiting the",target);
 						end
 				end
 		end

@@ -82,7 +82,7 @@ begin
 	AIRootAgent = $RetrieveAgent("GplAIRoot");
 	member_limit = 4;
 
-	//$DebugOut(911,"BuildingReachedMaxHP() for ",theBuilding);
+	////$DebugOut(911,"BuildingReachedMaxHP() for ",theBuilding);
 
 	if($getattribute(theBuilding,#ATTRIB_FirstStageBuilt) != 1)
 	begin
@@ -94,10 +94,10 @@ begin
 
 				$runthread(theBuilding's "birthscript2",1,theBuilding);
 
-				//$DebugOut(911," ran 'birthscript2'.");
+				////$DebugOut(911," ran 'birthscript2'.");
 			end
 		//else
-			//$DebugOut(911," COULDN'T run 'birthscript2'.");
+			////$DebugOut(911," COULDN'T run 'birthscript2'.");
 	end
 	else
 		// is being repaired or upgraded?
@@ -156,7 +156,7 @@ begin
 							end
 					end
 					
-				//$DebugOut(911," ran $UpgradeAgentAttributes.");
+				////$DebugOut(911," ran $UpgradeAgentAttributes.");
 			end
 		else
 			begin

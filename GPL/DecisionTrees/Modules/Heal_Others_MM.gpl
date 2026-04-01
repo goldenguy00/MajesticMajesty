@@ -11,30 +11,30 @@ Declare
 
 Begin
 
-//	$DebugOut ("Should I Heal Others?");
+//	//$DebugOut ("Should I Heal Others?");
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("Not Interested!");
+//			//$DebugOut ("Not Interested!");
 			return False;
 		End
 
 
 
-	//$DebugOut ("Does anybody need healing?");
+	////$DebugOut ("Does anybody need healing?");
 	//Tell Eval_For_Healing That you want to Eval the Whole map..Eval For Healing will Figure out
 	//if there is someone attractive enough to heal, otherwise it will return $NullAgent()
 	My_Target = $Eval_For_Healing (ThisAgent, -1);
 	if (My_Target != $NullAgent ())
 		begin
 			ThisAgent's "Target" = My_Target;
-//			$DebugOut ("Yes!");
+//			//$DebugOut ("Yes!");
 			ThisAgent's "ActiveScript" = $Go_Heal;
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_HEALOTHERS");
 			return True;
 		end
    else
 		begin
-//			$DebugOut ("No!");
+//			//$DebugOut ("No!");
 			return False;
 		end
 End
@@ -50,10 +50,10 @@ Declare
 Begin
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 
-//	$DebugOut ("Should I Heal Others?");
+//	//$DebugOut ("Should I Heal Others?");
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("Not Interested!");
+//			//$DebugOut ("Not Interested!");
 			return False;
 		End
 
@@ -68,14 +68,14 @@ Begin
 	conditionsub = "TaskPackageTargetCondition";
 	completecondition = conditionsub + taskindex;
 	
-	//$DebugOut ("Does anybody need healing?");
+	////$DebugOut ("Does anybody need healing?");
 	//Tell Eval_For_Healing That you want to Eval the Whole map..Eval For Healing will Figure out
 	//if there is someone attractive enough to heal, otherwise it will return $NullAgent()
 	My_Target = $Eval_For_Healing (ThisAgent, -1);
 	if (My_Target != $NullAgent ())
 		begin
 			ThisAgent's completetarget = My_Target;
-//			$DebugOut ("Yes!");
+//			//$DebugOut ("Yes!");
 			ThisAgent's completeaction = $Go_Heal;
 			ThisAgent's completecondition = $IsDead;
 			Thisagent's completeintent = "IDTXT_INTENT_HEALOTHERS";
@@ -83,7 +83,7 @@ Begin
 		end
    else
 		begin
-//			$DebugOut ("No!");
+//			//$DebugOut ("No!");
 			return False;
 		end
 End

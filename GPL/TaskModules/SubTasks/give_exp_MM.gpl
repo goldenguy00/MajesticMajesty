@@ -27,7 +27,7 @@ begin
 		picked_attribute = thisagent's "PrimaryStat_Name";
 	else
 		picked_attribute = $PreferredAttribute(thisagent, false);
-	//$DebugOut("Picked",picked_attribute,":",thisagent's (picked_attribute+"_Base"));
+	////$DebugOut("Picked",picked_attribute,":",thisagent's (picked_attribute+"_Base"));
 	thisagent's (picked_attribute+"_Base") += 1;
 	$AddInsightPoints(thisagent, thisagent's "Wisdom_Total");
 

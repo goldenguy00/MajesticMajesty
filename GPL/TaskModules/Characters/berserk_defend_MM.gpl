@@ -19,7 +19,7 @@ begin
 
 			if ($listsize(thisagent's "Hostiles") > 0)
 				begin
-					$debugout("There are hostiles.");
+					//$DebugOut("There are hostiles.");
 					thisagent's "target" = $pick_closest(thisagent,thisagent's "Hostiles");
 				end
 			
@@ -27,7 +27,7 @@ begin
 			if ($NotValid(thisagent's "target"))
 				begin
 					// no more enemies to fight!
-					$debugout("no more enemies to fight, un-berserking.");
+					//$DebugOut("no more enemies to fight, un-berserking.");
 					$reset_tasks(thisagent);
 					return;
 				end

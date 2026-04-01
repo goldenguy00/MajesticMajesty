@@ -15,7 +15,7 @@ Begin
 	//See is I am interested enough
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("No, not interested.");
+			//$DebugOut ("No, not interested.");
 			return False;
 		end
 

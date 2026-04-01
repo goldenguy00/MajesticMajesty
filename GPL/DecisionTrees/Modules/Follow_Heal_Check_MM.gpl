@@ -37,7 +37,7 @@ Begin
 		end
 	Else
 		begin
-  //			$DebugOut ("No", WhatToHeal,"(s) in range!");
+  //			//$DebugOut ("No", WhatToHeal,"(s) in range!");
 			Return FALSE;
 		end
 
@@ -45,7 +45,7 @@ Begin
 
 	If ($ListSize (Potentials) == 0)
 		begin
-//			$DebugOut ("Every",WhatToHeal,"is already being Followed and Healed, or there are already enough Healers nearby.");
+//			//$DebugOut ("Every",WhatToHeal,"is already being Followed and Healed, or there are already enough Healers nearby.");
 			Return FALSE;
 		end
 
@@ -176,7 +176,7 @@ Begin
 		end
 	Else
 		begin
-  //			$DebugOut ("No", WhatToHeal,"(s) in range!");
+  //			//$DebugOut ("No", WhatToHeal,"(s) in range!");
 			Return FALSE;
 		end
 
@@ -184,7 +184,7 @@ Begin
 
 	If ($ListSize (Potentials) == 0)
 		begin
-//			$DebugOut ("Every",WhatToHeal,"is already being Followed and Healed, or there are already enough Healers nearby.");
+//			//$DebugOut ("Every",WhatToHeal,"is already being Followed and Healed, or there are already enough Healers nearby.");
 			Return FALSE;
 		end
 

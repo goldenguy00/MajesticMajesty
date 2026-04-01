@@ -143,7 +143,7 @@ begin
 
 		return 0;
 	// Debugging code:
-//	$DebugOut( 911, "Trying to build ", theBuilding, " at pos = ", $LocationOf( theBuilding ), ", d = ", dependencies );
+//	//$DebugOut( 911, "Trying to build ", theBuilding, " at pos = ", $LocationOf( theBuilding ), ", d = ", dependencies );
 
 	// One possible idea for code structure in this function:
 //	if ( $IsValidFunction( theBuilding's "buildRequirements" ) ) // Not all building need special-case requirements
@@ -162,7 +162,7 @@ begin
 //			else
 //				begin
 //					// This is an error condition...
-//					$DebugOut( "Error: $CanIBuildThisBuilding() was passed an empty dependencies list" );
+//					//$DebugOut( "Error: $CanIBuildThisBuilding() was passed an empty dependencies list" );
 //					return 1;
 //				end
 // 		end

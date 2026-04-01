@@ -12,11 +12,11 @@ Declare
 	agent	Building;
 
 Begin
-//	$DebugOut ("Should I patrol the city?");
+//	//$DebugOut ("Should I patrol the city?");
 
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("Not interested.");
+//			//$DebugOut ("Not interested.");
 			return False;
 		end
 
@@ -67,7 +67,7 @@ Begin
 
 			return True;
 		end
-//	$DebugOut ("Sure! Going to patrol.");
+//	//$DebugOut ("Sure! Going to patrol.");
 	return False;
 End
 ///////////////////////////////////////////////////////////////////////////////
@@ -84,11 +84,11 @@ Declare
 Begin
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	What_To_Patrol = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
-//	$DebugOut ("Should I patrol the city?");
+//	//$DebugOut ("Should I patrol the city?");
 
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("Not interested.");
+//			//$DebugOut ("Not interested.");
 			return False;
 		end
 
@@ -165,6 +165,6 @@ Begin
 
 			return $NotDuplicateTask(thisagent, taskindex);
 		end
-//	$DebugOut ("Sure! Going to patrol.");
+//	//$DebugOut ("Sure! Going to patrol.");
 	return False;
 End

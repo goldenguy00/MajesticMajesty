@@ -10,20 +10,20 @@ Declare
 
 
 Begin
-//	$DebugOut ("Should I Journey Offmap?");
+//	//$DebugOut ("Should I Journey Offmap?");
 	if ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("No, not interested!");
+//			//$DebugOut ("No, not interested!");
 			return False;
 		end
 
   	if ($getnearesthiddencoord(thisagent,dest))
 	 	begin
-//			$DebugOut ("Still Hidden Map to explore!");
+//			//$DebugOut ("Still Hidden Map to explore!");
 		  	return False;
 		end
 
-//	$DebugOut ("YES! I'm going to journey offmap!");
+//	//$DebugOut ("YES! I'm going to journey offmap!");
 	ThisAgent's "Destination" = $FarthestMapEdge (ThisAgent);
 	ThisAgent's "ActiveScript" = $Journey_Offmap;
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_TRAVELLINGDISTANT");
@@ -38,17 +38,17 @@ Declare
 	string conditionsub, completecondition;
 
 Begin
-//	$DebugOut ("Should I Journey Offmap?");
+//	//$DebugOut ("Should I Journey Offmap?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("No, not interested!");
+//			//$DebugOut ("No, not interested!");
 			return False;
 		end
 
   	if ($getnearesthiddencoord(thisagent,dest))
 		begin
-//			$DebugOut ("Still Hidden Map to explore!");
+//			//$DebugOut ("Still Hidden Map to explore!");
 		  	return False;
 		end
 
@@ -65,7 +65,7 @@ Begin
 	conditionsub = "TaskPackageTargetCondition";
 	completecondition = conditionsub + taskindex;
 	
-//	$DebugOut ("YES! I'm going to journey offmap!");
+//	//$DebugOut ("YES! I'm going to journey offmap!");
 	ThisAgent's completedestination = $FarthestMapEdge (ThisAgent); //Need to put in a destination index too
 	ThisAgent's completeaction  = $Journey_Offmap;
 	Thisagent's completeintent = "IDTXT_INTENT_TRAVELLINGDISTANT";

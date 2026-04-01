@@ -10,7 +10,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 
@@ -66,7 +66,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 
@@ -127,7 +127,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 		
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
@@ -195,7 +195,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 
@@ -254,7 +254,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 		
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
@@ -320,7 +320,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
@@ -447,7 +447,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 
@@ -502,7 +502,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 
@@ -559,7 +559,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 
@@ -616,7 +616,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 
@@ -748,7 +748,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
 	
@@ -817,7 +817,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
@@ -884,7 +884,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	$Display_Total_Attack_Damage(thisagent);
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
@@ -952,7 +952,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 					
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
@@ -1025,7 +1025,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 					
 	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
@@ -2735,7 +2735,7 @@ declare
 
 begin
 
-//	$debugout("I'm deciding what to do!");
+//	//$DebugOut("I'm deciding what to do!");
 	if ($isdead(thisagent))
 		thisagent's "activescript" = $be_dead;
 		

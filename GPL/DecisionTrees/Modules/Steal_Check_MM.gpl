@@ -14,14 +14,14 @@ Declare
 	float		Greed;
 
 Begin
-//	$DebugOut ("Should I steal from somewhere?");
+//	//$DebugOut ("Should I steal from somewhere?");
 	if ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("No, not interested!");
+//			//$DebugOut ("No, not interested!");
 			return False;
 		end
 
-//	$DebugOut ("Sounds interesting!");
+//	//$DebugOut ("Sounds interesting!");
 
 	//Use Greed to inform how far to search
 	$ListObjects (ThisAgent, "Lair", -1, Lairs );
@@ -84,27 +84,27 @@ Begin
 									end
 							end
 					//Make a distance modified greed roll to determine you want to continue (this one is currently bogus)
-					//$DebugOut ("Best_Score:",Best_Score);
-					//$DebugOut ("Temp_Score:",Temp_Score);
-					//$DebugOut ("Temp_Gold:",Temp_Gold);
-					//$DebugOut ("Best_One:",Best_One);
-					//$DebugOut ("Temp_Distance:",Temp_Distance);
+					////$DebugOut ("Best_Score:",Best_Score);
+					////$DebugOut ("Temp_Score:",Temp_Score);
+					////$DebugOut ("Temp_Gold:",Temp_Gold);
+					////$DebugOut ("Best_One:",Best_One);
+					////$DebugOut ("Temp_Distance:",Temp_Distance);
 					ThisAgent's "Target" = Best_One;
 					ThisAgent's "ActiveScript" = $Go_Steal;
-  //					$DebugOut ("I'm gonna go steal some #$*#!@ !!");
+  //					//$DebugOut ("I'm gonna go steal some #$*#!@ !!");
 
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_STEALING");
 					return True;
 				end
 			Else
 				begin
-	 //				$DebugOut ("None of the Buildings have any gold !");
+	 //				//$DebugOut ("None of the Buildings have any gold !");
 
 					return False;
 				end
 		end
 
-//	$DebugOut ("There aren't any Buildings to steal from!");
+//	//$DebugOut ("There aren't any Buildings to steal from!");
 	return False;
 End
 ///////////////////////////////////////////////////////////////////////////////
@@ -122,15 +122,15 @@ Declare
 
 
 Begin
-//	$DebugOut ("Should I steal from somewhere?");
+//	//$DebugOut ("Should I steal from somewhere?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($RandomNumber (100) + 1 > Chance)
 		begin
-//			$DebugOut ("No, not interested!");
+//			//$DebugOut ("No, not interested!");
 			return False;
 		end
 
-//	$DebugOut ("Sounds interesting!");
+//	//$DebugOut ("Sounds interesting!");
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
@@ -204,27 +204,27 @@ Begin
 									end
 							end
 					//Make a distance modified greed roll to determine you want to continue (this one is currently bogus)
-					//$DebugOut ("Best_Score:",Best_Score);
-					//$DebugOut ("Temp_Score:",Temp_Score);
-					//$DebugOut ("Temp_Gold:",Temp_Gold);
-					//$DebugOut ("Best_One:",Best_One);
-					//$DebugOut ("Temp_Distance:",Temp_Distance);
+					////$DebugOut ("Best_Score:",Best_Score);
+					////$DebugOut ("Temp_Score:",Temp_Score);
+					////$DebugOut ("Temp_Gold:",Temp_Gold);
+					////$DebugOut ("Best_One:",Best_One);
+					////$DebugOut ("Temp_Distance:",Temp_Distance);
 					ThisAgent's completecondition = $notvalidsteal;
 					ThisAgent's completetarget = Best_One;
 					ThisAgent's completeaction = $Go_Steal_Pack;
-  //					$DebugOut ("I'm gonna go steal some #$*#!@ !!");
+  //					//$DebugOut ("I'm gonna go steal some #$*#!@ !!");
 
 					Thisagent's completeintent = "IDTXT_INTENT_STEALING";
 					return $NotDuplicateTask(thisagent, taskindex);
 				end
 			Else
 				begin
-	//				$DebugOut ("None of the Buildings have any gold !");
+	//				//$DebugOut ("None of the Buildings have any gold !");
 
 					return False;
 				end
 		end
 
-//	$DebugOut ("There aren't any Buildings to steal from!");
+//	//$DebugOut ("There aren't any Buildings to steal from!");
 	return False;
 End

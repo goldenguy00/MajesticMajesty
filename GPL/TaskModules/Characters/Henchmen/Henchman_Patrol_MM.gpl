@@ -11,11 +11,11 @@ Declare
 	agent	Building;
 
 Begin
-//	$DebugOut ("Should I patrol the city?");
+//	//$DebugOut ("Should I patrol the city?");
 
 	If ($RandomNumber (100) > 25)
 		begin
-//			$DebugOut ("Not interested.");
+//			//$DebugOut ("Not interested.");
 			return False;
 		end
 
@@ -43,9 +43,9 @@ Begin
 					ThisAgent's "Target" = ThisAgent;
 					ThisAgent's "BackScript" = $Guard_Find_Target;
 					ThisAgent's "ActiveScript" = $Voyaging_Guard_Travel_To;
-					//$debugout(911,"add_waypoint: ", building );
+					////$DebugOut(911,"add_waypoint: ", building );
 				end
 
 		end
-//	$DebugOut ("Sure! Going to patrol.");
+//	//$DebugOut ("Sure! Going to patrol.");
 End

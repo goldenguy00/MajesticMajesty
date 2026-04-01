@@ -13,7 +13,7 @@ declare
 	agent palace;
 
 begin
-	$debugout("I'm leaving the game!");
+	//$DebugOut("I'm leaving the game!");
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_FLEEINGMAP");
 
 	// am I near the edge?
@@ -55,7 +55,7 @@ begin
 			else
 				begin
 					thisagent's "destination" = $closestmapedge(thisagent);
-					$debugout(thisagent's "destination");
+					//$DebugOut(thisagent's "destination");
 					thisagent's "target" = thisagent;
 					// - go there safe
 					thisagent's "backscript" = thisagent's "basicscript";

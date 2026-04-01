@@ -138,7 +138,7 @@ Declare
 
 
 Begin
-	$DebugOut ( "Should I buy item#", item, "?" );
+	//$DebugOut ( "Should I buy item#", item, "?" );
 
 	// Don't let cultists buy shapechange potions.
 	if (( thisagent's "title" == "cultist" ) && ( item == #Bazaar_Item_Six ))
@@ -152,13 +152,13 @@ Begin
 	// See if ThisAgent already has the item on them
 	If ( $AgentHasInventoryItem ( item, thisagent ))
 		begin
-			$DebugOut ( "I already have item #", item, ", so I dont need one." );
+			//$DebugOut ( "I already have item #", item, ", so I dont need one." );
 			return False;
 		end
 
 	If ( $Total_Gold ( ThisAgent ) < Item_Cost )
 		begin
-			$DebugOut ("I don't have enough money for item #", item, "!");
+			//$DebugOut ("I don't have enough money for item #", item, "!");
 			return False;
 		end
 
@@ -178,7 +178,7 @@ Begin
 		begin
 			ThisAgent's completetname = $Get_Bazaar_Task_Name ( item );
 			ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest ( ThisAgent, Potentials );
-			$DebugOut ( "Yes!" );
+			//$DebugOut ( "Yes!" );
 			
 			if ( Item == #Bazaar_Item_One )
 				thisagent's completeintent = "IDTXT_INTENT_BUYSPEEDPOTION";
@@ -202,6 +202,6 @@ Begin
 			return True;
 		end
 
-	$DebugOut ("No!");
+	//$DebugOut ("No!");
 	return False;
 End

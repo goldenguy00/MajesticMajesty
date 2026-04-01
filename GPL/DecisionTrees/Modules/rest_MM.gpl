@@ -60,7 +60,7 @@ declare
 	string intent;
 
 begin
-	$debugout("I need healing");
+	//$DebugOut("I need healing");
 
 	if ($GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard) > 0)
 		begin

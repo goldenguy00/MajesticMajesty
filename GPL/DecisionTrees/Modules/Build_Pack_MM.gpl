@@ -11,10 +11,10 @@ Declare
 
 Begin
 
-	$DebugOut ("Should I Build a Pack?");
+	//$DebugOut ("Should I Build a Pack?");
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("Not Interested!");
+			//$DebugOut ("Not Interested!");
 			return False;
 		End
 
@@ -41,7 +41,7 @@ Begin
 						return False;
 					
 					ThisAgent's "Target" = $ListMember (Animals, 1);
-					$DebugOut (thisagent's "title","wants to control a",$gettitle(ThisAgent's "Target"));
+					//$DebugOut (thisagent's "title","wants to control a",$gettitle(ThisAgent's "Target"));
 					ThisAgent's "ActiveScript" = $Go_Control_Monster;
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_CHARMINGANIMALS");
 					return True;
@@ -50,7 +50,7 @@ Begin
 
 			Else
 				begin
-					$DebugOut ("No Animals Nearby!!");
+					//$DebugOut ("No Animals Nearby!!");
 					return False;
 				end
 
@@ -58,7 +58,7 @@ Begin
 
 	Else
 		begin
-			$DebugOut ("All of my slots are full!!!");
+			//$DebugOut ("All of my slots are full!!!");
 			return False;
 		end
 End
@@ -73,11 +73,11 @@ Declare
 
 Begin
 
-	$DebugOut ("Should I Build a Pack?");
+	//$DebugOut ("Should I Build a Pack?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	If ($RandomNumber (100) + 1 > Chance)
 		begin
-			$DebugOut ("Not Interested!");
+			//$DebugOut ("Not Interested!");
 			return False;
 		End
 
@@ -114,7 +114,7 @@ Begin
 						return False;
 					
 					ThisAgent's completetarget = $ListMember (Animals, 1);
-					//$DebugOut (thisagent's "title","wants to control a",$gettitle(ThisAgent's completetarget));
+					////$DebugOut (thisagent's "title","wants to control a",$gettitle(ThisAgent's completetarget));
 					ThisAgent's completeaction = $Go_Control_Monster;
 					ThisAgent's completecondition = $isdead;
 					ThisAgent's completeintent =  "IDTXT_INTENT_CHARMINGANIMALS";
@@ -124,7 +124,7 @@ Begin
 
 			Else
 				begin
-					$DebugOut ("No Animals Nearby!!");
+					//$DebugOut ("No Animals Nearby!!");
 					return False;
 				end
 
@@ -132,7 +132,7 @@ Begin
 
 	Else
 		begin
-			$DebugOut ("All of my slots are full!!!");
+			//$DebugOut ("All of my slots are full!!!");
 			return False;
 		end
 End

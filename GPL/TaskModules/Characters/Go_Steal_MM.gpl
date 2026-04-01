@@ -11,7 +11,7 @@ Declare
 
 Begin
 	Target = ThisAgent's "Target";
-	//$DebugOut ($gettitle(Target));
+	////$DebugOut ($gettitle(Target));
 
 	//Make sure the target still exists
 //	If ($IsValidGamePiece (Target) == FALSE || Target == $NullAgent ())

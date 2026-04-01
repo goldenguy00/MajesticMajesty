@@ -33,7 +33,7 @@ Begin
 	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
 
 	$SetAttribute (ThisAgent, #ATTRIB_WeaponPoisoned, 1);
-	$DebugOut (thisagent's "title","poisoned their weapon!");
+	//$DebugOut (thisagent's "title","poisoned their weapon!");
 
 	ThisAgent's "ActiveScript" = $Leaving_Rogues_Guild;
 End

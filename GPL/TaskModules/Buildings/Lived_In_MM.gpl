@@ -103,14 +103,14 @@ Declare
 	agent		ThisBuilding;
 
 Begin
-//	$debugout("Hero waking up!");
+//	//$DebugOut("Hero waking up!");
 	ThisBuilding = ThisAgent's "Target";
 
 	thisagent's "TaskPackageStatus" = "Complete";
 	
 	$exit_building(thisagent,thisbuilding);
 
-	$DebugOut (ThisAgent's "type","feels much better!");
+	//$DebugOut (ThisAgent's "type","feels much better!");
 
 	$Reset_Tasks (ThisAgent);
 End
