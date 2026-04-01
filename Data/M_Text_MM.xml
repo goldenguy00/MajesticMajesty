@@ -114,7 +114,7 @@
 		////////////////////////////////////////Research Intents//////////////////////////////////
 		<Text id="IDTXT_RESEARCH_COMPLETE">[color:96FF96]Complete[/color]</Text>
 		<Text id="IDTXT_RESEARCH_RESEARCHING">[color:FFFF96]Researching[/color]</Text>
-		<Text id="IDTXT_RESEARCH_QUED">[color:FF96FF]Qued[/color]</Text>
+		<Text id="IDTXT_RESEARCH_QUEUED">[color:FF96FF]Queued[/color]</Text>
 		<Text id="IDTXT_RESEARCH_AVAILABLE">[color:9696FF]Available[/color]</Text>
 		<Text id="IDTXT_RESEARCH_UNAVAILABLE">[color:FF9696]Unavailable[/color]</Text>
 		

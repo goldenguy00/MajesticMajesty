@@ -2991,6 +2991,7 @@
 		(type color)
 		(subtype color)
 		(title Help_Sign_Toggle_On)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -2999,6 +3000,7 @@
 		(type color)
 		(subtype color)
 		(title Help_Sign_Toggle_Off)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -3007,6 +3009,7 @@
 		(type color)
 		(subtype color)
 		(title Help_Sign_Attributes)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -3015,6 +3018,7 @@
 		(type color)
 		(subtype color)
 		(title Help_Sign_Spell_System)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -3023,6 +3027,7 @@
 		(type color)
 		(subtype color)
 		(title Help_Sign_Library_Spells)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -3031,6 +3036,7 @@
 		(type color)
 		(subtype color)
 		(title Available_Books)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -3039,6 +3045,7 @@
 		(type color)
 		(subtype color)
 		(title Options)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -3047,6 +3054,7 @@
 		(type color)
 		(subtype color)
 		(title Research)
+		(birthScript SignBirth)
 	}
 [end]
 
@@ -3055,5 +3063,6 @@
 		(type color)
 		(subtype color)
 		(title Services)
+		(birthScript SignBirth)
 	}
 [end]

@@ -901,7 +901,7 @@ Declare
 	integer duration_current; 	//The amount of time currently passed
 	integer update_counter;		//The counter for when to update the floating text display (should reset at 3, approximately 1500 miliseconds)
 								//Update_Counter really only useful for Research % display
-	list research_que;			//The list for researches that are qued for this text
+	list research_que;			//The list for researches that are queued for this text
 	
 	integer gold_value;					//The gold cost for any research incurred for floating text
 	

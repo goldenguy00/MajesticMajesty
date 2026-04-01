@@ -16,7 +16,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -72,7 +72,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False) //Barbarians are attracted to attack flags
+	if ($Check_Rewards(thisagent,FALSE) == False) //Barbarians are attracted to attack flags
 
 	if ($Defend_home(thisagent) == False)
 
@@ -136,7 +136,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -201,7 +201,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -261,7 +261,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -327,7 +327,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -397,7 +397,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 //	if ($Defend_home(thisagent) == False)
 
@@ -453,7 +453,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -508,7 +508,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -565,7 +565,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -624,7 +624,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -684,7 +684,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -754,7 +754,7 @@ begin
 	
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -824,7 +824,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -891,7 +891,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -959,7 +959,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -1032,7 +1032,7 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 
-	if ($Check_rewards(thisagent) == False)
+	if ($Check_Rewards(thisagent,FALSE) == False)
 
 	if ($Defend_home(thisagent) == False)
 
@@ -2600,7 +2600,7 @@ begin
 	$SetTaskParametersBasic(thisagent, "None", 0, "Defend");
 	
 	//flist << $rest;						//Idle //Need to adress this or it'll just trigger instantly instead of waiting in a task que
-	//clist << $notvalid;					//Appears to be something that is determined on an immediate basis rather than something that is qued, probably have it be an action following each combat task?
+	//clist << $notvalid;					//Appears to be something that is determined on an immediate basis rather than something that is queued, probably have it be an action following each combat task?
 	//$SetTaskParametersBasic(thisagent, "None", 0, "Idle");
 	
 	flist << $Check_Wizards_Guild_Packet;	//Prepare
