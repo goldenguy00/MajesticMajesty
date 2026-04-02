@@ -11,27 +11,45 @@ Declare
 	agent	ThisBuilding;
 	integer	Hero_Gold;
 	string Current_Intent;
+	integer intent_int;
 
 Begin
 	ThisBuilding = ThisAgent's "Target";
 
-	//This is used to figure out which intention to display
-	Current_Intent = ThisAgent's "Running_Intent";
 
 	$enter_building(thisagent, ThisBuilding);
 
 	Hero_Gold = $GetAttribute (ThisAgent, #ATTRIB_Gold);
 
-	//If the Hero was going home, then they are now resting
-	If (Current_Intent == "IDTXT_INTENT_GOINGHOME")
-		$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RESTINGHOME");
+	//This is used to figure out which intention to display
+	if ($HasAttribute("Running_intent", thisagent))
+		begin
+			Current_Intent = ThisAgent's "Running_Intent";
+			//If the Hero was going home, then they are now resting
+			If (Current_Intent == "IDTXT_INTENT_GOINGHOME")
+				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RESTINGHOME");
 
-	//Otherwise they are recuperating or seeking refuge
-	Else if (Current_Intent == "IDTXT_INTENT_FLEEINGINJURED")
-		$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RECUPERATINGHOME");
+			//Otherwise they are recuperating or seeking refuge
+			Else if (Current_Intent == "IDTXT_INTENT_FLEEINGINJURED")
+				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RECUPERATINGHOME");
 
-	Else
-		$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_SEEKINGREFUGEHOME");
+			Else
+				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_SEEKINGREFUGEHOME");
+		end
+	else
+		begin
+			Intent_int = $GetAttribute ( ThisAgent, #ATTRIB_AIIntentionString );
+			//If the Hero was going home, then they are now resting
+			If (Current_Intent == #Intent_Going_Home)
+				$SpecifyIntent (ThisAgent, #Intent_Resting);
+
+			//Otherwise they are recuperating or seeking refuge
+			Else if (Current_Intent == #Intent_flee_lowHP)
+				$SpecifyIntent (ThisAgent, #Intent_recuperating);
+
+			Else
+				$SpecifyIntent (ThisAgent, #Intent_Seeking_Refuge);
+		end
 
 	//Give Taxed Gold to the Guild, put the rest in ThisAgent's stored gold
 	Gold_Given = (Hero_Gold * $GetAttribute (ThisBuilding, #ATTRIB_TaxRate)) / 100;
@@ -52,65 +70,3 @@ Begin
 
 	ThisAgent's "ActiveScript" = $Rest_at_guild;
 end
-
-///////////////////////////////////////////////////////////////////////////////
-Function Rest_at_guild(agent ThisAgent)
-Declare
-	integer	HP;
-	integer	MaxHP;
-	agent		ThisBuilding;
-	agent		temp_agent;
-
-
-Begin
-	ThisBuilding = ThisAgent's "Home";
-	temp_agent = thisagent;
-	$drop_off_goodies (thisagent, thisbuilding);
-
-	HP = $getattribute (ThisAgent, #ATTRIB_HP);
-	MaxHP = $getattribute (ThisAgent, #ATTRIB_MaxHP);
-	$adjustattribute (ThisAgent, #ATTRIB_HP, (MaxHP - HP));
-
-	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
-	ThisAgent's "ActiveScript" = $Done_resting_guild;
-
-End
-
-///////////////////////////////////////////////////////////////////////////////
-function drop_off_goodies(agent thisagent,agent thisbuilding)
-
-declare
-
-begin
-	if (thisagent's "num_picked_goodies" > 0)
-		begin
-			if (thisagent's "title" == "wizard")
-				begin
-					$adjustplayerdata(thisagent,"crystal",thisagent's "num_picked_goodies");
-				end
-			else
-				begin
-					thisbuilding's "num_resources" += thisagent's "num_picked_goodies";
-				end
-
-			thisagent's "num_picked_goodies" = 0;
-		end
-end
-
-///////////////////////////////////////////////////////////////////////////////
-Function	Done_resting_Guild (agent ThisAgent)
-Declare
-	agent		ThisBuilding;
-
-Begin
-//	//$DebugOut("Hero waking up!");
-	ThisBuilding = ThisAgent's "Target";
-
-	thisagent's "TaskPackageStatus" = "Complete";
-	
-	$exit_building(thisagent,thisbuilding);
-
-	//$DebugOut (ThisAgent's "type","feels much better!");
-
-	$Reset_Tasks (ThisAgent);
-End

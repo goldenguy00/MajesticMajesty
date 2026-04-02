@@ -30,7 +30,7 @@ Begin
 	//This makes sure the Priestess has an empty slot
 	If (ThisAgent's "Num_Followers" < summon_limit)
 		begin
-			if (($isspellAvailable(thisagent,"control_undead") == TRUE) && ($Spell_Mana_Available(thisagent, "control_undead") == TRUE) && ($IsRunning (thisAgent's "priestess_controlundead_cooldown") != TRUE))
+			if (($isspellAvailable(thisagent,"control_undead") == TRUE) && ($Spell_Mana_Available(thisagent, "control_undead") == TRUE) && ($HasCooldown (thisAgent, "priestess_controlundead_cooldown") != TRUE))
 				begin
 					Undead = $ListSubtypesInRadius (ThisAgent, "monster", "undead", $getattribute (ThisAgent, #ATTRIB_SightRange) * #Control_Undead_Mod);
 
@@ -49,8 +49,8 @@ Begin
 							////$DebugOut ("No Undead nearby.");
 						end
 				end
-
-			if (($isspellAvailable(thisagent,"animate_skeleton") != TRUE) || ($Spell_Mana_Available(thisagent, "animate_skeleton") != TRUE) || ($IsRunning (thisAgent's "priestess_animateskeleton_cooldown") == TRUE))
+			
+			if (($isspellAvailable(thisagent,"animate_skeleton") != TRUE) || ($Spell_Mana_Available(thisagent, "animate_skeleton") != TRUE) || ($HasCooldown (thisAgent, "priestess_animateskeleton_cooldown") == TRUE))
 				return FALSE;
 
 			//No undead nearby? Go ahead and animate.
@@ -108,7 +108,7 @@ Begin
 	//This makes sure the Priestess has an empty slot
 	If (ThisAgent's "Num_Followers" < summon_limit)
 		begin
-			if (($isspellAvailable(thisagent,"control_undead") == TRUE) && ($Spell_Mana_Available(thisagent, "control_undead") == TRUE) && ($IsRunning (thisAgent's "priestess_controlundead_cooldown") != TRUE))
+			if (($isspellAvailable(thisagent,"control_undead") == TRUE) && ($Spell_Mana_Available(thisagent, "control_undead") == TRUE) && ($HasCooldown (thisAgent, "priestess_controlundead_cooldown") != TRUE))
 				begin
 					Undead = $ListSubtypesInRadius (ThisAgent, "monster", "undead", $getattribute (ThisAgent, #ATTRIB_SightRange) * #Control_Undead_Mod);
 
@@ -128,7 +128,7 @@ Begin
 						end
 				end
 
-			if (($isspellAvailable(thisagent,"animate_skeleton") != TRUE) || ($Spell_Mana_Available(thisagent, "animate_skeleton") != TRUE) || ($IsRunning (thisAgent's "priestess_animateskeleton_cooldown") == TRUE))
+			if (($isspellAvailable(thisagent,"animate_skeleton") != TRUE) || ($Spell_Mana_Available(thisagent, "animate_skeleton") != TRUE) || ($HasCooldown(thisagent, "priestess_animateskeleton_cooldown") == TRUE))
 				return FALSE;
 
 			//No undead nearby? Go ahead and animate.

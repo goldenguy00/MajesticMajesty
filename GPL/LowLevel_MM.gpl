@@ -212,6 +212,35 @@ begin
 	
 	return return_s;
 end
+//////////////////////////////////////////////////////////////////////////////
+function i2s_sub(integer int) is string
+declare
+	string return_s;
+
+begin
+	return_s = "";
+	if (int == 0)
+		return_s = "0";
+	else if (int == 1)
+		return_s = "1";
+	else if (int == 2)
+		return_s = "2";
+	else if (int == 3)
+		return_s = "3";
+	else if (int == 4)
+		return_s = "4";
+	else if (int == 5)
+		return_s = "5";
+	else if (int == 6)
+		return_s = "6";
+	else if (int == 7)
+		return_s = "7";
+	else if (int == 8)
+		return_s = "8";
+	else if (int == 9)
+		return_s = "9";
+	return return_s;
+end
 ///////////////////////////////////////////////////////////////////////////////
 function stringinlist(string thistitle,list thislist) is boolean
 //Find out if a list has the supplied string. This is only for lists containing strings.
@@ -349,34 +378,6 @@ begin
 		return "";
 	return thisagent's "intentext";
 
-end
-//////////////////////////////////////////////////////////////////////////////
-function i2s_sub(integer int) is string
-declare
-	string return_s;
-
-begin
-	if (int == 0)
-		return_s = "0";
-	else if (int == 1)
-		return_s = "1";
-	else if (int == 2)
-		return_s = "2";
-	else if (int == 3)
-		return_s = "3";
-	else if (int == 4)
-		return_s = "4";
-	else if (int == 5)
-		return_s = "5";
-	else if (int == 6)
-		return_s = "6";
-	else if (int == 7)
-		return_s = "7";
-	else if (int == 8)
-		return_s = "8";
-	else if (int == 9)
-		return_s = "9";
-	return return_s;
 end
 
 // https://stackoverflow.com/questions/31241304/how-can-i-check-that-a-bit-is-set-without-bitwise-operation
@@ -1704,6 +1705,13 @@ begin
 	$SetAttribute(thisagent, #ATTRIB_weapon_basic_damage, total_average);
 end
 
+function HasCooldown(agent thisagent, string cooldown_name) is boolean
+declare
+begin
+	if ($HasAttribute(cooldown_name, thisagent))
+		return $IsRunning (thisAgent's cooldown_name);
+	return false;
+end
 	
 //Spell Cooldowns not in prototype
 ////////////////////////////////////////////////////////////////////////////////
@@ -1954,12 +1962,13 @@ begin
 
 			$InitBaseStat(thisagent, "MaxHP", $GetAttribute(thisagent, #ATTRIB_MaxHP));
 			$InitBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
+			$AddAttribute(thisagent, "CurrentMana", "integer", $GetBaseStatTotal(thisagent, "MaxMana"));
 			$InitBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
 			$InitBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
 			
 			$AddAttribute(thisagent, "PrimaryStat", "integer", #ATTRIB_Vitality);
 			$AddAttribute(thisagent, "PrimaryStat_Name", "string", "Vitality");
-
+			$AddAttribute(thisagent, "loyalty", "integer", 50);
 			$AddAttribute(thisagent, "Prestige", "integer", $StartingPrestige(thisagent));
 			$AddAttribute(thisagent, "InsightPoints", "integer");
 			$SetNegativeResistance(thisagent);
@@ -2068,8 +2077,8 @@ declare
 	integer delta;
 begin
 	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Vitality, "Vitality");
-	//$AdjustBaseStat(thisagent, "Armor_Physical", (delta / 10));
-	//$SetBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
+	$AdjustBaseStat(thisagent, "Armor_Physical", (delta / 10));
+	$SetBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2099,9 +2108,9 @@ declare
 	integer delta;
 begin
 	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Intelligence, "Intelligence");
-	//$AdjustBaseStat(thisagent, "Armor_Magical", (delta / 10));
+	$AdjustBaseStat(thisagent, "Armor_Magical", (delta / 10));
 	$SetBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
-	//$SetBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
+	$SetBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2127,15 +2136,16 @@ declare
 begin
 	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_MaxHP, "MaxHP");
 	if (delta > 0)
-		$AdjustAttribute(thisagent, #ATTRIB_HP, delta / 2);
+		$AdjustAttribute(thisagent, #ATTRIB_HP, delta);
 end
 
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateArmor_Physical(agent thisagent)
 declare
 begin
-	thisagent's "Armor_Physical_Flat_Modifier" = thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves"
-				 								+ thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
+	if ($HasAttribute("Armor_Physical_BodyArmor", thisagent))
+		thisagent's "Armor_Physical_Flat_Modifier" = thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves"
+				 									+ thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
 	$RecalculateAttributeTotal(thisagent, #ATTRIB_armor_basic_damage, "Armor_Physical");
 end
 
@@ -2181,11 +2191,30 @@ end
 function GenerateHeroAttributes(agent thisagent)
 declare
 begin
+	if ($HasAttribute("RegenerationSystem", thisagent))
+		return;
+
+	$AddAttribute(thisagent, "ManaRegenPoints", "integer");
+	$AddAttribute(thisagent, "HealthRegenPoints", "integer");
+	$AddAttribute(thisagent, "RegenerationSystem", "function", $Regeneration_System);
 	$NewThread(ThisAgent's "RegenerationSystem", 300, ThisAgent ); //Doubled the cycle time, halved the threshold for regen
 	$RestoreMana(thisagent, thisagent, thisagent's "MaxMana_Total");
+
+	if (thisagent's "title" == "wizard")
+		$AddFireTree(thisagent);			//Need to rewrite the entire spell system first.
+
+	$AddAttribute(thisagent, "Primary_Orientation", "string");
 	thisagent's "Primary_Orientation" = $HeroSkillOrientationPrimary(thisagent);
+	$AddAttribute(thisagent, "Secondary_Orientation", "string");
 	thisagent's "Secondary_Orientation" = $HeroSkillOrientationSecondary(thisagent);
 	$HeroPreferredSkills(thisagent);
+	
+	$StartingSpellCooldowns(thisagent);
+	
+	if ($HasAttribute("Uses_Equipment", thisagent))
+		if (thisagent's "Uses_Equipment"== True)
+			$HeroStartingEquipment(thisagent); // Take care of this part now that new prototype is used
+	
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2194,6 +2223,10 @@ function SetNegativeResistance(agent thisagent)
 declare
 
 begin
+	// not our prototype
+	if ($HasAttribute("Fire_Resistance_Percent_Neg", thisagent) == false)
+		return;
+
 	if (thisagent's "Fire_Resistance_Percent_Neg" == True)
 		thisagent's "Fire_Resistance_Percent" *= -1;
 	if (thisagent's "Cold_Resistance_Percent_Neg" == True)
@@ -2351,8 +2384,6 @@ begin
 	if ($AgentInList(thisagent, AIRootAgent's "Total_Palaces") == false)
 		AIRootAgent's "Total_Palaces" << thisagent;
 
-	$SetNegativeResistance(thisagent);
-	
 	$ListObjects(thisagent,"lair",-1, lairs, #NoHiddenMap, #NotMyTeam);
 	$AddAttribute(thisagent, "Enemy_Lair_List", "list", lairs);
 	
@@ -2375,7 +2406,8 @@ begin
 	
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));
-		
+
+	if ($HasAttribute("Unit_Type", thisagent))	
 	if (thisagent's "Unit_Type" == "Unit")
 		$UnitAttributes(thisagent);
 end

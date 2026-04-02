@@ -537,6 +537,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", 0 - mana_cost);
 	
+	$AddAttribute(ThisAgent, "generic_powershock_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "generic_powershock_cooldown", cooldown, thisAgent, "generic_powershock_cooldown" );
 	
 	$createmissile("power_shock_missile",thisagent,target);
@@ -591,6 +592,7 @@ begin
 	
 	$createeffector( target, "fire_shield_effector", 0 );
 	
+	$AddAttribute(ThisAgent, "generic_flameshield_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "generic_flameshield_cooldown", cooldown, thisAgent, "generic_flameshield_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
@@ -663,6 +665,7 @@ begin
 	$createeffector( thisagent, "camouflage_effector", 0 );
 	$createeffector( thisagent, "camouflage_icon", duration );
 	
+	$AddAttribute(ThisAgent, "cultist_camouflage_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "cultist_camouflage_cooldown", cooldown, thisAgent, "cultist_camouflage_cooldown" );
 	
 	if ($HasAttribute(buff_name, thisagent) != False)
@@ -733,6 +736,7 @@ begin
 	if ($CheckEffector(target, "Charm_icon") == TRUE)
 		return;
 	
+	$AddAttribute(ThisAgent, "cultist_charmmonster_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "cultist_charmmonster_cooldown", cooldown, thisAgent, "cultist_charmmonster_cooldown" );
 	
 	$control_monster(thisagent,target);
@@ -786,6 +790,7 @@ begin
 	$createeffector( thisagent, "change_shape_effector", 0 );
 	$createeffector( thisagent, "change_shape_icon", duration );
 	
+	$AddAttribute(ThisAgent, "cultist_changeshape_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "cultist_changeshape_cooldown", cooldown, thisAgent, "cultist_changeshape_cooldown" );
 	
 	if ($HasAttribute(buff_name, thisagent) == False)
@@ -885,6 +890,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "healer_healerheal_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "healer_healerheal_cooldown", cooldown, thisAgent, "healer_healerheal_cooldown" );
 	
 	if ( $isdead ( thisagent ) == FALSE )
@@ -958,6 +964,7 @@ begin
 	
 	$createeffector(target,"Meditation_effector",0);
 		
+	$AddAttribute(ThisAgent, "healer_meditation_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "healer_meditation_cooldown", cooldown, thisAgent, "healer_meditation_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
@@ -1046,6 +1053,7 @@ begin
 	$createeffector( thisagent, "hands_of_steel_effector", 0 );
 	$createeffector( thisagent, "hands_of_steel_icon", duration );
 	
+	$AddAttribute(ThisAgent, "monk_handsofsteel_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "monk_handsofsteel_cooldown", cooldown, thisAgent, "monk_handsofsteel_cooldown" );
 	
 	if ($HasAttribute(buff_name, thisagent) != False)
@@ -1123,6 +1131,7 @@ begin
 	
 	$createeffector( target, "monk_stone_skin_effector", 0 );
 
+	$AddAttribute(ThisAgent, "monk_stoneskin_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "monk_stoneskin_cooldown", cooldown, thisAgent, "monk_stoneskin_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
@@ -1194,6 +1203,7 @@ begin
 	
 	$createeffector( target, "iron_will_effector", 0 );
 
+	$AddAttribute(ThisAgent, "monk_ironwill_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "monk_ironwill_cooldown", cooldown, thisAgent, "monk_ironwill_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
@@ -1278,6 +1288,7 @@ begin
 	
 	$createeffector(thisagent,"shield_of_light_effector",0);
 	
+	$AddAttribute(ThisAgent, "paladin_shieldoflight_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "paladin_shieldoflight_cooldown", cooldown, thisAgent, "paladin_shieldoflight_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
@@ -1347,6 +1358,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "priestess_drainlife_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "priestess_drainlife_cooldown", cooldown, thisAgent, "priestess_drainlife_cooldown" );
 	
 	$createmissile("life_drain_missile",thisagent,target);
@@ -1433,6 +1445,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "priestess_animateskeleton_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "priestess_animateskeleton_cooldown", cooldown, thisAgent, "priestess_animateskeleton_cooldown" );
 	
 	$createeffector( thisagent, "animate_skeleton_effector", 2500 );
@@ -1494,6 +1507,7 @@ begin
 	if ($CheckEffector(target, "Charm_icon") == TRUE)
 		return;
 
+	$AddAttribute(ThisAgent, "priestess_controlundead_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "priestess_controlundead_cooldown", cooldown, thisAgent, "priestess_controlundead_cooldown" );
 	
 	$control_monster(thisagent,target);
@@ -1547,6 +1561,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "solarus_sunscorch_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "solarus_sunscorch_cooldown", cooldown, thisAgent, "solarus_sunscorch_cooldown" );
 	
 	$createeffector( thisagent, "sun_scorch_effector1", 0 );
@@ -1582,6 +1597,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "wizard_energyblast_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "wizard_energyblast_cooldown", cooldown, thisAgent, "wizard_energyblast_cooldown" );
 	
 	$createmissile("energy_blast_missile",thisagent,target);
@@ -1634,6 +1650,7 @@ begin
 	
 	$createeffector( target, "fire_shield_effector", 0 );
 	
+	$AddAttribute(ThisAgent, "wizard_fireshield_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "wizard_fireshield_cooldown", cooldown, thisAgent, "wizard_fireshield_cooldown" );
 	
 	if ($IsRunning (target's "Wizard_FireShieldBuff_End") == TRUE)
@@ -1698,6 +1715,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "wizard_fireblast_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "wizard_fireblast_cooldown", cooldown, thisAgent, "wizard_fireblast_cooldown" );
 	
 	target1 = $listmember(targets,1);
@@ -1750,6 +1768,7 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "wizard_fireball_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "wizard_fireball_cooldown", cooldown, thisAgent, "wizard_fireball_cooldown" );
 	
 	$createmissile("fireball_missile",thisagent,target);
@@ -1830,6 +1849,7 @@ begin
 	
 	$createeffector( target, "Resist_magic_effector", 0 );
 	
+	$AddAttribute(ThisAgent, "wizard_resistmagic_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "wizard_resistmagic_cooldown", cooldown, thisAgent, "wizard_resistmagic_cooldown" );
 	
 	if ($IsRunning (target's "Wizard_ResistMagicBuff_End") == TRUE)
@@ -1887,6 +1907,7 @@ begin
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
+	$AddAttribute(ThisAgent, "wizard_meteorstorm_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "wizard_meteorstorm_cooldown", cooldown, thisAgent, "wizard_meteorstorm_cooldown" );
 	
 	$SpellTimeoutEffectAdvanced( thisagent, "meteor_storm", thisagent, $Meteor_Storm_Active, $spelldummydeath, "wizard_meteor_storm_effector", periodic, duration, #ATTRIB_Intelligence, stat_int, 0, #ATTRIB_SightRange, radius, #ATTRIB_maxattackrange, radius  );
@@ -2503,6 +2524,7 @@ begin
 	
 	$createeffector ( target, "generic_Regenerate_effector", 0 );
 	
+	$AddAttribute(ThisAgent, "generic_regenerate_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "generic_regenerate_cooldown", cooldown, thisAgent, "generic_regenerate_cooldown" );
 	
 	$Heal ( thisagent, target, heal_amount );
@@ -2518,7 +2540,7 @@ begin
 	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$createeffector ( target, "generic_Regenerate_icon", duration );
-	target's "HealthRegeneration_Increase" += regen_amount;
+	$AdjustAttributeSafe(target, "HealthRegeneration_Flat_Modifier", regen_amount);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2536,8 +2558,8 @@ begin
 	
 	regen_amount = $EffectBuff_Thread(willpower, wisdom, regen_amount);
 	
-	thisagent's "HealthRegeneration_Increase" -= regen_amount;
-	
+	$AdjustAttributeSafe(thisagent, "HealthRegeneration_Flat_Modifier", -regen_amount);
+
 	$KillThread(thisagent's "Generic_RegenerateBuff_End");
 end
 
@@ -2576,6 +2598,7 @@ begin
 	
 	$createeffector(target,"priestess_wither_effector",0);
 	
+	$AddAttribute(ThisAgent, "priestess_wither_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "priestess_wither_cooldown", cooldown, thisAgent, "priestess_wither_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
@@ -2648,6 +2671,7 @@ begin
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	
 	$createeffector(target,"wizard_transmute_effector",0);
+	$AddAttribute(ThisAgent, "wizard_transmute_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "wizard_transmute_cooldown", cooldown, thisAgent, "wizard_transmute_cooldown" );
 
 	$setattribute(target, #ATTRIB_HP, 0);
@@ -4486,6 +4510,11 @@ begin
 	
 	if ($CastableSpell_Heal(thisagent, target, "generic_regenerate") == TRUE)
 		begin
+			if ($HasAttribute("generic_regenerate_cooldown", thisagent) == false)
+				begin
+					new_spell = "generic_regenerate";
+					return new_spell;
+				end
 			if ($IsRunning (thisAgent's "generic_regenerate_cooldown") != TRUE)
 				begin
 					new_spell = "generic_regenerate";
@@ -4541,8 +4570,11 @@ begin
 	unit_name = thisagent's "title";
 	new_spell = "nothing";
 	
-	original_name = thisagent's "Original_Title";
-	
+	if ($HasAttribute("Original_Title", thisagent) == True)
+		original_name = thisagent's "Original_Title";
+	else
+		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
+		
 	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
 	castrange = (thisagent's "castingrange");
 	targetrange = $distanceBetweenAgents(thisagent,target);
@@ -4575,7 +4607,10 @@ begin
 	unit_name = thisagent's "title";
 	new_spell = "nothing";
 	
-	original_name = thisagent's "Original_Title";
+	if ($HasAttribute("Original_Title", thisagent) == True)
+		original_name = thisagent's "Original_Title";
+	else
+		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
 		
 	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
 	castrange = (thisagent's "castingrange");
@@ -4621,7 +4656,10 @@ begin
 	unit_name = thisagent's "title";
 	new_spell = "nothing";
 	
-	original_name = thisagent's "Original_Title";
+	if ($HasAttribute("Original_Title", thisagent) == True)
+		original_name = thisagent's "Original_Title";
+	else
+		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
 		
 	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
 	castrange = (thisagent's "castingrange");
@@ -4967,7 +5005,7 @@ begin
 //							end
 //				end
 //		end
-				
+		if ($HasAttribute("SpellsAttack", thisagent))
 		if ($ListSize(thisagent's "SpellsAttack") > 0)
 			foreach spell_name in thisagent's "SpellsAttack" do
 				if (thisagent's spell_name != "Nothing")
@@ -4987,8 +5025,8 @@ begin
 									end
 							end
 					end
-		
-	thisagent's "Spell_Target" = new_target;
+	if ($HasAttribute("Spell_Target", thisagent))
+		thisagent's "Spell_Target" = new_target;
 	return new_spell;
 end
 

@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
-Function Check_Library (agent ThisAgent, string Intention, integer Chance) is boolean
+Function Check_Library (agent ThisAgent, integer Chance, string Intention) is boolean
 Declare
 	list	 	Libraries, Spires;
 	agent	 	Library;

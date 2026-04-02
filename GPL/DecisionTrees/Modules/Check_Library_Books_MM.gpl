@@ -60,7 +60,7 @@ Begin
 										break;
 									end
 							end
-					else
+					else if ($listsize(available_books) > 0)
 						begin
 							book = $listmember(available_books, $RandomNumberNonZero($listsize(available_books))); //Give it a random book in the list if the agent has never read anything
 							thisagent's completetname = book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild

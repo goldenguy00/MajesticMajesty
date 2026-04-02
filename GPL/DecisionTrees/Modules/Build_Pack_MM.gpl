@@ -19,7 +19,7 @@ Begin
 		End
 
 	
-	if (($isspellAvailable(thisagent,"charm_monster") != TRUE) || ($Spell_Mana_Available(thisagent, "charm_monster") != TRUE) || ($IsRunning (thisAgent's "cultist_charmmonster_cooldown") == TRUE))
+	if (($isspellAvailable(thisagent,"charm_monster") != TRUE) || ($Spell_Mana_Available(thisagent, "charm_monster") != TRUE) || ($HasCooldown(thisagent, "cultist_charmmonster_cooldown") == TRUE))
 		return FALSE;
 
 	//This check to see if they already have their max. complement of Animals
@@ -92,7 +92,7 @@ Begin
 	conditionsub = "TaskPackageTargetCondition";
 	completecondition = conditionsub + taskindex;
 	
-	if (($isspellAvailable(thisagent,"charm_monster") != TRUE) || ($Spell_Mana_Available(thisagent, "charm_monster") != TRUE) || ($IsRunning (thisAgent's "cultist_charmmonster_cooldown") == TRUE))
+	if (($isspellAvailable(thisagent,"charm_monster") != TRUE) || ($Spell_Mana_Available(thisagent, "charm_monster") != TRUE) || ($HasCooldown(thisagent, "cultist_charmmonster_cooldown") == TRUE))
 		return FALSE;
 
 	//This check to see if they already have their max. complement of Animals

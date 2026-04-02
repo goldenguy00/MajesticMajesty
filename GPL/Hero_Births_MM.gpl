@@ -156,7 +156,6 @@ begin
 	$CreateEffector (THisAgent, "SpawnEffect_New", 1);
 		
 	$GeneralAttributes(thisagent);
-	$GenerateHeroAttributes(thisagent);
 	
 	$ListObjects(thisagent,"building",-1,list1, #MyPlayer);
 
@@ -190,16 +189,7 @@ begin
 	if ($getattribute(thisagent, #ATTRIB_armor_basic_damage) > 1)
 		$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, - 1 );
 		
-	if (thisagent's "title" == "wizard")
-		begin
-			$AddFireTree(thisagent);			//Need to rewrite the entire spell system first.
-			$Tree_LearnSpell(thisagent, "Fire_Bolt");
-		end
-
-	$StartingSpellCooldowns(thisagent);
-	
-	if (thisagent's "Uses_Equipment"== True)
-		$HeroStartingEquipment(thisagent); // Take care of this part now that new prototype is used
+	$GenerateHeroAttributes(thisagent);
 	
 	gnomes = $listtitles(list1,"gnome_hovel");
 	gnomes = $listcompleted(gnomes);
@@ -240,26 +230,27 @@ begin
 						end
 				end
 		end
-		
+	
+	$AddAttribute(thisagent, "home", "agent");
 	if (thisagent's "home" == $nullagent())
 		thisagent's "home" = $parent(thisagent);
 
-//	if (thisagent's "Title" == "Wizard")
-//		begin
+	if ($HasAttribute("TaskPackageScript",thisagent))
+		begin
 			(thisagent's "TaskPackageScript")(thisagent);
 			thisagent's "TaskPackageTypeCurrent" = "Prepare";
 			thisagent's "TaskPackageTypeBackup" = "Prepare";
 			thisagent's "TaskPackageTypeNext" = "Prepare";
 			$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 			$NewThread( thisagent's "TaskPackageCycle", #Task_Cycle, thisagent );
-//		end
-//	else
-//		begin
-//			thisagent's "basicScript" = thisagent's "StartingScript";
-//			thisagent's "activeScript" = thisagent's "StartingScript";
-//			thisagent's "backscript" = thisagent's "StartingScript";
-//			$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
-//		end
+		end
+	else
+		begin
+			thisagent's "basicScript" = thisagent's "StartingScript";
+			thisagent's "activeScript" = thisagent's "StartingScript";
+			thisagent's "backscript" = thisagent's "StartingScript";
+			$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+		end
 	
 	
 	if ($isvalidgamepiece(thisagent's "home"))

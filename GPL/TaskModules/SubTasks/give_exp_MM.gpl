@@ -91,10 +91,14 @@ begin
 	if (MPBonus < 1) MPBonus = 1;
 	thisagent's "MaxMana_Base" += MPBonus;
 
+	$GenerateHeroAttributes(thisagent);
+	
 	$RecalculateStats(thisagent);
 
 	if (thisagent's "title" == "Wizard")
-		$SkillTreeLevelUp(thisagent);
+		begin
+			$SkillTreeLevelUp(thisagent);
+		end
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

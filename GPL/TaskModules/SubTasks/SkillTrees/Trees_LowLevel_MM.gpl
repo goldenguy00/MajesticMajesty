@@ -4,6 +4,9 @@ function AddFireTree(agent thisagent) is string
 declare
 
 begin
+	if ($HasAttribute("Fire_Tree", thisagent))
+		return;
+
 	$AddAttribute(thisagent, "Fire_Tree", "list");
 	
 	thisagent's "Fire_Tree" << "FireTree";
@@ -85,6 +88,8 @@ begin
 	$AddAttribute(thisagent, "Embers", "string", "Nothing");
 	$AddAttribute(thisagent, "Heatwave", "string", "Nothing");
 	$AddAttribute(thisagent, "Cinders", "string", "Nothing");
+	
+	$Tree_LearnSpell(thisagent, "Fire_Bolt");
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function ArrangeSpells(agent thisagent)
@@ -854,29 +859,42 @@ end
 function IncreaseSpellLevel(agent thisagent, string spell_name)
 
 declare
-	string full_spell, new_spell;
+	string full_spell, new_spell, spell_prefix;
 	boolean flag;
-	integer count;
+	integer count, next;
 
 begin
-	
+	if ($HasLearnedSpell(thisagent, spell_name) == false)
+		return;
+
 	flag = False;
-	count = 0;
+	count = 1;
+	next = 2;
+	spell_prefix = spell_name + "_";
 	
 	while (flag == False) do
 		begin
-			count ++;
-			new_spell = spell_name + "_";
-			full_spell = new_spell + $i2s(count);
-			new_spell += $i2s(count + 1);
-			if ($HasLearnedSpell(thisagent, spell_name))
-				if ($isspellavailable(thisagent,full_spell,1))
-					begin
-						$ForgetSpell(thisagent, full_spell);
-						$LearnSpell(thisagent, new_spell);
-						thisagent's spell_name = new_spell;
-						flag = true;
-					end
+			if (count < 20)
+				begin
+					full_spell = spell_prefix + $i2s(count);
+					new_spell = spell_prefix + $i2s(next);
+
+					if ($isspellavailable(thisagent,full_spell,1))
+						begin
+							$ForgetSpell(thisagent, full_spell);
+							$LearnSpell(thisagent, new_spell);
+							thisagent's spell_name = new_spell;
+							flag = true;
+						end
+				end
+				
+			count = count + 1;
+			next = count + 1;
+
+			if (count > 19 || next > 20)
+				begin
+					flag = true;
+				end
 		end
 	
 	//thisagent's "learned_newspell" = True;
@@ -1194,6 +1212,12 @@ declare
 	string orientation;
 
 begin
+	$AddAttribute(thisagent, "Preferred_Skill_1", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_2", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_3", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_4", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_5", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_6", "string");
 	orientation = thisagent's "Primary_Orientation";
 	if (orientation == "Fire - Defensive")
 		begin

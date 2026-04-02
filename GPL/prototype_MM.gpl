@@ -581,8 +581,6 @@ declare
 	integer UpWillpowerChance;
 	integer UpWisdomChance;
 	
-	function RegenerationSystem;
-	
 	list Primary_Bank;
 	boolean Has_Bank_Account;
 	integer Bank_Account_Gold;

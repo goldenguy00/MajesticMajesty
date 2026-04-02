@@ -53,7 +53,7 @@ begin
 			return FALSE;
 		end
 
-	if (thisagent's "home" == $Nullagent())
+	if ($NotValid(thisagent's "home"))
 		begin
 //		            //$DebugOut("I don't have a home!");
 			

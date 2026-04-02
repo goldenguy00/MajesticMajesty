@@ -483,6 +483,7 @@ function Basic_Equipment_Transfer(agent Item, agent Hero, integer attributeID)
 declare
 	integer	stack, enchant_level, upgrade_level, num_enchant, num_upgrade;
 	string  itemname, hero_class, subclass, hero_name, enchant_increase, upgrade_increase, equip_type, equip_name, loc_type;
+	boolean do_transfer;
 	
 begin
 	if (Hero != $NullAgent ())
@@ -499,92 +500,102 @@ begin
 			num_upgrade = Item's "num_upgrade";
 			enchant_increase = Item's "enchant_increase";
 			upgrade_increase = Item's "upgrade_increase";
-				//if (((Hero's (Item's "Upgrade_Type") + Hero's (Item's "Enchant_Type")) < (upgrade_level + enchant_level)) || $GetEquippedItem(Hero, Item's "Equip_Type") == "Nothing")
-				if ((((Hero's (Item's "Upgrade_Type") + Hero's (Item's "Enchant_Type")) < (upgrade_level + enchant_level)) || Hero's equip_type == "Nothing") && Hero's loc_type == subclass)
-					begin
-						//if ($GetEquippedItem(Hero, Item's "Unequip_Type") != "Nothing")
-						//	$UnequipItemType(Hero, Item's "Equip_type", Item's "Unequip_type");
-						if (Hero's equip_type != "Nothing")
-							$UnequipItemType(Hero, equip_type);
-							
-						$CreateNewInventoryItem(equip_name, Hero, 1);
-						Hero's equip_type = itemname;
-						if (Item's "Weapon_Struct" == True)
-							begin
-								$setattribute(Hero,#ATTRIB_weapon_struct_bonus,upgrade_level);
-								$setattribute(Hero,#ATTRIB_weapon_magic_bonus,enchant_level);
-								Hero's (Item's "Upgrade_Type") = Item's "Upgrade_Level";
-								Hero's (Item's "Enchant_Type") = Item's "Enchant_Level";
-							end
-						else if (Item's "Armor_Struct" == True)
-							begin
-								$setattribute(Hero,#ATTRIB_armor_struct_bonus,upgrade_level);
-								$setattribute(Hero,#ATTRIB_armor_magic_bonus,enchant_level);
-								Hero's (Item's "Upgrade_Type") = Item's "Upgrade_Level";
-								Hero's (Item's "Enchant_Type") = Item's "Enchant_Level";
-							end
-							
-						if (Item's "Subtype" == "Weapon")
-							begin
-								$Item_Equipped_Weapon_Damage(Hero, Item);
-								(Item's "Update_1")(Hero);	
-							end
-							
-						else if (Item's "Subtype" == "Armor")
-							$Item_Equipped_Attributes(Hero, Item);
+			do_transfer = false;
+			
+			if ($HasAttribute(item's "Upgrade_Type", hero) && $HasAttribute(loc_type, hero) && $HasAttribute(equip_type, hero)) 
+				if (Hero's loc_type == subclass)
+					if (Hero's equip_type == "Nothing")
+						do_transfer = true;
+					else if ( (Hero's (Item's "Upgrade_Type") + Hero's (Item's "Enchant_Type")) < (upgrade_level + enchant_level) )
+						do_transfer = true;
+			
+			//if (((Hero's (Item's "Upgrade_Type") + Hero's (Item's "Enchant_Type")) < (upgrade_level + enchant_level)) || $GetEquippedItem(Hero, Item's "Equip_Type") == "Nothing")
+			
+			if (do_transfer)
+				begin
+					//if ($GetEquippedItem(Hero, Item's "Unequip_Type") != "Nothing")
+					//	$UnequipItemType(Hero, Item's "Equip_type", Item's "Unequip_type");
+					if (Hero's equip_type != "Nothing")
+						$UnequipItemType(Hero, equip_type);
 						
-						if ($HasAttribute(itemname, Item))
-							begin
-								stack = Item's itemname;
+					$CreateNewInventoryItem(equip_name, Hero, 1);
+					Hero's equip_type = itemname;
+					if (Item's "Weapon_Struct" == True)
+						begin
+							$setattribute(Hero,#ATTRIB_weapon_struct_bonus,upgrade_level);
+							$setattribute(Hero,#ATTRIB_weapon_magic_bonus,enchant_level);
+							Hero's (Item's "Upgrade_Type") = Item's "Upgrade_Level";
+							Hero's (Item's "Enchant_Type") = Item's "Enchant_Level";
+						end
+					else if (Item's "Armor_Struct" == True)
+						begin
+							$setattribute(Hero,#ATTRIB_armor_struct_bonus,upgrade_level);
+							$setattribute(Hero,#ATTRIB_armor_magic_bonus,enchant_level);
+							Hero's (Item's "Upgrade_Type") = Item's "Upgrade_Level";
+							Hero's (Item's "Enchant_Type") = Item's "Enchant_Level";
+						end
+						
+					if (Item's "Subtype" == "Weapon")
+						begin
+							$Item_Equipped_Weapon_Damage(Hero, Item);
+							(Item's "Update_1")(Hero);	
+						end
+						
+					else if (Item's "Subtype" == "Armor")
+						$Item_Equipped_Attributes(Hero, Item);
+					
+					if ($HasAttribute(itemname, Item))
+						begin
+							stack = Item's itemname;
+		
+							if (stack <= 1)					
+								begin
+									$DeleteInventoryItem(itemname, Hero);
+									//return;
+								end
 			
-								if (stack <= 1)					
-									begin
-										$DeleteInventoryItem(itemname, Hero);
-										//return;
-									end
-				
-								if ($HasAttribute(itemname, Hero))
-									begin
-										Hero's itemname += stack;
-									end
-								else
-									begin
-										$AddAttribute(Hero, itemname, "integer", stack);
-									end
-							end
-							
-						if (num_enchant > 0)
-							begin
-								num_enchant -= 1;
-								$DeleteGamePiece (Item);
-								$UpgradeAndEquipItem(Hero, enchant_increase, equip_type, num_enchant, num_upgrade);
-							end
-						else if (num_upgrade > 0)
-							begin
-								num_upgrade -= 1;
-								$DeleteGamePiece (Item);
-								$UpgradeAndEquipItem(Hero, upgrade_increase, equip_type, num_enchant, num_upgrade);
-							end
-					end
-				else
-					begin
-						if ($HasAttribute(itemname, Item) != False)
-							begin
-								stack = Item's itemname;
+							if ($HasAttribute(itemname, Hero))
+								begin
+									Hero's itemname += stack;
+								end
+							else
+								begin
+									$AddAttribute(Hero, itemname, "integer", stack);
+								end
+						end
+						
+					if (num_enchant > 0)
+						begin
+							num_enchant -= 1;
+							$DeleteGamePiece (Item);
+							$UpgradeAndEquipItem(Hero, enchant_increase, equip_type, num_enchant, num_upgrade);
+						end
+					else if (num_upgrade > 0)
+						begin
+							num_upgrade -= 1;
+							$DeleteGamePiece (Item);
+							$UpgradeAndEquipItem(Hero, upgrade_increase, equip_type, num_enchant, num_upgrade);
+						end
+				end
+			else
+				begin
+					if ($HasAttribute(itemname, Item) != False)
+						begin
+							stack = Item's itemname;
+		
+							if (stack == 0)
+								stack = 1;
 			
-								if (stack == 0)
-									stack = 1;
-				
-								if ($HasAttribute(itemname, Hero)!=False)
-									begin
-										Hero's itemname += stack;
-									end
-								else
-									begin
-										$AddAttribute(Hero, itemname, "integer", stack);
-									end
-							end
-					end
+							if ($HasAttribute(itemname, Hero)!=False)
+								begin
+									Hero's itemname += stack;
+								end
+							else
+								begin
+									$AddAttribute(Hero, itemname, "integer", stack);
+								end
+						end
+				end
 		end
 	
 end
@@ -615,7 +626,7 @@ declare
 	agent itemagent;
 
 begin
-	if ($HasAttribute(itemdrop, thisagent) != True)
+	if ($HasAttribute(itemdrop, thisagent) != True || $HasAttribute("Total_Item_list", target) == false)
 		return;
 	else if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
 		begin
@@ -687,9 +698,10 @@ begin
 					$DeleteInventoryItem(item, thisAgent);
 				end
 		end
-		
-	$Drop_All_Stacks_Equipment_Process(thisagent, thisagent's "Equipment_RightHand");
-	$Drop_All_Stacks_Equipment_Process(thisagent, thisagent's "Equipment_BodyArmor");
+	if ($HasAttribute("Equipment_RightHand", thisagent))
+		$Drop_All_Stacks_Equipment_Process(thisagent, thisagent's "Equipment_RightHand");
+	if ($HasAttribute("Equipment_BodyArmor", thisagent))
+		$Drop_All_Stacks_Equipment_Process(thisagent, thisagent's "Equipment_BodyArmor");
 end
 ///////////////////////////////////////////////////////////////////////////////
 function Drop_All_Stacks_Equipment_Process(agent thisAgent, string unequipname)
@@ -750,6 +762,9 @@ declare
 	integer stack_multplier, item_value, loot_value, loot_size, i;
 
 begin
+	if ($HasAttribute("Loot_Item_list", thisagent) == false)
+		return 0;
+
 	item_list = thisagent's "Loot_Item_List";
 	item_value_list = thisagent's "Loot_Item_Value_List";
 	loot_size = $ListSize(item_list);
@@ -774,6 +789,9 @@ declare
 	integer stack_multplier, item_value, equipment_value, equipment_size, i;
 
 begin
+	if ($HasAttribute("Equipment_Item_List", thisagent) == false)
+		return 0;
+		
 	item_list = thisagent's "Equipment_Item_List";
 	item_value_list = thisagent's "Equipment_Item_Value_List";
 	equipment_size = $ListSize(item_list);
@@ -811,6 +829,9 @@ declare
 begin
 	equipment_value = 0;
 	
+	if ($HasAttribute("Equipment_Item_List", thisagent) == false)
+		return 0;
+		
 	item_list = thisagent's "Equipment_Item_List";
 	item_value_list = thisagent's "Equipment_Item_Value_List";
 	equipment_size = $ListSize(item_list);
@@ -889,6 +910,9 @@ declare
 begin
 	loot_value = 0;
 	
+	if ($HasAttribute("Loot_Item_List", thisagent) == false)
+		return 0;
+		
 	item_list = thisagent's "Loot_Item_List";
 	item_value_list = thisagent's "Loot_Item_Value_List";
 	loot_size = $ListSize(item_list);
