@@ -104,6 +104,7 @@ Begin
 
 	ThisAgent's "TaskName" = "";
 
+	if ($HasAttribute("TaskPackageStatus", thisagent))
 	thisagent's "TaskPackageStatus" = "Complete";
 	
 	$Exit_Building (ThisAgent, Target);

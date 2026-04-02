@@ -36,8 +36,6 @@ Begin
 			$SpawnUnit (ThisAgent, Resource);
 
 			$give_exp(thisagent,#resource_exp);
-			
-			thisagent's "TaskPackageStatus" = "Complete";
 		end
 
   //	Else

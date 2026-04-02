@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
-function flee(agent thisagent,string intent)
+function flee_packet(agent thisagent,string intent)
 
 declare
 	list inns,new_list,enemies;
@@ -35,7 +35,7 @@ begin
 							$clearlist(inns);
 							inns << thisagent's "home";
 
-							$flee_part_II(thisagent,inns,intent);
+							$flee_part_II_packet(thisagent,inns,intent);
 							return;
 						end
 				end
@@ -59,12 +59,12 @@ begin
 	if ((intent == "IDTXT_INTENT_FLEEING") && ($listsize(thisagent's "hostiles") > 0))
 		thisagent's "Fear" += 10 + (2 * $listsize(thisagent's "hostiles"));
 								
-	$flee_part_II(thisagent,inns,intent);
+	$flee_part_II_packet(thisagent,inns,intent);
 
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function flee_absolute(agent thisagent,string intent)
+function flee_absolute_packet(agent thisagent,string intent)
 
 declare
 	list inns,new_list,enemies;
@@ -77,13 +77,13 @@ begin
 	if ($isvalidgamepiece(thisagent's "home"))
 		inns << thisagent's "home";
 
-	$flee_part_II(thisagent,inns,intent);
+	$flee_part_II_packet(thisagent,inns,intent);
 
 end
 
 
 ///////////////////////////////////////////////////////////////////////////////
-function flee_part_II(agent thisagent,list places,string intent)
+function flee_part_II_packet(agent thisagent,list places,string intent)
 
 declare
 	agent go_here;

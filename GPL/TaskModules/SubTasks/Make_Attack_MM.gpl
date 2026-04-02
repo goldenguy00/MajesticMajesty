@@ -113,7 +113,7 @@ begin
 					//This is here because if the unit just attacked themselves, then they
 					//should flee if they are a magic-based class
 					If (ThisAgent's "Title" == "Wizard" || ThisAgent's "Title" == "Priestess")
- 						$Flee_Absolute ( ThisAgent, "IDTXT_INTENT_FLEEING" );
+ 						$Flee_Absolute_packet ( ThisAgent, "IDTXT_INTENT_FLEEING" );
 
 				end
 		end
@@ -322,7 +322,7 @@ begin
 					//This is here because if the unit just attacked themselves, then they
 					//should flee if they are a magic-based class
 					If (ThisAgent's "Title" == "Wizard" || ThisAgent's "Title" == "Priestess")
- 						$Flee_Absolute ( ThisAgent, "IDTXT_INTENT_FLEEING" );
+ 						$Flee_Absolute_packet ( ThisAgent, "IDTXT_INTENT_FLEEING" );
 
 				end
 		end

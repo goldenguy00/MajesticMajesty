@@ -41,7 +41,6 @@ Begin
 						begin
 							//Attempt to Steal from target, then return to BasicScript
 							$Steal (ThisAgent, Target);
-							thisagent's "TaskPackageStatus" = "Complete";
 							$reset_tasks(thisagent);
 						end
 				End

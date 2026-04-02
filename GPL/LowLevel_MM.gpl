@@ -2403,7 +2403,7 @@ function GeneralAttributes(agent thisagent)
 declare
 begin
 	$InitBaseStats(thisagent);
-	
+	$AddAttribute(thisagent, "Running_Intent", "string");
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));
 

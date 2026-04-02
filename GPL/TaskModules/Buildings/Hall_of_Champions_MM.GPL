@@ -77,8 +77,6 @@ begin
 	$setattribute ( thisagent, #ATTRIB_HP, $getattribute ( thisagent, #ATTRIB_MaxHP ));
 	$SetThreadInterval ( ThisAgent's "ActiveScript", #Normal_Cycle );
 
-	thisagent's "TaskPackageStatus" = "Complete";
-	
 	$exit_building ( thisagent, thisagent's "target" );
 
 	if ( $checkeffector ( thisagent, "Champions_Vigor_Icon") == False)

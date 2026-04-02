@@ -36,7 +36,8 @@ Declare
 Begin
 	ThisBuilding = ThisAgent's "Target";
 
-	thisagent's "TaskPackageStatus" = "Complete";
+	if ($HasAttribute("TaskPackageStatus", thisagent))
+		thisagent's "TaskPackageStatus" = "Complete";
 	
 	if ($isdead(thisbuilding) == FALSE)
 		$Hero_Pay_Distractor (ThisAgent, ThisBuilding, #Brothel_Cost);

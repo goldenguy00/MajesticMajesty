@@ -126,7 +126,7 @@ Declare
 	agent palace;
 
 Begin
-	thisagent's "TaskPackageStatus" = "Complete";
+
 	$Exit_Building (ThisAgent, ThisAgent's "Target");
 
 	if (thisagent's "task_number" == #ATTRIB_Armor_Struct_Bonus)

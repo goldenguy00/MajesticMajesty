@@ -142,7 +142,7 @@ begin
 	If ($listsize(thisagent's "Hostiles") == 0)
 		 return FALSE;
 
-	$flee(thisagent,"IDTXT_INTENT_FLEEING");
+	$flee_packet(thisagent,"IDTXT_INTENT_FLEEING");
 
 	// empty thisagent's Hostiles list
 	$clearlist(thisagent's "Hostiles");
@@ -218,9 +218,9 @@ begin
 	else
 		begin
 			if (mirror_flag)
-				$flee_absolute(thisagent,"IDTXT_INTENT_FLEEING");
+				$flee_absolute_packet(thisagent,"IDTXT_INTENT_FLEEING");
 			else
-				$flee(thisagent,"IDTXT_INTENT_FLEEING");
+				$flee_packet(thisagent,"IDTXT_INTENT_FLEEING");
 
 			// empty thisagent's Hostiles list
 			$clearlist(thisagent's "Hostiles");
@@ -269,7 +269,7 @@ begin
 	If ($listsize(thisagent's "Hostiles") == 0)
 		 return FALSE;
 
-	$flee(thisagent,"IDTXT_INTENT_FLEEING");
+	$flee_packet(thisagent,"IDTXT_INTENT_FLEEING");
 
 	// empty thisagent's Hostiles list
 	$clearlist(thisagent's "Hostiles");
@@ -356,7 +356,7 @@ begin
 				begin
 					// flight
 //					//$DebugOut("I must flee!");
-					$flee(thisagent,"IDTXT_INTENT_FLEEING");
+					$flee_packet(thisagent,"IDTXT_INTENT_FLEEING");
 					return TRUE;
 
 				end

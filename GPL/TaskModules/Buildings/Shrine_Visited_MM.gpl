@@ -44,6 +44,7 @@ begin
 	target = thisagent's "target";
 	$exit_building(thisagent,thisagent's "target");
 	
+	if ($HasAttribute("TaskPackageStatus", thisagent))
 	thisagent's "TaskPackageStatus" = "Complete";
 	
 	if ($HasAttribute("Shrine_Cooldown", thisagent) == True)

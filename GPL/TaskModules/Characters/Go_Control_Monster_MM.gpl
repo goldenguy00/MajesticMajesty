@@ -42,7 +42,6 @@ Begin
 						begin
 							target = $ValidControlTarget_hero(thisagent, target, spellname);
 							$Cast (ThisAgent, spellname, Target, "");
-							thisagent's "TaskPackageStatus" = "Complete";
 							$Reset_Tasks (ThisAgent);
 						end
 

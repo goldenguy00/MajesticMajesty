@@ -41,6 +41,7 @@ Begin
 			//RUN LAIR'S ReactionScript, and spawn a monster on ThisAgent's ass!
 
 		end
+	if ($HasAttribute("TaskPackageStatus", thisagent))
 	thisagent's "TaskPackageStatus" = "Complete";
 	$give_exp(thisagent,#steal_exp);
 

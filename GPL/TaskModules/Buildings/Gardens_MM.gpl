@@ -39,6 +39,7 @@ declare
 begin
 	$exit_building(thisagent,thisagent's "target");
 
+	if ($HasAttribute("TaskPackageStatus", thisagent))
 	thisagent's "TaskPackageStatus" = "Complete";
 	
 	i = $randomnumber(6);

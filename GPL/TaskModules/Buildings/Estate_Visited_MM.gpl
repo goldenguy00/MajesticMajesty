@@ -59,7 +59,8 @@ begin
 	i = 0;
 	//i = $randomnumber(3);
 
-	thisagent's "TaskPackageStatus" = "Complete";
+	if ($HasAttribute("TaskPackageStatus", thisagent))
+		thisagent's "TaskPackageStatus" = "Complete";
 	
 	if (i == 0)
 		begin

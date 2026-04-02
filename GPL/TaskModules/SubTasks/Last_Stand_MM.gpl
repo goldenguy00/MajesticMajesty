@@ -34,7 +34,7 @@ begin
 
 	// later put in a random check
 	if (run_result >= fight_result)
-		$flee(thisagent,intent);
+		$flee_packet(thisagent,intent);
 	else
 		$Go_berserk(thisagent);
 

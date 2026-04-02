@@ -26,6 +26,7 @@ begin
 	if (free_cost != 3)
 		$SpendMana(thisagent, - mana_cost);
 	
+	$AddAttribute(thisagent, "Fire_Bolt_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "Fire_Bolt_Cooldown", cooldown, thisAgent, "Fire_Bolt_Cooldown" );
 	
 	$createmissile("Fire_Bolt_Missile",thisagent,target);
@@ -89,6 +90,7 @@ begin
 	
 	$SpendMana(thisagent, - mana_cost);
 	
+	$AddAttribute(thisagent, "Fireball_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "Fireball_Cooldown", cooldown, thisAgent, "Fireball_Cooldown" );
 	
 	$createmissile("FireballTree_Missile",thisagent,target);
@@ -257,6 +259,7 @@ begin
 	
 	$SpendMana(thisagent, - mana_cost);
 	
+	$AddAttribute(thisagent, "Perdition_Barrage_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "Perdition_Barrage_Cooldown", cooldown, thisAgent, "Perdition_Barrage_Cooldown" );
 	
 	while (projectiles > 0) do
@@ -398,6 +401,7 @@ begin
 	
 	$SpendMana(thisagent, - mana_cost);
 	
+	$AddAttribute(thisagent, "Ignite_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "Ignite_Cooldown", cooldown, thisAgent, "Ignite_Cooldown" );
 	
 	// attack the original target
@@ -487,6 +491,7 @@ begin
 	
 	$SpendMana(thisagent, - mana_cost);
 	
+	$AddAttribute(thisagent, "incandescent_ray_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "Incandescent_Ray_Cooldown", cooldown, thisAgent, "Incandescent_Ray_Cooldown" );
 	
 	while (distance > distance_interval) do
@@ -572,6 +577,7 @@ begin
 	
 	$createeffector( target, "searing_mantle_effector", 0 );
 	
+	$AddAttribute(thisagent, "searing_mantle_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "Searing_Mantle_Cooldown", cooldown, thisAgent, "Searing_Mantle_Cooldown" );
 	
 	if ($IsRunning (target's "SearingMantleBuff_End") == TRUE)
@@ -655,6 +661,7 @@ begin
 	
 	//$createeffector( target, "Pyrelight_effector", 0 );
 	
+	$AddAttribute(thisagent, "Pyrelight_cooldown", "function", $Cooldown_End);
 	$NewThread(thisAgent's "Pyrelight_Cooldown", cooldown, thisAgent, "Pyrelight_Cooldown" );
 	
 	if ($IsRunning (target's "PyrelightDebuff_End") == TRUE)

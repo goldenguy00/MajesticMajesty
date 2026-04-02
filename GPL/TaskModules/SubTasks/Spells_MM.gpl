@@ -436,7 +436,7 @@ begin
 									// Must check the if the unit is dead here, as it may have been killed
 									// by the howl damage called earlier
 									if ( $isdead ( victim ) == FALSE )
-										$Flee_Absolute ( victim, "IDTXT_INTENT_FLEEING" );
+										$Flee_Absolute_packet ( victim, "IDTXT_INTENT_FLEEING" );
 								end
 						end
 				end
@@ -2063,7 +2063,7 @@ begin
 					If ( $InsideBuilding ( ThisAgent ) == False )
 						begin
 
-							$Flee_Absolute ( ThisAgent, "IDTXT_INTENT_FLEEING" );
+							$Flee_Absolute_packet ( ThisAgent, "IDTXT_INTENT_FLEEING" );
 
 						end
 
@@ -4500,7 +4500,7 @@ begin
 		begin
 			if ($CastableSpell_Heal(thisagent, target, "healer_heal") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "healer_healerheal_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "healer_healerheal_cooldown") != TRUE)
 						begin
 							new_spell = "healer_heal";
 							return new_spell;
@@ -4515,7 +4515,7 @@ begin
 					new_spell = "generic_regenerate";
 					return new_spell;
 				end
-			if ($IsRunning (thisAgent's "generic_regenerate_cooldown") != TRUE)
+			if ($HasCooldown(thisagent, "generic_regenerate_cooldown") != TRUE)
 				begin
 					new_spell = "generic_regenerate";
 					return new_spell;
@@ -4546,7 +4546,7 @@ begin
 		begin
 			if ($CastableSpell_Follow(thisagent, target, "meditation") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "healer_meditation_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "healer_meditation_cooldown") != TRUE)
 						begin
 							new_spell = "meditation";
 							return new_spell;
@@ -4583,7 +4583,7 @@ begin
 		begin
 			if ($CastableSpell_Travel(thisagent, target, "camouflage") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "cultist_camouflage_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "cultist_camouflage_cooldown") != TRUE)
 						begin
 							new_spell = "camouflage";
 							return new_spell;
@@ -4620,7 +4620,7 @@ begin
 		begin
 			if ($CastableSpell_Control(thisagent, target, "charm_monster") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "cultist_charmmonster_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "cultist_charmmonster_cooldown") != TRUE)
 						begin
 							new_spell = "charm_monster";
 							return new_spell;
@@ -4632,7 +4632,7 @@ begin
 		begin
 			if ($CastableSpell_Control(thisagent, target, "control_undead") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "priestess_controlundead_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "priestess_controlundead_cooldown") != TRUE)
 						begin
 							new_spell = "control_undead";
 							return new_spell;
@@ -4669,7 +4669,7 @@ begin
 		begin
 			if ($CastableSpell_Summon(thisagent, target, "animate_skeleton") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "priestess_animateskeleton_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "priestess_animateskeleton_cooldown") != TRUE)
 						begin
 							new_spell = "animate_skeleton";
 							return new_spell;
@@ -4709,7 +4709,7 @@ begin
 		begin
 			if ($CastableSpell(thisagent, target, "change_shape") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "cultist_changeshape_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "cultist_changeshape_cooldown") != TRUE)
 						begin
 							new_spell = "change_shape";
 							return new_spell;
@@ -4721,7 +4721,7 @@ begin
 		begin
 			if ($CastableSpell(thisagent, target, "meditation") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "healer_meditation_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "healer_meditation_cooldown") != TRUE)
 						begin
 							new_spell = "meditation";
 							return new_spell;
@@ -4733,7 +4733,7 @@ begin
 		begin
 			if (($isspellAvailable(thisagent,"hands_of_steel") == TRUE) && ($Spell_Mana_Available(thisagent, "hands_of_steel") == TRUE))
 				begin
-					if (($IsRunning (thisAgent's "monk_handsofsteel_cooldown") != TRUE) && ($ValidSpellTarget_hero(thisagent, target, "hands_of_steel") != $NullAgent()))
+					if (($HasCooldown(thisagent, "monk_handsofsteel_cooldown") != TRUE) && ($ValidSpellTarget_hero(thisagent, target, "hands_of_steel") != $NullAgent()))
 						begin
 							new_spell = "hands_of_steel";
 							return new_spell;
@@ -4741,7 +4741,7 @@ begin
 				end
 			if (($isspellAvailable(thisagent,"monk_stone_skin") == TRUE) && ($Spell_Mana_Available(thisagent, "monk_stone_skin") == TRUE))
 				begin
-					if (($IsRunning (thisAgent's "monk_stoneskin_cooldown") != TRUE) && ($ValidSpellTarget_hero(thisagent, target, "monk_stone_skin") != $NullAgent()))
+					if (($HasCooldown(thisagent, "monk_stoneskin_cooldown") != TRUE) && ($ValidSpellTarget_hero(thisagent, target, "monk_stone_skin") != $NullAgent()))
 						begin
 							new_spell = "monk_stone_skin";
 							return new_spell;
@@ -4749,7 +4749,7 @@ begin
 				end
 			if (($isspellAvailable(thisagent,"iron_will") == TRUE) && ($Spell_Mana_Available(thisagent, "iron_will") == TRUE))
 				begin
-					if (($IsRunning (thisAgent's "monk_ironwill_cooldown") != TRUE) &&($ValidSpellTarget_hero(thisagent, target, "iron_will") != $NullAgent()))
+					if (($HasCooldown(thisagent, "monk_ironwill_cooldown") != TRUE) &&($ValidSpellTarget_hero(thisagent, target, "iron_will") != $NullAgent()))
 						begin
 							new_spell = "iron_will";
 							return new_spell;
@@ -4761,7 +4761,7 @@ begin
 		begin
 			if ($CastableSpell(thisagent, target, "shield_of_light") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "paladin_shieldoflight_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "paladin_shieldoflight_cooldown") != TRUE)
 						begin
 							new_spell = "shield_of_light";
 							return new_spell;
@@ -4773,7 +4773,7 @@ begin
 		begin
 			if ($CastableSpell(thisagent, target, "drain_life") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "priestess_drainlife_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "priestess_drainlife_cooldown") != TRUE)
 						begin
 							new_spell = "drain_life";
 							return new_spell;
@@ -4781,7 +4781,7 @@ begin
 				end
 			if ($CastableSpell(thisagent, target, "priestess_wither") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "priestess_wither_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "priestess_wither_cooldown") != TRUE)
 						begin
 							new_spell = "priestess_wither";
 							return new_spell;
@@ -4793,7 +4793,7 @@ begin
 		begin
 			if ($CastableSpell(thisagent, target, "sun_scorch") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "solarus_sunscorch_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "solarus_sunscorch_cooldown") != TRUE)
 						begin
 							new_spell = "sun_scorch";
 							return new_spell;
@@ -4805,7 +4805,7 @@ begin
 		begin
 			if ($CastableSpell(thisagent, target, "energy_blast") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "wizard_energyblast_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "wizard_energyblast_cooldown") != TRUE)
 						begin
 							new_spell = "energy_blast";
 							return new_spell;
@@ -4813,7 +4813,7 @@ begin
 				end
 			if ($CastableSpell(thisagent, target, "fire_shield") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "wizard_fireshield_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "wizard_fireshield_cooldown") != TRUE)
 						begin
 							new_spell = "fire_shield";
 							return new_spell;
@@ -4821,7 +4821,7 @@ begin
 				end
 			if ($CastableSpell(thisagent, target, "fire_blast") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "wizard_fireblast_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "wizard_fireblast_cooldown") != TRUE)
 						begin
 							new_spell = "fire_blast";
 							return new_spell;
@@ -4829,7 +4829,7 @@ begin
 				end
 			if ($CastableSpell(thisagent, target, "fire_ball") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "wizard_fireball_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "wizard_fireball_cooldown") != TRUE)
 						begin
 							new_spell = "fire_ball";
 							return new_spell;
@@ -4837,7 +4837,7 @@ begin
 				end
 			if ($CastableSpell(thisagent, target, "resist_magic") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "wizard_resistmagic_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "wizard_resistmagic_cooldown") != TRUE)
 						begin
 							new_spell = "resist_magic";
 							return new_spell;
@@ -4846,7 +4846,7 @@ begin
 				
 			if ($CastableSpell(thisagent, target, "wizard_transmute") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "wizard_transmute_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "wizard_transmute_cooldown") != TRUE)
 						begin
 							new_spell = "wizard_Transmute";
 							return new_spell;
@@ -4854,7 +4854,7 @@ begin
 				end
 			if ($CastableSpell(thisagent, target, "meteor_storm") == TRUE)
 				begin
-					if ($IsRunning (thisAgent's "wizard_meteorstorm_cooldown") != TRUE)
+					if ($HasCooldown(thisagent, "wizard_meteorstorm_cooldown") != TRUE)
 						begin
 							new_spell = "meteor_storm";
 							return new_spell;
@@ -4865,7 +4865,7 @@ begin
 			if (spell_name != "nothing")
 				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
 					begin
-						if ($IsRunning (thisAgent's "Fire_Bolt_Cooldown") != TRUE)
+						if ($HasCooldown(thisagent, "Fire_Bolt_Cooldown") != TRUE)
 							begin
 								new_spell = spell_name;
 								return new_spell;
@@ -4876,7 +4876,7 @@ begin
 			if (spell_name != "nothing")
 				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
 					begin
-						if ($IsRunning (thisAgent's "Fireball_Cooldown") != TRUE)
+						if ($HasCooldown(thisagent, "Fireball_Cooldown") != TRUE)
 							begin
 								new_spell = spell_name;
 								return new_spell;
@@ -4887,7 +4887,7 @@ begin
 			if (spell_name != "nothing")
 				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
 					begin
-						if ($IsRunning (thisAgent's "Perdition_Barrage_Cooldown") != TRUE)
+						if ($HasCooldown(thisagent, "Perdition_Barrage_Cooldown") != TRUE)
 							begin
 								new_spell = spell_name;
 								return new_spell;
@@ -4898,7 +4898,7 @@ begin
 			if (spell_name != "nothing")
 				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
 					begin
-						if ($IsRunning (thisAgent's "Incandescent_Ray_Cooldown") != TRUE)
+						if ($HasCooldown(thisagent, "Incandescent_Ray_Cooldown") != TRUE)
 							begin
 								new_spell = spell_name;
 								return new_spell;
@@ -4908,7 +4908,7 @@ begin
 			if (spell_name != "nothing")
 				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
 					begin
-						if ($IsRunning (thisAgent's "Searing_Mantle_Cooldown") != TRUE)
+						if ($HasCooldown(thisagent, "Searing_Mantle_Cooldown") != TRUE)
 							begin
 								new_spell = spell_name;
 								return new_spell;
@@ -4919,7 +4919,7 @@ begin
 			if (spell_name != "nothing")
 				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
 					begin
-						if ($IsRunning (thisAgent's "Pyrelight_Cooldown") != TRUE)
+						if ($HasCooldown(thisagent, "Pyrelight_Cooldown") != TRUE)
 							begin
 								new_spell = spell_name;
 								return new_spell;
@@ -4930,7 +4930,7 @@ begin
 			if (spell_name != "nothing")
 				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
 					begin
-						if ($IsRunning (thisAgent's "Ignite_Cooldown") != TRUE)
+						if ($HasCooldown(thisagent, "Ignite_Cooldown") != TRUE)
 							begin
 								new_spell = spell_name;
 								return new_spell;
@@ -4941,7 +4941,7 @@ begin
 	//GENERIC SPELLS
 	if ($CastableSpell(thisagent, target, "generic_regenerate") == TRUE)
 		begin
-			if ($IsRunning (thisAgent's "generic_regenerate_cooldown") != TRUE)
+			if ($HasCooldown(thisagent, "generic_regenerate_cooldown") != TRUE)
 				begin
 					new_spell = "generic_regenerate";
 					return new_spell;
@@ -4949,7 +4949,7 @@ begin
 		end
 	if ($CastableSpell(thisagent, target, "flame_shield") == TRUE)
 		begin
-			if ($IsRunning (thisAgent's "generic_flameshield_cooldown") != TRUE)
+			if ($HasCooldown(thisagent, "generic_flameshield_cooldown") != TRUE)
 				begin
 					new_spell = "flame_shield";
 					return new_spell;
@@ -4957,7 +4957,7 @@ begin
 		end
 	if ($CastableSpell(thisagent, target, "power_shock") == TRUE)
 		begin
-			if ($IsRunning (thisAgent's "generic_powershock_cooldown") != TRUE)
+			if ($HasCooldown(thisagent, "generic_powershock_cooldown") != TRUE)
 				begin
 					new_spell = "power_shock";
 					return new_spell;
@@ -5017,7 +5017,7 @@ begin
 								if (spell_target != $NullAgent())
 									begin
 										cooldown = spell_name + "_Cooldown";
-										if ($IsRunning (thisAgent's cooldown) != TRUE)
+										if ($HasCooldown(thisagent, cooldown) != TRUE)
 											begin
 												new_spell = thisagent's spell_name;
 												new_target = spell_target;			//Keep the new spell target consistent with the new spell, otherwise might get null agent targets with valid new spells

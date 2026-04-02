@@ -56,8 +56,5 @@ Declare
 
 Begin
 	$Exit_Building (ThisAgent, ThisAgent's "Target");
-	
-	thisagent's "TaskPackageStatus" = "Complete";
-	
 	$Reset_Tasks (ThisAgent);
 End

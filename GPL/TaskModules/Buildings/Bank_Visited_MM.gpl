@@ -40,7 +40,8 @@ begin
 	bank = thisagent's "target";
 	$exit_building(thisagent,thisagent's "target");
 	
-	thisagent's "TaskPackageStatus" = "Complete";
+	if ($HasAttribute("TaskPackageStatus", thisagent))
+		thisagent's "TaskPackageStatus" = "Complete";
 	
 	untaxed_gold = $GetAttribute(thisagent, #ATTRIB_Gold);
 	stored_gold = $GetAttribute(thisagent, #ATTRIB_StoredGold);

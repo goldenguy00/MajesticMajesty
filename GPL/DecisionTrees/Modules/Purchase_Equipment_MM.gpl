@@ -37,25 +37,25 @@ Begin
 	shops = $listsubtypes(buildings,"shop");
 
 	//Pass the string "Equipment", because it is used to determine tasknames and debug messages
-	If (Wants_Weapon && $BlackSmith_Check (ThisAgent, "BS_WeaponLevel", Blacksmiths))
+	If (Wants_Weapon && $BlackSmith_Check_MM (ThisAgent, "BS_WeaponLevel", Blacksmiths))
 		begin
  			Flag = TRUE;
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYWEAPONUPGRADE");
 		end
 	Else
-		If (Wants_Armor && $BlackSmith_Check (ThisAgent, "BS_BodyArmorLevel", Blacksmiths))
+		If (Wants_Armor && $BlackSmith_Check_MM (ThisAgent, "BS_BodyArmorLevel", Blacksmiths))
 			begin
 				Flag = TRUE;
 				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYARMORUPGRADE");
 			end
 		Else
-	 		If (Wants_Weapon && $WizGuild_Check (ThisAgent, "EN_WeaponLevel", Wizguilds))
+	 		If (Wants_Weapon && $WizGuild_Check_MM (ThisAgent, "EN_WeaponLevel", Wizguilds))
 				begin
 		  			Flag = TRUE;
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYWEAPONENCHANT");
 				end
 			Else
-	 			If (Wants_Armor && $WizGuild_Check (ThisAgent, "EN_BodyArmorLevel", Wizguilds))
+	 			If (Wants_Armor && $WizGuild_Check_MM (ThisAgent, "EN_BodyArmorLevel", Wizguilds))
 					begin
 						Flag = TRUE;
 						$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYARMORENCHANT");
@@ -121,7 +121,7 @@ Begin
 End
 
 ///////////////////////////////////////////////////////////////////////////////
-Function BlackSmith_Check (agent ThisAgent, string Equipment, list blacksmiths) is boolean
+Function BlackSmith_Check_MM (agent ThisAgent, string Equipment, list blacksmiths) is boolean
 Declare
 	integer	Search_Dist;
 	agent		Blacksmith;
@@ -212,7 +212,7 @@ Begin
 End
 
 ///////////////////////////////////////////////////////////////////////////////
-Function WizGuild_Check (agent ThisAgent, string Equipment, list WizGuilds) is boolean
+Function WizGuild_Check_MM (agent ThisAgent, string Equipment, list WizGuilds) is boolean
 Declare
 	integer	Search_Dist;
 	agent		WizGuild;
@@ -740,25 +740,25 @@ Begin
 	shops = $listsubtypes(buildings,"shop");
 
 	//Pass the string "Equipment", because it is used to determine tasknames and debug messages
-	If (Wants_Weapon && $BlackSmith_Check_Packet(ThisAgent, "BS_WeaponLevel", Blacksmiths))
+	If (Wants_Weapon && $BlackSmith_Check_MM_Packet(ThisAgent, "BS_WeaponLevel", Blacksmiths))
 		begin
  			Flag = TRUE;
 			Thisagent's completeintent = "IDTXT_INTENT_BUYWEAPONUPGRADE";
 		end
 	Else
-		If (Wants_Armor && $BlackSmith_Check_Packet(ThisAgent, "BS_BodyArmorLevel", Blacksmiths))
+		If (Wants_Armor && $BlackSmith_Check_MM_Packet(ThisAgent, "BS_BodyArmorLevel", Blacksmiths))
 			begin
 				Flag = TRUE;
 				Thisagent's completeintent = "IDTXT_INTENT_BUYARMORUPGRADE";
 			end
 		Else
-			If (Wants_Weapon && $WizGuild_Check_Packet(ThisAgent, "EN_WeaponLevel", Wizguilds))
+			If (Wants_Weapon && $WizGuild_Check_MM_Packet(ThisAgent, "EN_WeaponLevel", Wizguilds))
 				begin
 		  			Flag = TRUE;
 					Thisagent's completeintent = "IDTXT_INTENT_BUYWEAPONENCHANT";
 				end
 			Else
-				If (Wants_Armor && $WizGuild_Check_Packet (ThisAgent, "EN_BodyArmorLevel", Wizguilds))
+				If (Wants_Armor && $WizGuild_Check_MM_Packet (ThisAgent, "EN_BodyArmorLevel", Wizguilds))
 					begin
 						Flag = TRUE;
 						Thisagent's completeintent = "IDTXT_INTENT_BUYARMORENCHANT";
@@ -827,7 +827,7 @@ Begin
 End
 
 ///////////////////////////////////////////////////////////////////////////////
-Function BlackSmith_Check_Packet (agent ThisAgent, string Equipment, list blacksmiths) is boolean
+Function BlackSmith_Check_MM_Packet (agent ThisAgent, string Equipment, list blacksmiths) is boolean
 Declare
 	integer	Search_Dist;
 	agent		Blacksmith;
@@ -933,7 +933,7 @@ Begin
 End
 
 ///////////////////////////////////////////////////////////////////////////////
-Function WizGuild_Check_Packet (agent ThisAgent, string Equipment, list WizGuilds) is boolean
+Function WizGuild_Check_MM_Packet (agent ThisAgent, string Equipment, list WizGuilds) is boolean
 Declare
 	integer	Search_Dist;
 	agent		WizGuild;
@@ -1555,7 +1555,6 @@ Function Done_Purchasing_Market_Stuff (agent ThisAgent)
 Declare
 
 Begin
-	thisagent's "TaskPackageStatus" = "Complete";
 	$Exit_Building (ThisAgent, ThisAgent's "Target");
 	$Reset_Tasks (ThisAgent);
 End

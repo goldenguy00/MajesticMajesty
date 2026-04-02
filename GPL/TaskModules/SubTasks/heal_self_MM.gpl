@@ -88,7 +88,7 @@ begin
 
 							if (run_flag)
 								begin
-									$flee(thisagent,"IDTXT_INTENT_FLEEINGINJURED");
+									$flee_packet(thisagent,"IDTXT_INTENT_FLEEINGINJURED");
 								end
 							else
 								begin

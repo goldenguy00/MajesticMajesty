@@ -13,8 +13,9 @@ Declare
 // or if are there to make entertain, in the case of Elves
 Begin
 	Target = ThisAgent's "Target";
-
-	Current_Intent = ThisAgent's "Running_Intent";
+	Current_Intent = "";
+	if ($HasAttribute("Running_Intent", thisagent))
+		Current_Intent = ThisAgent's "Running_Intent";
 	
 	$enter_building(thisagent, target);
 
@@ -125,6 +126,7 @@ declare
 begin
 	$exit_building(thisagent,thisagent's "target");
 
+	if ($HasAttribute("TaskPackageStatus", thisagent))
 	thisagent's "TaskPackageStatus" = "Complete";
 
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";

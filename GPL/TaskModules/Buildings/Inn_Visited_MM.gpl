@@ -112,6 +112,7 @@ declare
 begin
 	$exit_building(thisagent,thisagent's "target");
 
+	if ($HasAttribute("TaskPackageStatus", thisagent))
 	thisagent's "TaskPackageStatus" = "Complete";
 	
 	//If the hero's intention was to play a minstrel show, than they make some money
