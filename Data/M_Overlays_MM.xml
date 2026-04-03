@@ -13,6 +13,20 @@
 			<StackPriority value="1"/>
 		</Game>
 	</Description>
+	<Description type="Unit" subType="Overlay" ID="WRD2" Name="anitmagic_shield_icon" Description="Antimagic Shield">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WRD2"/>
+			<Script type="0" cProc="0" GPLFunction="Anti_Magic_Shield_End"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
 	<Description type="Unit" subType="Overlay" ID="WRb0" Name="flame_shield_icon" Description="Flame Shield">
 		<Engine version="1">
 			<Info value="Directionless"/>

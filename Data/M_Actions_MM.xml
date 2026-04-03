@@ -10,7 +10,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -26,7 +26,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -42,7 +42,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="1000"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -56,7 +56,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="1000"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="2"/>
 		</Game>
@@ -72,7 +72,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="1000"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="3"/>
 		</Game>
@@ -88,7 +88,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="200"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -105,7 +105,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="1000"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="2"/>
 			<SpellRank value="2"/>
 		</Game>
@@ -121,7 +121,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="3"/>
 			<SpellRank value="3"/>
 		</Game>
@@ -137,7 +137,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="5"/>
 			<SpellRank value="5"/>
 		</Game>
@@ -153,7 +153,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="6"/>
 			<SpellRank value="6"/>
 		</Game>
@@ -167,7 +167,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="7"/>
 		</Game>
@@ -183,7 +183,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Heal"/>
+			<SpellType value="Other"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -199,7 +199,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="2"/>
 		</Game>
@@ -246,7 +246,8 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Control"/>
+			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -262,7 +263,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="3"/>
 		</Game>
@@ -278,7 +279,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -295,7 +296,7 @@
 			<Flags value="IsSpell"/>
 			<EffectorDuration value="1000"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -311,7 +312,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="200"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -327,7 +328,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Summon"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="2"/>
 		</Game>
@@ -343,7 +344,8 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Control"/>
+			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="4"/>
 		</Game>
@@ -374,7 +376,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="1000"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
@@ -389,7 +391,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="1000"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<SpellRank value="2"/>
 		</Game>
 	</Description>
@@ -404,7 +406,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="1000"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<SpellRank value="3"/>
 		</Game>
 	</Description>
@@ -462,7 +464,7 @@
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="2000"/>
 			<CharacterLevel value="1"/>
-			<SpellType value="Gadget"/>
+			<SpellType value="CombatUtility"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
@@ -501,7 +503,7 @@
 		</Engine>
 		<Game version="1">
 			<CharacterLevel value="10"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<SpellRank value="5"/>
 		</Game>
 	</Description>
@@ -530,7 +532,7 @@
 		</Engine>
 		<Game version="1">
 			<CharacterLevel value="1"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<SpellRank value="2"/>
 		</Game>
 	</Description>
@@ -546,7 +548,7 @@
 		</Engine>
 		<Game version="1">
 			<CharacterLevel value="5"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<SpellRank value="3"/>
 		</Game>
 	</Description>
@@ -562,7 +564,7 @@
 		</Engine>
 		<Game version="1">
 			<CharacterLevel value="4"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<SpellRank value="4"/>
 		</Game>
 	</Description>
@@ -579,7 +581,7 @@
 		<Engine version="1">
 		</Engine>
 		<Game version="1">
-			<SpellType value="Class"/>
+			<SpellType value="Other"/>
 		</Game>
 	</Description>
 	
@@ -587,7 +589,7 @@
 		<Engine version="1">
 		</Engine>
 		<Game version="1">
-			<SpellType value="Class"/>
+			<SpellType value="Other"/>
 		</Game>
 	</Description>
 	
@@ -595,11 +597,11 @@
 		<Engine version="1">
 		</Engine>
 		<Game version="1">
-			<SpellType value="Class"/>
+			<SpellType value="Other"/>
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt1" Name="Fire_Bolt_1" Description="Fire Bolt [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTFireBolt1" Name="Fire_Bolt" Description="Fire Bolt [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -610,335 +612,12 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt2" Name="Fire_Bolt_2" Description="Fire Bolt [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt3" Name="Fire_Bolt_3" Description="Fire Bolt [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt4" Name="Fire_Bolt_4" Description="Fire Bolt [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt5" Name="Fire_Bolt_5" Description="Fire Bolt [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt6" Name="Fire_Bolt_6" Description="Fire Bolt [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt7" Name="Fire_Bolt_7" Description="Fire Bolt [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt8" Name="Fire_Bolt_8" Description="Fire Bolt [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt9" Name="Fire_Bolt_9" Description="Fire Bolt [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt10" Name="Fire_Bolt_10" Description="Fire Bolt [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt11" Name="Fire_Bolt_11" Description="Fire Bolt [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt12" Name="Fire_Bolt_12" Description="Fire Bolt [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt13" Name="Fire_Bolt_13" Description="Fire Bolt [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt14" Name="Fire_Bolt_14" Description="Fire Bolt [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt15" Name="Fire_Bolt_15" Description="Fire Bolt [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt16" Name="Fire_Bolt_16" Description="Fire Bolt [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt17" Name="Fire_Bolt_17" Description="Fire Bolt [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt18" Name="Fire_Bolt_18" Description="Fire Bolt [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt19" Name="Fire_Bolt_19" Description="Fire Bolt [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt20" Name="Fire_Bolt_20" Description="Fire Bolt [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
+
 	<Description type="Unit" subType="Projectile" ID="WFSTFireBoltMissile" Name="Fire_Bolt_Missile" Description="Fire Bolt Missile">
 		<Engine version="1">
 			<Info value="NoRandomTargetOnDestination"/>
@@ -951,7 +630,7 @@
 		</Engine>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTFireball1" Name="Fireball_1" Description="Fireball [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTFireball1" Name="Fireball" Description="Fireball [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -962,336 +641,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="5"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball2" Name="Fireball_2" Description="Fireball [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball3" Name="Fireball_3" Description="Fireball [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball4" Name="Fireball_4" Description="Fireball [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball5" Name="Fireball_5" Description="Fireball [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball6" Name="Fireball_6" Description="Fireball [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball7" Name="Fireball_7" Description="Fireball [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball8" Name="Fireball_8" Description="Fireball [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball9" Name="Fireball_9" Description="Fireball [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball10" Name="Fireball_10" Description="Fireball [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball11" Name="Fireball_11" Description="Fireball [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball12" Name="Fireball_12" Description="Fireball [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball13" Name="Fireball_13" Description="Fireball [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball14" Name="Fireball_14" Description="Fireball [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball15" Name="Fireball_15" Description="Fireball [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball16" Name="Fireball_16" Description="Fireball [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball17" Name="Fireball_17" Description="Fireball [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball18" Name="Fireball_18" Description="Fireball [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball19" Name="Fireball_19" Description="Fireball [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTFireball20" Name="Fireball_20" Description="Fireball [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fireball"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle1" Name="Searing_Mantle_1" Description="Searing Mantle [Level 1]">
+
+	<Description type="Action" subType="Standard" ID="WFSTSearingMantle1" Name="Searing_Mantle" Description="Searing Mantle [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -1302,336 +658,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="5"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle2" Name="Searing_Mantle_2" Description="Searing Mantle [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle3" Name="Searing_Mantle_3" Description="Searing Mantle [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle4" Name="Searing_Mantle_4" Description="Searing Mantle [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle5" Name="Searing_Mantle_5" Description="Searing Mantle [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle6" Name="Searing_Mantle_6" Description="Searing Mantle [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle7" Name="Searing_Mantle_7" Description="Searing Mantle [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle8" Name="Searing_Mantle_8" Description="Searing Mantle [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle9" Name="Searing_Mantle_9" Description="Searing Mantle [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle10" Name="Searing_Mantle_10" Description="Searing Mantle [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle11" Name="Searing_Mantle_11" Description="Searing Mantle [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle12" Name="Searing_Mantle_12" Description="Searing Mantle [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle13" Name="Searing_Mantle_13" Description="Searing Mantle [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle14" Name="Searing_Mantle_14" Description="Searing Mantle [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle15" Name="Searing_Mantle_15" Description="Searing Mantle [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle16" Name="Searing_Mantle_16" Description="Searing Mantle [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle17" Name="Searing_Mantle_17" Description="Searing Mantle [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle18" Name="Searing_Mantle_18" Description="Searing Mantle [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle19" Name="Searing_Mantle_19" Description="Searing Mantle [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle20" Name="Searing_Mantle_20" Description="Searing Mantle [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="FireShield"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Searing_Mantle_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="5"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite1" Name="Ignite_1" Description="Ignite [Level 1]">
+
+	<Description type="Action" subType="Standard" ID="WFSTIgnite1" Name="Ignite" Description="Ignite [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -1642,336 +675,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="10"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite2" Name="Ignite_2" Description="Ignite [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite3" Name="Ignite_3" Description="Ignite [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite4" Name="Ignite_4" Description="Ignite [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite5" Name="Ignite_5" Description="Ignite [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite6" Name="Ignite_6" Description="Ignite [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite7" Name="Ignite_7" Description="Ignite [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite8" Name="Ignite_8" Description="Ignite [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite9" Name="Ignite_9" Description="Ignite [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite10" Name="Ignite_10" Description="Ignite [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite11" Name="Ignite_11" Description="Ignite [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite12" Name="Ignite_12" Description="Ignite [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite13" Name="Ignite_13" Description="Ignite [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite14" Name="Ignite_14" Description="Ignite [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite15" Name="Ignite_15" Description="Ignite [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite16" Name="Ignite_16" Description="Ignite [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite17" Name="Ignite_17" Description="Ignite [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite18" Name="Ignite_18" Description="Ignite [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite19" Name="Ignite_19" Description="Ignite [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIgnite20" Name="Ignite_20" Description="Ignite [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Sun_Scorch"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Ignite_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight1" Name="Pyrelight_1" Description="Pyrelight [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTPyrelight1" Name="Pyrelight" Description="Pyrelight [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -1982,336 +692,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="15"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight2" Name="Pyrelight_2" Description="Pyrelight [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight3" Name="Pyrelight_3" Description="Pyrelight [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight4" Name="Pyrelight_4" Description="Pyrelight [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight5" Name="Pyrelight_5" Description="Pyrelight [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight6" Name="Pyrelight_6" Description="Pyrelight [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight7" Name="Pyrelight_7" Description="Pyrelight [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight8" Name="Pyrelight_8" Description="Pyrelight [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight9" Name="Pyrelight_9" Description="Pyrelight [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight10" Name="Pyrelight_10" Description="Pyrelight [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight11" Name="Pyrelight_11" Description="Pyrelight [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight12" Name="Pyrelight_12" Description="Pyrelight [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight13" Name="Pyrelight_13" Description="Pyrelight [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight14" Name="Pyrelight_14" Description="Pyrelight [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight15" Name="Pyrelight_15" Description="Pyrelight [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight16" Name="Pyrelight_16" Description="Pyrelight [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight17" Name="Pyrelight_17" Description="Pyrelight [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight18" Name="Pyrelight_18" Description="Pyrelight [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight19" Name="Pyrelight_19" Description="Pyrelight [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight20" Name="Pyrelight_20" Description="Pyrelight [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Summon_Spider"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Pyrelight_Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="15"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage1" Name="Perdition_Barrage_1" Description="Perdition Barrage [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage1" Name="Perdition_Barrage" Description="Perdition Barrage [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -2322,336 +709,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="20"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage2" Name="Perdition_Barrage_2" Description="Perdition Barrage [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage3" Name="Perdition_Barrage_3" Description="Perdition Barrage [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage4" Name="Perdition_Barrage_4" Description="Perdition Barrage [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage5" Name="Perdition_Barrage_5" Description="Perdition Barrage [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage6" Name="Perdition_Barrage_6" Description="Perdition Barrage [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage7" Name="Perdition_Barrage_7" Description="Perdition Barrage [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage8" Name="Perdition_Barrage_8" Description="Perdition Barrage [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage9" Name="Perdition_Barrage_9" Description="Perdition Barrage [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage10" Name="Perdition_Barrage_10" Description="Perdition Barrage [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage11" Name="Perdition_Barrage_11" Description="Perdition Barrage [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage12" Name="Perdition_Barrage_12" Description="Perdition Barrage [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage13" Name="Perdition_Barrage_13" Description="Perdition Barrage [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage14" Name="Perdition_Barrage_14" Description="Perdition Barrage [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage15" Name="Perdition_Barrage_15" Description="Perdition Barrage [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage16" Name="Perdition_Barrage_16" Description="Perdition Barrage [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage17" Name="Perdition_Barrage_17" Description="Perdition Barrage [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage18" Name="Perdition_Barrage_18" Description="Perdition Barrage [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage19" Name="Perdition_Barrage_19" Description="Perdition Barrage [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage20" Name="Perdition_Barrage_20" Description="Perdition Barrage [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Perdition_Barrage_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay1" Name="Incandescent_Ray_1" Description="Incandescent Ray [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay1" Name="Incandescent_Ray" Description="Incandescent Ray [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -2662,336 +726,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="25"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay2" Name="Incandescent_Ray_2" Description="Incandescent Ray [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay3" Name="Incandescent_Ray_3" Description="Incandescent Ray [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay4" Name="Incandescent_Ray_4" Description="Incandescent Ray [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay5" Name="Incandescent_Ray_5" Description="Incandescent Ray [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay6" Name="Incandescent_Ray_6" Description="Incandescent Ray [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay7" Name="Incandescent_Ray_7" Description="Incandescent Ray [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay8" Name="Incandescent_Ray_8" Description="Incandescent Ray [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay9" Name="Incandescent_Ray_9" Description="Incandescent Ray [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay10" Name="Incandescent_Ray_10" Description="Incandescent Ray [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay11" Name="Incandescent_Ray_11" Description="Incandescent Ray [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay12" Name="Incandescent_Ray_12" Description="Incandescent Ray [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay13" Name="Incandescent_Ray_13" Description="Incandescent Ray [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay14" Name="Incandescent_Ray_14" Description="Incandescent Ray [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay15" Name="Incandescent_Ray_15" Description="Incandescent Ray [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay16" Name="Incandescent_Ray_16" Description="Incandescent Ray [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay17" Name="Incandescent_Ray_17" Description="Incandescent Ray [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay18" Name="Incandescent_Ray_18" Description="Incandescent Ray [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay19" Name="Incandescent_Ray_19" Description="Incandescent Ray [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay20" Name="Incandescent_Ray_20" Description="Incandescent Ray [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Exploding_Aura"/>
-			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Incandescent_Ray_cast"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Support"/>
-			<CharacterLevel value="25"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers1" Name="Embers_1" Description="[color:CCCCCC]Embers [Level 1]">
+
+	<Description type="Action" subType="Standard" ID="WFSTEmbers1" Name="Embers" Description="[color:CCCCCC]Embers [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -3001,13 +742,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
+			<SpellType value="Other"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers2" Name="Embers_2" Description="[color:CCCCCC]Embers [Level 2]">
+
+	<Description type="Action" subType="Standard" ID="WFSTHeatwave1" Name="Heatwave" Description="[color:CCCCCC]Heatwave [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -3017,317 +758,13 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers3" Name="Embers_3" Description="[color:CCCCCC]Embers [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers4" Name="Embers_4" Description="[color:CCCCCC]Embers [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers5" Name="Embers_5" Description="[color:CCCCCC]Embers [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers6" Name="Embers_6" Description="[color:CCCCCC]Embers [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers7" Name="Embers_7" Description="[color:CCCCCC]Embers [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers8" Name="Embers_8" Description="[color:CCCCCC]Embers [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers9" Name="Embers_9" Description="[color:CCCCCC]Embers [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers10" Name="Embers_10" Description="[color:CCCCCC]Embers [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers11" Name="Embers_11" Description="[color:CCCCCC]Embers [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers12" Name="Embers_12" Description="[color:CCCCCC]Embers [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers13" Name="Embers_13" Description="[color:CCCCCC]Embers [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers14" Name="Embers_14" Description="[color:CCCCCC]Embers [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers15" Name="Embers_15" Description="[color:CCCCCC]Embers [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers16" Name="Embers_16" Description="[color:CCCCCC]Embers [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers17" Name="Embers_17" Description="[color:CCCCCC]Embers [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers18" Name="Embers_18" Description="[color:CCCCCC]Embers [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers19" Name="Embers_19" Description="[color:CCCCCC]Embers [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTEmbers20" Name="Embers_20" Description="[color:CCCCCC]Embers [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="1"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave1" Name="Heatwave_1" Description="[color:CCCCCC]Heatwave [Level 1]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
+			<SpellType value="Other"/>
 			<CharacterLevel value="10"/>
 			<SpellRank value="1"/>
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave2" Name="Heatwave_2" Description="[color:CCCCCC]Heatwave [Level 2]">
+	<Description type="Action" subType="Standard" ID="WFSTCinders1" Name="Cinders" Description="[color:CCCCCC]Cinders [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -3337,617 +774,9 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave3" Name="Heatwave_3" Description="[color:CCCCCC]Heatwave [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave4" Name="Heatwave_4" Description="[color:CCCCCC]Heatwave [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave5" Name="Heatwave_5" Description="[color:CCCCCC]Heatwave [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave6" Name="Heatwave_6" Description="[color:CCCCCC]Heatwave [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave7" Name="Heatwave_7" Description="[color:CCCCCC]Heatwave [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave8" Name="Heatwave_8" Description="[color:CCCCCC]Heatwave [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave9" Name="Heatwave_9" Description="[color:CCCCCC]Heatwave [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave10" Name="Heatwave_10" Description="[color:CCCCCC]Heatwave [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave11" Name="Heatwave_11" Description="[color:CCCCCC]Heatwave [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave12" Name="Heatwave_12" Description="[color:CCCCCC]Heatwave [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave13" Name="Heatwave_13" Description="[color:CCCCCC]Heatwave [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave14" Name="Heatwave_14" Description="[color:CCCCCC]Heatwave [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave15" Name="Heatwave_15" Description="[color:CCCCCC]Heatwave [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave16" Name="Heatwave_16" Description="[color:CCCCCC]Heatwave [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave17" Name="Heatwave_17" Description="[color:CCCCCC]Heatwave [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave18" Name="Heatwave_18" Description="[color:CCCCCC]Heatwave [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave19" Name="Heatwave_19" Description="[color:CCCCCC]Heatwave [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave20" Name="Heatwave_20" Description="[color:CCCCCC]Heatwave [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="10"/>
-			<SpellRank value="20"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders1" Name="Cinders_1" Description="[color:CCCCCC]Cinders [Level 1]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
+			<SpellType value="Other"/>
 			<CharacterLevel value="20"/>
 			<SpellRank value="1"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders2" Name="Cinders_2" Description="[color:CCCCCC]Cinders [Level 2]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="2"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders3" Name="Cinders_3" Description="[color:CCCCCC]Cinders [Level 3]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="3"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders4" Name="Cinders_4" Description="[color:CCCCCC]Cinders [Level 4]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="4"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders5" Name="Cinders_5" Description="[color:CCCCCC]Cinders [Level 5]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="5"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders6" Name="Cinders_6" Description="[color:CCCCCC]Cinders [Level 6]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="6"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders7" Name="Cinders_7" Description="[color:CCCCCC]Cinders [Level 7]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="7"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders8" Name="Cinders_8" Description="[color:CCCCCC]Cinders [Level 8]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="8"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders9" Name="Cinders_9" Description="[color:CCCCCC]Cinders [Level 9]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="9"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders10" Name="Cinders_10" Description="[color:CCCCCC]Cinders [Level 10]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="10"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders11" Name="Cinders_11" Description="[color:CCCCCC]Cinders [Level 11]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="11"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders12" Name="Cinders_12" Description="[color:CCCCCC]Cinders [Level 12]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="12"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders13" Name="Cinders_13" Description="[color:CCCCCC]Cinders [Level 13]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="13"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders14" Name="Cinders_14" Description="[color:CCCCCC]Cinders [Level 14]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="14"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders15" Name="Cinders_15" Description="[color:CCCCCC]Cinders [Level 15]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="15"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders16" Name="Cinders_16" Description="[color:CCCCCC]Cinders [Level 16]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="16"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders17" Name="Cinders_17" Description="[color:CCCCCC]Cinders [Level 17]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="17"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders18" Name="Cinders_18" Description="[color:CCCCCC]Cinders [Level 18]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="18"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders19" Name="Cinders_19" Description="[color:CCCCCC]Cinders [Level 19]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="19"/>
-		</Game>
-	</Description>
-	
-	<Description type="Action" subType="Standard" ID="WFSTCinders20" Name="Cinders_20" Description="[color:CCCCCC]Cinders [Level 20]">
-		<Engine version="1">
-			<ImageSet value="Cast"/>
-			<CompletionImageSet value="Stand"/>
-			<Sound value="Fire_Blast"/>
-			<SoundPhase begin="Begin"/>
-		</Engine>
-		<Game version="1">
-			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
-			<SpellType value="Passive"/>
-			<CharacterLevel value="20"/>
-			<SpellRank value="20"/>
 		</Game>
 	</Description>
 	

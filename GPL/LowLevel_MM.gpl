@@ -1576,7 +1576,7 @@ Begin
 		return;
 
 	//This is the maximum amount of mana restored that a target can endure before they are over their maximum
-	Max_Mana = (thisagent's "MaxMana_Total" - thisagent's "CurrentMana");
+	Max_Mana = $GetBaseStatTotal(thisagent, "MaxMana");
 
 	If (Mana_Amount > Max_Mana)
 		Mana_Amount = Max_Mana;
@@ -1726,35 +1726,35 @@ begin
 	
 	if (unit_name == "wizard")
 		begin
-			$AddAttribute(thisagent, "wizard_energyblast_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "energy_blast_cooldown", "function", $Cooldown_End);
 			//$AddAttribute(thisagent, "wizard_firebolt_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "wizard_fireshield_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "wizard_fireblast_cooldown", "function", $Cooldown_End);
-			//$AddAttribute(thisagent, "wizard_fireball_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "wizard_resistmagic_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "fire_shield_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "fire_blast_cooldown", "function", $Cooldown_End);
+			//$AddAttribute(thisagent, "fire_ball_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "resist_magic_cooldown", "function", $Cooldown_End);
 			$AddAttribute(thisagent, "wizard_transmute_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "wizard_meteorstorm_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "meteor_storm_cooldown", "function", $Cooldown_End);
 		end
 	else if (unit_name == "solarus")
 		begin
-			$AddAttribute(thisagent, "solarus_sunscorch_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "sun_scorch_cooldown", "function", $Cooldown_End);
 		end
 	else if (unit_name == "priestess")
 		begin
-			$AddAttribute(thisagent, "priestess_drainlife_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "drain_life_cooldown", "function", $Cooldown_End);
 			$AddAttribute(thisagent, "priestess_animateskeleton_cooldown", "function", $Cooldown_End);
 			$AddAttribute(thisagent, "priestess_wither_cooldown", "function", $Cooldown_End);
 			$AddAttribute(thisagent, "priestess_controlundead_cooldown", "function", $Cooldown_End);
 		end
 	else if (unit_name == "paladin")
 		begin
-			$AddAttribute(thisagent, "paladin_shieldoflight_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "shield_of_light_cooldown", "function", $Cooldown_End);
 		end
 	else if (unit_name == "monk")
 		begin
-			$AddAttribute(thisagent, "monk_handsofsteel_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "monk_stoneskin_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "monk_ironwill_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "hands_of_steel_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "monk_stone_skin_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "iron_will_cooldown", "function", $Cooldown_End);
 		end
 	else if (unit_name == "healer")
 		begin
@@ -2123,8 +2123,12 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateMaxMana(agent thisagent)
 declare
+	integer delta;
 begin
-	$RecalculateStatTotal(thisagent, "MaxMana");
+	delta = $RecalculateStatTotal(thisagent, "MaxMana");
+	if (delta > 0)
+		thisagent's "CurrentMana" += delta;
+
 	if (thisagent's "CurrentMana" > $GetBaseStatTotal(thisagent, "MaxMana"))
 		thisagent's "CurrentMana" = $GetBaseStatTotal(thisagent, "MaxMana");
 end
@@ -2208,8 +2212,6 @@ begin
 	$AddAttribute(thisagent, "Secondary_Orientation", "string");
 	thisagent's "Secondary_Orientation" = $HeroSkillOrientationSecondary(thisagent);
 	$HeroPreferredSkills(thisagent);
-	
-	$StartingSpellCooldowns(thisagent);
 	
 	if ($HasAttribute("Uses_Equipment", thisagent))
 		if (thisagent's "Uses_Equipment"== True)
@@ -2370,80 +2372,19 @@ begin
 		$RemoveAttribute(thisagent,"speed");
 end
 
-////////////////////////////////////////////////////////////////////////////////
-function PalaceAttributes(agent thisagent)
-//Setup for units in general
-
-declare
-	agent AIRootAgent;
-	list lairs, monsters, buildings, heroes;
-
-begin
-	
-	AIRootAgent = $AIRootCheck();
-	if ($AgentInList(thisagent, AIRootAgent's "Total_Palaces") == false)
-		AIRootAgent's "Total_Palaces" << thisagent;
-
-	$ListObjects(thisagent,"lair",-1, lairs, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Enemy_Lair_List", "list", lairs);
-	
-	$ListObjects(thisagent,"monster",-1, monsters, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Enemy_Monster_List", "list", monsters);
-	
-	$ListObjects(thisagent,"hero",-1, heroes, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Enemy_Hero_List", "list", heroes);
-	
-	$ListObjects(thisagent,"building",-1, buildings, #NoHiddenMap, #NotMyTeam);
-	$AddAttribute(thisagent, "Enemy_Building_List", "list", buildings);
-end
-
 
 ////////////////////////////////////////////////////////////////////////////////
 function GeneralAttributes(agent thisagent)
 declare
 begin
 	$InitBaseStats(thisagent);
+	
 	$AddAttribute(thisagent, "Running_Intent", "string");
+
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));
 
 	if ($HasAttribute("Unit_Type", thisagent))	
-	if (thisagent's "Unit_Type" == "Unit")
-		$UnitAttributes(thisagent);
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function AIRootCheck() is Agent
-
-declare
-	agent AIRootAgent;
-
-begin
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-	if ($HasAttribute("Total_Palaces", AIRootAgent) == False)
-		$AddAttribute(AIRootAgent, "Total_Palaces", "list");
-	return AIRootAgent;
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function AddToPalaceEnemyList(agent thisagent)
-
-declare
-	agent AIRootAgent, palace;
-	string type, listname;
-
-begin
-	AIRootAgent = $AIRootCheck();
-
-	type = thisagent's "type";
-	if (type == "AutoBuilding")
-		type = "Building";
-	listname = "Enemy_" + type + "_List";
-
-	foreach palace in AIRootAgent's "Total_Palaces" do
-		begin
-			if ($HasAttribute(listname, palace))
-			if ($GetPlayerTeamNumber(thisagent) != $GetPlayerTeamNumber(palace) && $AgentInList(thisagent, palace's listname) == false)
-				palace's listname << thisagent;
-		end
+		if (thisagent's "Unit_Type" == "Unit")
+			$UnitAttributes(thisagent);
 end

@@ -8,7 +8,6 @@ function CastSpellTarget(agent thisagent, string spellname, agent target)
 
 declare
 	integer spell_level;
-	string spell_cast;
 
 begin
 	$castspell(thisagent,spellname,target, "");

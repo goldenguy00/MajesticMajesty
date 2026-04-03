@@ -36,58 +36,47 @@ begin
 	
 	thisagent's "SpellsSupport" << "Searing_Mantle";
 	
-	$AddAttribute(thisagent, "Fire_Bolt", "string", "Nothing");
 	$AddAttribute(thisagent, "Fire_Bolt_Condition", "function", $SpellDefaultAttackPass);
 	$AddAttribute(thisagent, "Fire_Bolt_Range", "integer", #Fire_Bolt_Range);
 	$AddAttribute(thisagent, "Fire_Bolt_Mana", "integer", #Fire_Bolt_Mana);
 	$AddAttribute(thisagent, "Fire_Bolt_Mana_Mult", "integer", #Fire_Bolt_Mana_Mult);
 	$AddAttribute(thisagent, "Fire_Bolt_Mana_Div", "integer", #Fire_Bolt_Mana_Div);
 	
-	$AddAttribute(thisagent, "Fireball", "string", "Nothing");
 	$AddAttribute(thisagent, "Fireball_Condition", "function", $SpellDefaultAttackPass);
 	$AddAttribute(thisagent, "Fireball_Range", "integer", #Fireball_Range);
 	$AddAttribute(thisagent, "Fireball_Mana", "integer", #Fireball_Mana);
 	$AddAttribute(thisagent, "Fireball_Mana_Mult", "integer", #Fireball_Mana_Mult);
 	$AddAttribute(thisagent, "Fireball_Mana_Div", "integer", #Fireball_Mana_Div);
 	
-	$AddAttribute(thisagent, "Perdition_Barrage", "string", "Nothing");
 	$AddAttribute(thisagent, "Perdition_Barrage_Condition", "function", $SpellDefaultAttackPass);
 	$AddAttribute(thisagent, "Perdition_Barrage_Range", "integer", #Perdition_Barrage_Range);
 	$AddAttribute(thisagent, "Perdition_Barrage_Mana", "integer", #Perdition_Barrage_Mana);
 	$AddAttribute(thisagent, "Perdition_Barrage_Mana_Mult", "integer", #Perdition_Barrage_Mana_Mult);
 	$AddAttribute(thisagent, "Perdition_Barrage_Mana_Div", "integer", #Perdition_Barrage_Mana_Div);
 	
-	$AddAttribute(thisagent, "Incandescent_Ray", "string", "Nothing");
 	$AddAttribute(thisagent, "Incandescent_Ray_Condition", "function", $SpellDefaultAttackPass);
 	$AddAttribute(thisagent, "Incandescent_Ray_Range", "integer", #Incandescent_Ray_Range);
 	$AddAttribute(thisagent, "Incandescent_Ray_Mana", "integer", #Incandescent_Ray_Mana);
 	$AddAttribute(thisagent, "Incandescent_Ray_Mana_Mult", "integer", #Incandescent_Ray_Mana_Mult);
 	$AddAttribute(thisagent, "Incandescent_Ray_Mana_Div", "integer", #Incandescent_Ray_Mana_Div);
 	
-	$AddAttribute(thisagent, "Searing_Mantle", "string", "Nothing");
 	$AddAttribute(thisagent, "Searing_Mantle_Condition", "function", $SearingMantleCondition);
 	$AddAttribute(thisagent, "Searing_Mantle_Range", "integer", #Searing_Mantle_Range);
 	$AddAttribute(thisagent, "Searing_Mantle_Mana", "integer", #Searing_Mantle_Mana);
 	$AddAttribute(thisagent, "Searing_Mantle_Mana_Mult", "integer", #Searing_Mantle_Mana_Mult);
 	$AddAttribute(thisagent, "Searing_Mantle_Mana_Div", "integer", #Searing_Mantle_Mana_Div);
 	
-	$AddAttribute(thisagent, "Pyrelight", "string", "Nothing");
 	$AddAttribute(thisagent, "Pyrelight_Condition", "function", $PyrelightCondition);
 	$AddAttribute(thisagent, "Pyrelight_Range", "integer", #Pyrelight_Range);
 	$AddAttribute(thisagent, "Pyrelight_Mana", "integer", #Pyrelight_Mana);
 	$AddAttribute(thisagent, "Pyrelight_Mana_Mult", "integer", #Pyrelight_Mana_Mult);
 	$AddAttribute(thisagent, "Pyrelight_Mana_Div", "integer", #Pyrelight_Mana_Div);
 	
-	$AddAttribute(thisagent, "Ignite", "string", "Nothing");
 	$AddAttribute(thisagent, "Ignite_Condition", "function", $IgniteCondition);
 	$AddAttribute(thisagent, "Ignite_Range", "integer", #Ignite_Range);
 	$AddAttribute(thisagent, "Ignite_Mana", "integer", #Ignite_Mana);
 	$AddAttribute(thisagent, "Ignite_Mana_Mult", "integer", #Ignite_Mana_Mult);
 	$AddAttribute(thisagent, "Ignite_Mana_Div", "integer", #Ignite_Mana_Div);
-	
-	$AddAttribute(thisagent, "Embers", "string", "Nothing");
-	$AddAttribute(thisagent, "Heatwave", "string", "Nothing");
-	$AddAttribute(thisagent, "Cinders", "string", "Nothing");
 	
 	$Tree_LearnSpell(thisagent, "Fire_Bolt");
 end
@@ -104,614 +93,44 @@ begin
 		begin
 			foreach spell in thislist do
 				begin
-					if (thisagent's spell != "Nothing")
+					if ($HasLearnedSpell(thisagent, spell))
 						begin
-							$ForgetSpell(thisagent, thisagent's spell);
-							$LearnSpell(thisagent, thisagent's spell);
+							$ForgetSpell(thisagent, spell);
+							$LearnSpell(thisagent, spell);
 						end
 				end
 		end
 		
 end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function GetSpellLevel(agent thisagent, string spell_name) is string
 
-declare
-	string return_string, full_spell;
-	boolean flag;
-	integer count;
-begin
-//	return_string = "nothing";
-//	flag = False;
-//	count = 0;
-	
-//	if ($HasLearnedSpell(thisagent, spell_name))
-//		while (flag == False) do
-//			begin
-//				count ++;
-//				full_spell = spell_name + "_";
-//				full_spell += $i2s(count);
-//				if ($isspellavailable(thisagent,full_spell,1))
-//					begin
-//						return_string = full_spell;
-//						flag = true;
-//					end
-//			end
-	
-//	return return_string;
-	return thisagent's spell_name;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function GetSpellParent(string spell_name) is string
-
-declare
-	string return_string;
-
-begin
-	return_string = "nothing";
-	
-	if (spell_name == "Fire_Bolt_1")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_2")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_3")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_4")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_5")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_6")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_7")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_8")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_9")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_10")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_11")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_12")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_13")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_14")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_15")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_16")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_17")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_18")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_19")
-		return_string = "Fire_Bolt";
-	else if (spell_name == "Fire_Bolt_20")
-		return_string = "Fire_Bolt";
-		
-	else if (spell_name == "Fireball_1")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_2")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_3")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_4")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_5")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_6")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_7")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_8")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_9")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_10")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_11")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_12")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_13")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_14")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_15")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_16")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_17")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_18")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_19")
-		return_string = "Fireball";
-	else if (spell_name == "Fireball_20")
-		return_string = "Fireball";
-	
-	else if (spell_name == "Perdition_Barrage_1")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_2")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_3")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_4")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_5")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_6")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_7")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_8")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_9")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_10")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_11")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_12")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_13")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_14")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_15")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_16")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_17")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_18")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_19")
-		return_string = "Perdition_Barrage";
-	else if (spell_name == "Perdition_Barrage_20")
-		return_string = "Perdition_Barrage";
-	
-	else if (spell_name == "Incandescent_Ray_1")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_2")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_3")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_4")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_5")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_6")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_7")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_8")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_9")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_10")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_11")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_12")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_13")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_14")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_15")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_16")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_17")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_18")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_19")
-		return_string = "Incandescent_Ray";
-	else if (spell_name == "Incandescent_Ray_20")
-		return_string = "Incandescent_Ray";
-	
-	else if (spell_name == "Searing_Mantle_1")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_2")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_3")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_4")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_5")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_6")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_7")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_8")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_9")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_10")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_11")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_12")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_13")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_14")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_15")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_16")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_17")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_18")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_19")
-		return_string = "Searing_Mantle";
-	else if (spell_name == "Searing_Mantle_20")
-		return_string = "Searing_Mantle";
-	
-	else if (spell_name == "Pyrelight_1")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_2")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_3")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_4")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_5")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_6")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_7")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_8")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_9")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_10")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_11")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_12")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_13")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_14")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_15")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_16")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_17")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_18")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_19")
-		return_string = "Pyrelight";
-	else if (spell_name == "Pyrelight_20")
-		return_string = "Pyrelight";
-	
-	else if (spell_name == "Ignite_1")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_2")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_3")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_4")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_5")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_6")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_7")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_8")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_9")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_10")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_11")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_12")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_13")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_14")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_15")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_16")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_17")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_18")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_19")
-		return_string = "Ignite";
-	else if (spell_name == "Ignite_20")
-		return_string = "Ignite";
-		
-	else if (spell_name == "embers_1")
-		return_string = "Embers";
-	else if (spell_name == "embers_2")
-		return_string = "Embers";
-	else if (spell_name == "embers_3")
-		return_string = "Embers";
-	else if (spell_name == "embers_4")
-		return_string = "Embers";
-	else if (spell_name == "embers_5")
-		return_string = "Embers";
-	else if (spell_name == "embers_6")
-		return_string = "Embers";
-	else if (spell_name == "embers_7")
-		return_string = "Embers";
-	else if (spell_name == "embers_8")
-		return_string = "Embers";
-	else if (spell_name == "embers_9")
-		return_string = "Embers";
-	else if (spell_name == "embers_10")
-		return_string = "Embers";
-	else if (spell_name == "embers_11")
-		return_string = "Embers";
-	else if (spell_name == "embers_12")
-		return_string = "Embers";
-	else if (spell_name == "embers_13")
-		return_string = "Embers";
-	else if (spell_name == "embers_14")
-		return_string = "Embers";
-	else if (spell_name == "embers_15")
-		return_string = "Embers";
-	else if (spell_name == "embers_16")
-		return_string = "Embers";
-	else if (spell_name == "embers_17")
-		return_string = "Embers";
-	else if (spell_name == "embers_18")
-		return_string = "Embers";
-	else if (spell_name == "embers_19")
-		return_string = "Embers";
-	else if (spell_name == "embers_20")
-		return_string = "Embers";
-		
-	else if (spell_name == "heatwave_1")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_2")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_3")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_4")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_5")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_6")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_7")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_8")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_9")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_10")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_11")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_12")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_13")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_14")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_15")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_16")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_17")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_18")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_19")
-		return_string = "Heatwave";
-	else if (spell_name == "heatwave_20")
-		return_string = "Heatwave";
-		
-	else if (spell_name == "Cinders_1")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_2")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_3")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_4")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_5")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_6")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_7")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_8")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_9")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_10")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_11")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_12")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_13")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_14")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_15")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_16")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_17")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_18")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_19")
-		return_string = "Cinders";
-	else if (spell_name == "Cinders_20")
-		return_string = "Cinders";
-		
-	return return_string;
-end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function HasLearnedSpell(agent thisagent, string spell_name) is boolean
-
 declare
-	boolean return_boolean;
-
 begin
-	return_boolean = False;
-	
-	if (spell_name == "Fire_Bolt")
-		begin
-			If ($HasAttribute("Fire_Bolt_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Fire_Bolt_Learned";
-				end
-		end
-	
-	else if (spell_name == "Fireball")
-		begin
-			If ($HasAttribute("Fireball_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Fireball_Learned";
-				end
-		end
-	
-	else if (spell_name == "Perdition_Barrage")
-		begin
-			If ($HasAttribute("Perdition_Barrage_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Perdition_Barrage_Learned";
-				end
-		end
-	
-	else if (spell_name == "Incandescent_Ray")
-		begin
-			If ($HasAttribute("Incandescent_Ray_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Incandescent_Ray_Learned";
-				end
-		end
-	
-	else if (spell_name == "Searing_Mantle")
-		begin
-			If ($HasAttribute("Searing_Mantle_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Searing_Mantle_Learned";
-				end
-		end
-	
-	else if (spell_name == "Pyrelight")
-		begin
-			If ($HasAttribute("Pyrelight_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Pyrelight_Learned";
-				end
-		end
-	
-	else if (spell_name == "Ignite")
-		begin
-			If ($HasAttribute("Ignite_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Ignite_Learned";
-				end
-		end
-		
-	else if (spell_name == "Embers")
-		begin
-			If ($HasAttribute("Embers_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Embers_Learned";
-				end
-		end
-		
-	else if (spell_name == "Heatwave")
-		begin
-			If ($HasAttribute("Heatwave_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Heatwave_Learned";
-				end
-		end
-		
-	else if (spell_name == "Cinders")
-		begin
-			If ($HasAttribute("Cinders_Learned", thisagent) == True)
-				begin
-					return_boolean = thisagent's "Cinders_Learned";
-				end
-		end
-		
-	return return_boolean;
+	if ($HasAttribute(spell_name+"_Learned", thisagent))
+		return thisagent's (spell_name+"_Learned");
+	return false;
 end
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function HasLearnedSpellPrerequisite(agent thisagent, string spell_name) is boolean
 declare
-	boolean return_boolean;
-	
 begin
-	return_boolean = False;
-	
-	if (spell_name == "Fireball")
-		begin
-			If ($HasAttribute("Fire_Bolt_Learned", thisagent) == True)
-				if (thisagent's "Fire_Bolt_Learned" == True)
-					return_boolean = True;
-		end
-	else if (spell_name == "Searing_Mantle")
-		begin
-			If ($HasAttribute("Fire_Bolt_Learned", thisagent) == True)
-				if (thisagent's "Fire_Bolt_Learned" == True)
-					return_boolean = True;
-		end
+	if (spell_name == "Fireball" || spell_name == "Searing_Mantle")
+		return $HasLearnedSpell(thisagent, "Fire_Bolt", thisagent);
 	else if (spell_name == "Heatwave")
-		begin
-			If ($HasAttribute("Fireball_Learned", thisagent) == True)
-				if (thisagent's "Fireball_Learned" == True)
-					return_boolean = True;
-		end
+		return $HasLearnedSpell(thisagent, "Fireball", thisagent);
 	else if (spell_name == "Pyrelight")
-		begin
-			If ($HasAttribute("Searing_Mantle_Learned", thisagent) == True)
-				if (thisagent's "Searing_Mantle_Learned" == True)
-					return_boolean = True;
-		end
+		return $HasLearnedSpell(thisagent, "Searing_Mantle", thisagent);
 	else if (spell_name == "Perdition_Barrage")
-		begin
-			If ($HasAttribute("Fireball_Learned", thisagent) == True)
-				if (thisagent's "Fireball_Learned" == True)
-					If ($HasAttribute("Ignite_Learned", thisagent) == True)
-						if (thisagent's "Ignite_Learned" == True)
-							return_boolean = True;
-		end
+		return $HasLearnedSpell(thisagent, "Fireball", thisagent) && $HasLearnedSpell(thisagent, "Ignite", thisagent);
 	else if (spell_name == "Cinders")
-		begin
-			If ($HasAttribute("Heatwave_Learned", thisagent) == True)
-				if (thisagent's "Heatwave_Learned" == True)
-					If ($HasAttribute("Embers_Learned", thisagent) == True)
-						if (thisagent's "Embers_Learned" == True)
-							return_boolean = True;
-		end
+		return $HasLearnedSpell(thisagent, "Heatwave", thisagent) && $HasLearnedSpell(thisagent, "Embers", thisagent);
 	else if (spell_name == "Incandescent_Ray")
-		begin
-			If ($HasAttribute("Perdition_Barrage_Learned", thisagent) == True)
-				if (thisagent's "Perdition_Barrage_Learned" == True)
-					return_boolean = True;
-		end
-	else
-		return_boolean = True;
-		
-	return return_boolean;
+		return $HasLearnedSpell(thisagent, "Perdition_Barrage", thisagent);
+	
+	// no prereq
+	return true;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function Tree_LearnSpellPrerequisite(agent thisagent, string spell_name)
@@ -722,22 +141,22 @@ begin
 		begin
 			$AddAttribute(thisagent, "wizard_firebolt_cooldown", "function", $Cooldown_End);
 			$AddAttribute(thisagent, "Fire_Bolt_Learned", "boolean", True);
-			$AddAttribute(thisagent, "Fire_Bolt_Max", "boolean", False);
-			$LearnSpell(thisagent, "Fire_Bolt_1");
+			$AddAttribute(thisagent, "Fire_Bolt_Rank", "integer", 1);
+			$LearnSpell(thisagent, "Fire_Bolt");
 		end
 	else if (spell_name == "Searing_Mantle")
 		begin
 			$AddAttribute(thisagent, "wizard_firebolt_cooldown", "function", $Cooldown_End);
 			$AddAttribute(thisagent, "Fire_Bolt_Learned", "boolean", True);
-			$AddAttribute(thisagent, "Fire_Bolt_Max", "boolean", False);
-			$LearnSpell(thisagent, "Fire_Bolt_1");
+			$AddAttribute(thisagent, "Fire_Bolt_Rank", "integer", 1);
+			$LearnSpell(thisagent, "Fire_Bolt");
 		end
 	else if (spell_name == "Heatwave")
 		begin
-			$AddAttribute(thisagent, "wizard_Fireball_cooldown", "function", $Cooldown_End);
+			$AddAttribute(thisagent, "fire_ball_cooldown", "function", $Cooldown_End);
 			$AddAttribute(thisagent, "Fireball_Learned", "boolean", True);
-			$AddAttribute(thisagent, "Fireball_Max", "boolean", False);
-			$LearnSpell(thisagent, "Fireball_1");
+			$AddAttribute(thisagent, "Fireball_Rank", "integer", 1);
+			$LearnSpell(thisagent, "Fireball");
 		end
 	else if (spell_name == "Pyrelight")
 		begin
@@ -749,8 +168,8 @@ begin
 				begin
 					$AddAttribute(thisagent, "wizard_searingmantle_cooldown", "function", $Cooldown_End);
 					$AddAttribute(thisagent, "Searing_Mantle_Learned", "boolean", True);
-					$AddAttribute(thisagent, "Searing_Mantle_Max", "boolean", False);
-					$LearnSpell(thisagent, "Searing_Mantle_1");
+					$AddAttribute(thisagent, "Searing_Mantle_Rank", "integer", 1);
+					$LearnSpell(thisagent, "Searing_Mantle");
 				end
 		end
 	else if (spell_name == "Perdition_Barrage")
@@ -761,17 +180,17 @@ begin
 				end
 			else if ($HasAttribute("Fireball_Learned", thisagent) != True)
 				begin
-					$AddAttribute(thisagent, "wizard_Fireball_cooldown", "function", $Cooldown_End);
+					$AddAttribute(thisagent, "fire_ball_cooldown", "function", $Cooldown_End);
 					$AddAttribute(thisagent, "Fireball_Learned", "boolean", True);
-					$AddAttribute(thisagent, "Fireball_Max", "boolean", False);
-					$LearnSpell(thisagent, "Fireball_1");
+					$AddAttribute(thisagent, "Fireball_Rank", "integer", 1);
+					$LearnSpell(thisagent, "Fireball");
 				end
 			else if ($HasAttribute("Ignite_Learned", thisagent) != True)
 				begin
 					$AddAttribute(thisagent, "wizard_Ignite_cooldown", "function", $Cooldown_End);
 					$AddAttribute(thisagent, "Ignite_Learned", "boolean", True);
-					$AddAttribute(thisagent, "Ignite_Max", "boolean", False);
-					$LearnSpell(thisagent, "Ignite_1");
+					$AddAttribute(thisagent, "Ignite_Rank", "integer", 1);
+					$LearnSpell(thisagent, "Ignite");
 				end
 		end
 	else if (spell_name == "Cinders")
@@ -782,26 +201,26 @@ begin
 				end
 			else if ($HasAttribute("Fireball_Learned", thisagent) != True)
 				begin
-					$AddAttribute(thisagent, "wizard_Fireball_cooldown", "function", $Cooldown_End);
+					$AddAttribute(thisagent, "fire_ball_cooldown", "function", $Cooldown_End);
 					$AddAttribute(thisagent, "Fireball_Learned", "boolean", True);
-					$AddAttribute(thisagent, "Fireball_Max", "boolean", False);
-					$LearnSpell(thisagent, "Fireball_1");
+					$AddAttribute(thisagent, "Fireball_Rank", "integer", 1);
+					$LearnSpell(thisagent, "Fireball");
 				end
 			else if ($HasAttribute("Heatwave_Learned", thisagent) != True)
 				begin
 					$AddAttribute(thisagent, "wizard_heatwave_cooldown", "function", $Cooldown_End);
 					$AddAttribute(thisagent, "Heatwave_Learned", "boolean", True);
-					$AddAttribute(thisagent, "Heatwave_Max", "boolean", False);
-					$LearnSpell(thisagent, "Heatwave_1");
+					$AddAttribute(thisagent, "Heatwave_Rank", "integer", 1);
+					$LearnSpell(thisagent, "Heatwave");
 				end
 			else if ($HasAttribute("Embers_Learned", thisagent) != True)
 				begin
 					$AddAttribute(thisagent, "wizard_embers_cooldown", "function", $Cooldown_End);
 					$AddAttribute(thisagent, "Embers_Learned", "boolean", True);
-					$AddAttribute(thisagent, "Embers_Max", "boolean", False);
+					$AddAttribute(thisagent, "Embers_Rank", "integer", 1);
 					$AddAttribute(thisagent, "Embers_ManaRegeneration", "integer", 0);
 					$AddAttribute(thisagent, "Embers_HealthRegeneration", "integer", 0);
-					$LearnSpell(thisagent, "Embers_1");
+					$LearnSpell(thisagent, "Embers");
 				end
 		end
 	else if (spell_name == "Incandescent_Ray")
@@ -818,8 +237,8 @@ begin
 				begin
 					$AddAttribute(thisagent, "wizard_perditionbarrage_cooldown", "function", $Cooldown_End);
 					$AddAttribute(thisagent, "Perdition_Barrage_Learned", "boolean", True);
-					$AddAttribute(thisagent, "Perdition_Barrage_Max", "boolean", False);
-					$LearnSpell(thisagent, "Perdition_Barrage_1");
+					$AddAttribute(thisagent, "Perdition_Barrage_Rank", "integer", 1);
+					$LearnSpell(thisagent, "Perdition_Barrage");
 				end
 		end
 end
@@ -827,19 +246,23 @@ end
 function Tree_LearnSpell(agent thisagent, string spell_name)
 
 declare
-	string full_spell, full_attribute;
+	string full_attribute;
 
 begin
-	full_spell = spell_name + "_";
-	full_attribute = full_spell + "Cooldown";
+	full_attribute = spell_name + "_Learned";
+	
+	if ($AddAttribute(thisagent, full_attribute, "boolean", True) == false)
+		if (thisagent's full_attribute == true)
+			return;
+	thisagent's full_attribute = true;
+
+	full_attribute = spell_name + "_Cooldown";
 	$AddAttribute(thisagent, full_attribute, "function", $Cooldown_End);
-	full_attribute = full_spell + "Learned";
-	$AddAttribute(thisagent, full_attribute, "boolean", True);
-	full_attribute = full_spell + "Max";
-	$AddAttribute(thisagent, full_attribute, "boolean", False);
-	full_attribute = full_spell + "1";
-	$LearnSpell(thisagent, full_attribute);
-	thisagent's spell_name = full_attribute;
+	
+	full_attribute = spell_name + "_Rank";
+	$AddAttribute(thisagent, full_attribute, "integer", 1);
+
+	$LearnSpell(thisagent, spell_name);
 	
 	//thisagent's "learned_newspell" = True;
 	$ArrangeSpells(thisagent);
@@ -859,45 +282,16 @@ end
 function IncreaseSpellLevel(agent thisagent, string spell_name)
 
 declare
-	string full_spell, new_spell, spell_prefix;
-	boolean flag;
-	integer count, next;
+	string spell_rank;
 
 begin
 	if ($HasLearnedSpell(thisagent, spell_name) == false)
-		return;
-
-	flag = False;
-	count = 1;
-	next = 2;
-	spell_prefix = spell_name + "_";
+		$Tree_LearnSpell(thisagent, spell_name);
 	
-	while (flag == False) do
-		begin
-			if (count < 20)
-				begin
-					full_spell = spell_prefix + $i2s(count);
-					new_spell = spell_prefix + $i2s(next);
+	spell_rank = spell_name+"_Rank";
+	$AddAttribute(thisagent, spell_rank, "integer", 1);
+	thisagent's spell_rank += 1;
 
-					if ($isspellavailable(thisagent,full_spell,1))
-						begin
-							$ForgetSpell(thisagent, full_spell);
-							$LearnSpell(thisagent, new_spell);
-							thisagent's spell_name = new_spell;
-							flag = true;
-						end
-				end
-				
-			count = count + 1;
-			next = count + 1;
-
-			if (count > 19 || next > 20)
-				begin
-					flag = true;
-				end
-		end
-	
-	//thisagent's "learned_newspell" = True;
 	$ArrangeSpells(thisagent);
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -905,242 +299,136 @@ function Spell_Mana_Cost( agent thisagent, string spell_name ) is integer
 // List of spells to retrieve for a hero
 
 declare
-	integer Mana_Amount, spell_level, mana_increase;
-	string spell_cast, spell_parent;
+	integer spell_level, mana_increase;
 
 begin
-	Mana_Amount = 0;
-	
 	////CULTIST
 	if (spell_name == "camouflage")
-		begin
-			Mana_Amount = 5;
-			return Mana_Amount;
-		end
+		return 5;
 	if (spell_name == "charm_monster")
-		begin
-			Mana_Amount = 11;
-			return Mana_Amount;
-		end
+		return 11;
 	if (spell_name == "change_shape")
-		begin
-			Mana_Amount = 16;
-			return Mana_Amount;
-		end
-		
+		return 16;
+
 	////HEALER
 	if (spell_name == "healer_heal")
-		begin
-			Mana_Amount = 2;
-			return Mana_Amount;
-		end
+		return 2;
 	if (spell_name == "meditation")
-		begin
-			Mana_Amount = 9;
-			return Mana_Amount;
-		end
-		
+		return 9;
+
 	////MONK
 	if (spell_name == "hands_of_steel")
-		begin
-			Mana_Amount = 2;
-			return Mana_Amount;
-		end
+		return 2;
 	if (spell_name == "monk_stone_skin")
-		begin
-			Mana_Amount = 5;
-			return Mana_Amount;
-		end
+		return 5;
 	if (spell_name == "iron_will")
-		begin
-			Mana_Amount = 12;
-			return Mana_Amount;
-		end
-		
+		return 12;
+	
 	////PALADIN
 	if (spell_name == "shield_of_light")
-		begin
-			Mana_Amount = 6;
-			return Mana_Amount;
-		end
-		
+		return 6;
+	
 	////PRIESTESS
 	if (spell_name == "drain_life")
-		begin
-			Mana_Amount = 2;
-			return Mana_Amount;
-		end
+		return 2;
 	if (spell_name == "animate_skeleton")
-		begin
-			Mana_Amount = 7;
-			return Mana_Amount;
-		end
+		return 7;
 	if (spell_name == "control_undead")
-		begin
-			Mana_Amount = 9;
-			return Mana_Amount;
-		end
+		return 9;
 	if (spell_name == "priestess_wither")
-		begin
-			Mana_Amount = 5;
-			return Mana_Amount;
-		end
-		
+		return 5;
+
 	////SOLARUS
 	if (spell_name == "sun_scorch")
-		begin
-			Mana_Amount = 5;
-			return Mana_Amount;
-		end
-		
+		return 5;
+	
 	////WIZARD
 	if (spell_name == "energy_blast")
-		begin
-			Mana_Amount = 1;
-			return Mana_Amount;
-		end
+		return 1;
 	if (spell_name == "fire_shield")
-		begin
-			Mana_Amount = 4;
-			return Mana_Amount;
-		end
+		return 4;
 	if (spell_name == "fire_blast")
-		begin
-			Mana_Amount = 6;
-			return Mana_Amount;
-		end
+		return 6;
 	if (spell_name == "fire_ball")
-		begin
-			Mana_Amount = 9;
-			return Mana_Amount;
-		end
+		return 9;
 	if (spell_name == "resist_magic")
-		begin
-			Mana_Amount = 7;
-			return Mana_Amount;
-		end
+		return 7;
 	if (spell_name == "wizard_Transmute")
-		begin
-			Mana_Amount = 10;
-			return Mana_Amount;
-		end
+		return 10;
 	if (spell_name == "meteor_storm")
-		begin
-			Mana_Amount = 20;
-			return Mana_Amount;
-		end
-		
+		return 20;
+
 	////GENERIC
 	if (spell_name == "generic_regenerate")
-		begin
-			Mana_Amount = 7;
-			return Mana_Amount;
-		end
+		return 7;
 	if (spell_name == "flame_shield")
-		begin
-			Mana_Amount = 6;
-			return Mana_Amount;
-		end
+		return 6;
 	if (spell_name == "power_shock")
-		begin
-			Mana_Amount = 4;
-			return Mana_Amount;
-		end
-		
-	spell_parent = $GetSpellParent(spell_name);
+		return 4;
+
 	////FIRE TREE
-	if ((spell_name == "Fire_Bolt") || (spell_parent == "Fire_Bolt"))
+	if (spell_name == "Fire_Bolt")
 		begin
-			if (spell_name == "Fire_Bolt")
-				spell_cast = $GetSpellLevel(thisagent, spell_name);
-			else
-				spell_cast = spell_name;
-				
-			spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+			spell_level = $GetSpellRank(thisagent, spell_name);
 			mana_increase = (((spell_level - 1) * 3) / 4);
-			Mana_Amount = 2 + mana_increase;
-			return Mana_Amount;
+			return 2 + mana_increase;
 		end
-		
-	if ((spell_name == "Fireball") || (spell_parent == "Fireball"))
+	
+	if (spell_name == "Fireball")
 		begin
-			if (spell_name == "Fireball")
-				spell_cast = $GetSpellLevel(thisagent, spell_name);
-			else
-				spell_cast = spell_name;
-				
-			spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+			spell_level = $GetSpellRank(thisagent, spell_name);
 			mana_increase = (((spell_level - 1) * 3) / 2);
-			Mana_Amount = 6 + mana_increase;
-			return Mana_Amount;
+			return 6 + mana_increase;
 		end
-	
-	if ((spell_name == "Perdition_Barrage") || (spell_parent == "Perdition_Barrage"))
+
+	if (spell_name == "Perdition_Barrage")
 		begin
-			if (spell_name == "Perdition_Barrage")
-				spell_cast = $GetSpellLevel(thisagent, spell_name);
-			else
-				spell_cast = spell_name;
-				
-			spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+			spell_level = $GetSpellRank(thisagent, spell_name);
 			mana_increase = (((spell_level - 1) * 13) / 4);
-			Mana_Amount = 16 + mana_increase;
-			return Mana_Amount;
+			return 16 + mana_increase;
 		end
 	
-	if ((spell_name == "Incandescent_Ray") || (spell_parent == "Incandescent_Ray"))
+	if (spell_name == "Incandescent_Ray")
 		begin
-			if (spell_name == "Incandescent_Ray")
-				spell_cast = $GetSpellLevel(thisagent, spell_name);
-			else
-				spell_cast = spell_name;
-				
-			spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+			spell_level = $GetSpellRank(thisagent, spell_name);
 			mana_increase = (((spell_level - 1) * 14) / 5);
-			Mana_Amount = 13 + mana_increase;
-			return Mana_Amount;
+			return 13 + mana_increase;
 		end
 	
-	if ((spell_name == "Searing_Mantle") || (spell_parent == "Searing_Mantle"))
+	if (spell_name == "Searing_Mantle")
 		begin
-			if (spell_name == "Searing_Mantle")
-				spell_cast = $GetSpellLevel(thisagent, spell_name);
-			else
-				spell_cast = spell_name;
-				
-			spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+			spell_level = $GetSpellRank(thisagent, spell_name);
 			mana_increase = ((spell_level - 1) + 1);
-			Mana_Amount = 8 + mana_increase;
-			return Mana_Amount;
+			return 8 + mana_increase;
 		end
 	
-	if ((spell_name == "Pyrelight") || (spell_parent == "Pyrelight"))
+	if (spell_name == "Pyrelight")
 		begin
-			if (spell_name == "Pyrelight")
-				spell_cast = $GetSpellLevel(thisagent, spell_name);
-			else
-				spell_cast = spell_name;
-				
-			spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+			spell_level = $GetSpellRank(thisagent, spell_name);
 			mana_increase = ((spell_level - 1) / 2);
-			Mana_Amount = 3 + mana_increase;
-			return Mana_Amount;
+			return 3 + mana_increase;
 		end
 	
-	if ((spell_name == "Ignite") || (spell_parent == "Ignite"))
+	if (spell_name == "Ignite")
 		begin
-			if (spell_name == "Ignite")
-				spell_cast = $GetSpellLevel(thisagent, spell_name);
-			else
-				spell_cast = spell_name;
-				
-			spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+			spell_level = $GetSpellRank(thisagent, spell_name);
 			mana_increase = (((spell_level - 1) * 9) / 4);
-			Mana_Amount = 15 + mana_increase;
-			return Mana_Amount;
+			return 15 + mana_increase;
 		end
 	
-	return Mana_Amount;
+	return 0;
+end
+
+function GetSpellRank(agent thisagent, string spell_name) is integer
+declare
+	integer rank;
+begin
+	rank = 0;
+	if ($HasAttribute(spell_name+"_Rank", thisagent))
+		rank = thisagent's (spell_name+"_Rank");
+	if (rank < 1)
+		return 1;
+	return rank;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1155,9 +443,9 @@ begin
 	mana = spell_name + "_Mana";
 	mana_mult = spell_name + "_Mana_Mult";
 	mana_div = spell_name + "_Mana_Div";
-	spell_level =  $GetSpellAttribute( thisagent's spell_name, "spell_rank" );
+	spell_level =  $GetSpellRank(thisagent, spell_name);
 	mana_increase = (((spell_level - 1) * thisagent's mana_mult) / thisagent's mana_div);
-	Mana_Amount = thisagent's mana + mana_increase;
+	return thisagent's mana + mana_increase;
 	
 	return Mana_Amount;
 end

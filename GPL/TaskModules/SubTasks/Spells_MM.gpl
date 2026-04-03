@@ -1053,8 +1053,8 @@ begin
 	$createeffector( thisagent, "hands_of_steel_effector", 0 );
 	$createeffector( thisagent, "hands_of_steel_icon", duration );
 	
-	$AddAttribute(ThisAgent, "monk_handsofsteel_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "monk_handsofsteel_cooldown", cooldown, thisAgent, "monk_handsofsteel_cooldown" );
+	$AddAttribute(ThisAgent, "hands_of_steel_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "hands_of_steel_cooldown", cooldown, thisAgent, "hands_of_steel_cooldown" );
 	
 	if ($HasAttribute(buff_name, thisagent) != False)
 		begin
@@ -1131,8 +1131,8 @@ begin
 	
 	$createeffector( target, "monk_stone_skin_effector", 0 );
 
-	$AddAttribute(ThisAgent, "monk_stoneskin_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "monk_stoneskin_cooldown", cooldown, thisAgent, "monk_stoneskin_cooldown" );
+	$AddAttribute(ThisAgent, "monk_stone_skin_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "monk_stone_skin_cooldown", cooldown, thisAgent, "monk_stone_skin_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
@@ -1203,8 +1203,8 @@ begin
 	
 	$createeffector( target, "iron_will_effector", 0 );
 
-	$AddAttribute(ThisAgent, "monk_ironwill_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "monk_ironwill_cooldown", cooldown, thisAgent, "monk_ironwill_cooldown" );
+	$AddAttribute(ThisAgent, "iron_will_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "iron_will_cooldown", cooldown, thisAgent, "iron_will_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
@@ -1288,8 +1288,8 @@ begin
 	
 	$createeffector(thisagent,"shield_of_light_effector",0);
 	
-	$AddAttribute(ThisAgent, "paladin_shieldoflight_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "paladin_shieldoflight_cooldown", cooldown, thisAgent, "paladin_shieldoflight_cooldown" );
+	$AddAttribute(ThisAgent, "shield_of_light_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "shield_of_light_cooldown", cooldown, thisAgent, "shield_of_light_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
@@ -1358,8 +1358,8 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
-	$AddAttribute(ThisAgent, "priestess_drainlife_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "priestess_drainlife_cooldown", cooldown, thisAgent, "priestess_drainlife_cooldown" );
+	$AddAttribute(ThisAgent, "drain_life_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "drain_life_cooldown", cooldown, thisAgent, "drain_life_cooldown" );
 	
 	$createmissile("life_drain_missile",thisagent,target);
 end
@@ -1561,8 +1561,8 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
-	$AddAttribute(ThisAgent, "solarus_sunscorch_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "solarus_sunscorch_cooldown", cooldown, thisAgent, "solarus_sunscorch_cooldown" );
+	$AddAttribute(ThisAgent, "sun_scorch_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "sun_scorch_cooldown", cooldown, thisAgent, "sun_scorch_cooldown" );
 	
 	$createeffector( thisagent, "sun_scorch_effector1", 0 );
 
@@ -1597,8 +1597,8 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
-	$AddAttribute(ThisAgent, "wizard_energyblast_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "wizard_energyblast_cooldown", cooldown, thisAgent, "wizard_energyblast_cooldown" );
+	$AddAttribute(ThisAgent, "energy_blast_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "energy_blast_cooldown", cooldown, thisAgent, "energy_blast_cooldown" );
 	
 	$createmissile("energy_blast_missile",thisagent,target);
 end
@@ -1650,8 +1650,8 @@ begin
 	
 	$createeffector( target, "fire_shield_effector", 0 );
 	
-	$AddAttribute(ThisAgent, "wizard_fireshield_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "wizard_fireshield_cooldown", cooldown, thisAgent, "wizard_fireshield_cooldown" );
+	$AddAttribute(ThisAgent, "fire_shield_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "fire_shield_cooldown", cooldown, thisAgent, "fire_shield_cooldown" );
 	
 	if ($IsRunning (target's "Wizard_FireShieldBuff_End") == TRUE)
 		return;
@@ -1715,8 +1715,8 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
-	$AddAttribute(ThisAgent, "wizard_fireblast_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "wizard_fireblast_cooldown", cooldown, thisAgent, "wizard_fireblast_cooldown" );
+	$AddAttribute(ThisAgent, "fire_blast_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "fire_blast_cooldown", cooldown, thisAgent, "fire_blast_cooldown" );
 	
 	target1 = $listmember(targets,1);
 
@@ -1768,8 +1768,8 @@ begin
 	
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
-	$AddAttribute(ThisAgent, "wizard_fireball_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "wizard_fireball_cooldown", cooldown, thisAgent, "wizard_fireball_cooldown" );
+	$AddAttribute(ThisAgent, "fire_ball_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "fire_ball_cooldown", cooldown, thisAgent, "fire_ball_cooldown" );
 	
 	$createmissile("fireball_missile",thisagent,target);
 end
@@ -1849,8 +1849,8 @@ begin
 	
 	$createeffector( target, "Resist_magic_effector", 0 );
 	
-	$AddAttribute(ThisAgent, "wizard_resistmagic_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "wizard_resistmagic_cooldown", cooldown, thisAgent, "wizard_resistmagic_cooldown" );
+	$AddAttribute(ThisAgent, "resist_magic_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "resist_magic_cooldown", cooldown, thisAgent, "resist_magic_cooldown" );
 	
 	if ($IsRunning (target's "Wizard_ResistMagicBuff_End") == TRUE)
 		return;
@@ -1907,8 +1907,8 @@ begin
 	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
 	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
 	
-	$AddAttribute(ThisAgent, "wizard_meteorstorm_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "wizard_meteorstorm_cooldown", cooldown, thisAgent, "wizard_meteorstorm_cooldown" );
+	$AddAttribute(ThisAgent, "meteor_storm_cooldown", "function", $Cooldown_End);
+	$NewThread(thisAgent's "meteor_storm_cooldown", cooldown, thisAgent, "meteor_storm_cooldown" );
 	
 	$SpellTimeoutEffectAdvanced( thisagent, "meteor_storm", thisagent, $Meteor_Storm_Active, $spelldummydeath, "wizard_meteor_storm_effector", periodic, duration, #ATTRIB_Intelligence, stat_int, 0, #ATTRIB_SightRange, radius, #ATTRIB_maxattackrange, radius  );
 end
@@ -3732,7 +3732,7 @@ declare
 	agent newtarget, picked;
 	boolean is_learned, on_cooldown;
 	list potential_targets, spell_targets;
-	string unit_name, spell_cast;
+	string unit_name;
 	integer targetrange, attackrange, castrange, count;
 	
 begin
@@ -3834,31 +3834,31 @@ begin
 		begin
 			newtarget = $BasicCastEnemyUnit_hero(thisagent, target, spell_name);
 		end
-	else if (spell_name == $GetSpellLevel(thisagent, "Fire_Bolt"))
+	else if (spell_name == "Fire_Bolt")
 		begin
 			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
 		end
-	else if (spell_name == $GetSpellLevel(thisagent, "Fireball"))
+	else if (spell_name == "Fireball")
 		begin
 			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
 		end
-	else if (spell_name == $GetSpellLevel(thisagent, "Perdition_Barrage"))
+	else if (spell_name == "Perdition_Barrage")
 		begin
 			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
 		end
-	else if (spell_name == $GetSpellLevel(thisagent, "Incandescent_Ray"))
+	else if (spell_name == "Incandescent_Ray")
 		begin
 			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
 		end
-	else if (spell_name == $GetSpellLevel(thisagent, "Searing_Mantle"))
+	else if (spell_name == "Searing_Mantle")
 		begin
 			newtarget = $AdvancedCastCombatSupportAlly_hero(thisagent, target, "searing_mantle_icon", spell_name, 40);
 		end
-	else if (spell_name == $GetSpellLevel(thisagent, "Pyrelight"))
+	else if (spell_name == "Pyrelight")
 		begin
 			newtarget = $AdvancedCastCombatDebuffEnemy_hero(thisagent, target, "Pyrelight_icon", spell_name, 30);
 		end
-	else if (spell_name == $GetSpellLevel(thisagent, "Ignite"))
+	else if (spell_name == "Ignite")
 		begin
 			newtarget = $BasicCastDebuffEnemy_hero(thisagent, target, "ignite_icon", spell_name);
 		end
@@ -4495,7 +4495,7 @@ begin
 	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
 	castrange = (thisagent's "castingrange");
 	targetrange = $distanceBetweenAgents(thisagent,target);
-	$BuffDebuffList(thisagent);
+	
 	if (unit_name == "Healer")
 		begin
 			if ($CastableSpell_Heal(thisagent, target, "healer_heal") == TRUE)
@@ -4510,16 +4510,8 @@ begin
 	
 	if ($CastableSpell_Heal(thisagent, target, "generic_regenerate") == TRUE)
 		begin
-			if ($HasAttribute("generic_regenerate_cooldown", thisagent) == false)
-				begin
-					new_spell = "generic_regenerate";
-					return new_spell;
-				end
 			if ($HasCooldown(thisagent, "generic_regenerate_cooldown") != TRUE)
-				begin
-					new_spell = "generic_regenerate";
-					return new_spell;
-				end
+				return  "generic_regenerate";
 		end
 	
 	return new_spell;
@@ -4532,16 +4524,11 @@ function Spell_List_Follow( agent thisagent, agent target ) is string
 
 declare
 	string new_spell, unit_name;
-	integer targetrange, attackrange, castrange, count;
 
 begin
 	unit_name = thisagent's "title";
 	new_spell = "nothing";
 	
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	$BuffDebuffList(thisagent);
 	if (unit_name == "Healer")
 		begin
 			if ($CastableSpell_Follow(thisagent, target, "meditation") == TRUE)
@@ -4601,7 +4588,6 @@ function Spell_List_Control( agent thisagent, agent target ) is string
 
 declare
 	string new_spell, unit_name, original_name;
-	integer targetrange, attackrange, castrange, count;
 
 begin
 	unit_name = thisagent's "title";
@@ -4611,11 +4597,7 @@ begin
 		original_name = thisagent's "Original_Title";
 	else
 		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-		
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	$BuffDebuffList(thisagent);
+	
 	if ((unit_name == "cultist") || (original_name == "cultist"))
 		begin
 			if ($CastableSpell_Control(thisagent, target, "charm_monster") == TRUE)
@@ -4686,8 +4668,8 @@ function Spell_List_Support( agent thisagent) is string
 // Finally arranges on its own based on distance. Only concern would be whether the hero prioritizes other variables in spellcasting.
 
 declare
-	string new_spell, unit_name, spell_name, original_name;
-	integer targetrange, attackrange, castrange, count;
+	string new_spell, unit_name, original_name;
+	integer attackrange, count;
 	agent target;
 
 begin
@@ -4696,8 +4678,6 @@ begin
 	new_spell = "nothing";
 	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
 	$AddAttribute(thisagent, "castingrange", "integer");
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
 	$BuffDebuffList(thisagent);
 	
 	if ($HasAttribute("Original_Title", thisagent) == True)
@@ -4708,270 +4688,68 @@ begin
 	if ((unit_name == "cultist") || (original_name == "cultist"))
 		begin
 			if ($CastableSpell(thisagent, target, "change_shape") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "cultist_changeshape_cooldown") != TRUE)
-						begin
-							new_spell = "change_shape";
-							return new_spell;
-						end
-				end
+				return "change_shape";
 		end
 		
 	else if (unit_name == "Healer")
 		begin
 			if ($CastableSpell(thisagent, target, "meditation") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "healer_meditation_cooldown") != TRUE)
-						begin
-							new_spell = "meditation";
-							return new_spell;
-						end
-				end
+				return "meditation";
 		end
 		
 	else if (unit_name == "Monk")
 		begin
-			if (($isspellAvailable(thisagent,"hands_of_steel") == TRUE) && ($Spell_Mana_Available(thisagent, "hands_of_steel") == TRUE))
-				begin
-					if (($HasCooldown(thisagent, "monk_handsofsteel_cooldown") != TRUE) && ($ValidSpellTarget_hero(thisagent, target, "hands_of_steel") != $NullAgent()))
-						begin
-							new_spell = "hands_of_steel";
-							return new_spell;
-						end
-				end
-			if (($isspellAvailable(thisagent,"monk_stone_skin") == TRUE) && ($Spell_Mana_Available(thisagent, "monk_stone_skin") == TRUE))
-				begin
-					if (($HasCooldown(thisagent, "monk_stoneskin_cooldown") != TRUE) && ($ValidSpellTarget_hero(thisagent, target, "monk_stone_skin") != $NullAgent()))
-						begin
-							new_spell = "monk_stone_skin";
-							return new_spell;
-						end
-				end
-			if (($isspellAvailable(thisagent,"iron_will") == TRUE) && ($Spell_Mana_Available(thisagent, "iron_will") == TRUE))
-				begin
-					if (($HasCooldown(thisagent, "monk_ironwill_cooldown") != TRUE) &&($ValidSpellTarget_hero(thisagent, target, "iron_will") != $NullAgent()))
-						begin
-							new_spell = "iron_will";
-							return new_spell;
-						end
-				end
+			if ($CastableSpell(thisagent, target, "hands_of_steel") == TRUE)
+				return "hands_of_steel";
+			if ($CastableSpell(thisagent, target, "monk_stone_skin") == TRUE)
+				return "monk_stone_skin";
+			if ($CastableSpell(thisagent, target, "iron_will") == TRUE)
+				return "iron_will";
 		end
 	
 	else if (unit_name == "Paladin")
 		begin
 			if ($CastableSpell(thisagent, target, "shield_of_light") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "paladin_shieldoflight_cooldown") != TRUE)
-						begin
-							new_spell = "shield_of_light";
-							return new_spell;
-						end
-				end
+				return "shield_of_light";
 		end
 		
 	else if ((unit_name == "priestess") || (original_name == "priestess"))
 		begin
-			if ($CastableSpell(thisagent, target, "drain_life") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "priestess_drainlife_cooldown") != TRUE)
-						begin
-							new_spell = "drain_life";
-							return new_spell;
-						end
-				end
 			if ($CastableSpell(thisagent, target, "priestess_wither") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "priestess_wither_cooldown") != TRUE)
-						begin
-							new_spell = "priestess_wither";
-							return new_spell;
-						end
-				end
+				return "priestess_wither";
 		end
 		
 	else if (unit_name == "Solarus")
 		begin
-			if ($CastableSpell(thisagent, target, "sun_scorch") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "solarus_sunscorch_cooldown") != TRUE)
-						begin
-							new_spell = "sun_scorch";
-							return new_spell;
-						end
-				end
 		end
 		
 	else if (unit_name == "Wizard")
 		begin
-			if ($CastableSpell(thisagent, target, "energy_blast") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "wizard_energyblast_cooldown") != TRUE)
-						begin
-							new_spell = "energy_blast";
-							return new_spell;
-						end
-				end
 			if ($CastableSpell(thisagent, target, "fire_shield") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "wizard_fireshield_cooldown") != TRUE)
-						begin
-							new_spell = "fire_shield";
-							return new_spell;
-						end
-				end
-			if ($CastableSpell(thisagent, target, "fire_blast") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "wizard_fireblast_cooldown") != TRUE)
-						begin
-							new_spell = "fire_blast";
-							return new_spell;
-						end
-				end
-			if ($CastableSpell(thisagent, target, "fire_ball") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "wizard_fireball_cooldown") != TRUE)
-						begin
-							new_spell = "fire_ball";
-							return new_spell;
-						end
-				end
+				return "fire_shield";
 			if ($CastableSpell(thisagent, target, "resist_magic") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "wizard_resistmagic_cooldown") != TRUE)
-						begin
-							new_spell = "resist_magic";
-							return new_spell;
-						end
-				end
-				
+				return "resist_magic";
 			if ($CastableSpell(thisagent, target, "wizard_transmute") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "wizard_transmute_cooldown") != TRUE)
-						begin
-							new_spell = "wizard_Transmute";
-							return new_spell;
-						end
-				end
-			if ($CastableSpell(thisagent, target, "meteor_storm") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "wizard_meteorstorm_cooldown") != TRUE)
-						begin
-							new_spell = "meteor_storm";
-							return new_spell;
-						end
-				end
+				return "wizard_Transmute";
 				
-			spell_name = $GetSpellLevel(thisagent, "Fire_Bolt");
-			if (spell_name != "nothing")
-				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
-					begin
-						if ($HasCooldown(thisagent, "Fire_Bolt_Cooldown") != TRUE)
-							begin
-								new_spell = spell_name;
-								return new_spell;
-							end
-					end
-				
-			spell_name = $GetSpellLevel(thisagent, "Fireball");
-			if (spell_name != "nothing")
-				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
-					begin
-						if ($HasCooldown(thisagent, "Fireball_Cooldown") != TRUE)
-							begin
-								new_spell = spell_name;
-								return new_spell;
-							end
-					end
-					
-			spell_name = $GetSpellLevel(thisagent, "Perdition_Barrage");
-			if (spell_name != "nothing")
-				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
-					begin
-						if ($HasCooldown(thisagent, "Perdition_Barrage_Cooldown") != TRUE)
-							begin
-								new_spell = spell_name;
-								return new_spell;
-							end
-					end
-					
-			spell_name = $GetSpellLevel(thisagent, "Incandescent_Ray");
-			if (spell_name != "nothing")
-				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
-					begin
-						if ($HasCooldown(thisagent, "Incandescent_Ray_Cooldown") != TRUE)
-							begin
-								new_spell = spell_name;
-								return new_spell;
-							end
-					end
-			spell_name = $GetSpellLevel(thisagent, "Searing_Mantle");
-			if (spell_name != "nothing")
-				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
-					begin
-						if ($HasCooldown(thisagent, "Searing_Mantle_Cooldown") != TRUE)
-							begin
-								new_spell = spell_name;
-								return new_spell;
-							end
-					end
-					
-			spell_name = $GetSpellLevel(thisagent, "Pyrelight");
-			if (spell_name != "nothing")
-				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
-					begin
-						if ($HasCooldown(thisagent, "Pyrelight_Cooldown") != TRUE)
-							begin
-								new_spell = spell_name;
-								return new_spell;
-							end
-					end
-					
-			spell_name = $GetSpellLevel(thisagent, "Ignite");
-			if (spell_name != "nothing")
-				if ($CastableSpell(thisagent, target, spell_name) == TRUE)
-					begin
-						if ($HasCooldown(thisagent, "Ignite_Cooldown") != TRUE)
-							begin
-								new_spell = spell_name;
-								return new_spell;
-							end
-					end
+			
+			if ($CastableSpell(thisagent, target, "Searing_Mantle") == TRUE)
+				return "Searing_Mantle";
+			if ($CastableSpell(thisagent, target, "Pyrelight") == TRUE)
+				return "Pyrelight";
+			if ($CastableSpell(thisagent, target, "Ignite") == TRUE)
+				return "Ignite";
 		end
 		
 	//GENERIC SPELLS
 	if ($CastableSpell(thisagent, target, "generic_regenerate") == TRUE)
-		begin
-			if ($HasCooldown(thisagent, "generic_regenerate_cooldown") != TRUE)
-				begin
-					new_spell = "generic_regenerate";
-					return new_spell;
-				end
-		end
-	if ($CastableSpell(thisagent, target, "flame_shield") == TRUE)
-		begin
-			if ($HasCooldown(thisagent, "generic_flameshield_cooldown") != TRUE)
-				begin
-					new_spell = "flame_shield";
-					return new_spell;
-				end
-		end
-	if ($CastableSpell(thisagent, target, "power_shock") == TRUE)
-		begin
-			if ($HasCooldown(thisagent, "generic_powershock_cooldown") != TRUE)
-				begin
-					new_spell = "power_shock";
-					return new_spell;
-				end
-		end
+		return "generic_regenerate";
 		
 	//GADGET SPELLS
 	if ($CastableSpell(thisagent, target, "deploy_dart_sentry") == TRUE)
-		begin
-			new_spell = "deploy_dart_sentry";
-			return new_spell;
-		end
-				
-	return new_spell;
+		return "deploy_dart_sentry";
+	
+	return "nothing";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4987,28 +4765,11 @@ begin
 	spell_name = "Nothing";
 	new_spell = "Nothing";
 	new_target = $nullagent();
-//	count = 0;
-//	size = $ListSize(thisagent's "SpellsAttack");
 	
-//	if (size > 0)
-//		begin
-//			while ((count < size) && (new_spell == "Nothing")) do
-//				begin
-//					count ++;
-//					spell_name = $listmember(thisagent's "SpellsAttack", count);
-//					if (thisagent's spell_name != "Nothing")
-//						if ($CastableSpell(thisagent, target, thisagent's spell_name) == TRUE)
-//							begin
-//								cooldown = spell_name + "_Cooldown";
-//								if ($IsRunning (thisAgent's cooldown) != TRUE)
-//									new_spell = thisagent's spell_name;
-//							end
-//				end
-//		end
-		if ($HasAttribute("SpellsAttack", thisagent))
+	if ($HasAttribute("SpellsAttack", thisagent))
 		if ($ListSize(thisagent's "SpellsAttack") > 0)
 			foreach spell_name in thisagent's "SpellsAttack" do
-				if (thisagent's spell_name != "Nothing")
+				if (spell_name != "Nothing")
 					begin
 						condition = spell_name + "_Condition";
 						if ($SpellCastFirstPass(thisagent, spell_name))
@@ -5019,7 +4780,7 @@ begin
 										cooldown = spell_name + "_Cooldown";
 										if ($HasCooldown(thisagent, cooldown) != TRUE)
 											begin
-												new_spell = thisagent's spell_name;
+												new_spell = spell_name;
 												new_target = spell_target;			//Keep the new spell target consistent with the new spell, otherwise might get null agent targets with valid new spells
 											end
 									end
@@ -5037,7 +4798,7 @@ function SpellCastFirstPass( agent thisagent, string spell_name) is boolean //Ta
 declare
 
 begin
-	if (($isspellAvailable(thisagent, thisagent's spell_name) == TRUE) && ($Spell_Resource_Available(thisagent, spell_name) == TRUE))
+	if (($isspellAvailable(thisagent, spell_name) == TRUE) && ($Spell_Resource_Available(thisagent, spell_name) == TRUE))
 		return TRUE;
 	return FALSE;
 end
@@ -5047,7 +4808,7 @@ function SpellDefaultAttackPass( agent thisagent, string spell_name) is agent //
 declare
 
 begin
-	return $BasicCastTarget_hero(thisagent, thisagent's "Target", thisagent's spell_name);
+	return $BasicCastTarget_hero(thisagent, thisagent's "Target", spell_name);
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function FireBoltCondition( agent thisagent, string spell_name) is agent
@@ -5056,7 +4817,7 @@ function FireBoltCondition( agent thisagent, string spell_name) is agent
 declare
 
 begin
-	return $BasicCastTarget_hero(thisagent, thisagent's "Target", thisagent's spell_name);
+	return $BasicCastTarget_hero(thisagent, thisagent's "Target", spell_name);
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function SearingMantleCondition( agent thisagent, string spell_name) is agent
@@ -5065,7 +4826,7 @@ declare
 	
 begin
 	//icon = spell_name + "_Icon";		//Set these up in an alternative of AdvancedCastCombatSupportAlly_hero that holds the spells specific icon and mana percent extension in
-	return $AdvancedCastCombatSupportAlly_hero(thisagent, thisagent's "Target", "Searing_Mantle_Icon", thisagent's spell_name, 40);
+	return $AdvancedCastCombatSupportAlly_hero(thisagent, thisagent's "Target", "Searing_Mantle_Icon", spell_name, 40);
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function PyrelightCondition( agent thisagent, string spell_name) is agent
@@ -5074,7 +4835,7 @@ declare
 	
 begin
 	//icon = spell_name + "_Icon";
-	return $AdvancedCastCombatDebuffEnemy_hero(thisagent, thisagent's "Target", "Pyrelight_icon", thisagent's spell_name, 30);
+	return $AdvancedCastCombatDebuffEnemy_hero(thisagent, thisagent's "Target", "Pyrelight_icon", spell_name, 30);
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function IgniteCondition( agent thisagent, string spell_name) is agent
@@ -5083,22 +4844,28 @@ declare
 	
 begin
 	//icon = spell_name + "_Icon";
-	return $BasicCastDebuffEnemy_hero(thisagent, thisagent's "Target", "Ignite_Icon", thisagent's spell_name);
+	return $BasicCastDebuffEnemy_hero(thisagent, thisagent's "Target", "Ignite_Icon", spell_name);
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function CanCast(agent thisagent, string spell_name) is boolean
+declare
+begin
+	if ($isspellAvailable(thisagent, spell_name))
+		if ($HasCooldown(thisagent, spell_name))
+			if ($Spell_Mana_Available(thisagent, spell_name))
+				return true;
+	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function CastableSpell( agent thisagent, agent target, string spell_name ) is boolean
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
-	boolean castable;
-
 begin
-	castable = FALSE;
-	if ((($isspellAvailable(thisagent,spell_name) == TRUE) && ($Spell_Mana_Available(thisagent, spell_name) == TRUE)) && ($ValidSpellTarget_hero(thisagent, target, spell_name) != $NullAgent()))
-		begin
-			castable = TRUE;
-		end
-	return castable;
+	if ($CanCast(thisagent, spell_name))
+		return $ValidSpellTarget_hero(thisagent, target, spell_name) != $NullAgent();
+	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function CastableSpell_Heal( agent thisagent, agent target, string spell_name ) is boolean
@@ -5108,72 +4875,50 @@ declare
 	boolean castable;
 
 begin
-	castable = FALSE;
-	if ((($isspellAvailable(thisagent,spell_name) == TRUE) && ($Spell_Mana_Available(thisagent, spell_name) == TRUE)) && ($ValidHealTarget_hero(thisagent, target, spell_name) != $NullAgent()))
-		begin
-			castable = TRUE;
-		end
-	return castable;
+	if ($CanCast(thisagent, spell_name))
+		return $ValidHealTarget_hero(thisagent, target, spell_name) != $NullAgent();
+	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function CastableSpell_Follow( agent thisagent, agent target, string spell_name ) is boolean
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
-	boolean castable;
-
 begin
-	castable = FALSE;
-	if ((($isspellAvailable(thisagent,spell_name) == TRUE) && ($Spell_Mana_Available(thisagent, spell_name) == TRUE)) && ($ValidFollowTarget_hero(thisagent, target, spell_name) != $NullAgent()))
-		begin
-			castable = TRUE;
-		end
-	return castable;
+	if ($CanCast(thisagent, spell_name))
+		return $ValidFollowTarget_hero(thisagent, target, spell_name) != $NullAgent();
+	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function CastableSpell_Travel( agent thisagent, agent target, string spell_name ) is boolean
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
-	boolean castable;
 
 begin
-	castable = FALSE;
-	if ((($isspellAvailable(thisagent,spell_name) == TRUE) && ($Spell_Mana_Available(thisagent, spell_name) == TRUE)) && ($ValidTravelTarget_hero(thisagent, target, spell_name) != $NullAgent()))
-		begin
-			castable = TRUE;
-		end
-	return castable;
+	if ($CanCast(thisagent, spell_name))
+		return $ValidTravelTarget_hero(thisagent, target, spell_name) != $NullAgent();
+	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function CastableSpell_Control( agent thisagent, agent target, string spell_name ) is boolean
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
-	boolean castable;
-
 begin
-	castable = FALSE;
-	if ((($isspellAvailable(thisagent,spell_name) == TRUE) && ($Spell_Mana_Available(thisagent, spell_name) == TRUE)) && ($ValidControlTarget_hero(thisagent, target, spell_name) != $NullAgent()))
-		begin
-			castable = TRUE;
-		end
-	return castable;
+	if ($CanCast(thisagent, spell_name))
+		return $ValidControlTarget_hero(thisagent, target, spell_name) != $NullAgent();
+	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function CastableSpell_Summon( agent thisagent, agent target, string spell_name ) is boolean
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
-	boolean castable;
-
 begin
-	castable = FALSE;
-	if ((($isspellAvailable(thisagent,spell_name) == TRUE) && ($Spell_Mana_Available(thisagent, spell_name) == TRUE)) && ($ValidSummonTarget_hero(thisagent, target, spell_name) != $NullAgent()))
-		begin
-			castable = TRUE;
-		end
-	return castable;
+	if ($CanCast(thisagent, spell_name))
+		return $ValidSummonTarget_hero(thisagent, target, spell_name) != $NullAgent();
+	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function Spell_List_All( agent thisagent ) is string
@@ -5181,11 +4926,10 @@ function Spell_List_All( agent thisagent ) is string
 // Used only to check if a hero will buy mana potions
 
 declare
-	string new_spell, unit_name, spell_name, original_name;
+	string unit_name, original_name;
 
 begin
 	unit_name = thisagent's "title";
-	new_spell = "nothing";
 	
 	if ($HasAttribute("Original_Title", thisagent) == True)
 		original_name = thisagent's "Original_Title";
@@ -5195,197 +4939,101 @@ begin
 	if ((unit_name == "cultist") || (original_name == "cultist"))
 		begin
 			if ($isspellAvailable(thisagent,"camouflage") == TRUE)
-				begin
-					new_spell = "camouflage";
-					return new_spell;
-				end
+				return  "camouflage";
 			if ($isspellAvailable(thisagent,"charm_monster") == TRUE)
-				begin
-					new_spell = "charm_monster";
-					return new_spell;
-				end
+				return  "charm_monster";
 			if ($isspellAvailable(thisagent,"change_shape") == TRUE)
-				begin
-					new_spell = "change_shape";
-					return new_spell;
-				end
+				return  "change_shape";
 		end
 		
 	else if (unit_name == "Healer")
 		begin
 			if ($isspellAvailable(thisagent,"healer_heal") == TRUE)
-				begin
-					new_spell = "healer_heal";
-					return new_spell;
-				end
+				return  "healer_heal";
 			if ($isspellAvailable(thisagent,"meditation") == TRUE)
-				begin
-					new_spell = "meditation";
-					return new_spell;
-				end
+				return  "meditation";
 		end
 		
 	else if (unit_name == "Monk")
 		begin
 			if ($isspellAvailable(thisagent,"hands_of_steel") == TRUE)
-				begin
-					new_spell = "hands_of_steel";
-					return new_spell;
-				end
+				return  "hands_of_steel";
 			if ($isspellAvailable(thisagent,"monk_stone_skin") == TRUE)
-				begin
-					new_spell = "monk_stone_skin";
-					return new_spell;
-				end
+				return  "monk_stone_skin";
 			if ($isspellAvailable(thisagent,"iron_will") == TRUE)
-				begin
-					new_spell = "iron_will";
-					return new_spell;
-				end
+				return  "iron_will";
 		end
 	
 	else if (unit_name == "Paladin")
 		begin
 			if ($isspellAvailable(thisagent,"shield_of_light") == TRUE)
-				begin
-					new_spell = "shield_of_light";
-					return new_spell;
-				end
+				return  "shield_of_light";
 		end
 		
 	else if ((unit_name == "priestess") || (original_name == "priestess"))
 		begin
 			if ($isspellAvailable(thisagent,"drain_life") == TRUE)
-				begin
-					new_spell = "drain_life";
-					return new_spell;
-				end
+				return  "drain_life";
 			if ($isspellAvailable(thisagent,"animate_skeleton") == TRUE)
-				begin
-					new_spell = "animate_skeleton";
-					return new_spell;
-				end
+				return  "animate_skeleton";
 			if ($isspellAvailable(thisagent,"control_undead") == TRUE)
-				begin
-					new_spell = "control_undead";
-					return new_spell;
-				end
+				return  "control_undead";
 			if ($isspellAvailable(thisagent,"priestess_wither") == TRUE)
-				begin
-					new_spell = "priestess_wither";
-					return new_spell;
-				end
+				return  "priestess_wither";
 		end
 		
 	else if (unit_name == "Solarus")
 		begin
 			if ($isspellAvailable(thisagent,"sun_scorch") == TRUE)
-				begin
-					new_spell = "sun_scorch";
-					return new_spell;
-				end
+				return  "sun_scorch";
 		end
 		
 	else if (unit_name == "Wizard")
 		begin
 			if ($isspellAvailable(thisagent,"energy_blast") == TRUE)
-				begin
-					new_spell = "energy_blast";
-					return new_spell;
-				end
+				return  "energy_blast";
 			if ($isspellAvailable(thisagent,"fire_shield") == TRUE)
-				begin
-					new_spell = "fire_shield";
-					return new_spell;
-				end
+				return  "fire_shield";
 			if ($isspellAvailable(thisagent,"fire_blast") == TRUE)
-				begin
-					new_spell = "fire_blast";
-					return new_spell;
-				end
+				return  "fire_blast";
 			if ($isspellAvailable(thisagent,"fire_ball") == TRUE)
-				begin
-					new_spell = "fire_ball";
-					return new_spell;
-				end
+				return  "fire_ball";
 			if ($isspellAvailable(thisagent,"resist_magic") == TRUE)
-				begin
-					new_spell = "resist_magic";
-					return new_spell;
-				end
+				return  "resist_magic";
 			if ($isspellAvailable(thisagent,"wizard_Transmute") == TRUE)
-				begin
-					new_spell = "wizard_Transmute";
-					return new_spell;
-				end
+				return  "wizard_Transmute";
 			if ($isspellAvailable(thisagent,"meteor_storm") == TRUE)
-				begin
-					new_spell = "meteor_storm";
-					return new_spell;
-				end
+				return  "meteor_storm";
 				
-			if ($GetSpellLevel(thisagent, "Fire_Bolt") != "nothing")
-				begin
-					new_spell = $GetSpellLevel(thisagent, "Fire_Bolt");
-					return new_spell;
-				end
-			if ($GetSpellLevel(thisagent, "fireball") != "nothing")
-				begin
-					new_spell = $GetSpellLevel(thisagent, "fireball");
-					return new_spell;
-				end
-			if ($GetSpellLevel(thisagent, "Perdition_Barrage") != "nothing")
-				begin
-					new_spell = $GetSpellLevel(thisagent, "Perdition_Barrage");
-					return new_spell;
-				end
-			if ($GetSpellLevel(thisagent, "Incandescent_Ray") != "nothing")
-				begin
-					new_spell = $GetSpellLevel(thisagent, "Incandescent_Ray");
-					return new_spell;
-				end
-			if ($GetSpellLevel(thisagent, "searing_mantle") != "nothing")
-				begin
-					new_spell = $GetSpellLevel(thisagent, "searing_mantle");
-					return new_spell;
-				end
-			if ($GetSpellLevel(thisagent, "Pyrelight") != "nothing")
-				begin
-					new_spell = $GetSpellLevel(thisagent, "Pyrelight");
-					return new_spell;
-				end
-			if ($GetSpellLevel(thisagent, "ignite") != "nothing")
-				begin
-					new_spell = $GetSpellLevel(thisagent, "ignite");
-					return new_spell;
-				end
+			if ($isspellAvailable(thisagent, "Fire_Bolt"))
+				return "Fire_Bolt";
+			if ($isspellAvailable(thisagent, "fireball"))
+				return "fireball";
+			if ($isspellAvailable(thisagent, "Perdition_Barrage"))
+				return "Perdition_Barrage";
+			if ($isspellAvailable(thisagent, "Incandescent_Ray"))
+				return "Incandescent_Ray";
+			if ($isspellAvailable(thisagent, "searing_mantle"))
+				return "searing_mantle";
+			if ($isspellAvailable(thisagent, "Pyrelight"))
+				return "Pyrelight";
+			if ($isspellAvailable(thisagent, "ignite"))
+				return "ignite";
 		end
 		
 	//GENERIC SPELLS
 	if ($isspellAvailable(thisagent,"generic_regenerate") == TRUE)
-		begin
-			new_spell = "generic_regenerate";
-			return new_spell;
-		end
+		return "generic_regenerate";
 	if ($isspellAvailable(thisagent,"flame_shield") == TRUE)
-		begin
-			new_spell = "flame_shield";
-			return new_spell;
-		end
+		return "flame_shield";
 	if ($isspellAvailable(thisagent,"power_shock") == TRUE)
-		begin
-			new_spell = "power_shock";
-			return new_spell;
-		end
-		
+		return "power_shock";
+	
 	//GADGET SPELLS
 	if ($isspellAvailable(thisagent,"deploy_dart_sentry") == TRUE)
-		begin
-			new_spell = "deploy_dart_sentry";
-			return new_spell;
-		end
+		return "deploy_dart_sentry";
 	
-	return new_spell;
+	return "nothing";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5415,198 +5063,94 @@ function SpellRangeList( integer cast_range, string spell_name ) is integer
 // This list determines the max cast range for each spell.
 
 declare
-	integer new_range;
-	string unit_name;
 
 begin
-	new_range = cast_range;
-	
 	////CULTIST
 	if (spell_name == "camouflage")
-		begin
-			new_range = $PercentOf(cast_range, 30, False);
-			return new_range;
-		end
-		
-	else if (spell_name == "charm_monster")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-		
-	else if (spell_name == "change_shape")
-		begin
-			new_range = $PercentOf(cast_range, 30, False);
-			return new_range;
-		end
+		return $PercentOf(cast_range, 30, False);
+	if (spell_name == "charm_monster")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "change_shape")
+		return $PercentOf(cast_range, 30, False);
 		
 	////HEALER
-	else if (spell_name == "healer_heal")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
+	if (spell_name == "healer_heal")
+		return $PercentOf(cast_range, 50, False);
 		
-	else if (spell_name == "meditation")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
+	if (spell_name == "meditation")
+		return $PercentOf(cast_range, 50, False);
 		
 	////MONK
-	else if (spell_name == "hands_of_steel")
-		begin
-			new_range = $PercentOf(cast_range, 10, False);
-			return new_range;
-		end
+	if (spell_name == "hands_of_steel")
+		return $PercentOf(cast_range, 10, False);
 		
-	else if (spell_name == "monk_stone_skin")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
+	if (spell_name == "monk_stone_skin")
+		return $PercentOf(cast_range, 50, False);
 		
-	else if (spell_name == "iron_will")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
+	if (spell_name == "iron_will")
+		return $PercentOf(cast_range, 50, False);
 		
 	////PALADIN
-	else if (spell_name == "shield_of_light")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
+	if (spell_name == "shield_of_light")
+		return $PercentOf(cast_range, 50, False);
 		
 	////PRIESTESS
-	else if (spell_name == "drain_life")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-	else if (spell_name == "animate_skeleton")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
-	else if (spell_name == "control_undead")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-	else if (spell_name == "priestess_wither")
-		begin
-			new_range = $PercentOf(cast_range, 70, False);
-			return new_range;
-		end
+	if (spell_name == "drain_life")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "animate_skeleton")
+		return $PercentOf(cast_range, 50, False);
+	if (spell_name == "control_undead")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "priestess_wither")
+		return $PercentOf(cast_range, 70, False);
 		
 	////SOLARUS
-	else if (spell_name == "sun_scorch")
-		begin
-			new_range = $PercentOf(cast_range, 25, False);
-			return new_range;
-		end
+	if (spell_name == "sun_scorch")
+		return $PercentOf(cast_range, 25, False);
 		
 	////WIZARD
-	else if (spell_name == "energy_blast")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-		
-	else if (spell_name == "fire_shield")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-		
-	else if (spell_name == "fire_blast")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-		
-	else if (spell_name == "fire_ball")
-		begin
-			new_range = $PercentOf(cast_range, 75, False);
-			return new_range;
-		end
-		
-	else if (spell_name == "resist_magic")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
-		
-	else if (spell_name == "wizard_Transmute")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
+	if (spell_name == "energy_blast")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "fire_shield")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "fire_blast")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "fire_ball")
+		return $PercentOf(cast_range, 75, False);
+	if (spell_name == "resist_magic")
+		return $PercentOf(cast_range, 50, False);
+	if (spell_name == "wizard_Transmute")
+		return $PercentOf(cast_range, 67, False);
 		
 	////GENERIC
-	else if (spell_name == "generic_regenerate")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
-	else if (spell_name == "flame_shield")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
-	else if (spell_name == "power_shock")
-		begin
-			new_range = $PercentOf(cast_range, 60, False);
-			return new_range;
-		end
+	if (spell_name == "generic_regenerate")
+		return $PercentOf(cast_range, 50, False);
+	if (spell_name == "flame_shield")
+		return $PercentOf(cast_range, 50, False);
+	if (spell_name == "power_shock")
+		return $PercentOf(cast_range, 60, False);
 		
 	////GADGETS
-	else if (spell_name == "deploy_dart_sentry")
-		begin
-			new_range = $PercentOf(cast_range, 60, False);
-			return new_range;
-		end
+	if (spell_name == "deploy_dart_sentry")
+		return $PercentOf(cast_range, 60, False);
 		
 	////FIRE SKILL TREE
-	else if ((spell_name == $GetSpellParent("fire_bolt")) || ($GetSpellParent(spell_name) == "Fire_Bolt"))
-		begin
-			new_range = $PercentOf(cast_range, 70, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("fireball")) || ($GetSpellParent(spell_name) == "fireball"))
-		begin
-			new_range = $PercentOf(cast_range, 80, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("Perdition_Barrage")) || ($GetSpellParent(spell_name) == "Perdition_Barrage"))
-		begin
-			new_range = $PercentOf(cast_range, 90, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("Incandescent_Ray")) || ($GetSpellParent(spell_name) == "Incandescent_Ray"))
-		begin
-			new_range = $PercentOf(cast_range, 70, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("searing_mantle")) || ($GetSpellParent(spell_name) == "searing_mantle"))
-		begin
-			new_range = $PercentOf(cast_range, 60, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("Pyrelight")) || ($GetSpellParent(spell_name) == "Pyrelight"))
-		begin
-			new_range = $PercentOf(cast_range, 85, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("ignite")) || ($GetSpellParent(spell_name) == "ignite"))
-		begin
-			new_range = $PercentOf(cast_range, 75, False);
-			return new_range;
-		end
+	if (spell_name == "Fire_Bolt")
+		return $PercentOf(cast_range, 70, False);
+	if (spell_name == "fireball")
+		return $PercentOf(cast_range, 80, False);
+	if (spell_name == "Perdition_Barrage")
+		return $PercentOf(cast_range, 90, False);
+	if (spell_name == "Incandescent_Ray")
+		return $PercentOf(cast_range, 70, False);
+	if (spell_name == "searing_mantle")
+		return $PercentOf(cast_range, 60, False);
+	if (spell_name == "Pyrelight")
+		return $PercentOf(cast_range, 85, False);
+	if (spell_name == "ignite")
+		return $PercentOf(cast_range, 75, False);
 		
-	return new_range;
+	return cast_range;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5615,182 +5159,99 @@ function SpellRangeListOnAttack( integer cast_range, string spell_name ) is inte
 // This list is what's determining how close the hero is moving towards its target each attack in the attack section.
 
 declare
-	integer new_range;
-	string unit_name;
-
 begin
-	new_range = cast_range;
-	
 	////CULTIST
 	if (spell_name == "camouflage")
-		begin
-			return new_range;
-		end
+		return cast_range;
 		
-	else if (spell_name == "charm_monster")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
+	if (spell_name == "charm_monster")
+		return $PercentOf(cast_range, 67, False);
 		
-	else if (spell_name == "change_shape")
-		begin
-			return new_range;
-		end
+	if (spell_name == "change_shape")
+		return cast_range;
 		
 	////HEALER
-	else if (spell_name == "healer_heal")
-		begin
-			return new_range;
-		end
+	if (spell_name == "healer_heal")
+		return cast_range;
 		
-	else if (spell_name == "meditation")
-		begin
-			return new_range;
-		end
+	if (spell_name == "meditation")
+		return cast_range;
 		
 	////MONK
-	else if (spell_name == "hands_of_steel")
-		begin
-			return new_range;
-		end
+	if (spell_name == "hands_of_steel")
+		return cast_range;
 		
-	else if (spell_name == "monk_stone_skin")
-		begin
-			return new_range;
-		end
+	if (spell_name == "monk_stone_skin")
+		return cast_range;
 		
-	else if (spell_name == "iron_will")
-		begin
-			return new_range;
-		end
+	if (spell_name == "iron_will")
+		return cast_range;
 		
 	////PALADIN
-	else if (spell_name == "shield_of_light")
-		begin
-			return new_range;
-		end
+	if (spell_name == "shield_of_light")
+		return cast_range;
 		
 	////PRIESTESS
-	else if (spell_name == "drain_life")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-	else if (spell_name == "animate_skeleton")
-		begin
-			new_range = $PercentOf(cast_range, 50, False);
-			return new_range;
-		end
-	else if (spell_name == "control_undead")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
-	else if (spell_name == "priestess_wither")
-		begin
-			new_range = $PercentOf(cast_range, 70, False);
-			return new_range;
-		end
+	if (spell_name == "drain_life")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "animate_skeleton")
+		return $PercentOf(cast_range, 50, False);
+	if (spell_name == "control_undead")
+		return $PercentOf(cast_range, 67, False);
+	if (spell_name == "priestess_wither")
+		return $PercentOf(cast_range, 70, False);
 		
 	////SOLARUS
-	else if (spell_name == "sun_scorch")
-		begin
-			new_range = $PercentOf(cast_range, 25, False);
-			return new_range;
-		end
+	if (spell_name == "sun_scorch")
+		return $PercentOf(cast_range, 25, False);
 		
 	////WIZARD
-	else if (spell_name == "energy_blast")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
+	if (spell_name == "energy_blast")
+		return $PercentOf(cast_range, 67, False);
 		
-	else if (spell_name == "fire_shield")
-		begin
-			return new_range;
-		end
+	if (spell_name == "fire_shield")
+		return cast_range;
 		
-	else if (spell_name == "fire_blast")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
+	if (spell_name == "fire_blast")
+		return $PercentOf(cast_range, 67, False);
 		
-	else if (spell_name == "fire_ball")
-		begin
-			new_range = $PercentOf(cast_range, 75, False);
-			return new_range;
-		end
+	if (spell_name == "fire_ball")
+		return $PercentOf(cast_range, 75, False);
 		
-	else if (spell_name == "resist_magic")
-		begin
-			return new_range;
-		end
+	if (spell_name == "resist_magic")
+		return cast_range;
 		
-	else if (spell_name == "wizard_Transmute")
-		begin
-			new_range = $PercentOf(cast_range, 67, False);
-			return new_range;
-		end
+	if (spell_name == "wizard_Transmute")
+		return $PercentOf(cast_range, 67, False);
 		
-	else if (spell_name == "meteor_storm")
-		begin
-			new_range = $PercentOf(cast_range, 35, False);
-			return new_range;
-		end
+	if (spell_name == "meteor_storm")
+		return $PercentOf(cast_range, 35, False);
 		
 	////GENERIC
-	else if (spell_name == "generic_regenerate")
-		begin
-			return new_range;
-		end
-	else if (spell_name == "flame_shield")
-		begin
-			return new_range;
-		end
-	else if (spell_name == "power_shock")
-		begin
-			new_range = $PercentOf(cast_range, 60, False);
-			return new_range;
-		end
+	if (spell_name == "generic_regenerate")
+		return cast_range;
+	if (spell_name == "flame_shield")
+		return cast_range;
+	if (spell_name == "power_shock")
+		return $PercentOf(cast_range, 60, False);
 		
 	////GADGETS
-	else if (spell_name == "deploy_dart_sentry")
-		begin
-			new_range = $PercentOf(cast_range, 60, False);
-			return new_range;
-		end
+	if (spell_name == "deploy_dart_sentry")
+		return $PercentOf(cast_range, 60, False);
 		
 	////FIRE SKILL TREE
-	else if ((spell_name == $GetSpellParent("fire_bolt")) || ($GetSpellParent(spell_name) == "Fire_Bolt"))
-		begin
-			new_range = $PercentOf(cast_range, 70, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("fireball")) || ($GetSpellParent(spell_name) == "fireball"))
-		begin
-			new_range = $PercentOf(cast_range, 80, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("Perdition_Barrage")) || ($GetSpellParent(spell_name) == "Perdition_Barrage"))
-		begin
-			new_range = $PercentOf(cast_range, 90, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("Incandescent_Ray")) || ($GetSpellParent(spell_name) == "Incandescent_Ray"))
-		begin
-			new_range = $PercentOf(cast_range, 70, False);
-			return new_range;
-		end
-	else if ((spell_name == $GetSpellParent("ignite")) || ($GetSpellParent(spell_name) == "ignite"))
-		begin
-			new_range = $PercentOf(cast_range, 75, False);
-			return new_range;
-		end
+	if (spell_name == "Fire_Bolt")
+		return $PercentOf(cast_range, 70, False);
+	if (spell_name == "fireball")
+		return $PercentOf(cast_range, 80, False);
+	if (spell_name == "Perdition_Barrage")
+		return $PercentOf(cast_range, 90, False);
+	if (spell_name == "Incandescent_Ray")
+		return $PercentOf(cast_range, 70, False);
+	if (spell_name == "ignite")
+		return $PercentOf(cast_range, 75, False);
 		
-	return new_range;
+	return cast_range;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5859,7 +5320,7 @@ begin
 				
 	if ($ListSize(thisagent's "SpellsAttack") > 0) 
 		foreach spell_name in thisagent's "SpellsAttack" do
-			if (thisagent's spell_name != "Nothing")
+			if (spell_name != "Nothing")
 				if ($SpellCastFirstPass(thisagent, spell_name))
 					begin
 						range = spell_name + "_Range";
@@ -5912,10 +5373,9 @@ begin
 			cast_range = $PercentOf(cast_range, 67, False);
 			cast_range = $GreatestCastRange(thisagent, "energy_blast", cast_range);
 			cast_range = $GreatestCastRange(thisagent, "fire_ball", cast_range);
-			cast_range = $GreatestCastRange(thisagent, $GetSpellLevel(thisagent, "fire_bolt"), cast_range);
-			cast_range = $GreatestCastRange(thisagent, $GetSpellLevel(thisagent, "fireball"), cast_range);
-			cast_range = $GreatestCastRange(thisagent, $GetSpellLevel(thisagent, "incandescent_ray"), cast_range);
-			cast_range = $GreatestCastRange(thisagent, $GetSpellLevel(thisagent, "incandescent_ray"), cast_range);
+			cast_range = $GreatestCastRange(thisagent, "fire_bolt", cast_range);
+			cast_range = $GreatestCastRange(thisagent, "fireball", cast_range);
+			cast_range = $GreatestCastRange(thisagent, "incandescent_ray", cast_range);
 			return cast_range;
 		end
 	

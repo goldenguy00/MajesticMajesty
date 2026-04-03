@@ -8,8 +8,8 @@ declare
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	spell_cast = thisagent's "Fire_Bolt";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Fire_Bolt";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	free_cost = 0;
 	mana_cost =  $Spell_Resource_Cost(thisagent, "Fire_Bolt");
 	cooldown = #Fire_Bolt_Cooldown;
@@ -42,9 +42,9 @@ declare
 	coordinate target_loc;
 
 begin
-	spell_cast = thisagent's "Fire_Bolt";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
-	synergy_1 = thisagent's "Fireball";
+	spell_cast = "Fire_Bolt";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
+	synergy_1 = "Fireball";
 	increased_damage = (((spell_level - 1) * #Fire_Bolt_Damage_Level_Mult) / #Fire_Bolt_Damage_Level_Div);
 	min_damage = (#Fire_Bolt_Damage_Min + increased_damage);
 	max_damage = (#Fire_Bolt_Damage_Max + increased_damage);
@@ -54,9 +54,9 @@ begin
 		
 	target_loc = $locationof(target);
 	
-	if (synergy_1 != "nothing")
+	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
-			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
 			synergy_damage_1 = ((synergy_level_1 - 1) * #Fire_Bolt_Damage_Synergy_Fireball);
 			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
@@ -78,8 +78,8 @@ declare
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	spell_cast = thisagent's "Fireball";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Fireball";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	mana_cost =  $Spell_Resource_Cost(thisagent, "Fireball");
 	cooldown = #Fireball_Cooldown;
 	
@@ -110,9 +110,9 @@ declare
 	boolean Tier1;
 
 begin
-	spell_cast = thisagent's "Fireball";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
-	synergy_1 = thisagent's "Fire_Bolt";
+	spell_cast = "Fireball";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
+	synergy_1 = "Fire_Bolt";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	increased_damage = ((spell_level - 1) * #Fireball_Damage_Level_Mult);
 	increased_radius = ((spell_level - 1) * #Fireball_Damage_Radius_Level);
@@ -129,9 +129,9 @@ begin
 	else
 		Tier1 = False;
 		
-	if (synergy_1 != "nothing")
+	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
-			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
 			synergy_damage_1 = ((synergy_level_1 - 1) * #Fireball_Damage_Synergy_Fire_Bolt);
 			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
@@ -233,8 +233,8 @@ declare
 	boolean Tier1;
 
 begin
-	spell_cast = thisagent's "Perdition_Barrage";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Perdition_Barrage";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	target_loc = $LocationOf(target);
 	max_distance = $SpellRangeList(thisagent's "castingRange", "Perdition_Barrage");
 	cast_distance = $DistanceBetweenAgents(thisagent, target);
@@ -292,10 +292,10 @@ declare
 	boolean Tier1;
 
 begin
-	spell_cast = thisagent's "Perdition_Barrage";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
-	synergy_1 = thisagent's "Fire_Bolt";
-	synergy_2 = thisagent's "Fireball";
+	spell_cast = "Perdition_Barrage";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
+	synergy_1 = "Fire_Bolt";
+	synergy_2 = "Fireball";
 	increased_damage = ((spell_level - 1) * #Perdition_Barrage_Damage_Level_Mult);
 	increased_radius = ((spell_level - 1) * #Perdition_Barrage_Damage_Radius_Level);
 	min_damage = (#Perdition_Barrage_Damage_Min + increased_damage);
@@ -307,18 +307,18 @@ begin
 	else
 		Tier1 = False;
 
-	if (synergy_1 != "nothing")
+	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
-			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
 			synergy_damage_1 = ((synergy_level_1 - 1) * #Perdition_Barrage_Damage_Synergy_Fire_Bolt);
-			if (synergy_2 == "nothing")
+			if ($HasLearnedSpell(thisagent, synergy_2))
 				begin
 					min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 					max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
 				end
 			else
 				begin
-					synergy_level_2 = $GetSpellAttribute( synergy_2, "spell_rank" );
+					synergy_level_2 = $GetSpellRank(thisagent, synergy_2);
 					synergy_radius_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Radius_Synergy_Fireball);
 					synergy_damage_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Damage_Synergy_Fireball);
 					radius = $IncreaseByPercent(radius, synergy_radius_2, False);
@@ -330,7 +330,7 @@ begin
 //The synergy damage bonuses were being applied twice from this additional section
 //	if (synergy_2 != "nothing")
 //		begin
-//			synergy_level_2 = $GetSpellAttribute( synergy_2, "spell_rank" );
+//			synergy_level_2 = $GetSpellRank(thisagent, synergy_2);
 //			synergy_damage_2 = ((synergy_level_2 - 1) * 7);
 //			synergy_radius_2 = ((synergy_level_2 - 1) * 6);
 //			radius = $IncreaseByPercent(radius, synergy_radius_2, False);
@@ -341,7 +341,7 @@ begin
 //				end
 //			else
 //				begin
-//					synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+//					synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
 //					synergy_damage_1 = ((synergy_level_1 - 1) * 4);
 //					min_damage = $IncreaseByPercent(min_damage, synergy_damage_2 + synergy_damage_1, False);
 //					max_damage = $IncreaseByPercent(max_damage, synergy_damage_2 + synergy_damage_1, False);
@@ -376,8 +376,8 @@ declare
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	spell_cast = thisagent's "Ignite";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Ignite";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	increased_damage = (((spell_level - 1) * #Ignite_Damage_Level_Mult) / #Ignite_Damage_Level_Div);
 	increased_radius = ((spell_level - 1) * #Ignite_Damage_Radius_Level);
 	increased_count = ((spell_level - 1) / #Ignite_Duration_Div);
@@ -462,8 +462,8 @@ declare
 	agent dummy_target, guy;
 
 begin
-	spell_cast = thisagent's "Incandescent_Ray";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Incandescent_Ray";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	thisagent_loc = $LocationOf(thisagent);
 	target_loc = $LocationOf(target);
 	increased_distance = ((spell_level - 1) * #Incandescent_Ray_Distance_Level);
@@ -539,8 +539,8 @@ declare
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	spell_cast = thisagent's "Searing_Mantle";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Searing_Mantle";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
 	mana_cost =  $Spell_Resource_Cost(thisagent,"Searing_Mantle");
@@ -630,8 +630,8 @@ declare
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	spell_cast = thisagent's "Pyrelight";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Pyrelight";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
 	mana_cost =  $Spell_Resource_Cost(thisagent,"Pyrelight");
@@ -723,8 +723,8 @@ declare
 	string spell_cast;
 
 begin
-	spell_cast = thisagent's "Embers";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Embers";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	Increase_regen_Mana = ((spell_level - 1) * 3);
 	regen_Mana = #Embers_Mana_Regen + Increase_regen_Mana;
 	
@@ -769,10 +769,10 @@ declare
 	agent guy;
 
 begin
-	spell_cast = thisagent's "Heatwave";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
-	synergy_1 = thisagent's "Embers";
-	synergy_2 = thisagent's "Fireball";
+	spell_cast = "Heatwave";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
+	synergy_1 = "Embers";
+	synergy_2 = "Fireball";
 	increased_damage = ((spell_level - 1) * #Heatwave_Damage_Level_Mult);
 	increased_radius = ((spell_level - 1) * #Heatwave_Damage_Radius_Level);
 	Knockback_count = 2;
@@ -787,17 +787,17 @@ begin
 	else
 		Tier1 = False;
 
-	if (synergy_1 != "nothing")
+	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
-			synergy_level_1 = $GetSpellAttribute( synergy_1, "spell_rank" );
+			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
 			synergy_damage_1 = ((synergy_level_1 - 1) * #Heatwave_Damage_Synergy_Embers);
 			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
 		end
 	
-	if (synergy_2 != "nothing")
+	if ($HasLearnedSpell(thisagent, synergy_2))
 		begin
-			synergy_level_2 = $GetSpellAttribute( synergy_2, "spell_rank" );
+			synergy_level_2 = $GetSpellRank(thisagent, synergy_2);
 			synergy_radius_2 = ((synergy_level_2 - 1) * #Heatwave_Radius_Synergy_Fireball);
 			radius = $IncreaseByPercent(radius, synergy_radius_2, False);
 		end
@@ -864,8 +864,8 @@ declare
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	spell_cast = thisagent's "Cinders";
-	spell_level = $GetSpellAttribute( spell_cast, "spell_rank" );
+	spell_cast = "Cinders";
+	spell_level = $GetSpellRank(thisagent, spell_cast);
 	increased_damage_flat = ((spell_level - 1) + #Cinders_Damage_Level_Flat);
 	increased_duration = ((spell_level - 1) * #Cinders_Cycle_Level);
 	Cinders_duration = (#Cinders_Cycle + increased_duration);
