@@ -9,11 +9,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="power_shock_check"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="3000"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="power_shock_check"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="WRb2" Name="flame_shield" Description="Flame Shield">
@@ -88,11 +88,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="energy_blast_check"/>
-			<TimeoutDuration value="200"/>
+			<TimeoutDuration value="2000"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="energy_blast_check"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="WRb1" Name="fire_shield" Description="Fire Shield">
@@ -122,11 +122,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="fire_blast_check"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="3"/>
 			<SpellRank value="3"/>
+			<ValidationScript value="fire_blast_check"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="WRe1" Name="fire_ball" Description="Fire Ball">
@@ -139,11 +139,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="fire_ball_check"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="5"/>
 			<SpellRank value="5"/>
+			<ValidationScript value="fire_ball_check"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="WRf1" Name="resist_magic" Description="Resist Magic">
@@ -170,11 +170,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="meteor_storm_check"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="7"/>
+			<ValidationScript value="meteor_storm_check"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="HRa1" Name="healer_heal" Description="Healer's Healing">
@@ -188,7 +188,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -251,7 +251,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -283,9 +283,10 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="InvalidSpell"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="SRa1" Name="sun_scorch" Description="Solarus Sun Scorch">
@@ -299,10 +300,11 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<EffectorDuration value="1000"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="17000"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="solarus_sun_scorch_check"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="PRa1" Name="drain_life" Description="Drain Life">
@@ -315,7 +317,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="200"/>
+			<TimeoutDuration value="2000"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
@@ -331,7 +333,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="3000"/>
 			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="2"/>
@@ -347,8 +349,8 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
-			<SpellType value="Attack"/>
+			<TimeoutDuration value="3000"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="4"/>
 		</Game>
@@ -604,31 +606,31 @@
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt1" Name="Fire_Bolt" Description="Fire Bolt [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTFireBolt1" Name="firebolt" Description="Fire Bolt [Level 1]">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
 			<Sound value="Fire_Blast"/>
 			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fire_Bolt_Cast"/>
+			<Script type="0" cProc="0" GPLFunction="firebolt_Cast"/>
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="Fire_Bolt_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="firebolt_Check"/>
 		</Game>
 	</Description>
 
-	<Description type="Unit" subType="Projectile" ID="WFSTFireBoltMissile" Name="Fire_Bolt_Missile" Description="Fire Bolt Missile">
+	<Description type="Unit" subType="Projectile" ID="WFSTFireBoltMissile" Name="firebolt_Missile" Description="Fire Bolt Missile">
 		<Engine version="1">
 			<Info value="NoRandomTargetOnDestination"/>
 			<CanUse value="Monster"/>
 			<Menu value="10"/>
 			<ImageIDBase value="BPA4"/>
-			<Script type="0" cProc="0" GPLFunction="fire_bolt_hit"/>
+			<Script type="0" cProc="0" GPLFunction="firebolt_hit"/>
 			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
 			<DefaultSound value="0"/>
 		</Engine>
@@ -644,11 +646,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="FireBall_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="5"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="FireBall_Check"/>
 		</Game>
 	</Description>
 
@@ -662,11 +664,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="Searing_Mantle_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="5"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="Searing_Mantle_Check"/>
 		</Game>
 	</Description>
 
@@ -680,11 +682,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="Ignite_Check"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="CombatUtility"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="10"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="Ignite_Check"/>
 		</Game>
 	</Description>
 	
@@ -698,11 +700,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="Pyrelight_Check"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="CombatUtility"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="15"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="Pyrelight_Check"/>
 		</Game>
 	</Description>
 	
@@ -716,11 +718,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="Perdition_Barrage_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="20"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="Perdition_Barrage_Check"/>
 		</Game>
 	</Description>
 	
@@ -734,11 +736,11 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<ValidationScript value="Incandescent_Ray_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="25"/>
 			<SpellRank value="1"/>
+			<ValidationScript value="Incandescent_Ray_Check"/>
 		</Game>
 	</Description>
 
@@ -790,7 +792,7 @@
 		</Game>
 	</Description>
 	
-	<Description type="Unit" subType="Overlay" ID="WFSTFireBoltEffector" Name="Fire_Bolt_Effector" Description="Fire Bolt">
+	<Description type="Unit" subType="Overlay" ID="WFSTFireBoltEffector" Name="firebolt_Effector" Description="Fire Bolt">
 		<Engine version="1">
 			<Info value="DontBlock"/>
 			<CanUse value="Monster"/>

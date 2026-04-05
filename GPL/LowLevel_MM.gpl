@@ -1022,7 +1022,7 @@ begin
 
 	foreach stat in stat_list do
 		begin
-			chance = $GetBaseStat(thisagent,stat) + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
+			chance = $GetBaseStat(thisagent,stat) + $GetIntegerSafe(thisagent, ("Up"+stat+"Chance"));
 			max_roll += chance;
 		end
 
@@ -1030,7 +1030,7 @@ begin
 
 	foreach stat in stat_list do
 		begin
-			chance = $GetBaseStat(thisagent,stat) + $GetAttributeSafe(thisagent, ("Up"+stat+"Chance"));
+			chance = $GetBaseStat(thisagent,stat) + $GetIntegerSafe(thisagent, ("Up"+stat+"Chance"));
 			if (chance <= roll)
 				begin
 					pref_attribute = stat;
@@ -1720,7 +1720,9 @@ declare
 	integer total_min, total_max, total_average;
 
 begin
-	total_min += thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min"
+	if ($HasAttribute("Fire_Attack_Damage_Min", thisagent) == false)
+		return;
+	total_min = thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min"
 	 + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min"
 	  + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min"
 	   + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
@@ -1957,7 +1959,7 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function GetAttributeSafe(agent thisagent, string attr) is integer
+function GetIntegerSafe(agent thisagent, string attr) is integer
 declare
 begin
 	if ($HasAttribute(attr, thisagent) == false) return 0;
@@ -1965,7 +1967,15 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function AdjustAttributeSafe(agent thisagent, string attr, integer delta)
+function SetIntegerSafe(agent thisagent, string attr, integer value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "integer", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function AdjustIntegerSafe(agent thisagent, string attr, integer delta)
 declare
 begin
 	if (delta == 0) return;
@@ -1974,13 +1984,12 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function SetAttributeSafe(agent thisagent, string attr, integer value)
+function GetStringSafe(agent thisagent, string attr) is string
 declare
 begin
-	if ($AddAttribute(thisagent, attr, "integer", value) == false)
-		thisagent's attr = value;
+	if ($HasAttribute(attr, thisagent) == false) return "";
+	return thisagent's attr;
 end
-
 
 ////////////////////////////////////////////////////////////////////////////////
 function SetStringSafe(agent thisagent, string attr, string value)
@@ -1991,20 +2000,38 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function SetAgentSafe(agent thisagent, string attr, agent value)
+function GetBooleanSafe(agent thisagent, string attr) is boolean
 declare
 begin
-	if ($AddAttribute(thisagent, attr, "agent", value) == false)
+	if ($HasAttribute(attr, thisagent) == false) return false;
+	return thisagent's attr;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetBooleanSafe(agent thisagent, string attr, boolean value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "boolean", value) == false)
 		thisagent's attr = value;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function SetIntegerSafe(agent thisagent, string attr, integer value)
+function GetAgentSafe(agent thisagent, string attr) is agent
 declare
 begin
-	if ($AddAttribute(thisagent, attr, "integer", value) == false)
-		thisagent's attr = value;
+	if ($HasAttribute(attr, thisagent) == false) return $NullAgent();
+	return thisagent's attr;
 end
+
+// doesnt work????
+////////////////////////////////////////////////////////////////////////////////
+//function SetAgentSafe(agent thisagent, string attr, agent value)
+//declare
+//begin
+//	if ($AddAttribute(thisagent, attr, "agent", value) == false)
+//		thisagent's attr = value;
+//end
+
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateArtifice(agent thisagent)
 declare
@@ -2134,8 +2161,8 @@ declare
 
 begin
 	base = $GetBaseStat(thisagent, attrib);
-	flat = $GetAttributeSafe(thisagent, attrib+"_Flat_Modifier");
-	percent = $GetAttributeSafe(thisagent, attrib+"_Percent_Modifier");
+	flat = $GetIntegerSafe(thisagent, attrib+"_Flat_Modifier");
+	percent = $GetIntegerSafe(thisagent, attrib+"_Percent_Modifier");
 
 	if (percent != 0) 
 		percent = $PercentOf(base, percent, (base >= 1000));

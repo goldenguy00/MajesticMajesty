@@ -23,8 +23,8 @@ begin
 					return True;
 				end
 			else if ($isspellAvailable(thisagent,"rogue_Assassin") == TRUE)
-				$rogue_Assassin_cast(thisagent);
-				//$cast(thisagent,"rogue_Assassin",thisagent, "");
+				//$rogue_Assassin_cast(thisagent, thisagent);
+				$cast(thisagent,"rogue_Assassin",thisagent, "");
 				
 			return False;
 

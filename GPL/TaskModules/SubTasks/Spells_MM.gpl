@@ -789,9 +789,9 @@ begin
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength,add_strength);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality,add_vitality);
 
-	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", add_strength);
-	$AdjustAttributeSafe(thisagent, "Vitality_Flat_Modifier", add_vitality);
-	$AdjustAttributeSafe(thisagent, "MaxHP_Flat_Modifier", add_vitality);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", add_strength);
+	$AdjustIntegerSafe(thisagent, "Vitality_Flat_Modifier", add_vitality);
+	$AdjustIntegerSafe(thisagent, "MaxHP_Flat_Modifier", add_vitality);
 
 	$adjustattribute(thisagent,#ATTRIB_MaxHP,add_MaxHP);
 	$adjustattribute(thisagent,#ATTRIB_HP,add_MaxHP);
@@ -829,9 +829,9 @@ begin
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength, -add_strength);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality, -add_vitality);
 
-	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
-	$AdjustAttributeSafe(thisagent, "Vitality_Flat_Modifier", -add_vitality);
-	$AdjustAttributeSafe(thisagent, "MaxHP_Flat_Modifier", -add_vitality);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
+	$AdjustIntegerSafe(thisagent, "Vitality_Flat_Modifier", -add_vitality);
+	$AdjustIntegerSafe(thisagent, "MaxHP_Flat_Modifier", -add_vitality);
 
 	$adjustattribute(thisagent,#ATTRIB_MaxHP, -add_MaxHP);
 	$adjustattribute(thisagent,#ATTRIB_HP, -add_MaxHP);
@@ -1039,7 +1039,7 @@ begin
 
 
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_strength, add_strength);
-	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", add_strength);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", add_strength);
 	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, add_htoh);
 	
@@ -1063,7 +1063,7 @@ begin
 	add_htoh = $EffectBuff_Thread(willpower, wisdom, add_htoh);
 	
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_strength, - add_strength);
-	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
 	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, - add_htoh);
 	
@@ -2365,7 +2365,7 @@ begin
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function rogue_Assassin_cast ( agent thisagent )
+function rogue_Assassin_cast ( agent thisagent, agent target )
 // Rogue Ability - lvl 10
 declare
 
@@ -2486,7 +2486,7 @@ begin
 	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$createeffector ( target, "generic_Regenerate_icon", duration );
-	$AdjustAttributeSafe(target, "HealthRegeneration_Flat_Modifier", regen_amount);
+	$AdjustIntegerSafe(target, "HealthRegeneration_Flat_Modifier", regen_amount);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2504,7 +2504,7 @@ begin
 	
 	regen_amount = $EffectBuff_Thread(willpower, wisdom, regen_amount);
 	
-	$AdjustAttributeSafe(thisagent, "HealthRegeneration_Flat_Modifier", -regen_amount);
+	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat_Modifier", -regen_amount);
 
 	$KillThread(thisagent's "Generic_RegenerateBuff_End");
 end
@@ -2556,7 +2556,7 @@ begin
 
 	$MagicalAdjustAttribute(target,#ATTRIB_Strength,- minus_strength);
 	
-	$AdjustAttributeSafe(target, "Strength_Flat_Modifier", - minus_strength);
+	$AdjustIntegerSafe(target, "Strength_Flat_Modifier", - minus_strength);
 	$UpdateStrength(target);
 	$adjustattribute(target,#ATTRIB_ActionRateModifier, attack_slow);
 	$adjustattribute(target,#ATTRIB_MovementRateModifier, move_slow );
@@ -2584,7 +2584,7 @@ begin
 	$AdjustAttribute(thisagent,#ATTRIB_ActionRateModifier, - attack_slow);
 	$AdjustAttribute(thisagent,#ATTRIB_MovementRateModifier, - move_slow);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength, minus_strength);
-	$AdjustAttributeSafe(thisagent, "Strength_Flat_Modifier", minus_strength);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", minus_strength);
 	$UpdateStrength(thisagent);
 	
 	$KillThread(thisagent's "Priestess_WitherDebuff_End");

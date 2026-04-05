@@ -1,14 +1,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function Fire_Bolt_Cast(agent thisagent, agent target)
+function firebolt_Cast(agent thisagent, agent target)
 // - callback from cast action
 declare
 	integer cooldown, mana_cost, spell_level, free_cost;
 	string spell_cast;
 
 begin
-	spell_cast = "Fire_Bolt";
-	cooldown = #Fire_Bolt_Cooldown;
+	spell_cast = "firebolt";
+	cooldown = #firebolt_Cooldown;
 	mana_cost =  $SpellManaCost(thisagent, spell_cast);
 	
 	free_cost = 0;
@@ -22,17 +22,17 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 	
-	$createmissile("Fire_Bolt_Missile",thisagent,target);
+	$createmissile("firebolt_Missile",thisagent,target);
 end
 
-function Fire_Bolt_Check(agent thisagent) is integer
+function firebolt_Check(agent thisagent) is integer
 declare
 begin
-	return $FireTreeCheck(thisagent, "Fire_Bolt");
+	return $FireTreeCheck(thisagent, "firebolt");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function Fire_Bolt_Hit( agent thisagent, agent target )
+function firebolt_Hit( agent thisagent, agent target )
 // - callback from missile hit
 declare
 	integer spell_level, min_damage, max_damage, increased_damage;
@@ -41,12 +41,12 @@ declare
 	coordinate target_loc;
 
 begin
-	spell_cast = "Fire_Bolt";
+	spell_cast = "firebolt";
 	spell_level = $GetSpellRank(thisagent, spell_cast);
 	synergy_1 = "Fireball";
-	increased_damage = (((spell_level - 1) * #Fire_Bolt_Damage_Level_Mult) / #Fire_Bolt_Damage_Level_Div);
-	min_damage = (#Fire_Bolt_Damage_Min + increased_damage);
-	max_damage = (#Fire_Bolt_Damage_Max + increased_damage);
+	increased_damage = (((spell_level - 1) * #firebolt_Damage_Level_Mult) / #firebolt_Damage_Level_Div);
+	min_damage = (#firebolt_Damage_Min + increased_damage);
+	max_damage = (#firebolt_Damage_Max + increased_damage);
 	
 	if ($isvalidgamepiece(target) == False)
 		return;
@@ -56,12 +56,12 @@ begin
 	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
 			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
-			synergy_damage_1 = ((synergy_level_1 - 1) * #Fire_Bolt_Damage_Synergy_Fireball);
+			synergy_damage_1 = ((synergy_level_1 - 1) * #firebolt_Damage_Synergy_Fireball);
 			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
 		end
 	
-	$createeffector( target, "Fire_Bolt_Effector", 0 );
+	$createeffector( target, "firebolt_Effector", 0 );
 	$RevealArea(thisagent, target_loc, 50 );
 	$spell_type_attack(thisagent, target, "Fire", min_damage, max_damage);
 end
@@ -110,7 +110,7 @@ declare
 begin
 	spell_cast = "Fireball";
 	spell_level = $GetSpellRank(thisagent, spell_cast);
-	synergy_1 = "Fire_Bolt";
+	synergy_1 = "firebolt";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	increased_damage = ((spell_level - 1) * #Fireball_Damage_Level_Mult);
 	increased_radius = ((spell_level - 1) * #Fireball_Damage_Radius_Level);
@@ -130,7 +130,7 @@ begin
 	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
 			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
-			synergy_damage_1 = ((synergy_level_1 - 1) * #Fireball_Damage_Synergy_Fire_Bolt);
+			synergy_damage_1 = ((synergy_level_1 - 1) * #Fireball_Damage_Synergy_firebolt);
 			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
 			burn_damage_min = ((min_damage * #Fireball_Burn_Damage_Percent) / 100);
@@ -290,7 +290,7 @@ declare
 begin
 	spell_cast = "Perdition_Barrage";
 	spell_level = $GetSpellRank(thisagent, spell_cast);
-	synergy_1 = "Fire_Bolt";
+	synergy_1 = "firebolt";
 	synergy_2 = "Fireball";
 	increased_damage = ((spell_level - 1) * #Perdition_Barrage_Damage_Level_Mult);
 	increased_radius = ((spell_level - 1) * #Perdition_Barrage_Damage_Radius_Level);
@@ -306,7 +306,7 @@ begin
 	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
 			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
-			synergy_damage_1 = ((synergy_level_1 - 1) * #Perdition_Barrage_Damage_Synergy_Fire_Bolt);
+			synergy_damage_1 = ((synergy_level_1 - 1) * #Perdition_Barrage_Damage_Synergy_firebolt);
 			if ($HasLearnedSpell(thisagent, synergy_2))
 				begin
 					min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
@@ -720,8 +720,8 @@ begin
 	max_mana = thisagent's "MaxMana_Total";
 	
 	
-	$AdjustAttributeSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_ManaRegeneration" * 50));
-	$AdjustAttributeSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_HealthRegeneration" * 50));
+	$AdjustIntegerSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_ManaRegeneration" * 50));
+	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_HealthRegeneration" * 50));
 	
 	if (max_mana < 1)
 		max_mana = 1;
@@ -738,8 +738,8 @@ begin
 	thisagent's "Embers_ManaRegeneration" = regen_Mana;
 	thisagent's "Embers_HealthRegeneration" = regen_Health;
 	
-	$AdjustAttributeSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_ManaRegeneration" * 50));
-	$AdjustAttributeSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_HealthRegeneration" * 50));
+	$AdjustIntegerSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_ManaRegeneration" * 50));
+	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_HealthRegeneration" * 50));
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -902,4 +902,32 @@ begin
 				end
 		end
 	
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function SearingMantleCondition( agent thisagent, string spell_name) is agent
+declare
+	//string icon, manapercent;
+	
+begin
+	//icon = spell_name + "_Icon";		//Set these up in an alternative of AdvancedCastCombatSupportAlly_hero that holds the spells specific icon and mana percent extension in
+	return $AdvancedCastCombatSupportAlly_hero(thisagent, thisagent's "Target", "Searing_Mantle_Icon", spell_name, 40);
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function PyrelightCondition( agent thisagent, string spell_name) is agent
+declare
+	//string icon, manapercent;
+	
+begin
+	//icon = spell_name + "_Icon";
+	return $AdvancedCastCombatDebuffEnemy_hero(thisagent, thisagent's "Target", "Pyrelight_icon", spell_name, 30);
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function IgniteCondition( agent thisagent, string spell_name) is agent
+declare
+	//string icon, manapercent;
+	
+begin
+	//icon = spell_name + "_Icon";
+	return $BasicCastDebuffEnemy_hero(thisagent, thisagent's "Target", "Ignite_Icon", spell_name);
 end

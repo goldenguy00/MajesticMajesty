@@ -7,7 +7,7 @@ Declare
 	integer search_dist, Intel_Roll;
 
 Begin
-	if (thisagent's "Has_Bank_Account" == True)
+	if ($GetBooleanSafe(thisagent, "Has_Bank_Account") == True)
 		begin
 			return False;
 		end
@@ -54,7 +54,7 @@ Declare
 	string conditionsub, completecondition, visitsub, completevisit;
 
 Begin
-	if (thisagent's "Has_Bank_Account" == True)
+	if ($GetBooleanSafe(thisagent, "Has_Bank_Account") == True)
 		begin
 			return False;
 		end

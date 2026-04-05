@@ -10,7 +10,7 @@ begin
 	$AddAttribute(thisagent, "Fire_Tree", "list");
 	
 	thisagent's "Fire_Tree" << "FireTree";
-	thisagent's "Fire_Tree" << "Fire_Bolt";
+	thisagent's "Fire_Tree" << "firebolt";
 	thisagent's "Fire_Tree" << "Fireball";
 	thisagent's "Fire_Tree" << "Pyrelight";
 	thisagent's "Fire_Tree" << "Ignite";
@@ -26,7 +26,7 @@ begin
 	
 	$AddAttribute(thisagent, "FireTree", "string", "FireTree");
 	
-	thisagent's "SpellsAttack" << "Fire_Bolt";
+	thisagent's "SpellsAttack" << "firebolt";
 	thisagent's "SpellsAttack" << "Fireball";
 	thisagent's "SpellsAttack" << "Pyrelight";
 	thisagent's "SpellsAttack" << "Ignite";
@@ -34,13 +34,11 @@ begin
 	thisagent's "SpellsAttack" << "Perdition_Barrage";
 	thisagent's "SpellsAttack" << "Incandescent_Ray";
 	
-	thisagent's "SpellsSupport" << "Searing_Mantle";
-	
-	$AddAttribute(thisagent, "Fire_Bolt_Condition", "function", $SpellDefaultAttackPass);
-	$AddAttribute(thisagent, "Fire_Bolt_Range", "integer", #Fire_Bolt_Range);
-	$AddAttribute(thisagent, "Fire_Bolt_Mana", "integer", #Fire_Bolt_Mana);
-	$AddAttribute(thisagent, "Fire_Bolt_Mana_Mult", "integer", #Fire_Bolt_Mana_Mult);
-	$AddAttribute(thisagent, "Fire_Bolt_Mana_Div", "integer", #Fire_Bolt_Mana_Div);
+	$AddAttribute(thisagent, "firebolt_Condition", "function", $SpellDefaultAttackPass);
+	$AddAttribute(thisagent, "firebolt_Range", "integer", #firebolt_Range);
+	$AddAttribute(thisagent, "firebolt_Mana", "integer", #firebolt_Mana);
+	$AddAttribute(thisagent, "firebolt_Mana_Mult", "integer", #firebolt_Mana_Mult);
+	$AddAttribute(thisagent, "firebolt_Mana_Div", "integer", #firebolt_Mana_Div);
 	
 	$AddAttribute(thisagent, "Fireball_Condition", "function", $SpellDefaultAttackPass);
 	$AddAttribute(thisagent, "Fireball_Range", "integer", #Fireball_Range);
@@ -78,7 +76,7 @@ begin
 	$AddAttribute(thisagent, "Ignite_Mana_Mult", "integer", #Ignite_Mana_Mult);
 	$AddAttribute(thisagent, "Ignite_Mana_Div", "integer", #Ignite_Mana_Div);
 	
-	$Tree_LearnSpell(thisagent, "Fire_Bolt");
+	$Tree_LearnSpell(thisagent, "firebolt");
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function ArrangeSpells(agent thisagent)
@@ -117,7 +115,7 @@ function HasLearnedSpellPrerequisite(agent thisagent, string spell_name) is bool
 declare
 begin
 	if (spell_name == "Fireball" || spell_name == "Searing_Mantle")
-		return $HasLearnedSpell(thisagent, "Fire_Bolt", thisagent);
+		return $HasLearnedSpell(thisagent, "firebolt", thisagent);
 	else if (spell_name == "Heatwave")
 		return $HasLearnedSpell(thisagent, "Fireball", thisagent);
 	else if (spell_name == "Pyrelight")
@@ -139,7 +137,7 @@ declare
 begin
 	if (spell_name == "Fireball" || spell_name == "Searing_Mantle")
 		begin
-			$Tree_LearnSpell(thisagent, "Fire_Bolt");
+			$Tree_LearnSpell(thisagent, "firebolt");
 		end
 	else if (spell_name == "Pyrelight")
 		begin
@@ -283,7 +281,7 @@ begin
 	if (orientation == "Fire - Defensive")
 		begin
 			thisagent's "Preferred_Skill_1" = "Embers";
-			thisagent's "Preferred_Skill_2" = "Fire_Bolt";
+			thisagent's "Preferred_Skill_2" = "firebolt";
 			thisagent's "Preferred_Skill_3" = "Searing_Mantle";
 			thisagent's "Preferred_Skill_4" = "Heatwave";
 			thisagent's "Preferred_Skill_5" = "Pyrelight";
@@ -292,7 +290,7 @@ begin
 	else if (orientation == "Fire - Sustain")
 		begin
 			thisagent's "Preferred_Skill_1" = "Embers";
-			thisagent's "Preferred_Skill_2" = "Fire_Bolt";
+			thisagent's "Preferred_Skill_2" = "firebolt";
 			thisagent's "Preferred_Skill_3" = "Fireball";
 			thisagent's "Preferred_Skill_4" = "Ignite";
 			thisagent's "Preferred_Skill_5" = "Heatwave";
@@ -300,7 +298,7 @@ begin
 		end
 	else if (orientation == "Fire - Explosive")
 		begin
-			thisagent's "Preferred_Skill_1" = "Fire_Bolt";
+			thisagent's "Preferred_Skill_1" = "firebolt";
 			thisagent's "Preferred_Skill_2" = "Fireball";
 			thisagent's "Preferred_Skill_3" = "Heatwave";
 			thisagent's "Preferred_Skill_4" = "Cinders";
@@ -336,7 +334,7 @@ begin
 						begin
 							r_choose = $RandomNumberNonZero(2);
 							if (r_choose == 1)
-								$IncreaseSpellLevel(thisagent, "Fire_Bolt");
+								$IncreaseSpellLevel(thisagent, "firebolt");
 							else if (r_choose == 2)
 								$IncreaseSpellLevel(thisagent, "Embers");
 						end
@@ -348,7 +346,7 @@ begin
 						begin
 							r_choose = $RandomNumberNonZero(4);
 							if (r_choose == 1)
-								$IncreaseSpellLevel(thisagent, "Fire_Bolt");
+								$IncreaseSpellLevel(thisagent, "firebolt");
 							else if (r_choose == 2)
 								$IncreaseSpellLevel(thisagent, "Fireball");
 							else if (r_choose == 3)
@@ -364,7 +362,7 @@ begin
 						begin
 							r_choose = $RandomNumberNonZero(6);
 							if (r_choose == 1)
-								$IncreaseSpellLevel(thisagent, "Fire_Bolt");
+								$IncreaseSpellLevel(thisagent, "firebolt");
 							else if (r_choose == 2)
 								$IncreaseSpellLevel(thisagent, "Fireball");
 							else if (r_choose == 3)
@@ -382,7 +380,7 @@ begin
 						begin
 							r_choose = $RandomNumberNonZero(7);
 							if (r_choose == 1)
-								$IncreaseSpellLevel(thisagent, "Fire_Bolt");
+								$IncreaseSpellLevel(thisagent, "firebolt");
 							else if (r_choose == 2)
 								$IncreaseSpellLevel(thisagent, "Fireball");
 							else if (r_choose == 3)
@@ -404,7 +402,7 @@ begin
 						begin
 							r_choose = $RandomNumberNonZero(9);
 							if (r_choose == 1)
-								$IncreaseSpellLevel(thisagent, "Fire_Bolt");
+								$IncreaseSpellLevel(thisagent, "firebolt");
 							else if (r_choose == 2)
 								$IncreaseSpellLevel(thisagent, "Fireball");
 							else if (r_choose == 3)
@@ -428,7 +426,7 @@ begin
 						begin
 							r_choose = $RandomNumberNonZero(10);
 							if (r_choose == 1)
-								$IncreaseSpellLevel(thisagent, "Fire_Bolt");
+								$IncreaseSpellLevel(thisagent, "firebolt");
 							else if (r_choose == 2)
 								$IncreaseSpellLevel(thisagent, "Fireball");
 							else if (r_choose == 3)

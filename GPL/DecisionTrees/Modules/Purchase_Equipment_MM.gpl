@@ -509,75 +509,75 @@ begin
 	
 	if ((unit_name == "cultist") || (original_name == "cultist"))
 		begin
-			if ($isspellAvailable(thisagent,"camouflage") == TRUE)
+			if ($isspellAvailable(thisagent,"camouflage",1) == TRUE)
 				return  "camouflage";
-			if ($isspellAvailable(thisagent,"charm_monster") == TRUE)
+			if ($isspellAvailable(thisagent,"charm_monster",1) == TRUE)
 				return  "charm_monster";
-			if ($isspellAvailable(thisagent,"change_shape") == TRUE)
+			if ($isspellAvailable(thisagent,"change_shape",1) == TRUE)
 				return  "change_shape";
 		end
 		
 	else if (unit_name == "Healer")
 		begin
-			if ($isspellAvailable(thisagent,"healer_heal") == TRUE)
+			if ($isspellAvailable(thisagent,"healer_heal",1) == TRUE)
 				return  "healer_heal";
-			if ($isspellAvailable(thisagent,"meditation") == TRUE)
+			if ($isspellAvailable(thisagent,"meditation",1) == TRUE)
 				return  "meditation";
 		end
 		
 	else if (unit_name == "Monk")
 		begin
-			if ($isspellAvailable(thisagent,"hands_of_steel") == TRUE)
+			if ($isspellAvailable(thisagent,"hands_of_steel",1) == TRUE)
 				return  "hands_of_steel";
-			if ($isspellAvailable(thisagent,"monk_stone_skin") == TRUE)
+			if ($isspellAvailable(thisagent,"monk_stone_skin",1) == TRUE)
 				return  "monk_stone_skin";
-			if ($isspellAvailable(thisagent,"iron_will") == TRUE)
+			if ($isspellAvailable(thisagent,"iron_will",1) == TRUE)
 				return  "iron_will";
 		end
 	
 	else if (unit_name == "Paladin")
 		begin
-			if ($isspellAvailable(thisagent,"shield_of_light") == TRUE)
+			if ($isspellAvailable(thisagent,"shield_of_light",1) == TRUE)
 				return  "shield_of_light";
 		end
 		
 	else if ((unit_name == "priestess") || (original_name == "priestess"))
 		begin
-			if ($isspellAvailable(thisagent,"drain_life") == TRUE)
+			if ($isspellAvailable(thisagent,"drain_life",1) == TRUE)
 				return  "drain_life";
-			if ($isspellAvailable(thisagent,"animate_skeleton") == TRUE)
+			if ($isspellAvailable(thisagent,"animate_skeleton",1) == TRUE)
 				return  "animate_skeleton";
-			if ($isspellAvailable(thisagent,"control_undead") == TRUE)
+			if ($isspellAvailable(thisagent,"control_undead",1) == TRUE)
 				return  "control_undead";
-			if ($isspellAvailable(thisagent,"priestess_wither") == TRUE)
+			if ($isspellAvailable(thisagent,"priestess_wither",1) == TRUE)
 				return  "priestess_wither";
 		end
 		
 	else if (unit_name == "Solarus")
 		begin
-			if ($isspellAvailable(thisagent,"sun_scorch") == TRUE)
+			if ($isspellAvailable(thisagent,"sun_scorch",1) == TRUE)
 				return  "sun_scorch";
 		end
 		
 	else if (unit_name == "Wizard")
 		begin
-			if ($isspellAvailable(thisagent,"energy_blast") == TRUE)
+			if ($isspellAvailable(thisagent,"energy_blast",1) == TRUE)
 				return  "energy_blast";
-			if ($isspellAvailable(thisagent,"fire_shield") == TRUE)
+			if ($isspellAvailable(thisagent,"fire_shield",1) == TRUE)
 				return  "fire_shield";
-			if ($isspellAvailable(thisagent,"fire_blast") == TRUE)
+			if ($isspellAvailable(thisagent,"fire_blast",1) == TRUE)
 				return  "fire_blast";
-			if ($isspellAvailable(thisagent,"fire_ball") == TRUE)
+			if ($isspellAvailable(thisagent,"fire_ball",1) == TRUE)
 				return  "fire_ball";
-			if ($isspellAvailable(thisagent,"resist_magic") == TRUE)
+			if ($isspellAvailable(thisagent,"resist_magic",1) == TRUE)
 				return  "resist_magic";
-			if ($isspellAvailable(thisagent,"wizard_Transmute") == TRUE)
+			if ($isspellAvailable(thisagent,"wizard_Transmute",1) == TRUE)
 				return  "wizard_Transmute";
-			if ($isspellAvailable(thisagent,"meteor_storm") == TRUE)
+			if ($isspellAvailable(thisagent,"meteor_storm",1) == TRUE)
 				return  "meteor_storm";
 				
-			if ($isspellAvailable(thisagent, "Fire_Bolt"))
-				return "Fire_Bolt";
+			if ($isspellAvailable(thisagent, "firebolt"))
+				return "firebolt";
 			if ($isspellAvailable(thisagent, "fireball"))
 				return "fireball";
 			if ($isspellAvailable(thisagent, "Perdition_Barrage"))
@@ -593,15 +593,15 @@ begin
 		end
 		
 	//GENERIC SPELLS
-	if ($isspellAvailable(thisagent,"generic_regenerate") == TRUE)
+	if ($isspellAvailable(thisagent,"generic_regenerate",1) == TRUE)
 		return "generic_regenerate";
-	if ($isspellAvailable(thisagent,"flame_shield") == TRUE)
+	if ($isspellAvailable(thisagent,"flame_shield",1) == TRUE)
 		return "flame_shield";
-	if ($isspellAvailable(thisagent,"power_shock") == TRUE)
+	if ($isspellAvailable(thisagent,"power_shock",1) == TRUE)
 		return "power_shock";
 	
 	//GADGET SPELLS
-	if ($isspellAvailable(thisagent,"deploy_dart_sentry") == TRUE)
+	if ($isspellAvailable(thisagent,"deploy_dart_sentry",1) == TRUE)
 		return "deploy_dart_sentry";
 	
 	return "nothing";

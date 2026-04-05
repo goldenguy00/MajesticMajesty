@@ -249,7 +249,7 @@ begin
 					while (count <= account_size) do
 						begin
 							guy = $ListMember(accounts_list, count);
-							if ($IsValidGamePiece(guy) != False)
+							if ($IsValidGamePiece(guy) != False && $GetBooleanSafe(guy, "Has_Bank_Account") == true)
 								begin
 									member_bank_list = guy's "Primary_Bank";
 									if ($ListSize(member_bank_list) > 0)

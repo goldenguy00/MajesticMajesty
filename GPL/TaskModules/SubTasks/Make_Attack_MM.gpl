@@ -34,7 +34,7 @@ begin
 	if (target's "type" != "monster")
 		exp_given = $exp_value(thisagent,target);	//Exp given for attacking non-monsters
 	else	
-		exp_given = #attack_exp_bonus + $GetAttributeSafe(target, "XPMultiplier");	//Exp given for attacking monsters, regardless of the attack landing
+		exp_given = #attack_exp_bonus + $GetIntegerSafe(target, "XPMultiplier");	//Exp given for attacking monsters, regardless of the attack landing
 
 	if (hitresult == 1) // hit!
 		begin
@@ -211,21 +211,20 @@ end
 function spelltypehit(agent defender, string s_type) is integer
 
 declare
-	integer attackertohit, defenderavoid;
+	integer defenderavoid;
 	agent AIRootAgent;
 
 begin
 	if ((defender's "type" == "building") ||
 		 (defender's "type" == "lair")) return 1;
 
-	attackertohit = 100;
 	defenderavoid = $getattribute(defender,#ATTRIB_magicresistance);
 
 	if ($getAttribute( defender, #ATTRIB_HasEffectMagicMirror) == 1)
 		defenderavoid = 105;
 
-	if ($randomnumber(100) <= attackertohit)
-		begin
+	//if ($randomnumber(100) <= attackertohit)
+	//	begin
 			if ($randomnumber(100) > defenderavoid)
 				begin
 					return 1; // hit
@@ -235,13 +234,13 @@ begin
 					return 2; // resisted
 
 				end
-		end
-	else
-		return 3; // missed - won't happen
+	//	end
+	//else
+	//	return 3; // missed - won't happen
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function spelltypedamage(agent attacker, agent defender, string s_type, integer damage_minimum, integer damage)
+function spelltypedamage(agent attacker, agent defender, string s_type, integer damage_minimum, integer damage_maximum)
 
 declare
 	integer dmg, dmg_exp;
@@ -251,12 +250,7 @@ begin
 		return;
 
 	//Makes it so the damage will be anywhere from Minimum damage to maximum damage
-	if (damage > damage_minimum)
-		dmg = $randomnumber(damage - damage_minimum) + damage_minimum;
-
-	if (dmg < damage_minimum)
-		 dmg = damage_minimum;
-
+	dmg = $MinMax(damage_minimum, damage_maximum);
 	// if attacker wasn't a spell unit, intelligence affects damage amount
 	if ($IsValidGamePiece(attacker) == True)
 		begin
@@ -271,7 +265,7 @@ begin
 			dmg -= $getattribute(defender,#ATTRIB_armor_magic_bonus) * #armor_magic_mult;
 		end
 	dmg = $ResistanceModifiers(defender, s_type, dmg);
-	if (dmg < 0) dmg = 0;
+	if (dmg < 1) dmg = 1;
 	
 	if (($GetAttribute(defender, #ATTRIB_HP) < dmg) && ($IsValidGamePiece(attacker) == True))
 		begin
@@ -542,7 +536,7 @@ function TryAttackWithType(agent attacker, agent defender, string s_type) is int
 declare
 	integer dmg;
 begin
-	if ($GetAttributeSafe(attacker, s_type+"_Attack_Damage_Max") > 0)
+	if ($GetIntegerSafe(attacker, s_type+"_Attack_Damage_Max") > 0)
 		begin
 			dmg = $MinMax(attacker's (s_type+"_Attack_Damage_Min"), attacker's (s_type+"_Attack_Damage_Max"));
 			dmg = $DamageModifiers(attacker, s_type, dmg);
@@ -561,12 +555,12 @@ begin
 	if ((s_type == "Crushing") || (s_type == "Slashing") || (s_type == "Piercing"))
 		damage += $getattribute(attacker, #ATTRIB_Strength) / #strength_div;
 
-	damage += $GetAttributeSafe(attacker, s_type+"_Damage_Flat");
+	damage += $GetIntegerSafe(attacker, s_type+"_Damage_Flat");
 	if (s_type == "fire")
 		if ($HasAttribute("Cinders_Damage_Flat", attacker) == True)
 			damage += attacker's "Cinders_Damage_Flat";
 
-	multiplier = $GetAttributeSafe(attacker, s_type+"_Damage_Percent");
+	multiplier = $GetIntegerSafe(attacker, s_type+"_Damage_Percent");
 	if (s_type == "fire")
 		if ($HasAttribute("Cinders_Damage_Percent", attacker) == True)
 			multiplier += attacker's "Cinders_Damage_Percent";
@@ -582,13 +576,13 @@ declare
 begin
 	damage -= $ArmorCalculations(defender, s_type);
 	
-	multiplier = $GetAttributeSafe(defender, s_type+"_Resistance_Percent");
+	multiplier = $GetIntegerSafe(defender, s_type+"_Resistance_Percent");
 	if (s_type == "fire")
 		begin
 			//SearingMantle_Fire_Resistance is a positive value. This is resistance increase.
-			multiplier += $GetAttributeSafe(defender, "SearingMantle_Fire_Resistance");
+			multiplier += $GetIntegerSafe(defender, "SearingMantle_Fire_Resistance");
 			//Pyrelight_Fire_Resistance_Reduction is a negative value. This is resistance reduction.
-			multiplier += $GetAttributeSafe(defender, "Pyrelight_Fire_Resistance_Reduction");
+			multiplier += $GetIntegerSafe(defender, "Pyrelight_Fire_Resistance_Reduction");
 		end
 
 	damage -= ((damage * multiplier) / 100);
@@ -602,7 +596,7 @@ declare
 	integer armor, dmg_stopped_min, dmg_stopped;
 
 begin
-	armor = $GetAttributeSafe(defender, s_type+"_Resistance_Flat");
+	armor = $GetIntegerSafe(defender, s_type+"_Resistance_Flat");
 
 	if ((s_type == "Crushing") || (s_type == "Slashing") || (s_type == "Piercing"))
 		begin

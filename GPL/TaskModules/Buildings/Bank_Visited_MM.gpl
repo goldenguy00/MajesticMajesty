@@ -34,6 +34,7 @@ function done_visiting_bank(agent thisagent)
 
 declare
 	agent bank;
+	list buildings;
 	integer untaxed_gold, stored_gold, total_gold;
 
 begin
@@ -53,9 +54,13 @@ begin
 			$AdjustAttribute(thisagent, #ATTRIB_StoredGold, untaxed_gold);
 		end
 
+	$ListObjects(bank,"building",1,buildings, #MyTeam);
+	$ClearList(buildings);
+
+	$AddAttribute(thisagent, "Primary_Bank", "list", buildings);
 	thisagent's "Primary_Bank" << bank;
-	thisagent's "Has_Bank_Account" = True;
-	thisagent's "Bank_Account_Gold" = total_gold;
+	$SetBooleanSafe(thisagent, "Has_Bank_Account", True);
+	$SetIntegerSafe(thisagent, "Bank_Account_Gold", total_gold);
 	
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
 end

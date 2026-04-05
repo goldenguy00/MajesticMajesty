@@ -243,7 +243,7 @@ begin
 	If (ThisAgent's "Num_Followers" < monster_limit)
 		begin
 			$listobjects (thisagent,"monster",thisagent's "castingrange",animals,#NotMyTeam, #CheckSubtypes, "Animal");
-			//animals = $listsubtypes(animals,"animal");
+			animals = $listsubtypes(animals,"animal");
 
 			if ($listsize(animals) > 0)
 				charm_Target = $listmember(animals,1);
@@ -408,7 +408,7 @@ begin
 	if ($isspellavailable(thisagent,"sun_scorch",1))
 		value += 30;
 
-	if ($isspellavailable(thisagent,"Fire_Bolt",1))
+	if ($isspellavailable(thisagent,"firebolt",1))
 		value += 60;
 	if ($isspellavailable(thisagent,"Fireball",1))
 		value += 90;

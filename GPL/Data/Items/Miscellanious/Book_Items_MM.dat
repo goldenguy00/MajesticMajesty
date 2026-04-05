@@ -71,7 +71,7 @@
 		(Title		LostCults)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		LOSTCULTS)
 	}
@@ -84,7 +84,7 @@
 		(Title		MusingsOnTheAfterlife)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		MUSINGSONTHEAFTERLIFE)
 	}
@@ -97,7 +97,7 @@
 		(Title		LegendaryMonsters)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		LEGENDARYMONSTERS)
 	}
@@ -110,7 +110,7 @@
 		(Title		GoblinTribesOfArdania)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		GOBLINTRIBESOFARDANIA)
 	}
@@ -123,7 +123,7 @@
 		(Title		SanguineConclave)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		SANGUINECONCLAVE)
 	}
@@ -136,7 +136,7 @@
 		(Title		Futility)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		FUTILITY)
 	}
@@ -149,7 +149,7 @@
 		(Title		OneThousandSnowflakes)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		ONETHOUSANDSNOWFLAKES)
 	}
@@ -162,7 +162,7 @@
 		(Title		CommonBlood1)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		COMMONBLOOD1)
 	}
@@ -175,7 +175,7 @@
 		(Title		CommonBlood2)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		COMMONBLOOD2)
 	}
@@ -188,7 +188,7 @@
 		(Title		CommonBlood3)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		COMMONBLOOD3)
 	}
@@ -201,7 +201,7 @@
 		(Title		ShadowsOverArdania)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		SHADOWSOVERARDANIA)
 	}
@@ -214,7 +214,7 @@
 		(Title		Lunacy)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		LUNACY)
 	}
@@ -227,7 +227,7 @@
 		(Title		ScionsOfChaos)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		SCIONSOFCHAOS)
 	}
@@ -240,7 +240,7 @@
 		(Title		AGnomesLife)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		AGNOMESLIFE)
 	}
@@ -253,7 +253,7 @@
 		(Title		TheVagrant)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		THEVAGRANT)
 	}
@@ -266,7 +266,7 @@
 		(Title		KROLM)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		KROLM)
 	}
@@ -279,7 +279,7 @@
 		(Title		VendralTheHarbinger)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		VENDRALTHEHARBINGER)
 	}
@@ -292,7 +292,7 @@
 		(Title		DaemonwoodForest)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		DAEMONWOODFOREST)
 	}
@@ -305,7 +305,7 @@
 		(Title		SecretsOfTheOculus)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		SECRETSOFTHEOCULUS)
 	}
@@ -318,7 +318,7 @@
 		(Title		Lycanthropy)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		LYCANTHROPY)
 	}
@@ -331,7 +331,7 @@
 		(Title		Unchained)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		UNCHAINED)
 	}
@@ -344,7 +344,7 @@
 		(Title		DisappearanceOfTheDruids)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		DISAPPEARANCEOFTHEDRUIDS)
 	}
@@ -357,7 +357,7 @@
 		(Title		DirgosFolly)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		DIRGOSFOLLY)
 	}
@@ -370,7 +370,7 @@
 		(Title		SlumberingBeasts)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		SLUMBERINGBEASTS)
 	}
@@ -383,7 +383,7 @@
 		(Title		IncompleteHistory)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
-		(XP_value		250)
+		(XP_value		750)
 		(XPMultiplier		1)
 		(IntentExt		INCOMPLETEHISTORY)
 	}
