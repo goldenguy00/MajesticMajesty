@@ -24,7 +24,7 @@ Begin
 			castrange = thisagent's "castingrange";
 			spellname = $Spell_List_Control(thisagent, target);
 			if (spellname != "nothing")
-				castrange = $SpellRangeListOnAttack( castrange, spellname);
+				castrange = $MaxSpellRange( castrange, spellname);
 				
 			if (TargetRange > castrange)
 				begin

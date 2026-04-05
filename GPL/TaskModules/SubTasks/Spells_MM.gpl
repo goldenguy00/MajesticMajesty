@@ -20,7 +20,7 @@ begin
 
 	$Setup_Quest_Music (AiRootAgent);
 
-// what can't be used in this quest?
+	// what can't be used in this quest?
 	$disableunittype("Temple_agrela1");
 	$disableunittype("Temple_Krolm");
 	$disableunittype("Temple_Dauros1");
@@ -36,9 +36,9 @@ begin
 	$disableunittype("Dwarven_settlement");
 	$disableunittype("Gnome_hovel");
 
-// setup starting messages
+	// setup starting messages
 
-// setup special things
+	// setup special things
 	$listobjects(palace,"hero",-1,guys,#NotMyPlayer,#NoHiddenMap);
 	guy = $listmember(guys,1);
 	$advance_to_level(guy,35);
@@ -47,7 +47,7 @@ begin
 	//guy's "title" = "Scion";
 	guy's "resist_critical" = TRUE;
 
-// start all scripts that need to be run
+	// start all scripts that need to be run
 	AIRootAgent's "VictoryCondition" = $scions_victory;
 	$NewThread( AIRootAgent's "VictoryCondition", #VictoryCondition_callback_frequency );
 end
@@ -105,19 +105,19 @@ begin
 	if (AIRootagent's "quest_flag_2" == FALSE)
 		begin
 			guys = $list_all_enemy_heroes(palace);
-//			$listobjects(palace,"hero",-1,guys,#NotMyPlayer,#NoHiddenMap);
+	//			$listobjects(palace,"hero",-1,guys,#NotMyPlayer,#NoHiddenMap);
 
 			if (AIRootAgent's "quest_flag_3" == FALSE)
 				begin
 					// confirm scion #2's existance
 					if ($listsize(guys) == 1)
 						begin
-//							guy = $listmember(guys,1);
-//							$advance_to_level($listmember(guys,1),35);
-//							$adjustattribute(guy,#ATTRIB_MAXHP,200);
-//							$adjustattribute(guy,#ATTRIB_HP,200);
-//							guy's "resist_critical" = TRUE;
-//							guy's "title" = "Scion";
+	//							guy = $listmember(guys,1);
+	//							$advance_to_level($listmember(guys,1),35);
+	//							$adjustattribute(guy,#ATTRIB_MAXHP,200);
+	//							$adjustattribute(guy,#ATTRIB_HP,200);
+	//							guy's "resist_critical" = TRUE;
+	//							guy's "title" = "Scion";
 							AIRootAgent's "quest_flag_3" = TRUE;
 
 							// turn all animals into raiders!!!!
@@ -180,10 +180,10 @@ begin
 					// confirm scion #3's existance
 					if ($listsize(guys) == 1)
 						begin
-//							guy = $listmember(guys,1);
-//							$advance_to_level($listmember(guys,1),35);
-//							guy's "resist_critical" = TRUE;
-//							guy's "title" = "Scion";
+	//							guy = $listmember(guys,1);
+	//							$advance_to_level($listmember(guys,1),35);
+	//							guy's "resist_critical" = TRUE;
+	//							guy's "title" = "Scion";
 							AIRootAgent's "quest_flag_5" = TRUE;
 						end
 				end
@@ -522,25 +522,26 @@ function Power_Shock_Cast(agent thisagent, agent target)
 // Generic Spell
 // - callback from cast action
 declare
-	integer stat_int, stat_art, cooldown, mana_cost;
+	integer cooldown, mana_cost;
+	string spell_cast;
 
 begin
-	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"power_shock");
+	spell_cast = "power_shock";
 	cooldown = 6000;
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", 0 - mana_cost);
-	
-	$AddAttribute(ThisAgent, "generic_powershock_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "generic_powershock_cooldown", cooldown, thisAgent, "generic_powershock_cooldown" );
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createmissile("power_shock_missile",thisagent,target);
+end
+
+function Power_Shock_Check(agent thisagent) is integer
+declare
+begin
+	return $GenericSpellCheck(thisagent, "power_shock");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -564,14 +565,14 @@ function Flame_Shield_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_armor, add_resistance, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 
 begin
+	spell_cast = "flame_shield";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"flame_shield");
 	duration = 14000;
 	cooldown = 12000;
 	add_armor = (1 + (stat_int / 10));
@@ -580,21 +581,17 @@ begin
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_armor = $EffectBuff(thisagent, target, add_armor);
 	add_resistance = $EffectBuff(thisagent, target, add_resistance);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( target, "fire_shield_effector", 0 );
-	
-	$AddAttribute(ThisAgent, "generic_flameshield_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "generic_flameshield_cooldown", cooldown, thisAgent, "generic_flameshield_cooldown" );
-	
+
 	if ($HasAttribute(buff_name, target) != False)
 		begin
 			if ($IsRunning (target's buff_name) == TRUE)
@@ -641,32 +638,27 @@ function Camouflage_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 
 begin
+	spell_cast = "camouflage";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"camouflage");
 	duration = 16000;
 	cooldown = 8000;
 	buff_name = "Cultist_CamouflageBuff_End";
-	
 	duration = $DurationBuff(thisagent, thisagent, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
 	
 	$createeffector( thisagent, "camouflage_effector", 0 );
 	$createeffector( thisagent, "camouflage_icon", duration );
-	
-	$AddAttribute(ThisAgent, "cultist_camouflage_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "cultist_camouflage_cooldown", cooldown, thisAgent, "cultist_camouflage_cooldown" );
 	
 	if ($HasAttribute(buff_name, thisagent) != False)
 		begin
@@ -714,30 +706,25 @@ function Charm_Monster_Begin( agent thisagent, agent target )
 // cultist spell - lvl 1
 // - callback from cast action
 declare
-	integer stat_int, stat_willpower, stat_wisdom, stat_art, cooldown, mana_cost;
+	integer stat_int, stat_art, cooldown, mana_cost;
+	string spell_cast;
 
 begin
+	spell_cast = "charm_monster";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
-	stat_wisdom = thisagent's "Wisdom_Total";
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"charm_monster");
 	cooldown = 5000;
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( thisagent, "charm_monster_effector", 0 );
 	
 	if ($CheckEffector(target, "Charm_icon") == TRUE)
 		return;
-	
-	$AddAttribute(ThisAgent, "cultist_charmmonster_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "cultist_charmmonster_cooldown", cooldown, thisAgent, "cultist_charmmonster_cooldown" );
 	
 	$control_monster(thisagent,target);
 	
@@ -757,14 +744,13 @@ function Change_Shape_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_strength, add_vitality, add_MaxHP, add_armor, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 	
 begin
+	spell_cast = "change_shape";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"change_shape");
 	duration = 20000;
 	cooldown = 34000;
 	add_armor = (3 + (stat_int / 8));
@@ -775,24 +761,20 @@ begin
 	
 	duration = $DurationBuff(thisagent, thisagent, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_armor = $EffectBuff(thisagent, thisagent, add_armor);
 	add_strength = $EffectBuff(thisagent, thisagent, add_strength);
 	add_vitality = $EffectBuff(thisagent, thisagent, add_vitality);
 	add_MaxHP = $EffectBuff(thisagent, thisagent, add_MaxHP);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
 	$createeffector( thisagent, "change_shape_effector", 0 );
 	$createeffector( thisagent, "change_shape_icon", duration );
 	
-	$AddAttribute(ThisAgent, "cultist_changeshape_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "cultist_changeshape_cooldown", cooldown, thisAgent, "cultist_changeshape_cooldown" );
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	if ($HasAttribute(buff_name, thisagent) == False)
 		$AddAttribute(thisagent, buff_name, "function", $Cultist_ChangeShapeBuff_End);
 		
@@ -871,28 +853,24 @@ function Healer_Heal_Effect( agent thisagent, agent target )
 // - callback from cast action
 declare
 	agent AIRootAgent;
+	string spell_cast;
 	integer Healing;
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_strength, add_htoh, mana_cost;
 begin
 	if ( $isdead ( target ))
 		return;
-
+	spell_cast = "healer_heal";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_wisdom = thisagent's "Wisdom_Total";
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	cooldown = 2000;
-	mana_cost =  $Spell_Mana_Cost(thisagent,"healer_heal");
-	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "healer_healerheal_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "healer_healerheal_cooldown", cooldown, thisAgent, "healer_healerheal_cooldown" );
-	
+
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	if ( $isdead ( thisagent ) == FALSE )
 		begin
 			$createeffector( target, "healer_healing_effector", 0 );
@@ -932,14 +910,14 @@ function Meditation_Begin( agent thisagent, agent target )
 // Heal rate commented out until the Health Regeneration system is properly implemented
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_dodge, add_parry, add_sight, add_healrate, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 	
 begin
+	spell_cast = "meditation";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"meditation");
 	duration = 33000;
 	cooldown = 22000;
 	add_dodge = (15 + (stat_int / 5));
@@ -950,22 +928,18 @@ begin
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_dodge = $EffectBuff(thisagent, target, add_dodge);
 	add_parry = $EffectBuff(thisagent, target, add_parry);
 	add_sight = $EffectBuff(thisagent, target, add_sight);
 	//add_healrate = $EffectBuff(thisagent, target, add_healrate);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector(target,"Meditation_effector",0);
-		
-	$AddAttribute(ThisAgent, "healer_meditation_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "healer_meditation_cooldown", cooldown, thisAgent, "healer_meditation_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
@@ -1024,14 +998,15 @@ function Hands_of_Steel_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_strength, add_htoh, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 
 begin
+	spell_cast = "hands_of_steel";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"hands_of_steel");
+	mana_cost =  $SpellManaCost(thisagent,"hands_of_steel");
 	duration = 20000;
 	cooldown = 10000;
 	add_strength = (8 + (stat_int / 5));
@@ -1040,21 +1015,17 @@ begin
 	
 	duration = $DurationBuff(thisagent, thisagent, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_strength = $EffectBuff(thisagent, thisagent, add_strength);
 	add_htoh = $EffectBuff(thisagent, thisagent, add_htoh);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( thisagent, "hands_of_steel_effector", 0 );
 	$createeffector( thisagent, "hands_of_steel_icon", duration );
-	
-	$AddAttribute(ThisAgent, "hands_of_steel_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "hands_of_steel_cooldown", cooldown, thisAgent, "hands_of_steel_cooldown" );
 	
 	if ($HasAttribute(buff_name, thisagent) != False)
 		begin
@@ -1105,14 +1076,14 @@ function Monk_Stone_Skin_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_armor, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 	
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"monk_stone_skin");
+	spell_cast = "monk_stone_skin";
 	duration = 27000;
 	cooldown = 18000;
 	add_armor = (3 + (stat_int / 7));
@@ -1120,20 +1091,16 @@ begin
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_armor = $EffectBuff(thisagent, target, add_armor);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( target, "monk_stone_skin_effector", 0 );
 
-	$AddAttribute(ThisAgent, "monk_stone_skin_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "monk_stone_skin_cooldown", cooldown, thisAgent, "monk_stone_skin_cooldown" );
-	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
 			if ($IsRunning (target's buff_name) == TRUE)
@@ -1175,14 +1142,14 @@ function Iron_Will_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_resistance, add_crit, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"iron_will");
+	spell_cast = "iron_will";
 	duration = 32000;
 	cooldown = 20000;
 	add_resistance = (35 + (stat_int / 2));
@@ -1191,21 +1158,17 @@ begin
 
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_resistance = $EffectBuff(thisagent, target, add_resistance);
 	add_crit = $EffectBuff(thisagent, target, add_crit);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( target, "iron_will_effector", 0 );
 
-	$AddAttribute(ThisAgent, "iron_will_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "iron_will_cooldown", cooldown, thisAgent, "iron_will_cooldown" );
-	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
 			if ($IsRunning (target's buff_name) == TRUE)
@@ -1256,14 +1219,14 @@ function Shield_of_Light_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_armor, add_dodge, add_parry, add_resistance, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 	
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"shield_of_light");
+	spell_cast = "shield_of_light";
 	duration = 15000;
 	cooldown = 11000;
 	add_armor = (1 + (stat_int / 7));
@@ -1274,22 +1237,18 @@ begin
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_armor = $EffectBuff(thisagent, target, add_armor);
 	add_dodge = $EffectBuff(thisagent, target, add_dodge);
 	add_parry = $EffectBuff(thisagent, target, add_parry);
 	add_resistance = $EffectBuff(thisagent, target, add_resistance);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector(thisagent,"shield_of_light_effector",0);
-	
-	$AddAttribute(ThisAgent, "shield_of_light_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "shield_of_light_cooldown", cooldown, thisAgent, "shield_of_light_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
@@ -1343,24 +1302,19 @@ function Drain_Life_Cast(agent thisagent, agent target)
 // wizard spell - lvl 1
 // - callback from cast action
 declare
-	integer stat_int, stat_art, cooldown, mana_cost;
+	integer cooldown, mana_cost;
+	string spell_cast;
 
 begin
-	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"drain_life");
+	spell_cast = "drain_life";
 	cooldown = 2000;
-	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "drain_life_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "drain_life_cooldown", cooldown, thisAgent, "drain_life_cooldown" );
-	
+
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createmissile("life_drain_missile",thisagent,target);
 end
 
@@ -1430,24 +1384,19 @@ function Animate_Skeleton_Effect( agent thisagent, agent target )
 // priestess spell - lvl 4
 // - callback from cast action
 declare
-	integer stat_int, stat_art, cooldown, mana_cost;
+	integer cooldown, mana_cost;
+	string spell_cast;
 
 begin
-	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"animate_skeleton");
+	spell_cast = "animate_skeleton";
 	cooldown = 5000;
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "priestess_animateskeleton_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "priestess_animateskeleton_cooldown", cooldown, thisAgent, "priestess_animateskeleton_cooldown" );
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( thisagent, "animate_skeleton_effector", 2500 );
 	
 	$AddAttribute(thisagent, "Priestess_AnimateSkeleton_Summon", "function", $Priestess_AnimateSkeleton_Summon);
@@ -1486,29 +1435,26 @@ function Control_Undead_Begin( agent thisagent, agent target )
 declare
 
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, cooldown, mana_cost;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"control_undead");
+	spell_cast = "control_undead";
 	cooldown = 4000;
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( thisagent, "control_undead_effector", 0 );
 	
 	if ($CheckEffector(target, "Charm_icon") == TRUE)
 		return;
-
-	$AddAttribute(ThisAgent, "priestess_controlundead_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "priestess_controlundead_cooldown", cooldown, thisAgent, "priestess_controlundead_cooldown" );
 	
 	$control_monster(thisagent,target);
 	
@@ -1545,26 +1491,23 @@ declare
 	list targets;
 	agent dude;
 	integer stat_int, cooldown, mana_cost, radius;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	radius = 50 + (stat_int / 2);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"sun_scorch");
+	spell_cast = "sun_scorch";
 	cooldown = 8000;
-	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
 	
 	radius = $EffectBuff(thisagent, target, radius);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "sun_scorch_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "sun_scorch_cooldown", cooldown, thisAgent, "sun_scorch_cooldown" );
-	
 	$createeffector( thisagent, "sun_scorch_effector1", 0 );
+
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	targets = $compile_enemies(thisagent,radius);
 	if ($listsize(targets) > 0)
@@ -1583,24 +1526,27 @@ function Energy_Blast_Cast(agent thisagent, agent target)
 // - callback from cast action
 declare
 	integer stat_int, stat_art, cooldown, mana_cost, bonus_hp;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"energy_blast");
+	spell_cast = "energy_blast";
 	cooldown = 1200;
-	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "energy_blast_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "energy_blast_cooldown", cooldown, thisAgent, "energy_blast_cooldown" );
-	
+
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createmissile("energy_blast_missile",thisagent,target);
+end
+
+function Energy_Blast_Check(agent thisagent) is integer
+declare
+begin
+	return $GenericSpellCheck(thisagent, "Energy_blast");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1624,13 +1570,14 @@ function Fire_Shield_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_armor, add_resistance, mana_cost;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"fire_shield");
+	spell_cast = "fire_shield";
 	duration = 15000;
 	cooldown = 7000;
 	add_armor = (1 + (stat_int / 8));
@@ -1638,20 +1585,16 @@ begin
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_armor = $EffectBuff(thisagent, target, add_armor);
 	add_resistance = $EffectBuff(thisagent, target, add_resistance);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( target, "fire_shield_effector", 0 );
-	
-	$AddAttribute(ThisAgent, "fire_shield_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "fire_shield_cooldown", cooldown, thisAgent, "fire_shield_cooldown" );
 	
 	if ($IsRunning (target's "Wizard_FireShieldBuff_End") == TRUE)
 		return;
@@ -1695,29 +1638,26 @@ declare
 	list targets;
 	agent target1,target2,target3;
 	integer stat_int, cooldown, mana_cost, radius;
+	string spell_cast;
 
 begin
 	// list all enemies nearby -
-	radius = $SpellRangeList(thisagent's "castingrange", "fire_blast");
+	radius = $CastRangeForSpell(thisagent's "castingrange", "fire_blast");
 	targets = $compile_enemies(thisagent,radius);
 
 	if ($listsize(targets) == 0)
 		return;
 
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"fire_blast");
+	spell_cast = "fire_blast";
 	cooldown = 2400;
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "fire_blast_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "fire_blast_cooldown", cooldown, thisAgent, "fire_blast_cooldown" );
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	target1 = $listmember(targets,1);
 
 	if ($listsize(targets) > 1)
@@ -1734,6 +1674,12 @@ begin
 	$createmissile("Fire_blast_missile",thisagent,target1);
 	$createmissile("Fire_blast_missile",thisagent,target2);
 	$createmissile("Fire_blast_missile",thisagent,target3);
+end
+
+function Fire_Blast_Check(agent thisagent) is integer
+declare
+begin
+	return $GenericSpellCheck(thisagent, "fire_blast");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1754,24 +1700,27 @@ function Fire_Ball_Cast(agent thisagent, agent target)
 // - callback from cast action
 declare
 	integer stat_int, stat_art, cooldown, mana_cost;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
-	mana_cost =  $Spell_Mana_Cost(thisagent,"fire_ball");
+	spell_cast = "fire_ball";
 	cooldown = 3000;
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "fire_ball_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "fire_ball_cooldown", cooldown, thisAgent, "fire_ball_cooldown" );
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createmissile("fireball_missile",thisagent,target);
+end
+
+function Fire_Ball_Check(agent thisagent) is integer
+declare
+begin
+	return $GenericSpellCheck(thisagent, "fire_ball");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1825,32 +1774,29 @@ function Resist_Magic_Begin( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_resistance, mana_cost;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"resist_magic");
+	spell_cast = "resist_magic";
 	duration = 26000;
 	cooldown = 12000;
 	add_resistance = (20 + (stat_int / 4));
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	add_resistance = $EffectBuff(thisagent, target, add_resistance);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector( target, "Resist_magic_effector", 0 );
-	
-	$AddAttribute(ThisAgent, "resist_magic_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "resist_magic_cooldown", cooldown, thisAgent, "resist_magic_cooldown" );
 	
 	if ($IsRunning (target's "Wizard_ResistMagicBuff_End") == TRUE)
 		return;
@@ -1887,12 +1833,13 @@ function Meteor_Storm_Hit( agent thisagent, agent target )
 // - callback from cast
 declare
 	integer stat_int, stat_wisdom, stat_art, duration, periodic, cooldown, mana_cost, radius;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_wisdom = thisagent's "Wisdom_Total";
-	mana_cost =  $Spell_Mana_Cost(thisagent,"meteor_storm");
+	spell_cast = "meteor_storm";
 	periodic = 1600;
 	cooldown = 31000;
 	duration = 16000;
@@ -1901,16 +1848,19 @@ begin
 	//Wisdom will buff this one's duration using the same duration buff as the effective power
 	duration = $WisdomBuffEffect(thisagent, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
-	$AddAttribute(ThisAgent, "meteor_storm_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "meteor_storm_cooldown", cooldown, thisAgent, "meteor_storm_cooldown" );
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$SpellTimeoutEffectAdvanced( thisagent, "meteor_storm", thisagent, $Meteor_Storm_Active, $spelldummydeath, "wizard_meteor_storm_effector", periodic, duration, #ATTRIB_Intelligence, stat_int, 0, #ATTRIB_SightRange, radius, #ATTRIB_maxattackrange, radius  );
+end
+
+function Meteor_Storm_Check(agent thisagent) is integer
+declare
+begin
+	return $GenericSpellCheck(thisagent, "meteor_storm");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2497,7 +2447,7 @@ function generic_Regenerate_cast ( agent thisagent, agent target )
 //
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, regen_amount, heal_amount, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
@@ -2506,26 +2456,22 @@ begin
 	stat_wisdom = thisagent's "Wisdom_Total";
 	duration = 8000;
 	cooldown = 14000;
-	mana_cost =  $Spell_Mana_Cost(thisagent,"generic_regenerate");
+	spell_cast = "generic_regenerate";
 	heal_amount = (1 + (stat_int / 6));
 	regen_amount = (2 + ((stat_int) / 2));
 	buff_name = "Generic_RegenerateBuff_End";
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	regen_amount = $EffectBuff(thisagent, target, regen_amount);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector ( target, "generic_Regenerate_effector", 0 );
-	
-	$AddAttribute(ThisAgent, "generic_regenerate_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "generic_regenerate_cooldown", cooldown, thisAgent, "generic_regenerate_cooldown" );
 	
 	$Heal ( thisagent, target, heal_amount );
 	
@@ -2568,7 +2514,7 @@ function Priestess_Wither_Cast( agent thisagent, agent target )
 // priestess spell - Level 5, 1 Spire
 declare
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, attack_slow, move_slow, minus_strength, mana_cost;
-	string buff_name;
+	string buff_name, spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
@@ -2577,7 +2523,7 @@ begin
 	stat_wisdom = thisagent's "Wisdom_Total";
 	duration = 10000;
 	cooldown = 12000;
-	mana_cost =  $Spell_Mana_Cost(thisagent,"priestess_Wither");
+	spell_cast = "priestess_Wither";
 	attack_slow = (150 + (stat_int * 2));
 	minus_strength = (3 + (stat_int / 5));
 	move_slow = (60 + (stat_int));
@@ -2585,21 +2531,17 @@ begin
 	
 	duration = $DurationDebuff(thisagent, target, duration);
 	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
-	
 	attack_slow = $EffectDebuff(thisagent, target, attack_slow);
 	minus_strength = $EffectDebuff(thisagent, target, minus_strength);
 	move_slow = $EffectDebuff(thisagent, target, move_slow);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$adjustattributesafe(thisagent, "CurrentMana", - mana_cost);
-	
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
+
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
 	$createeffector(target,"priestess_wither_effector",0);
-	
-	$AddAttribute(ThisAgent, "priestess_wither_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "priestess_wither_cooldown", cooldown, thisAgent, "priestess_wither_cooldown" );
 	
 	if ($HasAttribute(buff_name, target) != False)
 		begin
@@ -2653,27 +2595,27 @@ function Wizard_Transmute_Cast( agent thisagent, agent target )
 // Wizard spell - Level 4, 1 Spire
 declare
 	integer stat_int, stat_art, mana_cost, cooldown, CurrentHP, GoldAmount, ExpAmount;
+	string spell_cast;
 
 begin
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	cooldown = 12500;
-	mana_cost =  $Spell_Mana_Cost(thisagent,"wizard_transmute");
+	spell_cast = "wizard_transmute";
 	CurrentHP = $GetAttribute(target, #ATTRIB_HP);
 	GoldAmount = (stat_int * CurrentHP);
-	
-	cooldown = $ArtificeCooldownReduction_Magic(thisagent, cooldown);
-	cooldown = $IntelligenceCooldownReduction(thisagent, cooldown);
 	
 	GoldAmount = $WisdomBuffEffect(thisagent, GoldAmount);
 	ExpAmount = ((GoldAmount * 2) / 3);
 	
-	mana_cost = $WisdomManaReduction(thisagent, mana_cost);
-	
-	$createeffector(target,"wizard_transmute_effector",0);
-	$AddAttribute(ThisAgent, "wizard_transmute_cooldown", "function", $Cooldown_End);
-	$NewThread(thisAgent's "wizard_transmute_cooldown", cooldown, thisAgent, "wizard_transmute_cooldown" );
+	mana_cost =  $SpellManaCost(thisagent, spell_cast);
+	$SpendMana(thisagent, mana_cost);
 
+	cooldown = $GetSpellCooldown(thisagent, cooldown);
+	$StartCooldown(thisagent, spell_cast, cooldown);
+
+	$createeffector(target,"wizard_transmute_effector",0);
+	
 	$setattribute(target, #ATTRIB_HP, 0);
 	$Give_gold(thisagent, GoldAmount);
 	$Give_exp(thisagent, ExpAmount);
@@ -3201,2210 +3143,3 @@ begin
 	return new_transparency;
 end
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////NEW SPELL FUNCTIONS/////////////////////////////////////////////////
-function SpellTimeoutEffectAdvanced( agent source, string unit_name, agent target, function AScript, function DScript, string attach_effect, integer period, integer timeout, integer attribute, integer amount, integer level, integer attribute_2, integer amount_2, integer attribute_3, integer amount_3 )
-// This will be used to allow scaling duration spells with an area of effect
-//
-declare
-	agent dummy;
-	coordinate Target_Loc;
-
-begin
-	Target_Loc = $LocationOf(target);
-	dummy = $spawnunit(source, unit_name, Target_Loc);
-	dummy's "ActiveScript" = AScript;
-	dummy's "DeathScript" = DScript;
-	$setparent(dummy, target);
-	$SetDrawEffects( dummy, "none", 9 );
-	
-	$createeffector( dummy, attach_effect, timeout );
-	$SetSpellUnitTimeout( dummy, timeout );
-	
-	$NewThread( dummy's "activeScript", period, dummy );
-	
-	if (attribute != 0)
-		begin
-			$setattribute(dummy, attribute, amount);
-		end
-	if (level != 0)
-		begin
-			$setattribute(dummy, #ATTRIB_Experience, level);
-		end
-	if (attribute_2 != 0)
-		begin
-			$setattribute(dummy, attribute_2, amount_2);
-		end
-	if (attribute_3 != 0)
-		begin
-			$setattribute(dummy, attribute_3, amount_3);
-		end
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpellTimeoutEffect( agent target, function Script, integer timeout, integer attribute, integer amount, integer level, integer attribute_2, integer amount_2, integer attribute_3, integer amount_3 )
-// This will be used to allow scaling duration spells
-//
-declare
-	agent dummy;
-
-begin
-	dummy = $spawnunit(target, "spell_dummy_unit");
-	dummy's "DeathScript" = Script;
-	$setparent(dummy, target);
-	$SetDrawEffects( dummy, "none", 9 );
-	$SetSpellUnitTimeout( dummy, timeout );
-	if (attribute != 0)
-		begin
-			$setattribute(dummy, attribute, amount);
-		end
-	if (level != 0)
-		begin
-			$setattribute(dummy, #ATTRIB_Experience, level);
-		end
-	if (attribute_2 != 0)
-		begin
-			$setattribute(dummy, attribute_2, amount_2);
-		end
-	if (attribute_3 != 0)
-		begin
-			$setattribute(dummy, attribute_3, amount_3);
-		end
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ArtificeCooldownReduction_Magic( agent thisagent, integer cooldown ) is integer
-// The amount that Artifice reduces the cooldown of magic spells/abilities
-//
-declare
-	integer stat_artifice, cooldown_diff, new_cooldown;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_artifice = $getattribute(thisagent, #ATTRIB_Artifice);
-	
-	if (stat_artifice < 1)
-		return cooldown;
-	
-	cooldown_diff = ((cooldown / 133) * stat_artifice);
-	new_cooldown = (cooldown - cooldown_diff);
-	
-	if (new_cooldown < 300)
-		new_cooldown = 300;
-		
-	return new_cooldown;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ArtificeCooldownReduction_NonMagic( agent thisagent, integer cooldown ) is integer
-// The amount that Artifice reduces the cooldown of non-magic spells/abilities
-//
-declare
-	integer stat_artifice, cooldown_diff, new_cooldown;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_artifice = $getattribute(thisagent, #ATTRIB_Artifice);
-	
-	if (stat_artifice < 1)
-		return cooldown;
-	
-	cooldown_diff = ((cooldown / 100) * stat_artifice);
-	new_cooldown = (cooldown - cooldown_diff);
-	
-	if (new_cooldown < 300)
-		new_cooldown = 300;
-		
-	return new_cooldown;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function IntelligenceCooldownReduction( agent thisagent, integer cooldown ) is integer
-// The amount that Artifice reduces the cooldown of magic spells/abilities
-//
-declare
-	integer stat_intelligence, cooldown_diff, new_cooldown;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_intelligence = $getattribute(thisagent, #ATTRIB_Intelligence);
-	
-	if (stat_intelligence < 1)
-		return cooldown;
-	
-	cooldown_diff = ((cooldown / 200) * stat_intelligence);
-	new_cooldown = (cooldown - cooldown_diff);
-	
-	if (new_cooldown < 300)
-		new_cooldown = 300;
-		
-	return new_cooldown;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function IntelligenceDurationBuff( agent thisagent, integer duration ) is integer
-// The amount that Intelligence affects the duration of buffs on the target
-//
-declare
-	integer stat_intelligence, duration_diff, new_duration;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_intelligence = $getattribute(thisagent, #ATTRIB_Intelligence);
-	
-	if (stat_intelligence < 1)
-		return duration;
-	
-	duration_diff = ((duration / 125) * stat_intelligence);
-	new_duration = (duration + duration_diff);
-	
-	if (new_duration < 1000)
-		new_duration = 1000;
-		
-	return new_duration;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function IntelligenceDurationDebuff( agent thisagent, integer duration ) is integer
-// The amount that Intelligence affects the duration of buffs on the target
-//
-declare
-	integer stat_intelligence, duration_diff, new_duration;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_intelligence = $getattribute(thisagent, #ATTRIB_Intelligence);
-	
-	if (stat_intelligence < 1)
-		return duration;
-	
-	duration_diff = ((duration / 125) * stat_intelligence);
-	new_duration = (duration + duration_diff);
-	
-	if (new_duration < 1000)
-		new_duration = 1000;
-		
-	return new_duration;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WisdomBuffEffect( agent thisagent, integer power ) is integer
-// The amount that Wisdom affects the power of buffs
-//
-declare
-	integer stat_wisdom, power_diff, new_power;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_wisdom = thisagent's "Wisdom_Total";
-	
-	if (stat_wisdom < 1)
-		return power;
-	
-	power_diff = ((power / 133) * stat_wisdom);
-	new_power = (power + power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WisdomDebuffEffect( agent thisagent, integer power ) is integer
-// The amount that Wisdom affects the power of debuffs
-// Right now its the same as WisdomBuffEffect
-declare
-	integer stat_wisdom, power_diff, new_power;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_wisdom = thisagent's "Wisdom_Total";
-	
-	if (stat_wisdom < 1)
-		return power;
-		
-	power_diff = ((power / 133) * stat_wisdom);
-	new_power = (power + power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WisdomManaReduction( agent thisagent, integer mana ) is integer
-// The amount that Wisdom reduces the mana spent on spells
-//
-declare
-	integer stat_wisdom, mana_diff, new_mana;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_wisdom = thisagent's "Wisdom_Total";
-	
-	if (stat_wisdom < 1)
-		return mana;
-		
-	mana_diff = ((mana * stat_wisdom) / 250);
-	new_mana = (mana - mana_diff);
-	
-	if (new_mana < 0)
-		new_mana = 0;
-		
-	return new_mana;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WillpowerBuffEffect( agent thisagent, integer power ) is integer
-// The amount that Willpower affects the power of buffs on this hero
-//
-declare
-	integer stat_willpower, power_diff, new_power;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
-	
-	if (stat_willpower < 1)
-		return power;
-	
-	power_diff = ((power * stat_willpower) / 100);
-	new_power = (power + power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WillpowerDebuffEffect( agent thisagent, integer power ) is integer
-// The amount that Willpower affects the power of debuffs on this hero
-//
-declare
-	integer stat_willpower, power_diff, new_power;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
-	
-	if (stat_willpower < 1)
-		return power;
-		
-	power_diff = ((power * stat_willpower) / 200);
-	new_power = (power - power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WillpowerBuffEffect_Thread( integer willpower, integer power ) is integer
-// The amount that Willpower affects the power of buffs on this hero
-//
-declare
-	integer power_diff, new_power;
-
-begin
-	if (willpower < 1)
-		return power;
-	
-	power_diff = ((power * willpower) / 100);
-	new_power = (power + power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WillpowerDebuffEffect_Thread( integer willpower, integer power ) is integer
-// The amount that Willpower affects the power of debuffs on this hero
-//
-declare
-	integer power_diff, new_power;
-
-begin
-	if (willpower < 1)
-		return power;
-		
-	power_diff = ((power * willpower) / 200);
-	new_power = (power - power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WisdomBuffEffect_Thread( integer wisdom, integer power ) is integer
-// The amount that Wisdom affects the power of buffs
-//
-declare
-	integer power_diff, new_power;
-
-begin
-	if (wisdom < 1)
-		return power;
-	
-	power_diff = ((power / 133) * wisdom);
-	new_power = (power + power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WisdomDebuffEffect_Thread( integer wisdom, integer power ) is integer
-// The amount that Wisdom affects the power of debuffs
-// Right now its the same as WisdomBuffEffect
-declare
-	integer power_diff, new_power;
-
-begin
-	if (wisdom < 1)
-		return power;
-		
-	power_diff = ((power / 133) * wisdom);
-	new_power = (power + power_diff);
-	
-	if (new_power < 0)
-		new_power = 0;
-		
-	return new_power;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WillpowerDurationBuff( agent thisagent, integer duration ) is integer
-// The amount that Willpower affects the duration of buffs
-//
-declare
-	integer stat_willpower, duration_diff, new_duration;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
-	
-	if (stat_willpower < 1)
-		return duration;
-	
-	duration_diff = ((duration / 100) * stat_willpower);
-	new_duration = (duration + duration_diff);
-	
-	if (new_duration < 1000)
-		new_duration = 1000;
-		
-	return new_duration;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function WillpowerDurationDebuff( agent thisagent, integer duration ) is integer
-// The amount that Willpower affects the duration of debuffs
-//
-declare
-	integer stat_willpower, duration_diff, new_duration;
-
-begin
-	if ($isvalidgamepiece(thisagent)!=TRUE)
-		return;
-		
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
-	
-	if (stat_willpower < 1)
-		return duration;
-		
-	duration_diff = ((duration / 200) * stat_willpower);
-	new_duration = (duration - duration_diff);
-	
-	if (new_duration < 1000)
-		new_duration = 1000;
-		
-	return new_duration;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function DurationBuff( agent thisagent, agent target, integer duration ) is integer
-// Batch code for buff duration modifiers
-//
-declare
-	integer new_duration;
-begin
-	new_duration = $IntelligenceDurationBuff(thisagent, duration);
-	new_duration = $WillpowerDurationBuff(target, new_duration);
-	return new_duration;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function DurationDebuff( agent thisagent, agent target, integer duration ) is integer
-// Batch code for debuff duration modifiers
-//
-declare
-	integer new_duration;
-begin
-	new_duration = $IntelligenceDurationDebuff(thisagent, duration);
-	new_duration = $WillpowerDurationDebuff(target, new_duration);
-	return new_duration;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function EffectBuff( agent thisagent, agent target, integer effect ) is integer
-// Batch code for buff effect modifiers
-//
-declare
-	integer new_effect;
-begin
-	new_effect = $WisdomBuffEffect(thisagent, effect);
-	new_effect = $WillpowerBuffEffect(target, new_effect);
-	return new_effect;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function EffectDebuff( agent thisagent, agent target, integer effect ) is integer
-// Batch code for debuff effect modifiers
-//
-declare
-	integer new_effect;
-begin
-	new_effect = $WisdomDebuffEffect(thisagent, effect);
-	new_effect = $WillpowerDebuffEffect(target, new_effect);
-	return new_effect;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function EffectBuff_Thread( integer willpower, integer wisdom, integer effect ) is integer
-// Batch code for buff effect modifiers
-//
-declare
-	integer new_effect;
-begin
-	new_effect = $WisdomBuffEffect_Thread(wisdom, effect);
-	new_effect = $WillpowerBuffEffect_Thread(willpower, new_effect);
-	return new_effect;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function EffectDebuff_Thread( integer willpower, integer wisdom, integer effect ) is integer
-// Batch code for debuff effect modifiers
-//
-declare
-	integer new_effect;
-begin
-	new_effect = $WisdomDebuffEffect_Thread(wisdom, effect);
-	new_effect = $WillpowerDebuffEffect_Thread(willpower, new_effect);
-	return new_effect;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ValidSpellTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// This will return a valid target for the spell listed for this agent.
-declare
-	agent newtarget, picked;
-	boolean is_learned, on_cooldown;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = target;
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	if (spell_name == "energy_blast")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "fire_shield")
-		begin
-			newtarget = $BasicCastSupportAlly_hero(thisagent, target, "fire_shield_icon", spell_name);
-		end
-	else if (spell_name == "fire_blast")
-		begin
-			newtarget = $BasicCastEnemyUnit_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "fire_ball")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "resist_magic")
-		begin
-			newtarget = $BasicCastSupportAlly_hero(thisagent, target, "resist_magic_icon", spell_name);
-		end
-	else if (spell_name == "wizard_Transmute")
-		begin
-			newtarget = $SpecialCastEnemyUnit_Transmute(thisagent, target, spell_name);
-		end
-	else if (spell_name == "meteor_storm")
-		begin
-			newtarget = $BasicCastEnemyUnit_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "hands_of_steel")
-		begin
-			if ($Checkeffector(thisagent, "hands_of_steel_icon") != TRUE)
-				begin
-					newtarget = thisagent;
-				end
-		end
-	else if (spell_name == "monk_stone_skin")
-		begin
-			newtarget = $BasicCastSupportAlly_hero(thisagent, target, "monk_stone_skin_icon", spell_name);
-		end
-	else if (spell_name == "iron_will")
-		begin
-			newtarget = $BasicCastSupportAlly_hero(thisagent, target, "iron_will_icon", spell_name);
-		end
-	else if (spell_name == "healer_heal")
-		begin
-			newtarget = $BasicCastHealAlly_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "meditation")
-		begin
-			newtarget = $BasicCastSupportAlly_hero(thisagent, target, "meditation_icon", spell_name);
-		end
-	else if (spell_name == "change_shape")
-		begin
-			if ($Checkeffector(thisagent, "change_shape_icon") != TRUE)
-				begin
-					newtarget = thisagent;
-				end
-		end
-	else if (spell_name == "shield_of_light")
-		begin
-			newtarget = $BasicCastSupportAlly_hero(thisagent, target, "shield_of_light_icon", spell_name);
-		end
-	else if (spell_name == "sun_scorch")
-		begin
-			newtarget = $BasicCastEnemyUnitAlt_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "drain_life")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "priestess_Wither")
-		begin
-			newtarget = $BasicCastDebuffEnemy_hero(thisagent, target, "priestess_wither_icon", spell_name);
-		end
-	else if (spell_name == "healer_heal")
-		begin
-			newtarget = $BasicCastHealSupport_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "generic_regenerate")
-		begin
-			newtarget = $BasicCastHealSupport_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "flame_shield")
-		begin
-			newtarget = $BasicCastSupportAlly_hero(thisagent, target, "flame_shield_icon", spell_name);
-		end
-	else if (spell_name == "power_shock")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "deploy_dart_sentry")
-		begin
-			newtarget = $BasicCastEnemyUnit_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "Fire_Bolt")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "Fireball")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "Perdition_Barrage")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "Incandescent_Ray")
-		begin
-			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "Searing_Mantle")
-		begin
-			newtarget = $AdvancedCastCombatSupportAlly_hero(thisagent, target, "searing_mantle_icon", spell_name, 40);
-		end
-	else if (spell_name == "Pyrelight")
-		begin
-			newtarget = $AdvancedCastCombatDebuffEnemy_hero(thisagent, target, "Pyrelight_icon", spell_name, 30);
-		end
-	else if (spell_name == "Ignite")
-		begin
-			newtarget = $BasicCastDebuffEnemy_hero(thisagent, target, "ignite_icon", spell_name);
-		end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ValidHealTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// This will return a valid target for the spell listed for this agent.
-declare
-	agent newtarget, picked;
-	boolean is_learned, on_cooldown;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	if (spell_name == "healer_heal")
-		begin
-			newtarget = $BasicCastHealAlly_hero(thisagent, target, spell_name);
-		end
-	else if (spell_name == "generic_regenerate")
-		begin
-			newtarget = $BasicCastHealAlly_hero(thisagent, target, spell_name);
-		end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ValidFollowTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// This will return a valid target for the spell listed for this agent.
-declare
-	agent newtarget, picked;
-	boolean is_learned, on_cooldown;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	if (spell_name == "meditation")
-		begin
-			newtarget = $BasicCastFollowAlly_hero(thisagent, target, "meditation_icon", spell_name);
-		end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ValidTravelTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// This will return a valid target for the spell listed for this agent.
-declare
-	agent newtarget, picked;
-	boolean is_learned, on_cooldown;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	if (spell_name == "camouflage")
-		begin
-			if ($Checkeffector(thisagent, "camouflage_icon") != TRUE)
-				begin
-					newtarget = thisagent;
-				end
-		end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ValidControlTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// This will return a valid target for the spell listed for this agent.
-declare
-	agent newtarget, picked;
-	boolean is_learned, on_cooldown;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	if (spell_name == "charm_monster")
-		begin
-			newtarget = $BasicCastControlEnemy_hero(thisagent, target, "charm_icon", spell_name);
-		end
-	else if (spell_name == "control_undead")
-		begin
-			newtarget = $BasicCastControlEnemy_hero(thisagent, target, "charm_icon", spell_name);
-		end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ValidSummonTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// This will return a valid target for the spell listed for this agent.
-declare
-	agent newtarget, picked;
-	boolean is_learned, on_cooldown;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	if (spell_name == "animate_skeleton")
-		begin
-			newtarget = thisagent;
-		end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastHealAlly_hero( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count, CurrentHP, MaxHP;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	CurrentHP = $getattribute(target, #ATTRIB_HP);
-	MaxHP = $getattribute(target, #ATTRIB_MaxHP);
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if (CurrentHP < MaxHP)
-		newtarget = thisagent;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							CurrentHP = $getattribute(picked, #ATTRIB_HP);
-							MaxHP = $getattribute(picked, #ATTRIB_MaxHP);
-							if ((CurrentHP < MaxHP) && ($IsDead(picked) != TRUE))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastHealSupport_hero( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count, CurrentHP, MaxHP;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	CurrentHP = $getattribute(thisagent, #ATTRIB_HP);
-	MaxHP = $getattribute(thisagent, #ATTRIB_MaxHP);
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if (CurrentHP < MaxHP)
-		newtarget = thisagent;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							CurrentHP = $getattribute(picked, #ATTRIB_HP);
-							MaxHP = $getattribute(picked, #ATTRIB_MaxHP);
-							if ((CurrentHP < MaxHP) && ($IsDead(picked) != TRUE))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastFollowAlly_hero( agent thisagent, agent target, string buff_name, string spell_name ) is agent
-// Return a viable allied target for support spell while following and supporting another hero.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if ($Checkeffector(target,buff_name) != TRUE)
-		newtarget = target;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							if (($Checkeffector(picked,buff_name) != TRUE) && ($IsDead(picked) != TRUE))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-			else if ($Checkeffector(thisagent,buff_name) != TRUE)
-				newtarget = thisagent;
-		end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastSupportAlly_hero( agent thisagent, agent target, string buff_name, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if ($Checkeffector(thisagent,buff_name) != TRUE)
-		newtarget = thisagent;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							if (($Checkeffector(picked,buff_name) != TRUE) && ($IsDead(picked) != TRUE))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastDebuffEnemy_hero( agent thisagent, agent target, string debuff_name, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if ((target's "Type" == "Building") || (target's "Type" == "Lair"))
-		potential_targets = $compile_enemies(thisagent,castrange);
-	else if ($Checkeffector(target,debuff_name) != TRUE)
-		newtarget = target;
-	else
-		potential_targets = $compile_enemies(thisagent,castrange);
-	
-	count = $listsize(potential_targets);
-	if (count > 0)
-		begin
-			foreach picked in potential_targets do
-				begin
-					if (($Checkeffector(picked,debuff_name) != TRUE) && ($IsDead(picked) != TRUE))
-						begin
-							if (picked != thisagent)
-								spell_targets << picked;
-						end
-				end
-			if ($listsize(spell_targets) > 0)
-				begin
-					newtarget = $listmember(spell_targets, 1);
-				end
-		end
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastEnemyUnit_hero( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	spell_targets = $compile_enemies(thisagent,castrange);
-
-	if ($listsize(spell_targets) > 0)
-		newtarget = $listmember(spell_targets, 1);
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastEnemyUnitAlt_hero( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair"))
-		newtarget = target;
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastEnemyUnitDebuff_hero( agent thisagent, agent target, string debuff_name, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair") && ($Checkeffector(target,debuff_name) != TRUE))
-		newtarget = target;
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable target for support spell.
-declare
-	agent newtarget;
-	list spell_targets;
-	integer targetrange, castrange;
-	
-begin
-	newtarget = $NullAgent();
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if (targetrange <= castrange)
-		begin
-			newtarget = target;
-			if (target's "Type" == "Building" || target's "Type" == "Lair")
-				begin
-					spell_targets = $compile_enemies(thisagent,castrange);
-					if ($listsize(spell_targets) > 0)
-						newtarget = $listmember(spell_targets, 1);
-				end
-		end
-	else
-		begin
-			spell_targets = $compile_enemies(thisagent,castrange);
-			if ($listsize(spell_targets) > 0)
-				newtarget = $listmember(spell_targets, 1);
-		end
-	
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastControlEnemy_hero( agent thisagent, agent target, string buff_name, string spell_name ) is agent
-// Return a viable allied target for support spell while following and supporting another hero.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if ($Checkeffector(target,buff_name) != TRUE)
-		newtarget = target;
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpecialCastEnemyUnit_Transmute( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count, TargetHP, TargetMaxHP, Transmute_HP, stat_int;
-	
-begin
-	unit_name = thisagent's "title";
-	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	TargetHP = $getattribute(target, #ATTRIB_HP);
-	TargetMaxHP = $getattribute(target, #ATTRIB_MaxHP);
-	Transmute_HP = $PercentOf(TargetMaxHP, (10 + (stat_int / 6)), FALSE);
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if ((TargetHP <= Transmute_HP) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
-		newtarget = target;
-	else
-		potential_targets = $compile_enemies(thisagent,castrange);
-
-	if ($listsize(potential_targets) > 0)
-		count = $listsize(potential_targets);
-		if (count > 0)
-			begin
-				foreach picked in potential_targets do
-					begin
-						TargetHP = $getattribute(picked, #ATTRIB_HP);
-						TargetMaxHP = $getattribute(picked, #ATTRIB_MaxHP);
-						Transmute_HP = $PercentOf(TargetMaxHP, (10 + (stat_int / 6)), FALSE);
-						if ((TargetHP <= Transmute_HP) && ($IsDead(picked) != TRUE))
-							begin
-								if (picked != thisagent)
-									spell_targets << picked;
-							end
-					end
-				if ($listsize(spell_targets) > 0)
-					begin
-						newtarget = $listmember(spell_targets, 1);
-					end
-			end
-		
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function AdvancedCastCombatSupportAlly_hero( agent thisagent, agent target, string buff_name, string spell_name, integer required_mana ) is agent
-// Return a viable allied target for support spell. This version prioritizes the caster's Mana in concern towards casting support spells on allies.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if ($Checkeffector(thisagent,buff_name) != TRUE)
-		newtarget = thisagent;
-	else if ($HasMPPercent(thisagent, required_mana) == True)
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							if (($Checkeffector(picked,buff_name) != TRUE) && ($IsDead(picked) != TRUE))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function AdvancedCastCombatDebuffEnemy_hero( agent thisagent, agent target, string debuff_name, string spell_name, integer required_mana ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
-	
-begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	if ($HasMPPercent(thisagent, required_mana) == True)
-		return newtarget;
-	
-	castrange = $SpellRangeList(castrange, spell_name);
-	
-	if ((target's "Type" == "Building") || (target's "Type" == "Lair"))
-		potential_targets = $compile_enemies(thisagent,castrange);
-	else if ($Checkeffector(target,debuff_name) != TRUE)
-		newtarget = target;
-	else
-		potential_targets = $compile_enemies(thisagent,castrange);
-	
-	count = $listsize(potential_targets);
-	if (count > 0)
-		begin
-			foreach picked in potential_targets do
-				begin
-					if (($Checkeffector(picked,debuff_name) != TRUE) && ($IsDead(picked) != TRUE))
-						begin
-							if (picked != thisagent)
-								spell_targets << picked;
-						end
-				end
-			if ($listsize(spell_targets) > 0)
-				begin
-					newtarget = $listmember(spell_targets, 1);
-				end
-		end
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Heal( agent thisagent, agent target ) is string
-// List of Healing spells to retrieve for a hero.
-// Currently ignoring mana cost.
-
-declare
-	string new_spell, unit_name;
-	integer targetrange, attackrange, castrange, count;
-
-begin
-	unit_name = thisagent's "title";
-	new_spell = "nothing";
-	
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	
-	if (unit_name == "Healer")
-		begin
-			if ($CastableSpell_Heal(thisagent, target, "healer_heal") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "healer_healerheal_cooldown") != TRUE)
-						begin
-							new_spell = "healer_heal";
-							return new_spell;
-						end
-				end
-		end
-	
-	if ($CastableSpell_Heal(thisagent, target, "generic_regenerate") == TRUE)
-		begin
-			if ($HasCooldown(thisagent, "generic_regenerate_cooldown") != TRUE)
-				return  "generic_regenerate";
-		end
-	
-	return new_spell;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Follow( agent thisagent, agent target ) is string
-// List of Healing spells to retrieve for a hero.
-// Currently ignoring mana cost.
-
-declare
-	string new_spell, unit_name;
-
-begin
-	unit_name = thisagent's "title";
-	new_spell = "nothing";
-	
-	if (unit_name == "Healer")
-		begin
-			if ($CastableSpell_Follow(thisagent, target, "meditation") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "healer_meditation_cooldown") != TRUE)
-						begin
-							new_spell = "meditation";
-							return new_spell;
-						end
-				end
-		end
-	
-	return new_spell;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Travel( agent thisagent, agent target ) is string
-// List of Healing spells to retrieve for a hero.
-// Currently ignoring mana cost.
-
-declare
-	string new_spell, unit_name, original_name;
-	integer targetrange, attackrange, castrange, count;
-
-begin
-	unit_name = thisagent's "title";
-	new_spell = "nothing";
-	
-	if ($HasAttribute("Original_Title", thisagent) == True)
-		original_name = thisagent's "Original_Title";
-	else
-		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-		
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	$BuffDebuffList(thisagent);
-	if ((unit_name == "cultist") || (original_name == "cultist"))
-		begin
-			if ($CastableSpell_Travel(thisagent, target, "camouflage") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "cultist_camouflage_cooldown") != TRUE)
-						begin
-							new_spell = "camouflage";
-							return new_spell;
-						end
-				end
-		end
-	
-	return new_spell;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Control( agent thisagent, agent target ) is string
-// List of Healing spells to retrieve for a hero.
-// Currently ignoring mana cost.
-
-declare
-	string new_spell, unit_name, original_name;
-
-begin
-	unit_name = thisagent's "title";
-	new_spell = "nothing";
-	
-	if ($HasAttribute("Original_Title", thisagent) == True)
-		original_name = thisagent's "Original_Title";
-	else
-		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-	
-	if ((unit_name == "cultist") || (original_name == "cultist"))
-		begin
-			if ($CastableSpell_Control(thisagent, target, "charm_monster") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "cultist_charmmonster_cooldown") != TRUE)
-						begin
-							new_spell = "charm_monster";
-							return new_spell;
-						end
-				end
-		end
-		
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			if ($CastableSpell_Control(thisagent, target, "control_undead") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "priestess_controlundead_cooldown") != TRUE)
-						begin
-							new_spell = "control_undead";
-							return new_spell;
-						end
-				end
-		end
-	
-	return new_spell;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Summon( agent thisagent, agent target ) is string
-// List of Healing spells to retrieve for a hero.
-// Currently ignoring mana cost.
-
-declare
-	string new_spell, unit_name, original_name;
-	integer targetrange, attackrange, castrange, count;
-
-begin
-	unit_name = thisagent's "title";
-	new_spell = "nothing";
-	
-	if ($HasAttribute("Original_Title", thisagent) == True)
-		original_name = thisagent's "Original_Title";
-	else
-		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-		
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	$BuffDebuffList(thisagent);
-	if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			if ($CastableSpell_Summon(thisagent, target, "animate_skeleton") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "priestess_animateskeleton_cooldown") != TRUE)
-						begin
-							new_spell = "animate_skeleton";
-							return new_spell;
-						end
-				end
-		end
-	
-	return new_spell;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Support( agent thisagent) is string
-// List of spells to retrieve for a hero
-// Finally arranges on its own based on distance. Only concern would be whether the hero prioritizes other variables in spellcasting.
-
-declare
-	string new_spell, unit_name, original_name;
-	integer attackrange, count;
-	agent target;
-
-begin
-	unit_name = thisagent's "title";
-	target = thisagent's "Target";
-	new_spell = "nothing";
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	$AddAttribute(thisagent, "castingrange", "integer");
-	$BuffDebuffList(thisagent);
-	
-	if ($HasAttribute("Original_Title", thisagent) == True)
-		original_name = thisagent's "Original_Title";
-	else
-		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-		
-	if ((unit_name == "cultist") || (original_name == "cultist"))
-		begin
-			if ($CastableSpell(thisagent, target, "change_shape") == TRUE)
-				return "change_shape";
-		end
-		
-	else if (unit_name == "Healer")
-		begin
-			if ($CastableSpell(thisagent, target, "meditation") == TRUE)
-				return "meditation";
-		end
-		
-	else if (unit_name == "Monk")
-		begin
-			if ($CastableSpell(thisagent, target, "hands_of_steel") == TRUE)
-				return "hands_of_steel";
-			if ($CastableSpell(thisagent, target, "monk_stone_skin") == TRUE)
-				return "monk_stone_skin";
-			if ($CastableSpell(thisagent, target, "iron_will") == TRUE)
-				return "iron_will";
-		end
-	
-	else if (unit_name == "Paladin")
-		begin
-			if ($CastableSpell(thisagent, target, "shield_of_light") == TRUE)
-				return "shield_of_light";
-		end
-		
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			if ($CastableSpell(thisagent, target, "priestess_wither") == TRUE)
-				return "priestess_wither";
-		end
-		
-	else if (unit_name == "Solarus")
-		begin
-		end
-		
-	else if (unit_name == "Wizard")
-		begin
-			if ($CastableSpell(thisagent, target, "fire_shield") == TRUE)
-				return "fire_shield";
-			if ($CastableSpell(thisagent, target, "resist_magic") == TRUE)
-				return "resist_magic";
-			if ($CastableSpell(thisagent, target, "wizard_transmute") == TRUE)
-				return "wizard_Transmute";
-				
-			
-			if ($CastableSpell(thisagent, target, "Searing_Mantle") == TRUE)
-				return "Searing_Mantle";
-			if ($CastableSpell(thisagent, target, "Pyrelight") == TRUE)
-				return "Pyrelight";
-			if ($CastableSpell(thisagent, target, "Ignite") == TRUE)
-				return "Ignite";
-		end
-		
-	//GENERIC SPELLS
-	if ($CastableSpell(thisagent, target, "generic_regenerate") == TRUE)
-		return "generic_regenerate";
-		
-	//GADGET SPELLS
-	if ($CastableSpell(thisagent, target, "deploy_dart_sentry") == TRUE)
-		return "deploy_dart_sentry";
-	
-	return "nothing";
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function AttackSpellList( agent thisagent ) is string
-//Use while instead of foreach as foreach for now
-//Do not use return inside of a foreach struct
-declare
-	agent spell_target, new_target;
-	string new_spell, spell_name, cooldown, condition;
-	integer size, count;
-
-begin
-	spell_name = "Nothing";
-	new_spell = "Nothing";
-	new_target = $nullagent();
-	
-	if ($HasAttribute("SpellsAttack", thisagent))
-		if ($ListSize(thisagent's "SpellsAttack") > 0)
-			foreach spell_name in thisagent's "SpellsAttack" do
-				if (spell_name != "Nothing")
-					begin
-						condition = spell_name + "_Condition";
-						if ($SpellCastFirstPass(thisagent, spell_name))
-							begin
-								spell_target = (thisagent's condition)(thisagent, spell_name);
-								if (spell_target != $NullAgent())
-									begin
-										cooldown = spell_name + "_Cooldown";
-										if ($HasCooldown(thisagent, cooldown) != TRUE)
-											begin
-												new_spell = spell_name;
-												new_target = spell_target;			//Keep the new spell target consistent with the new spell, otherwise might get null agent targets with valid new spells
-											end
-									end
-							end
-					end
-	if ($HasAttribute("Spell_Target", thisagent))
-		thisagent's "Spell_Target" = new_target;
-	return new_spell;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpellCastFirstPass( agent thisagent, string spell_name) is boolean //Take the normal spell_name
-// Check the mana and cooldown of the spell
-//Normal spell_name is without the level qualifer: "Fire_Bolt"
-declare
-
-begin
-	if (($isspellAvailable(thisagent, spell_name) == TRUE) && ($Spell_Resource_Available(thisagent, spell_name) == TRUE))
-		return TRUE;
-	return FALSE;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpellDefaultAttackPass( agent thisagent, string spell_name) is agent //For this, return an agent as the pass condition for spells
-//Basic fire tree attack spells currently all use this
-declare
-
-begin
-	return $BasicCastTarget_hero(thisagent, thisagent's "Target", spell_name);
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function FireBoltCondition( agent thisagent, string spell_name) is agent
-//Extended spell_name is with the level qualifer: "Fire_Bolt_1"
-//Currently unused
-declare
-
-begin
-	return $BasicCastTarget_hero(thisagent, thisagent's "Target", spell_name);
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SearingMantleCondition( agent thisagent, string spell_name) is agent
-declare
-	//string icon, manapercent;
-	
-begin
-	//icon = spell_name + "_Icon";		//Set these up in an alternative of AdvancedCastCombatSupportAlly_hero that holds the spells specific icon and mana percent extension in
-	return $AdvancedCastCombatSupportAlly_hero(thisagent, thisagent's "Target", "Searing_Mantle_Icon", spell_name, 40);
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function PyrelightCondition( agent thisagent, string spell_name) is agent
-declare
-	//string icon, manapercent;
-	
-begin
-	//icon = spell_name + "_Icon";
-	return $AdvancedCastCombatDebuffEnemy_hero(thisagent, thisagent's "Target", "Pyrelight_icon", spell_name, 30);
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function IgniteCondition( agent thisagent, string spell_name) is agent
-declare
-	//string icon, manapercent;
-	
-begin
-	//icon = spell_name + "_Icon";
-	return $BasicCastDebuffEnemy_hero(thisagent, thisagent's "Target", "Ignite_Icon", spell_name);
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CanCast(agent thisagent, string spell_name) is boolean
-declare
-begin
-	if ($isspellAvailable(thisagent, spell_name))
-		if ($HasCooldown(thisagent, spell_name))
-			if ($Spell_Mana_Available(thisagent, spell_name))
-				return true;
-	return false;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell( agent thisagent, agent target, string spell_name ) is boolean
-// Returns a valid spell to cast ONLY for Spell_List_Support
-
-declare
-begin
-	if ($CanCast(thisagent, spell_name))
-		return $ValidSpellTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Heal( agent thisagent, agent target, string spell_name ) is boolean
-// Returns a valid spell to cast ONLY for Spell_List_Support
-
-declare
-	boolean castable;
-
-begin
-	if ($CanCast(thisagent, spell_name))
-		return $ValidHealTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Follow( agent thisagent, agent target, string spell_name ) is boolean
-// Returns a valid spell to cast ONLY for Spell_List_Support
-
-declare
-begin
-	if ($CanCast(thisagent, spell_name))
-		return $ValidFollowTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Travel( agent thisagent, agent target, string spell_name ) is boolean
-// Returns a valid spell to cast ONLY for Spell_List_Support
-
-declare
-
-begin
-	if ($CanCast(thisagent, spell_name))
-		return $ValidTravelTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Control( agent thisagent, agent target, string spell_name ) is boolean
-// Returns a valid spell to cast ONLY for Spell_List_Support
-
-declare
-begin
-	if ($CanCast(thisagent, spell_name))
-		return $ValidControlTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Summon( agent thisagent, agent target, string spell_name ) is boolean
-// Returns a valid spell to cast ONLY for Spell_List_Support
-
-declare
-begin
-	if ($CanCast(thisagent, spell_name))
-		return $ValidSummonTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_All( agent thisagent ) is string
-// List of spells to retrieve for a hero
-// Used only to check if a hero will buy mana potions
-
-declare
-	string unit_name, original_name;
-
-begin
-	unit_name = thisagent's "title";
-	
-	if ($HasAttribute("Original_Title", thisagent) == True)
-		original_name = thisagent's "Original_Title";
-	else
-		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-		
-	if ((unit_name == "cultist") || (original_name == "cultist"))
-		begin
-			if ($isspellAvailable(thisagent,"camouflage") == TRUE)
-				return  "camouflage";
-			if ($isspellAvailable(thisagent,"charm_monster") == TRUE)
-				return  "charm_monster";
-			if ($isspellAvailable(thisagent,"change_shape") == TRUE)
-				return  "change_shape";
-		end
-		
-	else if (unit_name == "Healer")
-		begin
-			if ($isspellAvailable(thisagent,"healer_heal") == TRUE)
-				return  "healer_heal";
-			if ($isspellAvailable(thisagent,"meditation") == TRUE)
-				return  "meditation";
-		end
-		
-	else if (unit_name == "Monk")
-		begin
-			if ($isspellAvailable(thisagent,"hands_of_steel") == TRUE)
-				return  "hands_of_steel";
-			if ($isspellAvailable(thisagent,"monk_stone_skin") == TRUE)
-				return  "monk_stone_skin";
-			if ($isspellAvailable(thisagent,"iron_will") == TRUE)
-				return  "iron_will";
-		end
-	
-	else if (unit_name == "Paladin")
-		begin
-			if ($isspellAvailable(thisagent,"shield_of_light") == TRUE)
-				return  "shield_of_light";
-		end
-		
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			if ($isspellAvailable(thisagent,"drain_life") == TRUE)
-				return  "drain_life";
-			if ($isspellAvailable(thisagent,"animate_skeleton") == TRUE)
-				return  "animate_skeleton";
-			if ($isspellAvailable(thisagent,"control_undead") == TRUE)
-				return  "control_undead";
-			if ($isspellAvailable(thisagent,"priestess_wither") == TRUE)
-				return  "priestess_wither";
-		end
-		
-	else if (unit_name == "Solarus")
-		begin
-			if ($isspellAvailable(thisagent,"sun_scorch") == TRUE)
-				return  "sun_scorch";
-		end
-		
-	else if (unit_name == "Wizard")
-		begin
-			if ($isspellAvailable(thisagent,"energy_blast") == TRUE)
-				return  "energy_blast";
-			if ($isspellAvailable(thisagent,"fire_shield") == TRUE)
-				return  "fire_shield";
-			if ($isspellAvailable(thisagent,"fire_blast") == TRUE)
-				return  "fire_blast";
-			if ($isspellAvailable(thisagent,"fire_ball") == TRUE)
-				return  "fire_ball";
-			if ($isspellAvailable(thisagent,"resist_magic") == TRUE)
-				return  "resist_magic";
-			if ($isspellAvailable(thisagent,"wizard_Transmute") == TRUE)
-				return  "wizard_Transmute";
-			if ($isspellAvailable(thisagent,"meteor_storm") == TRUE)
-				return  "meteor_storm";
-				
-			if ($isspellAvailable(thisagent, "Fire_Bolt"))
-				return "Fire_Bolt";
-			if ($isspellAvailable(thisagent, "fireball"))
-				return "fireball";
-			if ($isspellAvailable(thisagent, "Perdition_Barrage"))
-				return "Perdition_Barrage";
-			if ($isspellAvailable(thisagent, "Incandescent_Ray"))
-				return "Incandescent_Ray";
-			if ($isspellAvailable(thisagent, "searing_mantle"))
-				return "searing_mantle";
-			if ($isspellAvailable(thisagent, "Pyrelight"))
-				return "Pyrelight";
-			if ($isspellAvailable(thisagent, "ignite"))
-				return "ignite";
-		end
-		
-	//GENERIC SPELLS
-	if ($isspellAvailable(thisagent,"generic_regenerate") == TRUE)
-		return "generic_regenerate";
-	if ($isspellAvailable(thisagent,"flame_shield") == TRUE)
-		return "flame_shield";
-	if ($isspellAvailable(thisagent,"power_shock") == TRUE)
-		return "power_shock";
-	
-	//GADGET SPELLS
-	if ($isspellAvailable(thisagent,"deploy_dart_sentry") == TRUE)
-		return "deploy_dart_sentry";
-	
-	return "nothing";
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_Mana_Available( agent thisagent, string spell_name ) is boolean
-declare
-begin
-	if ($getattributesafe(thisagent, "CurrentMana") >= $Spell_Mana_Cost(thisagent, spell_name))
-		return TRUE;
-	return FALSE;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_Resource_Available( agent thisagent, string spell_name ) is boolean
-// Checks for mana/stamina availability
-// Currently only checks for mana
-declare
-begin
-	if ($getattributesafe(thisagent, "CurrentMana") >= $Spell_Resource_Cost(thisagent, spell_name))
-		return TRUE;
-	return FALSE;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpellRangeList( integer cast_range, string spell_name ) is integer
-// List of spells ranges to retrieve for a hero.
-// This list determines the max cast range for each spell.
-
-declare
-
-begin
-	////CULTIST
-	if (spell_name == "camouflage")
-		return $PercentOf(cast_range, 30, False);
-	if (spell_name == "charm_monster")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "change_shape")
-		return $PercentOf(cast_range, 30, False);
-		
-	////HEALER
-	if (spell_name == "healer_heal")
-		return $PercentOf(cast_range, 50, False);
-		
-	if (spell_name == "meditation")
-		return $PercentOf(cast_range, 50, False);
-		
-	////MONK
-	if (spell_name == "hands_of_steel")
-		return $PercentOf(cast_range, 10, False);
-		
-	if (spell_name == "monk_stone_skin")
-		return $PercentOf(cast_range, 50, False);
-		
-	if (spell_name == "iron_will")
-		return $PercentOf(cast_range, 50, False);
-		
-	////PALADIN
-	if (spell_name == "shield_of_light")
-		return $PercentOf(cast_range, 50, False);
-		
-	////PRIESTESS
-	if (spell_name == "drain_life")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "animate_skeleton")
-		return $PercentOf(cast_range, 50, False);
-	if (spell_name == "control_undead")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "priestess_wither")
-		return $PercentOf(cast_range, 70, False);
-		
-	////SOLARUS
-	if (spell_name == "sun_scorch")
-		return $PercentOf(cast_range, 25, False);
-		
-	////WIZARD
-	if (spell_name == "energy_blast")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "fire_shield")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "fire_blast")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "fire_ball")
-		return $PercentOf(cast_range, 75, False);
-	if (spell_name == "resist_magic")
-		return $PercentOf(cast_range, 50, False);
-	if (spell_name == "wizard_Transmute")
-		return $PercentOf(cast_range, 67, False);
-		
-	////GENERIC
-	if (spell_name == "generic_regenerate")
-		return $PercentOf(cast_range, 50, False);
-	if (spell_name == "flame_shield")
-		return $PercentOf(cast_range, 50, False);
-	if (spell_name == "power_shock")
-		return $PercentOf(cast_range, 60, False);
-		
-	////GADGETS
-	if (spell_name == "deploy_dart_sentry")
-		return $PercentOf(cast_range, 60, False);
-		
-	////FIRE SKILL TREE
-	if (spell_name == "Fire_Bolt")
-		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "fireball")
-		return $PercentOf(cast_range, 80, False);
-	if (spell_name == "Perdition_Barrage")
-		return $PercentOf(cast_range, 90, False);
-	if (spell_name == "Incandescent_Ray")
-		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "searing_mantle")
-		return $PercentOf(cast_range, 60, False);
-	if (spell_name == "Pyrelight")
-		return $PercentOf(cast_range, 85, False);
-	if (spell_name == "ignite")
-		return $PercentOf(cast_range, 75, False);
-		
-	return cast_range;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpellRangeListOnAttack( integer cast_range, string spell_name ) is integer
-// List of spells ranges to retrieve for a hero.
-// This list is what's determining how close the hero is moving towards its target each attack in the attack section.
-
-declare
-begin
-	////CULTIST
-	if (spell_name == "camouflage")
-		return cast_range;
-		
-	if (spell_name == "charm_monster")
-		return $PercentOf(cast_range, 67, False);
-		
-	if (spell_name == "change_shape")
-		return cast_range;
-		
-	////HEALER
-	if (spell_name == "healer_heal")
-		return cast_range;
-		
-	if (spell_name == "meditation")
-		return cast_range;
-		
-	////MONK
-	if (spell_name == "hands_of_steel")
-		return cast_range;
-		
-	if (spell_name == "monk_stone_skin")
-		return cast_range;
-		
-	if (spell_name == "iron_will")
-		return cast_range;
-		
-	////PALADIN
-	if (spell_name == "shield_of_light")
-		return cast_range;
-		
-	////PRIESTESS
-	if (spell_name == "drain_life")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "animate_skeleton")
-		return $PercentOf(cast_range, 50, False);
-	if (spell_name == "control_undead")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "priestess_wither")
-		return $PercentOf(cast_range, 70, False);
-		
-	////SOLARUS
-	if (spell_name == "sun_scorch")
-		return $PercentOf(cast_range, 25, False);
-		
-	////WIZARD
-	if (spell_name == "energy_blast")
-		return $PercentOf(cast_range, 67, False);
-		
-	if (spell_name == "fire_shield")
-		return cast_range;
-		
-	if (spell_name == "fire_blast")
-		return $PercentOf(cast_range, 67, False);
-		
-	if (spell_name == "fire_ball")
-		return $PercentOf(cast_range, 75, False);
-		
-	if (spell_name == "resist_magic")
-		return cast_range;
-		
-	if (spell_name == "wizard_Transmute")
-		return $PercentOf(cast_range, 67, False);
-		
-	if (spell_name == "meteor_storm")
-		return $PercentOf(cast_range, 35, False);
-		
-	////GENERIC
-	if (spell_name == "generic_regenerate")
-		return cast_range;
-	if (spell_name == "flame_shield")
-		return cast_range;
-	if (spell_name == "power_shock")
-		return $PercentOf(cast_range, 60, False);
-		
-	////GADGETS
-	if (spell_name == "deploy_dart_sentry")
-		return $PercentOf(cast_range, 60, False);
-		
-	////FIRE SKILL TREE
-	if (spell_name == "Fire_Bolt")
-		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "fireball")
-		return $PercentOf(cast_range, 80, False);
-	if (spell_name == "Perdition_Barrage")
-		return $PercentOf(cast_range, 90, False);
-	if (spell_name == "Incandescent_Ray")
-		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "ignite")
-		return $PercentOf(cast_range, 75, False);
-		
-	return cast_range;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function IsSpellCaster( agent thisagent ) is boolean
-// Is the hero a spellcaster?
-
-declare
-	string unit_name, original_name;
-	boolean caster;
-	
-begin
-	caster = FALSE;
-	unit_name = thisagent's "title";
-	
-	if ($HasAttribute("Original_Title", thisagent) == True)
-		original_name = thisagent's "Original_Title";
-	else
-		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-		
-	if (unit_name == "wizard")
-		begin
-			caster = TRUE;
-		end
-	
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			caster = TRUE;
-		end
-	
-	return caster;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpellCastRange( agent thisagent ) is integer
-// The range at which a spellcaster will start casting spells.
-
-declare
-	integer cast_range, new_range, final_range, count, size;
-	string spell_name, range;
-	list spells;
-	
-begin
-	cast_range = thisagent's "castingRange";
-	final_range = $PercentOf(cast_range, 67, False);			//67% is the normal spell cast range
-//	count = 0;
-//	spells = thisagent's "SpellsAttack";
-//	size = $ListSize(spells);
-	
-//	if (size > 0)
-//		begin
-//			while (count < size) do
-//				begin
-//					count ++;
-//					spell_name = "Nothing";
-//					if (spell_name != "Nothing")
-//						if ($SpellCastFirstPass(thisagent, spell_name))
-//							begin
-//								range = spell_name + "_Range";
-//								new_range = $PercentOf(cast_range, thisagent's range, False);	//Set the new range
-//								if (new_range > final_range)										//check if the new range is greater than the final one
-//									final_range = new_range;
-//							end
-//						
-//				end
-//		end		
-				
-	if ($ListSize(thisagent's "SpellsAttack") > 0) 
-		foreach spell_name in thisagent's "SpellsAttack" do
-			if (spell_name != "Nothing")
-				if ($SpellCastFirstPass(thisagent, spell_name))
-					begin
-						range = spell_name + "_Range";
-						new_range = $PercentOf(cast_range, thisagent's range, False);	//Set the new range
-						if (new_range > final_range)										//check if the new range is greater than the final one
-							final_range = new_range;
-					end
-			
-	return final_range;
-end
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function SpellCastDistance( agent thisagent ) is integer
-// The distance at which a spellcaster will start casting spells.
-
-declare
-	integer cast_range;
-	string unit_name, spell_name, original_name;
-	
-begin
-	unit_name = thisagent's "title";
-	cast_range = thisagent's "castingRange";
-	
-	if ($HasAttribute("Original_Title", thisagent) == True)
-		original_name = thisagent's "Original_Title";
-	else
-		$AddAttribute(thisagent, "Original_Title", "string", unit_name);
-		
-	if (unit_name == "paladin")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "healer")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "rogue")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "monk")
-		return $PercentOf(cast_range, 50, False);
-	else if ((unit_name == "cultist") || (original_name == "cultist"))
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "solarus")
-		return $PercentOf(cast_range, 25, False);
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			cast_range = $PercentOf(cast_range, 67, False);
-			cast_range = $GreatestCastRange(thisagent, "drain_life", cast_range);
-			return cast_range;
-		end
-	else if (unit_name == "wizard")
-		begin
-			cast_range = $PercentOf(cast_range, 67, False);
-			cast_range = $GreatestCastRange(thisagent, "energy_blast", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "fire_ball", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "fire_bolt", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "fireball", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "incandescent_ray", cast_range);
-			return cast_range;
-		end
-	
-	// not casting
-	return $getattribute(thisagent,#ATTRIB_maxattackrange);
-end
-
-function GreatestCastRange(agent thisagent, string spell_name, integer range) is integer
-
-declare
-	integer new_range;
-
-begin
-	if ((spell_name != "nothing") && ($isspellAvailable(thisagent,spell_name) == TRUE) && ($Spell_Mana_Available(thisagent, spell_name) == TRUE))
-		begin
-			new_range = $SpellRangeList(thisagent's "castingRange", spell_name);
-			if (new_range > range)
-				range = new_range;
-		end
-	return range;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function Cooldown_End( agent thisagent, string cooldown_name )
-// A simple cooldown function for various threads that require a simple timer.
-
-declare
-
-begin
-	$KillThread(thisagent's cooldown_name);
-	
-end

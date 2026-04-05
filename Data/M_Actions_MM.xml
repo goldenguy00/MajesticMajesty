@@ -9,6 +9,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="power_shock_check"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
@@ -87,6 +88,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="energy_blast_check"/>
 			<TimeoutDuration value="200"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
@@ -120,6 +122,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="fire_blast_check"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="3"/>
@@ -136,6 +139,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="fire_ball_check"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="5"/>
@@ -166,6 +170,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="meteor_storm_check"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="7"/>
@@ -183,7 +188,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="Other"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -247,7 +252,6 @@
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
-			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -279,7 +283,7 @@
 		<Game version="1">
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
-			<SpellType value="CombatUtility"/>
+			<SpellType value="Attack"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -345,7 +349,6 @@
 			<Flags value="IsSpell"/>
 			<TimeoutDuration value="300"/>
 			<SpellType value="Attack"/>
-			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="4"/>
 		</Game>
@@ -532,7 +535,7 @@
 		</Engine>
 		<Game version="1">
 			<CharacterLevel value="1"/>
-			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<SpellRank value="2"/>
 		</Game>
 	</Description>
@@ -548,7 +551,7 @@
 		</Engine>
 		<Game version="1">
 			<CharacterLevel value="5"/>
-			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<SpellRank value="3"/>
 		</Game>
 	</Description>
@@ -564,7 +567,7 @@
 		</Engine>
 		<Game version="1">
 			<CharacterLevel value="4"/>
-			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<SpellRank value="4"/>
 		</Game>
 	</Description>
@@ -611,6 +614,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="Fire_Bolt_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="1"/>
@@ -640,6 +644,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="FireBall_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="5"/>
@@ -657,6 +662,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="Searing_Mantle_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="5"/>
@@ -674,8 +680,9 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="Ignite_Check"/>
 			<TimeoutDuration value="400"/>
-			<SpellType value="Attack"/>
+			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="10"/>
 			<SpellRank value="1"/>
 		</Game>
@@ -691,6 +698,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="Pyrelight_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="CombatUtility"/>
 			<CharacterLevel value="15"/>
@@ -708,6 +716,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="Perdition_Barrage_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="20"/>
@@ -725,6 +734,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
+			<ValidationScript value="Incandescent_Ray_Check"/>
 			<TimeoutDuration value="400"/>
 			<SpellType value="Attack"/>
 			<CharacterLevel value="25"/>

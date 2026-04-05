@@ -45,18 +45,10 @@ begin
 	$exit_building(thisagent,thisagent's "target");
 	
 	if ($HasAttribute("TaskPackageStatus", thisagent))
-	thisagent's "TaskPackageStatus" = "Complete";
+		thisagent's "TaskPackageStatus" = "Complete";
+
+	$StartCooldown(thisAgent, "Shrine", 45000);
 	
-	if ($HasAttribute("Shrine_Cooldown", thisagent) == True)
-		begin
-			$NewThread(thisAgent's "Shrine_Cooldown", 45000, thisAgent, "Shrine_Cooldown" );
-		end
-	else
-		begin
-			$AddAttribute(thisagent, "Shrine_Cooldown", "function", $Cooldown_End);
-			$NewThread(thisAgent's "Shrine_Cooldown", 45000, thisAgent, "Shrine_Cooldown" );
-		end
-	
-	$AddInsightPoints(thisagent, thisagent's "Wisdom_Total");
+	$AddInsightPoints(thisagent, #insight_point_limit + thisagent's "Wisdom_Total");
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
 end

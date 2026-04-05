@@ -8,7 +8,7 @@ expression #Fire_Bolt_Damage_Max 7					//The maximum damage
 expression #Fire_Bolt_Damage_Level_Mult 5			//The multiplier for damage per additional level of the spell
 expression #Fire_Bolt_Damage_Level_Div 2			//The divider for damage per additional level of the spell. MUST NOT BE 0.
 													//In this case, damage per level comes out to +2.5 per level (5 / 2)
-expression #Fire_Bolt_Cooldown 1200					//The cooldown in milliseconds
+expression #Fire_Bolt_Cooldown 400					//The cooldown in milliseconds
 expression #Fire_Bolt_Range 70						//The range is a percentage of the hero's casting range. It must not exceed 100 or the spell will behave erratically. 67 is considered baseline range for non-modded Majesty.
 expression #Fire_Bolt_Mana 2						//The base Mana cost at level 1
 expression #Fire_Bolt_Mana_Mult 3					//The Multplier for Mana cost increase
@@ -44,7 +44,7 @@ expression #Perdition_Barrage_Projectiles 2					//The number of projectiles laun
 expression #Perdition_Barrage_Projectiles_Level_Div 3		//The number of additional projectiles per level divided by this value (currently at +1 Projectile per 3 Levels)
 expression #Perdition_Barrage_Random 250					//The area around the target that the projectile will randomize around
 expression #Perdition_Barrage_Random_Level 12
-expression #Perdition_Barrage_Cooldown 8000
+expression #Perdition_Barrage_Cooldown 5000
 expression #Perdition_Barrage_Range 90
 expression #Perdition_Barrage_Mana 16
 expression #Perdition_Barrage_Mana_Mult 13
@@ -57,7 +57,7 @@ expression #Incandescent_Ray_Damage_Level_Div 1
 expression #Incandescent_Ray_Damage_Radius 60
 expression #Incandescent_Ray_Distance 600					//How far the ray extends
 expression #Incandescent_Ray_Distance_Level 15				//How much the distance increases per level
-expression #Incandescent_Ray_Cooldown 11000
+expression #Incandescent_Ray_Cooldown 8000
 expression #Incandescent_Ray_Range 70						//The range for this spell will not alter the length of the ray, merely the range at the Wizard decides to cast it.
 expression #Incandescent_Ray_Mana 13
 expression #Incandescent_Ray_Mana_Mult 14
@@ -71,7 +71,7 @@ expression #Searing_Mantle_Armor 1							//How much physical armor this spell ad
 expression #Searing_Mantle_Armor_Level_Div 2				//How much additional armor per level divided by this value (Currently 1 additional armor every 2 levels)
 expression #Searing_Mantle_Fire_Resistance 10				//How much fire resistance this spell adds
 expression #Searing_Mantle_Fire_Resistance_Level_Mult 3		//How much additional resistance per level multplied by this value (Currently 3 additional resistance per level)
-expression #Searing_Mantle_Cooldown 5000
+expression #Searing_Mantle_Cooldown 10000
 expression #Searing_Mantle_Range 60
 expression #Searing_Mantle_Duration 20000
 expression #Searing_Mantle_Duration_Level 4000

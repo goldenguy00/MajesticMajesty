@@ -385,7 +385,7 @@ begin
 		end
 	
 	if ($isspellavailable(thisagent,"energy_blast",1))
-		value += 10;
+		value += 30;
 
 	if ($isspellavailable(thisagent,"fire_blast",1))
 		value += 30;
@@ -394,10 +394,10 @@ begin
 		value += 30;
 
 	if ($isspellavailable(thisagent,"teleport",1))
-		value += 5;
+		value += 30;
 
 	if ($isspellavailable(thisagent,"resist_magic",1))
-		value += 5;
+		value += 30;
 
 	if ($isspellavailable(thisagent,"meteor_storm",1))
 		value += 30;
@@ -407,6 +407,15 @@ begin
 
 	if ($isspellavailable(thisagent,"sun_scorch",1))
 		value += 30;
+
+	if ($isspellavailable(thisagent,"Fire_Bolt",1))
+		value += 60;
+	if ($isspellavailable(thisagent,"Fireball",1))
+		value += 90;
+	if ($isspellavailable(thisagent,"Perdition_Barrage",1))
+		value += 120;
+	if ($isspellavailable(thisagent,"Incandescent_Ray",1))
+		value += 180;
 
 	if ($haslowMP(thisagent) == True)
 		value /= 2;

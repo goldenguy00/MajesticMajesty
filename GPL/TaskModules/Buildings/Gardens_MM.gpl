@@ -67,7 +67,6 @@ begin
 			if ($getattribute(thisagent,#ATTRIB_haseffectcamouflage) == 0)
 				begin
 					$AddAttribute(thisagent, "Cultist_CamouflageBuff_End", "function", $Cultist_CamouflageBuff_End);
-					$AddAttribute(thisagent, "cultist_camouflage_cooldown", "function", $Cooldown_End);
 					$Camouflage_Begin(thisagent,thisagent);
 				end
 		end

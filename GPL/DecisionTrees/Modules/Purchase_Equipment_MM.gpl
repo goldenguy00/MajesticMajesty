@@ -493,6 +493,120 @@ Begin
 
 End
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Spell_List_All( agent thisagent ) is string
+// List of spells to retrieve for a hero
+// Used only to check if a hero will buy mana potions
+
+declare
+	string unit_name, original_name;
+
+begin
+	unit_name = thisagent's "title";
+	
+	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
+		original_name = thisagent's "Original_Title";
+	
+	if ((unit_name == "cultist") || (original_name == "cultist"))
+		begin
+			if ($isspellAvailable(thisagent,"camouflage") == TRUE)
+				return  "camouflage";
+			if ($isspellAvailable(thisagent,"charm_monster") == TRUE)
+				return  "charm_monster";
+			if ($isspellAvailable(thisagent,"change_shape") == TRUE)
+				return  "change_shape";
+		end
+		
+	else if (unit_name == "Healer")
+		begin
+			if ($isspellAvailable(thisagent,"healer_heal") == TRUE)
+				return  "healer_heal";
+			if ($isspellAvailable(thisagent,"meditation") == TRUE)
+				return  "meditation";
+		end
+		
+	else if (unit_name == "Monk")
+		begin
+			if ($isspellAvailable(thisagent,"hands_of_steel") == TRUE)
+				return  "hands_of_steel";
+			if ($isspellAvailable(thisagent,"monk_stone_skin") == TRUE)
+				return  "monk_stone_skin";
+			if ($isspellAvailable(thisagent,"iron_will") == TRUE)
+				return  "iron_will";
+		end
+	
+	else if (unit_name == "Paladin")
+		begin
+			if ($isspellAvailable(thisagent,"shield_of_light") == TRUE)
+				return  "shield_of_light";
+		end
+		
+	else if ((unit_name == "priestess") || (original_name == "priestess"))
+		begin
+			if ($isspellAvailable(thisagent,"drain_life") == TRUE)
+				return  "drain_life";
+			if ($isspellAvailable(thisagent,"animate_skeleton") == TRUE)
+				return  "animate_skeleton";
+			if ($isspellAvailable(thisagent,"control_undead") == TRUE)
+				return  "control_undead";
+			if ($isspellAvailable(thisagent,"priestess_wither") == TRUE)
+				return  "priestess_wither";
+		end
+		
+	else if (unit_name == "Solarus")
+		begin
+			if ($isspellAvailable(thisagent,"sun_scorch") == TRUE)
+				return  "sun_scorch";
+		end
+		
+	else if (unit_name == "Wizard")
+		begin
+			if ($isspellAvailable(thisagent,"energy_blast") == TRUE)
+				return  "energy_blast";
+			if ($isspellAvailable(thisagent,"fire_shield") == TRUE)
+				return  "fire_shield";
+			if ($isspellAvailable(thisagent,"fire_blast") == TRUE)
+				return  "fire_blast";
+			if ($isspellAvailable(thisagent,"fire_ball") == TRUE)
+				return  "fire_ball";
+			if ($isspellAvailable(thisagent,"resist_magic") == TRUE)
+				return  "resist_magic";
+			if ($isspellAvailable(thisagent,"wizard_Transmute") == TRUE)
+				return  "wizard_Transmute";
+			if ($isspellAvailable(thisagent,"meteor_storm") == TRUE)
+				return  "meteor_storm";
+				
+			if ($isspellAvailable(thisagent, "Fire_Bolt"))
+				return "Fire_Bolt";
+			if ($isspellAvailable(thisagent, "fireball"))
+				return "fireball";
+			if ($isspellAvailable(thisagent, "Perdition_Barrage"))
+				return "Perdition_Barrage";
+			if ($isspellAvailable(thisagent, "Incandescent_Ray"))
+				return "Incandescent_Ray";
+			if ($isspellAvailable(thisagent, "searing_mantle"))
+				return "searing_mantle";
+			if ($isspellAvailable(thisagent, "Pyrelight"))
+				return "Pyrelight";
+			if ($isspellAvailable(thisagent, "ignite"))
+				return "ignite";
+		end
+		
+	//GENERIC SPELLS
+	if ($isspellAvailable(thisagent,"generic_regenerate") == TRUE)
+		return "generic_regenerate";
+	if ($isspellAvailable(thisagent,"flame_shield") == TRUE)
+		return "flame_shield";
+	if ($isspellAvailable(thisagent,"power_shock") == TRUE)
+		return "power_shock";
+	
+	//GADGET SPELLS
+	if ($isspellAvailable(thisagent,"deploy_dart_sentry") == TRUE)
+		return "deploy_dart_sentry";
+	
+	return "nothing";
+end
+
 ///////////////////////////////////////////////////////////////////////////////
 Function Ring_Check (agent ThisAgent,list potentials) is boolean
 Declare

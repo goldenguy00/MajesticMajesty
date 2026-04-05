@@ -47,7 +47,7 @@ begin
 	building = thisagent's "target";
 	book = $agentintentextinlist(thisagent's "TaskName", $GetBuildingContents($agenttitleinlist("Available_Books", building's "Attachments")));
 	experience = book's "XP_Value";
-	XPLevel = book's "XPMultiplier";
+	XPLevel = book's "XPMultiplier" + 3;
 	
 	$exit_building(thisagent,building);
 	

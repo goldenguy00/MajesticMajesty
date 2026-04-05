@@ -19,7 +19,7 @@ Begin
 		End
 
 	
-	if (($isspellAvailable(thisagent,"charm_monster") != TRUE) || ($Spell_Mana_Available(thisagent, "charm_monster") != TRUE) || ($HasCooldown(thisagent, "cultist_charmmonster_cooldown") == TRUE))
+	if ($CanCast(thisagent,"charm_monster") != TRUE)
 		return FALSE;
 
 	//This check to see if they already have their max. complement of Animals
@@ -41,26 +41,12 @@ Begin
 						return False;
 					
 					ThisAgent's "Target" = $ListMember (Animals, 1);
-					//$DebugOut (thisagent's "title","wants to control a",$gettitle(ThisAgent's "Target"));
 					ThisAgent's "ActiveScript" = $Go_Control_Monster;
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_CHARMINGANIMALS");
 					return True;
 				end
-
-
-			Else
-				begin
-					//$DebugOut ("No Animals Nearby!!");
-					return False;
-				end
-
 		end
-
-	Else
-		begin
-			//$DebugOut ("All of my slots are full!!!");
-			return False;
-		end
+	return False;
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -92,7 +78,7 @@ Begin
 	conditionsub = "TaskPackageTargetCondition";
 	completecondition = conditionsub + taskindex;
 	
-	if (($isspellAvailable(thisagent,"charm_monster") != TRUE) || ($Spell_Mana_Available(thisagent, "charm_monster") != TRUE) || ($HasCooldown(thisagent, "cultist_charmmonster_cooldown") == TRUE))
+	if ($CanCast(thisagent,"charm_monster") != TRUE)
 		return FALSE;
 
 	//This check to see if they already have their max. complement of Animals
@@ -114,25 +100,12 @@ Begin
 						return False;
 					
 					ThisAgent's completetarget = $ListMember (Animals, 1);
-					////$DebugOut (thisagent's "title","wants to control a",$gettitle(ThisAgent's completetarget));
 					ThisAgent's completeaction = $Go_Control_Monster;
 					ThisAgent's completecondition = $isdead;
 					ThisAgent's completeintent =  "IDTXT_INTENT_CHARMINGANIMALS";
 					return $NotDuplicateTask(thisagent, taskindex);
 				end
-
-
-			Else
-				begin
-					//$DebugOut ("No Animals Nearby!!");
-					return False;
-				end
-
 		end
 
-	Else
-		begin
-			//$DebugOut ("All of my slots are full!!!");
-			return False;
-		end
+	return False;
 End

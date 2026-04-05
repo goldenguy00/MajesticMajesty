@@ -31,6 +31,9 @@ source="Building_Deaths_MM.gpl"
 source="Hero_Deaths_MM.gpl"
 source="Monster_Deaths_MM.gpl"
 
+source="Trees_LowLevel_MM.gpl"
+source="Spells_LowLevel_MM.gpl"
+
 source="DecisionTrees\DecisionTrees_MM.gpl"
 
 source="DecisionTrees\Modules\Build_Horde_MM.gpl"
@@ -123,7 +126,4 @@ source="TaskModules\SubTasks\Seed_Resource_MM.gpl"
 source="TaskModules\SubTasks\Spells_MM.gpl"
 source="TaskModules\SubTasks\Status_Effects_MM.gpl"
 source="TaskModules\SubTasks\Steal_MM.gpl"
-
-source="TaskModules\SubTasks\SkillTrees\Trees_LowLevel_MM.gpl"
-
-source="TaskModules\SubTasks\SkillTrees\Wizard\Fire_Tree_MM.gpl"
+source="TaskModules\SubTasks\Fire_Tree_MM.gpl"

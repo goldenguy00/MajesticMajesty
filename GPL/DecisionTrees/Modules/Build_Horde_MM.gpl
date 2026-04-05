@@ -30,44 +30,33 @@ Begin
 	//This makes sure the Priestess has an empty slot
 	If (ThisAgent's "Num_Followers" < summon_limit)
 		begin
-			if (($isspellAvailable(thisagent,"control_undead") == TRUE) && ($Spell_Mana_Available(thisagent, "control_undead") == TRUE) && ($HasCooldown (thisAgent, "priestess_controlundead_cooldown") != TRUE))
+			if ($CanCast(thisagent,"control_undead"))
 				begin
 					Undead = $ListSubtypesInRadius (ThisAgent, "monster", "undead", $getattribute (ThisAgent, #ATTRIB_SightRange) * #Control_Undead_Mod);
 
 					If ($ListSize (Undead) > 0)
 						begin
 							ThisAgent's "Target" = $ListMember (Undead, 1);
-							//ThisAgent's "Target" = $Pick_Closest (ThisAgent, Undead);
-							////$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's "Target"));
 							ThisAgent's "ActiveScript" = $Go_Control_Monster;
 							$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_CONTROLLINGUNDEAD");
 							return True;
 						end
-
-					Else
-						begin
-							////$DebugOut ("No Undead nearby.");
-						end
 				end
 			
-			if (($isspellAvailable(thisagent,"animate_skeleton") != TRUE) || ($Spell_Mana_Available(thisagent, "animate_skeleton") != TRUE) || ($HasCooldown (thisAgent, "priestess_animateskeleton_cooldown") == TRUE))
-				return FALSE;
-
-			//No undead nearby? Go ahead and animate.
-			spell_name = $Spell_List_Summon(thisagent, thisagent);
-			if (spell_name != "nothing" )
+			if ($CanCast(thisagent,"animate_skeleton"))
 				begin
-					summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
-					$Cast (ThisAgent, spell_name, summon_target, "");
-					return True;
+					//No undead nearby? Go ahead and animate.
+					spell_name = $Spell_List_Summon(thisagent, thisagent);
+					if (spell_name != "nothing" )
+						begin
+							summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
+							$Cast (ThisAgent, spell_name, summon_target, "");
+							return True;
+						end
 				end
-
 		end
-	Else
-		begin
-			////$DebugOut ("All of my slots are full!!!");
-			return False;
-		end
+		
+	return False;
 End
 ///////////////////////////////////////////////////////////////////////////////
 Function Build_Horde_Packet (agent ThisAgent) is boolean
@@ -108,42 +97,32 @@ Begin
 	//This makes sure the Priestess has an empty slot
 	If (ThisAgent's "Num_Followers" < summon_limit)
 		begin
-			if (($isspellAvailable(thisagent,"control_undead") == TRUE) && ($Spell_Mana_Available(thisagent, "control_undead") == TRUE) && ($HasCooldown (thisAgent, "priestess_controlundead_cooldown") != TRUE))
+			if ($CanCast(thisagent,"control_undead"))
 				begin
 					Undead = $ListSubtypesInRadius (ThisAgent, "monster", "undead", $getattribute (ThisAgent, #ATTRIB_SightRange) * #Control_Undead_Mod);
 
 					If ($ListSize (Undead) > 0)
 						begin
 							ThisAgent's completetarget = $ListMember (Undead, 1);
-							////$DebugOut ("Priestess wants to control a",$gettitle(ThisAgent's completetarget));
 							ThisAgent's completeaction = $Go_Control_Monster;
 							ThisAgent's completecondition = $isdead;
 							ThisAgent's completeintent = "IDTXT_INTENT_CONTROLLINGUNDEAD";
 							return $NotDuplicateTask(thisagent, taskindex);
 						end
+				end
 
-					Else
+			if ($CanCast(thisagent,"animate_skeleton"))
+				begin
+					//No undead nearby? Go ahead and animate.
+					spell_name = $Spell_List_Summon(thisagent, thisagent);
+					if (spell_name != "nothing" )
 						begin
-							//$DebugOut ("No Undead nearby.");
+							summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
+							$Cast (ThisAgent, spell_name, summon_target, "");
+							return True;
 						end
 				end
-
-			if (($isspellAvailable(thisagent,"animate_skeleton") != TRUE) || ($Spell_Mana_Available(thisagent, "animate_skeleton") != TRUE) || ($HasCooldown(thisagent, "priestess_animateskeleton_cooldown") == TRUE))
-				return FALSE;
-
-			//No undead nearby? Go ahead and animate.
-			spell_name = $Spell_List_Summon(thisagent, thisagent);
-			if (spell_name != "nothing" )
-				begin
-					summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
-					$Cast (ThisAgent, spell_name, summon_target, "");
-					return True;
-				end
-
 		end
-	Else
-		begin
-			//$DebugOut ("All of my slots are full!!!");
-			return False;
-		end
+
+	return False;
 End

@@ -153,44 +153,32 @@ Begin
 					If ($Is_Free_Task (ThisAgent, $Use_Building, Target))
 						if (thisagent's "Prestige" > estate_chance)
 							if (Target's "ReceivingVisitors" != false)
-							begin
-								ThisAgent's "Target" = Target;
+								begin
+									ThisAgent's "Target" = Target;
 
-								ThisAgent's "Taskname" = "Visiting";
+									ThisAgent's "Taskname" = "Visiting";
 
-								ThisAgent's "ActiveScript" = $Use_Building;
+									ThisAgent's "ActiveScript" = $Use_Building;
 
-								ThisAgent's "TaskName" = "Enter_Estate";
-								$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITESTATE");
-								return True;
-							end
+									ThisAgent's "TaskName" = "Enter_Estate";
+									$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITESTATE");
+									return True;
+								end
 				end
 			else if (Building == "Shrine")
 				begin
-				 if ($HasAttribute("Shrine_Cooldown", thisagent) == False)
-					begin
-						ThisAgent's "Target" = Target;
+					if ($HasCooldown(thisagent, "Shrine") == False)
+						begin
+							ThisAgent's "Target" = Target;
 
-						ThisAgent's "Taskname" = "Visiting";
+							ThisAgent's "Taskname" = "Visiting";
 
-						ThisAgent's "ActiveScript" = $Use_Building;
+							ThisAgent's "ActiveScript" = $Use_Building;
 
-						ThisAgent's "TaskName" = "Enter_Estate";
-						$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITSHRINE");
-						return True;
-					end
-				else if ($IsRunning(thisagent's "Shrine_Cooldown") == False)
-					begin
-						ThisAgent's "Target" = Target;
-
-						ThisAgent's "Taskname" = "Visiting";
-
-						ThisAgent's "ActiveScript" = $Use_Building;
-
-						ThisAgent's "TaskName" = "Enter_Estate";
-						$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITSHRINE");
-						return True;
-					end
+							ThisAgent's "TaskName" = "Enter_Estate";
+							$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_VISITSHRINE");
+							return True;
+						end
 				end
 		end
 
@@ -388,45 +376,33 @@ Begin
 					If ($Is_Free_Task (ThisAgent, $Use_Building_Packet, Target))
 						if (thisagent's "Prestige" > estate_chance)
 							if (Target's "ReceivingVisitors" != false)
-							begin
-								ThisAgent's completetarget = Target;
+								begin
+									ThisAgent's completetarget = Target;
 
-								ThisAgent's completeaction = $Use_Building_Packet;
-								ThisAgent's completevisit = Target's "visited_script";
-								ThisAgent's completecondition = $isdead;
+									ThisAgent's completeaction = $Use_Building_Packet;
+									ThisAgent's completevisit = Target's "visited_script";
+									ThisAgent's completecondition = $isdead;
 
-								ThisAgent's completetname = "Enter_Estate";
+									ThisAgent's completetname = "Enter_Estate";
 
-								Thisagent's completeintent = "IDTXT_INTENT_VISITESTATE";
-								return $NotDuplicateTask(thisagent, taskindex);
-							end
+									Thisagent's completeintent = "IDTXT_INTENT_VISITESTATE";
+									return $NotDuplicateTask(thisagent, taskindex);
+								end
 				end
 			else if (Building == "Shrine")
 				begin
-				if ($HasAttribute("Shrine_Cooldown", thisagent) == False)
-					begin
-						ThisAgent's completetarget = Target;
+					if ($HasCooldown(thisagent, "Shrine") == False)
+						begin
+							ThisAgent's completetarget = Target;
 
-						ThisAgent's completetname = "Visiting";
+							ThisAgent's completetname = "Visiting";
 
-						ThisAgent's completeaction = $Use_Building_Packet;
-						ThisAgent's completevisit = Target's "visited_script";
-						ThisAgent's completecondition = $isdead;
-						Thisagent's completeintent = "IDTXT_INTENT_VISITSHRINE";
-						return $NotDuplicateTask(thisagent, taskindex);
-					end
-				else if ($IsRunning(thisagent's "Shrine_Cooldown") == False)
-					begin
-						ThisAgent's completetarget = Target;
-
-						ThisAgent's completetname = "Visiting";
-
-						ThisAgent's completeaction = $Use_Building_Packet;
-						ThisAgent's completevisit = Target's "visited_script";
-						ThisAgent's completecondition = $isdead;
-						Thisagent's completeintent = "IDTXT_INTENT_VISITSHRINE";
-						return $NotDuplicateTask(thisagent, taskindex);
-					end
+							ThisAgent's completeaction = $Use_Building_Packet;
+							ThisAgent's completevisit = Target's "visited_script";
+							ThisAgent's completecondition = $isdead;
+							Thisagent's completeintent = "IDTXT_INTENT_VISITSHRINE";
+							return $NotDuplicateTask(thisagent, taskindex);
+						end
 				end
 		end
 

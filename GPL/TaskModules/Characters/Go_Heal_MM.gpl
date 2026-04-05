@@ -27,7 +27,7 @@ Begin
 			if (spell_name == "nothing")
 				castrange = thisagent's "castingrange";
 			else
-				castrange = $SpellCastDistance(thisagent);
+				castrange = $GreatestSpellRangeForHero(thisagent);
 
 			if ($getattribute(Target,#ATTRIB_HP) == $getattribute(Target,#ATTRIB_MaxHP))
 				begin

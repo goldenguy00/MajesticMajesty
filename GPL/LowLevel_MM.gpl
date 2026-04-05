@@ -1561,25 +1561,26 @@ Begin
 	thisagent's "ManaRegenPoints" += ManaPoint_Amount;
 	while (thisagent's "ManaRegenPoints" >= #Mana_point_limit) do
 		begin
-			$RestoreMana(thisagent, thisagent, 1);
+			$RestoreMana(thisagent, 1);
 			thisagent's "ManaRegenPoints" -= #Mana_point_limit;
 		end
 End
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function RestoreMana( Agent ThisAgent, Agent Target, integer Mana_Amount )
+function RestoreMana( Agent ThisAgent, integer Mana_Amount )
 
 Declare
-	integer	Max_Mana;
+	integer	missing_mana;
 
 Begin
-	if ($isdead(target))
+	if ($isdead(thisagent))
 		return;
 
-	//This is the maximum amount of mana restored that a target can endure before they are over their maximum
-	Max_Mana = $GetBaseStatTotal(thisagent, "MaxMana");
-
-	If (Mana_Amount > Max_Mana)
-		Mana_Amount = Max_Mana;
+	if (mana_amount < 0)
+		mana_amount *= -1;
+		
+	missing_mana = $GetBaseStatTotal(thisagent, "MaxMana") - thisagent's "CurrentMana";
+	If (Mana_Amount > missing_mana)
+		Mana_Amount = missing_mana;
 
 	thisagent's "CurrentMana" += Mana_Amount;
 End
@@ -1593,7 +1594,13 @@ Begin
 	if ($isdead(thisagent))
 		return;
 
-	thisagent's "CurrentMana" += Mana_Amount;
+	if (mana_amount < 0)
+		mana_amount *= -1;
+
+	if (mana_amount > thisagent's "CurrentMana")
+		mana_amount = thisagent's "CurrentMana";
+
+	thisagent's "CurrentMana" -= Mana_Amount;
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1671,6 +1678,28 @@ begin
 		end
 end
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// healing shared code
+Function Healing_Shared( Agent Target, integer Healing_Amount )
+
+Declare
+	integer	Max_Healing;
+
+Begin
+	if ($isdead(target))
+		return;
+
+	//This is the maximum amount of healing that a target can endure before they are over-healed
+	Max_Healing = ($getattribute( Target,#ATTRIB_MaxHP )) - ($getattribute( Target,#ATTRIB_HP ));
+
+	If (Healing_Amount > Max_Healing)
+		Healing_amount = Max_healing;
+
+	$adjustattribute( Target, #ATTRIB_HP, Healing_Amount );
+	//$DebugOut ( Target's "Type", "is healed for", Healing_Amount, "points of healing." );
+End
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 function AddHealthPoints( Agent ThisAgent, integer HealthPoint_Amount ) 
 declare
@@ -1678,8 +1707,9 @@ Begin
 	thisagent's "HealthRegenPoints" += HealthPoint_Amount;
 	while (thisagent's "HealthRegenPoints" >= #Health_point_limit) do
 		begin
-			$Heal(thisagent, thisagent, 1);
 			thisagent's "HealthRegenPoints" -= #Health_point_limit;
+			if ($getattribute( thisagent,#ATTRIB_MaxHP ) > $getattribute( thisagent,#ATTRIB_HP ))
+				$Heal(thisagent, thisagent, 1);
 		end
 End
 
@@ -1705,105 +1735,6 @@ begin
 	$SetAttribute(thisagent, #ATTRIB_weapon_basic_damage, total_average);
 end
 
-function HasCooldown(agent thisagent, string cooldown_name) is boolean
-declare
-begin
-	if ($HasAttribute(cooldown_name, thisagent))
-		return $IsRunning (thisAgent's cooldown_name);
-	return false;
-end
-	
-//Spell Cooldowns not in prototype
-////////////////////////////////////////////////////////////////////////////////
-function StartingSpellCooldowns(agent thisagent)
-//This is used for adding cooldowns for the allowed spels heroes start with.
-//Spells they gain through means OTHER than leveling will be added in the function where they gain the spell.
-
-declare
-	string unit_name;
-begin
-	unit_name = thisagent's "title";
-	
-	if (unit_name == "wizard")
-		begin
-			$AddAttribute(thisagent, "energy_blast_cooldown", "function", $Cooldown_End);
-			//$AddAttribute(thisagent, "wizard_firebolt_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "fire_shield_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "fire_blast_cooldown", "function", $Cooldown_End);
-			//$AddAttribute(thisagent, "fire_ball_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "resist_magic_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "wizard_transmute_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "meteor_storm_cooldown", "function", $Cooldown_End);
-		end
-	else if (unit_name == "solarus")
-		begin
-			$AddAttribute(thisagent, "sun_scorch_cooldown", "function", $Cooldown_End);
-		end
-	else if (unit_name == "priestess")
-		begin
-			$AddAttribute(thisagent, "drain_life_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "priestess_animateskeleton_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "priestess_wither_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "priestess_controlundead_cooldown", "function", $Cooldown_End);
-		end
-	else if (unit_name == "paladin")
-		begin
-			$AddAttribute(thisagent, "shield_of_light_cooldown", "function", $Cooldown_End);
-		end
-	else if (unit_name == "monk")
-		begin
-			$AddAttribute(thisagent, "hands_of_steel_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "monk_stone_skin_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "iron_will_cooldown", "function", $Cooldown_End);
-		end
-	else if (unit_name == "healer")
-		begin
-			$AddAttribute(thisagent, "healer_healerheal_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "healer_meditation_cooldown", "function", $Cooldown_End);
-		end
-	else if (unit_name == "cultist")
-		begin
-			$AddAttribute(thisagent, "cultist_camouflage_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "cultist_charmmonster_cooldown", "function", $Cooldown_End);
-			$AddAttribute(thisagent, "cultist_changeshape_cooldown", "function", $Cooldown_End);
-		end
-		
-end
-
-////////////////////////////////////////////////////////////////////////////////
-function BuffDebuffList(agent thisagent)
-//Adds these attributes whenever searching for a valid target.
-
-declare
-
-begin
-	//GENERIC
-	$AddAttribute(thisagent, "Generic_RegenerateBuff_End", "function", $Generic_RegenerateBuff_End);
-	$AddAttribute(thisagent, "Generic_FlameShieldBuff_End", "function", $Generic_FlameShieldBuff_End);
-
-	//CULTIST
-	$AddAttribute(thisagent, "Cultist_CamouflageBuff_End", "function", $Cultist_CamouflageBuff_End);
-	$AddAttribute(thisagent, "Cultist_ChangeShapeBuff_End", "function", $Cultist_ChangeShapeBuff_End);
-	
-	//HEALER
-	$AddAttribute(thisagent, "Healer_MeditationBuff_End", "function", $Healer_MeditationBuff_End);
-	
-	//MONK
-	$AddAttribute(thisagent, "Monk_HandsOfSteelBuff_End", "function", $Monk_HandsOfSteelBuff_End);
-	$AddAttribute(thisagent, "Monk_StoneSkinBuff_End", "function", $Monk_StoneSkinBuff_End);
-	$AddAttribute(thisagent, "Monk_IronWillBuff_End", "function", $Monk_IronWillBuff_End);
-	
-	//PALADIN
-	$AddAttribute(thisagent, "Paladin_ShieldOfLightBuff_End", "function", $Paladin_ShieldOfLightBuff_End);
-	
-	//PRIESTESS
-	$AddAttribute(thisagent, "Priestess_WitherDebuff_End", "function", $Priestess_WitherDebuff_End);
-	
-	//WIZARD
-	$AddAttribute(thisagent, "Wizard_FireShieldBuff_End", "function", $Wizard_FireShieldBuff_End);
-	$AddAttribute(thisagent, "Wizard_ResistMagicBuff_End", "function", $Wizard_ResistMagicBuff_End);
-			
-end
 ///////////////////////////////////////////////////////////////////////////////
 // this function is called by the in-game code when a vehicle is generated
 Function Generate_Character_Attributes(agent thisagent)
@@ -2050,6 +1981,30 @@ begin
 		thisagent's attr = value;
 end
 
+
+////////////////////////////////////////////////////////////////////////////////
+function SetStringSafe(agent thisagent, string attr, string value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "string", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetAgentSafe(agent thisagent, string attr, agent value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "agent", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetIntegerSafe(agent thisagent, string attr, integer value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "integer", value) == false)
+		thisagent's attr = value;
+end
 ////////////////////////////////////////////////////////////////////////////////
 function UpdateArtifice(agent thisagent)
 declare
@@ -2202,10 +2157,10 @@ begin
 	$AddAttribute(thisagent, "HealthRegenPoints", "integer");
 	$AddAttribute(thisagent, "RegenerationSystem", "function", $Regeneration_System);
 	$NewThread(ThisAgent's "RegenerationSystem", 300, ThisAgent ); //Doubled the cycle time, halved the threshold for regen
-	$RestoreMana(thisagent, thisagent, thisagent's "MaxMana_Total");
+	$RestoreMana(thisagent, thisagent's "MaxMana_Total");
 
 	if (thisagent's "title" == "wizard")
-		$AddFireTree(thisagent);			//Need to rewrite the entire spell system first.
+		$LearnFireTree(thisagent);			//Need to rewrite the entire spell system first.
 
 	$AddAttribute(thisagent, "Primary_Orientation", "string");
 	thisagent's "Primary_Orientation" = $HeroSkillOrientationPrimary(thisagent);

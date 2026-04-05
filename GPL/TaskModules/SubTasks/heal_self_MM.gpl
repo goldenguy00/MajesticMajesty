@@ -160,7 +160,7 @@ begin
 			//Use mana potion overlay
 			int_bonus = ($getattribute(thisagent, #ATTRIB_Intelligence) / 4);
 			$createeffector(thisagent,"potion_healing_effector",0);
-			$RestoreMana(ThisAgent, ThisAgent, (#Mana_Potion_Recovery + int_bonus));
+			$RestoreMana(ThisAgent, (#Mana_Potion_Recovery + int_bonus));
 			potion_type = "Mana";
 			potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchArrows), potion_type);
 			$DeleteInventoryItem(potion_count, thisagent);

@@ -193,7 +193,6 @@ Begin
 
 			//Learn new spell
 			$LearnSpell (ThisAgent, New_Spell);
-			$AddAttribute(ThisAgent, "generic_powershock_cooldown", "function", $Cooldown_End);
 		end
 
 	Else if (New_Spell == "Flame_Shield")
@@ -201,7 +200,6 @@ Begin
 			$Spend_Gold (ThisAgent, Target, #Library_Flame_Shield_Price);
 
 			$LearnSpell (ThisAgent, New_Spell);
-			$AddAttribute(ThisAgent, "generic_flameshield_cooldown", "function", $Cooldown_End);
 		end
 		
 	Else if (New_Spell == "generic_regenerate")
@@ -209,7 +207,6 @@ Begin
 			$Spend_Gold (ThisAgent, Target, #Library_Regenerate_Price);
 
 			$LearnSpell (ThisAgent, New_Spell);
-			$AddAttribute(ThisAgent, "generic_regenerate_cooldown", "function", $Cooldown_End);
 		end
 End
 
@@ -255,7 +252,7 @@ begin
 	building = thisagent's "target";
 	book = $agentintentextinlist(thisagent's "TaskName", $GetBuildingContents($agenttitleinlist("Available_Books", building's "Attachments")));
 	experience = book's "XP_Value";
-	XPLevel = book's "XPMultiplier";
+	XPLevel = book's "XPMultiplier" + 3;
 	
 	$exit_building(thisagent,building);
 	

@@ -45,43 +45,13 @@ begin
 	healspell_name = $Spell_List_Heal(thisagent,thisagent);
 	if (healspell_name != "nothing")
 		begin
-			$castspell(thisagent,healspell_name,thisagent,"");
+			$cast(thisagent,healspell_name,thisagent,"");
 			return;
 		end
 
-	// pick a weapon to use - a spell or regular weapon
-	target = thisagent's "target";
-	spell_name = $getbestspell(thisagent,#list_attack);
-	attacklist_name = $AttackSpellList(thisagent);
-	supportlist_name = $Spell_List_Support(thisagent);
-	if (supportlist_name != "nothing")
-		begin
-			spell_name = supportlist_name;
-			target = $ValidSpellTarget_hero(thisagent, target, spell_name);
-			attackrange = $SpellRangeListOnAttack(thisagent's "castingrange", spell_name);
-		end
-	else if (attacklist_name != "nothing")
-		begin
-			spell_name = attacklist_name;
-			target = thisagent's "Spell_Target";
-			attackrange = $SpellRangeListOnAttack( thisagent's "castingrange", spell_name);
-		end
-	else if (spell_name != "nothing")
-		begin	
-			attackrange = thisagent's "castingrange";
-			if ($IsSpellCaster(thisagent) != FALSE)
-				attackrange = $SpellCastRange(thisagent);
-		end
-	else
-		begin
-			attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
-			if ($IsSpellCaster(thisagent) != FALSE)
-				attackrange = $SpellCastRange(thisagent);
-		end
+	target = $SelectBestSpell(thisagent);
 
-	targetrange = $distanceBetweenAgents(thisagent,target);
-
-	if (targetrange > attackrange)
+	if (thisagent's "BestTargetRange" > thisagent's "BestRange")
 		begin
 			// move towards target
 			thisagent's "destination" = $locationof(target);
@@ -95,12 +65,6 @@ begin
 			if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
 				thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
 
-			if (spell_name != "Nothing")
-				begin
-					$PlaySound (ThisAgent, "VFX_CAST_SPELL1");
-					$CastSpellTarget(thisagent,spell_name,target);
-				end
-			else if (thisagent's "Attack_Action" != "do_nothing")
-				$PerformAction (ThisAgent, ThisAgent's "Attack_Action", Target);
+			$PerformBestAttack(thisagent, target);
 		end
 end
