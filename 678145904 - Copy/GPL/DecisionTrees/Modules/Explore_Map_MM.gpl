@@ -1,0 +1,85 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function explore_map(agent thisagent,integer chance) is Boolean
+
+declare
+	coordinate dest;
+
+begin
+//	//$DebugOut("Should I explore map?");
+	if ($randomnumber(100) + 1 > chance)
+		return FALSE;
+
+	if ($getnearesthiddencoord(thisagent,dest) == FALSE)
+		return FALSE;
+
+	thisagent's "target" = thisagent;
+	thisagent's "destination" = dest;
+	$move(thisagent,dest);
+	thisagent's "ActiveScript" = $Travel_to_exp;
+	thisagent's "backscript" = thisagent's "basicscript";
+
+//	//$DebugOut(" Yes.",dest);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_EXPLORING");
+
+	return TRUE;
+end
+///////////////////////////////////////////////////////////////////////////////
+function explore_map_packet(agent thisagent) is Boolean
+
+declare
+	coordinate dest;
+	integer chance; 
+	string actionsub, action2sub, intentsub, targetsub, destsub, movesub, movedsub, taskindex, completeaction, completeaction2, completeintent, completetarget, completedestination, completemove, completemoved;
+	string conditionsub, completecondition;
+
+
+begin
+//            //$DebugOut("Should I explore map?");
+	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	if ($randomnumber(100) + 1 > chance)
+		return FALSE;
+
+	if ($getnearesthiddencoord(thisagent,dest) == FALSE)
+		return FALSE;
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	action2sub = "TaskPackageTargetAction2";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	destsub = "TaskPackageDestination";
+	movesub = "TaskPackageMove";
+	movedsub = "TaskPackageMoveDestinations";
+	completeaction = actionsub + taskindex;
+	completeaction2 = action2sub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex; 
+	completedestination = destsub + taskindex;
+	completemove = movesub + taskindex;
+	completemoved = movedsub + taskindex;
+	
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+	
+	thisagent's completetarget = thisagent;
+	thisagent's completedestination = dest;
+	
+	$clearlist(thisagent's completemoved);
+	
+	//$move(thisagent,dest); //The move function needs to not happen here, maybe save a space for it somewhere
+	thisagent's completemoved << thisagent's completedestination;
+	thisagent's completemove = $move;
+	thisagent's completeaction = $Travel_to_exp;
+	thisagent's completeaction2 = thisagent's "basicscript";
+	ThisAgent's completecondition = $notvalid;
+
+//            //$DebugOut(" Yes.",dest);
+	thisagent's completeintent = "IDTXT_INTENT_EXPLORING";
+
+	return TRUE;
+end

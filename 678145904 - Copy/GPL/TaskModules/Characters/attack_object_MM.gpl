@@ -1,0 +1,171 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function attack_object(agent thisagent)
+
+declare
+	integer targetrange,attackrange;
+	agent target;
+	string spell_name, attacklist_name, supportlist_name;
+
+begin
+	// is target still valid
+	if ($notvalid(thisagent's "target"))
+		begin
+			$reset_tasks(thisagent);
+			return;
+		end
+
+	// is thisagent low on MP
+	if ($haslowMP(thisagent))
+		begin
+			$restore_mana_self(thisagent);
+		end
+
+	if ($haslowHP(thisagent))
+		begin
+			$heal_self(thisagent);
+			return;
+		end
+
+	target = $SelectBestSpell(thisagent);
+	
+	if (thisagent's "BestTargetRange" > thisagent's "BestRange")
+		begin
+			// move towards target
+			thisagent's "destination" = $locationof(target);
+			thisagent's "activeScript" = $travel_to;
+			thisagent's "backScript" = $attack_object;
+			$move(thisagent,target);
+		end
+	// is target within min attack range? - later
+	else if (($listsize(thisagent's "hostiles") > 0) && ((target's "type" == "building") || (target's "type") == "lair"))
+		begin
+			(thisagent's "evaluationscript") (thisagent);
+		end
+	else if ($Hero_Peasant_check(thisagent) == FALSE)
+		begin
+			$PerformBestAttack(thisagent, target);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Hero_peasant_check(agent thisagent) is boolean
+
+declare
+	list peasants,helpers,new_list;
+	agent peasant,helper,target;
+	boolean do_it;
+	integer chance_check;
+
+begin
+	target = thisagent's "target";
+
+	if (target's "type" != "building")
+		return FALSE;
+
+	// construct a percentage chance a hero will
+	// even check for peasants. THis is so that some heroes will kill peasants,
+	// while others will continute to attack the building.
+	chance_check = 4; // very low chance to start
+	chance_check += $getattackrange(thisagent) / 15; // bonus for ranged attackers
+	if ($randomnumber(100) > chance_check)
+		return FALSE;
+
+	// list all peasants on the same team as the building in question
+	$listobjects(target,"hero",$getattribute(thisagent,#ATTRIB_sightrange),peasants,#myplayer);
+	peasants = $listtitles(peasants,"peasant");
+
+	// remove peasants who some one else is closer to
+	if ($listsize(peasants) > 0)
+		begin
+			peasant = $listmember(peasants,1);
+
+			$listobjects(peasant,"hero",$getattribute(thisagent,#ATTRIB_sightrange),helpers,#Notmyteam);
+			foreach helper in helpers do
+				if (helper's "subtype" == "hero")
+					new_list << helper;
+
+			helpers = new_list;
+
+			do_it = TRUE;
+
+			if ($listsize(helpers) > 0)
+				begin
+					helper = $listmember(helpers,1);
+					if (helper != thisagent)
+//						do_it = FALSE;
+//					else
+						if ($distancebetweenagents(helper,peasant) < $distancebetweenagents(thisagent,peasant))
+							do_it = FALSE;
+				end
+
+			if (do_it)
+				begin
+					thisagent's "target" = peasant;
+					thisagent's "ActiveScript" = $Attack_object;
+					return TRUE;
+				end
+			else
+				return FALSE;
+		end
+
+	return False;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function attack_object_pack(agent thisagent)
+
+declare
+	integer targetrange,attackrange;
+	agent target;
+	string spell_name, supportlist_name, attacklist_name;
+
+begin
+	target = thisagent's "target";
+	// is target still valid
+	if ($notvalid(target))
+		begin
+			$reset_tasks(thisagent);
+			return;
+		end
+
+	// is thisagent low on MP
+	if ($haslowMP(thisagent))
+		begin
+			$restore_mana_self(thisagent);
+		end
+
+	if ($haslowHP(thisagent))
+		begin
+			$heal_self(thisagent);
+			return;
+		end		
+
+	target = $SelectBestSpell(thisagent);
+
+	if (thisagent's "BestTargetRange" > thisagent's "BestRange")
+		begin
+			// move towards target
+			thisagent's "destination" = $locationof(target);
+			thisagent's "activeScript" = $travel_to;
+			thisagent's "backScript" = $attack_object_pack;
+			$move(thisagent,target);
+		end
+	// is target within min attack range? - later
+	else if ($listsize(thisagent's "hostiles") > 0 && (target's "type" == "building" || target's "type" == "lair"))
+		begin
+			(thisagent's "evaluationscript") (thisagent);
+		end
+	else //if ($Hero_Peasant_check(thisagent) == FALSE)
+		begin
+			if ($HasAttribute("TaskPackageStatus", thisagent))
+				if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
+					thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
+
+			$PerformBestAttack(thisagent, target);
+		end
+end

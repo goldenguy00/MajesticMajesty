@@ -1,0 +1,34 @@
+///////////////////////////////////////////////////////////////////////////////
+//#list_travel is spell type 4.
+function TryTravelSpell( agent thisagent ) is boolean
+
+declare
+	string spellname, travel_spellname;
+
+begin
+	// don't use spells if traveling to a waypoint
+	if ($HasWayPoints( thisagent ) == FALSE)
+		begin
+			// can I use any helpful travel spells?
+			spellname = $getbestspell(thisagent,#list_travel);
+			travel_spellname = $Spell_List_Travel(thisagent, thisagent);
+			if (spellname != "nothing")
+				begin
+					$cast(thisagent,spellname,thisagent, "");
+					return True;
+				end
+			else if (travel_spellname != "nothing")
+				begin
+					$cast(thisagent,travel_spellname,thisagent, "");
+					return True;
+				end
+			else if ($isspellAvailable(thisagent,"rogue_Assassin") == TRUE)
+				//$rogue_Assassin_cast(thisagent, thisagent);
+				$cast(thisagent,"rogue_Assassin",thisagent, "");
+				
+			return False;
+
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////

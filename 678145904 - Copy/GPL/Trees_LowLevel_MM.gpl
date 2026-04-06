@@ -1,0 +1,730 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function LearnFireTree(agent thisagent) is string
+
+declare
+
+begin
+	if ($HasAttribute("Fire_Tree", thisagent))
+		return;
+
+	$AddAttribute(thisagent, "Fire_Tree", "list");
+	
+	thisagent's "Fire_Tree" << "FireTree";
+	thisagent's "Fire_Tree" << "firebolt";
+	thisagent's "Fire_Tree" << "Fireball";
+	thisagent's "Fire_Tree" << "Pyrelight";
+	thisagent's "Fire_Tree" << "Ignite";
+	thisagent's "Fire_Tree" << "Searing_Mantle";
+	thisagent's "Fire_Tree" << "Perdition_Barrage";
+	thisagent's "Fire_Tree" << "Incandescent_Ray";
+	thisagent's "Fire_Tree" << "Embers";			//Passives at the end of the tree for order
+	thisagent's "Fire_Tree" << "Heatwave";
+	thisagent's "Fire_Tree" << "Cinders";
+	
+	
+	thisagent's "SpellArrange" << thisagent's "Fire_Tree";
+	
+	$AddAttribute(thisagent, "FireTree", "string", "FireTree");
+	
+	thisagent's "SpellsAttack" << "firebolt";
+	thisagent's "SpellsAttack" << "Fireball";
+	thisagent's "SpellsAttack" << "Pyrelight";
+	thisagent's "SpellsAttack" << "Ignite";
+	thisagent's "SpellsAttack" << "Searing_Mantle";
+	thisagent's "SpellsAttack" << "Perdition_Barrage";
+	thisagent's "SpellsAttack" << "Incandescent_Ray";
+	
+	$AddAttribute(thisagent, "firebolt_Condition", "function", $SpellDefaultAttackPass);
+	$AddAttribute(thisagent, "firebolt_Range", "integer", #firebolt_Range);
+	$AddAttribute(thisagent, "firebolt_Mana", "integer", #firebolt_Mana);
+	$AddAttribute(thisagent, "firebolt_Mana_Mult", "integer", #firebolt_Mana_Mult);
+	$AddAttribute(thisagent, "firebolt_Mana_Div", "integer", #firebolt_Mana_Div);
+	
+	$AddAttribute(thisagent, "Fireball_Condition", "function", $SpellDefaultAttackPass);
+	$AddAttribute(thisagent, "Fireball_Range", "integer", #Fireball_Range);
+	$AddAttribute(thisagent, "Fireball_Mana", "integer", #Fireball_Mana);
+	$AddAttribute(thisagent, "Fireball_Mana_Mult", "integer", #Fireball_Mana_Mult);
+	$AddAttribute(thisagent, "Fireball_Mana_Div", "integer", #Fireball_Mana_Div);
+	
+	$AddAttribute(thisagent, "Perdition_Barrage_Condition", "function", $SpellDefaultAttackPass);
+	$AddAttribute(thisagent, "Perdition_Barrage_Range", "integer", #Perdition_Barrage_Range);
+	$AddAttribute(thisagent, "Perdition_Barrage_Mana", "integer", #Perdition_Barrage_Mana);
+	$AddAttribute(thisagent, "Perdition_Barrage_Mana_Mult", "integer", #Perdition_Barrage_Mana_Mult);
+	$AddAttribute(thisagent, "Perdition_Barrage_Mana_Div", "integer", #Perdition_Barrage_Mana_Div);
+	
+	$AddAttribute(thisagent, "Incandescent_Ray_Condition", "function", $SpellDefaultAttackPass);
+	$AddAttribute(thisagent, "Incandescent_Ray_Range", "integer", #Incandescent_Ray_Range);
+	$AddAttribute(thisagent, "Incandescent_Ray_Mana", "integer", #Incandescent_Ray_Mana);
+	$AddAttribute(thisagent, "Incandescent_Ray_Mana_Mult", "integer", #Incandescent_Ray_Mana_Mult);
+	$AddAttribute(thisagent, "Incandescent_Ray_Mana_Div", "integer", #Incandescent_Ray_Mana_Div);
+	
+	$AddAttribute(thisagent, "Searing_Mantle_Condition", "function", $SearingMantleCondition);
+	$AddAttribute(thisagent, "Searing_Mantle_Range", "integer", #Searing_Mantle_Range);
+	$AddAttribute(thisagent, "Searing_Mantle_Mana", "integer", #Searing_Mantle_Mana);
+	$AddAttribute(thisagent, "Searing_Mantle_Mana_Mult", "integer", #Searing_Mantle_Mana_Mult);
+	$AddAttribute(thisagent, "Searing_Mantle_Mana_Div", "integer", #Searing_Mantle_Mana_Div);
+	
+	$AddAttribute(thisagent, "Pyrelight_Condition", "function", $PyrelightCondition);
+	$AddAttribute(thisagent, "Pyrelight_Range", "integer", #Pyrelight_Range);
+	$AddAttribute(thisagent, "Pyrelight_Mana", "integer", #Pyrelight_Mana);
+	$AddAttribute(thisagent, "Pyrelight_Mana_Mult", "integer", #Pyrelight_Mana_Mult);
+	$AddAttribute(thisagent, "Pyrelight_Mana_Div", "integer", #Pyrelight_Mana_Div);
+	
+	$AddAttribute(thisagent, "Ignite_Condition", "function", $IgniteCondition);
+	$AddAttribute(thisagent, "Ignite_Range", "integer", #Ignite_Range);
+	$AddAttribute(thisagent, "Ignite_Mana", "integer", #Ignite_Mana);
+	$AddAttribute(thisagent, "Ignite_Mana_Mult", "integer", #Ignite_Mana_Mult);
+	$AddAttribute(thisagent, "Ignite_Mana_Div", "integer", #Ignite_Mana_Div);
+	
+	$Tree_LearnSpell(thisagent, "firebolt");
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function ArrangeSpells(agent thisagent)
+
+declare
+	list thislist;
+	string spell;
+
+begin
+	//thisagent's "learned_newspell" = False;
+	foreach thislist in thisagent's "SpellArrange" do
+		begin
+			foreach spell in thislist do
+				begin
+					if ($HasLearnedSpell(thisagent, spell))
+						begin
+							$ForgetSpell(thisagent, spell);
+							$LearnSpell(thisagent, spell);
+						end
+				end
+		end
+		
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function HasLearnedSpell(agent thisagent, string spell_name) is boolean
+declare
+begin
+	if ($HasAttribute(spell_name+"_Learned", thisagent))
+		return thisagent's (spell_name+"_Learned");
+	return false;
+end
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function HasLearnedSpellPrerequisite(agent thisagent, string spell_name) is boolean
+declare
+begin
+	if (spell_name == "Fireball" || spell_name == "Searing_Mantle")
+		return $HasLearnedSpell(thisagent, "firebolt", thisagent);
+	else if (spell_name == "Heatwave")
+		return $HasLearnedSpell(thisagent, "Fireball", thisagent);
+	else if (spell_name == "Pyrelight")
+		return $HasLearnedSpell(thisagent, "Searing_Mantle", thisagent);
+	else if (spell_name == "Cinders")
+		return $HasLearnedSpell(thisagent, "Heatwave", thisagent) && $HasLearnedSpell(thisagent, "Embers", thisagent);
+	else if (spell_name == "Perdition_Barrage")
+		return $HasLearnedSpell(thisagent, "Fireball", thisagent) && $HasLearnedSpell(thisagent, "Ignite", thisagent);
+	else if (spell_name == "Incandescent_Ray")
+		return $HasLearnedSpell(thisagent, "Perdition_Barrage", thisagent);
+	
+	// no prereq
+	return true;
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Tree_LearnSpellPrerequisite(agent thisagent, string spell_name)
+declare
+
+begin
+	if (spell_name == "Fireball" || spell_name == "Searing_Mantle")
+		begin
+			$Tree_LearnSpell(thisagent, "firebolt");
+		end
+	else if (spell_name == "Pyrelight")
+		begin
+			$Tree_LearnSpell(thisagent, "Searing_Mantle");
+		end
+	else if (spell_name == "Heatwave")
+		begin
+			$Tree_LearnSpell(thisagent, "Fireball");
+		end
+	else if (spell_name == "Cinders")
+		begin
+			$Tree_LearnSpell(thisagent, "Heatwave");
+			$Tree_LearnSpell(thisagent, "Embers");
+		end
+	else if (spell_name == "Perdition_Barrage")
+		begin
+			$Tree_LearnSpell(thisagent, "Fireball");
+			$Tree_LearnSpell(thisagent, "Ignite");
+		end
+	else if (spell_name == "Incandescent_Ray")
+		begin
+			$Tree_LearnSpell(thisagent, "Perdition_Barrage");
+		end
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function Tree_LearnSpell(agent thisagent, string spell_name)
+
+declare
+	string full_attribute;
+
+begin
+	full_attribute = spell_name + "_Learned";
+	
+	if ($AddAttribute(thisagent, full_attribute, "boolean", True) == false)
+		if (thisagent's full_attribute == true)
+			return;
+
+	thisagent's full_attribute = true;
+	
+	full_attribute = spell_name + "_Rank";
+	$AddAttribute(thisagent, full_attribute, "integer", 1);
+
+	$Tree_LearnSpellPrerequisite(thisagent, spell_name);
+	$LearnSpell(thisagent, spell_name);
+	$ArrangeSpells(thisagent);
+	
+	if (spell_name == "Embers")
+		begin
+			$AddAttribute(thisagent, "Embers_ManaRegeneration", "integer", 0);
+			$AddAttribute(thisagent, "Embers_HealthRegeneration", "integer", 0);
+		end
+	else if (spell_name == "Cinders")
+		begin
+			$AddCindersEffect(thisagent);
+		end
+	
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function IncreaseSpellLevel(agent thisagent, string spell_name)
+
+declare
+	string spell_rank;
+
+begin
+	if ($HasLearnedSpell(thisagent, spell_name) == false)
+		$Tree_LearnSpell(thisagent, spell_name);
+	
+	spell_rank = spell_name+"_Rank";
+	thisagent's spell_rank += 1;
+end
+
+function GetSpellRank(agent thisagent, string spell_name) is integer
+declare
+	integer rank;
+begin
+	rank = 0;
+	if ($HasAttribute(spell_name+"_Rank", thisagent))
+		rank = thisagent's (spell_name+"_Rank");
+	if (rank < 1)
+		return 1;
+	return rank;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function HeroSkillOrientationPrimary(agent thisagent) is string
+//This will determine the hero's weighted skill prioritization.
+declare
+	integer r;
+	string return_string;
+
+begin
+	r = $RandomNumberNonZero(4);
+	if (r == 1)
+		return_string = "Fire - Defensive";
+	else if (r == 2)
+		return_string = "Fire - Explosive";
+	else if (r == 3)
+		return_string = "Fire - Sustain";
+	else if (r == 4)
+		return_string = "Fire - All";
+	
+	return return_string;
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function HeroSkillOrientationSecondary(agent thisagent) is string
+//This will determine the distribution of points between the weighted skills of this hero.
+declare
+	integer r, adjust;
+	string return_string;
+
+begin
+	if (thisagent's "Primary_Orientation" != "Fire - All")
+		r = $RandomNumberNonZero(1);
+	else
+		r = $RandomNumberNonZero(1);
+		
+	if (r == 1)
+		return_string = "Spontaneous";
+	else if (r == 2)
+		return_string = "Balanced";
+	else if (r == 3)
+		return_string = "Focused";
+	
+	return return_string;
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function HeroPreferredSkills(agent thisagent)
+//This will determine the preferred skills of the hero based on their Primary Orientation.
+declare
+	integer r;
+	string orientation;
+
+begin
+	$AddAttribute(thisagent, "Preferred_Skill_1", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_2", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_3", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_4", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_5", "string");
+	$AddAttribute(thisagent, "Preferred_Skill_6", "string");
+	orientation = thisagent's "Primary_Orientation";
+	if (orientation == "Fire - Defensive")
+		begin
+			thisagent's "Preferred_Skill_1" = "Embers";
+			thisagent's "Preferred_Skill_2" = "firebolt";
+			thisagent's "Preferred_Skill_3" = "Searing_Mantle";
+			thisagent's "Preferred_Skill_4" = "Heatwave";
+			thisagent's "Preferred_Skill_5" = "Pyrelight";
+			thisagent's "Preferred_Skill_6" = "Cinders";
+		end
+	else if (orientation == "Fire - Sustain")
+		begin
+			thisagent's "Preferred_Skill_1" = "Embers";
+			thisagent's "Preferred_Skill_2" = "firebolt";
+			thisagent's "Preferred_Skill_3" = "Fireball";
+			thisagent's "Preferred_Skill_4" = "Ignite";
+			thisagent's "Preferred_Skill_5" = "Heatwave";
+			thisagent's "Preferred_Skill_6" = "Cinders";
+		end
+	else if (orientation == "Fire - Explosive")
+		begin
+			thisagent's "Preferred_Skill_1" = "firebolt";
+			thisagent's "Preferred_Skill_2" = "Fireball";
+			thisagent's "Preferred_Skill_3" = "Heatwave";
+			thisagent's "Preferred_Skill_4" = "Cinders";
+			thisagent's "Preferred_Skill_5" = "Perdition_Barrage";
+			thisagent's "Preferred_Skill_6" = "Incandescent_Ray";
+		end
+end
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function SkillTreeLevelUp(agent thisagent)
+//This is the learning process for the Wizard.
+declare
+	integer r_choose;
+	string p_orientation, s_orientation;
+
+begin
+	if ($HasAttribute("Primary_Orientation", thisagent) != True)
+		begin
+			p_orientation = "Fire - All";
+			s_orientation = "Spontaneous";
+		end
+	else
+		begin
+			p_orientation = thisagent's "Primary_Orientation";
+			s_orientation = thisagent's "Secondary_Orientation";
+		end
+	If (ThisAgent's "Title" == "Wizard")
+		begin
+			if ((p_orientation == "Fire - All") && (s_orientation == "Spontaneous"))
+				begin
+					If ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 3)
+						$Tree_LearnSpell(thisagent, "Embers");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 5)
+						begin
+							r_choose = $RandomNumberNonZero(2);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, "firebolt");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, "Embers");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 5)
+						$Tree_LearnSpell(thisagent, "Fireball");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 6)
+						$Tree_LearnSpell(thisagent, "Searing_Mantle");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 10)
+						begin
+							r_choose = $RandomNumberNonZero(4);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, "firebolt");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, "Fireball");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, "Embers");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, "Searing_Mantle");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 10)
+						$Tree_LearnSpell(thisagent, "Heatwave");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 11)
+						$Tree_LearnSpell(thisagent, "Ignite");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 15)
+						begin
+							r_choose = $RandomNumberNonZero(6);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, "firebolt");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, "Fireball");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, "Ignite");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, "Embers");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, "Searing_Mantle");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, "Heatwave");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 15)
+						$Tree_LearnSpell(thisagent, "Pyrelight");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 20)
+						begin
+							r_choose = $RandomNumberNonZero(7);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, "firebolt");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, "Fireball");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, "Ignite");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, "Embers");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, "Searing_Mantle");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, "Pyrelight");
+							else if (r_choose == 7)
+								$IncreaseSpellLevel(thisagent, "Heatwave");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 20)
+						$Tree_LearnSpell(thisagent, "Perdition_Barrage");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 21)
+						$Tree_LearnSpell(thisagent, "Cinders");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 25)
+						begin
+							r_choose = $RandomNumberNonZero(9);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, "firebolt");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, "Fireball");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, "Ignite");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, "Embers");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, "Searing_Mantle");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, "Perdition_Barrage");
+							else if (r_choose == 7)
+								$IncreaseSpellLevel(thisagent, "Heatwave");
+							else if (r_choose == 8)
+								$IncreaseSpellLevel(thisagent, "Pyrelight");
+							else if (r_choose == 9)
+								$IncreaseSpellLevel(thisagent, "Cinders");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 25)
+						$Tree_LearnSpell(thisagent, "Incandescent_Ray");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 100)
+						begin
+							r_choose = $RandomNumberNonZero(10);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, "firebolt");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, "Fireball");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, "Ignite");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, "Embers");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, "Searing_Mantle");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, "Perdition_Barrage");
+							else if (r_choose == 7)
+								$IncreaseSpellLevel(thisagent, "Heatwave");
+							else if (r_choose == 8)
+								$IncreaseSpellLevel(thisagent, "Pyrelight");
+							else if (r_choose == 9)
+								$IncreaseSpellLevel(thisagent, "Cinders");
+							else if (r_choose == 10)
+								$IncreaseSpellLevel(thisagent, "Incandescent_Ray");
+						end
+				end
+			else if ((p_orientation == "Fire - Defensive") && (s_orientation == "Spontaneous"))
+				begin
+					If ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 3)
+						$Tree_LearnSpell(thisagent, "Embers");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 5)
+						begin
+							r_choose = $RandomNumberNonZero(2);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 5)
+						$Tree_LearnSpell(thisagent, "Fireball");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 6)
+						$Tree_LearnSpell(thisagent, "Searing_Mantle");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 10)
+						begin
+							r_choose = $RandomNumberNonZero(3);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 10)
+						$Tree_LearnSpell(thisagent, "Heatwave");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 11)
+						$Tree_LearnSpell(thisagent, "Ignite");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 15)
+						begin
+							r_choose = $RandomNumberNonZero(4);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 15)
+						$Tree_LearnSpell(thisagent, "Pyrelight");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 20)
+						begin
+							r_choose = $RandomNumberNonZero(5);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 20)
+						$Tree_LearnSpell(thisagent, "Perdition_Barrage");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 21)
+						$Tree_LearnSpell(thisagent, "Cinders");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 25)
+						begin
+							r_choose = $RandomNumberNonZero(6);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_6");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 25)
+						$Tree_LearnSpell(thisagent, "Incandescent_Ray");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 100)
+						begin
+							r_choose = $RandomNumberNonZero(6);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_6");
+						end
+				end
+			else if ((p_orientation == "Fire - Sustain") && (s_orientation == "Spontaneous"))
+				begin
+					If ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 3)
+						$Tree_LearnSpell(thisagent, "Embers");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 5)
+						begin
+							r_choose = $RandomNumberNonZero(2);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 5)
+						$Tree_LearnSpell(thisagent, "Fireball");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 6)
+						$Tree_LearnSpell(thisagent, "Searing_Mantle");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 10)
+						begin
+							r_choose = $RandomNumberNonZero(3);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 10)
+						$Tree_LearnSpell(thisagent, "Heatwave");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 11)
+						$Tree_LearnSpell(thisagent, "Ignite");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 15)
+						begin
+							r_choose = $RandomNumberNonZero(5);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 15)
+						$Tree_LearnSpell(thisagent, "Pyrelight");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 20)
+						begin
+							r_choose = $RandomNumberNonZero(5);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 20)
+						$Tree_LearnSpell(thisagent, "Perdition_Barrage");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 21)
+						$Tree_LearnSpell(thisagent, "Cinders");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 25)
+						begin
+							r_choose = $RandomNumberNonZero(6);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_6");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 25)
+						$Tree_LearnSpell(thisagent, "Incandescent_Ray");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 100)
+						begin
+							r_choose = $RandomNumberNonZero(6);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_6");
+						end
+				end
+			else if ((p_orientation == "Fire - Explosive") && (s_orientation == "Spontaneous"))
+				begin
+					If ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 3)
+						$Tree_LearnSpell(thisagent, "Embers");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 5)
+						begin
+							$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 5)
+						$Tree_LearnSpell(thisagent, "Fireball");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 6)
+						$Tree_LearnSpell(thisagent, "Searing_Mantle");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 10)
+						begin
+							r_choose = $RandomNumberNonZero(2);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 10)
+						$Tree_LearnSpell(thisagent, "Heatwave");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 11)
+						$Tree_LearnSpell(thisagent, "Ignite");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 15)
+						begin
+							r_choose = $RandomNumberNonZero(3);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 15)
+						$Tree_LearnSpell(thisagent, "Pyrelight");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 20)
+						begin
+							r_choose = $RandomNumberNonZero(3);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 20)
+						$Tree_LearnSpell(thisagent, "Perdition_Barrage");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 21)
+						$Tree_LearnSpell(thisagent, "Cinders");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 25)
+						begin
+							r_choose = $RandomNumberNonZero(5);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+						end
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) == 25)
+						$Tree_LearnSpell(thisagent, "Incandescent_Ray");
+					else if ($GetAttribute(thisagent, #ATTRIB_ExperienceLevel) < 100)
+						begin
+							r_choose = $RandomNumberNonZero(6);
+							if (r_choose == 1)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_1");
+							else if (r_choose == 2)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_2");
+							else if (r_choose == 3)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_3");
+							else if (r_choose == 4)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_4");
+							else if (r_choose == 5)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_5");
+							else if (r_choose == 6)
+								$IncreaseSpellLevel(thisagent, thisagent's "Preferred_Skill_6");
+						end
+				end
+		end
+end

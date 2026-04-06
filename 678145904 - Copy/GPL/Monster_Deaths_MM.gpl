@@ -1,0 +1,132 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+//dropgoldinradius will also be used to drop potential loot as well
+///////////////////////////////////////////////////////////////////////////////
+function dropgoldinradius(agent thisagent, integer amount)
+
+declare
+	list guysnearby,newguys,rangers,l4,l5;
+	agent guy, killer;
+	integer num_guys,goldper, amount_killer, amount_remain, xpval;
+	boolean killer_exists;
+begin
+	amount_remain = amount;
+	killer_exists = false;
+	
+	if ($hasattribute("Killing_Unit", thisagent))
+	if ($isvalidgamepiece(thisagent's "Killing_Unit") == True)
+		if ($IsDead(thisagent's "Killing_Unit") == False)
+			begin
+				killer = thisagent's "Killing_Unit";
+				if ($HasAttribute("subtype", killer) == True)
+					if (killer's "subtype" == "Hero")
+						begin
+							amount_killer = ((amount * 2) / 3);
+							amount_remain -= amount_killer;
+							killer_exists = true;
+						end
+			end
+					
+	$ListObjects(thisagent,"hero",#gold_drop_radius, guysnearby );
+
+	// add rangers who are out of normal range!
+	$listobjects(thisagent,"hero",#Gold_drop_radius * 2,rangers, #CheckTitles, "Ranger");
+
+	foreach guy in rangers do
+		begin
+			if ($distancebetweenagents(guy,thisagent) <= $getattribute(guy,#ATTRIB_maxattackrange))
+				begin
+					if (($agentinlist(guy,guysnearby) == FALSE) && (guy's "subtype" == "hero"))
+						guysnearby << guy;
+				end
+		end
+
+	// check for invisible and camoflauged guys
+	$listobjects(thisagent,"invisible",#gold_drop_radius,l4);
+	$listobjects(thisagent,"Camouflaged",#gold_drop_radius,l5);
+
+	l4 = $addlists(l4,l5);
+
+	foreach guy in l4 do
+		begin
+			if (killer_exists == false)
+				begin
+					if (guy's "subtype" == "hero")
+						guysnearby << guy;
+				end
+			else
+				begin
+					if ((guy's "subtype" == "hero") && (guy != killer) && (killer's "subtype" == "hero"))
+						guysnearby << guy;
+				end
+		end
+
+
+	guysnearby = $ListSubtypes (GuysNearby, "Hero");
+
+	num_guys = $listsize(guysnearby);
+	if (num_guys > 0)
+		begin
+			goldper = (amount_remain / num_guys);
+			foreach guy in guysnearby do
+				begin
+					$give_gold(guy,goldper);
+				end
+		end
+	else if (killer_exists == True)
+		amount_killer += amount_remain;
+		
+	if (amount_killer > 0)
+		begin
+			$give_gold(killer,amount_killer);
+			$give_exp(killer, $exp_value(killer, thisagent) + $GetIntegerSafe(thisagent, "Experience_Value_Base"));
+			$Item_Stack(thisagent, killer);
+		end
+		
+	if (num_guys + amount_killer == 0)
+		$Death_Item_Drops(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function dropgoldinradius_sameplayer(agent thisagent, integer amount)
+
+declare
+	list guysnearby,rangers,l4,l5;
+	agent guy;
+	integer num_guys,goldper;
+
+begin
+	$ListObjects(thisagent,"hero",#gold_drop_radius, guysnearby, #MyPlayer );
+
+	// check for invisible and camoflauged guys
+	$listobjects(thisagent,"invisible",#gold_drop_radius,l4, #Myplayer);
+	$listobjects(thisagent,"Camouflaged",#gold_drop_radius,l5, #Myplayer);
+
+	l4 = $addlists(l4,l5);
+	guysnearby = $addlists(guysnearby,l4);
+	GuysNearby = $ListSubtypes (GuysNearby, "Hero");
+
+	num_guys = $listsize(guysnearby);
+	if (num_guys > 0)
+		begin
+			goldper = (amount / num_guys);
+			foreach guy in guysnearby do
+				$give_gold(guy,goldper);
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// A simpler death script, used primarily by monster gravestones.
+// It does not drop items or adjust counts.
+function be_dead_2(agent thisagent)
+
+declare
+
+begin
+    thisagent's "type" = "Waiting_to_die";
+	$killthread(thisagent's "activescript");
+	$deletegamepiece(thisagent);
+end

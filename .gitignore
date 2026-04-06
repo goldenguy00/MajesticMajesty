@@ -26,3 +26,4 @@ $RECYCLE.BIN/
 *.vsix
 
 *.code-workspace
+*.mswproj

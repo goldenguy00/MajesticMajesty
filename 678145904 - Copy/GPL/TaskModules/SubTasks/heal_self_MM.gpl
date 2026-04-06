@@ -1,0 +1,175 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function henchmanheal_self(agent thisagent)
+
+declare
+	agent dummy;
+	integer stat_bonus, duration;
+
+begin
+
+	if ($GetAttribute(ThisAgent,#ATTRIB_NumHealingPotions) > 0)
+		begin
+			//Use healing potion overlay
+			stat_bonus = ($getattribute(thisagent, #ATTRIB_Intelligence) * 250);
+			duration = (25000 - stat_bonus);
+			$createeffector(thisagent,"salve_healing_effector",0);
+			$createeffector(thisagent,"healing_salve_icon",duration);
+			$Heal (ThisAgent, ThisAgent, stat_bonus);
+			$SpellTimeoutEffect( thisagent, $HealingSalveCooldown_Death, duration, 0, 0, 0, 0,0,0,0  );
+			$AdjustAttribute (ThisAgent, #ATTRIB_NumHealingPotions, -1);
+		end
+end
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function heal_self(agent thisagent)
+
+declare
+	list enemies,fountains;
+	agent speedy,fountain;
+	boolean run_flag;
+	integer Potion,distance,vit_bonus;
+	string potion_count;
+	string potion_type;
+	string spell_name;
+
+begin
+	//$DebugOut("I need healing");
+
+	if ($GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard) > 0)
+		begin
+			//Use healing potion overlay
+			vit_bonus = ($getattribute(thisagent, #ATTRIB_Vitality) / 4);
+			$createeffector(thisagent,"potion_healing_effector",0);
+			$Heal (ThisAgent, ThisAgent, (#Heal_Potion_Recovery + vit_bonus));
+			potion_type = "Healing";
+			potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard), potion_type);
+			$DeleteInventoryItem(potion_count, thisagent);
+			$AdjustAttribute (ThisAgent, #ATTRIB_ResearchGoodGuard, -1);
+			if ($GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard) > 0)
+				begin
+					potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard), potion_type);
+					$CreateNewInventoryItem(potion_count, thisagent, 1);
+				end
+		end
+
+	else
+		begin
+			spell_name = $Spell_List_Heal(thisagent,thisagent);
+			if (spell_name != "nothing")
+				begin
+					// cast spell
+					$cast(thisagent,spell_name,thisagent, "");
+				end
+			else
+				begin
+						begin
+							// see if hero can outrun all hostiles
+							run_flag = False;
+							//$ListObjects(thisagent,thisagent's "enemytype",$getattribute(thisagent,#ATTRIB_sightrange) + 50, enemies );
+							enemies = $list_enemies_seen(thisagent,$getattribute(thisagent,#ATTRIB_sightrange) + 50);
+							enemies = $remove_buildings(enemies);
+
+							if ($listsize(enemies) < 1)
+								// there are no enemies, so I can run
+								run_flag = TRUE;
+							else
+								begin
+									speedy = $pick_fastest(thisagent,enemies);
+									if ($getattribute(speedy,#ATTRIB_speed) < $getattribute(thisagent,#ATTRIB_speed))
+										// I am the fastest, so I can run
+										run_flag = TRUE;
+								end
+
+							if (run_flag)
+								begin
+									$flee_packet(thisagent,"IDTXT_INTENT_FLEEINGINJURED");
+								end
+							else
+								begin
+									// make last stand
+									$last_stand(thisagent,"IDTXT_INTENT_FLEEINGINJURED");
+								end
+						end
+				end
+		end
+end
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function heal_self_fleeing(agent thisagent)
+
+declare
+	list enemies,fountains;
+	agent speedy,fountain;
+	boolean run_flag;
+	integer Potion,distance;
+	string potion_count;
+	string potion_type;
+
+begin
+	if ($GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard) > 0)
+		begin
+			//Use healing potion overlay
+			$createeffector(thisagent,"potion_healing_effector",0);
+			$Heal (ThisAgent, ThisAgent, #Heal_Potion_Recovery);
+
+			potion_type = "Healing";
+			potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard), potion_type);
+			$DeleteInventoryItem(potion_count, thisagent);
+			$AdjustAttribute (ThisAgent, #ATTRIB_ResearchGoodGuard, -1);
+			if ($GetAttribute(ThisAgent,#ATTRIB_ResearchGoodGuard) > 0)
+				begin
+					potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard), potion_type);
+					$CreateNewInventoryItem(potion_count, thisagent, 1);
+				end
+		end
+
+	else
+		if ($isspellavailable(thisagent,"healer_heal"))
+			begin
+				// cast spell
+				$cast(thisagent,"healer_heal",thisagent, "");
+			end
+		else
+			begin
+				// oh well, nothing can be done!
+			end
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function restore_mana_self(agent thisagent)
+
+declare
+	list enemies,fountains;
+	agent speedy,fountain;
+	boolean run_flag;
+	integer Potion,distance,int_bonus;
+	string potion_count;
+	string potion_type;
+
+begin
+	//$DebugOut("I need mana");
+
+	if ($GetAttribute(ThisAgent,#ATTRIB_ResearchArrows) > 0)
+		begin
+			//Use mana potion overlay
+			int_bonus = ($getattribute(thisagent, #ATTRIB_Intelligence) / 4);
+			$createeffector(thisagent,"potion_healing_effector",0);
+			$RestoreMana(ThisAgent, (#Mana_Potion_Recovery + int_bonus));
+			potion_type = "Mana";
+			potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchArrows), potion_type);
+			$DeleteInventoryItem(potion_count, thisagent);
+			$AdjustAttribute (ThisAgent, #ATTRIB_ResearchArrows, -1);
+			if ($GetAttribute(ThisAgent,#ATTRIB_ResearchArrows) > 0)
+				begin
+					potion_count = $Number_Potions($GetAttribute(thisagent, #ATTRIB_ResearchArrows), potion_type);
+					$CreateNewInventoryItem(potion_count, thisagent, 1);
+				end
+		end
+end
+	

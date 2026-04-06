@@ -1,0 +1,88 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+Function Seed_Resource_Check (agent ThisAgent, integer Chance) is boolean
+Declare
+
+
+Begin
+	//$DebugOut ("Should I plant resources?");
+	If (Chance < $RandomNumber (100) + 1)
+		begin
+			//$DebugOut ("Not interested.");
+			return False;
+		end
+
+	//$DebugOut ("Sure!");
+
+	ThisAgent's "Target" = ThisAgent;
+	ThisAgent's "Destination" = $RandomCoord (ThisAgent, $getattribute (ThisAgent, #ATTRIB_SightRange) * #Seed_Resource_Mod);
+	ThisAgent's "BackScript" = $Seed_Resource;
+	ThisAgent's "ActiveScript" = $Travel_To;
+	$Move (ThisAgent, ThisAgent's "Destination");
+
+	If (thisagent's "title" == "Healer")
+		begin
+	 		$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_HEALERPLANTING");
+		end
+	Else
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_CULTISTPLANTING");
+		end
+
+	return True;
+End
+///////////////////////////////////////////////////////////////////////////////
+Function Seed_Resource_Check_Packet (agent ThisAgent) is boolean
+Declare
+	integer chance; 
+	string actionsub, action2sub, intentsub, targetsub, destsub, taskindex, completeaction, completeaction2, completeintent, completetarget, completedestination;
+	string conditionsub, completecondition;
+
+Begin
+	//$DebugOut ("Should I plant resources?");
+	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	If (Chance < $RandomNumber (100) + 1)
+		begin
+			//$DebugOut ("Not interested.");
+			return False;
+		end
+
+	//$DebugOut ("Sure!");
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	action2sub = "TaskPackageTargetAction2";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	destsub = "TaskPackageDestination";
+	completeaction = actionsub + taskindex;
+	completeaction2 = action2sub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex; 
+	completedestination = destsub + taskindex;
+
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+	
+	ThisAgent's completetarget = ThisAgent;
+	ThisAgent's completecondition = $isdead;
+	ThisAgent's completedestination = $RandomCoord (ThisAgent, $getattribute (ThisAgent, #ATTRIB_SightRange) * #Seed_Resource_Mod);
+	ThisAgent's completeaction2 = $Seed_Resource; //Backscript is the secondary action. Need an index for these
+	ThisAgent's completeaction = $Travel_To;
+	//$Move (ThisAgent, ThisAgent's "Destination");
+
+	If (thisagent's "title" == "Healer")
+		begin
+			thisagent's completeintent = "IDTXT_INTENT_HEALERPLANTING";
+		end
+	Else
+		begin
+			thisagent's completeintent = "IDTXT_INTENT_CULTISTPLANTING";
+		end
+
+	return True;
+End

@@ -1,0 +1,162 @@
+<Majesty>
+	<Description type="Unit" subType="Character" ID="ResearchHealingPotions" Name="ResearchHealingPotions" Description="Research Healing Potions">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_HEALINGPOTIONS_HELP"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ResearchManaPotions" Name="ResearchManaPotions" Description="Research Mana Potions">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_MANAPOTIONS_HELP"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ResearchExpandedLivingQuarters" Name="ResearchExpandedLivingQuarters" Description="Research Expanded Living Quarters">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_EXPANDEDLIVINGQUARTERS1_HELP"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ResearchSleepingQuarters" Name="ResearchSleepingQuarters" Description="Research Sleeping Quarters">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_SLEEPINGQUARTERS_HELP"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ResearchRecruitmentQuarters" Name="ResearchRecruitmentQuarters" Description="Research Recruitment Quarters">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_GUARDHOUSERECRUITMENTQUARTERS_HELP"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ResearchBarracks" Name="ResearchBarracks" Description="Research Barracks">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_GUARDHOUSEBARRACKS_HELP"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ResearchRecruitAdditionalGuard" Name="ResearchRecruitAdditionalGuard" Description="Research Recruit Additional Guard">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_GUARDHOUSERECRUITADDITIONALGUARD1_HELP"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Character" ID="ResearchRecruitAdditionalArcher" Name="ResearchRecruitAdditionalArcher" Description="Research Recruit Additional Archer">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<CanUse value="HumanPlayer"/>
+			<Info value="DontBlock"/>
+			<Menu value="8"/>
+			<ImageIDBase value="AVk4"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP20"/>
+			<MaxHP value="1"/>
+			<RecruitDelay value="10000"/>
+			<Flags value="NotFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Info value="DontBlock"/>
+			<HelpID value="IDTXT_RESEARCH_GUARDHOUSERECRUITADDITIONALARCHER1_HELP"/>
+		</Game>
+	</Description>
+</Majesty>

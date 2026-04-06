@@ -1,0 +1,157 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+Function Swarm (agent ThisAgent, integer Chance) is Boolean
+Declare
+
+	list wandering_monsters;
+	integer current_best_score;
+	agent current_best_monster;
+	integer temp_score;
+	agent monster;
+	agent	Palace;
+
+begin
+	//$DebugOut("Should I Swarm?");
+	Palace = $GetTruePalace (ThisAgent);
+
+	if ($isdead(palace))
+		return FALSE;
+
+	//If this is a valid target, just go and attack it.
+	If ($NotValid (Palace's "Swarm_Target") == False)
+		begin
+			ThisAgent's "Target" = Palace's "Swarm_Target";
+			ThisAgent's "ActiveScript" = $Attack_Object;
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_SWARMING");
+			return True;
+		end
+
+	Else
+		begin
+			//Clear the palace's swarm target. This is neceassary because it might have a
+			//unit in it that became controlled/charmed/etc...
+			Palace's "Swarm_Target" = $NullAgent ();
+
+
+			//See if you want to look for wandererd
+			if ($randomnumber(100) + 1 > chance) return FALSE;
+
+			current_best_score = 0;
+
+			$ListObjects(thisagent,"monster",-1, wandering_monsters, #NotMyTeam );
+
+			foreach monster in wandering_monsters do
+				begin
+					temp_score = $target_eval(thisagent,monster);
+					if (temp_score > current_best_score)
+						begin
+							current_best_score = temp_score;
+							current_best_monster = monster;
+						end
+				end
+
+			if (current_best_score > 0)
+				begin
+					//Attack the target, and put it in the Palace's Gnome_Target slot
+					Palace's "Swarm_Target" = current_best_monster;
+					thisagent's "activescript" = $Attack_object;
+					thisagent's "target" = current_best_monster;
+
+  					//$DebugOut("Yes");
+					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_SWARMING");
+					return TRUE;
+				end
+		end
+
+	//$DebugOut("No");
+	return FALSE;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+Function Swarm_Packet (agent ThisAgent) is Boolean
+Declare
+
+	list wandering_monsters;
+	integer current_best_score;
+	agent current_best_monster;
+	integer temp_score, chance;
+	agent monster;
+	agent	Palace; 
+	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
+	string conditionsub, completecondition;
+
+begin
+	//$DebugOut("Should I Swarm?");
+	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	Palace = $GetTruePalace (ThisAgent);
+
+	if ($isdead(palace))
+		return FALSE;
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+	
+	//If this is a valid target, just go and attack it.
+	If ($NotValid (Palace's "Swarm_Target") == False)
+		begin
+			ThisAgent's completetarget = Palace's "Swarm_Target";
+			ThisAgent's completeaction = $Attack_Object_Pack;
+			Thisagent's completeintent = "IDTXT_INTENT_SWARMING";
+			ThisAgent's completecondition = $notvalid;
+			return True;
+		end
+
+	Else
+		begin
+			//Clear the palace's swarm target. This is neceassary because it might have a
+			//unit in it that became controlled/charmed/etc...
+			Palace's "Swarm_Target" = $NullAgent ();
+
+
+			//See if you want to look for wandererd
+			if ($randomnumber(100) + 1 > chance) return FALSE;
+
+			current_best_score = 0;
+
+			$ListObjects(thisagent,"monster",-1, wandering_monsters, #NotMyTeam );
+
+			foreach monster in wandering_monsters do
+				begin
+					temp_score = $target_eval(thisagent,monster);
+					if (temp_score > current_best_score)
+						begin
+							current_best_score = temp_score;
+							current_best_monster = monster;
+						end
+				end
+
+			if (current_best_score > 0)
+				begin
+					//Attack the target, and put it in the Palace's Gnome_Target slot
+					Palace's "Swarm_Target" = current_best_monster;
+					thisagent's completeaction = $attack_object_pack;
+					thisagent's completetarget = current_best_monster;
+					ThisAgent's completecondition = $notvalid;
+
+  					//$DebugOut("Yes");
+					Thisagent's completeintent = "IDTXT_INTENT_SWARMING";
+					return $NotDuplicateTask(thisagent, taskindex);
+				end
+		end
+
+	//$DebugOut("No");
+	return FALSE;
+
+end

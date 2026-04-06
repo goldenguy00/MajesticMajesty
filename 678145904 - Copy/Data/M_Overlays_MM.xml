@@ -1,0 +1,530 @@
+<Majesty>
+	<Description type="Unit" subType="Overlay" ID="WRb0" Name="flame_shield_icon" Description="Flame Shield">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WRb2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="MRb1" Name="hands_of_steel_icon" Description="Hands of Steel">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="MRb1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="MRc1" Name="monk_stone_skin_icon" Description="Stone Skin">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="MRc1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="MRa1" Name="iron_will_icon" Description="Iron Will">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="MRa1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="WRb2" Name="fire_shield_icon" Description="Fire Shield">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WRb2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="WRf2" Name="resist_magic_icon" Description="Resist Magic">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WRf2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="WGsX" Name="wizard_meteor_storm_effector" Description="Meteor Storm">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WRg1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="HRb1" Name="meditation_icon" Description="Meditation">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="HRb1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CRb1" Name="camouflage_icon" Description="Camouflage">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="CRb1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CRc1" Name="change_shape_icon" Description="Change Shape">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="CRc1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="LRa1" Name="shield_of_light_icon" Description="Shield of Light">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="LRa1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="PRb1" Name="animate_skeleton_effector" Description="Animate Skeleton">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="PRb1"/>
+			<AttachmentPointID value="2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="XR26" Name="Champion_Icon" Description="Hall of Champions Reward">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="XR26"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="XS01" Name="Speed_Tonic_Icon" Description="Speed_Tonic_Icon">
+		<Engine version="1">
+			<Info value="NoGPLAgent"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARC2"/>
+			<Script type="0" cProc="0" GPLFunction="Speed_Tonic_End"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="XR03" Name="Strength_Potion_Icon" Description="Strength Potion">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="XR03"/>
+			<Script type="0" cProc="0" GPLFunction="Strength_Potion_End"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="RAH2" Name="salve_healing_effector" Description="This henchman is applying a salve.">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="CRA2"/>
+			<AttachmentPointID value="1"/>
+			<DefaultSound value="Drink_Potion"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="RAH3" Name="healing_salve_icon" Description="Healing Salve Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CMo1" Name="cm_corrosionball_Splat" Description="Corrosion Ball Splat">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="BRA2"/>
+			<AttachmentPointID value="2"/>
+			<DefaultSound value="Sizzle"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CMc3" Name="cm_enchant_wizard_tower_icon" Description="Enchant Wizard Tower Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CMc4" Name="cm_enchant_wizard_tower_end" Description="Enchant Wizard Tower End">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<Script type="0" cProc="0" GPLFunction="cm_Wizard_Tower_Enchant_End"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CMc5" Name="cm_etherealize_icon" Description="Etherealize Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CMc6" Name="cm_etherealize_effector" Description="Etherealize">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="CRA1"/>
+			<DefaultSound value="Force"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CMc7" Name="cm_acid_fog_effector" Description="Acid Fog">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="tRt1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="CMc8" Name="cm_acid_fog_icon" Description="Acid Fog Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="MAc1" Name="ma_volley_icon" Description="Volley Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="MAc2" Name="ma_volley_effector" Description="Volly Buff">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="DRB2"/>
+			<AttachmentPointID value="2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="RGe1" Name="rogue_explosive_bolt_effector1" Description="Explosive Bolt Effector1">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WRe2"/>
+			<AttachmentPointID value="2"/>
+			<DefaultSound value="Fireball"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="RGe2" Name="rogue_explosive_bolt_effector2" Description="Explosive Bolt Effector2">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="NRf2"/>
+			<AttachmentPointID value="2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="RGi1" Name="rogue_assassin_icon" Description="Assassin">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WRB2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="RGc1" Name="rogue_assassin_cooldown" Description="Assassin Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<Script type="0" cProc="0" GPLFunction="rogue_Assassin_Cooldown_End"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="PKc1" Name="priestess_wither_cooldown" Description="Wither Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="PKi1" Name="priestess_wither_icon" Description="Wither">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="PRB2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="PKe1" Name="priestess_wither_effector" Description="Wither">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="PRB1"/>
+			<DefaultSound value="Wither"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="WGe1" Name="Wizard_Transmute_effector" Description="Transmute">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARD1"/>
+			<DefaultSound value="Got_Gold"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="WGc1" Name="wizard_transmute_cooldown" Description="Transmute Cooldown">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="GEe1" Name="generic_regenerate_effector" Description="Regenerate">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="HRa1"/>
+			<DefaultSound value="Fervus_Healing"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="GEi1" Name="generic_regenerate_icon" Description="Regenerate">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="HRb1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="1"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="MSr1" Name="ManaSystem_Regeneration" Description="Mana Regeneration">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<AttachmentPointID value="3"/>
+			<Script type="0" cProc="0" GPLFunction="Mana_Regeneration"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="MSr2" Name="ManaSystem_Regeneration2" Description="Mana Regeneration">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARF3"/>
+			<AttachmentPointID value="3"/>
+			<Script type="0" cProc="0" GPLFunction="Mana_Regeneration2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+		</Game>
+	</Description>
+</Majesty>

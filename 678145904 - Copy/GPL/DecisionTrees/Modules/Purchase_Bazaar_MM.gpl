@@ -1,0 +1,207 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+Function Purchase_Bazaar ( agent ThisAgent, integer bazaar_chance ) is boolean
+Declare
+	boolean 	Flag, wants_bazaar_item;
+	list bazaars, shops, Item_list, Bazaars_Researched;
+	integer search_dist, Item, Item_Cost;
+
+Begin
+	Flag = FALSE;
+	//See if the hero wants to buy bazaar items
+	If ( bazaar_chance > $RandomNumber ( 100 ) + 1 )
+		Wants_bazaar_item = TRUE;
+
+	if ($IsExpansion(thisagent) != TRUE)
+		return False;
+
+	// construct some lists here, and pass them as parameters,
+	// instead of over and over again in the lower level subroutines.
+
+	Search_Dist = $GetAttribute (ThisAgent, #ATTRIB_SightRange ) * ( $GetAttribute ( ThisAgent, #ATTRIB_Intelligence ) / 2 );
+
+	$listobjects ( thisagent, "building", search_Dist, bazaars, #CheckTitles, "Magic_Bazaar", #ATTRIB_FirstStageBuilt, 1 );
+	//bazaars = $ListTitles ( bazaars, "Magic_Bazaar" );
+	//bazaars = $listcompleted ( bazaars );
+
+	Item_list << #Bazaar_Item_One;
+ 	Item_list << #Bazaar_Item_Two;
+ 	Item_list << #Bazaar_Item_Three;
+	Item_list << #Bazaar_Item_Four;
+ 	Item_list << #Bazaar_Item_Five;
+ 	Item_list << #Bazaar_Item_Six;
+
+	foreach Item in Item_list do
+		begin
+			$Clearlist ( Bazaars_Researched );
+			Bazaars_Researched = $Researched_Item ( bazaars, Item );
+			if ( $ListSize ( Bazaars_Researched ) > 0 )
+				begin
+					Item_Cost = $Get_Bazaar_Cost ( Item );
+					if ( $Bazaar_Item_Check ( ThisAgent, Item, Bazaars_Researched, Item_Cost ))
+						Flag = TRUE;
+				end
+		end
+
+	If ( Flag )
+		begin
+			ThisAgent's "ActiveScript" = $Use_Building;
+			return TRUE;
+		end
+
+	return False;
+End
+///////////////////////////////////////////////////////////////////////////////
+Function Purchase_Bazaar_Packet ( agent ThisAgent ) is boolean
+Declare
+	agent target;
+	boolean 	Flag, wants_bazaar_item;
+	list bazaars, shops, Item_list, Bazaars_Researched;
+	integer search_dist, Item, Item_Cost, bazaar_chance; 
+	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
+	string conditionsub, completecondition, visitsub, completevisit;
+
+Begin
+	bazaar_chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	Flag = FALSE;
+	//See if the hero wants to buy bazaar items
+	If ( bazaar_chance > $RandomNumber ( 100 ) + 1 )
+		Wants_bazaar_item = TRUE;
+
+	if ($IsExpansion(thisagent) != TRUE)
+		return False;
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+	
+	visitsub = "TaskPackageVisitingScript";
+	completevisit = visitsub + taskindex;
+	
+	// construct some lists here, and pass them as parameters,
+	// instead of over and over again in the lower level subroutines.
+
+	Search_Dist = $GetAttribute (ThisAgent, #ATTRIB_SightRange ) * ( $GetAttribute ( ThisAgent, #ATTRIB_Intelligence ) / 2 );
+
+	$listobjects ( thisagent, "building", search_Dist, bazaars, #CheckTitles, "Magic_Bazaar", #ATTRIB_FirstStageBuilt, 1 );
+	//bazaars = $ListTitles ( bazaars, "Magic_Bazaar" );
+	//bazaars = $listcompleted ( bazaars );
+
+	Item_list << #Bazaar_Item_One;
+ 	Item_list << #Bazaar_Item_Two;
+ 	Item_list << #Bazaar_Item_Three;
+	Item_list << #Bazaar_Item_Four;
+ 	Item_list << #Bazaar_Item_Five;
+ 	Item_list << #Bazaar_Item_Six;
+
+	foreach Item in Item_list do
+		begin
+			$Clearlist ( Bazaars_Researched );
+			Bazaars_Researched = $Researched_Item ( bazaars, Item );
+			if ( $ListSize ( Bazaars_Researched ) > 0 )
+				begin
+					Item_Cost = $Get_Bazaar_Cost ( Item );
+					if ( $Bazaar_Item_Check_Packet ( ThisAgent, Item, Bazaars_Researched, Item_Cost ))
+						Flag = TRUE;
+				end
+		end
+
+	If ( Flag )
+		begin
+			ThisAgent's completeaction = $Use_Building_Packet;
+			target = ThisAgent's completetarget;
+			ThisAgent's completevisit = target's "visited_script";
+			ThisAgent's completecondition = $isdead;
+			return $NotDuplicateTask(thisagent, taskindex);
+		end
+
+	return False;
+End
+///////////////////////////////////////////////////////////////////////////////
+Function Bazaar_Item_Check_Packet ( agent ThisAgent, integer item, list potentials, integer Item_cost ) is boolean
+Declare
+//	list Potentials;
+	integer	Intel_Roll;
+//	integer Search_Dist; 
+	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
+
+
+Begin
+	//$DebugOut ( "Should I buy item#", item, "?" );
+
+	// Don't let cultists buy shapechange potions.
+	if (( thisagent's "title" == "cultist" ) && ( item == #Bazaar_Item_Six ))
+		return False;
+
+	// Only rangers, rogues and elves use fire balm.
+	if ( item == #Bazaar_Item_Two )
+		if (( thisagent's "title" != "ranger"  ) && ( thisagent's "title" != "rogue" ) && ( thisagent's "title" != "elf" ))
+			return False;
+
+	// See if ThisAgent already has the item on them
+	If ( $AgentHasInventoryItem ( item, thisagent ))
+		begin
+			//$DebugOut ( "I already have item #", item, ", so I dont need one." );
+			return False;
+		end
+
+	If ( $Total_Gold ( ThisAgent ) < Item_Cost )
+		begin
+			//$DebugOut ("I don't have enough money for item #", item, "!");
+			return False;
+		end
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	tnamesub = "TaskPackageTaskName";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completetname = tnamesub + taskindex;
+
+	Intel_Roll = $RandomNumber ( 30 ) + 1;
+
+	If ( $GetAttribute ( ThisAgent, #ATTRIB_Intelligence ) > Intel_Roll )
+		begin
+			ThisAgent's completetname = $Get_Bazaar_Task_Name ( item );
+			ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest ( ThisAgent, Potentials );
+			//$DebugOut ( "Yes!" );
+			
+			if ( Item == #Bazaar_Item_One )
+				thisagent's completeintent = "IDTXT_INTENT_BUYSPEEDPOTION";
+
+			else if ( Item == #Bazaar_Item_Two )
+				thisagent's completeintent = "IDTXT_INTENT_BUYFIREPOTION";
+
+			else if ( Item == #Bazaar_Item_Three )
+				thisagent's completeintent = "IDTXT_INTENT_BUYSTRENGTHPOTION";
+
+			else if ( Item == #Bazaar_Item_Four )
+				thisagent's completeintent = "IDTXT_INTENT_BUYREGENPOTION";
+
+			else if ( Item == #Bazaar_Item_Five )
+				thisagent's completeintent = "IDTXT_INTENT_BUYINVISPOTION";
+
+			else if ( Item == #Bazaar_Item_Six )
+				thisagent's completeintent = "IDTXT_INTENT_BUYSHAPESHIFTPOTION";
+
+			//$SetBuyerIntent_Packet ( ThisAgent, Item );
+			return True;
+		end
+
+	//$DebugOut ("No!");
+	return False;
+End

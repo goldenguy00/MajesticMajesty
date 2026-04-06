@@ -1,0 +1,86 @@
+<Majesty>
+	<Description type="Unit" subType="Projectile" ID="CMp1" Name="cm_corrosion_ball_missile" Description="Corrosion Ball">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="BPA2"/>
+			<Script type="0" cProc="0" GPLFunction="cm_corrosion_ball_Hit"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
+	<Description type="Unit" subType="Projectile" ID="CMp2" Name="cm_acid_bolt_missile" Description="Acid bolt">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="NPa1"/>
+			<Script type="0" cProc="0" GPLFunction="Acid_Bolt_Hit"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
+	<Description type="Unit" subType="Projectile" ID="CMp3" Name="cm_acid_fog_missile" Description="Acid Fog">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="NPa1"/>
+			<Script type="0" cProc="0" GPLFunction="cm_Acid_Fog_Missile_Hit"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
+	<Description type="Unit" subType="Projectile" ID="MAp1" Name="ma_Volley_Missile" Description="Volley Missile">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="10"/>
+			<ImageIDBase value="APA4"/>
+			<Script type="0" cProc="0" GPLFunction="make_attack"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
+	<Description type="Unit" subType="Projectile" ID="BMp1" Name="bm_consume_life_missile" Description="Consume Life Missile">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="PPa1"/>
+			<Script type="0" cProc="0" GPLFunction="bm_Consume_Life_Hit"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="Life_Drain"/>
+		</Engine>
+	</Description>
+	<Description type="Unit" subType="Projectile" ID="RGp1" Name="Rogue_Explosive_Bolt_Missile" Description="Rogue Explosive Bolt">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="10"/>
+			<ImageIDBase value="APA4"/>
+			<Script type="0" cProc="0" GPLFunction="Rogue_Explosive_Bolt_Hit"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
+	<Description type="Unit" subType="Projectile" ID="RGp2" Name="Rogue_Assassinate_Bolt" Description="Rogue Assassinate Bolt">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="10"/>
+			<ImageIDBase value="APA4"/>
+			<Script type="0" cProc="0" GPLFunction="rogue_Assassinate_Hit"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
+	<Description type="Unit" subType="Projectile" ID="RTp1" Name="Dart_Sentry_Dart" Description="Dart Sentry Dart">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="10"/>
+			<ImageIDBase value="APA4"/>
+			<Script type="0" cProc="0" GPLFunction="make_attack"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
+</Majesty>

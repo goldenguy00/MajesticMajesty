@@ -1,0 +1,73 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function estate_visited(agent thisagent)
+
+declare
+	agent building;
+
+begin
+	building = thisagent's "target";
+	if (building's "ReceivingVisitors" != false)
+		begin
+			
+			$enter_building(thisagent,building);
+	
+			building's "ReceivingVisitors" = false;
+			
+			$NewThread(building's "EstateOpen", 72500, building );
+
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_INSIDEESTATE");
+			
+			$SetThreadInterval (ThisAgent's "ActiveScript", #Estate_Visit_Duration);
+
+			thisagent's "Activescript" = $audience_with_noble;
+		end
+	else
+		begin
+			$exit_building(thisagent,building);
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_TURNEDFROMESTATE");
+			ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function audience_with_noble(agent thisagent)
+
+declare
+
+begin
+	$setattribute(thisagent,#ATTRIB_HP,$getattribute(thisagent,#ATTRIB_MaxHP));
+
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+	ThisAgent's "ActiveScript" = $done_visiting_estate;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function done_visiting_estate(agent thisagent)
+
+declare
+	integer i, gold_amount, prestige_amount;
+
+begin
+	$exit_building(thisagent,thisagent's "target");
+	prestige_amount = thisagent's "Prestige";
+	gold_amount += (prestige_amount * 100);
+	i = 0;
+	//i = $randomnumber(3);
+
+	if ($HasAttribute("TaskPackageStatus", thisagent))
+		thisagent's "TaskPackageStatus" = "Complete";
+	
+	if (i == 0)
+		begin
+			gold_amount += 500;
+		end
+
+	$adjustattribute(thisagent, #ATTRIB_StoredGold, gold_amount);
+	$createeffector(thisagent,"got_gold",0, gold_amount);
+	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+end

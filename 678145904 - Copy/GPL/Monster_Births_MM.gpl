@@ -1,0 +1,310 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function monster_birth(agent thisagent)
+
+declare
+	string unit_name;
+
+begin
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+	unit_name = thisagent's "Title";
+
+	if ($IsExpansion(thisagent))
+		begin
+			//See if ThisAgent needs to get a Hall of Champs effector over them
+			If ($GetUnitPlayerNumber (ThisAgent) == #Monster_Player)
+				begin
+					$SetHallFlag (ThisAgent);
+				end
+			// All normal monsters need an attribute that can be detected by the zoo flag interface.
+			$SetAttribute (ThisAgent, #ATTRIB_Zoo_Legal_Target, 1);
+		end
+		
+	//This will possibly override a monster's scripts if this is an Epic Quest
+	$Setup_Quest_Monster (ThisAgent);
+
+	// this will possibly override a monsters scripts if its artifice has
+	// been set by $spawnunit
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	$GeneralAttributes(thisagent);
+	
+end
+
+///////////////////////////////////////////////////////////////////////////////
+Function Shared_Sleeper_Birth (agent ThisAgent)
+Declare
+	integer	Sleeper_Callback_Time;
+	list		Buildings;
+	integer	Distance;
+	agent 	AIRootAgent;
+
+
+
+Begin
+	$ListObjects (ThisAgent, "Building", -1, Buildings );
+
+	if ($listsize(buildings) > 0)
+		Distance = $DistanceBetweenAgents (ThisAgent, $ListMember (Buildings, 1));
+	else
+		Distance = 1500;
+
+	AIRootAgent = $RetrieveAgent ("GPLAIRoot");
+
+	//If ThisAgent is Vendral and we are in Slay Dragon, then hardcode the sleeper callback time
+	If (ThisAgent's "Title" == "Vendral" && AIRootAgent's "Quest_Number" == #QNumber_Slay_Dragon)
+		Sleeper_Callback_Time = (120000 + $RandomNumber (120000) + 1);
+	Else
+		Sleeper_Callback_Time = #Sleeper_Base_Callback + (Distance * #Sleeper_Callback_Mod);
+			
+	$RunThread (ThisAgent's "SleeperScript", Sleeper_Callback_Time, ThisAgent);
+
+	$monster_birth(thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function sanguine_peasant_birth(agent thisagent)
+
+declare
+
+begin
+
+	$SetDrawEffects( thisagent, "red", 0 );
+	
+	$sanguine_pit_bonus(thisagent);
+	
+	$newthread(thisagent's "activeScript", 500 ,thisagent);
+	
+	$GeneralAttributes(thisagent);
+	
+end
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+function gore_guard_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "red", 0 );
+	
+	$sanguine_pit_bonus(thisagent);
+	
+	$createeffector( thisagent, "life_drain_effector", 0 );
+	
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	$GeneralAttributes(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function scarlet_squire_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "red", 0 );
+	
+	$sanguine_pit_bonus(thisagent);
+	
+	$createeffector( thisagent, "life_drain_effector2", 0 );
+	
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	
+	$GeneralAttributes(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function crimson_archer_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "red", 0 );
+	
+	$sanguine_pit_bonus(thisagent);
+	
+	$createeffector( thisagent, "life_drain_effector2", 0 );
+	
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	
+	$GeneralAttributes(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function maniacal_arbalest_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "red", 0 );
+	
+	$sanguine_pit_bonus(thisagent);
+	
+	$createeffector( thisagent, "life_drain_effector2", 0 );
+	
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	
+	$GeneralAttributes(thisagent);
+end
+///////////////////////////////////////////////////////////////////////////////
+function blood_mage_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "red", 0 );
+	
+	$sanguine_pit_bonus(thisagent);
+	
+	$createeffector( thisagent, "life_drain_effector", 0 );
+	$createeffector( thisagent, "life_drain_effector2", 0 );
+
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	$GeneralAttributes(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function spirit_troll_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "gray", 3 );
+	
+
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+
+	$createeffector(thisagent,"troll_spawn",1);
+	
+	$AddAttribute(thisagent, "Spirit_Troll_Buff", "function", $cm_SpiritTrollBuff_Death); //Not In Prototype
+	$NewThread(thisagent's "Spirit_Troll_Buff", 400, thisagent);
+	//$SpellTimeoutEffect( thisagent, $cm_SpiritTrollBuff_Death, 1000, 0, 0, 0, 0, 0,0,0,0 );
+	
+	$GeneralAttributes(thisagent);
+	
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function minotaur_lord_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "gray", 0 );
+	
+
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	$GeneralAttributes(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function elder_orbs_birth(agent thisagent)
+
+declare
+
+begin
+	$SetDrawEffects( thisagent, "gray", 0 );
+	
+
+	thisagent's "target" = $nullagent();
+	$clearlist(thisagent's "hostiles");
+
+	$check_override_behavior(thisagent);
+
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
+
+	thisagent's "startingScript" = thisagent's "basicScript";
+	
+	$GeneralAttributes(thisagent);
+	
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// This sets up the Medusa as a follower of the Gorgon if she is summoned.
+Function Medusa_Birth (agent ThisAgent)
+Declare
+	agent	Parent;
+
+Begin
+	Parent = $Parent (ThisAgent);
+
+	If ($IsValidGamePiece (Parent))
+		begin
+			If (Parent's "Title" == "GreaterGorgon")
+				begin
+					ThisAgent's "ActiveScript" = $Monster_follow;
+					ThisAgent's "BackScript" = $monster_follow;
+					ThisAgent's "BasicScript" = $monster_follow;
+
+					ThisAgent's "Leader" = Parent;
+				end
+
+		end
+
+	$Monster_Birth (ThisAgent);
+
+End

@@ -1,0 +1,128 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+Function Build_Horde (agent ThisAgent, integer Chance) is boolean
+Declare
+	list	Undead;
+	integer summon_limit;
+	string spell_name;
+	agent summon_target;
+
+Begin
+
+	////$DebugOut ("Should I build a Horde?");
+	If ($RandomNumber (100) + 1 > Chance)
+		begin
+			////$DebugOut ("Not Interested!");
+			return False;
+		End
+
+	//This check to see if they already have their max. complement of summons
+	If (ThisAgent's "Num_Followers" >= 5)
+		return False;
+
+	// the following means: 1 at lvls < 3, 2 at 3 to 4, 3 at 5 to 6, and so on
+	summon_limit = (($getattribute(thisagent,#ATTRIB_experienceLevel) - 1) / 2) + 1;
+
+	//This makes sure the Priestess has an empty slot
+	If (ThisAgent's "Num_Followers" < summon_limit)
+		begin
+			if ($CanCast(thisagent,"control_undead"))
+				begin
+					Undead = $ListSubtypesInRadius (ThisAgent, "monster", "undead", $getattribute (ThisAgent, #ATTRIB_SightRange) * #Control_Undead_Mod);
+
+					If ($ListSize (Undead) > 0)
+						begin
+							ThisAgent's "Target" = $ListMember (Undead, 1);
+							ThisAgent's "ActiveScript" = $Go_Control_Monster;
+							$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_CONTROLLINGUNDEAD");
+							return True;
+						end
+				end
+			
+			if ($CanCast(thisagent,"animate_skeleton"))
+				begin
+					//No undead nearby? Go ahead and animate.
+					spell_name = $Spell_List_Summon(thisagent, thisagent);
+					if (spell_name != "nothing" )
+						begin
+							summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
+							$Cast (ThisAgent, spell_name, summon_target, "");
+							return True;
+						end
+				end
+		end
+		
+	return False;
+End
+///////////////////////////////////////////////////////////////////////////////
+Function Build_Horde_Packet (agent ThisAgent) is boolean
+Declare
+	list	Undead;
+	integer summon_limit, chance;
+	string spell_name;
+	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
+	agent summon_target;
+	string conditionsub, completecondition;
+
+Begin
+	////$DebugOut ("Should I build a Horde?");
+	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
+	If ($RandomNumber (100) + 1 > Chance)
+		begin
+			//$DebugOut ("Not Interested!");
+			return False;
+		End
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	actionsub = "TaskPackageTargetAction";
+	intentsub = "TaskPackageIntent";
+	targetsub = "TaskPackageTarget";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+	
+	conditionsub = "TaskPackageTargetCondition";
+	completecondition = conditionsub + taskindex;
+	
+	//This check to see if they already have their max. complement of summons
+	If (ThisAgent's "Num_Followers" >= 5)
+		return False;
+
+	// the following means: 1 at lvls < 3, 2 at 3 to 4, 3 at 5 to 6, and so on
+	summon_limit = (($getattribute(thisagent,#ATTRIB_experienceLevel) - 1) / 2) + 1;
+
+	//This makes sure the Priestess has an empty slot
+	If (ThisAgent's "Num_Followers" < summon_limit)
+		begin
+			if ($CanCast(thisagent,"control_undead"))
+				begin
+					Undead = $ListSubtypesInRadius (ThisAgent, "monster", "undead", $getattribute (ThisAgent, #ATTRIB_SightRange) * #Control_Undead_Mod);
+
+					If ($ListSize (Undead) > 0)
+						begin
+							ThisAgent's completetarget = $ListMember (Undead, 1);
+							ThisAgent's completeaction = $Go_Control_Monster;
+							ThisAgent's completecondition = $isdead;
+							ThisAgent's completeintent = "IDTXT_INTENT_CONTROLLINGUNDEAD";
+							return $NotDuplicateTask(thisagent, taskindex);
+						end
+				end
+
+			if ($CanCast(thisagent,"animate_skeleton"))
+				begin
+					//No undead nearby? Go ahead and animate.
+					spell_name = $Spell_List_Summon(thisagent, thisagent);
+					if (spell_name != "nothing" )
+						begin
+							summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
+							$Cast (ThisAgent, spell_name, summon_target, "");
+							return True;
+						end
+				end
+		end
+
+	return False;
+End

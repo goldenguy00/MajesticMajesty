@@ -1,0 +1,5 @@
+[AITaskContainer]
+	{Task_Container
+	(TaskPackageScript	TaskContainerScript)
+	}
+[end]
