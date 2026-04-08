@@ -8,9 +8,7 @@ Function Swarm (agent ThisAgent, integer Chance) is Boolean
 Declare
 
 	list wandering_monsters;
-	integer current_best_score;
 	agent current_best_monster;
-	integer temp_score;
 	agent monster;
 	agent	Palace;
 
@@ -40,21 +38,18 @@ begin
 			//See if you want to look for wandererd
 			if ($randomnumber(100) + 1 > chance) return FALSE;
 
-			current_best_score = 0;
-
-			$ListObjects(thisagent,"monster",-1, wandering_monsters, #NotMyTeam );
-
-			foreach monster in wandering_monsters do
+			current_best_monster = $NullAgent();
+			if ($HasAttribute("Enemy_Monster_List", palace) == false)
 				begin
-					temp_score = $target_eval(thisagent,monster);
-					if (temp_score > current_best_score)
-						begin
-							current_best_score = temp_score;
-							current_best_monster = monster;
-						end
+					$ListObjects(thisagent,"monster",-1, wandering_monsters,#NotMyTeam);
+					current_best_monster = $List_Eval_Opt(thisagent, wandering_monsters);
+				end
+			else
+				begin
+					current_best_monster = $List_Eval_Opt(thisagent, palace's "Enemy_Monster_List");
 				end
 
-			if (current_best_score > 0)
+			if (current_best_monster != $NullAgent())
 				begin
 					//Attack the target, and put it in the Palace's Gnome_Target slot
 					Palace's "Swarm_Target" = current_best_monster;
@@ -76,15 +71,17 @@ Function Swarm_Packet (agent ThisAgent) is Boolean
 Declare
 
 	list wandering_monsters;
-	integer current_best_score;
 	agent current_best_monster;
-	integer temp_score, chance;
+	integer chance;
 	agent monster;
 	agent	Palace; 
 	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
 	string conditionsub, completecondition;
 
 begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	//$DebugOut("Should I Swarm?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Palace = $GetTruePalace (ThisAgent);
@@ -123,21 +120,18 @@ begin
 			//See if you want to look for wandererd
 			if ($randomnumber(100) + 1 > chance) return FALSE;
 
-			current_best_score = 0;
-
-			$ListObjects(thisagent,"monster",-1, wandering_monsters, #NotMyTeam );
-
-			foreach monster in wandering_monsters do
+			current_best_monster = $NullAgent();
+			if ($HasAttribute("Enemy_Monster_List", palace) == false)
 				begin
-					temp_score = $target_eval(thisagent,monster);
-					if (temp_score > current_best_score)
-						begin
-							current_best_score = temp_score;
-							current_best_monster = monster;
-						end
+					$ListObjects(thisagent,"monster",-1, wandering_monsters,#NotMyTeam);
+					current_best_monster = $List_Eval_Opt(thisagent, wandering_monsters);
 				end
-
-			if (current_best_score > 0)
+			else
+				begin
+					current_best_monster = $List_Eval_Opt(thisagent, palace's "Enemy_Monster_List");
+				end
+				
+			if (current_best_monster != $NullAgent())
 				begin
 					//Attack the target, and put it in the Palace's Gnome_Target slot
 					Palace's "Swarm_Target" = current_best_monster;

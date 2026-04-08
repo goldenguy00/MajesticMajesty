@@ -31,6 +31,7 @@ Declare
 	string equipment_type;
 
 Begin
+	upgrade = 0;
 	ThisBuilding = ThisAgent's "Target";
 
 	Total_Gold = $Total_Gold (ThisAgent);

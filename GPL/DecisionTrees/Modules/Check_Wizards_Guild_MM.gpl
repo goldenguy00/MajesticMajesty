@@ -9,6 +9,9 @@ Declare
 	boolean flag;
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	flag = FALSE;
 	if ($randomnumber(100) + 1 > chance)
@@ -60,7 +63,7 @@ Begin
 										break;
 									end
 							end
-					else
+					else if ($ListSize(available_books) > 0)
 						begin
 							book = $listmember(available_books, 1); //Give it the first book in the list if the agent has never read anything
 							thisagent's completetname = book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild

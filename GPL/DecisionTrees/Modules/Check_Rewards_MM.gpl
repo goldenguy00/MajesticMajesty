@@ -16,6 +16,9 @@ declare
 
 
 begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	$ListObjects(thisagent,"RewardFlag",-1,flags,#RewardFlags);
 	no_attack = FALSE;
 	

@@ -118,7 +118,7 @@ begin
 									if ($HasAttribute("TransferScript", Target))
 										begin
 											if ($validfunction(Target's "TransferScript") == TRUE)
-											(Target's "TransferScript")(Target, ThisAgent, WhatItem);
+												(Target's "TransferScript")(Target, ThisAgent, WhatItem);
 										end
 
 									$DeleteGamePiece (Target);
@@ -201,6 +201,9 @@ declare
 	string conditionsub, completecondition, intentext;
 
 begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 //            //$DebugOut("Should I collect",resource,"?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 
@@ -238,7 +241,7 @@ begin
 					ThisAgent's completeaction2 = $Grab_Item; //Figure out what to do with this.
 
 					thisagent's completetarget = this_resource;
-					ThisAgent's completecondition = $isvalidgamepiece;
+					ThisAgent's completecondition = $notvalid;
 
 					//Specify either recovering item or Retrieving Treasure
 					If (This_resource's "Title" == "Treasure_Chest")

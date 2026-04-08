@@ -60,6 +60,9 @@ Begin
 		end
 	
 	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
+	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
 	intentsub = "TaskPackageIntent";
 	targetsub = "TaskPackageTarget";

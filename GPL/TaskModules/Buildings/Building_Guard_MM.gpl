@@ -566,6 +566,193 @@ begin
 		end
   		
 end
+
+function Palace_Central_Lists(agent thisagent)
+declare
+	list monsters, enemies, allies, buildings, all_completed;//, lairs, buildings, champions?
+begin
+	$ListObjects(thisagent,"monster",-1, monsters,#NotMyTeam);
+	if ($AddAttribute(thisagent, "Enemy_Monster_List", "list", monsters) == false)
+		thisagent's "Enemy_Monster_List" = monsters;
+
+	$ListObjects(thisagent,"hero",-1, enemies,#NotMyTeam);
+	if ($AddAttribute(thisagent, "Enemy_Hero_List", "list", enemies) == false)
+		thisagent's "Enemy_Hero_List" = enemies;
+
+	$ListObjects(thisagent,"hero",-1, allies,#myplayer);
+	if ($AddAttribute(thisagent, "Ally_Hero_List", "list", allies) == false)
+		thisagent's "Ally_Hero_List" = allies;
+
+	$ListObjects(thisagent,"building",-1, buildings,#myplayer);
+	if ($AddAttribute(thisagent, "Ally_Building_List", "list", buildings) == false)
+		thisagent's "Ally_Building_List" = buildings;
+
+	if ($agentinlist(thisagent,thisagent's "Ally_Building_List") == FALSE)
+		thisagent's "Ally_Building_List" << thisagent;
+
+		//fuckin pursue entertainment
+		
+	$listobjects(thisagent,"building",-1,all_completed, #ATTRIB_FirstStageBuilt, 1);
+	if ($AddAttribute(thisagent, "All_Buildings_List", "list", all_completed) == false)
+		thisagent's "All_Buildings_List" = all_completed;
+
+// so that peasants dont lag the fuck outta the game doing this reconstructing
+// they will be slightly less responsive, but thats honestly a good thing. their reaction times were too good.	
+
+	$reconstruct_lists_opt(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Remove_Invalid(list thislist) is list
+
+declare
+	list new_list;
+	agent enemy;
+
+begin
+	foreach enemy in thislist do
+		begin
+			if ($isdead(enemy) == false)
+				begin
+					new_List << enemy;
+				end
+		end
+
+	return new_list;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function reconstruct_lists(agent palace)
+
+declare
+	agent bldg;
+	list buildings,newlist;
+
+begin
+	// check lists for buildings who shouldn't be on them
+	buildings = palace's "buildings_under_construction";
+
+	foreach bldg in buildings do
+		begin
+			If ($IsDead (Bldg) == False)
+				begin
+					if ($building_level_complete(bldg))
+						if (($getattribute(bldg,#ATTRIB_isrepaired) == 0) && ($getattribute(bldg,#ATTRIB_QuickRepair) == 0))
+							palace's "buildings_under_construction" -= bldg;
+				end
+			else
+				palace's "buildings_under_construction" -= bldg;
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function reconstruct_lists_opt(agent palace)
+
+declare
+	agent bldg;
+	list buildings,newlist;
+
+begin
+	// check lists for buildings who shouldn't be on them
+	buildings = palace's "buildings_under_construction";
+
+	foreach bldg in buildings do
+		begin
+			If ($IsDead (Bldg) == False)
+				begin
+					if ($building_level_complete(bldg))
+						if (($getattribute(bldg,#ATTRIB_isrepaired) == 0) && ($getattribute(bldg,#ATTRIB_QuickRepair) == 0))
+							palace's "buildings_under_construction" -= bldg;
+				end
+			else
+				palace's "buildings_under_construction" -= bldg;
+		end
+
+	// check all existing buildings, to see if they are damaged and need to be added
+	//$listobjects(palace,"building",-1,buildings,#MyPLayer, #ATTRIB_FirstStageBuilt, 1);
+	//buildings = $listcompleted(buildings);
+	//buildings << palace; // the palace wasn't getting checked before!!!
+
+	foreach bldg in palace's "Ally_Building_List" do
+		begin
+			If ($IsDead (Bldg) == False)
+				if ($building_level_complete(bldg))
+					if ($getattribute(bldg,#ATTRIB_HP) < $getattribute(bldg,#ATTRIB_MAXHP))
+						if ($agentinlist(bldg,palace's "buildings_under_construction") == FALSE)
+							if (($getattribute(bldg,#ATTRIB_isrepaired) == 1) || ($getattribute(bldg,#ATTRIB_QuickRepair) == 1))
+								palace's "buildings_under_construction" << bldg;
+		end
+end
+
+
+Function Building_Guard (agent ThisAgent)
+// this function scans the area around the guardhouse for intruders
+// and releases guard if it sees intruders
+// otherwise it finds nearby construction sites for the guards to patrol
+Declare
+	list	Intruders;
+	agent	Palace,guard;
+
+Begin
+	if (thisagent's "Title" == "Palace")
+		$Palace_Central_Lists(thisagent);
+		
+	if (thisagent's "enemytype" == "nothing")
+		return;
+
+	intruders = $list_enemies_seen(thisagent,$getattribute (ThisAgent, #ATTRIB_SightRange));
+
+	If ($ListSize (Intruders) > 0)
+		begin
+			//$DebugOut ("Releasing Guards: Intruders");
+			//$KillThread (ThisAgent's "Guard_Function");
+			ThisAgent's "Guard_Function" = $Release_Guards;
+			//$NewThread (ThisAgent's "Guard_Function", #Normal_Cycle, ThisAgent);
+		end
+
+   //Else, Check to see if there are Buildings under constructions within ThisAgent's SightRange
+	//If yes, then send a Guard out to guard them.
+	Else
+		begin
+			ThisAgent's "Under_Const_In_Sight" = $Bldgs_Under_Constuct_In_Sight (ThisAgent);
+
+			If ($ListSize (ThisAgent's "Under_Const_In_Sight") > 0)
+				begin
+					//$DebugOut ("Releasing Guards: Buildings Under Construction");
+					//$KillThread (ThisAgent's "Guard_Function");
+					ThisAgent's "Guard_Function" = $Release_Guards;
+				end
+
+
+			Else
+				//If thisagent is a guardhouse, then possibly allow guard to wander around for a little bit
+				If (ThisAgent's "Title" == "Guardhouse")
+					begin
+						If ($RandomNumber (100) + 1 > 99)
+							begin
+		  						ThisAgent's "Guard_Function" = $Release_Guards;
+								ThisAgent's "TaskName" = "Wander";
+							end
+						else
+							If ($GetAttribute (thisagent, #ATTRIB_ResearchGoodGuard) != 0)
+								begin
+									if ($listsize(thisagent's "guards") > 0)
+										begin
+											guard = $listmember(thisagent's "guards",1);
+											if (guard's "title" == "city_guard")
+												begin
+													if (guard's "home" == thisagent)
+														begin
+															Thisagent's "Guard_function" = $Release_guards;
+															Thisagent's "TaskName" = "Switch_guards";
+														end
+												end
+										end
+								end
+					end
+		end
+
+End
+
 /////////////////////////////////////Guardhouse Guard Functions////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

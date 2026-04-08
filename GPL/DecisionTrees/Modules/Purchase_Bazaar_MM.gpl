@@ -66,6 +66,9 @@ Declare
 	string conditionsub, completecondition, visitsub, completevisit;
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	bazaar_chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Flag = FALSE;
 	//See if the hero wants to buy bazaar items

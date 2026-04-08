@@ -708,20 +708,15 @@ function Embers_Passive(agent thisagent)
 // Function for Embers HP/MP Regeneration amount
 declare
 	integer current_mana, max_mana, spell_level, regen_Mana, regen_Health, Increase_regen_Mana;
-	string spell_cast;
+	integer delta;
 
 begin
-	spell_cast = "Embers";
-	spell_level = $GetSpellRank(thisagent, spell_cast);
+	spell_level = $GetSpellRank(thisagent, "Embers");
 	Increase_regen_Mana = ((spell_level - 1) * 3);
 	regen_Mana = #Embers_Mana_Regen + Increase_regen_Mana;
 	
 	current_mana = thisagent's "CurrentMana";
 	max_mana = thisagent's "MaxMana_Total";
-	
-	
-	$AdjustIntegerSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_ManaRegeneration" * 50));
-	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 - (thisagent's "Embers_HealthRegeneration" * 50));
 	
 	if (max_mana < 1)
 		max_mana = 1;
@@ -729,17 +724,30 @@ begin
  	regen_Health = (Regen_Mana * current_mana) / max_mana;
 	regen_Mana -= regen_Health;
 	
+	regen_mana *= 50;
+	regen_health *= 50;
 	
 	if (spell_level < 5)
 		begin
 			regen_Health = 0;
 		end
 		
+	delta = regen_mana - thisagent's "Embers_ManaRegeneration";
+	if (delta != 0)
+		begin
+			$AdjustIntegerSafe(thisagent, "ManaRegeneration_Flat_Modifier", delta);
+			$UpdateManaRegeneration(thisagent);
+		end
+		
+	delta = regen_health - thisagent's "Embers_HealthRegeneration";
+	if (delta != 0)
+		begin
+			$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat_Modifier", delta);
+			$UpdateHealthRegeneration(thisagent);
+		end
+	
 	thisagent's "Embers_ManaRegeneration" = regen_Mana;
 	thisagent's "Embers_HealthRegeneration" = regen_Health;
-	
-	$AdjustIntegerSafe(thisagent, "ManaRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_ManaRegeneration" * 50));
-	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat_Modifier", 0 + (thisagent's "Embers_HealthRegeneration" * 50));
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

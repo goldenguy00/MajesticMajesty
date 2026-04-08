@@ -197,6 +197,9 @@ Declare
 	string conditionsub, completecondition, visitsub, completevisit;
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 //	//$DebugOut ("Should I check Libraries for spells?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Intention = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");

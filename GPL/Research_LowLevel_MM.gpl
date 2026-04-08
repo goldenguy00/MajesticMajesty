@@ -102,7 +102,7 @@ begin
 		begin
 			$ResearchSet(spawn, "QUEUED");
 			r_text = p_structure's "research_text";
-			r_text's "Research_Que" += spawn;
+			r_text's "Research_Queue" += spawn;
 		end
 	else
 		begin
@@ -185,7 +185,7 @@ begin
 	if (thisagent's "ResearchStatus" == "QUEUED")
 		begin
 			r_text = p_structure's "research_text";
-			r_text's "Research_Que" -= thisagent;
+			r_text's "Research_Queue" -= thisagent;
 		end
 	$ResearchCancel(thisagent);
 	$deletegamepiece(thisagent);
@@ -229,7 +229,7 @@ begin
 	if (thisagent's "ResearchStatus" == "QUEUED")
 		begin
 			r_text = p_structure's "research_text";
-			r_text's "Research_Que" -= thisagent;
+			r_text's "Research_Queue" -= thisagent;
 		end
 	$ResearchCancel(thisagent);
 	$deletegamepiece(thisagent);
@@ -314,7 +314,7 @@ declare
 begin
 	$setattribute(thisagent, #ATTRIB_Gold, thisagent's "gold_value");
 	$setattribute(thisagent, #ATTRIB_MaxHP, thisagent's "Research_Time");
-	$setattribute(thisagent, #ATTRIB_HP, 1);
+	$setattribute(thisagent, #ATTRIB_HP, thisagent's "gold_value");
 	$setattribute(thisagent,#ATTRIB_ExperienceLevel, thisagent's "Level");
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -387,7 +387,7 @@ begin
 			
 end
 ///////////////////////////////////////////////////////////////////////////////
-function ResearchBeginQue(agent thisagent) //This is called by the floatingtext if a research is QUEUED
+function ResearchBeginQueue(agent thisagent) //This is called by the floatingtext if a research is QUEUED
 
 declare
 	agent Queued_Research;
@@ -395,11 +395,11 @@ declare
 	integer cost;
 	
 begin
-	Queued_Research = $listmember(thisagent's "Research_Que", 1);
+	Queued_Research = $listmember(thisagent's "Research_Queue", 1);
 	
 	$ResearchSet(Queued_Research, "RESEARCHING");
 	
-	thisagent's "Research_Que" -= Queued_Research;
+	thisagent's "Research_Queue" -= Queued_Research;
 	thisagent's "Target" = Queued_Research's "Container";
 	thisagent's "Research" = Queued_Research;
 	thisagent's "duration" = Queued_Research's "Research_Time";
@@ -426,7 +426,7 @@ begin
 	if (thisagent's "ResearchStatus" == "RESEARCHING") //Going through the process of cancelling ongoing research
 		begin
 			floatingtext = thisagent's "ResearchText";
-			que_size = $listsize(floatingtext's "Research_Que");
+			que_size = $listsize(floatingtext's "Research_Queue");
 			cost = floatingtext's "gold_value";
 			$AdjustPlayerData ( thisagent, "gold", cost );
 			text = thisagent's "ResearchDisplayName";
@@ -436,7 +436,7 @@ begin
 				begin
 					$SpecifyName(floatingtext, text);
 					$teleporttounit(floatingtext, 1, floatingtext, 0);
-					$ResearchBeginQue(floatingtext);
+					$ResearchBeginQueue(floatingtext);
 				end
 			else
 				begin
@@ -501,7 +501,7 @@ begin
 	thisagent's "Update_Counter" ++;
 	target = thisagent's "Target";
 	p_structure = target's "PrimaryStructure";
-	que_size = $listsize(thisagent's "Research_Que");
+	que_size = $listsize(thisagent's "Research_Queue");
 	text = thisagent's "text";
 	thisagent's "duration_current" += 500;
 	adjust_current = (thisagent's "duration_current" / 100);
@@ -526,7 +526,7 @@ begin
 			if (que_size > 0)
 				begin
 					thisagent's "Update_Counter" = 0;
-					$ResearchBeginQue(thisagent);
+					$ResearchBeginQueue(thisagent);
 				end
 			else
 				begin

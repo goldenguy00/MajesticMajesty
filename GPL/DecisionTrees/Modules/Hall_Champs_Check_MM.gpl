@@ -78,6 +78,9 @@ Declare
 	string conditionsub, completecondition, visitsub, completevisit;
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	//See is I am interested enough
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	

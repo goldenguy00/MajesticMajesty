@@ -77,7 +77,7 @@
 		(Level						0)
 		(Max_Level					2)
 		(Repeatable					True)
-		(RepeatableCheck			ResearchExpandedLivingQuarters_Check)
+		(RepeatableCheck			ResearchExpandedLivingQuarters_RepeatableCheck)
 		(Increment					Max_Members)
 		(Increment_Amount			1)
 		(Research_Time				23000)

@@ -29,7 +29,7 @@ begin
 		picked_attribute = $PreferredAttribute(thisagent, false);
 	////$DebugOut("Picked",picked_attribute,":",thisagent's (picked_attribute+"_Base"));
 	thisagent's (picked_attribute+"_Base") += 1;
-	$AddInsightPoints(thisagent, $GetBaseStatTotal(thisagent, "Wisdom"));
+	$AddInsightPoints(thisagent, thisagent's "Wisdom_Total");
 
 	// give 1 point to all attack skills - to max of 98?
 	if (thisagent's "attacktype" == 1)

@@ -64,11 +64,13 @@ Declare
 	list	Undead;
 	integer summon_limit, chance;
 	string spell_name;
-	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
 	agent summon_target;
-	string conditionsub, completecondition;
+	string taskindex;
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	////$DebugOut ("Should I build a Horde?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	If ($RandomNumber (100) + 1 > Chance)
@@ -76,16 +78,6 @@ Begin
 			//$DebugOut ("Not Interested!");
 			return False;
 		End
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	actionsub = "TaskPackageTargetAction";
-	intentsub = "TaskPackageIntent";
-	targetsub = "TaskPackageTarget";
-	completeaction = actionsub + taskindex;
-	completeintent = intentsub + taskindex;
-	completetarget = targetsub + taskindex;
-	
-	conditionsub = "TaskPackageTargetCondition";
-	completecondition = conditionsub + taskindex;
 	
 	//This check to see if they already have their max. complement of summons
 	If (ThisAgent's "Num_Followers" >= 5)
@@ -103,10 +95,8 @@ Begin
 
 					If ($ListSize (Undead) > 0)
 						begin
-							ThisAgent's completetarget = $ListMember (Undead, 1);
-							ThisAgent's completeaction = $Go_Control_Monster;
-							ThisAgent's completecondition = $isdead;
-							ThisAgent's completeintent = "IDTXT_INTENT_CONTROLLINGUNDEAD";
+							$UpdateTaskPackage(thisagent, $Go_Control_Monster, $isdead, $ListMember (Undead, 1), "IDTXT_INTENT_CONTROLLINGUNDEAD");
+
 							return $NotDuplicateTask(thisagent, taskindex);
 						end
 				end

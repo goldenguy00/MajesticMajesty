@@ -497,34 +497,4 @@
 			<StackPriority value="1"/>
 		</Game>
 	</Description>
-	<Description type="Unit" subType="Overlay" ID="MSr1" Name="ManaSystem_Regeneration" Description="Mana Regeneration">
-		<Engine version="1">
-			<Info value="Directionless"/>
-			<Info value="DontBlock"/>
-			<Menu value="11"/>
-			<ImageIDBase value="ARF3"/>
-			<AttachmentPointID value="3"/>
-			<Script type="0" cProc="0" GPLFunction="Mana_Regeneration"/>
-			<DefaultSound value="0"/>
-		</Engine>
-		<Game version="1">
-			<DialogID value="0"/>
-			<StackPriority value="0"/>
-		</Game>
-	</Description>
-	<Description type="Unit" subType="Overlay" ID="MSr2" Name="ManaSystem_Regeneration2" Description="Mana Regeneration">
-		<Engine version="1">
-			<Info value="Directionless"/>
-			<Info value="DontBlock"/>
-			<Menu value="11"/>
-			<ImageIDBase value="ARF3"/>
-			<AttachmentPointID value="3"/>
-			<Script type="0" cProc="0" GPLFunction="Mana_Regeneration2"/>
-			<DefaultSound value="0"/>
-		</Engine>
-		<Game version="1">
-			<DialogID value="0"/>
-			<StackPriority value="0"/>
-		</Game>
-	</Description>
 </Majesty>

@@ -4,11 +4,16 @@ Declare
 	agent item, marketplace, target;
 	list buildings, blacksmiths, services, shops, potentials;
 	integer search_dist, Intel_Roll, chance, loot_mod, intent_mod, equipment_level, gold_needed; 
-	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
+	string actionsub, intentsub, targetsub, tnamesub, completeaction, completeintent, completetarget, completetname;
 	string conditionsub, completecondition, visitsub, completevisit, equipment, intent;
 	boolean flag, Wants_Weapon, Wants_Armor;
 
+	string taskindex;
+
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	flag = FALSE;
 	
 	//See if ThisAgent can use Weapons, and if they want to think about upgrading

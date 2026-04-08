@@ -18,7 +18,7 @@ begin
 	if ($isvalidgamepiece(palace) == False)
 		return FALSE;
 
-	$reconstruct_lists(palace);
+	//$reconstruct_lists(palace);
 
 	buildings = palace's "buildings_waiting";
 	buildings = $addlists(buildings,palace's "buildings_under_construction");
@@ -46,6 +46,8 @@ begin
 		else
 			return FALSE;
 end
+
+
 ///////////////////////////////////////////////////////////////////////////////
 function help_build_packet(agent thisagent) is Boolean
 
@@ -57,6 +59,9 @@ declare
 	string conditionsub, completecondition, intentext;
 
 begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	range = thisagent's "TaskPackageConstructionRadius";
 	if ($randomnumber(100) > chance) return FALSE;
@@ -77,7 +82,7 @@ begin
 	conditionsub = "TaskPackageTargetCondition";
 	completecondition = conditionsub + taskindex;
 
-	$reconstruct_lists(palace);
+	//$reconstruct_lists(palace);
 
 	buildings = palace's "buildings_waiting";
 	buildings = $addlists(buildings,palace's "buildings_under_construction");

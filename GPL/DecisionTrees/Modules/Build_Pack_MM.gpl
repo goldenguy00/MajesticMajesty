@@ -54,10 +54,15 @@ Function Build_Pack_Packet (agent ThisAgent) is boolean
 Declare
 	list	Animals;
 	integer monster_limit, chance;
-	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
+	string actionsub, intentsub, targetsub, completeaction, completeintent, completetarget;
 	string conditionsub, completecondition;
 
+	string taskindex;
+
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 
 	//$DebugOut ("Should I Build a Pack?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");

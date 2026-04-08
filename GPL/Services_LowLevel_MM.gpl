@@ -63,9 +63,11 @@ declare
 	agent container;
 
 begin
+	$setattribute(thisagent, #ATTRIB_ResearchArrows, 1);
+	$setattribute(thisagent, #ATTRIB_ResearchGoodGuard, 1);
 	thisagent's "Research_Loc" = $MakeCoord(30, 70);
 	container = $GetResearchContainer(thisagent);
-	$AddStringToList("ResearchBarracks", thisagent's "Checklist");
+	//$AddStringToList("ResearchBarracks", thisagent's "Checklist");
 	$AddResearchItem(thisagent, "ResearchRecruitmentQuarters", container);
 	$AddResearchItem(thisagent, "ResearchBarracks", container);
 	$AddResearchItem(thisagent, "ResearchRecruitAdditionalGuard", container);
@@ -442,7 +444,7 @@ declare
 
 begin	
 	thisagent's "ResearchDisplayName" = "Research Recruitment Quarters";
-	thisagent's "Checklist" << "ResearchBarracks";
+	//thisagent's "Checklist" << "ResearchBarracks";
 	$ResearchSet(thisagent, "AVAILABLE");
 	$Research_Birth(thisagent);					
 end
@@ -487,7 +489,7 @@ function ResearchBarracks_Check(agent thisagent) is boolean
 declare
 
 begin
-	if ((thisagent's "Level" > 1) && ($HasProperty(thisagent, "Recruit_Here")))
+	if ((thisagent's "Level" > 1)) //&& ($HasProperty(thisagent, "Recruit_Here")))
 		return True;
 	return False;
 end		
@@ -522,11 +524,20 @@ begin
 	$Research_Birth(thisagent);					
 end
 ///////////////////////////////////////////////////////////////////////////////
-function ResearchExpandedLivingQuarters_Check(agent thisagent) is boolean
+function ResearchExpandedLivingQuarters_Check(agent thisBuilding) is boolean
 declare
 
 begin
-	if (thisagent's "Level" == thisagent's "Max_Level")
+	if (thisBuilding's "Level" == thisBuilding's "Max_Level")
+		return True;
+	return False;
+end		
+///////////////////////////////////////////////////////////////////////////////
+function ResearchExpandedLivingQuarters_RepeatableCheck(agent thisagent) is boolean
+declare
+
+begin
+	if (thisagent's "Level" < thisagent's "Max_Level")
 		return True;
 	return False;
 end		

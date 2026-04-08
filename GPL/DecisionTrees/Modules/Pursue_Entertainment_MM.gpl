@@ -69,14 +69,31 @@ Function Pursue_Entertainment_Packet (agent ThisAgent) is Boolean
 Declare
 	list	Buildings,Attractions,Fairgrounds;
 	agent	Target; 
-	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
+	string actionsub, intentsub, targetsub, tnamesub, completeaction, completeintent, completetarget, completetname;
 	string conditionsub, completecondition, visitsub, completevisit;
 
+	agent attraction, fairground;
+	string taskindex;
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 //	//$DebugOut ("Shall I Pursue Entertainment?");
 
-	$listobjects(thisagent,"building",-1,buildings, #ATTRIB_FirstStageBuilt, 1);
+	Palace = $GetTruePalace (ThisAgent);
+	if ($isdead(palace))
+		begin
+			$listobjects(thisagent,"building",-1,buildings, #ATTRIB_FirstStageBuilt, 1);
+		end
+	else if ($HasAttribute("All_Buildings_List", palace) == false)
+		begin
+			$listobjects(thisagent,"building",-1,buildings, #ATTRIB_FirstStageBuilt, 1);
+		end
+	else
+		begin
+			buildings = $Remove_Invalid(palace's "All_Buildings_List");
+		end
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
@@ -148,17 +165,16 @@ Begin
 End
 
 ///////////////////////////////////////////////////////////////////////////////
-Function Check_Brothels_and_GHalls_Packet(agent ThisAgent, list ThisList) is boolean
+Function Check_Brothels_and_GHalls_Packet(agent ThisAgent, agent best_one) is boolean
 Declare
 	integer Willpower_Roll;
 	integer Greed_Roll;
-	agent Best_One; 
 	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
 	string conditionsub, completecondition, visitsub, completevisit;
 
 
 Begin
-	Best_One = $ListMember (ThisList, 1);
+	//Best_One = $ListMember (ThisList, 1);
 	//Best_One = $Pick_Closest (ThisAgent, ThisList);
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
@@ -185,6 +201,7 @@ Begin
 						Begin
 //							//$DebugOut ("Yeahh! I want to party at the BROTHEL!");
 							ThisAgent's completetarget = Best_One;
+							thisagent's completecondition = $isdead;
 							return True;
 						End
 				end
@@ -202,6 +219,7 @@ Begin
 										begin
 											//$DebugOut ("Yeahh! I want to party at the GAMBLING HALL!");
 											ThisAgent's completetarget = Best_One;
+											thisagent's completecondition = $isdead;
 											return True;
 										end
 								end
@@ -292,6 +310,7 @@ Begin
 	if (going_to_event)
 		begin
 			ThisAgent's completetarget = Best_One;
+			thisagent's completecondition = $isdead;
 			Best_One's "Combatants" << ThisAgent;
 		end
 

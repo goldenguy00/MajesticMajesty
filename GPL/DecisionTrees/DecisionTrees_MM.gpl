@@ -2740,16 +2740,17 @@ begin
 		
 	if ((thisagent's "TaskPackageStatus" == "Engaged")) 
 		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent"))
-		if ((thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target this hero attacked is dead after already engaging the target once in combat.
-			begin																								//  By default, if it is, whether or not it died in the engagement with the hero, it will mark as complete
-				thisagent's "TaskPackageStatus" = "Complete";
-			end
+			if ((thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target this hero attacked is dead after already engaging the target once in combat.
+				begin																								//  By default, if it is, whether or not it died in the engagement with the hero, it will mark as complete
+					thisagent's "TaskPackageStatus" = "Complete";
+				end
 	if ((thisagent's "TaskPackageStatus" == "Ongoing") && ((thisagent's "TaskPackageTargetActionCurrent") != $Search_For_Task))		//Don't use && since condition and target might not be set up yet, and it will divide by 0
 		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent"))
-		if ((thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target of the action is no longer valid.
-			begin																								//  On this case, it will be marked as Retry for the Status
-				thisagent's "TaskPackageStatus" = "Retry";
-			end											
+			if ((thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target of the action is no longer valid.
+				begin																								//  On this case, it will be marked as Retry for the Status
+					thisagent's "TaskPackageStatus" = "Retry";
+				end
+
 	if (thisagent's "TaskPackageStatus" == "Complete")
 		begin
 			thisagent's "TaskPackageStatus" = "Ongoing";
@@ -2775,7 +2776,8 @@ begin
 			thisagent's "TaskPackageTargetActionNext" = $Search_For_Task;
 			thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
 		end
-	else if ((thisagent's "TaskPackageTargetActionCurrent") != $Search_For_Task)
+	
+	if ((thisagent's "TaskPackageTargetActionCurrent") != $Search_For_Task)
 		begin
 			thisagent's "Target" = thisagent's "TaskPackageTargetCurrent";
 			thisagent's "BackTarget" = thisagent's "TaskPackageTarget2Current";
@@ -2794,20 +2796,21 @@ begin
 		end
 	else
 		begin
-			if ($RandomNumberNonZero(2)==1)
-				begin
-					//if ($explore_map(thisagent, 100)==FALSE)
-					//if ($go_home(thisagent, 100)==FALSE)
-					thisagent's "ActiveScript" = $Generic_Tree; //Look back at this again, since every hero uses the new system
-				end
-			else
-				begin
-					//if ($go_home(thisagent, 100)==FALSE)
-					//if ($explore_map(thisagent, 100)==FALSE)
-					thisagent's "ActiveScript" = $Generic_Tree;
-				end
+			thisagent's "ActiveScript" = $Generic_Tree;
 		end
-
+			//if ($RandomNumberNonZero(2)==1)
+			//	begin
+					//if ($explore_map(thisagent, 100)==FALSE)
+					//if ($go_home(thisagent, 100)==FALSE)
+			//		thisagent's "ActiveScript" = $Generic_Tree; //Look back at this again, since every hero uses the new system
+			//	end
+			//else
+			//	begin
+					//if ($go_home(thisagent, 100)==FALSE)
+					//if ($explore_map(thisagent, 100)==FALSE)
+			//		thisagent's "ActiveScript" = $Generic_Tree;
+			//	end
+		//end
 end
 ///////////////////////////////////////////////////////////////////////////////
 function NextTaskSequence (agent thisagent, string thistask, string nexttask)
@@ -2829,6 +2832,7 @@ begin
 	thisagent's ("TaskPackageVisitingScript" + thistask) = thisagent's ("TaskPackageVisitingScript" + nexttask);
 			
 end
+
 ///////////////////////////////////////////////////////////////////////////////
 function NotDuplicateTask (agent thisagent, string index) is boolean
 //Checks to see if the task is a duplicate of other ones
@@ -2853,27 +2857,28 @@ begin
 					thisagent's completeaction = $Search_For_Task;
 					return False;
 				end
+		
+			if (index == "Reserve") //If Reserve is a duplicate of Backup or Next, then return false
+				begin
+					othertarget = targetsub + "Backup";
+					otheraction = actionsub + "Backup";
+					if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
+						begin
+							thisagent's completeaction = $Search_For_Task;
+							return False;
+						end
+						
+					othertarget = targetsub + "Next";
+					otheraction = actionsub + "Next";
+					if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
+						begin
+							thisagent's completeaction = $Search_For_Task;
+							return False;
+						end
+				end
 		end
 		
-	if (index == "Reserve") //If Reserve is a duplicate of Backup or Next, then return false
-		begin
-			othertarget = targetsub + "Backup";
-			otheraction = actionsub + "Backup";
-			if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
-				begin
-					thisagent's completeaction = $Search_For_Task;
-					return False;
-				end
-			othertarget = targetsub + "Next";
-			otheraction = actionsub + "Next";
-			if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
-				begin
-					thisagent's completeaction = $Search_For_Task;
-					return False;
-				end
-		end
-		
-	return flag;
+	return true;
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2954,9 +2959,10 @@ begin
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
 			thisagent's "TaskPackageTypeIndex" = "Next";
 			$Search_For_Task(thisagent);
-			thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
+			//thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
 			//thisagent's "TaskPackageTypeIndex" = "Reserve";
 			//$Search_For_Task(thisagent);
+			return;
 		end
 		
 	if (thisagent's "TaskPackageTargetActionBackup" == $Search_For_Task)
@@ -2973,8 +2979,6 @@ begin
 			thisagent's "TaskPackageTypeIndex" = "Reserve";
 			$Search_For_Task(thisagent);
 		end
-		
-
 end
 ///////////////////////////////////////////////////////////////////////////////
 function Search_For_Task (agent thisagent)
@@ -2990,10 +2994,10 @@ begin
 	flag = FALSE;
 	indexlist =	"TaskPackageIndexList";
 	subindex = "TaskPackageIndex";
-	tasktype = "TaskPackageType"; //This currently isn't being set anywhere, determine if it is obsolete by another field.
-	orderindex = thisagent's "TaskPackageTypeIndex"; // Is this for the Current/Backup/Next? //Isn't used here yet, obsolete?
+	//tasktype = "TaskPackageType"; //This currently isn't being set anywhere, determine if it is obsolete by another field.
+	//orderindex = thisagent's "TaskPackageTypeIndex"; // Is this for the Current/Backup/Next? //Isn't used here yet, obsolete?
 	taskindex = thisagent's "TaskPackageVar";
-	completetype = tasktype + taskindex; // For Example, "TaskPackageType" + "Combat"
+	//completetype = tasktype + taskindex; // For Example, "TaskPackageType" + "Combat"
 	index = subindex + taskindex; //This is "TaskPackageIndex" + "Combat"
 	
 	completeindex = indexlist + taskindex;
@@ -3014,27 +3018,29 @@ begin
 	
 	if (($listmember((thisagent's completeindex),rand))(thisagent)) //Need an else for when a task is returning negative constantly.
 		begin
-			thisagent's current ++;
 			thisagent's "TaskSearch_Limit" = 0;
 			if (flag)
-				if (thisagent's current >= thisagent's threshold)
-					begin
-						thisagent's current = 0;
-						if (taskindex == "Prepare")
-							begin
-								chance_total = $RandomNumberNonZero(thisagent's "TaskChanceCombat" + thisagent's "TaskChanceExplore" + thisagent's "TaskChanceIdle");
-								if (thisagent's "TaskChanceCombat" <= chance_total)
-									thisagent's "TaskPackageSet" = "Combat";
-								else if (thisagent's "TaskChanceCombat" +  thisagent's "TaskChanceExplore" <= chance_total)
-									thisagent's "TaskPackageSet" = "Explore";
-								else
-									thisagent's "TaskPackageSet" = "Idle";
-							end
-						else
-							begin
-								thisagent's "TaskPackageSet" = "Prepare";
-							end
-					end
+				begin
+					thisagent's current ++;
+					if (thisagent's current >= thisagent's threshold)
+						begin
+							thisagent's current = 0;
+							if (taskindex == "Prepare")
+								begin
+									chance_total = $RandomNumberNonZero(thisagent's "TaskChanceCombat" + thisagent's "TaskChanceExplore" + thisagent's "TaskChanceIdle");
+									if (thisagent's "TaskChanceCombat" <= chance_total)
+										thisagent's "TaskPackageSet" = "Combat";
+									else if (thisagent's "TaskChanceCombat" +  thisagent's "TaskChanceExplore" <= chance_total)
+										thisagent's "TaskPackageSet" = "Explore";
+									else
+										thisagent's "TaskPackageSet" = "Idle";
+								end
+							else
+								begin
+									thisagent's "TaskPackageSet" = "Prepare";
+								end
+						end
+				end
 		end
 	else
 		begin
@@ -3096,4 +3102,57 @@ begin
 	//Not used anymore
 	
 
+end
+
+function UpdateTaskPackage(agent thisagent, function action, function condition, agent target, string intent)
+declare
+	string actionsub, conditionsub, targetsub, intentsub;
+	string completeaction, completecondition, completetarget, completeintent;
+	string taskindex;
+begin
+	// could you make this any more fucking stupidly convoluted? like ohh my god im losing my mind here
+	actionsub = "TaskPackageTargetAction";
+	conditionsub = "TaskPackageTargetCondition";
+	targetsub = "TaskPackageTarget";
+	intentsub = "TaskPackageIntent";
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	completeaction = actionsub + taskindex;
+	completecondition = conditionsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completeintent = intentsub + taskindex;
+	
+	thisagent's completeaction = action;
+	thisagent's completecondition = condition;
+	thisagent's completetarget = target;
+	thisagent's completeintent = intent;
+end
+
+function UpdateVisitTaskPackage(agent thisagent, function action, function condition, agent target, string intent, string name, function visit )
+declare
+	string actionsub, conditionsub, targetsub, intentsub, namesub, visitsub;
+	string completeaction, completecondition, completetarget, completeintent, completename, completevisit;
+	string taskindex;
+begin
+	actionsub = "TaskPackageTargetAction";
+	conditionsub = "TaskPackageTargetCondition";
+	targetsub = "TaskPackageTarget";
+	intentsub = "TaskPackageIntent";
+	namesub = "TaskPackageTaskName";
+	visitsub = "TaskPackageVisitingScript";
+
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	completeaction = actionsub + taskindex;
+	completecondition = conditionsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completename = namesub + taskindex;
+	completevisit = visitsub + taskindex;
+	
+	thisagent's completeaction = action;
+	thisagent's completecondition = condition;
+	thisagent's completetarget = target;
+	thisagent's completeintent = intent;
+	thisagent's completename = name;
+	thisagent's completevisit = visit;
 end

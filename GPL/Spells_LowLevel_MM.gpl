@@ -1084,33 +1084,6 @@ begin
 	return new_spell;
 end
 
-
-///////////////////////////////////////////////////////////////////////////////
-function getattackrange(agent thisagent) is integer
-
-declare
-	string spell_name;
-begin
-	// pick a weapon to use - a spell or regular weapon
-	spell_name = $Spell_List_Support(thisagent);
-	if (spell_name != "nothing")
-		return $MaxSpellRange(thisagent's "castingrange", spell_name);
-	
-	spell_name = $Spell_List_Attack(thisagent);
-	if (spell_name != "nothing")
-		return $GreatestAttackListRange(thisagent);
-
-	if ($IsSpellCaster(thisagent))
-		return $GreatestSpellRangeForHero(thisagent);
-
-	spell_name = $getbestspell(thisagent,#list_attack);
-	if (spell_name != "nothing")
-		return $GreatestSpellRangeForHero(thisagent);
-		
-	return $getattribute(thisagent,#ATTRIB_maxattackrange);
-		
-end
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function GetSpellCooldown(agent thisagent, integer cooldown) is integer
 declare
@@ -1302,6 +1275,163 @@ begin
 	total_cost = thisagent's mana_cost + mana_increase;
 	
 	return $WisdomManaReduction(thisagent, total_cost);
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+//function getattackrange(agent thisagent) is integer
+// need to optimize the shit outta this...
+//declare
+//	string spell_name;
+//begin
+//	if (thisagent's "type" != "Hero")
+		
+		
+//	return $GreatestSpellRangeForHero(thisagent);
+	// pick a weapon to use - a spell or regular weapon
+	//spell_name = $Spell_List_Support(thisagent);
+	//if (spell_name != "nothing")
+	//	return $MaxSpellRange(thisagent's "castingrange", spell_name);
+	
+	//spell_name = $Spell_List_Attack(thisagent);
+	//if (spell_name != "nothing")
+	//	return $GreatestAttackListRange(thisagent);
+
+	//if ($IsSpellCaster(thisagent))
+	//	return $GreatestSpellRangeForHero(thisagent);
+
+//	spell_name = $getbestspell(thisagent,#list_attack);
+//	if (spell_name != "nothing")
+//		return $GreatestSpellRangeForHero(thisagent);
+
+//	return $getattribute(thisagent,#ATTRIB_maxattackrange);
+//end
+
+///////////////////////////////////////////////////////////////////////////////
+function getattackrange(agent thisagent) is integer
+
+declare
+	integer arrivedist;
+
+begin
+	begin
+		if ($getbestspell(thisagent,#List_attack) != "nothing")
+			arrivedist = thisagent's "castingrange";
+		else if (thisagent's "type" == "Hero")
+			arrivedist = $GreatestSpellRangeForHero(thisagent);
+		else
+			arrivedist = $getattribute(thisagent,#ATTRIB_MaxAttackRange);
+	end
+
+	return arrivedist;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function IsSpellCaster( agent thisagent ) is boolean
+// Is the hero a spellcaster?
+
+declare
+	string unit_name, original_name;
+	boolean caster;
+	
+begin
+	caster = FALSE;
+	unit_name = thisagent's "title";
+	
+	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
+		original_name = thisagent's "Original_Title";
+	
+	if (unit_name == "wizard" || original_name == "wizard")
+		caster = TRUE;
+	else if (unit_name == "priestess" || original_name == "priestess")
+		caster = TRUE;
+	
+	return caster;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function GreatestAttackListRange( agent thisagent ) is integer
+// The range at which a spellcaster will start casting spells.
+
+declare
+	integer cast_range, new_range, final_range, count, size;
+	string spell_name, range;
+	list spells;
+	
+begin
+	cast_range = thisagent's "castingRange";
+	final_range = $PercentOf(cast_range, 67, False);			//67% is the normal spell cast range
+
+	if ($HasAttribute("SpellsAttack", thisagent))
+		foreach spell_name in thisagent's "SpellsAttack" do
+			if ($CanCast(thisagent, spell_name))
+				begin
+					range = spell_name + "_Range";
+					new_range = $PercentOf(cast_range, thisagent's range, False);	//Set the new range
+					if (new_range > final_range)										//check if the new range is greater than the final one
+						final_range = new_range;
+				end
+			
+	return final_range;
+end
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function GreatestSpellRangeForHero( agent thisagent ) is integer
+// The distance at which a spellcaster will start casting spells.
+
+declare
+	integer cast_range;
+	string unit_name, spell_name, original_name;
+	
+begin
+	unit_name = thisagent's "title";
+	cast_range = thisagent's "castingRange";
+	
+	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
+		original_name = thisagent's "Original_Title";
+	
+	if (unit_name == "paladin")
+		return $PercentOf(cast_range, 50, False);
+	else if (unit_name == "healer")
+		return $PercentOf(cast_range, 50, False);
+	else if (unit_name == "rogue")
+		return $PercentOf(cast_range, 50, False);
+	else if (unit_name == "monk")
+		return $PercentOf(cast_range, 50, False);
+	else if ((unit_name == "cultist") || (original_name == "cultist"))
+		return $PercentOf(cast_range, 50, False);
+	else if (unit_name == "solarus")
+		return $PercentOf(cast_range, 25, False);
+	else if ((unit_name == "priestess") || (original_name == "priestess"))
+		begin
+			cast_range = $PercentOf(cast_range, 67, False);
+			//cast_range = $GreatestCastRange(thisagent, "drain_life", cast_range);
+			return cast_range;
+		end
+	else if (unit_name == "wizard")
+		begin
+			cast_range = $GreatestAttackListRange(thisagent);
+			return cast_range;
+		end
+	
+	// not casting
+	return $getattribute(thisagent,#ATTRIB_maxattackrange);
+end
+
+function GreatestCastRange(agent thisagent, string spell_name, integer range) is integer
+
+declare
+	integer new_range;
+
+begin
+	if ($isspellAvailable(thisagent,spell_name) == TRUE)
+		begin
+			new_range = $CastRangeForSpell(thisagent's "castingRange", spell_name);
+			if (new_range > range)
+				range = new_range;
+		end
+	return range;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1554,118 +1684,6 @@ begin
 	return cast_range;
 end
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function IsSpellCaster( agent thisagent ) is boolean
-// Is the hero a spellcaster?
-
-declare
-	string unit_name, original_name;
-	boolean caster;
-	
-begin
-	caster = FALSE;
-	unit_name = thisagent's "title";
-	
-	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
-		original_name = thisagent's "Original_Title";
-	
-	if (unit_name == "wizard" || original_name == "wizard")
-		caster = TRUE;
-	else if (unit_name == "priestess" || original_name == "priestess")
-		caster = TRUE;
-	
-	return caster;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function GreatestAttackListRange( agent thisagent ) is integer
-// The range at which a spellcaster will start casting spells.
-
-declare
-	integer cast_range, new_range, final_range, count, size;
-	string spell_name, range;
-	list spells;
-	
-begin
-	cast_range = thisagent's "castingRange";
-	final_range = $PercentOf(cast_range, 67, False);			//67% is the normal spell cast range
-
-	if ($HasAttribute("SpellsAttack", thisagent))
-		foreach spell_name in thisagent's "SpellsAttack" do
-			if ($CanCast(thisagent, spell_name))
-				begin
-					range = spell_name + "_Range";
-					new_range = $PercentOf(cast_range, thisagent's range, False);	//Set the new range
-					if (new_range > final_range)										//check if the new range is greater than the final one
-						final_range = new_range;
-				end
-			
-	return final_range;
-end
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function GreatestSpellRangeForHero( agent thisagent ) is integer
-// The distance at which a spellcaster will start casting spells.
-
-declare
-	integer cast_range;
-	string unit_name, spell_name, original_name;
-	
-begin
-	unit_name = thisagent's "title";
-	cast_range = thisagent's "castingRange";
-	
-	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
-		original_name = thisagent's "Original_Title";
-	
-	if (unit_name == "paladin")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "healer")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "rogue")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "monk")
-		return $PercentOf(cast_range, 50, False);
-	else if ((unit_name == "cultist") || (original_name == "cultist"))
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "solarus")
-		return $PercentOf(cast_range, 25, False);
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			cast_range = $PercentOf(cast_range, 67, False);
-			cast_range = $GreatestCastRange(thisagent, "drain_life", cast_range);
-			return cast_range;
-		end
-	else if (unit_name == "wizard")
-		begin
-			cast_range = $PercentOf(cast_range, 67, False);
-			cast_range = $GreatestCastRange(thisagent, "energy_blast", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "fireball", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "firebolt", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "perdition_barrage", cast_range);
-			cast_range = $GreatestCastRange(thisagent, "incandescent_ray", cast_range);
-			return cast_range;
-		end
-	
-	// not casting
-	return $getattribute(thisagent,#ATTRIB_maxattackrange);
-end
-
-function GreatestCastRange(agent thisagent, string spell_name, integer range) is integer
-
-declare
-	integer new_range;
-
-begin
-	if ($isspellAvailable(thisagent,spell_name) == TRUE)
-		begin
-			new_range = $CastRangeForSpell(thisagent's "castingRange", spell_name);
-			if (new_range > range)
-				range = new_range;
-		end
-	return range;
-end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////NEW SPELL FUNCTIONS/////////////////////////////////////////////////

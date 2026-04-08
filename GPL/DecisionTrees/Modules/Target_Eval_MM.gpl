@@ -33,6 +33,170 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
+function list_eval_opt(agent thisagent, list thislist) is agent
+
+// this function should only ever be used by the unit type "hero"
+// when they are evulating nearby hostiles of any type
+
+declare
+	agent hostile, best_target;
+	float hmod_tohit;
+	float ta_tohit_f,ta_avoid_f,htohit_f,havoid_f;
+	float ta_mod_tohit;
+	float enemy_total_strength,enemy_total_HP,enemy_HP,enemy_strength;
+	integer distance,total_distance;
+	integer hitstildead,hitstokill;
+	integer total_range_difference,sum,dist1,hostile_range,attack_range,extra_shots;
+	integer hostile_extra_range,thisagent_extra_range;
+	integer spell_mod, dist_mod;
+
+	integer current_score, best_score;
+	integer best_hero_score, score_mod;
+
+	integer hero_hp, hero_dmg, hero_armor, hero_speed;
+	float self_est, enemy_est;
+
+	// to make this work with towers:
+	// make functions: $getattackrange, $getstrength, $getarmor
+begin
+	if ($listsize(thislist) == 0)
+		begin
+			return $NullAgent();
+		end
+
+	best_target = $NullAgent();
+	enemy_est = thisagent's "enemy_estimation";
+	self_est = thisagent's "self_estimation";
+	best_score = 0;
+	current_score = 0;
+	total_range_difference = 0;
+	hostile_extra_range = 0;
+	attack_range = $getattribute(thisagent,#ATTRIB_maxattackrange);
+	spell_mod = $spell_extra_value(thisagent);
+	hero_dmg = $hero_damage(thisagent);
+	if (hero_dmg < 1)
+		hero_dmg = 1;
+	hero_hp = $getattribute(thisagent,#ATTRIB_HP);
+	hero_armor = $hero_armor_value(thisagent);
+	hero_speed = $Getattribute(thisagent, #ATTRIB_Speed);
+	if (hero_speed < 1)
+		hero_speed = 1;
+	ta_tohit_f = $gettohit(thisagent);
+
+	best_hero_score = self_est * hero_hp;
+	best_hero_score += spell_mod + score_mod;
+
+	foreach hostile in thislist do
+		begin
+			if ($NotValid(hostile) == false)
+				begin
+					// first determine if anyone has a range advantage
+					dist1 = $distancebetweenagents(thisagent,hostile);
+					dist_mod = ((dist1 * hero_speed) / 100);
+					if ($CheckEffector(hostile, "Champion_Icon"))
+						score_mod = #champs_mod;
+					else
+						score_mod = 0;
+					// early out if distance makes them impossible to target
+					if ((best_hero_score + score_mod) > (best_score + dist_mod))
+						begin
+							hostile_range = $Egetattackrange(hostile); //$getattribute(hostile,#ATTRIB_maxattackrange);
+							thisagent_extra_range = 0;
+							hostile_extra_range = 0;
+
+							// if thisagent is in range of hostile, but hostile is not in range of
+							// thisagent then thisagent has a range bonus
+							// if any enemy is in range of thisagent, thisagent has no extra range
+							if (dist1 <= attack_range)
+								if (dist1 > hostile_range)
+									thisagent_extra_range = dist1;
+
+							// if hostile is in range of thisagent, but thisagent is not in range of
+							// hostile then the hostiles have an advantage in range
+							if (dist1 <= hostile_range)
+								if (dist1 > attack_range)
+									hostile_extra_range = dist1;
+
+
+							htohit_f = $gettohit(hostile);
+							ta_avoid_f = $gettoavoid(hostile,thisagent);
+							havoid_f = $gettoavoid(thisagent,hostile);
+
+							// these mods are the percentage below 1 (1/hmod..)
+							// to modify the strength and HP by in order to estimate them
+							// they are the fraction which represents how often a creature hits another
+							// based on the first creatures to hit and the second creatures dodge/parry
+
+							hmod_tohit = htohit_f * ((100.0 - ta_avoid_f) / 100.0);
+							if (hmod_tohit == 0)
+								begin
+									hmod_tohit = 1;
+									//$debugout(911,"hmod_tohit is 0!",htohit_f);
+								end
+
+							ta_mod_tohit = ta_tohit_f * ((100.0 - havoid_f) / 100.0);
+							if (ta_mod_tohit == 0)
+								begin
+									ta_mod_tohit = 1;
+									//$debugout(911,"ta_mod_tohit is 0!",ta_tohit_f);
+								end
+
+							// a creature's actual damage is underestimated to account for
+							// the chance of them missing the hero
+							// it is also underestimated by the hero's armor
+
+							enemy_strength = $getstrength(hostile); //$getattribute(hostile,#ATTRIB_Strength);
+							enemy_strength	-= hero_armor;
+							if (enemy_strength < 1) enemy_strength = 1;
+
+							enemy_total_strength = (enemy_strength / (100.0 / (hmod_tohit)) );
+
+							// a creature's actual HP is exaggerated to account for the
+							// hero's chance of missing them
+							// it is also exaggerated by the number of swings it would take the hero
+							// to kill them times the hostiles armor value
+
+							enemy_HP = $getattribute(hostile,#ATTRIB_HP);
+							// adjust for enemy armor
+							enemy_HP = enemy_HP + ($getArmor(hostile) * (enemy_HP / hero_dmg)); //($getattribute(hostile,#ATTRIB_armor_basic_damage);
+							// adjust enemy HP upward for the chance of the hero missing them
+							enemy_total_HP = (enemy_HP * (100.0 / (ta_mod_tohit)) );
+
+				//		$debugout("hostile to hit -",hmod_tohit,"agent to hit -",ta_mod_tohit,"enemy total strength -",enemy_total_strength,"enemy total HP -",enemy_total_HP);
+
+							total_range_difference = thisagent_extra_range - hostile_extra_range;
+
+							extra_shots = total_range_difference / #extra_shot_mod;
+
+							if (enemy_total_strength < 1) enemy_total_strength = 1;
+
+							hitstokill = enemy_total_HP / hero_dmg;
+							hitstildead = hero_hp / enemy_total_strength;
+
+							hitstokill -= extra_shots;
+
+						//	$debugout(911,"kill enemies in -",hitstokill," : dead in -",hitstildead,"TRD",total_range_difference,"ES",extra_shots);
+
+							// modify scores by thisagent's estimations
+							hitstokill = enemy_est * hitstokill;
+
+							hitstildead = self_est * hitstildead;
+
+						//	$debugout(911,"Mod, kill enemies in -",hitstokill," : dead in -",hitstildead," spell mod:",spell_mod);
+						//  	$traceoff();
+							current_score = hitstildead - hitstokill + spell_mod - dist_mod + score_mod;
+							if (current_score > best_score)
+								begin
+									best_score = current_score;
+									best_target = hostile;
+								end
+						end
+				end
+		end
+	return best_target;
+end
+
+///////////////////////////////////////////////////////////////////////////////
 function eval_enemies_nearby(agent thisagent) is Boolean
 
 declare
@@ -378,12 +542,6 @@ declare
 	integer value, level;
 
 begin
-	if (thisagent's "Title" == "Wizard")
-		begin
-			level = $GetAttribute(thisagent, #ATTRIB_experienceLevel);
-			value += (level * 10);
-		end
-	
 	if ($isspellavailable(thisagent,"energy_blast",1))
 		value += 30;
 
@@ -408,17 +566,22 @@ begin
 	if ($isspellavailable(thisagent,"sun_scorch",1))
 		value += 30;
 
-	if ($isspellavailable(thisagent,"firebolt",1))
-		value += 60;
-	if ($isspellavailable(thisagent,"Fireball",1))
-		value += 90;
-	if ($isspellavailable(thisagent,"Perdition_Barrage",1))
-		value += 120;
-	if ($isspellavailable(thisagent,"Incandescent_Ray",1))
-		value += 180;
+	if (thisagent's "Title" == "Wizard")
+		begin
+			level = $GetAttribute(thisagent, #ATTRIB_experienceLevel);
+			value += (level * 10);
 
-	if ($haslowMP(thisagent) == True)
-		value /= 2;
+			if ($HasLearnedSpell(thisagent,"firebolt"))
+				value += 60;
+			if ($HasLearnedSpell(thisagent,"Fireball"))
+				value += 90;
+			if ($HasLearnedSpell(thisagent,"Perdition_Barrage"))
+				value += 120;
+			if ($HasLearnedSpell(thisagent,"Incandescent_Ray"))
+				value += 180;
+			if ($haslowMP(thisagent) == True)
+				value /= 2;
+		end
 		
 	return value;
 end

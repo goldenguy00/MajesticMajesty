@@ -64,7 +64,7 @@ begin
 	else
 		exp_given = #spell_attack_exp_bonus;
 
-	hitresult = $spelltypehit(target, s_type);
+	hitresult = $spelltypehit(target);
 
 	$attack_end(thisagent,exp_given);
 	
@@ -208,7 +208,7 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function spelltypehit(agent defender, string s_type) is integer
+function spelltypehit(agent defender) is integer
 
 declare
 	integer defenderavoid;
@@ -387,6 +387,88 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
+function gettohit(agent attacker) is integer
+
+declare
+	integer type;
+	integer value;
+
+begin
+	type = attacker's "attacktype";
+	if (type == 1)
+		begin
+			value = $getattribute(attacker,#ATTRIB_HtoH);
+		end
+	else if (type == 2)
+		begin
+			value = $getattribute(attacker,#ATTRIB_Ranged);
+		end
+	else if (type == 3)
+		begin
+			// wizards dont miss
+			value = #max_tohit;
+		end
+	else if (Attacker's "AttackType" == 5)
+		begin
+			value = Attacker's "Ranged";
+		end
+
+	if (value > #max_tohit)
+		value = #max_tohit;
+
+	return value;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function gettoavoid(agent attacker, agent defender) is integer
+
+declare
+	integer value, type;
+	agent AIRootAgent;
+
+begin
+	type = attacker's "attacktype";
+	if (type == 1)
+		begin
+			value = $getattribute(defender,#ATTRIB_Parry);
+		end
+	else if (type == 2)
+		begin
+			value = $getattribute(defender,#ATTRIB_Dodge);
+		end
+	else if (type == 3)
+		begin
+			value = $getattribute(defender,#ATTRIB_magicresistance);
+		end
+	else if (Attacker's "AttackType" == 5)
+		begin
+			value = $getattribute(defender,#ATTRIB_Dodge);
+		end
+
+	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+	if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
+		begin
+			if ( AIRootAgent's "Deathmatch_Rules" == TRUE )
+				begin
+					if (value > #Deathmatch_max_toavoid)
+						value = #Deathmatch_max_toavoid;
+				end
+			else
+				begin
+					if (value > #max_toavoid)
+						value = #max_toavoid;
+				end
+		end
+	else
+		begin
+			if (value > #max_toavoid)
+				value = #max_toavoid;
+		end
+
+	return value;
+end
+
+///////////////////////////////////////////////////////////////////////////////
 function damage(agent attacker, agent defender)
 
 declare
@@ -507,28 +589,35 @@ declare
 	integer dmg;
 
 begin
-	dmg += $TryAttackWithType(attacker, defender, "Crushing");
-	dmg += $TryAttackWithType(attacker, defender, "Slashing");
-	dmg += $TryAttackWithType(attacker, defender, "Piercing");
+	dmg = 0;
+	
+	if ((defender's "type" != "building") && (defender's "type" != "lair"))
+		begin
+			dmg = $TryAttackWithType(attacker, defender, "Crushing");
+			dmg += $TryAttackWithType(attacker, defender, "Slashing");
+			dmg += $TryAttackWithType(attacker, defender, "Piercing");
 
-	dmg += $TryAttackWithType(attacker, defender, "Fire");
-	dmg += $TryAttackWithType(attacker, defender, "Cold");
-	dmg += $TryAttackWithType(attacker, defender, "Electric");
-	dmg += $TryAttackWithType(attacker, defender, "Poison");
-	dmg += $TryAttackWithType(attacker, defender, "Arcane");
-	dmg += $TryAttackWithType(attacker, defender, "Force");
-	dmg += $TryAttackWithType(attacker, defender, "Divine");
-	dmg += $TryAttackWithType(attacker, defender, "Necrotic");
-	dmg += $TryAttackWithType(attacker, defender, "Chaotic");
+			dmg += $TryAttackWithType(attacker, defender, "Fire");
+			dmg += $TryAttackWithType(attacker, defender, "Cold");
+			dmg += $TryAttackWithType(attacker, defender, "Electric");
+			dmg += $TryAttackWithType(attacker, defender, "Poison");
+			dmg += $TryAttackWithType(attacker, defender, "Arcane");
+			dmg += $TryAttackWithType(attacker, defender, "Force");
+			dmg += $TryAttackWithType(attacker, defender, "Divine");
+			dmg += $TryAttackWithType(attacker, defender, "Necrotic");
+			dmg += $TryAttackWithType(attacker, defender, "Chaotic");
+		end
+
 	if (dmg == 0)
 		begin
-			//$DebugOut(911,"Attacker",attacker,"hit zero against",defender,"! probably not good...");
 			dmg = $randomnumber ( $GetAttribute ( attacker, #ATTRIB_weapon_basic_damage )) + 1;
 			dmg += $GetAttribute ( attacker, #ATTRIB_weapon_struct_bonus );
 			dmg += $GetAttribute ( attacker, #ATTRIB_weapon_magic_bonus );
 			dmg += ( $getattribute ( attacker, #ATTRIB_Strength ) / #strength_div );
+			// doesnt rly matter, just want the calcs from physical dmg
 			dmg -= $ArmorCalculations(defender, "Piercing");
 		end
+	if (dmg < 1) return 1;
 	return dmg;
 end
 

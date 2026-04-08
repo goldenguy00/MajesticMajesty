@@ -62,9 +62,10 @@ begin
 	else
 		begin
 			if ($HasAttribute("TaskPackageStatus", thisagent))
-			if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
-				thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
-
+			begin
+				if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
+					thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
+			end
 			$PerformBestAttack(thisagent, target);
 		end
 end

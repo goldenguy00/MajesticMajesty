@@ -63,6 +63,9 @@ declare
 
 begin
 	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
+	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
 	intentsub = "TaskPackageIntent";
 	targetsub = "TaskPackageTarget";
@@ -106,6 +109,9 @@ declare
 
 
 begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	// make a list of all buildings of type string
 	// then see if any are under attack.
 	// if so, send the hero to the closest one to defend

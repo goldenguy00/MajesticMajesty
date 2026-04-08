@@ -7,28 +7,18 @@
 function GetPalace (Agent ThisAgent) is agent
 Declare
 	list	Palaces;
-	agent	Closest_Palace;
 	agent Parent;
 
 Begin
-
-	 Parent = $Parent (ThisAgent);
+	Parent = $Parent (ThisAgent);
 
 	If ($IsDead (Parent) == False)
 		begin
 			If (Parent's "SubType" == "Outpost")
 				return Parent;
 		end
-
-	$ListObjects (ThisAgent, "Building", -1, Palaces, #CheckTitles, "Palace", #MyPlayer, #NoHiddenMap);
-
-	If (ThisAgent's "Title" == "Palace")
-		Palaces << ThisAgent;
-
-	If ($ListSize (Palaces) > 0)
-		return $ListMember (Palaces, 1);
-
-	return $NullAgent ();
+		
+	return $GetTruePalace(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,6 +30,13 @@ Declare
 	agent Palace;
 
 Begin
+	if ($HasAttribute("Palace", thisagent))
+		begin
+			Palace = thisagent's "Palace";
+			if ($IsDead(Palace) == false)
+				if ($GetUnitPlayerNumber(thisagent) == $GetUnitPlayerNumber(Palace))
+					return Palace;
+		end
 
 	$ListObjects (ThisAgent, "Building", -1, Palaces, #CheckTitles, "Palace", #MyPlayer, #NoHiddenMap);
 
@@ -47,9 +44,14 @@ Begin
 		Palaces << ThisAgent;
 
 	If ($ListSize (Palaces) > 0)
-		return $ListMember (Palaces, 1);
+		Palace = $ListMember (Palaces, 1);
+	else
+		Palace = $NullAgent();
 
-	return $NullAgent ();
+	if ($AddAttribute(thisagent, "Palace", "agent", Palace) == false)
+		thisagent's "Palace" = Palace;
+
+	return Palace;
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1478,78 +1480,18 @@ begin
 		begin
 			$Embers_Passive(thisagent);
 		end
-		
-	$UpdateManaRegeneration(thisagent);
-	$UpdateHealthRegeneration(thisagent);
 	
-	healthregen_amount = $GetBaseStatTotal(thisagent, "HealthRegeneration");
-	manaregen_amount = $GetBaseStatTotal(thisagent, "ManaRegeneration");
+	healthregen_amount = thisagent's "HealthRegeneration_Total";
+	manaregen_amount = thisagent's "ManaRegeneration_Total";
 	
 	if ($IsResting(thisagent)) // Will have to eventually roll these results into the prototype system instead of having a boolean check here all the time.
 		begin
 			manaregen_amount += (manaregen_amount / 4);
 			manaregen_amount += 250;
 		end
-		
-	
-	if ($isdead(thisagent) != TRUE)
-		begin
-			$AddManaPoints(thisagent, manaregen_amount);
-			$AddHealthPoints(thisagent, healthregen_amount);
-		end
-end
-////////////////////////////////////////////////////////////////////////////////////////////
-//Test for embers in its own thread
-function Embers_System( agent thisagent ) //Only here separately because the regeneration system thread was weighed down by the addition of this.
-declare
-	
-begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
-		begin
-			$KillThread(thisagent's "EmbersSystem");
-			return;
-		end
 
-	$Embers_Passive(thisagent);
-		
-end
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// a perpetual callback system for mana regeneration for valid heroes.
-//Regeneration Increase for both health and mana values are 0.25 per point since it is multiplied by 50 in this section. For an increase of 1 Regeneration per second requires 4 points.
-function Mana_Regeneration( agent thisagent )
-declare
-	integer stat_int, manaregen_amount, max_mana, embers_increase;
-	
-begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
-		begin
-			$KillThread(thisagent's "ManaRegeneration");
-			return;
-		end
-		
-	stat_int = $GetAttribute(thisagent, #ATTRIB_Intelligence);
-	max_mana = thisagent's "MaxMana_Total";
-	
-	if ($HasAttribute("Embers_ManaRegeneration", thisagent))
-		begin
-			$Embers_Passive(thisagent);
-		end
-	$UpdateManaRegeneration(thisagent);
-
-	manaregen_amount = thisagent's "ManaRegeneration_Total";
-	
-	if ($IsResting(thisagent) != False) // Will have to eventually roll these results into the prototype system instead of having a boolean check here all the time.
-		begin
-			manaregen_amount += (manaregen_amount / 4);
-			manaregen_amount += 250;
-		end
-		
-	
-	if ($isdead(thisagent) != TRUE)
-		begin
-			$AddManaPoints(thisagent, manaregen_amount);
-		end
+	$AddManaPoints(thisagent, manaregen_amount);
+	$AddHealthPoints(thisagent, healthregen_amount);
 end
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1578,7 +1520,7 @@ Begin
 	if (mana_amount < 0)
 		mana_amount *= -1;
 		
-	missing_mana = $GetBaseStatTotal(thisagent, "MaxMana") - thisagent's "CurrentMana";
+	missing_mana = thisagent's "MaxMana_Total" - thisagent's "CurrentMana";
 	If (Mana_Amount > missing_mana)
 		Mana_Amount = missing_mana;
 
@@ -1651,33 +1593,6 @@ begin
 	else
 		return FALSE;
 end
-
-///////////////////////////////////HP REGEN SYSTEM//////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-// a perpetual callback system for health regeneration for valid heroes.
-function Health_Regeneration( agent thisagent )
-declare
-	integer stat_vit, healthregen_amount, embers_increase;
-	
-begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
-		begin
-			$KillThread(thisagent's "HealthRegeneration");
-			return;
-		end
-
-	stat_vit = thisagent's "Vitality_Total";
-		
-	$UpdateHealthRegeneration(thisagent);
-
-	healthregen_amount = thisagent's "HealthRegeneration_Total";
-	
-	if ($isdead(thisagent) != TRUE)
-		begin
-			$AddHealthPoints(thisagent, healthregen_amount);
-		end
-end
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // healing shared code
@@ -1898,7 +1813,7 @@ begin
 
 			$InitBaseStat(thisagent, "MaxHP", $GetAttribute(thisagent, #ATTRIB_MaxHP));
 			$InitBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
-			$AddAttribute(thisagent, "CurrentMana", "integer", $GetBaseStatTotal(thisagent, "MaxMana"));
+			$AddAttribute(thisagent, "CurrentMana", "integer", thisagent's "MaxMana_Total");
 			$InitBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
 			$InitBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
 			
@@ -1925,7 +1840,6 @@ end
 function GetBaseStat(agent thisagent, string stat) is integer
 declare
 begin
-	$InitBaseStats(thisagent);
 	return thisagent's (stat+"_Base");
 end
 
@@ -1933,7 +1847,9 @@ end
 function GetBaseStatTotal(agent thisagent, string stat) is integer
 declare
 begin
-	$InitBaseStats(thisagent);
+	// since this is used for wisdom a lot, we cant be sure it exists yet...
+	if ($HasAttribute(stat+"_Total", thisagent) == false)
+		$InitBaseStats(thisagent);
 	return thisagent's (stat+"_Total");
 end
 
@@ -1942,7 +1858,6 @@ function AdjustBaseStat(agent thisagent, string stat_name, integer delta)
 declare
 	function update_func;
 begin
-	$InitBaseStats(thisagent);
 	thisagent's (stat_name+"_Base") += delta;
 
 	update_func = $LookupFunction("Update"+stat_name);
@@ -1955,7 +1870,7 @@ function SetBaseStat(agent thisagent, string stat_name, integer delta)
 declare
 	function update_func;
 begin
-	$InitBaseStats(thisagent);
+	//$InitBaseStats(thisagent);
 	thisagent's (stat_name+"_Base") = delta;
 
 	update_func = $LookupFunction("Update"+stat_name);
@@ -2116,8 +2031,8 @@ begin
 	if (delta > 0)
 		thisagent's "CurrentMana" += delta;
 
-	if (thisagent's "CurrentMana" > $GetBaseStatTotal(thisagent, "MaxMana"))
-		thisagent's "CurrentMana" = $GetBaseStatTotal(thisagent, "MaxMana");
+	if (thisagent's "CurrentMana" > thisagent's "MaxMana_Total")
+		thisagent's "CurrentMana" = thisagent's "MaxMana_Total";
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2162,20 +2077,21 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 function RecalculateStatTotal(agent thisagent, string attrib) is integer
 declare
-	integer prev_total, base, flat, percent;
+	integer prev_total, new_total;
+	integer base, flat, percent;
 
 begin
-	base = $GetBaseStat(thisagent, attrib);
+	base = thisagent's (attrib+"_Base");
 	flat = $GetIntegerSafe(thisagent, attrib+"_Flat_Modifier");
 	percent = $GetIntegerSafe(thisagent, attrib+"_Percent_Modifier");
 
 	if (percent != 0) 
 		percent = $PercentOf(base, percent, (base >= 1000));
 
-	prev_total = $GetBaseStatTotal(thisagent, attrib);
-	thisagent's (attrib+"_Total") = base + flat + percent;
-
-	return $GetBaseStatTotal(thisagent, attrib) - prev_total;
+	new_total = base + flat + percent;
+	prev_total = thisagent's (attrib+"_Total");
+	thisagent's (attrib+"_Total") = new_total;
+	return new_total - prev_total;
 end
 
 ////////////////////////////////////////////////////////////////////////////////

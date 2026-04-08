@@ -38,6 +38,9 @@ Declare
 	string conditionsub, completecondition;
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 //	//$DebugOut ("Should I Journey Offmap?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($RandomNumber (100) + 1 > Chance)
@@ -71,3 +74,9 @@ Begin
 	Thisagent's completeintent = "IDTXT_INTENT_TRAVELLINGDISTANT";
 	return $NotDuplicateTask(thisagent, taskindex);
 End
+
+function dummy_condition (agent thisagent) is boolean
+declare
+begin
+	return false;
+end

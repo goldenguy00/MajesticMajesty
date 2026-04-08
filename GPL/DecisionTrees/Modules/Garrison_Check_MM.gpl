@@ -78,6 +78,9 @@ Declare
 
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	//See is I am interested enough
 	If ($RandomNumber (100) + 1 > Chance)
@@ -142,6 +145,7 @@ Begin
 
 			ThisAgent's completeaction = $Use_Building_Packet;
 			ThisAgent's completevisit = Target's "visited_script";
+			thisagent's completecondition = $notvalid;
 
 
 			return $NotDuplicateTask(thisagent, taskindex);

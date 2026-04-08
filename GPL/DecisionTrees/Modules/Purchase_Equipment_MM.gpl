@@ -811,6 +811,9 @@ Declare
 
 
 Begin
+	taskindex = thisagent's "TaskPackageTypeIndex";
+	if ($NotDuplicateTask(thisagent, taskindex) == false)
+		return false;
 	//See if ThisAgent can use Weapons, and if they want to think about upgrading
 	If ($GetAttribute (ThisAgent, #ATTRIB_WeaponTypeIndex) > 0)
 		begin
@@ -1042,6 +1045,7 @@ Begin
 	ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 	//$DebugOut ("I've got a Blacksmith- going to upgrade my",equipment);
 	thisagent's completetname = "visiting";
+	thisagent's completecondition = $isdead;
 	return True;
 
 End
@@ -1136,6 +1140,7 @@ Begin
 
 			//$DebugOut ("I've got a WizGuild to get my",equipment,"enchanted at!");
 			thisagent's completetname = "visiting";
+	thisagent's completecondition = $isdead;
 
 			return True;
 		end
@@ -1200,6 +1205,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					//$DebugOut ("Yes!");
 					Thisagent's completeintent = "IDTXT_INTENT_POISONINGWEAPON";
+	thisagent's completecondition = $isdead;
 					return True;
 	         end
 		end
@@ -1275,6 +1281,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					//$DebugOut ("Yes!");
 					Thisagent's completeintent = "IDTXT_INTENT_BUYDARTSENTRY";
+	thisagent's completecondition = $isdead;
 					return True;
 	         end
 		end
@@ -1335,6 +1342,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					//$DebugOut ("Yes!");
 					Thisagent's completeintent = "IDTXT_INTENT_BUYHEALPOTIONS";
+	thisagent's completecondition = $isdead;
 					return True;
 				end
 		end
@@ -1398,6 +1406,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					//$DebugOut ("Yes!");
 					Thisagent's completeintent = "IDTXT_INTENT_BUYMANAPOTIONS";
+	thisagent's completecondition = $isdead;
 					return True;
 				end
 		end
@@ -1466,6 +1475,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					// //$DebugOut ("Yes!");
 					Thisagent's completeintent = "IDTXT_INTENT_BUYPROTRING";
+	thisagent's completecondition = $isdead;
 					return True;
 				end
 		end
@@ -1534,6 +1544,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					// //$DebugOut ("Yes!");
 					Thisagent's completeintent = "IDTXT_INTENT_BUYTELEAM";
+	thisagent's completecondition = $isdead;
 					return True;
 				end
 		end
@@ -1594,6 +1605,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					//$DebugOut ("Yes!");
 					Thisagent's completeintent = "IDTXT_INTENT_SELLLOOT";
+	thisagent's completecondition = $isdead;
 					return True;
 				end
 		end
@@ -1654,6 +1666,7 @@ Begin
 					ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
 					//$DebugOut ("Yes!");
 					thisagent's completeintent = "IDTXT_INTENT_SELLEQUIPMENT";
+	thisagent's completecondition = $isdead;
 					return True;
 				end
 		end
