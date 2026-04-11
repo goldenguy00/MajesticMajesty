@@ -82,9 +82,7 @@ Declare
 
 
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	What_To_Patrol = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
 //	//$DebugOut ("Should I patrol the city?");

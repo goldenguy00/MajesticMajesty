@@ -54,6 +54,35 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
+function defend_building_nearby(agent thisagent) is boolean
+
+declare
+	list bldgs;
+	agent bldg;
+	boolean Flag;
+
+begin
+	// make a list of all buildings of type string
+	// then see if any are under attack.
+	// if so, send the hero to the closest one to defend
+	if ( $ListObjects( thisagent,"building",1000, bldgs) > 0 )
+		begin
+			Foreach Bldg in Bldgs do
+				begin
+					If (Flag == False)
+						begin
+							if ($is_in_danger(bldg,thisagent))
+								begin
+									$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEFENDINGHOME");
+									Flag = True;
+								end
+						end
+				end
+		end
+	return Flag;
+end
+
+///////////////////////////////////////////////////////////////////////////////
 function defend_home_Packet(agent thisagent) is boolean
 
 declare
@@ -62,9 +91,7 @@ declare
 
 
 begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
 	intentsub = "TaskPackageIntent";
@@ -109,9 +136,7 @@ declare
 
 
 begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 	// make a list of all buildings of type string
 	// then see if any are under attack.
 	// if so, send the hero to the closest one to defend

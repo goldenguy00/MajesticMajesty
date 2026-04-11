@@ -75,9 +75,7 @@ declare
 	string taskindex;
 
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 //	//$DebugOut("Should I combat wandering monsters?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance) return FALSE;

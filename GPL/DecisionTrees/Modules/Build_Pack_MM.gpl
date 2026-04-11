@@ -60,9 +60,7 @@ Declare
 	string taskindex;
 
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 
 	//$DebugOut ("Should I Build a Pack?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");

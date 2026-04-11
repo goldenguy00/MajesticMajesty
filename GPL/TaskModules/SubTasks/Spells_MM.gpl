@@ -200,6 +200,240 @@ begin
 		end
 end
 
+
+// player spells
+
+///////////////////////////////////////////////////////////////////////////////
+function Earthquake_Active ( agent thisagent )
+////////////////////////////////////////////////////////////////////
+// player cast spell - from Sorcerer's Abode
+// - activescript for Eartquake unit
+////////////////////////////////////////////////////////////////////
+// This function strikes all non-aligned buildings and lairs within
+// its radius.  The damage drops off as the distance from the target
+// center increases.
+////////////////////////////////////////////////////////////////////
+declare
+	list targets;
+	agent target;
+	integer epicenter_distance, max_damage, min_damage;
+	float damage_multiplyer, range_band;
+
+begin
+	//$DebugOut (911, "IN EARTHQUAKE ACTIVE");
+
+	targets = $earthquake_targets ( thisagent, #Earthquake_Radius );
+	range_band = ( #Earthquake_Radius / 8 );
+	// The damage is reduced over 8 concentric range bands within the radius.
+
+	foreach target in targets do
+		begin
+			if ( $IsDead ( Target ) == FALSE )
+				begin
+					//$DebugOut (911, "IN EARTHQUAKE ASSIGN DAMAGE CODE!");
+
+					Epicenter_distance = $DistanceBetweenAgents ( ThisAgent, target );
+					if ( epicenter_distance < range_band )
+						damage_multiplyer = .75;
+					else
+						damage_multiplyer = ( range_band / epicenter_distance );
+
+					max_damage = ( damage_multiplyer * #Earthquake_Damage );
+					min_damage = ( damage_multiplyer * ( #Earthquake_Damage / 2 ));
+
+					$createeffector ( target, "Earthquake_p", 0 );
+					$player_spell_type_attack ( target, "force", max_damage, min_damage );
+				end
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function earthquake_targets ( agent thisagent, integer range ) is list
+
+////////////////////////////////////////////////////////////////
+// returns a list of all unfriendly buildings & lairs in radius.
+////////////////////////////////////////////////////////////////
+
+declare
+	list targets, t2, t3;
+
+begin
+	$ListObjects ( thisagent, "building", range, targets, #NoHiddenMap );
+	$ListObjects ( thisagent, "lair", range, t2, #NoHiddenMap );
+	t3 = $addlists ( targets, t2 );
+	return t3;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Frost_Missile_Hit( agent thisagent, agent target )
+// wizard spell - lvl 3
+// - callback from missile hit
+declare
+
+begin
+	// CBT note: as of Majesty Alpha the effector duration below is 0
+	$createeffector( target, "frost_Field_hit_effector", 0 );
+
+	//This uses player spell attack because the targetting agent may not have
+	//attack attributes
+	$player_spell_type_attack( target, "cold", 12, 5 );
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+Function ChainLightning_MissileHit ( agent victim )
+//
+Declare
+	integer 	max_damage, min_damage, int_pulse;
+	float 	pulse;
+	agent 	target;
+	list 		targets, Monsters, Heroes;
+	boolean  fired;
+
+Begin
+	// First check to see if the target has a mirror up, if so, just jump
+	// out of the effect.
+	if ( $GetAttribute ( victim, #ATTRIB_HasEffectMagicMirror ) == 1 )
+		return;
+	if ( $IsDead ( victim ))
+		return;
+		
+	$createeffector ( victim, "Chainlightning_effector", 0 );
+
+	// Set the damage based on the pulse strength of the chain attribute.
+	Pulse = $GetAttribute ( victim, #ATTRIB_StruckByChainLightning );
+	int_pulse = pulse; // Setattribute later in function needs an integer attribute.
+
+	Max_Damage = ( pulse * #Chainlightning_DamageMultiplier );
+	Min_Damage = ( Max_Damage / 1.5 );
+
+	// If there's more than one pulse strength left, move into the propogation sequence.
+	if (( Pulse ) > 1 )
+		begin
+			$ListObjects ( victim, "Hero", #ChainLightning_Radius, Heroes, #MyTeam, #NoHiddenMap );
+			$ListObjects ( victim, "Monster", #ChainLightning_Radius, Monsters, #MyTeam, #NoHiddenMap );
+
+			Targets = $AddLists (Heroes, Monsters);
+
+			if ( $ListSize ( targets ) > 0 )
+				begin
+					Foreach target in Targets do
+						begin
+							if ( fired == false )
+								begin
+									if ( $IsDead ( target ) == FALSE )
+										begin
+											// Dont target anyone who's been hit by the chain already.
+											if ( $GetAttribute ( target, #ATTRIB_StruckByChainLightning ) < 1 )
+												begin
+													// Setting the chain attrib on the target both allows the missile
+													// to affect its target without a callback from the attacker,
+													// and lets us properly decrement the effect as it propogates.
+													$SetAttribute ( target, #ATTRIB_StruckByChainLightning, ( int_pulse - 1 ));
+													$createeffector ( target, "Chainlightning_Icon", 3000 );
+													$CreateMissile ( "chain_lightning_missile", victim, target );
+													fired = TRUE;
+												end
+										end
+								end
+						end
+				end
+		end
+	// Do your damage at the end of the entire sequence.
+	$Player_Spell_type_Attack ( victim, "electric", Max_Damage, Min_Damage );
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// Damage all undead in thisagent's "sightrange"
+function turn_undead_hit (agent ThisAgent)
+Declare
+	list	Targets;
+	agent	Dude;
+
+Begin
+	If ($IsDead (thisAgent) == False)
+		begin
+
+			targets = $compile_enemies(thisagent, 200);
+			targets = $ListSubtypes (targets, "undead");
+
+			foreach dude in targets do
+				begin
+					$createeffector( dude, "turn_undead_hit", 0 );
+
+					//Use player spell attacks as this won't instantiate ThisAgent on the target's
+					//hostiles list - which makes the spell not strategic for the Healers
+					$player_spell_type_attack( dude, "divine", 10 + $getattribute( thisagent,#ATTRIB_experienceLevel ) / 2, 8 );
+				end
+
+		end
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function Fire_Strike_Damage( agent thisagent )
+// player cast spell - from temple to helia
+// - common damage code from unit/effector fire strike code
+declare
+
+begin
+
+	$player_spell_type_attack( thisagent, "fire", 15, 2 );
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Lightning_Bolt_Damage( agent thisagent )
+// player cast spell - from wizard's guild
+// - common damage code from unit/effector lightning bolt code
+declare
+
+begin
+	$player_spell_type_attack( thisagent, "electric", 35,16 );
+	$createeffector(thisagent,"Lightening_bolt_effector2",0);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Wind_Storm_Active(agent thisagent)
+// player cast spell - from temple to lunord
+// - activescript for helia_sun_scorch unit
+declare
+	list targets;
+	agent target;
+
+begin
+//	$ListObjects(thisagent,"monster",115, targets );
+	targets = $list_enemies_seen(thisagent,115);
+	foreach target in targets do
+		if ( $Wind_Storm_Target( target ) )
+			begin
+				$createeffector( target, "wind_storm_effector2", 0 );
+				$TeleportToPoint( target, #Teleport_Windstorm_Range, $RandomCoord (thisagent, 5000) );
+				$player_spell_type_attack( target, "force", 24, 10 );
+			end
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+function Force_End( agent thisagent )
+// monster spell
+// - callback from force_effector1 effector
+declare
+	list targets;
+	agent dude;
+
+begin
+	$ListObjects(thisagent,"hero",#Teleport_Forced_Range, targets );
+
+	foreach dude in targets do
+		begin
+			$createeffector( dude, "force_effector2", 0 );
+			$TeleportToPoint( dude, #Teleport_Forced_Range, $RandomCoord (thisagent, 5000) );
+			$player_spell_type_attack( dude, "force", 10,2 );
+		end
+
+
+end
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function Acid_Bolt_Hit( agent thisagent, agent target )
 // monster spell
@@ -789,9 +1023,9 @@ begin
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength,add_strength);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality,add_vitality);
 
-	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", add_strength);
-	$AdjustIntegerSafe(thisagent, "Vitality_Flat_Modifier", add_vitality);
-	$AdjustIntegerSafe(thisagent, "MaxHP_Flat_Modifier", add_vitality);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat", add_strength);
+	$AdjustIntegerSafe(thisagent, "Vitality_Flat", add_vitality);
+	$AdjustIntegerSafe(thisagent, "MaxHP_Flat", add_vitality);
 
 	$adjustattribute(thisagent,#ATTRIB_MaxHP,add_MaxHP);
 	$adjustattribute(thisagent,#ATTRIB_HP,add_MaxHP);
@@ -829,9 +1063,9 @@ begin
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength, -add_strength);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality, -add_vitality);
 
-	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
-	$AdjustIntegerSafe(thisagent, "Vitality_Flat_Modifier", -add_vitality);
-	$AdjustIntegerSafe(thisagent, "MaxHP_Flat_Modifier", -add_vitality);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat", -add_strength);
+	$AdjustIntegerSafe(thisagent, "Vitality_Flat", -add_vitality);
+	$AdjustIntegerSafe(thisagent, "MaxHP_Flat", -add_vitality);
 
 	$adjustattribute(thisagent,#ATTRIB_MaxHP, -add_MaxHP);
 	$adjustattribute(thisagent,#ATTRIB_HP, -add_MaxHP);
@@ -1039,7 +1273,7 @@ begin
 
 
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_strength, add_strength);
-	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", add_strength);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat", add_strength);
 	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, add_htoh);
 	
@@ -1063,7 +1297,7 @@ begin
 	add_htoh = $EffectBuff_Thread(willpower, wisdom, add_htoh);
 	
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_strength, - add_strength);
-	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", -add_strength);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat", -add_strength);
 	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, - add_htoh);
 	
@@ -1906,7 +2140,7 @@ begin
 	min_damage = (stat_int / 4);
 	max_damage = (16 + (stat_int / 4));
 	$createeffector( target, "meteor_storm_effector2", 0 );
-	$player_spell_attack( target, max_damage, min_damage );
+	$player_spell_type_attack( target, "arcane", max_damage, min_damage );
 end
 ////////////////////////////////////////EXPANSION SPELLS///////////////////////////////////////////////
 
@@ -2486,7 +2720,7 @@ begin
 	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$createeffector ( target, "generic_Regenerate_icon", duration );
-	$AdjustIntegerSafe(target, "HealthRegeneration_Flat_Modifier", regen_amount);
+	$AdjustIntegerSafe(target, "HealthRegeneration_Flat", regen_amount);
 	$UpdateHealthRegeneration(thisagent);
 end
 
@@ -2505,7 +2739,7 @@ begin
 	
 	regen_amount = $EffectBuff_Thread(willpower, wisdom, regen_amount);
 	
-	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat_Modifier", -regen_amount);
+	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat", -regen_amount);
 	$UpdateHealthRegeneration(thisagent);
 
 	$KillThread(thisagent's "Generic_RegenerateBuff_End");
@@ -2558,7 +2792,7 @@ begin
 
 	$MagicalAdjustAttribute(target,#ATTRIB_Strength,- minus_strength);
 	
-	$AdjustIntegerSafe(target, "Strength_Flat_Modifier", - minus_strength);
+	$AdjustIntegerSafe(target, "Strength_Flat", - minus_strength);
 	$UpdateStrength(target);
 	$adjustattribute(target,#ATTRIB_ActionRateModifier, attack_slow);
 	$adjustattribute(target,#ATTRIB_MovementRateModifier, move_slow );
@@ -2586,7 +2820,7 @@ begin
 	$AdjustAttribute(thisagent,#ATTRIB_ActionRateModifier, - attack_slow);
 	$AdjustAttribute(thisagent,#ATTRIB_MovementRateModifier, - move_slow);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength, minus_strength);
-	$AdjustIntegerSafe(thisagent, "Strength_Flat_Modifier", minus_strength);
+	$AdjustIntegerSafe(thisagent, "Strength_Flat", minus_strength);
 	$UpdateStrength(thisagent);
 	
 	$KillThread(thisagent's "Priestess_WitherDebuff_End");

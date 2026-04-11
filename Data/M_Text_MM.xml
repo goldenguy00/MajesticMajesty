@@ -396,7 +396,7 @@
 		<Text id="IDTXT_ITEM_DUSKROD_HELP">Dusk Rod 2-H</Text>
 		<Text id="IDTXT_ITEM_ASHENROD_HELP">Ashen Rod 2-H</Text>
 
-		//Weapons: Inventory
+		//Weapons: Equipped
 		<Text id="IDTXT_ITEM_SHORTSWORD_EQUIPPED">Short Sword [color:EEB15F]Equipped[/color] 8 - 11 [color:ADABA8]Slashing[/color]</Text>
 		<Text id="IDTXT_ITEM_BROADSWORD_EQUIPPED">Broadsword [color:EEB15F]Equipped[/color] 9 - 12 [color:ADABA8]Slashing[/color]</Text>
 		<Text id="IDTXT_ITEM_LONGSWORD_EQUIPPED">Longsword [color:EEB15F]Equipped[/color] 10 - 13 [color:ADABA8]Slashing[/color]</Text>

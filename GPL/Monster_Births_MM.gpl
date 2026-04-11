@@ -232,8 +232,8 @@ begin
 
 	$createeffector(thisagent,"troll_spawn",1);
 	
-	$AddAttribute(thisagent, "Spirit_Troll_Buff", "function", $cm_SpiritTrollBuff_Death); //Not In Prototype
-	$NewThread(thisagent's "Spirit_Troll_Buff", 400, thisagent);
+	//$AddAttribute(thisagent, "Spirit_Troll_Buff", "function", $cm_SpiritTrollBuff_Death); //Not In Prototype
+	//$NewThread(thisagent's "Spirit_Troll_Buff", 400, thisagent);
 	//$SpellTimeoutEffect( thisagent, $cm_SpiritTrollBuff_Death, 1000, 0, 0, 0, 0, 0,0,0,0 );
 	
 	$GeneralAttributes(thisagent);

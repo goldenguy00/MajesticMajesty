@@ -35,12 +35,10 @@ Declare
 	coordinate	dest;
 	integer chance; 
 	string actionsub, intentsub, targetsub, destsub, taskindex, completeaction, completeintent, completetarget, completedestination;
-	string conditionsub, completecondition;
+	string conditionsub, completecondition, movesub, completemove;
 
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 //	//$DebugOut ("Should I Journey Offmap?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($RandomNumber (100) + 1 > Chance)
@@ -68,15 +66,15 @@ Begin
 	conditionsub = "TaskPackageTargetCondition";
 	completecondition = conditionsub + taskindex;
 	
+	movesub = "TaskPackageMove";
+	completemove = movesub + taskindex;
+	
 //	//$DebugOut ("YES! I'm going to journey offmap!");
+	thisagent's completetarget = thisagent;
+	thisagent's completecondition = $isdead;
+	thisagent's completemove = $move;
 	ThisAgent's completedestination = $FarthestMapEdge (ThisAgent); //Need to put in a destination index too
 	ThisAgent's completeaction  = $Journey_Offmap;
 	Thisagent's completeintent = "IDTXT_INTENT_TRAVELLINGDISTANT";
 	return $NotDuplicateTask(thisagent, taskindex);
 End
-
-function dummy_condition (agent thisagent) is boolean
-declare
-begin
-	return false;
-end

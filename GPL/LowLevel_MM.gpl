@@ -54,6 +54,168 @@ Begin
 	return Palace;
 End
 
+function Palace_Central_Lists(agent thisagent)
+declare
+	list monsters, enemies, allies, buildings, attractions, fairgrounds, peasants;
+begin
+	$ListObjects(thisagent,"monster",-1, monsters,#NotMyTeam);
+	if ($AddAttribute(thisagent, "Enemy_Monster_List", "list", monsters) == false)
+		thisagent's "Enemy_Monster_List" = monsters;
+
+	$ListObjects(thisagent,"hero",-1, enemies,#NotMyTeam);
+	if ($AddAttribute(thisagent, "Enemy_Hero_List", "list", enemies) == false)
+		thisagent's "Enemy_Hero_List" = enemies;
+
+	$ListObjects(thisagent,"hero",-1, allies,#myplayer);
+	if ($AddAttribute(thisagent, "Ally_Hero_List", "list", allies) == false)
+		thisagent's "Ally_Hero_List" = allies;
+
+	$ListObjects(thisagent,"building",-1, buildings,#myplayer);
+	if ($agentinlist(thisagent,buildings) == FALSE)
+		buildings << thisagent;
+	if ($AddAttribute(thisagent, "Ally_Building_List", "list", buildings) == false)
+		thisagent's "Ally_Building_List" = buildings;
+
+		//fuckin pursue entertainment
+		
+	$listobjects(thisagent,"building",-1,attractions, #CheckSubTypes, "Entertainment", #ATTRIB_FirstStageBuilt, 1);
+	if ($AddAttribute(thisagent, "Entertainment_List", "list", attractions) == false)
+		thisagent's "Entertainment_List" = attractions;
+
+	//$listobjects(thisagent,"building",-1,fairgrounds, #CheckTitles, "Fairgrounds", #ATTRIB_FirstStageBuilt, 1);
+	fairgrounds = $ListCompletedTitlesJ(buildings, "Fairgrounds");
+	if ($AddAttribute(thisagent, "Fairgrounds_List", "list", fairgrounds) == false)
+		thisagent's "Fairgrounds_List" = fairgrounds;
+
+	peasants = $ListTitles (allies, "Peasant");
+	if ($AddAttribute(thisagent, "Peasant_List", "list", peasants) == false)
+		thisagent's "Peasant_List" = peasants;
+
+// so that peasants dont lag the fuck outta the game doing this reconstructing
+// they will be slightly less responsive, but thats honestly a good thing. their reaction times were too good.	
+	$reconstruct_lists_opt(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function reconstruct_lists(agent palace)
+
+declare
+	agent bldg;
+	list buildings,newlist;
+
+begin
+	// check lists for buildings who shouldn't be on them
+	buildings = palace's "buildings_under_construction";
+
+	foreach bldg in buildings do
+		begin
+			If ($IsDead (Bldg) == False)
+				begin
+					if ($building_level_complete(bldg))
+						if (($getattribute(bldg,#ATTRIB_isrepaired) == 0) && ($getattribute(bldg,#ATTRIB_QuickRepair) == 0))
+							palace's "buildings_under_construction" -= bldg;
+				end
+			else
+				palace's "buildings_under_construction" -= bldg;
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function reconstruct_lists_opt(agent palace)
+
+declare
+	agent bldg;
+	list buildings,newlist;
+
+begin
+	// check lists for buildings who shouldn't be on them
+	buildings = palace's "buildings_under_construction";
+
+	foreach bldg in buildings do
+		begin
+			If ($IsDead (Bldg) == False)
+				begin
+					if ($building_level_complete(bldg))
+						if (($getattribute(bldg,#ATTRIB_isrepaired) == 0) && ($getattribute(bldg,#ATTRIB_QuickRepair) == 0))
+							palace's "buildings_under_construction" -= bldg;
+				end
+			else
+				palace's "buildings_under_construction" -= bldg;
+		end
+
+	// check all existing buildings, to see if they are damaged and need to be added
+	//$listobjects(palace,"building",-1,buildings,#MyPLayer, #ATTRIB_FirstStageBuilt, 1);
+	//buildings = $listcompleted(buildings);
+	//buildings << palace; // the palace wasn't getting checked before!!!
+
+	foreach bldg in palace's "Ally_Building_List" do
+		begin
+			If ($IsDead (Bldg) == False)
+				if ($building_level_complete(bldg))
+					if ($getattribute(bldg,#ATTRIB_HP) < $getattribute(bldg,#ATTRIB_MAXHP))
+						if ($agentinlist(bldg,palace's "buildings_under_construction") == FALSE)
+							if (($getattribute(bldg,#ATTRIB_isrepaired) == 1) || ($getattribute(bldg,#ATTRIB_QuickRepair) == 1))
+								palace's "buildings_under_construction" << bldg;
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// This checks to see if ThisAgent is the closest Peasant with the intention of building their target
+Function Closest_Peasant_Building (agent ThisAgent) is boolean
+Declare
+	list		Peasants;
+	agent		Peasant, Target, palace;
+	integer	My_Dist, Their_Dist;
+	boolean closest_flag;
+
+Begin
+	closest_flag = true;
+
+	Target = ThisAgent's "Target";
+	My_Dist = $DistanceBetweenAgents (ThisAgent, Target);
+	
+	Palace = $GetTruePalace (ThisAgent);
+	if ($isdead(palace))
+		begin
+			$ListObjects (ThisAgent, "hero", -1, Peasants, #CheckTitles, "Peasant", #myplayer);
+		end
+	else if ($HasAttribute("Peasant_List", palace) == false)
+		begin
+			$ListObjects (ThisAgent, "hero", -1, Peasants, #CheckTitles, "Peasant", #myplayer);
+		end
+	else
+		begin
+			peasants = palace's "Peasant_List";
+		end
+
+	//Peasants = $ListTitles (Peasants, "Peasant");
+
+	//$DebugOut (911, "Listsize of Peasants:", $ListSize (Peasants));
+
+//	If ($ListSize (Peasants) > 0)
+//		begin
+	Foreach Peasant in Peasants do
+		begin
+			if (closest_flag)
+				if ($IsValidGamePiece(peasant))
+					If (Peasant's "Target" == Target && peasant != thisagent)
+						begin
+							Their_Dist = $DistanceBetweenAgents (Peasant, Target);
+							If (Their_Dist <= My_Dist)
+								begin
+									//$DebugOut (911, "Their dist is less than or equal to my dist.");
+									//return False;
+									closest_flag = FALSE;
+								end
+						end
+		end
+//		end
+
+	//$DebugOut (911, "I am the closest Peasant with the intention of building this building.");
+	//return True;
+	return closest_flag;
+
+End
+
 ///////////////////////////////////////////////////////////////////////////////
 // Checks to see is marketplace is dead or closed
 function MarketInvalid ( agent thisagent ) is boolean
@@ -1263,22 +1425,26 @@ begin
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function MinMax(integer minimum, integer maximum) is integer
+function MinMax(integer min, integer max) is integer
 
 declare
 	integer return_int;
 
 begin
-	//Makes it so the integer will be anywhere from minimum to maximum
-	
-	if (maximum > minimum)
-		return_int = $randomnumber(maximum - minimum) + minimum;
+	if (min == max)
+		return max;
 
-	if (return_int < minimum)
-		 return_int = minimum;
-	else if (return_int > maximum)
-		return_int = maximum;
-		 
+	// will be anywhere from minimum to maximum
+	// regardless of param order
+	if (max < min)
+		begin
+			return_int = max;
+			max = min;
+			min = return_int;
+		end
+
+	return_int = $randomnumber(max - min) + min;
+
 	return return_int;
 end
 
@@ -1628,30 +1794,6 @@ Begin
 		end
 End
 
-//////////////////////////////////////////////////////////////////////////////
-function Display_Total_Attack_Damage(agent thisagent)
-
-declare
-	integer total_min, total_max, total_average;
-
-begin
-	if ($HasAttribute("Fire_Attack_Damage_Min", thisagent) == false)
-		return;
-	total_min = thisagent's "Fire_Attack_Damage_Min" + thisagent's "Cold_Attack_Damage_Min" + thisagent's "Electric_Attack_Damage_Min"
-	 + thisagent's "Poison_Attack_Damage_Min" + thisagent's "Arcane_Attack_Damage_Min" + thisagent's "Force_Attack_Damage_Min"
-	  + thisagent's "Divine_Attack_Damage_Min" + thisagent's "Necrotic_Attack_Damage_Min" + thisagent's "Chaotic_Attack_Damage_Min"
-	   + thisagent's "Slashing_Attack_Damage_Min" + thisagent's "Crushing_Attack_Damage_Min" + thisagent's "Piercing_Attack_Damage_Min";
-
-	total_max += thisagent's "Fire_Attack_Damage_Max" + thisagent's "Cold_Attack_Damage_Max" + thisagent's "Electric_Attack_Damage_Max"
-	 + thisagent's "Poison_Attack_Damage_Max" + thisagent's "Arcane_Attack_Damage_Max" + thisagent's "Force_Attack_Damage_Max"
-	  + thisagent's "Divine_Attack_Damage_Max" + thisagent's "Necrotic_Attack_Damage_Max" + thisagent's "Chaotic_Attack_Damage_Max"
-	   + thisagent's "Slashing_Attack_Damage_Max" + thisagent's "Crushing_Attack_Damage_Max" + thisagent's "Piercing_Attack_Damage_Max";
-
-	total_average = ((total_min + total_max) / 2);
-	total_average -= $GetAttribute(thisagent, #ATTRIB_Weapon_Struct_Bonus);
-	$SetAttribute(thisagent, #ATTRIB_weapon_basic_damage, total_average);
-end
-
 ///////////////////////////////////////////////////////////////////////////////
 // this function is called by the in-game code when a vehicle is generated
 Function Generate_Character_Attributes(agent thisagent)
@@ -1807,9 +1949,7 @@ begin
 			$InitBaseStat(thisagent, "Wisdom", $StartingWisdom(thisagent));
 
 			$InitBaseStat(thisagent, "Armor_Magical", $GetAttribute(thisagent, #ATTRIB_MagicResistance));
-			if ($HasAttribute("Armor_Physical_Base", thisagent) == false)
-				$InitBaseStat(thisagent, "Armor_Physical", $GetAttribute(thisagent, #ATTRIB_armor_basic_damage));
-			$AddAttribute(thisagent, "Armor_Physical_Flat_Modifier", "integer");
+			$InitBaseStat(thisagent, "Armor_Physical", $GetAttribute(thisagent, #ATTRIB_armor_basic_damage));
 
 			$InitBaseStat(thisagent, "MaxHP", $GetAttribute(thisagent, #ATTRIB_MaxHP));
 			$InitBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
@@ -1830,10 +1970,12 @@ function InitBaseStat(agent thisagent, string stat, integer default)
 declare
 begin
 	if ($AddAttribute(thisagent, stat+"_Base", "integer", default) == false)
-		thisagent's (stat+"_Base") = default;
+		if (thisagent's (stat+"_Base") == 0)
+			thisagent's (stat+"_Base") = default;
 	
 	if ($AddAttribute(thisagent, stat+"_Total", "integer", default) == false)
-		thisagent's (stat+"_Total") = default;
+		if (thisagent's (stat+"_Total") == 0)
+			thisagent's (stat+"_Total") = default;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1907,7 +2049,12 @@ end
 function GetStringSafe(agent thisagent, string attr) is string
 declare
 begin
-	if ($HasAttribute(attr, thisagent) == false) return "";
+	if ($HasAttribute(attr, thisagent) == false)
+		return "Nothing";
+
+	if (thisagent's attr == "")
+		return "Nothing";
+
 	return thisagent's attr;
 end
 
@@ -1915,6 +2062,8 @@ end
 function SetStringSafe(agent thisagent, string attr, string value)
 declare
 begin
+	if (value == "")
+		value = "Nothing";
 	if ($AddAttribute(thisagent, attr, "string", value) == false)
 		thisagent's attr = value;
 end
@@ -2049,9 +2198,6 @@ end
 function UpdateArmor_Physical(agent thisagent)
 declare
 begin
-	if ($HasAttribute("Armor_Physical_BodyArmor", thisagent))
-		thisagent's "Armor_Physical_Flat_Modifier" = thisagent's "Armor_Physical_BodyArmor" + thisagent's "Armor_Physical_Helm" + thisagent's "Armor_Physical_Gloves"
-				 									+ thisagent's "Armor_Physical_Boots" + thisagent's "Armor_Physical_Belt" + thisagent's "Armor_Physical_Shield";
 	$RecalculateAttributeTotal(thisagent, #ATTRIB_armor_basic_damage, "Armor_Physical");
 end
 
@@ -2082,8 +2228,8 @@ declare
 
 begin
 	base = thisagent's (attrib+"_Base");
-	flat = $GetIntegerSafe(thisagent, attrib+"_Flat_Modifier");
-	percent = $GetIntegerSafe(thisagent, attrib+"_Percent_Modifier");
+	flat = $GetIntegerSafe(thisagent, attrib+"_Flat");
+	percent = $GetIntegerSafe(thisagent, attrib+"_Percent");
 
 	if (percent != 0) 
 		percent = $PercentOf(base, percent, (base >= 1000));

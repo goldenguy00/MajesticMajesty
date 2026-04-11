@@ -11,9 +11,7 @@ Declare
 	string taskindex;
 
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 	flag = FALSE;
 	
 	//See if ThisAgent can use Weapons, and if they want to think about upgrading
@@ -31,18 +29,18 @@ Begin
 		
 	if ((Wants_Weapon) && ($RandomNumber(2) == 1))
 		begin
-			equipment = "RightHandLevel";
+			equipment = "RightHand";
 			intent = "IDTXT_INTENT_BUYWEAPONUPGRADE";
 		end
 	else if (Wants_Armor)
 		begin
-			equipment = "BodyArmorLevel";
+			equipment = "BodyArmor";
 			intent = "IDTXT_INTENT_BUYARMORUPGRADE";
 		end
 	else
 		return False;
 		
-	equipment_level = thisagent's equipment;
+	equipment_level = $GetIntegerSafe(thisagent, equipment+"Level");
 	if (equipment_level >= 3)
 		return False;
 	
@@ -55,7 +53,7 @@ Begin
 	If (equipment_level == 2)
 		Gold_Needed = #Cost_Per_Struct_Upgrade3;
 
-	if (equipment == "BodyArmorLevel")
+	if (equipment == "BodyArmor")
 		gold_needed = gold_needed * #armor_multiplier;
 
 	If ($Total_Gold (ThisAgent) < Gold_Needed)
@@ -88,7 +86,7 @@ Begin
 	blacksmiths = $listTitles(buildings,"Blacksmith");
 	
 	//Check to see if hero needs armor or weapon
-	If (Equipment == "BodyArmorLevel")
+	If (Equipment == "BodyArmor")
 		begin
 			//This is used by the Upgrade Equipment script
 			ThisAgent's "Task_Number" = #ATTRIB_Armor_Struct_Bonus;
@@ -103,7 +101,7 @@ Begin
 				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchArmorLevel_4 );
 		end
 
-	If (Equipment == "RightHandLevel")
+	If (Equipment == "RightHand")
 		begin
 			//This is used by the Upgrade Equipment script
 			ThisAgent's "Task_Number" = #ATTRIB_Weapon_Struct_Bonus;

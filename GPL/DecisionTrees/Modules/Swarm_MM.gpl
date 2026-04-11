@@ -79,9 +79,7 @@ Declare
 	string conditionsub, completecondition;
 
 begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 	//$DebugOut("Should I Swarm?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	Palace = $GetTruePalace (ThisAgent);

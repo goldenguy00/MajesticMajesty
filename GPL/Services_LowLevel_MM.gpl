@@ -63,8 +63,8 @@ declare
 	agent container;
 
 begin
-	$setattribute(thisagent, #ATTRIB_ResearchArrows, 1);
-	$setattribute(thisagent, #ATTRIB_ResearchGoodGuard, 1);
+	//$setattribute(thisagent, #ATTRIB_ResearchArrows, 1);
+	//$setattribute(thisagent, #ATTRIB_ResearchGoodGuard, 1);
 	thisagent's "Research_Loc" = $MakeCoord(30, 70);
 	container = $GetResearchContainer(thisagent);
 	//$AddStringToList("ResearchBarracks", thisagent's "Checklist");

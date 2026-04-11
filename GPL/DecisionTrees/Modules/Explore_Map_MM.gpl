@@ -76,7 +76,7 @@ begin
 	thisagent's completemove = $move;
 	thisagent's completeaction = $Travel_to_exp;
 	thisagent's completeaction2 = thisagent's "basicscript";
-	ThisAgent's completecondition = $notvalid;
+	ThisAgent's completecondition = $isdead;
 
 //            //$DebugOut(" Yes.",dest);
 	thisagent's completeintent = "IDTXT_INTENT_EXPLORING";

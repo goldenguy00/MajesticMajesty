@@ -170,52 +170,16 @@ declare
 	
 //////////////////////////////////////////Combat Attributes///////////////
 
-//expression #DAMAGE_Default = 0
-//expression #DAMAGE_Slashing = 1
-//expression #DAMAGE_Crushing = 2
-//expression #DAMAGE_Piercing = 4
-//expression #DAMAGE_Fire = 8
-//expression #DAMAGE_Cold = 16
-//expression #DAMAGE_Electric = 32
-//expression #DAMAGE_Poison = 64
-//expression #DAMAGE_Arcane = 128
-//expression #DAMAGE_Force = 256
-//expression #DAMAGE_Divine = 512
-//expression #DAMAGE_Necrotic = 1024
-//expression #DAMAGE_Chaotic = 2048
-
 	string Kill_Credit_Type;
 	string Kill_Credit_Faction;
 	string Kill_Credit_Specific;
 	integer Kill_Credit_Severity;
 	
-	boolean Uses_Ranged_Attack;
-
-	integer Fire_Attack_Damage_Min;
-	integer Cold_Attack_Damage_Min; 
-	integer Electric_Attack_Damage_Min;
-	integer Poison_Attack_Damage_Min;
-	integer Arcane_Attack_Damage_Min;
-	integer Force_Attack_Damage_Min;
-	integer Divine_Attack_Damage_Min;
-	integer Necrotic_Attack_Damage_Min;
-	integer Chaotic_Attack_Damage_Min;
-	integer Slashing_Attack_Damage_Min;
-	integer Crushing_Attack_Damage_Min;
-	integer Piercing_Attack_Damage_Min;
+	integer Physical_Attack;
+	string Physical_Attack_Type;
 	
-	integer Fire_Attack_Damage_Max;
-	integer Cold_Attack_Damage_Max;
-	integer Electric_Attack_Damage_Max;
-	integer Poison_Attack_Damage_Max;
-	integer Arcane_Attack_Damage_Max;
-	integer Force_Attack_Damage_Max;
-	integer Divine_Attack_Damage_Max;
-	integer Necrotic_Attack_Damage_Max;
-	integer Chaotic_Attack_Damage_Max;
-	integer Slashing_Attack_Damage_Max;
-	integer Crushing_Attack_Damage_Max;
-	integer Piercing_Attack_Damage_Max;
+	integer Magical_Attack;
+	string Magical_Attack_Type;
 	
 	integer Fire_Resistance_Percent;
 	integer Cold_Resistance_Percent; 
@@ -271,12 +235,6 @@ declare
 	
 	integer Armor_Physical_Base;
 	integer Armor_Physical_Total;
-	integer Armor_Physical_BodyArmor;
-	integer Armor_Physical_Helm;
-	integer Armor_Physical_Gloves;
-	integer Armor_Physical_Boots;
-	integer Armor_Physical_Belt;
-	integer Armor_Physical_Shield;
 	
 	integer Armor_Magical_Base;
 	integer Armor_Magical_Total;
@@ -628,15 +586,7 @@ declare
 	
 	string Equipment_RightHand;		
 	string Equipment_LeftHand;			//Just do a check to see is the Left Hand value is equal to the Right hand to see if Both hands are used on the same object.
-	//string Equipment_BothHands;		//If a hero uses both hands, then Right and Left are not used
-	string Equipment_BodyArmor;		
-	string Equipment_Head;			
-	string Equipment_Belt;			
-	string Equipment_Gloves;		
-	string Equipment_Boots;			
-	string Equipment_Ring1;			
-	string Equipment_Ring2;			
-	string Equipment_Amulet;		
+	string Equipment_BodyArmor;
 	
 	string Equipment_RightHandType;		//Type of equipment (Sword/Axe/Bow)
 	string Equipment_LeftHandType;
@@ -923,95 +873,34 @@ end
 ///////////////////////////////////////////////////////////////////////////////
 prototype Equipment()
 Declare
+	string type;
+	string subtype;
+	string title;
+	string subclass;
+	integer gold_value;
+	boolean owned;
+
 	boolean armor_struct;
 	boolean weapon_struct;
-	boolean owned;
 	
 	integer num_enchant;
 	integer num_upgrade;
 	
 	integer upgrade_level;
-	integer enchant_level;
-	integer gold_value;
 	
-	string type;
-	string subtype;
-	string title;
-	string IntentExt;
-	
-	string class;
-	string subclass;
-	string hero_class;
-	string equip_name;
-	string equip_type;
-	string unequip_name;
-	string unequip_type;
-	string upgrade_type;
-	string enchant_type;
 	string upgrade_equipment;
-	string enchant_equipment;
-	
-	function Update_1;		//The Update function to call when equipped/unequipped ($Update_MaxMana, $Update_Strength)
-	function Update_2;
-	function Update_3;
-	
-	list enchantments; //The list for all enchantments on the item.
-	
-	string enchant_increase;
 	string upgrade_increase;
 	
-	string effect_type_1; //The built-in effect of the equipment not tied to enchantments.
-	string effect_type_2;
-	string effect_type_3;
-	
-	integer effect_1;
-	integer effect_2;
-	integer effect_3;
-	
-	string function_effect_1; //The built-in custom function effect the equipment applies when equipped
-	string function_effect_2;
-	string function_effect_3;
-	
-	string armor_type_1;
-	string armor_type_2;
-	string armor_type_3;
-	
-	integer item_artifice_bonus;
-	integer item_intelligence_bonus;
-	integer item_strength_bonus;
-	integer item_vitality_bonus;
-	integer item_willpower_bonus;
-	integer item_wisdom_bonus;
-	
-	integer item_HP_bonus;
-	integer item_MP_bonus;
-	integer item_HP_Regeneration_bonus;
-	integer item_MP_Regeneration_bonus;
-	
-	integer item_Gold_From_Monster_Kills;
-	
-	string minion_type_1;
-	
-	integer item_minion_Limit_bonus_1;
-	integer item_minion_Damage_Flat_bonus_1;
-	integer item_minion_Damage_Percent_bonus_1;
-	integer item_minion_HP_Flat_bonus_1;
-	integer item_minion_HP_Percent_bonus_1;
-	
-	integer armor_1;
-	integer armor_2;
-	integer armor_3;
-	
-	string damage_type_1;
-	string damage_type_2;
-	string damage_type_3;
+	string Equip_Slot;
 
-	integer damage_min_1;
-	integer damage_max_1;
-	integer damage_min_2;
-	integer damage_max_2;
-	integer damage_min_3;
-	integer damage_max_3;
+	integer Physical_Armor_Value;	
+	integer Magical_Armor_Value;
+	
+	string Physical_Damage_Type;
+	string Magical_Damage_Type;
+
+	integer Physical_Damage;
+	integer Magical_Damage;
 	
 	function transferScript;  	// This script will be called when the item is transfered to its new owner.
 	function birthScript;  	// This script will be called once, when the unit is created;

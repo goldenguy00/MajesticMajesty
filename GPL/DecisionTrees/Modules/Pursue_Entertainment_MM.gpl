@@ -68,32 +68,13 @@ Function Pursue_Entertainment_Packet (agent ThisAgent) is Boolean
 
 Declare
 	list	Buildings,Attractions,Fairgrounds;
-	agent	Target; 
+	agent	Target, palace; 
 	string actionsub, intentsub, targetsub, tnamesub, completeaction, completeintent, completetarget, completetname;
 	string conditionsub, completecondition, visitsub, completevisit;
-
-	agent attraction, fairground;
 	string taskindex;
 
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
 //	//$DebugOut ("Shall I Pursue Entertainment?");
-
-	Palace = $GetTruePalace (ThisAgent);
-	if ($isdead(palace))
-		begin
-			$listobjects(thisagent,"building",-1,buildings, #ATTRIB_FirstStageBuilt, 1);
-		end
-	else if ($HasAttribute("All_Buildings_List", palace) == false)
-		begin
-			$listobjects(thisagent,"building",-1,buildings, #ATTRIB_FirstStageBuilt, 1);
-		end
-	else
-		begin
-			buildings = $Remove_Invalid(palace's "All_Buildings_List");
-		end
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
@@ -113,84 +94,74 @@ Begin
 	
 	//buildings = $listcompleted(buildings);
 
-	Attractions = $ListSubtypes (Buildings, "Entertainment");
+//	Attractions = $ListSubtypes (Buildings, "Entertainment");
 
-	If ($ListSize (Attractions) > 0)
+
+//	If ($ListSize (Attractions) > 0)
+//		begin
+	If ($Check_Brothels_and_GHalls_Packet (ThisAgent) == True)
 		begin
-			If ($Check_Brothels_and_GHalls_Packet (ThisAgent, Attractions) == True)
-				begin
-					Target = ThisAgent's completetarget;
-
-					ThisAgent's completetname = "visiting";
-					ThisAgent's completeaction = $Use_Building_Packet;
-					ThisAgent's completevisit = Target's "visited_script";
-					ThisAgent's completecondition = $isdead;
-
-					If (Target's "Title" == "Gambling_Hall")
-						begin
-
-							thisagent's completeintent = "IDTXT_INTENT_VISITGAMBLING";
-
-						end
-
-					Else
-						begin
-
-							thisagent's completeintent = "IDTXT_INTENT_VISITLOUNGE";
-
-						end
-
-					return $NotDuplicateTask(thisagent, taskindex);
-				end
+			Target = ThisAgent's completetarget;
+			ThisAgent's completetname = "visiting";
+			ThisAgent's completeaction = $Use_Building_Packet;
+			ThisAgent's completevisit = Target's "visited_script";
+			ThisAgent's completecondition = $isdead;
+			return $NotDuplicateTask(thisagent, taskindex);
 		end
-
-//	Fairgrounds = $ListCompletedTitles (ThisAgent, "Building", "Fairgrounds", -1);
-	Fairgrounds = $RemoveTitles(buildings,"Fairgrounds");
-
-	If ($ListSize (Fairgrounds) > 0)
+	If ($Check_For_Fairgrounds_Packet (ThisAgent) == True)
 		begin
-			If ($Check_For_Fairgrounds_Packet (ThisAgent, Fairgrounds) == True)
-				begin
-					Target = ThisAgent's completetarget;
-					ThisAgent's completetname  = "visiting";
-					ThisAgent's completeaction = $Use_Building_Packet;
-					ThisAgent's completevisit = Target's "visited_script";
-					ThisAgent's completecondition = $isdead;
-					Thisagent's completeintent = "IDTXT_INTENT_COMPETEFAIRGROUNDS";
-					return $NotDuplicateTask(thisagent, taskindex);
-				end
-			end
+			Target = ThisAgent's completetarget;
+			ThisAgent's completetname  = "visiting";
+			ThisAgent's completeaction = $Use_Building_Packet;
+			ThisAgent's completevisit = Target's "visited_script";
+			ThisAgent's completecondition = $isdead;
+			Thisagent's completeintent = "IDTXT_INTENT_COMPETEFAIRGROUNDS";
+			return $NotDuplicateTask(thisagent, taskindex);
+		end
 
 	return False;
 End
 
 ///////////////////////////////////////////////////////////////////////////////
-Function Check_Brothels_and_GHalls_Packet(agent ThisAgent, agent best_one) is boolean
+Function Check_Brothels_and_GHalls_Packet(agent ThisAgent) is boolean
 Declare
 	integer Willpower_Roll;
 	integer Greed_Roll;
-	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
-	string conditionsub, completecondition, visitsub, completevisit;
-
+	agent best_one, palace;
+	string intentsub, targetsub;
+	string completeintent, completetarget;
+	string taskindex;
+	list attractions;
 
 Begin
-	//Best_One = $ListMember (ThisList, 1);
-	//Best_One = $Pick_Closest (ThisAgent, ThisList);
+	best_one = $NullAgent();
+	Palace = $GetTruePalace (ThisAgent);
+	if ($isdead(palace))
+		begin
+			$listobjects(thisagent,"building",-1,attractions, #CheckSubTypes, "Entertainment", #ATTRIB_FirstStageBuilt, 1);
+			if ($ListSize(attractions) > 0)
+				best_one = $ListMember(attractions, 1);
+		end
+	else if ($HasAttribute("Entertainment_List", palace) == false)
+		begin
+			$listobjects(thisagent,"building",-1,attractions, #CheckSubTypes, "Entertainment", #ATTRIB_FirstStageBuilt, 1);
+			if ($ListSize(attractions) > 0)
+				best_one = $ListMember(attractions, 1);
+		end
+	else
+		begin
+			Best_One = $Pick_Closest_valid (ThisAgent, palace's "Entertainment_List");
+		end
+
+	if (best_one == $NullAgent())
+		return false;
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
-	actionsub = "TaskPackageTargetAction";
 	intentsub = "TaskPackageIntent";
 	targetsub = "TaskPackageTarget";
-	completeaction = actionsub + taskindex;
 	completeintent = intentsub + taskindex;
 	completetarget = targetsub + taskindex;
 
-	conditionsub = "TaskPackageTargetCondition";
-	completecondition = conditionsub + taskindex;
-	
-	visitsub = "TaskPackageVisitingScript";
-	completevisit = visitsub + taskindex;
-	
 	WillPower_Roll = $RandomNumber (30) + 1;
 	If (Best_One's "title" == "Brothel")
 		begin
@@ -201,7 +172,7 @@ Begin
 						Begin
 //							//$DebugOut ("Yeahh! I want to party at the BROTHEL!");
 							ThisAgent's completetarget = Best_One;
-							thisagent's completecondition = $isdead;
+							thisagent's completeintent = "IDTXT_INTENT_VISITLOUNGE";
 							return True;
 						End
 				end
@@ -219,7 +190,7 @@ Begin
 										begin
 											//$DebugOut ("Yeahh! I want to party at the GAMBLING HALL!");
 											ThisAgent's completetarget = Best_One;
-											thisagent's completecondition = $isdead;
+											thisagent's completeintent = "IDTXT_INTENT_VISITGAMBLING";
 											return True;
 										end
 								end
@@ -235,34 +206,45 @@ end
 //2. There is a tourney that applies to the Hero
 //3. The hero meets the ExperienceLevel req's
 //4. The hero thinks their stats merit entering the contest
-Function Check_For_Fairgrounds_Packet (agent ThisAgent, list ThisList) is boolean
+Function Check_For_Fairgrounds_Packet (agent ThisAgent) is boolean
 Declare
-	agent 	Best_One;
+	list fairgrounds;
+	agent 	Best_One, palace;
 	integer	Current_Event;
 	boolean  going_to_event; 
-	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
-	string conditionsub, completecondition, visitsub, completevisit;
-
+	string taskindex;
+	string targetsub, completetarget;
 
 Begin
+
+	best_one = $NullAgent();
+	Palace = $GetTruePalace (ThisAgent);
+	if ($isdead(palace))
+		begin
+			$listobjects(thisagent,"building",-1,fairgrounds, #CheckTitles, "Fairgrounds", #ATTRIB_FirstStageBuilt, 1);
+			if ($ListSize(fairgrounds) > 0)
+				best_one = $ListMember(fairgrounds, 1);
+		end
+	else if ($HasAttribute("Entertainment_List", palace) == false)
+		begin
+			$listobjects(thisagent,"building",-1,fairgrounds, #CheckTitles, "Fairgrounds", #ATTRIB_FirstStageBuilt, 1);
+			if ($ListSize(fairgrounds) > 0)
+				best_one = $ListMember(fairgrounds, 1);
+		end
+	else
+		begin
+			Best_One = $Pick_a_fairground (ThisAgent, palace's "Fairgrounds_List");
+		end
+
+	if (best_one == $NullAgent())
+		return false;
+
 	going_to_event = FALSE;
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
-	actionsub = "TaskPackageTargetAction";
-	intentsub = "TaskPackageIntent";
 	targetsub = "TaskPackageTarget";
-	completeaction = actionsub + taskindex;
-	completeintent = intentsub + taskindex;
 	completetarget = targetsub + taskindex;
-
-	conditionsub = "TaskPackageTargetCondition";
-	completecondition = conditionsub + taskindex;
 	
-	visitsub = "TaskPackageVisitingScript";
-	completevisit = visitsub + taskindex;
-	
-	Best_One = $Pick_a_fairground (ThisAgent, ThisList);
-
 	//See if there is an event running. If Tournament hasn't been researched, then this should return 0
 	Current_Event = $GetAttribute (Best_One, #ATTRIB_CurrentEvent);
 
@@ -310,7 +292,6 @@ Begin
 	if (going_to_event)
 		begin
 			ThisAgent's completetarget = Best_One;
-			thisagent's completecondition = $isdead;
 			Best_One's "Combatants" << ThisAgent;
 		end
 
@@ -325,8 +306,9 @@ Declare
 	agent Best_One;
 
 Begin
-	Best_One = $ListMember (ThisList, 1);
-	//Best_One = $Pick_Closest (ThisAgent, ThisList);
+	Best_One = $Pick_Closest_valid (ThisAgent, ThisList);
+	if (Best_one == $NullAgent())
+		return false;
 
 	WillPower_Roll = $RandomNumber (30) + 1;
 	If (Best_One's "title" == "Brothel")
@@ -365,6 +347,35 @@ Begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
+function pick_closest_valid(agent thisagent,list thislist) is agent
+
+declare
+	agent enemy;
+	agent closest_enemy;
+	integer closest_dist;
+	integer e_dist;
+
+begin
+	closest_dist = 100000;
+	closest_enemy = $NullAgent();
+
+	foreach enemy in thislist do
+		begin
+			if ($isdead(enemy) == false)
+				begin
+					e_dist = $distancebetweenAgents(thisagent,enemy);
+					if (e_dist < closest_dist)
+						begin
+							closest_dist = e_dist;
+							closest_enemy = enemy;
+						end
+				end
+		end
+
+	return closest_enemy;
+end
+
+///////////////////////////////////////////////////////////////////////////////
 //This function has Heroes look at the list of Fairgrounds that was passed as ThisList, and see if:
 //1. There are open tourneys
 //2. There is a tourney that applies to the Hero
@@ -380,6 +391,8 @@ Begin
 	going_to_event = FALSE;
 
 	Best_One = $Pick_a_fairground (ThisAgent, ThisList);
+	if (Best_one == $NullAgent())
+		return false;
 
 	//See if there is an event running. If Tournament hasn't been researched, then this should return 0
 	Current_Event = $GetAttribute (Best_One, #ATTRIB_CurrentEvent);
@@ -448,37 +461,42 @@ declare
 begin
 	Loyalty = ThisAgent's "Loyalty";
 	closest_dist = 9000000;
+	closest_dude = $NullAgent();
 
   	foreach Dude in Thislist do
 	 	begin
-			temp_dist = $distancebetweenAgents(thisagent,Dude);
-
-			//See if the Dude is on a different team, if so then make it less attractive
-			If ($GetPlayerTeamNumber (ThisAgent) != $GetPlayerTeamNumber (Dude))
+			if ($IsDead(dude) == false)
 				begin
-			   	//If hero is loyal, then don't even consider this Dude
-					If (Loyalty > (#Loyalty_Other_Team_Roll) + 1)
+					temp_dist = 9000000;
+					//See if the Dude is on a different team, if so then make it less attractive
+					If ($GetPlayerTeamNumber (ThisAgent) != $GetPlayerTeamNumber (Dude))
 						begin
-							ThisList -= Dude;
-					   end
+						//If hero is loyal, then don't even consider this Dude
+							If (Loyalty < (#Loyalty_Other_Team_Roll) + 1)
+								begin
+									temp_dist = $distancebetweenAgents(thisagent,Dude);
+
+									//Crank up the temp_dist, so this building appears less attractive
+									Temp_Dist = Temp_Dist * #Loyalty_Dist_Diff_Team_Mod;
+								end
+						end
 					Else
-						//Crank up the temp_dist, so this building appears less attractive
-						Temp_Dist = Temp_Dist * #Loyalty_Dist_Diff_Team_Mod;
-				end
-			Else
-				begin
-					//See if the Dude is owned by a different player, if so them make it less attractive
-					If ( $UnitsAreSamePlayer (ThisAgent, Dude) == False )
-			  			begin
-							temp_dist = temp_dist / 2;
+						begin
+							temp_dist = $distancebetweenAgents(thisagent,Dude);
+
+							//See if the Dude is owned by a different player, if so them make it less attractive
+							If ( $UnitsAreSamePlayer (ThisAgent, Dude) == False )
+								begin
+									temp_dist = temp_dist / 2;
+								end
+						end
+
+					if (temp_dist < closest_dist)
+						begin
+							closest_dist = temp_dist;
+							closest_dude = dude;
 						end
 				end
-
-			if (temp_dist < closest_dist)
-			 	begin
-					closest_dist = temp_dist;
-				  	closest_dude = dude;
-			  	end
 	  	end
 
 	return closest_dude;

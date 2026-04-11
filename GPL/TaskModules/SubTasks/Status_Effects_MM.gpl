@@ -232,17 +232,21 @@ function Cinders_Duration( agent thisagent )
 declare
 	
 begin
-	if (($IsValidGamePiece(thisagent) != TRUE) || (thisagent's "Cinders_Counter" < 1))
+	if ($IsValidGamePiece(thisagent) == false || thisagent's "Cinders_Counter" < 1)
 		begin
 			$KillThread(thisagent's "Cinders_Duration");
 			$deleteeffector(thisagent,"Cinders_Icon");
-			thisagent's "Cinders_Stack" = 0;
+
+			$AdjustIntegerSafe(thisagent, "Fire_Damage_Flat", (0 - thisagent's "Cinders_Damage_Flat"));
+			$AdjustIntegerSafe(thisagent, "Fire_Damage_Percent", (0 - thisagent's "Cinders_Damage_Percent"));
+
 			thisagent's "Cinders_Damage_Flat" = 0;
 			thisagent's "Cinders_Damage_Percent" = 0;
+			thisagent's "Cinders_Stack" = 0;
 			return;
 		end
-	
-	thisagent's "Cinders_Counter" =  (thisagent's "Cinders_Counter" - 1);
+	else
+		thisagent's "Cinders_Counter" -= 1;
 end
 
 ///////////////////////////////////////////////////////////////////////////////

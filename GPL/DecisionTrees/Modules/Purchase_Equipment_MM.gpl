@@ -37,25 +37,25 @@ Begin
 	shops = $listsubtypes(buildings,"shop");
 
 	//Pass the string "Equipment", because it is used to determine tasknames and debug messages
-	If (Wants_Weapon && $BlackSmith_Check_MM (ThisAgent, "BS_WeaponLevel", Blacksmiths))
+	If (Wants_Weapon && $BlackSmith_Check_MM (ThisAgent, "RightHand", Blacksmiths))
 		begin
  			Flag = TRUE;
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYWEAPONUPGRADE");
 		end
 	Else
-		If (Wants_Armor && $BlackSmith_Check_MM (ThisAgent, "BS_BodyArmorLevel", Blacksmiths))
+		If (Wants_Armor && $BlackSmith_Check_MM (ThisAgent, "BodyArmor", Blacksmiths))
 			begin
 				Flag = TRUE;
 				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYARMORUPGRADE");
 			end
 		Else
-	 		If (Wants_Weapon && $WizGuild_Check_MM (ThisAgent, "EN_WeaponLevel", Wizguilds))
+	 		If (Wants_Weapon && $WizGuild_Check_MM (ThisAgent, "RightHand", Wizguilds))
 				begin
 		  			Flag = TRUE;
 					$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYWEAPONENCHANT");
 				end
 			Else
-	 			If (Wants_Armor && $WizGuild_Check_MM (ThisAgent, "EN_BodyArmorLevel", Wizguilds))
+	 			If (Wants_Armor && $WizGuild_Check_MM (ThisAgent, "BodyArmor", Wizguilds))
 					begin
 						Flag = TRUE;
 						$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BUYARMORENCHANT");
@@ -129,7 +129,7 @@ Declare
 	integer	Gold_Needed, equipment_level;
 
 Begin
-	equipment_level = $GetEquipmentLevel(thisagent, Equipment);
+	equipment_level = $GetIntegerSafe(thisagent, Equipment+"Level");
 	If (equipment_level >= 3)
 		begin
 			//$DebugOut ("This",equipment,"is already at the Blacksmith's Maximum Structural equipment_level!");
@@ -145,7 +145,7 @@ Begin
 	If (equipment_level == 2)
 		Gold_Needed = #Cost_Per_Struct_Upgrade3;
 
-	if (equipment == "BS_BodyArmorLevel")
+	if (equipment == "BodyArmor")
 		gold_needed = gold_needed * #armor_multiplier;
 
 	If ($Total_Gold (ThisAgent) < Gold_Needed)
@@ -166,7 +166,7 @@ Begin
 	//See which blacksmiths have researched enough to offer the upgrade
 
 	//Check to see if hero needs armor or weapon
-	If (Equipment == "BS_BodyArmorLevel")
+	If (Equipment == "BodyArmor")
 		begin
 			//This is used by the Upgrade Equipment script
 			ThisAgent's "Task_Number" = #ATTRIB_Armor_Struct_Bonus;
@@ -181,7 +181,7 @@ Begin
 				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchArmorLevel_4 );
 		end
 
-	If (Equipment == "BS_WeaponLevel")
+	If (Equipment == "RightHand")
 		begin
 			//This is used by the Upgrade Equipment script
 			ThisAgent's "Task_Number" = #ATTRIB_Weapon_Struct_Bonus;
@@ -221,7 +221,7 @@ Declare
 	integer	Gold_Needed, equipment_level;
 
 Begin
-	equipment_level = $GetEquipmentLevel(thisagent, Equipment);
+	equipment_level = $GetIntegerSafe(thisagent, "EN_"+Equipment+"Level");
 	
 	If (equipment_level >= 3)
 		begin
@@ -271,12 +271,12 @@ Begin
 	If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) > Intel_Roll)
 		begin
 
-			If (Equipment == "EN_WeaponLevel")
+			If (Equipment == "RightHand")
 				begin
 					ThisAgent's "Task_Number" = #ATTRIB_Weapon_Magic_Bonus;
 				end
 
-			Else if (Equipment == "EN_BodyArmorLevel")
+			Else if (Equipment == "BodyArmor")
 				begin
 					ThisAgent's "Task_Number" = #ATTRIB_Armor_Magic_Bonus;
 				end
@@ -811,9 +811,7 @@ Declare
 
 
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 	//See if ThisAgent can use Weapons, and if they want to think about upgrading
 	If ($GetAttribute (ThisAgent, #ATTRIB_WeaponTypeIndex) > 0)
 		begin
@@ -857,25 +855,25 @@ Begin
 	shops = $listsubtypes(buildings,"shop");
 
 	//Pass the string "Equipment", because it is used to determine tasknames and debug messages
-	If (Wants_Weapon && $BlackSmith_Check_MM_Packet(ThisAgent, "BS_WeaponLevel", Blacksmiths))
+	If (Wants_Weapon && $BlackSmith_Check_MM_Packet(ThisAgent, "RightHand", Blacksmiths))
 		begin
  			Flag = TRUE;
 			Thisagent's completeintent = "IDTXT_INTENT_BUYWEAPONUPGRADE";
 		end
 	Else
-		If (Wants_Armor && $BlackSmith_Check_MM_Packet(ThisAgent, "BS_BodyArmorLevel", Blacksmiths))
+		If (Wants_Armor && $BlackSmith_Check_MM_Packet(ThisAgent, "BodyArmor", Blacksmiths))
 			begin
 				Flag = TRUE;
 				Thisagent's completeintent = "IDTXT_INTENT_BUYARMORUPGRADE";
 			end
 		Else
-			If (Wants_Weapon && $WizGuild_Check_MM_Packet(ThisAgent, "EN_WeaponLevel", Wizguilds))
+			If (Wants_Weapon && $WizGuild_Check_MM_Packet(ThisAgent, "RightHand", Wizguilds))
 				begin
 		  			Flag = TRUE;
 					Thisagent's completeintent = "IDTXT_INTENT_BUYWEAPONENCHANT";
 				end
 			Else
-				If (Wants_Armor && $WizGuild_Check_MM_Packet (ThisAgent, "EN_BodyArmorLevel", Wizguilds))
+				If (Wants_Armor && $WizGuild_Check_MM_Packet (ThisAgent, "BodyArmor", Wizguilds))
 					begin
 						Flag = TRUE;
 						Thisagent's completeintent = "IDTXT_INTENT_BUYARMORENCHANT";
@@ -955,7 +953,7 @@ Declare
 
 
 Begin
-	equipment_level = $GetEquipmentLevel(thisagent, Equipment);
+	equipment_level = $GetIntegerSafe(thisagent, Equipment+"Level");
 	If (equipment_level >= 3)
 		begin
 			//$DebugOut ("This",equipment,"is already at the Blacksmith's Maximum Structural equipment_level!");
@@ -971,7 +969,7 @@ Begin
 	If (equipment_level == 2)
 		Gold_Needed = #Cost_Per_Struct_Upgrade3;
 
-	if (equipment == "BS_BodyArmorLevel")
+	if (equipment == "BodyArmor")
 		gold_needed = gold_needed * #armor_multiplier;
 
 	If ($Total_Gold (ThisAgent) < Gold_Needed)
@@ -1004,7 +1002,7 @@ Begin
 	//See which blacksmiths have researched enough to offer the upgrade
 
 	//Check to see if hero needs armor or weapon
-	If (Equipment == "BS_BodyArmorLevel")
+	If (Equipment == "BodyArmor")
 		begin
 			//This is used by the Upgrade Equipment script
 			ThisAgent's "Task_Number" = #ATTRIB_Armor_Struct_Bonus;
@@ -1019,7 +1017,7 @@ Begin
 				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchArmorLevel_4 );
 		end
 
-	If (Equipment == "BS_WeaponLevel")
+	If (Equipment == "RightHand")
 		begin
 			//This is used by the Upgrade Equipment script
 			ThisAgent's "Task_Number" = #ATTRIB_Weapon_Struct_Bonus;
@@ -1063,7 +1061,7 @@ Declare
 
 
 Begin
-	equipment_level = $GetEquipmentLevel(thisagent, Equipment);
+	equipment_level = $GetIntegerSafe(thisagent, "EN_"+Equipment+"Level");
 	
 	If (equipment_level >= 3)
 		begin
@@ -1126,12 +1124,12 @@ Begin
 	If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) > Intel_Roll)
 		begin
 
-			If (Equipment == "EN_WeaponLevel")
+			If (Equipment == "RightHand")
 				begin
 					ThisAgent's "Task_Number" = #ATTRIB_Weapon_Magic_Bonus;
 				end
 
-			Else if (Equipment == "EN_BodyArmorLevel")
+			Else if (Equipment == "BodyArmor")
 				begin
 					ThisAgent's "Task_Number" = #ATTRIB_Armor_Magic_Bonus;
 				end

@@ -12,6 +12,11 @@ Begin
 			return False;
 		end
 	
+	If ($Total_Gold (ThisAgent) < #bank_gold_threshold)
+		begin
+			return False;
+		end
+
 	// construct some lists here, and pass them as parameters,
 	// instead of over and over again in the lower level subroutines.
 	Search_Dist = $GetAttribute (ThisAgent, #ATTRIB_SightRange) * ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) / 2);
@@ -19,11 +24,6 @@ Begin
 	$listobjects(thisagent,"building",search_Dist,buildings,#ATTRIB_FirstStageBuilt, 1 );
 
 	banks = $listTitles(buildings,"Bank");
-
-	If ($Total_Gold (ThisAgent) < #bank_gold_threshold)
-		begin
-			return False;
-		end
 
 	If ($ListSize (banks) == 0)
 		begin
@@ -59,9 +59,11 @@ Begin
 			return False;
 		end
 	
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+	If ($Total_Gold (ThisAgent) < #bank_gold_threshold)
+		begin
+			return False;
+		end
+
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
 	intentsub = "TaskPackageIntent";
@@ -85,11 +87,6 @@ Begin
 	$listobjects(thisagent,"building",search_Dist,buildings,#ATTRIB_FirstStageBuilt, 1 );
 
 	banks = $listTitles(buildings,"Bank");
-
-	If ($Total_Gold (ThisAgent) < #bank_gold_threshold)
-		begin
-			return False;
-		end
 
 	If ($ListSize (banks) == 0)
 		begin

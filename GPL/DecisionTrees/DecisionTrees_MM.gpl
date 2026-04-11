@@ -1017,41 +1017,6 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-//This function is for the most basic types of actions a hero can be expected to execute if one is imminently required
-function Generic_tree (agent thisagent)
-
-declare
-
-begin
-
-//	//$DebugOut("I'm deciding what to do!");
-					
-	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
-	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
-
-	if ($check_nearby(thisagent) == False)
-
-	if ($Check_Rewards(thisagent,FALSE) == False)
-
-	if ($Defend_home(thisagent) == False)
-
-	if ($rest(thisagent) == False)
-	
-	if ($Open_Bank_Account(thisagent) == False)
-
-	if ($Explore_Map(thisagent,thisagent's "TaskChanceExplore") == False)
-	
-	if ($Go_Home(thisagent,thisagent's "TaskChanceIdle") == False)
-
-		begin
-			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
-			thisagent's "counter" = 0;
-			thisagent's "activescript" = $hero_wander;
-		end
-
-end
-
-///////////////////////////////////////////////////////////////////////////////
 function Adept_Task_Packages (agent thisagent)
 declare
 	integer count, size;
@@ -2709,6 +2674,7 @@ begin
 			ThisAgent's "TaskPackageVisitingScriptCurrent" = $wizards_guild_visited;
 			ThisAgent's "TaskPackageTargetConditionCurrent" = $isdead;
 			$reset_tasks(thisagent);
+			thisagent's "TaskPackageStatus" = "Ongoing";
 		end
 	else
 		thisagent's "activescript" = $Wizard_Tree;
@@ -2727,6 +2693,44 @@ begin
 	thisagent's "backscript" = thisagent's "basicscript";
 	$clearlist(thisagent's "hostiles");
 end
+
+///////////////////////////////////////////////////////////////////////////////
+//This function is for the most basic types of actions a hero can be expected to execute if one is imminently required
+function Generic_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+					
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($Defend_Building_Nearby(thisagent) == false) 
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Explore_Map(thisagent,thisagent's "TaskChanceExplore") == False)
+	
+	if ($Go_Home(thisagent,thisagent's "TaskChanceIdle") == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
 ///////////////////////////////////////////////////////////////////////////////
 function NextTask (agent thisagent)
 
@@ -2744,6 +2748,7 @@ begin
 				begin																								//  By default, if it is, whether or not it died in the engagement with the hero, it will mark as complete
 					thisagent's "TaskPackageStatus" = "Complete";
 				end
+
 	if ((thisagent's "TaskPackageStatus" == "Ongoing") && ((thisagent's "TaskPackageTargetActionCurrent") != $Search_For_Task))		//Don't use && since condition and target might not be set up yet, and it will divide by 0
 		if ($ValidFunction(thisagent's "TaskPackageTargetConditionCurrent"))
 			if ((thisagent's "TaskPackageTargetConditionCurrent")(thisagent's "TaskPackageTargetCurrent"))  // This is to check whether or not the target of the action is no longer valid.
@@ -2885,24 +2890,17 @@ end
 function General_Task_Cycle (agent thisagent)
 //This function cycles every few seconds to adjust the hero's task packets.
 declare
-	function func;
-	boolean flag;
-	string string1, string2;
-	integer count, size, exhaustion, fear;
-	integer item;
-	list items;
+	boolean flag, resting;
+	integer exhaustion, fear;
 
 begin
-	string1 = "TaskPackageIndexList";
-	flag = FALSE;
-	count = 0;
 	exhaustion = thisagent's "Exhaustion";
 	fear = thisagent's "Fear";
 	
 	//if (thisagent's "learned_newspell")
 	//	$ArrangeSpells(thisagent);
-	
-	if ($IsResting(thisagent))
+	resting = $IsResting(thisagent);
+	if (resting)
 		begin
 			thisagent's "Fear" = 0;
 			if (exhaustion > 10)
@@ -2918,64 +2916,77 @@ begin
 	if (fear > 0)
 		thisagent's "Fear" --;
 		
-	if (thisagent's "Exhaustion" >= 500) //Dead tired, so plan to sleep a lot
-		begin
-			thisagent's "TaskPackageVar" = "Idle";
-			thisagent's "TaskPackageTypeIndex" = "Next";
-			$Search_For_Task(thisagent);
-			thisagent's "TaskPackageTypeIndex" = "Reserve";
-			$Search_For_Task(thisagent);
-			thisagent's "TaskPackageTypeIndex" = "Backup";
-			$Search_For_Task(thisagent);
-		end
-	else if (thisagent's "Exhaustion" >= 350) //More tired, so look for a few places to sleep
-		begin
-			thisagent's "TaskPackageVar" = "Idle";
-			thisagent's "TaskPackageTypeIndex" = "Next";
-			$Search_For_Task(thisagent);
-			thisagent's "TaskPackageTypeIndex" = "Reserve";
-			$Search_For_Task(thisagent);
-		end
-	else if (thisagent's "Exhaustion" >= 200) //Tired, so start looking for a place to sleep
-		begin
-			thisagent's "TaskPackageVar" = "Idle";
-			thisagent's "TaskPackageTypeIndex" = "Next";
-			$Search_For_Task(thisagent);
-		end
+//	if (thisagent's "Exhaustion" >= 500) //Dead tired, so plan to sleep a lot
+//		begin
+//			thisagent's "TaskPackageVar" = "Idle";
+//			thisagent's "TaskPackageTypeIndex" = "Next";
+//			$Search_For_Task(thisagent);
+//			thisagent's "TaskPackageTypeIndex" = "Reserve";
+//			$Search_For_Task(thisagent);
+//			thisagent's "TaskPackageTypeIndex" = "Backup";
+//			$Search_For_Task(thisagent);
+//		end
+//	else if (thisagent's "Exhaustion" >= 350) //More tired, so look for a few places to sleep
+//		begin
+//			thisagent's "TaskPackageVar" = "Idle";
+//			thisagent's "TaskPackageTypeIndex" = "Next";
+//			$Search_For_Task(thisagent);
+//			thisagent's "TaskPackageTypeIndex" = "Reserve";
+//			$Search_For_Task(thisagent);
+//		end
+//	else if (thisagent's "Exhaustion" >= 200) //Tired, so start looking for a place to sleep
+//		begin
+//			thisagent's "TaskPackageVar" = "Idle";
+//			thisagent's "TaskPackageTypeIndex" = "Next";
+//			$Search_For_Task(thisagent);
+//		end
 		
+	flag = true;
+
 	if (thisagent's "TaskPackageTargetActionCurrent" == $Search_For_Task) //If Current needs to be updated, then so does Backup
 		begin															//Current should only every go through this once, after that is switches to Next/Reserved/Backup instead of searching again.
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet"; //Tasks should not update simultaneously. Current must update first. Then Next and Backup can update simultaneously following that. Reserve updates last.
 			thisagent's "TaskPackageTypeIndex" = "Current";				 //Otherwise the function that catches duplicates fails.
 			$Search_For_Task(thisagent);
 			thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
-			//thisagent's "TaskPackageTypeIndex" = "Backup";
-			//$Search_For_Task(thisagent);
-			return; //Return here since Current needs to update by itself first to prevent duplicates with Next/Backup
+			flag = false;
 		end
 		
+	if (flag == false)
+		return; //Return here since Current needs to update by itself first to prevent duplicates with Next/Backup
+
 	if (thisagent's "TaskPackageTargetActionNext" == $Search_For_Task)
 		begin															//Next must not update simultaneously with Reserve. It can update simultaneously with Backup, since they don't directly conflict.
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
+			//if (resting == false && thisagent's "Exhaustion" >= 200) //Tired, so start looking for a place to sleep
+			//	thisagent's "TaskPackageVar" = "Idle";
 			thisagent's "TaskPackageTypeIndex" = "Next";
 			$Search_For_Task(thisagent);
-			//thisagent's "TaskPackageTargetActionReserve" = $Search_For_Task;
-			//thisagent's "TaskPackageTypeIndex" = "Reserve";
-			//$Search_For_Task(thisagent);
-			return;
+			flag = false;
 		end
-		
+
+	if (flag == false)
+		return; //Reserve must update at the end, and alone, not simultaneously with other tasks.
+
+	// this can be chosen simultaneously with Next
 	if (thisagent's "TaskPackageTargetActionBackup" == $Search_For_Task)
 		begin
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
+			if (resting == false && thisagent's "Exhaustion" >= 350) //More tired, so look for a few places to sleep
+				thisagent's "TaskPackageVar" = "Idle";
 			thisagent's "TaskPackageTypeIndex" = "Backup";
 			$Search_For_Task(thisagent);
-			return; //Return here since instead of at Next since this can be chosen simultaneously with Next
+			flag = false;
 		end
 		
-	if (thisagent's "TaskPackageTargetActionReserve" == $Search_For_Task) //Reserve must update at the end, and alone, not simultaneously with other tasks.
+	if (flag == false)
+		return; //Reserve must update at the end, and alone, not simultaneously with other tasks.
+
+	if (thisagent's "TaskPackageTargetActionReserve" == $Search_For_Task) 
 		begin
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
+			if (resting == false && thisagent's "Exhaustion" >= 500) //Dead tired, so plan to sleep a lot
+				thisagent's "TaskPackageVar" = "Idle";
 			thisagent's "TaskPackageTypeIndex" = "Reserve";
 			$Search_For_Task(thisagent);
 		end

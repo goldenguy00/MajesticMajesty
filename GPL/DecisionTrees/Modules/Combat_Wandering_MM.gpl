@@ -108,14 +108,7 @@ declare
 	integer chance;
 	string local_intent;
 
-	string taskindex;
-
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
-	
-
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance)
 		return FALSE;
@@ -142,7 +135,7 @@ Begin
 			local_intent = "IDTXT_INTENT_HUNTING" + $getintentext(current_best_monster);
 			$UpdateTaskPackage(thisagent, $attack_object_pack, $notvalid, current_best_monster, local_intent);
 
-			return true;
+			return $NotDuplicateTask(thisagent, thisagent's "TaskPackageTypeIndex");
 		end
 	return FALSE;
 
@@ -160,12 +153,8 @@ declare
 	agent current_best_monster, palace;
 	integer chance;
 	string intentext;
-	string taskindex;
-
 Begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 		
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
@@ -192,7 +181,7 @@ Begin
 			intentext = "IDTXT_INTENT_BATTLINGENEMYHERO" + $getintentext(current_best_monster);
 			$UpdateTaskPackage(thisagent, $attack_object_pack, $notvalid, current_best_monster, intentext);
 			
-			return true;
+			return $NotDuplicateTask(thisagent, thisagent's "TaskPackageTypeIndex");
 		end
 	
 	return FALSE;

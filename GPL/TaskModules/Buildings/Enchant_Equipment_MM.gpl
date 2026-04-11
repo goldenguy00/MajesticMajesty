@@ -37,9 +37,9 @@ Begin
 	What_To_Upgrade = ThisAgent's "Task_Number";
 
 	If (What_to_upgrade == #ATTRIB_Armor_Magic_Bonus)
-		equipment_type = "EN_BodyArmorLevel";
+		equipment_type = "BodyArmor";
 	else if (What_to_upgrade == #ATTRIB_Weapon_Magic_Bonus)
-		equipment_type = "EN_WeaponLevel";
+		equipment_type = "Weapon";
 		
 	ThisAgent's "Task_Number" = 0;
 
@@ -79,7 +79,6 @@ Begin
 			$Spend_Gold (ThisAgent, ThisBuilding, Gold);
 			$SetAttribute (ThisAgent, What_To_Upgrade, Upgrade);
 			$EnchantEquipment(thisagent, equipment_type, Upgrade);
-			//$DebugOut (thisagent's "title","purchased",Upgrade,what_to_upgrade,"enchantments!");
 		end
 
 

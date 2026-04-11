@@ -69,9 +69,7 @@ declare
 
 
 begin
-	taskindex = thisagent's "TaskPackageTypeIndex";
-	if ($NotDuplicateTask(thisagent, taskindex) == false)
-		return false;
+
 //            //$DebugOut("Should I collect",resource,"?");
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	resource = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");

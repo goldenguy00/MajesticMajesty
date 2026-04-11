@@ -63,8 +63,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Lunord_Cult)
 		(Kill_Credit_Specific	KCS_Adept)
@@ -140,8 +138,6 @@
 		(IGdeathscript		Barbarian_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Krolm_Cult)
 		(Kill_Credit_Specific	KCS_Barbarian)
@@ -221,8 +217,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Fervus_Cult)
 		(Kill_Credit_Specific	KCS_Cultist)
@@ -301,8 +295,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Dwarf)
@@ -378,8 +370,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Elf)
@@ -455,8 +445,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Gnome)
@@ -533,8 +521,6 @@
 		(IGdeathscript				Healer_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Agrela_Cult)
 		(Kill_Credit_Specific	KCS_Healer)
@@ -610,13 +596,11 @@
 		(IGdeathscript				gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Dauros_Cult)
 		(Kill_Credit_Specific	KCS_Monk)
-		(Crushing_Attack_Damage_Min		5)
-		(Crushing_Attack_Damage_Max		6)
+		(Physical_Attack		6)
+		(Physical_Attack_Type	Crushing)
 		(Uses_Equipment					True)
 		(IntentExt		MONK)
 	}
@@ -687,8 +671,6 @@
 		(IGdeathscript				gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Dauros_Cult)
 		(Kill_Credit_Specific	KCS_Paladin)
@@ -765,8 +747,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Krypta_Cult)
 		(Kill_Credit_Specific	KCS_Priestess)
@@ -843,8 +823,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Ranger)
@@ -921,8 +899,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Rogue)
@@ -998,8 +974,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Helia_Cult)
 		(Kill_Credit_Specific	KCS_Solarus)
@@ -1074,8 +1048,6 @@
 		(IGdeathscript					gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Uses_Equipment					True)
@@ -1151,8 +1123,6 @@
 		(IGdeathscript					gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Fervus_Cult)
 		(Kill_Credit_Specific	KCS_Warrior_Of_Discord)
@@ -1228,8 +1198,6 @@
 		(IGdeathscript		gravestone)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Hero)
-
-
 		(Kill_Credit_Type	Hero)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Wizard)
@@ -1259,19 +1227,16 @@
 		(IGdeathscript				Guard_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_City_Guard)
 		(Recruit_Time					17000)
-		
 		(Piercing_Resistance_Percent	5)
 		(Crushing_Resistance_Percent	100)
 		(Crushing_Resistance_Percent_Neg	True)
 		(Armor_Physical_Base			3)
-		(Slashing_Attack_Damage_Min		5)
-		(Slashing_Attack_Damage_Max		6)
+		(Physical_Attack		6)
+		(Physical_Attack_Type	Slashing)
 		(IntentExt		CITYGUARD)
 	}
 [end]
@@ -1299,16 +1264,13 @@
 		(IGdeathscript				Guard_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Archer)
 		(Recruit_Time					20000)
-		
 		(Armor_Physical_Base			2)
-		(Piercing_Attack_Damage_Min		5)
-		(Piercing_Attack_Damage_Max		7)
+		(Physical_Attack		7)
+		(Physical_Attack_Type	Piercing)
 		(IntentExt		ARCHER)
 	}
 [end]
@@ -1335,8 +1297,6 @@
 		(IGdeathscript				Guard_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Veteran_City_Guard)
@@ -1344,8 +1304,8 @@
 		(Slashing_Resistance_Percent	5)
 		(Piercing_Resistance_Percent	10)
 		(Armor_Physical_Base			4)
-		(Slashing_Attack_Damage_Min		5)
-		(Slashing_Attack_Damage_Max		7)
+		(Physical_Attack		7)
+		(Physical_Attack_Type	Slashing)
 		(IntentExt		VETERANCITYGUARD)
 	}
 [end]
@@ -1381,8 +1341,8 @@
 		(Slashing_Resistance_Percent	5)
 		(Piercing_Resistance_Percent	10)
 		(Armor_Physical_Base			5)
-		(Slashing_Attack_Damage_Min		5)
-		(Slashing_Attack_Damage_Max		7)
+		(Physical_Attack		7)
+		(Physical_Attack_Type	Slashing)
 		(IntentExt		PALACEGUARD)
 	}
 [end]
@@ -1405,8 +1365,6 @@
 		(IGdeathscript				tax_collector_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Tax_Collector)
@@ -1431,8 +1389,6 @@
 		(IGdeathscript		peasant_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Peasant)
@@ -1457,8 +1413,6 @@
 		(IGdeathscript		peasant_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Peasant)
@@ -1483,8 +1437,6 @@
 		(IGdeathscript		Caravan_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Caravan)
@@ -1514,8 +1466,6 @@
 		(IGdeathscript			illusionary_death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Illusion)
-
-
 		(Kill_Credit_Type	Illusion)
 		(Kill_Credit_Faction	KCF_Neutral)
 		(Kill_Credit_Specific	KCS_Illusion)
@@ -1546,15 +1496,12 @@
 		(IGdeathscript				Royal_Archer_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Royal_Archer)
-
 		(Armor_Physical_Base			2)
-		(Piercing_Attack_Damage_Min		5)
-		(Piercing_Attack_Damage_Max		7)
+		(Physical_Attack		7)
+		(Physical_Attack_Type	Piercing)
 		(IntentExt		ROYALARCHER)
 	}
 [end]
@@ -1582,15 +1529,12 @@
 		(IGdeathscript				Mercenary_Arbalest_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Mercenary_Arbalest)
-
 		(Armor_Physical_Base			1)
-		(Piercing_Attack_Damage_Min		8)
-		(Piercing_Attack_Damage_Max		12)
+		(Physical_Attack		12)
+		(Physical_Attack_Type	Piercing)
 		(IntentExt		MERCENARYARBALEST)
 	}
 [end]
@@ -1618,12 +1562,9 @@
 		(IGdeathscript				Court_Mage_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Court_Mage)
-
 		(Poison_Resistance_Percent		15)
 		(Arcane_Resistance_Percent		30)
 		(Necrotic_Resistance_Percent	15)
@@ -1655,17 +1596,14 @@
 		(IGdeathscript				Squire_Death)
 		(Unit_Type			Unit)
 		(Unit_Subtype		Henchman)
-
-
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Squire)
-
 		(Slashing_Resistance_Percent	15)
 		(Piercing_Resistance_Percent	25)
 		(Armor_Physical_Base			8)
-		(Slashing_Attack_Damage_Min		7)
-		(Slashing_Attack_Damage_Max		8)
+		(Physical_Attack		8)
+		(Physical_Attack_Type	Slashing)
 		(IntentExt		SQUIRE)
 	}
 [end]
