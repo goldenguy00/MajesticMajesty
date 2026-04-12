@@ -171,5 +171,7 @@ begin
 					$CreateNewInventoryItem(potion_count, thisagent, 1);
 				end
 		end
+	else if (thisagent's "Attack_Action" == "do_nothing")
+		$flee_packet(thisagent,"IDTXT_INTENT_FLEEING");
 end
 	

@@ -286,7 +286,9 @@ declare
 	integer return_int;
 
 begin
-	return_int = ($RandomNumber(rand) + 1);
+	if (rand == 0)
+		return 0;
+	return_int = $RandomNumber(rand-1) + 1;
 	return return_int;
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -1630,7 +1632,6 @@ begin
 	if (thisagent's "In_Combat" == true)
 		begin
 			healthregen_amount = healthregen_amount / 4;
-			manaregen_amount = manaregen_amount / 4;
 		end
 
 	$AddHealthPoints(thisagent, healthregen_amount);
@@ -2229,16 +2230,9 @@ begin
 	$AddAttribute(thisagent, "HealthRegenPoints", "integer");
 	$AddAttribute(thisagent, "RegenerationSystem", "function", $Regeneration_System);
 	$NewThread(ThisAgent's "RegenerationSystem", 300, ThisAgent ); //Doubled the cycle time, halved the threshold for regen
-	$RestoreMana(thisagent, thisagent's "MaxMana_Total");
 
 	if (thisagent's "title" == "wizard")
-		$LearnFireTree(thisagent);			//Need to rewrite the entire spell system first.
-
-	$AddAttribute(thisagent, "Primary_Orientation", "string");
-	thisagent's "Primary_Orientation" = $HeroSkillOrientationPrimary(thisagent);
-	$AddAttribute(thisagent, "Secondary_Orientation", "string");
-	thisagent's "Secondary_Orientation" = $HeroSkillOrientationSecondary(thisagent);
-	$HeroPreferredSkills(thisagent);
+		$LearnFireTree(thisagent);
 	
 	if ($HasAttribute("Uses_Equipment", thisagent))
 		if (thisagent's "Uses_Equipment"== True)
@@ -2388,14 +2382,14 @@ begin
 	$RemoveAttribute(thisagent,"fountain_buildings");
 	$RemoveAttribute(thisagent,"blacksmith_trips");
 	$RemoveAttribute(thisagent,"heroes_to_upgrade");
-	thisagent's "General" = "GeneralTree";
-	thisagent's "Item" = "ItemTree";
-	$LearnSpell(thisagent, "GeneralTree");
-	$LearnSpell(thisagent, "ItemTree");
-	thisagent's "SpellsGeneral" << "General";
-	thisagent's "SpellsItem" << "Item";
-	thisagent's "SpellArrange" << thisagent's "SpellsGeneral";
-	thisagent's "SpellArrange" << thisagent's "SpellsItem";
+	//thisagent's "General" = "GeneralTree";
+	//thisagent's "Item" = "ItemTree";
+	//$LearnSpell(thisagent, "GeneralTree");
+	//$LearnSpell(thisagent, "ItemTree");
+	//thisagent's "SpellsGeneral" << "General";
+	//thisagent's "SpellsItem" << "Item";
+	//thisagent's "SpellArrange" << thisagent's "SpellsGeneral";
+	//thisagent's "SpellArrange" << thisagent's "SpellsItem";
 	if (thisagent's "Type" == "Hero")
 		$RemoveAttribute(thisagent,"speed");
 end

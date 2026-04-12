@@ -652,6 +652,7 @@ end
 Function Palace_Birth (agent ThisAgent)
 Declare
 	coordinate sign_loc;
+	list uh;
 
 Begin
 	$InitBaseStats(thisagent);
@@ -952,30 +953,25 @@ begin
 
 						bldg = $listmember(bldgs,$randomnumber(i) + 1);
 
-						$listobjects ( palace, "Lair", -1, pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
-						num_pit = $ListSize(pits);
-						dead_henchmen = $getattribute(palace, #ATTRIB_ResearchArmorLevel_2);
-						sanguine_pit_limit = (25 + (25 * num_pit));
-						if (dead_henchmen < sanguine_pit_limit)
-							$spawnunit(bldg,"sewers","maxhp");
-						else
-							begin
+						$spawnunit(bldg,"sewers","maxhp");
+						//$listobjects ( palace, "Lair", -1, pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
+						//num_pit = 
+						//numsewer = $listobjects ( palace, "AutoBuilding", -1, sewers, #CheckTitles, "Sewers", #MyPlayer );;
+						//dead_henchmen = $getattribute(palace, #ATTRIB_ResearchArmorLevel_2);
+						//sanguine_pit_limit = (25 + (25 * num_pit));
+						//if (dead_henchmen < sanguine_pit_limit)
+						//	$spawnunit(bldg,"sewers","maxhp");
+						//else
+						//	begin
 								//Make sure to adjust the attribute first before spawning the building! In MAJESTY Expansion, not doing this can cause infinite loop and crash.
-								$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, - sanguine_pit_limit);
-								$spawnunit(bldg,"Sanguine_Pit","maxhp");
-								//$spawnunit(bldg,"sewers","maxhp");
-							end
+						//		$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, - sanguine_pit_limit);
+								//$spawnunit(bldg,"Sanguine_Pit","maxhp");
+						//		$spawnunit(bldg,"sewers","maxhp");
+						//	end
 						
-						$ListObjects(thisagent,"building",-1,list1,#MyPlayer);
-						list1 = $listtitles(list1,"gnome_hovel");
-						if (palace != $NullAgent())
-							begin
-								$listobjects ( palace, "AutoBuilding", -1, sewers, #CheckTitles, "Sewers", #MyPlayer );
-								num_sewer = $listsize(sewers);
-								if (($listsize(list1) < #max_gnome_camps + num_sewer) && ($listsize(list1) > 0))
-									$runthread(palace's "gnome_camp_spawner",#gnome_camp_delay,palace);
-								end
-
+						//		if ($ListObjects(thisagent,"building",-1,list1, #CheckTitles, "gnome_hovel", #MyPlayer) > 0)
+						//		if (($listsize(list1) < #max_gnome_camps + num_sewer) && ($listsize(list1) > 0))
+						//			$runthread(palace's "gnome_camp_spawner",#gnome_camp_delay,palace);
 					end
 
 			if ((thisagent's "title" == "marketplace") || (thisagent's "title" == "trading_post") ||

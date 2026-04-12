@@ -523,17 +523,16 @@ begin
 	// if attacker wasn't a spell unit, intelligence affects damage amount
 	if ($IsValidGamePiece(attacker) == True)
 		begin
+			if (attacker's "subtype" == "hero")
+				damage_max += ((damage_max * $getattribute(attacker,#ATTRIB_intelligence)) / (100 * #intelligence_div));
 			damage_max = $DamageTypeModifiers(attacker, s_type, damage_max);
-			damage_min = $DamageTypeModifiers(attacker, s_type, damage_min);
+			//damage_min = $DamageTypeModifiers(attacker, s_type, damage_min);
 		end
 
 	damage_max = $ResistanceTypeModifiers(defender, s_type, damage_max);
 	damage_min = $ResistanceTypeModifiers(defender, s_type, damage_min);
 
 	dmg = $MinMax(damage_min, damage_max);
-	
-	if ($IsValidGamePiece(Attacker) == true)
-		dmg += $getattribute(attacker,#ATTRIB_intelligence) / #intelligence_div;
 
 	dmg = $ApplyMagicalArmorReductions(defender, dmg);
 
@@ -610,9 +609,12 @@ begin
 		begin
 			if (is_physical)
 				begin
+					if (attacker's "subtype" == "hero")
+						begin
+							physical_dmg += ((physical_dmg * $getattribute(attacker,#ATTRIB_strength)) / (100 * #strength_div));
+							physical_dmg += $GetAttribute(attacker, #ATTRIB_weapon_struct_bonus);
+						end
 					physical_dmg = $AttackWithType(attacker, defender, physical_type, physical_dmg);
-					physical_dmg += $getattribute(attacker, #ATTRIB_strength) / #strength_div;
-					physical_dmg += $GetAttribute(attacker, #ATTRIB_weapon_struct_bonus);
 					physical_dmg = $ApplyPhysicalArmorReductions(defender, physical_dmg);
 
 					dmg += physical_dmg;
@@ -620,9 +622,10 @@ begin
 
 			if (is_magical)
 				begin
+					if (attacker's "subtype" == "hero")
+						magical_dmg += $GetAttribute(attacker, #ATTRIB_weapon_magic_bonus);
+
 					magical_dmg = $AttackWithType(attacker, defender, magical_type, magical_dmg);
-					magical_dmg += $getattribute(attacker,#ATTRIB_intelligence) / #intelligence_div;
-					magical_dmg += $GetAttribute(attacker, #ATTRIB_weapon_magic_bonus);
 					magical_dmg = $ApplyMagicalArmorReductions(defender, magical_dmg);
 
 					dmg += magical_dmg;
@@ -646,9 +649,9 @@ begin
 	// see if the attacker and defender are heroes of different players
 	// if so give a level damage bonus
 	// we are trying to help break up deadlocked hero fights
-	if ($getunitplayernumber(attacker) != $getunitplayernumber(defender))
-		if (defender's "subtype" == "hero" && attacker's "subtype" == "hero")
-			dmg += $getattribute(attacker,#ATTRIB_ExperienceLevel) / #level_div;
+//	if ($getunitplayernumber(attacker) != $getunitplayernumber(defender))
+//		if (defender's "subtype" == "hero" && attacker's "subtype" == "hero")
+//			dmg += $getattribute(attacker,#ATTRIB_ExperienceLevel) / #level_div;
 
 	if (is_critical)
 		begin
@@ -768,7 +771,6 @@ begin
 		return damage;
 
 	dmg_stopped_min = armor / damage; // increases effectiveness as the dmg value increases, worse for small hits
-	$debugout(defender, "blocked",dmg_stopped_min,"-",armor,"from incoming",damage);
 	damage -= $MinMax(dmg_stopped_min, armor);
 
 	if (damage <= 1)
@@ -788,7 +790,7 @@ begin
 	if (damage <= 1)
 		return 1;
 
-	multiplier = $GetAttribute(defender, #ATTRIB_magicresistance) / #armor_magic_mult;
+	multiplier = $GetAttribute(defender, #ATTRIB_magicresistance);
 	if (multiplier == 0)
 		return damage;
 

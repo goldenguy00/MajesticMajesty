@@ -505,17 +505,17 @@ declare
 	
 	function VisitingScript;
 	
-	list SpellArrange; //The list for arranging the other spell lists for the hero. A list of lists.
-	list SpellsGeneral; //The list of general spells
-	list SpellsItem; //The list of item spells
+	//list SpellArrange; //The list for arranging the other spell lists for the hero. A list of lists.
+	//list SpellsGeneral; //The list of general spells
+	//list SpellsItem; //The list of item spells
 	
-	string General;		//String that points to the General Category in the list of spells
-	string Item;		//String that points to the Item Category in the list of spells
+	//string General;		//String that points to the General Category in the list of spells
+	//string Item;		//String that points to the Item Category in the list of spells
 	
 	list SpellsAttack;
-	list SpellsSupport;
-	list SpellsTravel;
-	list SpellsSummon;
+	//list SpellsSupport;
+	//list SpellsTravel;
+	//list SpellsSummon;
 	
 	agent BestTarget;
 	agent spell_target;			//The target agent specifically for spells
@@ -547,12 +547,6 @@ declare
 	integer Skill_Points;
 	string Primary_Orientation;
 	string Secondary_Orientation;
-	string Preferred_Skill_1;
-	string Preferred_Skill_2;
-	string Preferred_Skill_3;
-	string Preferred_Skill_4;
-	string Preferred_Skill_5;
-	string Preferred_Skill_6;
 	
 	//////////////////////////////////////////Item Attributes///////////////
 	

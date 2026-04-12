@@ -43,7 +43,7 @@ declare
 begin
 	spell_cast = "firebolt";
 	spell_level = $GetSpellRank(thisagent, spell_cast);
-	synergy_1 = "Fireball";
+	synergy_1 = "FireSurge";
 	increased_damage = (((spell_level - 1) * #firebolt_Damage_Level_Mult) / #firebolt_Damage_Level_Div);
 	min_damage = (#firebolt_Damage_Min + increased_damage);
 	max_damage = (#firebolt_Damage_Max + increased_damage);
@@ -56,7 +56,7 @@ begin
 	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
 			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
-			synergy_damage_1 = ((synergy_level_1 - 1) * #firebolt_Damage_Synergy_Fireball);
+			synergy_damage_1 = ((synergy_level_1 - 1) * #firebolt_Damage_Synergy_FireSurge);
 			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
 		end
@@ -67,7 +67,7 @@ begin
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function Fireball_Cast(agent thisagent, agent target)
+function FireSurge_Cast(agent thisagent, agent target)
 // wizard spell - lvl 5
 // - callback from cast action
 declare
@@ -75,8 +75,8 @@ declare
 	string spell_cast;
 
 begin
-	spell_cast = "Fireball";
-	cooldown = #Fireball_cooldown;
+	spell_cast = "FireSurge";
+	cooldown = #FireSurge_cooldown;
 	
 	mana_cost =  $SpellManaCost(thisagent, spell_cast);
 	$SpendMana(thisagent, mana_cost);
@@ -84,18 +84,18 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 	
-	$createmissile("FireballTree_Missile",thisagent,target);
+	$createmissile("FireSurge_Missile",thisagent,target);
 end
 
 
-function FireBall_Check(agent thisagent) is integer
+function FireSurge_Check(agent thisagent) is integer
 declare
 begin
-	return $FireTreeCheck(thisagent, "FireBall");
+	return $FireTreeCheck(thisagent, "FireSurge");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function Fireball_Hit( agent thisagent, agent target )
+function FireSurge_Hit( agent thisagent, agent target )
 // wizard spell - lvl 5
 // - callback from missile hit
 declare
@@ -108,19 +108,19 @@ declare
 	boolean Tier1;
 
 begin
-	spell_cast = "Fireball";
+	spell_cast = "FireSurge";
 	spell_level = $GetSpellRank(thisagent, spell_cast);
 	synergy_1 = "firebolt";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	increased_damage = ((spell_level - 1) * #Fireball_Damage_Level_Mult);
-	increased_radius = ((spell_level - 1) * #Fireball_Damage_Radius_Level);
-	min_damage = #Fireball_Damage_Min + increased_damage;
-	max_damage = #Fireball_Damage_Max + increased_damage;
-	burn_damage_min = ((min_damage * #Fireball_Burn_Damage_Percent) / 100);
-	burn_damage_max = ((max_damage * #Fireball_Burn_Damage_Percent) / 100);
-	burn_count = #Fireball_Burn_Duration;
-	burn_duration_static = #Fireball_Burn_Cycle;
-	radius = (#Fireball_Damage_Radius + increased_radius);
+	increased_damage = ((spell_level - 1) * #FireSurge_Damage_Level_Mult);
+	increased_radius = ((spell_level - 1) * #FireSurge_Damage_Radius_Level);
+	min_damage = #FireSurge_Damage_Min + increased_damage;
+	max_damage = #FireSurge_Damage_Max + increased_damage;
+	burn_damage_min = ((min_damage * #FireSurge_Burn_Damage_Percent) / 100);
+	burn_damage_max = ((max_damage * #FireSurge_Burn_Damage_Percent) / 100);
+	burn_count = #FireSurge_Burn_Duration;
+	burn_duration_static = #FireSurge_Burn_Cycle;
+	radius = (#FireSurge_Damage_Radius + increased_radius);
 	
 	if (spell_level >= 5)
 		Tier1 = True;
@@ -130,11 +130,11 @@ begin
 	if ($HasLearnedSpell(thisagent, synergy_1))
 		begin
 			synergy_level_1 = $GetSpellRank(thisagent, synergy_1);
-			synergy_damage_1 = ((synergy_level_1 - 1) * #Fireball_Damage_Synergy_firebolt);
+			synergy_damage_1 = ((synergy_level_1 - 1) * #FireSurge_Damage_Synergy_firebolt);
 			min_damage = $IncreaseByPercent(min_damage, synergy_damage_1, False);
 			max_damage = $IncreaseByPercent(max_damage, synergy_damage_1, False);
-			burn_damage_min = ((min_damage * #Fireball_Burn_Damage_Percent) / 100);
-			burn_damage_max = ((max_damage * #Fireball_Burn_Damage_Percent) / 100);
+			burn_damage_min = ((min_damage * #FireSurge_Burn_Damage_Percent) / 100);
+			burn_damage_max = ((max_damage * #FireSurge_Burn_Damage_Percent) / 100);
 		end
 		
 	target_loc = $locationof(target);
@@ -291,7 +291,7 @@ begin
 	spell_cast = "Perdition_Barrage";
 	spell_level = $GetSpellRank(thisagent, spell_cast);
 	synergy_1 = "firebolt";
-	synergy_2 = "Fireball";
+	synergy_2 = "FireSurge";
 	increased_damage = ((spell_level - 1) * #Perdition_Barrage_Damage_Level_Mult);
 	increased_radius = ((spell_level - 1) * #Perdition_Barrage_Damage_Radius_Level);
 	min_damage = (#Perdition_Barrage_Damage_Min + increased_damage);
@@ -315,8 +315,8 @@ begin
 			else
 				begin
 					synergy_level_2 = $GetSpellRank(thisagent, synergy_2);
-					synergy_radius_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Radius_Synergy_Fireball);
-					synergy_damage_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Damage_Synergy_Fireball);
+					synergy_radius_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Radius_Synergy_FireSurge);
+					synergy_damage_2 = ((synergy_level_2 - 1) * #Perdition_Barrage_Damage_Synergy_FireSurge);
 					radius = $IncreaseByPercent(radius, synergy_radius_2, False);
 					min_damage = $IncreaseByPercent(min_damage, synergy_damage_1 + synergy_damage_2, False);
 					max_damage = $IncreaseByPercent(max_damage, synergy_damage_1 + synergy_damage_2, False);
@@ -715,13 +715,13 @@ end
 function Embers_Passive(agent thisagent)
 // Function for Embers HP/MP Regeneration amount
 declare
-	integer current_mana, max_mana, spell_level, regen_Mana, regen_Health, Increase_regen_Mana;
-	integer delta;
+	integer current_mana, max_mana, spell_level, regen_Mana, regen_health, Increase_regen_Mana;
+	integer delta, old;
 
 begin
 	spell_level = $GetSpellRank(thisagent, "Embers");
 	Increase_regen_Mana = ((spell_level - 1) * 3);
-	regen_Mana = #Embers_Mana_Regen + Increase_regen_Mana;
+	regen_Mana = 10 * (#Embers_Mana_Regen * Increase_regen_Mana);
 	
 	current_mana = thisagent's "CurrentMana";
 	max_mana = thisagent's "MaxMana_Total";
@@ -729,18 +729,15 @@ begin
 	if (max_mana < 1)
 		max_mana = 1;
 		
- 	regen_Health = (Regen_Mana * current_mana) / max_mana;
-	regen_Mana -= regen_Health;
-	
-	regen_mana *= 50;
-	regen_health *= 50;
-	
-	if (spell_level < 5)
+ 	regen_mana = ((regen_mana * (max_mana - current_mana)) / max_mana);
+	regen_health = 0;
+	if (spell_level > 1)
 		begin
-			regen_Health = 0;
+			regen_health = regen_mana;
 		end
 		
 	delta = regen_mana - thisagent's "Embers_ManaRegeneration";
+	thisagent's "Embers_ManaRegeneration" = regen_Mana;
 	if (delta != 0)
 		begin
 			$AdjustIntegerSafe(thisagent, "ManaRegeneration_Flat", delta);
@@ -748,14 +745,12 @@ begin
 		end
 		
 	delta = regen_health - thisagent's "Embers_HealthRegeneration";
+	thisagent's "Embers_HealthRegeneration" = regen_Health;
 	if (delta != 0)
 		begin
 			$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat", delta);
 			$UpdateHealthRegeneration(thisagent);
 		end
-	
-	thisagent's "Embers_ManaRegeneration" = regen_Mana;
-	thisagent's "Embers_HealthRegeneration" = regen_Health;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -776,7 +771,7 @@ begin
 	spell_cast = "Heatwave";
 	spell_level = $GetSpellRank(thisagent, spell_cast);
 	synergy_1 = "Embers";
-	synergy_2 = "Fireball";
+	synergy_2 = "FireSurge";
 	increased_damage = ((spell_level - 1) * #Heatwave_Damage_Level_Mult);
 	increased_radius = ((spell_level - 1) * #Heatwave_Damage_Radius_Level);
 	Knockback_count = 2;
@@ -802,7 +797,7 @@ begin
 	if ($HasLearnedSpell(thisagent, synergy_2))
 		begin
 			synergy_level_2 = $GetSpellRank(thisagent, synergy_2);
-			synergy_radius_2 = ((synergy_level_2 - 1) * #Heatwave_Radius_Synergy_Fireball);
+			synergy_radius_2 = ((synergy_level_2 - 1) * #Heatwave_Radius_Synergy_FireSurge);
 			radius = $IncreaseByPercent(radius, synergy_radius_2, False);
 		end
 		

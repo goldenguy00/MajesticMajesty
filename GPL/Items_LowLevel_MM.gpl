@@ -63,12 +63,7 @@ declare
 
 begin
 	title = thisagent's "Title";
-	if ($AddAttribute(thisAgent, title, "integer", 1) == false)
-		begin
-			stack = thisagent's title;
-			if (stack < 1)
-				thisagent's title = 1;		
-		end
+	$AddAttribute(thisAgent, title, "integer", 0);
 	
 	$SetDrawEffects( thisagent, "gray", 1 );
 end
@@ -478,15 +473,21 @@ declare
 	string  agentType, itemname;
 	list	items;
 	agent dropped_item;
+	list loot_on_ground;
+	integer loot_dropped;
 	
 begin
+	//$UnequipItemSlot(thisagent, "Equipment_RightHand");
+	//$UnequipItemSlot(thisagent, "Equipment_BodyArmor");
 	
 	items = $GetInventoryItems(thisAgent);
-	
+	loot_dropped = $ListObjects(thisagent, "loot", 200, loot_on_ground);
 	foreach item in items do
 		begin
-			if ($GetInventoryItemDropType(item) >= 3)
+			if (loot_dropped < 5)
+			if ($GetInventoryItemDropType(item) >= 3 && $RandomNumber(100) > 30)
 				begin
+					loot_dropped++;
 					agentType = $GetInventoryItemAgentType(item);
 					dropped_item = $SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
 					itemname = dropped_item's "Title";
@@ -499,10 +500,6 @@ begin
 					$DeleteInventoryItem(item, thisAgent);
 				end
 		end
-	if ($HasAttribute("Equipment_RightHand", thisagent))
-		$Drop_All_Stacks_Equipment_Process(thisagent, thisagent's "Equipment_RightHand");
-	if ($HasAttribute("Equipment_BodyArmor", thisagent))
-		$Drop_All_Stacks_Equipment_Process(thisagent, thisagent's "Equipment_BodyArmor");
 end
 ///////////////////////////////////////////////////////////////////////////////
 function Drop_All_Stacks_Equipment_Process(agent thisAgent, string unequipname)

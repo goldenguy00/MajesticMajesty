@@ -27,9 +27,11 @@ begin
 					begin
 						foreach widget in $GetBuildingContents(attach) do
 							if ($agentinagentlist(widget, attachments) == false)
-								$deleteGamePiece(widget);
+								$deletegamepiece(widget);
 						
-						$DeleteGamePiece(attach);
+						attach's "type" = "Dead";
+						$performaction( attach,"Become_Rubble",attach );
+						$Deleteagent(attach);
 					end
 		end
 
@@ -203,6 +205,75 @@ Begin
 
         $building_death( thisagent );
 End
+
+
+///////////////////////////////////////////////////////////////////////////////
+function release_occupants ( agent thisagent )
+///////////////////////////////////////////////////////////////////////////////
+// This is an MX modified version of the original $release_occupants function
+// that keeps mausoleums from spilling out thier gravestones when they are hit,
+// unless the mausoleum is dead, in which case it must $be_dead all the graves.
+///////////////////////////////////////////////////////////////////////////////
+declare
+	list guys;
+	agent guy;
+
+begin
+	// release anyone inside the building
+	if ( $hasattribute ( "occupants", thisagent ))
+		if ( $listsize ( thisagent's "occupants" ) > 0 )
+			begin
+				//////////////////////////////////////////////////////////////////////////////
+				// Check to see if the building is a mausoleum. If it isn't, proceed normally.
+				// if it is, skip down to the next section.
+				//////////////////////////////////////////////////////////////////////////////
+				if ( ThisAgent's "title" != "Mausoleum" )
+					begin
+						guys = thisagent's "occupants";
+						foreach guy in guys do
+							begin
+								if ( $IsValidGamePiece ( guy ))
+									begin
+										if ( $IsDead ( guy ) == FALSE )
+											begin
+												$exit_building ( guy, thisagent );
+												ThisAgent's "occupants" -= guy;
+											end
+										else
+											begin
+												$be_dead ( guy );
+												ThisAgent's "occupants" -= guy;
+											end
+									end
+								else
+									thisagent's "occupants" -= guy;
+									//$Debugout ( 911, "INVALID OCCUPANT FOUND INSIDE BUILDING: ", thisagent, "!!!" );
+							end
+					end
+				else
+					begin
+						//////////////////////////////////////////////////////////////////////
+						// If the building is a mausoluem, check to see if it is alive. If so,
+						// don't do anything, as there should be no living occupants. If it is
+						// dead, however, then eliminate all the units within as per normal
+						// gravestone timeouts - this may move some or all of the stored
+						// gravestones to another mausoleum if one is available.
+						//////////////////////////////////////////////////////////////////////
+						if ( $IsDead ( thisagent ))
+							begin
+								guys = thisagent's "occupants";
+								foreach guy in guys do
+									begin
+										if ( $IsValidGamePiece ( guy ))
+											begin
+												$Be_Dead ( guy );
+												ThisAgent's "occupants" -= guy;
+											end
+									end
+							end
+					end
+			end
+end
 
 ///////////////////////////////////////////////////////////////////////////////
 //This dumps all units out of a given container.

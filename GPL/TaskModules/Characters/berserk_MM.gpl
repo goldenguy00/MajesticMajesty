@@ -40,7 +40,10 @@ begin
 		end
 
 	if ($haslowMP(thisagent))
-		$restore_mana_self(thisagent);
+		begin
+			$restore_mana_self(thisagent);
+			return;
+		end
 			
 	healspell_name = $Spell_List_Heal(thisagent,thisagent);
 	if (healspell_name != "nothing")

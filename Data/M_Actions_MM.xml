@@ -605,7 +605,7 @@
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTFireBolt1" Name="firebolt" Description="Fire Bolt [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTFireBolt1" Name="firebolt" Description="Fire Bolt">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -635,13 +635,13 @@
 		</Engine>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTFireball1" Name="Fireball" Description="Fireball [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTFireSurge1" Name="FireSurge" Description="Fire Surge">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
 			<Sound value="Fireball"/>
 			<SoundPhase begin="Begin"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_cast"/>
+			<Script type="0" cProc="0" GPLFunction="FireSurge_cast"/>
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
@@ -649,11 +649,22 @@
 			<SpellType value="Attack"/>
 			<CharacterLevel value="5"/>
 			<SpellRank value="1"/>
-			<ValidationScript value="FireBall_Check"/>
+			<ValidationScript value="FireSurge_Check"/>
 		</Game>
 	</Description>
+	
+	<Description type="Unit" subType="Projectile" ID="WFSTFireSurgeMissile" Name="FireSurge_Missile" Description="Fire Surge Missile">
+		<Engine version="1">
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="WPe1"/>
+			<Script type="0" cProc="0" GPLFunction="FireSurge_Hit"/>
+			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
+			<DefaultSound value="0"/>
+		</Engine>
+	</Description>
 
-	<Description type="Action" subType="Standard" ID="WFSTSearingMantle1" Name="Searing_Mantle" Description="Searing Mantle [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTSearingMantle1" Name="Searing_Mantle" Description="Searing Mantle">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -671,7 +682,7 @@
 		</Game>
 	</Description>
 
-	<Description type="Action" subType="Standard" ID="WFSTIgnite1" Name="Ignite" Description="Ignite [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTIgnite1" Name="Ignite" Description="Ignite">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -689,7 +700,7 @@
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTPyrelight1" Name="Pyrelight" Description="Pyrelight [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTPyrelight1" Name="Pyrelight" Description="Pyrelight">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -707,7 +718,7 @@
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage1" Name="Perdition_Barrage" Description="Perdition Barrage [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTPerditionBarrage1" Name="Perdition_Barrage" Description="Perdition Barrage">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -725,7 +736,7 @@
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay1" Name="Incandescent_Ray" Description="Incandescent Ray [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTIncandescentRay1" Name="Incandescent_Ray" Description="Incandescent Ray">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -743,7 +754,7 @@
 		</Game>
 	</Description>
 
-	<Description type="Action" subType="Standard" ID="WFSTEmbers1" Name="Embers" Description="[color:CCCCCC]Embers [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTEmbers1" Name="Embers" Description="[color:CCCCCC]Embers">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -759,7 +770,7 @@
 		</Game>
 	</Description>
 
-	<Description type="Action" subType="Standard" ID="WFSTHeatwave1" Name="Heatwave" Description="[color:CCCCCC]Heatwave [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTHeatwave1" Name="Heatwave" Description="[color:CCCCCC]Heatwave">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -775,7 +786,7 @@
 		</Game>
 	</Description>
 	
-	<Description type="Action" subType="Standard" ID="WFSTCinders1" Name="Cinders" Description="[color:CCCCCC]Cinders [Level 1]">
+	<Description type="Action" subType="Standard" ID="WFSTCinders1" Name="Cinders" Description="[color:CCCCCC]Cinders">
 		<Engine version="1">
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
@@ -804,17 +815,6 @@
 			<DialogID value="0"/>
 			<StackPriority value="0"/>
 		</Game>
-	</Description>
-	
-	<Description type="Unit" subType="Projectile" ID="WFSTFireballMissile" Name="FireballTree_Missile" Description="Fireball Missile">
-		<Engine version="1">
-			<Info value="DontBlock"/>
-			<Menu value="11"/>
-			<ImageIDBase value="WPe1"/>
-			<Script type="0" cProc="0" GPLFunction="Fireball_Hit"/>
-			<Attachment kind="Movement" type="Walk" ID="fast missile"/>
-			<DefaultSound value="0"/>
-		</Engine>
 	</Description>
 	
 	<Description type="Unit" subType="Projectile" ID="WFSTPerditionBarrageMissile" Name="Perdition_Barrage_missile" Description="Perdition Barrage Missile">

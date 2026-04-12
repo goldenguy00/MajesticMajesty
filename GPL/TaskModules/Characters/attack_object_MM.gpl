@@ -23,6 +23,7 @@ begin
 	if ($haslowMP(thisagent))
 		begin
 			$restore_mana_self(thisagent);
+			return;
 		end
 
 	if ($haslowHP(thisagent))
@@ -137,6 +138,7 @@ begin
 	if ($haslowMP(thisagent))
 		begin
 			$restore_mana_self(thisagent);
+			return;
 		end
 
 	if ($haslowHP(thisagent))

@@ -578,8 +578,8 @@ begin
 				
 			if ($isspellAvailable(thisagent, "firebolt"))
 				return "firebolt";
-			if ($isspellAvailable(thisagent, "fireball"))
-				return "fireball";
+			if ($isspellAvailable(thisagent, "FireSurge"))
+				return "FireSurge";
 			if ($isspellAvailable(thisagent, "Perdition_Barrage"))
 				return "Perdition_Barrage";
 			if ($isspellAvailable(thisagent, "Incandescent_Ray"))

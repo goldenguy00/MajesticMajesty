@@ -95,10 +95,8 @@ begin
 	
 	$RecalculateStats(thisagent);
 
-	if (thisagent's "title" == "Wizard")
-		begin
-			$SkillTreeLevelUp(thisagent);
-		end
+	if (thisagent's "title" == "wizard")
+		$SkillTreeLevelUp(thisagent);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

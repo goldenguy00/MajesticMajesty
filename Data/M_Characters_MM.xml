@@ -302,7 +302,7 @@
 			<SightRange value="320"/>
 			<Speed value="1"/>
 			<AttackRange min="1" max="320"/>
-			<Vitality value="4"/>
+			<Vitality value="8"/>
 			<Artifice value="4"/>
 			<WillPower value="17"/>
 			<Intelligence value="25"/>

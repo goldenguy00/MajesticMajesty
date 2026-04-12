@@ -361,7 +361,7 @@ begin
 	// check for targets with a high magic resistance
 	// if there are none, go to regular eval, otherwise flee!
 	$list_enemies(thisagent,1);
-
+	danger_danger_flag = false;
 	foreach dude in thisagent's "hostiles" do
 		begin
 			if (($getattribute(dude,#ATTRIB_magicresistance) > 60))
@@ -573,7 +573,7 @@ begin
 
 			if ($HasLearnedSpell(thisagent,"firebolt"))
 				value += 60;
-			if ($HasLearnedSpell(thisagent,"Fireball"))
+			if ($HasLearnedSpell(thisagent,"FireSurge"))
 				value += 90;
 			if ($HasLearnedSpell(thisagent,"Perdition_Barrage"))
 				value += 120;

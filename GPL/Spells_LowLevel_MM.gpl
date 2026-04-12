@@ -175,7 +175,7 @@ begin
 		begin
 			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
 		end
-	else if (spell_name == "Fireball")
+	else if (spell_name == "FireSurge")
 		begin
 			newtarget = $BasicCastTarget_hero(thisagent, target, spell_name);
 		end
@@ -1504,8 +1504,8 @@ begin
 	////FIRE TREE
 	if (spell_name == "firebolt")
 		return $SpellResourceCost(thisagent, "firebolt");
-	if (spell_name == "Fireball")
-		return $SpellResourceCost(thisagent, "FireBall");
+	if (spell_name == "FireSurge")
+		return $SpellResourceCost(thisagent, "FireSurge");
 	if (spell_name == "Perdition_Barrage")
 		return $SpellResourceCost(thisagent, "Perdition_Barrage");
 	if (spell_name == "Incandescent_Ray")
@@ -1600,7 +1600,7 @@ begin
 	////FIRE SKILL TREE
 	if (spell_name == "firebolt")
 		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "fireball")
+	if (spell_name == "FireSurge")
 		return $PercentOf(cast_range, 80, False);
 	if (spell_name == "Perdition_Barrage")
 		return $PercentOf(cast_range, 90, False);
@@ -1667,7 +1667,7 @@ begin
 	////FIRE SKILL TREE
 	if (spell_name == "firebolt")
 		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "fireball")
+	if (spell_name == "FireSurge")
 		return $PercentOf(cast_range, 80, False);
 	if (spell_name == "Perdition_Barrage")
 		return $PercentOf(cast_range, 90, False);

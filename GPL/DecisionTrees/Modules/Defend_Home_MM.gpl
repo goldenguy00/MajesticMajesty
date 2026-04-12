@@ -7,17 +7,28 @@
 function defend_home(agent thisagent) is boolean
 
 declare
+	agent home;
 
 begin
-	if ($is_in_danger(thisagent's "home",thisagent))
+	home = $gettruepalace(thisagent);
+	if ($isvalidgamepiece(home))
+	if ($distancebetweenagents(home, thisagent) < 2000)
+	if ($is_in_danger(home))
 		begin
-			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEFENDINGHOME");
+			thisagent's "activescript" = $defend_home_task;
+			thisagent's "target" = home;
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEFENDINGPALACE");
 			return TRUE;
 		end
 
-	if ($is_in_danger($gettruepalace(thisagent),thisagent))
+	home = thisagent's "home";
+	if ($isvalidgamepiece(home))
+	if ($distancebetweenagents(home, thisagent) < 1000)
+	if ($is_in_danger(home))
 		begin
-			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEFENDINGPALACE");
+			thisagent's "activescript" = $defend_home_task;
+			thisagent's "target" = home;
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEFENDINGHOME");
 			return TRUE;
 		end
 
@@ -36,14 +47,17 @@ begin
 	// make a list of all buildings of type string
 	// then see if any are under attack.
 	// if so, send the hero to the closest one to defend
-	if ( $ListObjects( thisagent,"building",-1, bldgs, #CheckTitles, WhatBuilding ) > 0 )
+	if ( $ListObjects( thisagent,"building",1000, bldgs, #CheckTitles, WhatBuilding ) > 0 )
 		begin
 			Foreach Bldg in Bldgs do
 				begin
 					If (Flag == False)
 						begin
-							if ($is_in_danger(bldg,thisagent))
+							if ($isvalidgamepiece(bldg))
+							if ($is_in_danger(bldg))
 								begin
+									thisagent's "activescript" = $defend_home_task;
+									thisagent's "target" = bldg;
 									$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEFENDINGHOME");
 									Flag = True;
 								end
@@ -65,14 +79,17 @@ begin
 	// make a list of all buildings of type string
 	// then see if any are under attack.
 	// if so, send the hero to the closest one to defend
-	if ( $ListObjects( thisagent,"building",1000, bldgs, #myplayer) > 0 )
+	if ( $ListObjects( thisagent,"building",600, bldgs, #myplayer) > 0 )
 		begin
 			Foreach Bldg in Bldgs do
 				begin
 					If (Flag == False)
 						begin
-							if ($is_in_danger(bldg,thisagent))
+							if ($isvalidgamepiece(bldg))
+							if ($is_in_danger(bldg))
 								begin
+									thisagent's "activescript" = $defend_home_task;
+									thisagent's "target" = bldg;
 									$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_DEFENDINGHOME");
 									Flag = True;
 								end
@@ -88,7 +105,7 @@ function defend_home_Packet(agent thisagent) is boolean
 declare
 	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
 	string conditionsub, completecondition;
-
+	agent home;
 
 begin
 
@@ -102,21 +119,28 @@ begin
 
 	conditionsub = "TaskPackageTargetCondition";
 	completecondition = conditionsub + taskindex;
-	
-	if ($is_in_danger_packet(thisagent's "home",thisagent))
-		begin
-			thisagent's completeaction = $defend_home_task;
-			thisagent's completetarget = thisagent's "home";
-			thisagent's completeintent  = "IDTXT_INTENT_DEFENDINGHOME";
-			return $NotDuplicateTask(thisagent, taskindex);
-		end
 
-	if ($is_in_danger_packet($gettruepalace(thisagent),thisagent))
+	home = $GetTruePalace(thisagent);
+	if ($isvalidgamepiece(home))
+	if ($distancebetweenagents(home, thisagent) < 2000)
+	if ($is_in_danger(home))
 		begin
 			thisagent's completeaction = $defend_home_task;
 			ThisAgent's completecondition = $notvalid;
-			thisagent's completetarget = $gettruepalace(thisagent);
+			thisagent's completetarget = home;
 			thisagent's completeintent  = "IDTXT_INTENT_DEFENDINGPALACE";
+			return $NotDuplicateTask(thisagent, taskindex);
+		end
+
+	home = thisagent's "home";
+	if ($isvalidgamepiece(home))
+	if ($distancebetweenagents(home, thisagent) < 1000)
+	if ($is_in_danger(home))
+		begin
+			thisagent's completeaction = $defend_home_task;
+			ThisAgent's completecondition = $notvalid;
+			thisagent's completetarget = home;
+			thisagent's completeintent  = "IDTXT_INTENT_DEFENDINGHOME";
 			return $NotDuplicateTask(thisagent, taskindex);
 		end
 
@@ -153,18 +177,19 @@ begin
 	completecondition = conditionsub + taskindex;
 	
 	whatbuilding = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
-	if ( $ListObjects( thisagent,"building",-1, bldgs, #CheckTitles, WhatBuilding ) > 0 )
+	if ( $ListObjects( thisagent,"building",1000, bldgs, #CheckTitles, WhatBuilding ) > 0 )
 		begin
 			Foreach Bldg in Bldgs do
 				begin
 					If (Flag == False)
 						begin
-							if ($is_in_danger_packet(bldg,thisagent))
+							if ($isvalidgamepiece(bldg))
+							if ($distancebetweenagents(bldg, thisagent) < 1000)
+							if ($is_in_danger(bldg))
 								begin
 									thisagent's completeaction = $defend_home_task;
 									ThisAgent's completecondition = $notvalid;
 									thisagent's completetarget = bldg;
-
 									thisagent's completeintent  = "IDTXT_INTENT_DEFENDINGHOME";
 									return $NotDuplicateTask(thisagent, taskindex);
 								end
@@ -174,52 +199,88 @@ begin
 	return Flag;
 end
 ///////////////////////////////////////////////////////////////////////////////
-function is_in_danger_packet(agent thisbuilding,agent thisagent) is boolean
+function is_in_danger(agent thisbuilding) is boolean
 
 declare
-	list enemies_near_home;
+	boolean in_danger;
 
 begin
-	if ($isvalidgamepiece(thisbuilding) == FALSE)
-		return FALSE;
+	in_danger = $list_enemies_close(thisbuilding, 300);
+	thisbuilding's "in_danger" = in_danger;
 
-	if (thisbuilding's "In_danger")
-		begin
-			enemies_near_home = $list_enemies_seen(thisbuilding,300);
-			if ($listsize(enemies_near_home) > 0)
-				begin
-					//thisagent's "activescript" = $defend_home_task;
-					//thisagent's "target" = thisbuilding;
-					return TRUE;
-				end
-			else
-				thisbuilding's "in_danger" = FALSE;
-		end
-
-	return FALSE;
+	return in_danger;
 end
+
+
 ///////////////////////////////////////////////////////////////////////////////
-function is_in_danger(agent thisbuilding,agent thisagent) is boolean
+function list_enemies_close(agent thisagent,integer range) is boolean
 
 declare
+	list list1,list2;
+
+begin
+	if (thisagent's "in_danger" == false)
+		range /= 6;
+	
+	if ($listobjects(thisagent,"monster",range,list2,#NotMyTeam, #FindFirstMatchOnly) > 0)
+		return true;
+	if ($listobjects(thisagent,"hero",range,list1,#NotMyTeam, #FindFirstMatchOnly) > 0)
+		return true;
+	return false;
+end
+
+function defend_home_task(agent thisagent)
+
+declare
+	agent target;
+	integer targetrange;
 	list enemies_near_home;
 
 begin
-	if ($isvalidgamepiece(thisbuilding) == FALSE)
-		return FALSE;
+	target = thisagent's "target";
 
-	if (thisbuilding's "In_danger")
+	if ($isdead(target))
 		begin
-			enemies_near_home = $list_enemies_seen(thisbuilding,300);
-			if ($listsize(enemies_near_home) > 0)
+			// go do something else
+			// like get revenge!
+			$debugout("I need to get revenge, my home is destroyed!");
+			thisagent's "target" = thisagent;
+			thisagent's "activescript" = $travel_to;
+			$move(thisagent,thisagent's "destination");
+			thisagent's "backscript" = $hero_wander;
+			thisagent's "counter" = 0;
+		end
+	else
+		begin
+			enemies_near_home = $list_enemies_seen(target,300);
+			if ($listsize(enemies_near_home) == 0)
 				begin
-					thisagent's "activescript" = $defend_home_task;
-					thisagent's "target" = thisbuilding;
-					return TRUE;
+					target's "in_danger" = FALSE;
+					thisagent's "activescript" = thisagent's "basicscript";
+					$debugout("No more enemies near home.");
 				end
 			else
-				thisbuilding's "in_danger" = FALSE;
-		end
+				begin
+					targetrange = $distanceBetweenAgents(thisagent,target);
 
-	return FALSE;
+					if (targetrange > $gettargetrange(thisagent))
+						begin
+							// move towards target
+							thisagent's "destination" = $locationof(target);
+							thisagent's "activeScript" = $travel_to;
+							thisagent's "backScript" = $defend_home_task;
+//							$move(thisagent,thisagent's "destination");
+//							thisagent's "target" = target;
+							$move(thisagent,target);
+							$debugout("Moving towards home.");
+						end
+					else
+						begin
+//							thisagent's "target" = $nullagent();
+							thisagent's "target" = $listmember(enemies_near_home,1);
+							thisagent's "activescript" = $berserk_defend;
+							$debugout("I got home to defend it by going berserk!");
+						end
+				end
+		end
 end
