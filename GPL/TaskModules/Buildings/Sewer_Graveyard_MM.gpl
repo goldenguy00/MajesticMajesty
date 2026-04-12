@@ -10,7 +10,7 @@ declare
 	
 begin
 
-	$listobjects ( ThisAgent, "AutoBuilding", -1, Pits, #CheckTitles, "Sanguine_Pit" );
+	$listobjects ( ThisAgent, "Lair", -1, Pits, #CheckTitles, "Sanguine_Pit" );
 	
 	pits = $ListCompleted ( pits );
 	NewStats = ($listsize(pits) - 1);
@@ -48,7 +48,7 @@ Declare
 	string unit_name;
 	
 Begin
-	$listobjects ( ThisAgent, "AutoBuilding", -1, Pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
+	$listobjects ( ThisAgent, "Lair", -1, Pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
 	num_pit = $listsize(pits);
 	if (num_pit > 0)
 		begin
@@ -93,7 +93,7 @@ Begin
 	if (d_time_modifier > 75000)
 		d_time_modifier = 75000;
 	
-	$listobjects ( ThisAgent, "AutoBuilding", -1, Sanguine_Pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
+	$listobjects ( ThisAgent, "Lair", -1, Sanguine_Pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
 	num_pit = $ListSize(Sanguine_Pits);
 	
 	spawn_limit = (5 + num_pit + (d_total / 10));

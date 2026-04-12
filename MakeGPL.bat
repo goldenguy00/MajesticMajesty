@@ -8,17 +8,13 @@ rem The name of the compiled GPL byte code.
 set OUTPUTNAME=bytecode.bcd
 rem The project file that defines what files will be compiled
 set GPLPROJECTFILE=path.gplproj
+rem The published build folder
+set PUB=C:\Program Files (x86)\Steam\steamapps\workshop\content\73230\3700913062
 
 set GPLBCC=""
 rem Is the compiler in the Quest's source directory?
 if EXIST gplbcc.exe (
  set GPLBCC="%CD%\gplbcc.exe"
- goto foundCompiler
-)
-
-rem How about one up from where this file is?
-if EXIST ..\gplbcc.exe (
- set GPLBCC="%CD%\..\gplbcc.exe"
  goto foundCompiler
 )
 
@@ -45,7 +41,7 @@ echo Copying to %SRC%\%OUTPUTNAME% to %DEST%
 copy /y "%SRC%\%OUTPUTNAME%" "%DEST%"
 del "%SRC%\%OUTPUTNAME%"
 
-goto :EOF
+goto :buildSuccess
 
 rem ************************************************
 :buildit
@@ -67,4 +63,12 @@ rem ************************************************
 :buildFailed
 echo ERROR: Compile failed.
 pause
+goto :EOF
+
+rem ************************************************
+:buildSuccess
+echo Copying %SRC% to %PUB%\%SRC%
+robocopy "%SRC%" "%PUB%\%SRC%" /mir > nul
+echo Copying %DEST% to %PUB%\%DEST%
+robocopy "%DEST%" "%PUB%\%DEST%" /mir > nul
 goto :EOF

@@ -44,7 +44,7 @@ declare
 	string agentType;
 
 begin
-	if ($HasAttribute(itemdrop, thisagent) != True)
+	if ($HasAttribute(itemdrop, thisagent) == false)
 		return;
 	
 	if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
@@ -58,10 +58,17 @@ end
 function Equipment_Item_Birth(agent thisagent)
 
 declare
+	string title;
+	integer stack;
 
 begin
-	if ($HasAttribute(thisagent's "Title", thisagent) != True)
-		$AddAttribute(thisAgent, thisagent's "Title", "integer");
+	title = thisagent's "Title";
+	if ($AddAttribute(thisAgent, title, "integer", 1) == false)
+		begin
+			stack = thisagent's title;
+			if (stack < 1)
+				thisagent's title = 1;		
+		end
 	
 	$SetDrawEffects( thisagent, "gray", 1 );
 end
@@ -71,13 +78,19 @@ function Stack_Item_Birth(agent thisagent)
 
 declare
 	integer despawn_time;
+	string title;
+	integer stack;
 
 begin
-	$AddAttribute(thisAgent, "TransferScript", "function", $Basic_Stack_Transfer);
-	
-	if ($HasAttribute(thisagent's "Title", thisagent) != True)
-		$AddAttribute(thisAgent, thisagent's "Title", "integer", 1);
+	title = thisagent's "Title";
+	if ($AddAttribute(thisAgent, title, "integer", 1) == false)
+		begin
+			stack = thisagent's title;
+			if (stack < 1)
+				thisagent's title = 1;		
+		end
 
+	$AddAttribute(thisAgent, "TransferScript", "function", $Basic_Stack_Transfer);
 	$SetDrawEffects( thisagent, "gray", 1 );
 	
 	// prevent loot pile up
@@ -106,21 +119,13 @@ begin
 	if (Hero != $NullAgent ())
 		begin
 			itemname = Item's "Title";
-			if ($HasAttribute(itemname, Item) != False)
+			if ($HasAttribute(itemname, Item))
 				begin
 					stack = Item's itemname;
 					
 					if (stack == 0)
 						stack = 1;
-						
-					if ($HasAttribute(itemname, Hero)!=False)
-						begin
-							Hero's itemname += stack;
-						end
-					else
-						begin
-							$AddAttribute(Hero, itemname, "integer", stack);
-						end
+					$AdjustIntegerSafe(hero, itemname, stack);
 				end
 		end
 	

@@ -3,14 +3,14 @@
 //Formula works out to #Spell_Mana + ((Spell Level * - 1) * (Spell_Mana_Mult / Spell_Mana_Div))
 //////////////////////FIRE TREE////////////////////
 expression #firebolt_Damage_Synergy_Fireball 10	//The increased percent synergy damage per level of Fireball
-expression #firebolt_Damage_Min 8					//The minimum damage
-expression #firebolt_Damage_Max 12					//The maximum damage
+expression #firebolt_Damage_Min 6					//The minimum damage
+expression #firebolt_Damage_Max 8					//The maximum damage
 expression #firebolt_Damage_Level_Mult 5			//The multiplier for damage per additional level of the spell
 expression #firebolt_Damage_Level_Div 2			//The divider for damage per additional level of the spell. MUST NOT BE 0.
 													//In this case, damage per level comes out to +2.5 per level (5 / 2)
-expression #firebolt_Cooldown 400					//The cooldown in milliseconds
+expression #firebolt_Cooldown 1000					//The cooldown in milliseconds
 expression #firebolt_Range 70						//The range is a percentage of the hero's casting range. It must not exceed 100 or the spell will behave erratically. 67 is considered baseline range for non-modded Majesty.
-expression #firebolt_Mana 2						//The base Mana cost at level 1
+expression #firebolt_Mana 4						//The base Mana cost at level 1
 expression #firebolt_Mana_Mult 3					//The Multplier for Mana cost increase
 expression #firebolt_Mana_Div 4					//The Divider for Mana cost increase. NEVER SET TO 0.
 													//This comes out to Fire Bolt costs 2 + (0.75 Mana per level)
@@ -59,7 +59,7 @@ expression #Incandescent_Ray_Distance 600					//How far the ray extends
 expression #Incandescent_Ray_Distance_Level 15				//How much the distance increases per level
 expression #Incandescent_Ray_Cooldown 8000
 expression #Incandescent_Ray_Range 70						//The range for this spell will not alter the length of the ray, merely the range at the Wizard decides to cast it.
-expression #Incandescent_Ray_Mana 13
+expression #Incandescent_Ray_Mana 25
 expression #Incandescent_Ray_Mana_Mult 14
 expression #Incandescent_Ray_Mana_Div 5
 
@@ -85,7 +85,7 @@ expression #Pyrelight_Cooldown 3000
 expression #Pyrelight_Range 85
 expression #Pyrelight_Duration 30000
 expression #Pyrelight_Duration_Level 10000
-expression #Pyrelight_Mana 3
+expression #Pyrelight_Mana 5
 expression #Pyrelight_Mana_Mult 1
 expression #Pyrelight_Mana_Div 2
 

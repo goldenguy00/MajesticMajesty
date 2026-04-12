@@ -27,11 +27,9 @@ begin
 					begin
 						foreach widget in $GetBuildingContents(attach) do
 							if ($agentinagentlist(widget, attachments) == false)
-								$deleteagent(widget);
+								$deleteGamePiece(widget);
 						
-						$unhide(attach);
-						$performaction( attach,"Become_Rubble",attach );
-						$deleteagent(attach);
+						$DeleteGamePiece(attach);
 					end
 		end
 

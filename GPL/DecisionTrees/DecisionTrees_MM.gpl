@@ -2685,9 +2685,12 @@ function reset_tasks(agent thisagent)
 declare
 
 begin
-	$StopMoving (ThisAgent);
 	if ($HasAttribute("TaskPackageStatus", thisagent))
 		thisagent's "TaskPackageStatus" = "Complete";
+	if ($HasAttribute("In_Combat", thisagent))
+		thisagent's "In_Combat" = false;
+
+	$StopMoving (ThisAgent);
 	thisagent's "target" = $Nullagent();	
 	thisagent's "activescript" = thisagent's "basicscript";
 	thisagent's "backscript" = thisagent's "basicscript";
@@ -2697,9 +2700,7 @@ end
 ///////////////////////////////////////////////////////////////////////////////
 //This function is for the most basic types of actions a hero can be expected to execute if one is imminently required
 function Generic_tree (agent thisagent)
-
 declare
-
 begin
 
 //	//$DebugOut("I'm deciding what to do!");
@@ -2803,19 +2804,6 @@ begin
 		begin
 			thisagent's "ActiveScript" = $Generic_Tree;
 		end
-			//if ($RandomNumberNonZero(2)==1)
-			//	begin
-					//if ($explore_map(thisagent, 100)==FALSE)
-					//if ($go_home(thisagent, 100)==FALSE)
-			//		thisagent's "ActiveScript" = $Generic_Tree; //Look back at this again, since every hero uses the new system
-			//	end
-			//else
-			//	begin
-					//if ($go_home(thisagent, 100)==FALSE)
-					//if ($explore_map(thisagent, 100)==FALSE)
-			//		thisagent's "ActiveScript" = $Generic_Tree;
-			//	end
-		//end
 end
 ///////////////////////////////////////////////////////////////////////////////
 function NextTaskSequence (agent thisagent, string thistask, string nexttask)
@@ -2890,16 +2878,15 @@ end
 function General_Task_Cycle (agent thisagent)
 //This function cycles every few seconds to adjust the hero's task packets.
 declare
-	boolean flag, resting;
+	boolean flag, resting, in_combat;
 	integer exhaustion, fear;
 
 begin
 	exhaustion = thisagent's "Exhaustion";
 	fear = thisagent's "Fear";
 	
-	//if (thisagent's "learned_newspell")
-	//	$ArrangeSpells(thisagent);
-	resting = $IsResting(thisagent);
+	in_combat = thisagent's "In_Combat";
+	resting = $InsideBuilding(thisagent) && in_combat == false;
 	if (resting)
 		begin
 			thisagent's "Fear" = 0;
@@ -2913,33 +2900,8 @@ begin
 			thisagent's "Exhaustion" ++;
 		end
 		
-	if (fear > 0)
-		thisagent's "Fear" --;
-		
-//	if (thisagent's "Exhaustion" >= 500) //Dead tired, so plan to sleep a lot
-//		begin
-//			thisagent's "TaskPackageVar" = "Idle";
-//			thisagent's "TaskPackageTypeIndex" = "Next";
-//			$Search_For_Task(thisagent);
-//			thisagent's "TaskPackageTypeIndex" = "Reserve";
-//			$Search_For_Task(thisagent);
-//			thisagent's "TaskPackageTypeIndex" = "Backup";
-//			$Search_For_Task(thisagent);
-//		end
-//	else if (thisagent's "Exhaustion" >= 350) //More tired, so look for a few places to sleep
-//		begin
-//			thisagent's "TaskPackageVar" = "Idle";
-//			thisagent's "TaskPackageTypeIndex" = "Next";
-//			$Search_For_Task(thisagent);
-//			thisagent's "TaskPackageTypeIndex" = "Reserve";
-//			$Search_For_Task(thisagent);
-//		end
-//	else if (thisagent's "Exhaustion" >= 200) //Tired, so start looking for a place to sleep
-//		begin
-//			thisagent's "TaskPackageVar" = "Idle";
-//			thisagent's "TaskPackageTypeIndex" = "Next";
-//			$Search_For_Task(thisagent);
-//		end
+	if (in_combat == false && fear > 0)
+		thisagent's "Fear"--;
 		
 	flag = true;
 

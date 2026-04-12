@@ -1532,7 +1532,6 @@
 	</Description>
 	<Description type="Unit" subType="Building" ID="MMb1" Name="Sanguine_Pit" Description="Sanguine Pit">
 		<Engine version="1">
-			<Info value="Static"/>
 			<Info value="Directionless"/>
 			<Info value="BlockGround"/>
 			<Info value="ModifyTerrainTextureOnPlacement"/>
@@ -1543,14 +1542,12 @@
 			<DefaultSound value="Sewer"/>
 		</Engine>
 		<Game version="1">
-			<DialogID value="APa9"/>
+			<DialogID value="APa5"/>
 			<IncomeType value="3"/>
 			<MaxHP value="200"/>
 			<SightRange value="40"/>
 			<Flags value="NotBuildable"/>
-			<Flags value="NoFlaggable"/>
-			<Flags value="NotSpellTarget"/>
-			<Flags value="NumberedName"/>
+			<Flags value="HasHPBar"/>
 			<HelpID value="IDTXT_SANGUINE_PIT_HELP"/>
 		</Game>
 	</Description>

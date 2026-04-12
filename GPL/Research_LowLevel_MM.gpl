@@ -128,20 +128,17 @@ begin
 	spawn's "Level" = thisagent's "Level";
 	(spawn's "BirthScript2")(spawn);
 	$Hide(spawn, thisagent's "Container", 1);
-	if ((spawn's "Repeatable") && ((spawn's "ResearchCheck")(p_structure)))
-		begin
-			if (((spawn's "RepeatableCheck")(spawn)) && (spawn's "Max_Level" > spawn's "Level"))
+	if ((spawn's "ResearchCheck")(p_structure))
+		if (spawn's "Repeatable")
+			if ((spawn's "RepeatableCheck")(spawn))
+				$ResearchSet(spawn, "UNAVAILABLE");
+			else
 				$ResearchSet(spawn, "AVAILABLE");
-			else
-				$ResearchSet(spawn, "UNAVAILABLE");
-		end
+		else
+			$ResearchSet(spawn, "AVAILABLE");
 	else
-		begin
-			if ((spawn's "ResearchCheck")(p_structure)) //To unstick a stuck research check
-				$ResearchSet(spawn, "AVAILABLE");		//Currently not updated for Repeatable researches/Researches with max levels
-			else
-				$ResearchSet(spawn, "UNAVAILABLE");
-		end
+		$ResearchSet(spawn, "UNAVAILABLE");
+
 	$deletegamepiece(thisagent);
 end
 
@@ -165,10 +162,9 @@ begin
 			increment = thisagent's "Increment";
 			p_structure's increment -= thisagent's "Increment_Amount";
 			if ($listsize(thisagent's "Checklist") > 0)
-				begin
-					foreach name in thisagent's "Checklist" do
-						begin
-							check = $agenttitleinlist(name, $GetBuildingContents(thisagent's "Container"));
+				foreach name in thisagent's "Checklist" do
+					begin
+						check = $agenttitleinlist(name, $GetBuildingContents(thisagent's "Container"));
 						if ((check's "ResearchStatus") != "QUEUED" || (check's "ResearchStatus" != "RESEARCHING"))
 							begin
 								if ((check's "ResearchCheck")(p_structure))
@@ -176,8 +172,7 @@ begin
 								else
 									$ResearchSet(check, "UNAVAILABLE");
 							end
-						end
-				end
+					end
 		end
 	(spawn's "BirthScript2")(spawn);
 	$Hide(spawn, thisagent's "Container", 1);
@@ -345,20 +340,13 @@ begin
 	
 	if (thisagent's "Repeatable")
 		begin
-			if (thisagent's "Max_Level" > 0)
-				begin
-					if (((thisagent's "ResearchCheck")(primary_structure)) && (thisagent's "Level" < thisagent's "Max_Level"))
-						$ResearchSet(thisagent, "AVAILABLE");
-					else
-						$ResearchSet(thisagent, "UNAVAILABLE");
-				end
+			if ((thisagent's "ResearchCheck")(primary_structure))
+				if ((thisagent's "RepeatableCheck")(thisagent))
+					$ResearchSet(thisagent, "AVAILABLE");
+				else
+					$ResearchSet(thisagent, "COMPLETE");
 			else
-				begin
-					if ((thisagent's "ResearchCheck")(primary_structure))
-						$ResearchSet(thisagent, "AVAILABLE");
-					else
-						$ResearchSet(thisagent, "UNAVAILABLE");
-				end
+				$ResearchSet(thisagent, "UNAVAILABLE");
 		end
 	else
 		$ResearchSet(thisagent, "COMPLETE");

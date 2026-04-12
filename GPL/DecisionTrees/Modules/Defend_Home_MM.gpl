@@ -65,7 +65,7 @@ begin
 	// make a list of all buildings of type string
 	// then see if any are under attack.
 	// if so, send the hero to the closest one to defend
-	if ( $ListObjects( thisagent,"building",1000, bldgs) > 0 )
+	if ( $ListObjects( thisagent,"building",1000, bldgs, #myplayer) > 0 )
 		begin
 			Foreach Bldg in Bldgs do
 				begin

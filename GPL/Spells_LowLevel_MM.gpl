@@ -17,7 +17,7 @@ begin
 			target = $ValidSpellTarget_hero(thisagent, target, spell_name);
 			attackrange = $CastRangeForSpell(thisagent's "castingrange", spell_name);
 			
-			$DebugOut(911,"Casting Support",spell_name);
+			//$DebugOut(911,"Casting Support",spell_name);
 			$SetBestTarget(thisagent, target, spell_name, attackrange);
 			return target;
 		end
@@ -29,7 +29,7 @@ begin
 				target = thisagent's "Spell_Target";
 			attackrange = $CastRangeForSpell( thisagent's "castingrange", spell_name);
 
-			$DebugOut(911,"Casting Attack",spell_name);
+			//$DebugOut(911,"Casting Attack",spell_name);
 			$SetBestTarget(thisagent, target, spell_name, attackrange);
 			return target;
 		end
@@ -40,8 +40,8 @@ begin
 	else if ($IsSpellCaster(thisagent))
 		attackrange = $GreatestSpellRangeForHero(thisagent);
 	
-	if (spell_name != "nothing")
-		$DebugOut(911,"Normal Spell",spell_name);
+	//if (spell_name != "nothing")
+		//$DebugOut(911,"Normal Spell",spell_name);
 
 	$SetBestTarget(thisagent, target, spell_name, attackrange);
 	return target;
@@ -68,11 +68,6 @@ begin
 		$PerformAction (ThisAgent, ThisAgent's "Attack_Action",target);
 end
 
-function InvalidSpell (agent thisagent) is integer
-declare
-begin
-	return 0;
-end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function ValidSpellTarget_hero( agent thisagent, agent target, string spell_name ) is agent
 // This will return a valid target for the spell listed for this agent.

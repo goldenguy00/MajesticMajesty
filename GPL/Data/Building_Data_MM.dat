@@ -474,28 +474,51 @@
 
 [BrokenSewerMain]
 	{Unit
-		(type 			Lair)
-		(subtype 		xx)
-		(title 			BrokenSewerMain)
-		(difficulty 		3)
-		(Dispersion_Range	300)
-		(Spawn_Type		Giant_Rat)
-		(Special_Spawn_Type	RatmanChampion)
-		(Base_Spawn_Rate	90000)
-		(activeScript		Lair_Brains)
+		(type 					Lair)
+		(subtype 				xx)
+		(title 					BrokenSewerMain)
+		(difficulty 			3)
+		(Dispersion_Range		300)
+		(Spawn_Type				Giant_Rat)
+		(Special_Spawn_Type		RatmanChampion)
+		(Base_Spawn_Rate		90000)
+		(activeScript			Lair_Brains)
 		(Spawn_function         Rat_Spawn)
-		(birthScript		Broken_sewer_Birth)
-		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
-
-		(Armor_Physical_Base		10)
+		(birthScript			Broken_sewer_Birth)
+		(IGdeathscript			Lair_death)
+		(Unit_Type				Building)
+		(Unit_Subtype			Lair)
+		(Armor_Physical_Base	10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
+		(Kill_Credit_Type		Lair)
 		(Kill_Credit_Faction	KCF_Ratkin)
 		(Kill_Credit_Specific	KCS_Broken_Sewer_Main) 
-		(IntentExt		BROKENSEWERMAIN)
+		(IntentExt				BROKENSEWERMAIN)
+	}
+[end]
+
+[Sanguine_Pit]
+	{Unit
+		(type 					Lair)
+		(subtype 				xx)
+		(title 					Sanguine_Pit)
+		(difficulty 			3)
+		(Dispersion_Range		300)
+		(Spawn_Type 			Sanguine_Peasant)
+		(Special_Spawn_Type		Sanguine_Peasant)
+		(Base_Spawn_Rate		90000)
+		(activeScript			Sewer_Graveyard)
+		(Spawn_function			Sanguine_Pit_Spawn)
+		(birthScript			sanguine_pit_birth)
+		(IGdeathscript			Lair_death)
+		(Unit_Type				Building)
+		(Unit_Subtype			Lair)
+		(Armor_Physical_Base	10)
+		(Armor_Magical_Base		10)
+		(Kill_Credit_Type		Lair)
+		(Kill_Credit_Faction	KCF_Sanguine_Cult)
+		(Kill_Credit_Specific	KCS_Sanguine_Pit)
+		(IntentExt				SANGUINEPIT)
 	}
 [end]
 
@@ -2956,32 +2979,6 @@
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Bank)
 		(IntentExt		BANK)
-	}
-[end]
-
-
-[Sanguine_Pit]
-	{Unit
-		(type AutoBuilding)
-		(subtype xx)
-		(title Sanguine_Pit)
-		(difficulty 4)
-		(Dispersion_Range		300)
-		(Special_Spawn_Type		Sanguine_Peasant)
-		(Spawn_Type 		Sanguine_Peasant)
-		(Spawn_Function			Sanguine_Pit_Spawn)
-		(Base_Spawn_Rate			90000)
-		(activeScript					Sewer_Graveyard)
-		(birthScript					sanguine_pit_birth)
-		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Sanguine_Pit)
-
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Sanguine_Cult)
-		(Kill_Credit_Specific	KCS_Sanguine_Pit)
-		(IntentExt		SANGUINEPIT)
 	}
 [end]
 

@@ -1,0 +1,28 @@
+<Majesty>
+	<Mod id="{F43DA8CF-2AA9-4FA0-AE63-10B117B34E28}">
+		<DataConfiguration>
+			<Dataset base="Any">
+				<Load>
+					<Descriptions>Data\M_Actions_MM.xml</Descriptions>
+					<Descriptions>Data\M_Buildings_MM.xml</Descriptions>
+					<Descriptions>Data\M_Characters_MM.xml</Descriptions>
+					<Descriptions>Data\M_Overlays_MM.xml</Descriptions>
+					<Descriptions>Data\M_Projectiles_MM.xml</Descriptions>
+					<Descriptions>Data\Items\Equipment_Items_MM.xml</Descriptions>
+					<Descriptions>Data\Items\Miscellanious\Book_Items_MM.xml</Descriptions>
+					<Descriptions>Data\Items\Miscellanious\Loot_Items_MM.xml</Descriptions>
+					<Descriptions>Data\Items\Miscellanious\Potions_MM.xml</Descriptions>
+					<Descriptions>Data\Research\Research_MM.xml</Descriptions>
+					<Descriptions>Data\Services\Services_MM.xml</Descriptions>
+					<GPL>Data\bytecode.bcd</GPL>
+					<Strings>Data\M_Text_MM.xml</Strings>
+				</Load>
+			</Dataset>
+		</DataConfiguration>
+		<DisplayName lang="en_US">Majestic Majesty Revived</DisplayName>
+		<Description lang="en_US">
+			<Short>Adds and modifies a lot of changes to Majesty.</Short>
+			<Long>Adds and modifies a lot of changes to Majesty.</Long>
+		</Description>
+	</Mod>
+</Majesty>

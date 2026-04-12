@@ -282,11 +282,10 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="20000"/>
 			<SpellType value="Other"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="1"/>
-			<ValidationScript value="InvalidSpell"/>
 		</Game>
 	</Description>
 	<Description type="Action" subType="Standard" ID="SRa1" Name="sun_scorch" Description="Solarus Sun Scorch">

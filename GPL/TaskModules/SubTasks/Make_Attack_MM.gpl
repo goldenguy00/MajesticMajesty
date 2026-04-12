@@ -96,6 +96,12 @@ begin
 	//	the target may need to have thisagent 'revealed' to them
 	// a check here would be too expensive, a reveal area call is faster
 	$revealArea(target,$locationof(thisagent),75);
+	
+	if ($HasAttribute("In_Combat", target))
+		target's "In_Combat" = true;
+
+	if ($HasAttribute("In_Combat", thisagent))
+		thisagent's "In_Combat" = true;
 
 	if ((target's "type" != "Building") && (target's "type" != "lair"))
 	  	begin
@@ -122,9 +128,17 @@ begin
 		if (target's "type" == "Building")
 			begin
 				type = target's "subtype";
-				if ((type == "guild") || (type == "Palace") || (type == "outpost"))
+
+				if (type != "xx" && type != "color")
 					target's "In_danger" = TRUE;
 
+				if (type != "color")
+					begin
+						type = $GetStringSafe(target, "Unit_Subtype");
+						if (type != "Nothing" && type != "House" && type != "Lair")
+							$SetBooleanSafe(target, "in_danger", true);
+					end
+					
 				$release_occupants(target);
 
 					begin
@@ -182,6 +196,10 @@ declare
 	list guys;
 
 begin
+	
+	if ($HasAttribute("In_Combat", target))
+		target's "In_Combat" = true;
+
 	// do a reaction for the thing being hit
 	if (target's "type" == "Building")
 		begin
@@ -236,6 +254,13 @@ begin
 
 	$revealArea(target,$locationof(thisagent),75);
 
+	
+	if ($HasAttribute("In_Combat", target))
+		target's "In_Combat" = true;
+
+	if ($HasAttribute("In_Combat", thisagent))
+		thisagent's "In_Combat" = true;
+		
 	if ((target's "type" != "Building") && (target's "type" != "lair"))
 	  	begin
 
@@ -742,7 +767,8 @@ begin
 	if (armor == 0)
 		return damage;
 
-	dmg_stopped_min = armor - (armor / damage); // increases effectiveness as the dmg value increases, worse for small hits
+	dmg_stopped_min = armor / damage; // increases effectiveness as the dmg value increases, worse for small hits
+	$debugout(defender, "blocked",dmg_stopped_min,"-",armor,"from incoming",damage);
 	damage -= $MinMax(dmg_stopped_min, armor);
 
 	if (damage <= 1)

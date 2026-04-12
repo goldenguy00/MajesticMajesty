@@ -289,30 +289,32 @@ begin
 			$playsound(thisagent,"Advisor_Building_Upgraded","VFX_ADVISOR");
 
 			//Chat to the message area
-			(thisagent's "Initial_Misc")(thisagent);
-			(thisagent's "Initial_Research")(thisagent);
+			if ($HasAttribute("Initial_Misc", thisagent))
+				(thisagent's "Initial_Misc")(thisagent);
+
+			if ($HasAttribute("Initial_Research", thisagent))
+				(thisagent's "Initial_Research")(thisagent);
+
 			$LocalChatMessage($GetUnitPlayerNumber(ThisAgent), #chat_building_upgraded, ThisAgent);
 		end
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function building_upgraded(agent thisagent)
-
 declare
-
 begin
-
 	$InitBaseStats(thisagent);
 
 	$runthread(thisagent's "upgradescript",1,thisagent);
 	$blacksmith_bonus_upgrade(thisagent);
 	
-	(thisagent's "Initial_Misc")(thisagent);
-	(thisagent's "Initial_Research")(thisagent);
-	
+	if ($HasAttribute("Initial_Misc", thisagent))
+		(thisagent's "Initial_Misc")(thisagent);
+
+	if ($HasAttribute("Initial_Research", thisagent))
+		(thisagent's "Initial_Research")(thisagent);
+
 	$count_building(thisagent);
-
-
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -950,7 +952,7 @@ begin
 
 						bldg = $listmember(bldgs,$randomnumber(i) + 1);
 
-						$listobjects ( palace, "AutoBuilding", -1, pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
+						$listobjects ( palace, "Lair", -1, pits, #CheckTitles, "Sanguine_Pit", #MyPlayer );
 						num_pit = $ListSize(pits);
 						dead_henchmen = $getattribute(palace, #ATTRIB_ResearchArmorLevel_2);
 						sanguine_pit_limit = (25 + (25 * num_pit));
