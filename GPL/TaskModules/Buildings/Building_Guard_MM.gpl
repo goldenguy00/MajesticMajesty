@@ -461,11 +461,11 @@ Begin
 			$spawnunit(thisagent, "Mercenary_Arbalest");
 			$runthread(thisagent's "Guard_Spawn_Function",#Guard_Spawn_Time,thisagent);
 		end
-	else if (num_CM < num_spire)
-		begin
-			$spawnunit(thisagent, "Court_Mage");
-			$runthread(thisagent's "Guard_Spawn_Function",#Guard_Spawn_Time,thisagent);
-		end
+//	else if (num_CM < num_spire)
+//		begin
+//			$spawnunit(thisagent, "Court_Mage");
+//			$runthread(thisagent's "Guard_Spawn_Function",#Guard_Spawn_Time,thisagent);
+//		end
 	else if (num_S < num_warrior)
 		begin
 			$spawnunit(thisagent, "Squire");
