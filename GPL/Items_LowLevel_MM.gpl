@@ -190,6 +190,8 @@ begin
 	num_upgrade = Item's "num_upgrade";				// 0-3 target tier	
 	num_enchant = Item's "num_enchant";				// 0-3 target tier
 	stack = $GetIntegerSafe(item, itemname);
+	if (stack < 1)
+		stack = 1;
 
 	// attribute strings
 	s_held_equip_level = equip_slot+"Level";			// RightHandLevel
@@ -221,42 +223,41 @@ begin
 				should_equip = true;
 		end
 
-	if (should_equip == false)
+	if (should_equip)
 		begin
-			if (stack < 1)
-				stack = 1;
+			// attempt to unequip current, move to inventory
+			$UnequipItemSlot(Hero, s_held_equip_slot);
 
+			// add new EQ version
+			$CreateNewInventoryItem(equip_name, Hero, 1);
+			$SetStringSafe(Hero, s_held_equip_slot, itemname);
+			$SetIntegerSafe(Hero, s_held_equip_level, Upgrade_Level);
+			$SetIntegerSafe(Hero, s_held_equip_en_level, num_enchant);
+			
+			// give new stats
+			$EquipArmor(Hero, Item);
+
+			// blacksmith bonuses
+			if (equip_slot == "RightHand")
+				begin
+					$EquipWeapon(Hero, Item);
+
+					$setattribute(Hero,#ATTRIB_weapon_struct_bonus,upgrade_level);
+					$setattribute(Hero,#ATTRIB_weapon_magic_bonus,num_enchant);
+				end
+			else if (equip_slot == "BodyArmor")
+				begin
+					$setattribute(Hero,#ATTRIB_armor_struct_bonus,upgrade_level);
+					$setattribute(Hero,#ATTRIB_armor_magic_bonus,num_enchant);
+				end
+			stack--;
+		end
+
+	if (stack > 0)
+		begin
 			$AdjustIntegerSafe(Hero, itemname, stack);
-
-			$TransferInventoryItem (-1, item, hero);
-			$DeleteGamePiece (Item);
-			return;
-		end
-	
-	// attempt to unequip current, move to inventory
-	$UnequipItemSlot(Hero, s_held_equip_slot);
-
-	// add new EQ version
-	$CreateNewInventoryItem(equip_name, Hero, 1);
-	$SetStringSafe(Hero, s_held_equip_slot, itemname);
-	$SetIntegerSafe(Hero, s_held_equip_level, Upgrade_Level);
-	$SetIntegerSafe(Hero, s_held_equip_en_level, num_enchant);
-	
-	// give new stats
-	$EquipArmor(Hero, Item);
-
-	// blacksmith bonuses
-	if (equip_slot == "RightHand")
-		begin
-			$EquipWeapon(Hero, Item);
-
-			$setattribute(Hero,#ATTRIB_weapon_struct_bonus,upgrade_level);
-			$setattribute(Hero,#ATTRIB_weapon_magic_bonus,num_enchant);
-		end
-	else if (equip_slot == "BodyArmor")
-		begin
-			$setattribute(Hero,#ATTRIB_armor_struct_bonus,upgrade_level);
-			$setattribute(Hero,#ATTRIB_armor_magic_bonus,num_enchant);
+			if ($AgentHasInventoryItem(itemname, hero) == false)
+				$TransferInventoryItem (-1, item, hero);
 		end
 
 	$DeleteGamePiece(item);
@@ -477,19 +478,20 @@ declare
 	integer loot_dropped;
 	
 begin
-	//$UnequipItemSlot(thisagent, "Equipment_RightHand");
-	//$UnequipItemSlot(thisagent, "Equipment_BodyArmor");
+	$UnequipItemSlot(thisagent, "Equipment_RightHand");
+	$UnequipItemSlot(thisagent, "Equipment_BodyArmor");
 	
 	items = $GetInventoryItems(thisAgent);
 	loot_dropped = $ListObjects(thisagent, "loot", 200, loot_on_ground);
 	foreach item in items do
 		begin
-			if (loot_dropped < 5)
 			if ($GetInventoryItemDropType(item) >= 3 && $RandomNumber(100) > 30)
 				begin
-					loot_dropped++;
 					agentType = $GetInventoryItemAgentType(item);
-					dropped_item = $SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
+					if ($titleinagentlist(agenttype, loot_on_ground))
+						dropped_item = $agenttitleinlist(agenttype, loot_on_ground);
+					else
+						dropped_item = $SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
 					itemname = dropped_item's "Title";
 					
 					if ($HasAttribute(itemname, thisagent)!=False)

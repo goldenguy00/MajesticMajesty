@@ -286,8 +286,9 @@ declare
 	integer return_int;
 
 begin
-	if (rand == 0)
-		return 0;
+	if (rand  <= 1)
+		return rand;
+	
 	return_int = $RandomNumber(rand-1) + 1;
 	return return_int;
 end

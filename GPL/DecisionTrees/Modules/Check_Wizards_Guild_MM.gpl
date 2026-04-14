@@ -9,7 +9,7 @@ Declare
 	boolean flag;
 
 Begin
-
+	return false;
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	flag = FALSE;
 	if ($randomnumber(100) + 1 > chance)
@@ -47,9 +47,11 @@ Begin
 	Else
 		begin
 			guild = $Loyalty_Mod_Pick_Closest (ThisAgent, guilds);
+			if ($titleinagentlist("Available_Books", guild's "Attachments") == false)
+				return false;
 			available_books = $GetBuildingContents($agenttitleinlist("Available_Books", guild's "Attachments"));
 			Intel_Roll = $RandomNumber (30) + 1;
-			If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) > Intel_Roll)
+			If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) > Intel_Roll && $listsize(available_books) > 0)
 				begin
 					if ($listsize(books_read) > 0)
 						foreach book in available_books do
@@ -61,7 +63,7 @@ Begin
 										break;
 									end
 							end
-					else if ($ListSize(available_books) > 0)
+					else
 						begin
 							book = $listmember(available_books, 1); //Give it the first book in the list if the agent has never read anything
 							thisagent's completetname = book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild

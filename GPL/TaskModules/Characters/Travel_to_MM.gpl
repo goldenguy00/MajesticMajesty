@@ -30,27 +30,3 @@ begin
 
 		end
 end
-
-///////////////////////////////////////////////////////////////////////////////
-Function Returning_Guardian (agent ThisAgent)
-
-Declare
-	integer		TargetRangeFromHome, Sightrange;
-	coordinate	Home;
-
-Begin
-	Home = ThisAgent's "Coord_Home";
-
-	if ($returning_guardian_eval_enemies_simple(thisagent) == FALSE)
-		begin
-			if ($ismoving(thisagent) == FALSE)
-				begin
-					TargetRangeFromHome = $DistanceBetweenCoords(Home, $LocationOf (ThisAgent));
-					If ((targetrangefromhome > 64))
-  						begin
-  							//$DebugOut (911,"Moving home because there aren't any enemies, and I am not home!");
-  							$Move (ThisAgent, Home);
-  						end
-				end
-  		end
-End

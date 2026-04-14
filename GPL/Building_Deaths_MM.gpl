@@ -6,8 +6,6 @@
 function building_death(agent thisagent)
 
 declare
-	agent attach, widget, widget2;
-	list attachments;
 
 begin
   	thisagent's "type" = "Dead";
@@ -18,7 +16,16 @@ begin
 	$Clean_Palace_Construction_Lists (ThisAgent);
 
 	$performaction( thisagent,"Become_Rubble",thisagent );
+	$Attachment_Death(thisagent);
+	$deleteagent(thisagent);
+end
 
+function Attachment_Death(agent thisagent)
+declare
+	agent attach, widget, widget2;
+	list attachments;
+
+begin
 	if ($HasAttribute("Attachments", thisagent))
 		begin
 			attachments = thisagent's "Attachments";
@@ -29,13 +36,10 @@ begin
 							if ($agentinagentlist(widget, attachments) == false)
 								$deletegamepiece(widget);
 						
-						attach's "type" = "Dead";
-						$performaction( attach,"Become_Rubble",attach );
-						$Deleteagent(attach);
+						attachments -= attach;
+						$DeleteGamePiece(attach);
 					end
 		end
-
-	$deleteagent(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
