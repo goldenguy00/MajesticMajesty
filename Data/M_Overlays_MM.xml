@@ -158,6 +158,35 @@
 			<Flags value="TransparentToMouse"/>
 		</Game>
 	</Description>
+	<Description type="Unit" subType="Overlay" ID="HREa1" Name="healer_heal" Description="Healer Healing">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="HRa1"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
+	<Description type="Unit" subType="Overlay" ID="PREb1" Name="animate_skeleton" Description="Animate Skeleton">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Menu value="11"/>
+			<ImageIDBase value="PRb1"/>
+			<AttachmentPointID value="2"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="0"/>
+			<StackPriority value="0"/>
+			<Flags value="TransparentToMouse"/>
+		</Game>
+	</Description>
 	<Description type="Unit" subType="Overlay" ID="XR26" Name="Champion_Icon" Description="Hall of Champions Reward">
 		<Engine version="1">
 			<Info value="Directionless"/>

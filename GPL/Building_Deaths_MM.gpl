@@ -360,28 +360,16 @@ function HelpSignAutoRemoval( agent thisagent, agent parent )
 declare
 	
 begin
-	if (($IsValidGamePiece(parent) != TRUE) || ($IsValidGamePiece(thisagent) != TRUE))
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+		
+	if (thisagent == $Nullagent())
+		return;
+		
+	if ($isdead(parent) == True || $isdead(thisagent) == True)
 		begin
 			thisagent's "type" = "Dead";
 			$KillThread(thisagent's "HelpSignAutoRemoval");
-			$performaction( thisagent,"Become_Rubble",thisagent );
-			$deleteagent(thisagent);
-			return;
-		end
-	else if ($isdead(parent) == True)
-		begin
-			thisagent's "type" = "Dead";
-			$KillThread(thisagent's "HelpSignAutoRemoval");
-			$performaction( thisagent,"Become_Rubble",thisagent );
-			$deleteagent(thisagent);
-			return;
-		end
-	else if  ($isdead(thisagent) == True)
-		begin
-			thisagent's "type" = "Dead";
-			$KillThread(thisagent's "HelpSignAutoRemoval");
-			$performaction( thisagent,"Become_Rubble",thisagent );
-			$deleteagent(thisagent);
-			return;
+			$deletegamepiece(thisagent);
 		end
 end

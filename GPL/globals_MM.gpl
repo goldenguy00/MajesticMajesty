@@ -600,7 +600,7 @@ expression #Max_Pickup_Amount	1000
 expression #Taxman_increment	25
 
 expression #taxman_return_start 250
-expression #taxman_pickup_start 0
+expression #taxman_pickup_start 100
 
 expression #tax_route_dead_limit 2
 //How often the music playing scripts execute after kickoff

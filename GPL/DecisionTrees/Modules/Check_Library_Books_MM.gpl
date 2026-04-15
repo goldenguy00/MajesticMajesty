@@ -2,19 +2,20 @@
 Function Check_Library_Books_Packet (agent ThisAgent) is boolean
 Declare
 	agent book, library, rnd_book;
-	list buildings, libraries, available_books, books_read;
+	list libraries, available_books, books_read;
 	integer search_dist, Intel_Roll, chance; 
 	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
 	string conditionsub, completecondition, visitsub, completevisit;
 	boolean flag;
 
 Begin
-	return false; // man
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	flag = FALSE;
 	if ($randomnumber(100) + 1 > chance)
 		return FALSE;
-	books_read = thisagent's "Books_Read";
+
+	if ($AddAttribute(thisagent, "Books_Read", "list", books_read) == false)
+		books_read = thisagent's "Books_Read";
 	
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
@@ -36,22 +37,20 @@ Begin
 	// instead of over and over again in the lower level subroutines.
 	Search_Dist = $GetAttribute (ThisAgent, #ATTRIB_SightRange) * ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) / 2);
 
-	$listobjects(thisagent,"building",search_Dist,buildings,#CheckTitles, "Library", #ATTRIB_FirstStageBuilt, 1 );
-
-	If ($ListSize (libraries) == 0)
-		begin
-			return False;
-		end
-	Else
+	If ($listobjects(thisagent,"building",search_Dist,libraries,#CheckTitles, "Library", #ATTRIB_FirstStageBuilt, 1 ) > 0)
 		begin
 			library = $Loyalty_Mod_Pick_Closest (ThisAgent, libraries);
-			if ($IsValidGamePiece(library) == false)
+			if ($isdead(library))
 				return false;
 			if ($HasAttribute("Attachments", library) == false)
 				return false;
 			if ($titleinagentlist("Available_Books", library's "Attachments") == false)
 				return false;
+			
 			available_books = $GetBuildingContents($agenttitleinlist("Available_Books", library's "Attachments"));
+			if ($Listsize(available_books) == 0)
+				return false;
+
 			Intel_Roll = $RandomNumber (20) + 1;
 			If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) > Intel_Roll)
 				begin
@@ -59,11 +58,11 @@ Begin
 						begin
 							foreach book in available_books do
 								begin
+									if (flag == false)
 									if ($stringinlist(book's "IntentExt", books_read) == FALSE)
 										begin
 											thisagent's completetname = book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild
 											flag = TRUE;
-											break;
 										end
 								end
 						end

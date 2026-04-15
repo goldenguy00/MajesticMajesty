@@ -199,7 +199,7 @@ begin
 		begin
 			newtarget = $BasicCastDebuffEnemy_hero(thisagent, target, "ignite_icon", spell_name);
 		end
-		
+	$SetAgentSafe(thisagent, "Spell_Target", newtarget);
 	return newtarget;
 end
 
@@ -1063,19 +1063,20 @@ begin
 	new_target = thisagent's "Target";
 	
 	if ($HasAttribute("SpellsAttack", thisagent))
-	if ($ListSize(thisagent's "SpellsAttack") > 0)
-		foreach spell_name in thisagent's "SpellsAttack" do
-			if ($CanCast(thisagent, spell_name))
-				begin
-					spell_target = $EvaluateCondition(thisagent, spell_name);
-					if (spell_target != $NullAgent())
+		begin
+			if ($ListSize(thisagent's "SpellsAttack") > 0)
+				foreach spell_name in thisagent's "SpellsAttack" do
+					if ($CanCast(thisagent, spell_name))
 						begin
-							new_spell = spell_name;
-							new_target = spell_target;			//Keep the new spell target consistent with the new spell, otherwise might get null agent targets with valid new spells
+							spell_target = $EvaluateCondition(thisagent, spell_name);
+							if (spell_target != $NullAgent())
+								begin
+									new_spell = spell_name;
+									new_target = spell_target;			//Keep the new spell target consistent with the new spell, otherwise might get null agent targets with valid new spells
+								end
 						end
-				end
-	if ($HasAttribute("Spell_Target", thisagent))
-		thisagent's "Spell_Target" = new_target;
+			$SetAgentSafe(thisagent,"Spell_Target", new_target);
+		end
 	return new_spell;
 end
 
@@ -1164,9 +1165,9 @@ end
 function CanCast(agent thisagent, string spell_name) is boolean
 declare
 begin
-	if ($isspellAvailable(thisagent, spell_name))
-		if ($HasCooldown(thisagent, spell_name) == false)
-			return $SpellManaAvailable(thisagent, spell_name);
+	if ($HasCooldown(thisagent, spell_name) == false)
+		if ($SpellManaAvailable(thisagent, spell_name))
+			return $isspellAvailable(thisagent, spell_name);
 	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1312,7 +1313,7 @@ begin
 	begin
 		if ($getbestspell(thisagent,#List_attack) != "nothing")
 			arrivedist = thisagent's "castingrange";
-		else if (thisagent's "type" == "Hero")
+		else if ($IsSpellCaster(thisagent))
 			arrivedist = $GreatestSpellRangeForHero(thisagent);
 		else
 			arrivedist = $getattribute(thisagent,#ATTRIB_MaxAttackRange);
@@ -1330,18 +1331,7 @@ declare
 	boolean caster;
 	
 begin
-	caster = FALSE;
-	unit_name = thisagent's "title";
-	
-	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
-		original_name = thisagent's "Original_Title";
-	
-	if (unit_name == "wizard" || original_name == "wizard")
-		caster = TRUE;
-	else if (unit_name == "priestess" || original_name == "priestess")
-		caster = TRUE;
-	
-	return caster;
+	return thisagent's "Attack_action" == "do_nothing";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1398,12 +1388,6 @@ begin
 		return $PercentOf(cast_range, 50, False);
 	else if (unit_name == "solarus")
 		return $PercentOf(cast_range, 25, False);
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			cast_range = $PercentOf(cast_range, 67, False);
-			//cast_range = $GreatestCastRange(thisagent, "drain_life", cast_range);
-			return cast_range;
-		end
 	else if (unit_name == "wizard")
 		begin
 			cast_range = $GreatestAttackListRange(thisagent);
@@ -1411,7 +1395,7 @@ begin
 		end
 	
 	// not casting
-	return $getattribute(thisagent,#ATTRIB_maxattackrange);
+	return $PercentOf(cast_range, 67, False);
 end
 
 function GreatestCastRange(agent thisagent, string spell_name, integer range) is integer

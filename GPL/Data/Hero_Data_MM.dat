@@ -1175,7 +1175,7 @@
 		(attacktype 3)
 		(castingrange 240)
 		(PercentageHPRetreat 50)
-		(enemy_estimation 0.8)
+		(enemy_estimation 0.9)
 		(self_estimation 1.1)
 		(Loyalty 30)
 		(Greed 11)

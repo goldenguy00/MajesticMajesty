@@ -76,48 +76,57 @@ Declare
 	integer	WhatItem;
 	list pile;
 	agent loot;
+	boolean can_path;
+	float cost;
+	integer dist;
 
 begin
 	target = thisagent's "target";
-
+	
 	if ($isvalidgamepiece(target) == False)
 		begin
 			// all done
 			$reset_tasks(thisagent);
+			return;
 		end
-	else
-		begin
 
-			if ($isadjacent(thisagent,target) == FALSE)
-				// move towards target
+	if ($isadjacent(thisagent,target) == FALSE)
+		// move towards target
+		begin
+			cost = $PathCost($LocationOf(thisagent), $LocationOf(target), "check_all_units", can_path, thisagent);
+			dist = $DistanceBetweenAgents(thisagent, target);
+			if (can_path)
 				begin
 					ThisAgent's "ActiveScript" = $Travel_To;
 					thisagent's "destination" = $locationof(target);
 					thisagent's "backScript" = $grab_item;
 					$move(thisagent,target);
+					return;
+				end
+			else if (cost > 10 || dist > 10)
+				begin
+					$Reset_tasks(thisagent);
+					return;
 				end
 			else
 				begin
-
-					If (Target's "Title" == "Treasure_Chest")
-						begin
-							$Open_Chest (ThisAgent, Target);
-						end
-					else 
-						begin
-							If ($pickup_stack (thisagent, Target))
-								begin
-									$createeffector(ThisAgent,"got_item",0);
-									$say (ThisAgent,"VFX_FIND_COOL");
-								end
-							Else
-								begin
-									$Reset_Tasks (ThisAgent);
-								end
-						end
+					$Breakpoint(1);
 				end
 		end
 
+	If (Target's "Title" == "Treasure_Chest")
+		begin
+			$Open_Chest (ThisAgent, Target);
+			return;
+		end
+		
+	If ($pickup_stack (thisagent, Target) == false)
+		begin
+			$Reset_Tasks (ThisAgent);
+			return;
+		end
+	$createeffector(ThisAgent,"got_item",0);
+	$say (ThisAgent,"VFX_FIND_COOL");
 end
 
 function pickup_stack(agent thisagent, agent target) is boolean

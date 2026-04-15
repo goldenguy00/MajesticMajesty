@@ -21,7 +21,7 @@ Begin
 		End
 
 	//This check to see if they already have their max. complement of summons
-	If (ThisAgent's "Num_Followers" >= 5)
+	If (ThisAgent's "Num_Followers" >= 5 || $IsHidden(thisagent))
 		return False;
 
 	// the following means: 1 at lvls < 3, 2 at 3 to 4, 3 at 5 to 6, and so on

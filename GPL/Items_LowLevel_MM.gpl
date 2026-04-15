@@ -58,6 +58,7 @@ end
 function Equipment_Item_Birth(agent thisagent)
 
 declare
+	integer despawn_time;
 	string title;
 	integer stack;
 
@@ -66,6 +67,14 @@ begin
 	$AddAttribute(thisAgent, title, "integer", 0);
 	
 	$SetDrawEffects( thisagent, "gray", 1 );
+	
+	// prevent loot pile up
+	if (thisagent's "Type" == "Equipment" && $HasAttribute("gold_value", thisagent))
+		begin
+			despawn_time = (60 + thisagent's "gold_value") * 1000;
+			$AddAttribute(thisagent, "DespawnTimer", "function", $DespawnTimer);
+			$RunThread(thisagent's "DespawnTimer", despawn_time, thisagent);
+		end
 end
 
 ///////////////////////////////////////////////////////////////////////////////
