@@ -619,8 +619,7 @@ begin
 				if ($IsValidGamePiece(sign) == True)
 					begin
 						sign's "type" = "Dead";
-						$performaction( sign,"Become_Rubble",sign );
-						$deleteagent(sign);
+						$deleteGamePiece(sign);
 					end
 end
 
@@ -643,7 +642,7 @@ begin
 				parent = $GetPalace(thisagent);
 			else
 				begin
-					$deleteagent(thisagent);
+					$deletegamepiece(thisagent);
 					return;
 				end
 				
@@ -671,8 +670,7 @@ begin
 				end
 			
 			
-			$performaction( thisagent,"Become_Rubble",thisagent );
-			$deleteagent(thisagent);
+			$deletegamepiece(thisagent);
 		end
 end
 

@@ -1,20 +1,21 @@
 ///////////////////////////////////////////////////////////////////////////////
 Function Check_Wizards_Guild_Packet (agent ThisAgent) is boolean
 Declare
-	agent book, guild;
-	list buildings, guilds, available_books, books_read;
+	agent rnd_book, book, guild;
+	list guilds, available_books, books_read;
 	integer search_dist, Intel_Roll, book_count, chance; 
 	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
 	string conditionsub, completecondition, visitsub, completevisit;
 	boolean flag;
 
 Begin
-	return false;
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	flag = FALSE;
 	if ($randomnumber(100) + 1 > chance)
 		return FALSE;
-	books_read = thisagent's "Books_Read";
+
+	if ($AddAttribute(thisagent, "Books_Read", "list", books_read) == false)
+		books_read = thisagent's "Books_Read";
 	
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
@@ -36,37 +37,37 @@ Begin
 	// instead of over and over again in the lower level subroutines.
 	Search_Dist = $GetAttribute (ThisAgent, #ATTRIB_SightRange) * ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) / 2);
 
-	$listobjects(thisagent,"building",search_Dist,buildings,#ATTRIB_FirstStageBuilt, 1 );
-
-	guilds = $listTitles(buildings,"Wizards_Guild");
-
-	If ($ListSize (guilds) == 0)
-		begin
-			return False;
-		end
-	Else
+	If ($listobjects(thisagent,"building",search_Dist,guilds, #CheckTitles, "Wizards_Guild",#ATTRIB_FirstStageBuilt, 1 ) > 0)
 		begin
 			guild = $Loyalty_Mod_Pick_Closest (ThisAgent, guilds);
+			if ($isdead(guild))
+				return false;
+			if ($HasAttribute("Attachments", guild) == false)
+				return false;
 			if ($titleinagentlist("Available_Books", guild's "Attachments") == false)
 				return false;
+			
 			available_books = $GetBuildingContents($agenttitleinlist("Available_Books", guild's "Attachments"));
+			if ($Listsize(available_books) == 0)
+				return false;
+
 			Intel_Roll = $RandomNumber (30) + 1;
-			If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) > Intel_Roll && $listsize(available_books) > 0)
+			If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) > Intel_Roll)
 				begin
 					if ($listsize(books_read) > 0)
 						foreach book in available_books do
 							begin
+								if (flag == false)
 								if ($stringinlist(book's "IntentExt", books_read) == FALSE)
 									begin
 										thisagent's completetname = book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild
 										flag = TRUE;
-										break;
 									end
 							end
 					else
 						begin
-							book = $listmember(available_books, 1); //Give it the first book in the list if the agent has never read anything
-							thisagent's completetname = book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild
+							rnd_book = $listmember(available_books, 1); //Give it the first book in the list if the agent has never read anything
+							thisagent's completetname = rnd_book's "IntentExt"; //Which book the agent has yet to read that is available in the Guild
 							flag = TRUE;
 						end
 	

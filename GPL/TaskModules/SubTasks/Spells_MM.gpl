@@ -1107,7 +1107,7 @@ begin
 
 	if ( $isdead ( thisagent ) == FALSE )
 		begin
-			$createeffector( target, "healer_healing_effector", 0 );
+			$createeffector( target, "healer_heal", 0 );
 
 			AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
   			if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
@@ -1501,6 +1501,12 @@ begin
 	$MagicalAdjustAttribute(target,#ATTRIB_magicresistance,add_resistance);
 end
 
+function Shield_Of_Life_Check(agent thisagent) is integer
+declare
+begin
+
+end
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function Paladin_ShieldOfLightBuff_End( agent thisagent , integer intelligence, integer willpower, integer wisdom )
 // What happens when the buff ends.
@@ -1631,7 +1637,7 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
-	$createeffector( thisagent, "animate_skeleton_effector", 2500 );
+	$createeffector( thisagent, "animate_skeleton", 2500 );
 	
 	$AddAttribute(thisagent, "Priestess_AnimateSkeleton_Summon", "function", $Priestess_AnimateSkeleton_Summon);
 	
@@ -1711,6 +1717,9 @@ declare
 	list targets;
 
 begin
+	if ($GenericSpellCheck(thisagent, "solarus_sun_scorch") == 0)
+		return 0;
+		
 	targets = $compile_enemies(thisagent,65);
 	if ($listsize(targets) > 0)
 		return 1;
