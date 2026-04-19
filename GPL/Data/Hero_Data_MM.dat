@@ -1550,7 +1550,7 @@
 		(attack_action do_nothing)
 		(Cast_Action Basic_Cast)
 		(Friend	xx)
-		(attacktype 2)
+		(attacktype 3)
 		(castingrange 220)
 		(PercentageHPRetreat 75)
 		(enemy_estimation 1.0)

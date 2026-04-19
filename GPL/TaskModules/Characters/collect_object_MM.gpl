@@ -33,7 +33,7 @@ begin
 					// pick the damn thingie
 					$PerformAction (ThisAgent, ThisAgent's "Pickup_Action", Target);
 					if ($HasAttribute("TaskPackageStatus", thisagent))
-					thisagent's "TaskPackageStatus" = "Complete";
+						thisagent's "TaskPackageStatus" = "Complete";
 				end
 		end
 

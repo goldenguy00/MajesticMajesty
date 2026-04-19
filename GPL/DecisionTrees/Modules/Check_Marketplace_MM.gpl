@@ -79,7 +79,7 @@ Begin
 						end
 				end
 		end
-	else if (($AgentHasInventoryItem (#MarketItem_Ring_Protection, ThisAgent) != TRUE) && ($Total_Gold (ThisAgent) >= #Ring_Protection_Price))
+	else if (($AgentHasInventoryItem (#MarketItem_Ring_Protection, ThisAgent) == false) && ($Total_Gold (ThisAgent) >= #Ring_Protection_Price))
 		begin
 			Potentials = $List_Attribs (marketplaces, #ATTRIB_ResearchRingsofProtection );
 			if ($listsize(potentials) > 0)
@@ -98,7 +98,7 @@ Begin
 						end
 				end
 		end
-	else if (($AgentHasInventoryItem (#MarketItem_Market3_Item, ThisAgent) != TRUE) && ($Total_Gold (ThisAgent) >= #Market3_Item_Price))
+	else if (($AgentHasInventoryItem (#MarketItem_Market3_Item, ThisAgent) == false) && ($Total_Gold (ThisAgent) >= #Market3_Item_Price))
 		begin
 			Potentials = $List_Attribs (marketplaces, #ATTRIB_ResearchPowerfulItem );
 			if ($listsize(potentials) > 0)

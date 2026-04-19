@@ -480,7 +480,7 @@
 			</Attributes>
 		</Game>
 	</Description>
-	<Description type="Unit" subType="Character" ID="KROLM" Name="KROLM" Description="IDTXT_ITEM_KROLM">
+	<Description type="Unit" subType="Character" ID="KROLMM" Name="KROLMM" Description="IDTXT_ITEM_KROLMM">
 		<Engine version="1">
 			<Info value="Static"/>
 			<Info value="Directionless"/>
@@ -497,10 +497,10 @@
 			<Flags value="NotFlaggable"/>
 			<Flags value="NotSpellTarget"/>
 			<Flags value="IsInventoryItem"/>
-			<HelpID value="IDTXT_ITEM_KROLM_HELP"/>
+			<HelpID value="IDTXT_ITEM_KROLMM_HELP"/>
 			<Attributes>
 				<Attribute ID="CanDropItem" Value="3"/>			
-				<Attribute ID="KROLM" Value="0"/>
+				<Attribute ID="KROLMM" Value="0"/>
 			</Attributes>
 		</Game>
 	</Description>

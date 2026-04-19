@@ -7,25 +7,23 @@
 function attack_object(agent thisagent)
 
 declare
-	integer targetrange,attackrange;
 	agent target;
-	string spell_name, attacklist_name, supportlist_name;
+	string spell_name;
 
 begin
 	// is target still valid
-	if ($notvalid(thisagent's "target"))
+	target = thisagent's "target";
+	
+	if ($notvalid(target))
 		begin
 			$reset_tasks(thisagent);
 			return;
 		end
 
-	// is thisagent low on MP
 	if ($haslowMP(thisagent))
-		begin
-			$restore_mana_self(thisagent);
+		if ($restore_mana_self(thisagent) == false)
 			return;
-		end
-
+	
 	if ($haslowHP(thisagent))
 		begin
 			$heal_self(thisagent);
@@ -34,7 +32,7 @@ begin
 
 	target = $SelectBestSpell(thisagent);
 	
-	if (thisagent's "BestTargetRange" > thisagent's "BestRange")
+	if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range" && $IsAdjacent(thisagent, target) == false)
 		begin
 			// move towards target
 			thisagent's "destination" = $locationof(target);
@@ -43,13 +41,18 @@ begin
 			$move(thisagent,target);
 		end
 	// is target within min attack range? - later
-	else if (($listsize(thisagent's "hostiles") > 0) && ((target's "type" == "building") || (target's "type") == "lair"))
+	else if (($listsize(thisagent's "hostiles") > 0) && $IsBuilding(target))
 		begin
 			(thisagent's "evaluationscript") (thisagent);
 		end
 	else if ($Hero_Peasant_check(thisagent) == FALSE)
 		begin
-			$PerformBestAttack(thisagent, target);
+		
+			if ($HasAttribute("TaskPackageStatus", thisagent))
+				if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
+					thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
+
+			$PerformBestAttack(thisagent);
 		end
 end
 
@@ -118,56 +121,64 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function attack_object_pack(agent thisagent)
+function monster_attack_object(agent thisagent)
 
 declare
-	integer targetrange,attackrange;
-	agent target;
-	string spell_name, supportlist_name, attacklist_name;
+	integer targetrange;
+	agent target,leader;
+	integer	SightRange,attackrange;
+	boolean casting;
+	string spell_name;
 
 begin
 	target = thisagent's "target";
-	// is target still valid
+
+	// is target alive?
 	if ($notvalid(target))
 		begin
 			$reset_tasks(thisagent);
-			return;
 		end
-
-	// is thisagent low on MP
-	if ($haslowMP(thisagent))
+	else if ($target_out_of_range(thisagent,target))
 		begin
-			$restore_mana_self(thisagent);
-			return;
+			// go back to regular functioning
+			$reset_tasks(thisagent);
 		end
-
-	if ($haslowHP(thisagent))
+	else
 		begin
-			$heal_self(thisagent);
-			return;
-		end		
+			// pick weapon or spell
+			spell_name = $getbestspell(thisagent,#list_attack);
 
-	target = $SelectBestSpell(thisagent);
+			if (spell_name == "nothing")
+				begin
+					attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
+					casting = FALSE;
+				end
+			else
+				begin
+					attackrange = thisagent's "castingrange";
+					casting = TRUE;
+				end
 
-	if (thisagent's "BestTargetRange" > thisagent's "BestRange")
-		begin
-			// move towards target
-			thisagent's "destination" = $locationof(target);
-			thisagent's "activeScript" = $travel_to;
-			thisagent's "backScript" = $attack_object_pack;
-			$move(thisagent,target);
-		end
-	// is target within min attack range? - later
-	else if ($listsize(thisagent's "hostiles") > 0 && (target's "type" == "building" || target's "type" == "lair"))
-		begin
-			(thisagent's "evaluationscript") (thisagent);
-		end
-	else //if ($Hero_Peasant_check(thisagent) == FALSE)
-		begin
-			if ($HasAttribute("TaskPackageStatus", thisagent))
-				if ((thisagent's "TaskPackageTargetCurrent" == target) && (thisagent's "TaskPackageStatus" == "Ongoing"))
-					thisagent's "TaskPackageStatus" = "Engaged"; // This agent has engaged and attacked the target of its task package
+			// is target out of pursuit range?
+			targetrange = $distanceBetweenAgents(thisagent,target);
 
-			$PerformBestAttack(thisagent, target);
+			// is thisagent in attackrange of target
+			if (targetrange > attackrange && $IsAdjacent(thisagent, target) == false)
+				begin
+					// move towards target
+					thisagent's "destination" = $locationof(target);
+					thisagent's "activeScript" = $monster_travel_to;
+					thisagent's "backScript" = $monster_attack_object;
+					$move(thisagent,target);
+					$debugout("Monster starting move to target.");
+				end
+			else
+				begin
+					// make attack on object
+					if (casting)
+						$castspell(thisagent,spell_name,target, "");
+					else
+						$performAction(thisagent,(thisagent's "attack_action"),target);
+				end
 		end
 end

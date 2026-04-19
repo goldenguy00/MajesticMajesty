@@ -12,7 +12,7 @@ declare
 	string picked_attribute;
 
 begin
-	$InitBaseStats(thisagent); // For pre-placed scenario heroes that advance to higher levels on start-up
+	$GeneralAttributes(thisagent); // For pre-placed scenario heroes that advance to higher levels on start-up
 	
 	exp_level = $getattribute(thisagent,#ATTRIB_experienceLevel);
 	

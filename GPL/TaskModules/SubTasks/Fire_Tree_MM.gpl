@@ -139,7 +139,7 @@ begin
 		
 	target_loc = $locationof(target);
 	
-	if ((Tier1 == True) && ($IsValidGamePiece(target) == TRUE) && ($isdead(target) != TRUE))
+	if ((Tier1 == True) && ($IsValidGamePiece(target) == TRUE) && ($isdead(target) == false))
 		begin
 			$AddBurningEffect(target);
 			if ($IsRunning(target's "Burning_Duration") == False)
@@ -178,7 +178,7 @@ begin
 			$createeffector( guy, "fireball_effector2", 500 );
 			$spell_type_attack(thisagent, guy, "Fire", min_damage, max_damage);
 			
-			if ((Tier1 == True) && ($IsValidGamePiece(guy) == TRUE) && ($isdead(guy) != TRUE))
+			if ((Tier1 == True) && ($IsValidGamePiece(guy) == TRUE) && ($isdead(guy) == false))
 				begin
 					$AddBurningEffect(guy);
 					if ($IsRunning(guy's "Burning_Duration") == False)
@@ -395,7 +395,7 @@ begin
 	//$spell_type_attack(thisagent, target, "Fire", min_damage, max_damage);
 	
 	
-	if (($IsValidGamePiece(target) == TRUE) && ($isdead(target) != TRUE))
+	if (($IsValidGamePiece(target) == TRUE) && ($isdead(target) == false))
 		begin
 			$AddIgniteEffect(target);
 			if ($IsRunning(target's "Ignite_Duration") == False)
@@ -592,7 +592,7 @@ declare
 	integer resist;
 
 begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
+	if ($IsValidGamePiece(thisagent) == false)
 		return;
 		
 	increased_armor = ((spell_level - 1) / #Searing_Mantle_Armor_Level_Div);
@@ -679,7 +679,7 @@ function PyrelightDebuff_End( agent thisagent, integer spell_level )
 declare
 
 begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
+	if ($IsValidGamePiece(thisagent) == false)
 		return;
 		
 	thisagent's "Pyrelight_Mana_Spent" = 0;
@@ -698,7 +698,7 @@ function PyrelightDebuff_Death( agent thisagent )
 declare
 
 begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
+	if ($IsValidGamePiece(thisagent) == false)
 		return;
 		
 	if (($IsValidGamePiece(thisagent's "Pyrelight_Caster")) && (thisagent's "Pyrelight_Tier_1" == True))
@@ -815,7 +815,7 @@ begin
 			$spell_type_attack(thisagent, guy, "Fire", min_damage, max_damage);
 			if ($IsValidGamePiece(guy) == TRUE)
 				begin
-					if ((Tier1 == True) && ($isdead(guy) != TRUE) &&(guy's "type" != "building") && (guy's "type" != "lair"))
+					if ((Tier1 == True) && ($isdead(guy) == false) &&(guy's "type" != "building") && (guy's "type" != "lair"))
 						begin
 							$AddKnockbackEffect(guy);
 							target_loc = $LocationOf(guy);
@@ -882,7 +882,7 @@ begin
 	else
 		Tier1 = False;
 	
-	if (($IsValidGamePiece(thisagent) == TRUE) && ($isdead(thisagent) != TRUE))
+	if (($IsValidGamePiece(thisagent) == TRUE) && ($isdead(thisagent) == false))
 		begin
 			if ($IsRunning(thisagent's "Cinders_Duration") == False)
 				begin

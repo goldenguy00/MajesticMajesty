@@ -857,7 +857,7 @@
 		<Text id="IDTXT_ITEM_SCIONSOFCHAOS">[color:light_blue]Scions of Chaos[/color]</Text>
 		<Text id="IDTXT_ITEM_AGNOMESLIFE">[color:light_blue]A Gnome's Life[/color]</Text>
 		<Text id="IDTXT_ITEM_THEVAGRANT">[color:light_blue]The Vagrant[/color]</Text>
-		<Text id="IDTXT_ITEM_KROLM">[color:light_blue]KROLM![/color]</Text>
+		<Text id="IDTXT_ITEM_KROLMM">[color:light_blue]KROLM![/color]</Text>
 		<Text id="IDTXT_ITEM_VENDRALTHEHARBINGER">[color:light_blue]Vendral the Harbinger[/color]</Text>
 		<Text id="IDTXT_ITEM_DAEMONWOODFOREST">[color:light_blue]Daemonwood Forest[/color]</Text>
 		<Text id="IDTXT_ITEM_SECRETSOFTHEOCULUS">[color:light_blue]Secrets of the Oculus[/color]</Text>
@@ -883,7 +883,7 @@
 		<Text id="IDTXT_ITEM_SCIONSOFCHAOS_HELP">A novelization of the events revolving around the Scions of Chaos, focusing on the first four generations of Scions.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
 		<Text id="IDTXT_ITEM_AGNOMESLIFE_HELP">An uplifting title about Gnomish perseverance and optimism in the face of hardship.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
 		<Text id="IDTXT_ITEM_THEVAGRANT_HELP">A children's story about a Gnomish Champion wandering from city to city to steal from corrupt officials and using the money for lavish, bombastic parties.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
-		<Text id="IDTXT_ITEM_KROLM_HELP">The title is the only written word, for the book contains nothing but illustrations of battles heavily featuring the Barbarian followers of Krolm.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
+		<Text id="IDTXT_ITEM_KROLMM_HELP">The title is the only written word, for the book contains nothing but illustrations of battles heavily featuring the Barbarian followers of Krolm.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
 		<Text id="IDTXT_ITEM_VENDRALTHEHARBINGER_HELP">A collection of the ominous prophecies depicting the legendary two-headed dragon and the destruction foretold to follow in its wake.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
 		<Text id="IDTXT_ITEM_DAEMONWOODFOREST_HELP">The pieced-together ramblings of the survivors of an adevnturing party said to have ventured through a stretch of wilderness inhabited entirely by Daemonwoods.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
 		<Text id="IDTXT_ITEM_SECRETSOFTHEOCULUS_HELP">An alchemist's writings about the potential uses for Oculus Eyes in potion-making.[color:BCFFBC][newline][newline]Experience: 250[/color][color:DDBB44][newline]Level: 1[/color]</Text>
@@ -1038,7 +1038,7 @@
 		<Text id="IDTXT_INTENT_LIBRARYREADINGSCIONSOFCHAOS">[color:FFBCFF]Reading [color:FFFFFF]Scions of Chaos[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGAGNOMESLIFE">[color:FFBCFF]Reading [color:FFFFFF]A Gnome's Life[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGTHEVAGRANT">[color:FFBCFF]Reading [color:FFFFFF]The Vagrant[/color] at the Library[/color]</Text>
-		<Text id="IDTXT_INTENT_LIBRARYREADINGKROLM">[color:FFBCFF]Reading [color:FFFFFF]KROLM[/color] at the Library[/color]</Text>
+		<Text id="IDTXT_INTENT_LIBRARYREADINGKROLMM">[color:FFBCFF]Reading [color:FFFFFF]KROLMM[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGVENDRALTHEHARBINGER">[color:FFBCFF]Reading [color:FFFFFF]Vendral the Harbinger[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGDAEMONWOODFOREST">[color:FFBCFF]Reading [color:FFFFFF]Daemonwood Forest[/color] at the Library[/color]</Text>
 		<Text id="IDTXT_INTENT_LIBRARYREADINGSECRETSOFTHEOCULUS">[color:FFBCFF]Reading [color:FFFFFF]Secrets of the Oculus[/color] at the Library[/color]</Text>

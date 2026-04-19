@@ -10,6 +10,8 @@ declare
 	string unit_name;
 
 begin
+	$GeneralAttributes(thisagent);
+
 	thisagent's "target" = $nullagent();
 	$clearlist(thisagent's "hostiles");
 	unit_name = thisagent's "Title";
@@ -35,8 +37,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	$GeneralAttributes(thisagent);
 	
 end
 
@@ -77,14 +77,13 @@ function sanguine_peasant_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
 
 	$SetDrawEffects( thisagent, "red", 0 );
 	
 	$sanguine_pit_bonus(thisagent);
 	
 	$newthread(thisagent's "activeScript", 500 ,thisagent);
-	
-	$GeneralAttributes(thisagent);
 	
 end
 
@@ -95,6 +94,8 @@ function gore_guard_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
+
 	$SetDrawEffects( thisagent, "red", 0 );
 	
 	$sanguine_pit_bonus(thisagent);
@@ -109,8 +110,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -119,6 +118,7 @@ function scarlet_squire_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
 	$SetDrawEffects( thisagent, "red", 0 );
 	
 	$sanguine_pit_bonus(thisagent);
@@ -133,9 +133,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	
-	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -144,6 +141,8 @@ function crimson_archer_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
+
 	$SetDrawEffects( thisagent, "red", 0 );
 	
 	$sanguine_pit_bonus(thisagent);
@@ -158,9 +157,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	
-	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -169,6 +165,8 @@ function maniacal_arbalest_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
+
 	$SetDrawEffects( thisagent, "red", 0 );
 	
 	$sanguine_pit_bonus(thisagent);
@@ -183,9 +181,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	
-	$GeneralAttributes(thisagent);
 end
 ///////////////////////////////////////////////////////////////////////////////
 function blood_mage_birth(agent thisagent)
@@ -193,6 +188,8 @@ function blood_mage_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
+
 	$SetDrawEffects( thisagent, "red", 0 );
 	
 	$sanguine_pit_bonus(thisagent);
@@ -208,8 +205,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -218,6 +213,8 @@ function spirit_troll_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
+
 	$SetDrawEffects( thisagent, "gray", 3 );
 	
 
@@ -236,8 +233,6 @@ begin
 	//$NewThread(thisagent's "Spirit_Troll_Buff", 400, thisagent);
 	//$SpellTimeoutEffect( thisagent, $cm_SpiritTrollBuff_Death, 1000, 0, 0, 0, 0, 0,0,0,0 );
 	
-	$GeneralAttributes(thisagent);
-	
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -246,6 +241,8 @@ function minotaur_lord_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
+
 	$SetDrawEffects( thisagent, "gray", 0 );
 	
 
@@ -257,8 +254,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -267,6 +262,8 @@ function elder_orbs_birth(agent thisagent)
 declare
 
 begin
+	$GeneralAttributes(thisagent);
+
 	$SetDrawEffects( thisagent, "gray", 0 );
 	
 
@@ -278,8 +275,6 @@ begin
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 
 	thisagent's "startingScript" = thisagent's "basicScript";
-	
-	$GeneralAttributes(thisagent);
 	
 end
 

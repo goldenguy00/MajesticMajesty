@@ -79,7 +79,7 @@ begin
 							thisagent's completeaction = $Find_Lair_Sub_Packet;
 					Else
 						begin
-							thisagent's completeaction = $Attack_object_pack;
+							thisagent's completeaction = $Attack_object;
 							intentext = "IDTXT_INTENT_RAIDINGLAIR" + $getintentext(thisagent's completetarget);
 							ThisAgent's completeintent = intentext;
 						end
@@ -102,6 +102,6 @@ begin
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_FINDINGLAIR");
 	$PerformAction (ThisAgent, thisagent's "cast_action", thisagent's "TaskPackageTargetCurrent");
 	$RevealArea (ThisAgent, $LocationOf (thisagent's "TaskPackageTargetCurrent"), #reveal_found_lair_dist);
-	thisagent's "TaskPackageTargetActionCurrent" = $Attack_object_Pack;
+	thisagent's "TaskPackageTargetActionCurrent" = $Attack_object;
 	$reset_tasks(thisagent);
 end

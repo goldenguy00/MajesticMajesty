@@ -6,13 +6,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 Function Go_Control_Monster (agent ThisAgent)
 Declare
-	integer 	targetrange, castrange;
 	agent 	target;
 	string spellname;
 
 Begin
 	Target = ThisAgent's "Target";
-
+	
 	// Make sure that ThisAgent's "Target" isn't dead, and that it still needs healing.
 	if ($IsDead (Target) || $IsControlled(Target))
 		begin
@@ -24,31 +23,26 @@ Begin
 		end
 	else
 		begin
-			castrange = thisagent's "castingrange";
 			spellname = $Spell_List_Control(thisagent, target);
-			if (spellname != "nothing")
-				castrange = $MaxSpellRange( castrange, spellname);
+			if (spellname == "nothing")
+				begin					
+					$Reset_Tasks (ThisAgent);
+					return;
+				end
 				
-			TargetRange = $DistanceBetweenAgents (ThisAgent, Target);
-			if (TargetRange > castrange)
+			target = thisagent's "best_target";
+
+			if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range" && $IsAdjacent(thisagent, target) == false)
 				begin
 					// move towards target
-					thisagent's "destination" = $LocationOf(Target);
+					thisagent's "destination" = $LocationOf(target);
 					thisagent's "activeScript" = $Travel_To_Safe;
 					thisagent's "backScript" = $Go_Control_Monster;
 					$Move(ThisAgent,Target,"avoid_vehicles");
 				end
 			else
 				begin
-					// Control the mutha
-					spellname = $Spell_List_Control(thisagent, target);
-					if (spellname != "nothing")
-						begin
-							target = $ValidControlTarget_hero(thisagent, target, spellname);
-							$Cast (ThisAgent, spellname, Target, "");
-							$Reset_Tasks (ThisAgent);
-						end
-
+					$Cast (ThisAgent, spellname, target, "");
 				end
 		end
 End

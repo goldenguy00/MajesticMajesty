@@ -43,17 +43,16 @@ Begin
 						end
 				end
 			
-			if ($CanCast(thisagent,"animate_skeleton"))
-				begin
+			//if ($CanCast(thisagent,"animate_skeleton"))
+			//	begin
 					//No undead nearby? Go ahead and animate.
-					spell_name = $Spell_List_Summon(thisagent, thisagent);
+					spell_name = $Spell_List_Summon(thisagent);
 					if (spell_name != "nothing" )
 						begin
-							summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
-							$Cast (ThisAgent, spell_name, summon_target, "");
+							$Cast (ThisAgent, spell_name, thisagent, "");
 							return True;
 						end
-				end
+			//	end
 		end
 		
 	return False;
@@ -101,11 +100,10 @@ Begin
 			if ($CanCast(thisagent,"animate_skeleton"))
 				begin
 					//No undead nearby? Go ahead and animate.
-					spell_name = $Spell_List_Summon(thisagent, thisagent);
+					spell_name = $Spell_List_Summon(thisagent);
 					if (spell_name != "nothing" )
 						begin
-							summon_target = $ValidSummonTarget_hero(thisagent, thisagent, spell_name);
-							$Cast (ThisAgent, spell_name, summon_target, "");
+							$Cast (ThisAgent, spell_name, thisagent, "");
 							return True;
 						end
 				end

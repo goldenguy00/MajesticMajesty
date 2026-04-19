@@ -20,7 +20,7 @@ Begin
 			return False;
 		end
 
-	if ($IsExpansion(thisagent) != TRUE)
+	if ($IsExpansion(thisagent) == false)
 		return False;
 		
 	//Don't go if you already have the icon on you
@@ -88,7 +88,7 @@ Begin
 			return False;
 		end
 
-	if ($IsExpansion(thisagent) != TRUE)
+	if ($IsExpansion(thisagent) == false)
 		return False;
 		
 	//Don't go if you already have the icon on you

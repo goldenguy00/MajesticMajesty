@@ -9,8 +9,7 @@ declare
 	list manors;
 
 begin
-
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	$ListObjects ( thisagent, "Building", -1, manors, #MyPlayer );
 	
 	manors = $listtitles ( manors, "general_housing_lv2" );
@@ -27,7 +26,7 @@ declare
 	list statues;
 	
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	$ListObjects ( thisagent, "Building", -1, statues, #MyPlayer );
 	
 	statues = $listtitles ( statues, "statue" );
@@ -63,7 +62,7 @@ declare
 	string name;
 
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	$ListObjects ( thisagent, "Building", -1, spires, #MyPlayer );
 	spires = $listtitles ( spires, "arcane_spire" );
 	spires = $ListCompleted ( spires );
@@ -116,7 +115,7 @@ declare
 	string name;
 
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	$ListObjects ( thisagent, "Building", -1, shrines, #MyPlayer );
 	shrines = $listtitles ( shrines, "shrine" );
 	shrines = $ListCompleted ( shrines );
@@ -150,12 +149,12 @@ declare
 	integer starting_gold, random_gold, stat_adjust, stat_strength, stat_artifice, stat_vitality, stat_wisdom, MaxXP, MaxXP_diff, new_MaxXP, num_hovel;
 
 begin
+	$GeneralAttributes(thisagent);
+
 	palace = $getpalace(thisagent);
 	random_gold = #hero_start_gold;
 	starting_gold = #hero_start_gold;
 	$CreateEffector (THisAgent, "SpawnEffect_New", 1);
-		
-	$GeneralAttributes(thisagent);
 	
 	$ListObjects(thisagent,"building",-1,list1, #MyPlayer);
 
@@ -386,6 +385,7 @@ Declare
 	integer	Gold, modifier, divisor, statue_bonus, num_fountain, fountain_gold, elf_gold;
 
 Begin
+	$GeneralAttributes(thisagent);
 
 	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
 
@@ -462,8 +462,6 @@ Begin
 
 	$playsound(thisagent,"begin");
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-	
-	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -473,6 +471,8 @@ declare
 	agent home;
 
 begin
+	
+	$GeneralAttributes(thisagent);
 
 	$manor_bonus(thisagent);
 
@@ -487,8 +487,6 @@ begin
 		(home's "num_tax_collectors") ++;
 
 	$newthread(thisagent's "activeScript", #Henchmen_Cycle ,thisagent);
-	
-	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -498,12 +496,12 @@ declare
 	agent home;
 
 begin
-	begin
-		thisagent's "home" = $getpalace(thisagent);
-		home = thisagent's "home";
-		if ($isvalidgamepiece(home))
-			(home's "num_peasants") ++;
-	end
+	$GeneralAttributes(thisagent);
+
+	thisagent's "home" = $getpalace(thisagent);
+	home = thisagent's "home";
+	if ($isvalidgamepiece(home))
+		(home's "num_peasants") ++;
 	
 	$manor_bonus(thisagent);
 
@@ -534,8 +532,6 @@ begin
 
 	$newthread(thisagent's "activeScript", #Henchmen_Cycle ,thisagent);
 	
-
-	$GeneralAttributes(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -547,6 +543,8 @@ Declare
 	string num_guards;
 
 Begin
+	$GeneralAttributes(thisagent);
+
 	num_guards = "num_" + thisagent's "Title";
 	parent = $GetParent(thisagent);
 	
@@ -585,8 +583,6 @@ Begin
 		end
 
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-	
-	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -598,6 +594,8 @@ Declare
 	string num_guards;
 
 Begin
+	$GeneralAttributes(thisagent);
+
 	num_guards = "num_" + thisagent's "Title";
 	parent = $GetParent(thisagent);
 	
@@ -636,8 +634,6 @@ Begin
 		end
 
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-	
-	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -648,6 +644,7 @@ Declare
 
 Begin
 
+	$GeneralAttributes(thisagent);
 	
 	$manor_bonus(thisagent);
 	
@@ -671,9 +668,6 @@ Begin
 		end
 
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-
-	
-	$GeneralAttributes(thisagent);
 End
 ///////////////////////////////////////////////////////////////////////////////
 Function Royal_Archer_Birth (agent ThisAgent)
@@ -682,6 +676,7 @@ Declare
 	agent	Home;
 
 Begin
+	$GeneralAttributes(thisagent);
 	
 	$manor_bonus(thisagent);
 	
@@ -702,9 +697,6 @@ Begin
 
 		end
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-
-
-	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -713,6 +705,7 @@ Declare
 	list	GuardHouses;
 	agent	Home;
 Begin
+	$GeneralAttributes(thisagent);
 	
 	$manor_bonus(thisagent);
 	
@@ -734,9 +727,6 @@ Begin
 		end
 		
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-	
-
-	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -745,6 +735,7 @@ Declare
 	list	GuardHouses;
 	agent	Home;
 Begin
+	$GeneralAttributes(thisagent);
 	
 	$manor_bonus(thisagent);
 	
@@ -766,8 +757,6 @@ Begin
 		end
 		
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-	
-	$GeneralAttributes(thisagent);
 End
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -777,6 +766,8 @@ Declare
 	agent	Home;
 Begin
 	
+	$GeneralAttributes(thisagent);
+
 	$manor_bonus(thisagent);
 	
 	$statue_bonus(thisagent);
@@ -797,6 +788,4 @@ Begin
 		end
 		
 	$NewThread (ThisAgent's "ActiveScript", #Henchmen_Cycle, ThisAgent);
-
-	$GeneralAttributes(thisagent);
 End

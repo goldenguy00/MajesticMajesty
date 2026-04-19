@@ -76,6 +76,7 @@ declare
 	boolean Flag;
 
 begin
+	flag = false;
 	// make a list of all buildings of type string
 	// then see if any are under attack.
 	// if so, send the hero to the closest one to defend
@@ -151,8 +152,8 @@ end
 function defend_building_packet(agent thisagent) is boolean
 
 declare
-	list bldgs;
-	agent bldg;
+	list bldgs, nearby_buildings;
+	agent bldg, nearby_building;
 	boolean Flag;
 	string whatbuilding; 
 	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
@@ -165,6 +166,7 @@ begin
 	// then see if any are under attack.
 	// if so, send the hero to the closest one to defend
 
+	flag = false;
 	taskindex = thisagent's "TaskPackageTypeIndex";
 	actionsub = "TaskPackageTargetAction";
 	intentsub = "TaskPackageIntent";
@@ -177,25 +179,44 @@ begin
 	completecondition = conditionsub + taskindex;
 	
 	whatbuilding = $ListMember(thisagent's "TaskPackageCombineStringList", thisagent's "TaskPackageListIndex");
-	if ( $ListObjects( thisagent,"building",1000, bldgs, #CheckTitles, WhatBuilding ) > 0 )
+	if ( $ListObjects( thisagent,"building",1000, bldgs, #CheckTitles, WhatBuilding, #Myplayer) > 0 )
 		begin
 			Foreach Bldg in Bldgs do
 				begin
 					If (Flag == False)
 						begin
 							if ($isvalidgamepiece(bldg))
-							if ($distancebetweenagents(bldg, thisagent) < 1000)
 							if ($is_in_danger(bldg))
 								begin
 									thisagent's completeaction = $defend_home_task;
 									ThisAgent's completecondition = $notvalid;
 									thisagent's completetarget = bldg;
 									thisagent's completeintent  = "IDTXT_INTENT_DEFENDINGHOME";
-									return $NotDuplicateTask(thisagent, taskindex);
+									flag = $NotDuplicateTask(thisagent, taskindex);
 								end
 						end
 				end
 		end
+	if (flag == false)
+		if ( $ListObjects( thisagent,"building",600, nearby_buildings, #myplayer) > 0 )
+			begin
+				Foreach nearby_building in nearby_buildings do
+					begin
+						If (Flag == False)
+							begin
+								if ($isvalidgamepiece(nearby_building))
+								if ($is_in_danger(nearby_building))
+									begin
+										thisagent's completeaction = $defend_home_task;
+										ThisAgent's completecondition = $notvalid;
+										thisagent's completetarget = nearby_building;
+										thisagent's completeintent  = "IDTXT_INTENT_DEFENDINGHOME";
+										flag = $NotDuplicateTask(thisagent, taskindex);
+									end
+							end
+					end
+			end
+
 	return Flag;
 end
 ///////////////////////////////////////////////////////////////////////////////
@@ -220,7 +241,7 @@ declare
 
 begin
 	if (thisagent's "in_danger" == false)
-		range /= 6;
+		range /= 3;
 	
 	if ($listobjects(thisagent,"monster",range,list2,#NotMyTeam, #FindFirstMatchOnly) > 0)
 		return true;
@@ -243,7 +264,6 @@ begin
 		begin
 			// go do something else
 			// like get revenge!
-			$debugout("I need to get revenge, my home is destroyed!");
 			thisagent's "target" = thisagent;
 			thisagent's "activescript" = $travel_to;
 			$move(thisagent,thisagent's "destination");
@@ -257,29 +277,23 @@ begin
 				begin
 					target's "in_danger" = FALSE;
 					thisagent's "activescript" = thisagent's "basicscript";
-					$debugout("No more enemies near home.");
 				end
 			else
 				begin
 					targetrange = $distanceBetweenAgents(thisagent,target);
 
-					if (targetrange > $gettargetrange(thisagent))
+					if (targetrange > $gettargetrange(thisagent) && $IsAdjacent(thisagent, target) == false)
 						begin
 							// move towards target
 							thisagent's "destination" = $locationof(target);
 							thisagent's "activeScript" = $travel_to;
 							thisagent's "backScript" = $defend_home_task;
-//							$move(thisagent,thisagent's "destination");
-//							thisagent's "target" = target;
 							$move(thisagent,target);
-							$debugout("Moving towards home.");
 						end
 					else
 						begin
-//							thisagent's "target" = $nullagent();
 							thisagent's "target" = $listmember(enemies_near_home,1);
 							thisagent's "activescript" = $berserk_defend;
-							$debugout("I got home to defend it by going berserk!");
 						end
 				end
 		end

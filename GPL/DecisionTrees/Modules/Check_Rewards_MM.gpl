@@ -135,7 +135,7 @@ begin
 				begin
 					thisagent's completeintent  = "IDTXT_INTENT_GOINGTOATTACKFLAG";
 					thisagent's completetarget = $agentnumber($getattribute(bestflag,#ATTRIB_targetID));
-					thisagent's completeaction = $attack_object_pack;
+					thisagent's completeaction = $attack_object;
 					ThisAgent's completecondition = $notvalid;
 					//bestflag's "heroes" << thisagent;
 					$setparent(thisagent,bestflag);

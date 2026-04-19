@@ -6,66 +6,78 @@ declare
 	integer attackrange;
 	agent target;
 begin
-	target = thisagent's "target";
-	attackrange = $getattribute(thisagent,#ATTRIB_maxattackrange);
-
 	// pick a weapon to use - a spell or regular weapon
 	//attacklist_name = "nothing";
 	spell_name = $Spell_List_Support(thisagent);
 	if (spell_name != "nothing")
-		begin
-			target = $ValidSpellTarget_hero(thisagent, target, spell_name);
-			attackrange = $CastRangeForSpell(thisagent's "castingrange", spell_name);
-			
-			//$DebugOut(911,"Casting Support",spell_name);
-			$SetBestTarget(thisagent, target, spell_name, attackrange);
-			return target;
-		end
-	
+		return thisagent's "Best_Target";
+
 	spell_name = $Spell_List_Attack(thisagent);
 	if (spell_name != "nothing")
-		begin
-			if ($hasAttribute("Spell_target", thisagent))
-				target = thisagent's "Spell_Target";
-			attackrange = $CastRangeForSpell( thisagent's "castingrange", spell_name);
-
-			//$DebugOut(911,"Casting Attack",spell_name);
-			$SetBestTarget(thisagent, target, spell_name, attackrange);
-			return target;
-		end
+		return thisagent's "Best_Target";
 	
 	spell_name = $getbestspell(thisagent,#list_attack);
 	if (spell_name != "nothing")
-		attackrange = $CastRangeForSpell( thisagent's "castingrange", spell_name);
-	else if ($IsSpellCaster(thisagent))
-		attackrange = $GreatestSpellRangeForHero(thisagent);
-	
-	//if (spell_name != "nothing")
-		//$DebugOut(911,"Normal Spell",spell_name);
+		thisagent's "Best_Range" = $CastRangeForSpell( thisagent's "castingrange", spell_name);
+	else 
+		thisagent's "Best_Range" = $HeroAttackRange(thisagent);
 
-	$SetBestTarget(thisagent, target, spell_name, attackrange);
+	target = thisagent's "target";
+	thisagent's "Best_Target" = target;
+	thisagent's "Best_Spell" = spell_name;
+	thisagent's "Best_Target_Distance" = $distanceBetweenAgents(thisagent,target);
+
 	return target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function SetBestTarget(agent thisagent, agent target, string spell_name, integer range)
+function PerformBestAttack(agent thisagent)
 declare
 begin
-	$SetStringSafe(thisagent, "BestSpell", spell_name);
-	$SetIntegerSafe(thisagent, "BestRange", range);
-	$SetIntegerSafe(thisagent, "BestTargetRange", $distanceBetweenAgents(thisagent,target));
+	if (thisagent's "Best_Spell" != "nothing")
+		begin
+			$Cast(thisagent, thisagent's "Best_Spell", thisagent's "Best_Target","");
+		end
+	else if (thisagent's "Attack_Action" != "do_nothing")
+		$PerformAction (ThisAgent, ThisAgent's "Attack_Action",thisagent's "target");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function PerformBestAttack(agent thisagent, agent target)
+function TrySelectSpell(agent thisagent, agent new_target, string new_spell) is boolean
 declare
+
 begin
-	if (thisagent's "BestSpell" != "nothing")
+	if (new_target == $NullAgent())
+		return false;
+
+	thisagent's "Best_Target" = new_target;
+	thisagent's "Best_Spell" = new_spell;
+	thisagent's "Best_Range" = $CastRangeForSpell(thisagent's "castingrange", new_spell);
+	thisagent's "Best_Target_Distance" = $distancebetweenagents(thisagent, new_target);
+	return true;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function FirstWithoutEffector(list potential_targets, string buff_name) is agent
+declare
+	agent newtarget, picked;
+	boolean has_target;
+begin
+	has_target = false;
+	newtarget = $NullAgent();
+
+	foreach picked in potential_targets do
 		begin
-			$Cast(thisagent, thisagent's "BestSpell", target,"");
+			if (has_target == false)
+				if ($IsDead(picked) == false)
+				if ($IsBuilding(picked) == false && $Checkeffector(picked,buff_name) == false)
+					begin
+						newtarget = picked;
+						has_target = true;
+					end
 		end
-	else if (thisagent's "Attack_Action" != "do_nothing")
-		$PerformAction (ThisAgent, ThisAgent's "Attack_Action",target);
+	
+	return newtarget;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +88,8 @@ declare
 	
 begin
 	newtarget = $NullAgent();
+	if (spell_name == "nothing")
+		return newtarget;
 	
 	if (spell_name == "energy_blast")
 		begin
@@ -107,7 +121,7 @@ begin
 		end
 	else if (spell_name == "hands_of_steel")
 		begin
-			if ($Checkeffector(thisagent, "hands_of_steel_icon") != TRUE)
+			if ($Checkeffector(thisagent, "hands_of_steel_icon") == false)
 				begin
 					newtarget = thisagent;
 				end
@@ -130,7 +144,7 @@ begin
 		end
 	else if (spell_name == "change_shape")
 		begin
-			if ($Checkeffector(thisagent, "change_shape_icon") != TRUE)
+			if ($Checkeffector(thisagent, "change_shape_icon") == false)
 				begin
 					newtarget = thisagent;
 				end
@@ -150,10 +164,6 @@ begin
 	else if (spell_name == "priestess_Wither")
 		begin
 			newtarget = $BasicCastDebuffEnemy_hero(thisagent, target, "priestess_wither_icon", spell_name);
-		end
-	else if (spell_name == "healer_heal")
-		begin
-			newtarget = $BasicCastHealSupport_hero(thisagent, target, spell_name);
 		end
 	else if (spell_name == "generic_regenerate")
 		begin
@@ -199,7 +209,7 @@ begin
 		begin
 			newtarget = $BasicCastDebuffEnemy_hero(thisagent, target, "ignite_icon", spell_name);
 		end
-	$SetAgentSafe(thisagent, "Spell_Target", newtarget);
+	
 	return newtarget;
 end
 
@@ -219,7 +229,7 @@ begin
 		begin
 			newtarget = $BasicCastHealAlly_hero(thisagent, target, spell_name);
 		end
-		
+	
 	return newtarget;
 end
 
@@ -235,7 +245,7 @@ begin
 		begin
 			newtarget = $BasicCastFollowAlly_hero(thisagent, target, "meditation_icon", spell_name);
 		end
-		
+	
 	return newtarget;
 end
 
@@ -249,12 +259,12 @@ begin
 	newtarget = $NullAgent();
 	if (spell_name == "camouflage")
 		begin
-			if ($Checkeffector(thisagent, "camouflage_icon") != TRUE)
+			if ($Checkeffector(thisagent, "camouflage_icon") == false)
 				begin
 					newtarget = thisagent;
 				end
 		end
-		
+	
 	return newtarget;
 end
 
@@ -263,9 +273,10 @@ function ValidControlTarget_hero( agent thisagent, agent target, string spell_na
 // This will return a valid target for the spell listed for this agent.
 declare
 	agent newtarget;
-	
+
 begin
 	newtarget = $NullAgent();
+
 	if (spell_name == "charm_monster")
 		begin
 			newtarget = $BasicCastControlEnemy_hero(thisagent, target, "charm_icon", spell_name);
@@ -282,16 +293,8 @@ end
 function ValidSummonTarget_hero( agent thisagent, agent target, string spell_name ) is agent
 // This will return a valid target for the spell listed for this agent.
 declare
-	agent newtarget;
-	
 begin
-	newtarget = $NullAgent();
-	if (spell_name == "animate_skeleton")
-		begin
-			newtarget = thisagent;
-		end
-		
-	return newtarget;
+	return thisagent;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,88 +302,36 @@ function BasicCastHealAlly_hero( agent thisagent, agent target, string spell_nam
 // Return a viable allied target for support spell.
 declare
 	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count, CurrentHP, MaxHP;
+	list potential_targets;
+	integer castrange, CurrentHP, MaxHP;
+	boolean has_picked;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
 	CurrentHP = $getattribute(target, #ATTRIB_HP);
 	MaxHP = $getattribute(target, #ATTRIB_MaxHP);
-	castrange = $CastRangeForSpell(castrange, spell_name);
 	
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair") && CurrentHP < MaxHP)
-		newtarget = thisagent;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							CurrentHP = $getattribute(picked, #ATTRIB_HP);
-							MaxHP = $getattribute(picked, #ATTRIB_MaxHP);
-							if ((CurrentHP < MaxHP) && ($IsDead(picked) != TRUE) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
-	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function BasicCastHealSupport_hero( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count, CurrentHP, MaxHP;
+	if (CurrentHP < MaxHP)
+		return thisagent;
 	
-begin
-	unit_name = thisagent's "title";
 	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	CurrentHP = $getattribute(thisagent, #ATTRIB_HP);
-	MaxHP = $getattribute(thisagent, #ATTRIB_MaxHP);
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair") && CurrentHP < MaxHP)
-		newtarget = thisagent;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							CurrentHP = $getattribute(picked, #ATTRIB_HP);
-							MaxHP = $getattribute(picked, #ATTRIB_MaxHP);
-							if ((CurrentHP < MaxHP) && ($IsDead(picked) != TRUE) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
+	castrange = thisagent's "castingrange";
+	$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
+	if ($ListSize(potential_targets) > 0)
+		foreach picked in potential_targets do
+			begin
+				if (has_picked == false)
+				if ($IsDead(picked) == false)
+					begin
+						CurrentHP = $getattribute(picked, #ATTRIB_HP);
+						MaxHP = $getattribute(picked, #ATTRIB_MaxHP);
+						if (CurrentHP < MaxHP)
+							begin
+								newtarget = picked;
+								has_picked = true;
+							end
+					end
+			end
+
 	return newtarget;
 end
 
@@ -388,197 +339,108 @@ end
 function BasicCastFollowAlly_hero( agent thisagent, agent target, string buff_name, string spell_name ) is agent
 // Return a viable allied target for support spell while following and supporting another hero.
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+	list potential_targets;
+	agent new_target;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
+	new_target = $NullAgent();
+
+	if ($IsBuilding(target) == false && $Checkeffector(target,buff_name) == false)
+		return target;
+
+	if ($Checkeffector(thisagent, buff_name) == false)
+		return thisagent;
+
+	$ListObjects(thisagent, "hero", thisagent's "castingrange", potential_targets, #MyPlayer);
+	if ($ListSize(potential_Targets) > 0)
+		new_target = $FirstWithoutEffector(potential_targets, buff_name);
 	
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair") && $Checkeffector(target,buff_name) != TRUE)
-		newtarget = target;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							if (($Checkeffector(picked,buff_name) != TRUE) && ($IsDead(picked) != TRUE) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-			else if ($Checkeffector(thisagent,buff_name) != TRUE)
-				newtarget = thisagent;
-		end
-		
-	return newtarget;
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function BasicCastSupportAlly_hero( agent thisagent, agent target, string buff_name, string spell_name ) is agent
 // Return a viable allied target for support spell.
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	integer attackrange, castrange, count;
+	list potential_targets;
+	agent new_target;
 	
 begin
-	newtarget = $NullAgent();
+	new_target = $NullAgent();
 
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	castrange = $CastRangeForSpell(castrange, spell_name);
+	if ($Checkeffector(thisagent,buff_name) == false)
+		return thisagent;
+
+	$ListObjects(thisagent, "hero", thisagent's "castingrange", potential_targets, #MyPlayer);
+	if ($ListSize(potential_targets) > 0)
+		new_target = $FirstWithoutEffector(potential_targets, buff_name);
 	
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair") && $Checkeffector(thisagent,buff_name) != TRUE)
-		newtarget = thisagent;
-	else
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							if (($Checkeffector(picked,buff_name) != TRUE) && ($IsDead(picked) != TRUE) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
-	return newtarget;
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function BasicCastDebuffEnemy_hero( agent thisagent, agent target, string debuff_name, string spell_name ) is agent
 // Return a viable allied target for support spell.target
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+	list potential_targets;
+	agent new_target;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
+	new_target = $NullAgent();
+
+	if ($IsBuilding(target) == false && $Checkeffector(target,debuff_name) == false)
+		return target;
 	
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	
-	if ((target's "Type" == "Building") || (target's "Type" == "Lair"))
-		potential_targets = $compile_enemies(thisagent,castrange);
-	else if ($Checkeffector(target,debuff_name) != TRUE)
-		newtarget = target;
-	else
-		potential_targets = $compile_enemies(thisagent,castrange);
-	
-	count = $listsize(potential_targets);
-	if (count > 0)
-		begin
-			foreach picked in potential_targets do
-				begin
-					if (($Checkeffector(picked,debuff_name) != TRUE) && ($IsDead(picked) != TRUE) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
-						begin
-							if (picked != thisagent)
-								spell_targets << picked;
-						end
-				end
-			if ($listsize(spell_targets) > 0)
-				begin
-					newtarget = $listmember(spell_targets, 1);
-				end
-		end
-	return newtarget;
+	potential_targets = $compile_enemies(thisagent,thisagent's "castingrange");
+	if ($ListSize(potential_targets) > 0)
+		new_target = $FirstWithoutEffector(potential_targets, debuff_name);
+		
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function BasicCastEnemyUnit_hero( agent thisagent, agent target, string spell_name ) is agent
 // Return a viable allied target for support spell.
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+	list spell_targets;
+	agent new_target;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	
-	spell_targets = $compile_enemies(thisagent,castrange);
+	new_target = $NullAgent();
 
+	spell_targets = $compile_enemies(thisagent,thisagent's "castingrange");
 	if ($listsize(spell_targets) > 0)
-		newtarget = $listmember(spell_targets, 1);
+		return $listmember(spell_targets, 1);
 		
-	return newtarget;
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function BasicCastEnemyUnitAlt_hero( agent thisagent, agent target, string spell_name ) is agent
-// Return a viable allied target for support spell.
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+	agent new_target;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair"))
-		newtarget = target;
+	new_target = $NullAgent();
+	if ($IsBuilding(target) == false)
+		return target;
 		
-	return newtarget;
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function BasicCastEnemyUnitDebuff_hero( agent thisagent, agent target, string debuff_name, string spell_name ) is agent
 // Return a viable allied target for support spell.
-declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+declare	
+	agent new_target;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair") && ($Checkeffector(target,debuff_name) != TRUE))
-		newtarget = target;
+	new_target = $NullAgent();
+
+	if ($IsBuilding(target) == false && $Checkeffector(target, debuff_name) == false)
+		return target;
 		
-	return newtarget;
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -593,8 +455,6 @@ begin
 	newtarget = $NullAgent();
 	castrange = (thisagent's "castingrange");
 	targetrange = $distanceBetweenAgents(thisagent,target);
-	
-	castrange = $CastRangeForSpell(castrange, spell_name);
 	
 	if (targetrange <= castrange)
 		begin
@@ -620,41 +480,17 @@ end
 function BasicCastControlEnemy_hero( agent thisagent, agent target, string buff_name, string spell_name ) is agent
 // Return a viable allied target for support spell while following and supporting another hero.
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+	list potential_targets;
+	agent newtarget;
 	
 begin
-	unit_name = thisagent's "title";
 	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
-	
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	
-	if ((target's "Type" == "Building") || (target's "Type" == "Lair"))
-		potential_targets = $compile_enemies(thisagent,castrange);
-	else if ($Checkeffector(target,buff_name) != TRUE)
-		newtarget = target;
-	
-	count = $listsize(potential_targets);
-	if (count > 0)
-		begin
-			foreach picked in potential_targets do
-				begin
-					if (($Checkeffector(picked,buff_name) != TRUE) && ($IsDead(picked) != TRUE) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
-						begin
-							if (picked != thisagent)
-								spell_targets << picked;
-						end
-				end
-			if ($listsize(spell_targets) > 0)
-				begin
-					newtarget = $listmember(spell_targets, 1);
-				end
-		end
+	if ($IsBuilding(target) == false && $Checkeffector(target,buff_name) == false)
+		return target;
+
+	potential_targets = $compile_enemies(thisagent,thisagent's "castingrange");
+	if ($ListSize(potential_targets) > 0)
+		newtarget = $FirstWithoutEffector(potential_targets, buff_name);
 		
 	return newtarget;
 end
@@ -695,7 +531,7 @@ begin
 						TargetHP = $getattribute(picked, #ATTRIB_HP);
 						TargetMaxHP = $getattribute(picked, #ATTRIB_MaxHP);
 						Transmute_HP = $PercentOf(TargetMaxHP, (10 + (stat_int / 6)), FALSE);
-						if ((TargetHP <= Transmute_HP) && ($IsDead(picked) != TRUE) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
+						if ((TargetHP <= Transmute_HP) && ($IsDead(picked) == false) && (target's "Type" != "Building") && (target's "Type" != "Lair"))
 							begin
 								if (picked != thisagent)
 									spell_targets << picked;
@@ -714,88 +550,47 @@ end
 function AdvancedCastCombatSupportAlly_hero( agent thisagent, agent target, string buff_name, string spell_name, integer required_mana ) is agent
 // Return a viable allied target for support spell. This version prioritizes the caster's Mana in concern towards casting support spells on allies.
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+	list potential_targets;
+	
+	agent new_target;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
+	new_target = $NullAgent();
+
+	if ($HasMPPercent(thisagent, required_mana) == false)
+		return new_target;
 	
-	castrange = $CastRangeForSpell(castrange, spell_name);
+	if ($Checkeffector(thisagent,buff_name) == false)
+		return thisagent;
+
+	$ListObjects(thisagent, "hero", thisagent's "castingrange", potential_targets, #MyPlayer);
+	if ($ListSize(potential_targets) > 0)
+		new_target = $FirstWithoutEffector(potential_targets, buff_name);
 	
-	if ((target's "Type" != "Building") && (target's "Type" != "Lair") && $Checkeffector(thisagent,buff_name) != TRUE)
-		newtarget = thisagent;
-	else if ($HasMPPercent(thisagent, required_mana) == True)
-		begin
-			$ListObjects(thisagent, "hero", castrange, potential_targets, #MyPlayer);
-			count = $listsize(potential_targets);
-			if (count > 0)
-				begin
-					foreach picked in potential_targets do
-						begin
-							if (($Checkeffector(picked,buff_name) != TRUE) && ($IsDead(picked) != TRUE))
-								begin
-									if (picked != thisagent)
-										spell_targets << picked;
-								end
-						end
-					if ($listsize(spell_targets) > 0)
-						begin
-							newtarget = $listmember(spell_targets, 1);
-						end
-				end
-		end
-	return newtarget;
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function AdvancedCastCombatDebuffEnemy_hero( agent thisagent, agent target, string debuff_name, string spell_name, integer required_mana ) is agent
 // Return a viable allied target for support spell.
 declare
-	agent newtarget, picked;
-	list potential_targets, spell_targets;
-	string unit_name;
-	integer targetrange, attackrange, castrange, count;
+	list potential_targets;
+	
+	agent new_target;
 	
 begin
-	unit_name = thisagent's "title";
-	newtarget = $NullAgent();
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
+	new_target = $NullAgent();
+	if ($HasMPPercent(thisagent, required_mana) == false)
+		return new_target;
 	
-	if ($HasMPPercent(thisagent, required_mana) == True)
-		return newtarget;
+	if ($IsBuilding(target) == false && $Checkeffector(target,debuff_name) == false)
+		return target;
+
+	potential_targets = $compile_enemies(thisagent,thisagent's "castingrange");
+	if ($Listsize(potential_targets) > 0)
+		new_target = $FirstWithoutEffector(potential_targets, debuff_name);
 	
-	castrange = $CastRangeForSpell(castrange, spell_name);
-	
-	if ((target's "Type" == "Building") || (target's "Type" == "Lair"))
-		potential_targets = $compile_enemies(thisagent,castrange);
-	else if ($Checkeffector(target,debuff_name) != TRUE)
-		newtarget = target;
-	else
-		potential_targets = $compile_enemies(thisagent,castrange);
-	
-	count = $listsize(potential_targets);
-	if (count > 0)
-		begin
-			foreach picked in potential_targets do
-				begin
-					if (($Checkeffector(picked,debuff_name) != TRUE) && ($IsDead(picked) != TRUE))
-						begin
-							if (picked != thisagent)
-								spell_targets << picked;
-						end
-				end
-			if ($listsize(spell_targets) > 0)
-				begin
-					newtarget = $listmember(spell_targets, 1);
-				end
-		end
-	return newtarget;
+	return new_target;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -804,36 +599,28 @@ function Spell_List_Heal( agent thisagent, agent target ) is string
 // Currently ignoring mana cost.
 
 declare
-	string new_spell, unit_name;
-	integer targetrange, attackrange, castrange, count;
+	string new_spell;
+	agent new_target;
 
 begin
-	unit_name = thisagent's "title";
 	new_spell = "nothing";
+	new_target = $NullAgent();
+	$SetAgentSafe(thisagent, "Best_Target", new_target);
+	$SetStringSafe(thisagent, "Best_Spell", new_spell);
+	$SetIntegerSafe(thisagent, "Best_Range", $HeroAttackRange(thisagent));
+	$SetIntegerSafe(thisagent, "Best_Target_Distance", $distanceBetweenAgents(thisagent,target));
 	
-	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
-	castrange = (thisagent's "castingrange");
-	targetrange = $distanceBetweenAgents(thisagent,target);
+	new_spell = "healer_heal";
+	new_target = $CastableSpell_Heal(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
+
+	new_spell = "generic_regenerate";
+	new_target = $CastableSpell_Heal(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
 	
-	if (unit_name == "Healer")
-		begin
-			if ($CastableSpell_Heal(thisagent, target, "healer_heal") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "healer_heal") != TRUE)
-						begin
-							new_spell = "healer_heal";
-							return new_spell;
-						end
-				end
-		end
-	
-	if ($CastableSpell_Heal(thisagent, target, "generic_regenerate") == TRUE)
-		begin
-			if ($HasCooldown(thisagent, "generic_regenerate") != TRUE)
-				return  "generic_regenerate";
-		end
-	
-	return new_spell;
+	return "nothing";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -842,55 +629,40 @@ function Spell_List_Follow( agent thisagent, agent target ) is string
 // Currently ignoring mana cost.
 
 declare
-	string new_spell, unit_name;
+	string new_spell;
+	agent new_target;
 
 begin
-	unit_name = thisagent's "title";
 	new_spell = "nothing";
+	new_target = $NullAgent();
+	$SetAgentSafe(thisagent, "Best_Target", new_target);
+	$SetStringSafe(thisagent, "Best_Spell", new_spell);
+	$SetIntegerSafe(thisagent, "Best_Range", $HeroAttackRange(thisagent));
+	$SetIntegerSafe(thisagent, "Best_Target_Distance", $distanceBetweenAgents(thisagent,target));
 	
-	if (unit_name == "Healer")
-		begin
-			if ($CastableSpell_Follow(thisagent, target, "meditation") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "meditation") != TRUE)
-						begin
-							new_spell = "meditation";
-							return new_spell;
-						end
-				end
-		end
+	new_spell = "Meditation";
+	new_target = $CastableSpell_Follow(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
 	
-	return new_spell;
+	return "nothing";
 end
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Travel( agent thisagent, agent target ) is string
+function Spell_List_Travel( agent thisagent ) is string
 // List of Healing spells to retrieve for a hero.
 // Currently ignoring mana cost.
 
 declare
-	string new_spell, unit_name, original_name;
+	string new_spell;
+	agent new_target;
 
 begin
-	unit_name = thisagent's "title";
-	new_spell = "nothing";
-	
-	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
-		original_name = thisagent's "Original_Title";
-	
-	if ((unit_name == "cultist") || (original_name == "cultist"))
-		begin
-			if ($CastableSpell_Travel(thisagent, target, "camouflage") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "camouflage") != TRUE)
-						begin
-							new_spell = "camouflage";
-							return new_spell;
-						end
-				end
-		end
-	
-	return new_spell;
+	new_spell = "camouflage";
+	new_target = $CastableSpell_Travel(thisagent, thisagent, new_spell);
+	if (new_target != $Nullagent())
+		return new_spell;
+		
+	return "nothing";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -899,152 +671,160 @@ function Spell_List_Control( agent thisagent, agent target ) is string
 // Currently ignoring mana cost.
 
 declare
-	string new_spell, unit_name, original_name;
+	string new_spell;
+	agent new_target;
 
 begin
-	unit_name = thisagent's "title";
 	new_spell = "nothing";
+	new_target = $NullAgent();
+	$SetAgentSafe(thisagent, "Best_Target", new_target);
+	$SetStringSafe(thisagent, "Best_Spell", new_spell);
+	$SetIntegerSafe(thisagent, "Best_Range", $HeroAttackRange(thisagent));
+	$SetIntegerSafe(thisagent, "Best_Target_Distance", $distanceBetweenAgents(thisagent,target));
 	
-	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
-		original_name = thisagent's "Original_Title";
+	new_spell = "charm_monster";
+	new_target = $CastableSpell_Control(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
+
+	new_spell = "control_undead";
+	new_target = $CastableSpell_Control(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
 	
-	if ((unit_name == "cultist") || (original_name == "cultist"))
-		begin
-			if ($CastableSpell_Control(thisagent, target, "charm_monster") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "charm_monster") != TRUE)
-						begin
-							new_spell = "charm_monster";
-							return new_spell;
-						end
-				end
-		end
-		
-	else if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			if ($CastableSpell_Control(thisagent, target, "control_undead") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "control_undead") != TRUE)
-						begin
-							new_spell = "control_undead";
-							return new_spell;
-						end
-				end
-		end
-	
-	return new_spell;
+	return "nothing";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function Spell_List_Summon( agent thisagent, agent target ) is string
+function Spell_List_Summon( agent thisagent ) is string
 // List of Healing spells to retrieve for a hero.
 // Currently ignoring mana cost.
 
 declare
-	string new_spell, unit_name, original_name;
+	string new_spell;
+	agent new_target;
 
 begin
-	unit_name = thisagent's "title";
-	new_spell = "nothing";
+	new_spell = "animate_skeleton";
+	new_target = $CastableSpell_Summon(thisagent, thisagent, new_spell);
+	if (new_target != $Nullagent())
+		return new_spell;
 	
-	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
-		original_name = thisagent's "Original_Title";
-	
-	if ((unit_name == "priestess") || (original_name == "priestess"))
-		begin
-			if ($CastableSpell_Summon(thisagent, target, "animate_skeleton") == TRUE)
-				begin
-					if ($HasCooldown(thisagent, "animate_skeleton") != TRUE)
-						begin
-							new_spell = "animate_skeleton";
-							return new_spell;
-						end
-				end
-		end
-	
-	return new_spell;
+	return "nothing";
 end
-
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function Spell_List_Support( agent thisagent) is string
 // List of spells to retrieve for a hero
 // Finally arranges on its own based on distance. Only concern would be whether the hero prioritizes other variables in spellcasting.
 
 declare
-	string new_spell, unit_name, original_name;
-	integer attackrange, count;
-	agent target;
+	string spell, new_spell, unit_name, original_name;
+	agent spell_target, target, new_target;
 
 begin
 	unit_name = thisagent's "title";
 	target = thisagent's "Target";
+	
 	new_spell = "nothing";
+	new_target = $NullAgent();
 	
 	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
 		original_name = thisagent's "Original_Title";
 	
 	if ((unit_name == "cultist") || (original_name == "cultist"))
 		begin
-			if ($CastableSpell_hero(thisagent, target, "change_shape") == TRUE)
-				return "change_shape";
+			new_spell = "change_shape";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
 		end
 		
 	else if (unit_name == "Healer")
 		begin
-			if ($CastableSpell_hero(thisagent, target, "meditation") == TRUE)
-				return "meditation";
+			new_spell = "meditation";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
 		end
 		
 	else if (unit_name == "Monk")
 		begin
-			if ($CastableSpell_hero(thisagent, target, "hands_of_steel") == TRUE)
-				return "hands_of_steel";
-			if ($CastableSpell_hero(thisagent, target, "monk_stone_skin") == TRUE)
-				return "monk_stone_skin";
-			if ($CastableSpell_hero(thisagent, target, "iron_will") == TRUE)
-				return "iron_will";
+			new_spell = "hands_of_steel";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
+			
+			new_spell = "monk_stone_skin";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
+			
+			new_spell = "iron_will";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
 		end
 	
 	else if (unit_name == "Paladin")
 		begin
-			if ($CastableSpell_hero(thisagent, target, "shield_of_light") == TRUE)
-				return "shield_of_light";
+			new_spell = "shield_of_light";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
 		end
 		
 	else if ((unit_name == "priestess") || (original_name == "priestess"))
 		begin
-			if ($CastableSpell_hero(thisagent, target, "priestess_wither") == TRUE)
-				return "priestess_wither";
-		end
-		
-	else if (unit_name == "Solarus")
-		begin
+			new_spell = "priestess_wither";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
 		end
 		
 	else if (unit_name == "Wizard")
 		begin
-			if ($CastableSpell_hero(thisagent, target, "fire_shield") == TRUE)
-				return "fire_shield";
-			if ($CastableSpell_hero(thisagent, target, "resist_magic") == TRUE)
-				return "resist_magic";
-			if ($CastableSpell_hero(thisagent, target, "wizard_transmute") == TRUE)
-				return "wizard_Transmute";
+			new_spell = "wizard_Transmute";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
 			
-			if ($CastableSpell_hero(thisagent, target, "Searing_Mantle") == TRUE)
-				return "Searing_Mantle";
-			if ($CastableSpell_hero(thisagent, target, "Pyrelight") == TRUE)
-				return "Pyrelight";
-			if ($CastableSpell_hero(thisagent, target, "Ignite") == TRUE)
-				return "Ignite";
+			new_spell = "Searing_Mantle";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
+			
+			new_spell = "Pyrelight";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
+			
+			new_spell = "Ignite";
+			new_target = $CastableSpell_hero(thisagent, target, new_spell);
+			if ($TrySelectSpell(thisagent, new_target, new_spell))
+				return new_spell;
 		end
 		
 	//GENERIC SPELLS
-	if ($CastableSpell_hero(thisagent, target, "generic_regenerate") == TRUE)
-		return "generic_regenerate";
+	new_spell = "fire_shield";
+	new_target = $CastableSpell_hero(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
+	
+	new_spell = "resist_magic";
+	new_target = $CastableSpell_hero(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
+			
+	new_spell = "generic_regenerate";
+	new_target = $CastableSpell_hero(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
 		
 	//GADGET SPELLS
-	if ($CastableSpell_hero(thisagent, target, "deploy_dart_sentry") == TRUE)
-		return "deploy_dart_sentry";
+	new_spell = "deploy_dart_sentry";
+	new_target = $CastableSpell_hero(thisagent, target, new_spell);
+	if ($TrySelectSpell(thisagent, new_target, new_spell))
+		return new_spell;
 	
 	return "nothing";
 end
@@ -1054,30 +834,22 @@ function Spell_List_Attack( agent thisagent ) is string
 //Use while instead of foreach as foreach for now
 //Do not use return inside of a foreach struct
 declare
-	agent spell_target, new_target;
-	string new_spell, spell_name, condition;
+	agent spell_target;
+	string spell_name;
 
 begin
-	spell_name = "Nothing";
-	new_spell = "Nothing";
-	new_target = thisagent's "Target";
+	thisagent's "best_spell" = "Nothing";
 	
 	if ($HasAttribute("SpellsAttack", thisagent))
-		begin
-			if ($ListSize(thisagent's "SpellsAttack") > 0)
-				foreach spell_name in thisagent's "SpellsAttack" do
-					if ($CanCast(thisagent, spell_name))
-						begin
-							spell_target = $EvaluateCondition(thisagent, spell_name);
-							if (spell_target != $NullAgent())
-								begin
-									new_spell = spell_name;
-									new_target = spell_target;			//Keep the new spell target consistent with the new spell, otherwise might get null agent targets with valid new spells
-								end
-						end
-			$SetAgentSafe(thisagent,"Spell_Target", new_target);
-		end
-	return new_spell;
+		if ($ListSize(thisagent's "SpellsAttack") > 0)
+			foreach spell_name in thisagent's "SpellsAttack" do
+				if ($CanCast(thisagent, spell_name))
+					begin
+						spell_target = $EvaluateCondition(thisagent, spell_name);
+						$TrySelectSpell(thisagent, spell_target, spell_name);
+					end
+
+	return thisagent's "best_spell";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1165,23 +937,23 @@ end
 function CanCast(agent thisagent, string spell_name) is boolean
 declare
 begin
-	if ($HasCooldown(thisagent, spell_name) == false)
-		if ($SpellManaAvailable(thisagent, spell_name))
-			return $isspellAvailable(thisagent, spell_name);
+	if ($isspellAvailable(thisagent, spell_name))
+		if ($HasCooldown(thisagent, spell_name) == false)
+			return $SpellManaAvailable(thisagent, spell_name);
 	return false;
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_hero( agent thisagent, agent target, string spell_name ) is boolean
+function CastableSpell_hero( agent thisagent, agent target, string spell_name ) is agent
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
 begin
 	if ($CanCast(thisagent, spell_name))
-		return $ValidSpellTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
+		return $ValidSpellTarget_hero(thisagent, target, spell_name);
+	return $NullAgent();
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Heal( agent thisagent, agent target, string spell_name ) is boolean
+function CastableSpell_Heal( agent thisagent, agent target, string spell_name ) is agent
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
@@ -1189,49 +961,49 @@ declare
 
 begin
 	if ($CanCast(thisagent, spell_name))
-		return $ValidHealTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
+		return $ValidHealTarget_hero(thisagent, target, spell_name);
+	return $NullAgent();
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Follow( agent thisagent, agent target, string spell_name ) is boolean
+function CastableSpell_Follow( agent thisagent, agent target, string spell_name ) is agent
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
 begin
 	if ($CanCast(thisagent, spell_name))
-		return $ValidFollowTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
+		return $ValidFollowTarget_hero(thisagent, target, spell_name);
+	return $NullAgent();
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Travel( agent thisagent, agent target, string spell_name ) is boolean
+function CastableSpell_Travel( agent thisagent, agent target, string spell_name ) is agent
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
 
 begin
 	if ($CanCast(thisagent, spell_name))
-		return $ValidTravelTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
+		return $ValidTravelTarget_hero(thisagent, target, spell_name);
+	return $NullAgent();
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Control( agent thisagent, agent target, string spell_name ) is boolean
+function CastableSpell_Control( agent thisagent, agent target, string spell_name ) is agent
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
 begin
 	if ($CanCast(thisagent, spell_name))
-		return $ValidControlTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
+		return $ValidControlTarget_hero(thisagent, target, spell_name);
+	return $NullAgent();
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Summon( agent thisagent, agent target, string spell_name ) is boolean
+function CastableSpell_Summon( agent thisagent, agent target, string spell_name ) is agent
 // Returns a valid spell to cast ONLY for Spell_List_Support
 
 declare
 begin
 	if ($CanCast(thisagent, spell_name))
-		return $ValidSummonTarget_hero(thisagent, target, spell_name) != $NullAgent();
-	return false;
+		return $ValidSummonTarget_hero(thisagent, target, spell_name);
+	return $NullAgent();
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function SpellManaAvailable( agent thisagent, string spell_name ) is boolean
@@ -1273,36 +1045,6 @@ begin
 	return $WisdomManaReduction(thisagent, total_cost);
 end
 
-
-///////////////////////////////////////////////////////////////////////////////
-//function getattackrange(agent thisagent) is integer
-// need to optimize the shit outta this...
-//declare
-//	string spell_name;
-//begin
-//	if (thisagent's "type" != "Hero")
-		
-		
-//	return $GreatestSpellRangeForHero(thisagent);
-	// pick a weapon to use - a spell or regular weapon
-	//spell_name = $Spell_List_Support(thisagent);
-	//if (spell_name != "nothing")
-	//	return $MaxSpellRange(thisagent's "castingrange", spell_name);
-	
-	//spell_name = $Spell_List_Attack(thisagent);
-	//if (spell_name != "nothing")
-	//	return $GreatestAttackListRange(thisagent);
-
-	//if ($IsSpellCaster(thisagent))
-	//	return $GreatestSpellRangeForHero(thisagent);
-
-//	spell_name = $getbestspell(thisagent,#list_attack);
-//	if (spell_name != "nothing")
-//		return $GreatestSpellRangeForHero(thisagent);
-
-//	return $getattribute(thisagent,#ATTRIB_maxattackrange);
-//end
-
 ///////////////////////////////////////////////////////////////////////////////
 function getattackrange(agent thisagent) is integer
 
@@ -1310,107 +1052,37 @@ declare
 	integer arrivedist;
 
 begin
-	begin
-		if ($getbestspell(thisagent,#List_attack) != "nothing")
-			arrivedist = thisagent's "castingrange";
-		else if ($IsSpellCaster(thisagent))
-			arrivedist = $GreatestSpellRangeForHero(thisagent);
-		else
-			arrivedist = $getattribute(thisagent,#ATTRIB_MaxAttackRange);
-	end
+
+	if ($getbestspell(thisagent,#List_attack) != "nothing")
+		arrivedist = thisagent's "castingrange";
+	else
+		arrivedist = $HeroAttackRange(thisagent);
 
 	return arrivedist;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function IsSpellCaster( agent thisagent ) is boolean
-// Is the hero a spellcaster?
-
 declare
-	string unit_name, original_name;
-	boolean caster;
-	
 begin
+	if (thisagent's "attacktype" == 3)
+		return true;
 	return thisagent's "Attack_action" == "do_nothing";
 end
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function GreatestAttackListRange( agent thisagent ) is integer
-// The range at which a spellcaster will start casting spells.
-
-declare
-	integer cast_range, new_range, final_range, count, size;
-	string spell_name, range;
-	list spells;
-	
-begin
-	cast_range = thisagent's "castingRange";
-	final_range = $PercentOf(cast_range, 67, False);			//67% is the normal spell cast range
-
-	if ($HasAttribute("SpellsAttack", thisagent))
-		foreach spell_name in thisagent's "SpellsAttack" do
-			if ($CanCast(thisagent, spell_name))
-				begin
-					range = spell_name + "_Range";
-					new_range = $PercentOf(cast_range, thisagent's range, False);	//Set the new range
-					if (new_range > final_range)										//check if the new range is greater than the final one
-						final_range = new_range;
-				end
-			
-	return final_range;
-end
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function GreatestSpellRangeForHero( agent thisagent ) is integer
+function HeroAttackRange( agent thisagent ) is integer
 // The distance at which a spellcaster will start casting spells.
 
 declare
-	integer cast_range;
-	string unit_name, spell_name, original_name;
 	
 begin
-	unit_name = thisagent's "title";
-	cast_range = thisagent's "castingRange";
-	
-	if ($AddAttribute(thisagent, "Original_Title", "string", unit_name) == false)
-		original_name = thisagent's "Original_Title";
-	
-	if (unit_name == "paladin")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "healer")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "rogue")
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "monk")
-		return $PercentOf(cast_range, 50, False);
-	else if ((unit_name == "cultist") || (original_name == "cultist"))
-		return $PercentOf(cast_range, 50, False);
-	else if (unit_name == "solarus")
-		return $PercentOf(cast_range, 25, False);
-	else if (unit_name == "wizard")
-		begin
-			cast_range = $GreatestAttackListRange(thisagent);
-			return cast_range;
-		end
+	if ($IsSpellCaster(thisagent))
+		return $PercentOf(thisagent's "castingRange", 67, false);
 	
 	// not casting
-	return $PercentOf(cast_range, 67, False);
-end
-
-function GreatestCastRange(agent thisagent, string spell_name, integer range) is integer
-
-declare
-	integer new_range;
-
-begin
-	if ($isspellAvailable(thisagent,spell_name) == TRUE)
-		begin
-			new_range = $CastRangeForSpell(thisagent's "castingRange", spell_name);
-			if (new_range > range)
-				range = new_range;
-		end
-	return range;
+	return $GetAttribute(thisagent, #ATTRIB_Maxattackrange);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1599,70 +1271,6 @@ begin
 		
 	return cast_range;
 end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function MaxSpellRange( integer cast_range, string spell_name ) is integer
-// List of spells ranges to retrieve for a hero.
-// This list is what's determining how close the hero is moving towards its target each attack in the attack section.
-
-declare
-begin
-	if (spell_name == "charm_monster")
-		return $PercentOf(cast_range, 67, False);
-		
-	////PRIESTESS
-	if (spell_name == "drain_life")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "animate_skeleton")
-		return $PercentOf(cast_range, 50, False);
-	if (spell_name == "control_undead")
-		return $PercentOf(cast_range, 67, False);
-	if (spell_name == "priestess_wither")
-		return $PercentOf(cast_range, 70, False);
-		
-	////SOLARUS
-	if (spell_name == "sun_scorch")
-		return $PercentOf(cast_range, 25, False);
-		
-	////WIZARD
-	if (spell_name == "energy_blast")
-		return $PercentOf(cast_range, 67, False);
-		
-	if (spell_name == "fire_blast")
-		return $PercentOf(cast_range, 67, False);
-		
-	if (spell_name == "fire_ball")
-		return $PercentOf(cast_range, 75, False);
-		
-	if (spell_name == "wizard_Transmute")
-		return $PercentOf(cast_range, 67, False);
-		
-	if (spell_name == "meteor_storm")
-		return $PercentOf(cast_range, 35, False);
-		
-	////GENERIC
-	if (spell_name == "power_shock")
-		return $PercentOf(cast_range, 60, False);
-		
-	////GADGETS
-	if (spell_name == "deploy_dart_sentry")
-		return $PercentOf(cast_range, 60, False);
-		
-	////FIRE SKILL TREE
-	if (spell_name == "firebolt")
-		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "FireSurge")
-		return $PercentOf(cast_range, 80, False);
-	if (spell_name == "Perdition_Barrage")
-		return $PercentOf(cast_range, 90, False);
-	if (spell_name == "Incandescent_Ray")
-		return $PercentOf(cast_range, 70, False);
-	if (spell_name == "ignite")
-		return $PercentOf(cast_range, 75, False);
-		
-	return cast_range;
-end
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////NEW SPELL FUNCTIONS/////////////////////////////////////////////////

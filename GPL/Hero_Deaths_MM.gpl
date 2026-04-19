@@ -138,7 +138,7 @@ begin
 				home's "members" -= thisagent;
 		end
 
-	if ($IsExpansion(thisagent) != True)
+	if ($IsExpansion(thisagent)== false)
 		begin
 			thisagent's "type" = "Waiting_to_die";
 			$Drop_All_Stack_Items(thisAgent);
@@ -248,7 +248,7 @@ begin
 
 	$Sanguine_Pit_HenchmanDeath(thisagent);
 	
-	if ($isdead(palace) != TRUE)
+	if ($isdead(palace)== false)
 			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
 			
 	if ($isvalidgamepiece(home))
@@ -297,7 +297,7 @@ Begin
 	
 //	$Sanguine_Pit_HenchmanDeath(thisagent);
 	
-//	if ($isdead(palace) != TRUE)
+//	if ($isdead(palace)== false)
 //			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
 			
 	if ($isvalidgamepiece(home) == TRUE)
@@ -340,7 +340,7 @@ Begin
 
 	$Sanguine_Pit_HenchmanDeath(thisagent);
 	
-	if ($isdead(palace) != TRUE)
+	if ($isdead(palace)== false)
 			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
 			
 	if ($isvalidgamepiece(home) == TRUE)
@@ -367,7 +367,7 @@ Begin
 
 	$Sanguine_Pit_HenchmanDeath(thisagent);
 	
-	if ($isdead(palace) != TRUE)
+	if ($isdead(palace)== false)
 			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
 			
 	if ($isvalidgamepiece(home) == TRUE)
@@ -395,7 +395,7 @@ Begin
 
 	$Sanguine_Pit_HenchmanDeath(thisagent);
 	
-	if ($isdead(palace) != TRUE)
+	if ($isdead(palace)== false)
 			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
 			
 	if ($isvalidgamepiece(home) == TRUE)
@@ -423,7 +423,7 @@ Begin
 
 	$Sanguine_Pit_HenchmanDeath(thisagent);
 	
-	if ($isdead(palace) != TRUE)
+	if ($isdead(palace)== false)
 			$adjustattribute(palace, #ATTRIB_ResearchArmorLevel_2, 1);
 			
 	if ($isvalidgamepiece(home) == TRUE)
@@ -737,7 +737,7 @@ Begin
 				
 			HealCurrentHP = (IncreaseMaxHP / 2);
 			
-			if ($isdead(thisagent) != TRUE)
+			if ($isdead(thisagent)== false)
 				begin
 					if (regen_amount < 50)
 						$adjustattribute(thisagent, #ATTRIB_HealingRateModifier, -1);

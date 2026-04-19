@@ -1210,6 +1210,8 @@
 		(Unit_Subtype		Wizard_Tower)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
+		(Magical_Attack			20)
+		(Magical_Attack_Type	Arcane)
 		(Kill_Credit_Type	Building)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Wizards_Tower)

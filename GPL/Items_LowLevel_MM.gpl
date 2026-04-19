@@ -432,12 +432,12 @@ declare
 	agent itemagent;
 
 begin
-	if ($HasAttribute(itemdrop, thisagent) != True || $HasAttribute("Total_Item_list", target) == false)
+	if ($HasAttribute(itemdrop, thisagent) == false || $HasAttribute("Total_Item_list", target) == false)
 		return;
 	else if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
 		begin
 			$createeffector(target,"got_item",0);
-			if ($AgentHasInventoryItem(thisagent's itemdrop, target) != True)
+			if ($AgentHasInventoryItem(thisagent's itemdrop, target) == false)
 				begin
 					$CreateNewInventoryItem(thisagent's itemdrop, target, 1);
 					$AddAttribute(target, thisagent's itemdrop, "integer");
@@ -680,7 +680,7 @@ declare
 begin
 	return_int = 0;
 	
-	if ($HasAttribute(item, blacksmith) != True)
+	if ($HasAttribute(item, blacksmith) == false)
 		$AddAttribute(blacksmith, item, "integer");
 	
 	while (thisagent's item > 0) do
@@ -751,7 +751,7 @@ declare
 begin
 	return_int = 0;
 	
-	if ($HasAttribute(item, marketplace) != True)
+	if ($HasAttribute(item, marketplace) == false)
 		$AddAttribute(marketplace, item, "integer");
 	
 	while (thisagent's item > 0) do

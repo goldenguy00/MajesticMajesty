@@ -21,12 +21,12 @@ declare
 	boolean attacker_alive;
 	
 begin
-	if ($IsValidGamePiece(defender) != TRUE)
+	if ($IsValidGamePiece(defender) == false)
 		return;
 	
 	if ($IsValidGamePiece(attacker) == TRUE)
 		begin
-			if ($isdead(attacker) != TRUE)
+			if ($isdead(attacker) == false)
 				attacker_alive = True;
 			else
 				attacker_alive = False;
@@ -40,7 +40,7 @@ begin
 	else
 		Burn_Damage_Max = defender's "Burning_Damage_Max";
 		
-	if ($isdead(defender) != TRUE)
+	if ($isdead(defender) == false)
 		begin
 			$createeffector( defender, "Burning_Effector", 0 );
 			if (attacker_alive == True)
@@ -57,7 +57,7 @@ function Burning_Duration( agent defender, agent attacker )
 declare
 	
 begin
-	if (($IsValidGamePiece(defender) != TRUE) || (defender's "Burning_Counter" < 1))
+	if (($IsValidGamePiece(defender) == false) || (defender's "Burning_Counter" < 1))
 		begin
 			$KillThread(defender's "Burning_Duration");
 			$KillThread(defender's "Burning_Cycle");
@@ -92,12 +92,12 @@ declare
 	agent guy;
 	
 begin
-	if ($IsValidGamePiece(defender) != TRUE)
+	if ($IsValidGamePiece(defender) == false)
 		return;
 	
 	if ($IsValidGamePiece(attacker) == TRUE)
 		begin
-			if ($isdead(attacker) != TRUE)
+			if ($isdead(attacker) == false)
 				attacker_alive = True;
 			else
 				attacker_alive = False;
@@ -113,7 +113,7 @@ begin
 	else
 		Ignite_Damage_Max = defender's "Ignite_Damage_Max";
 		
-	if ($isdead(defender) != TRUE)
+	if ($isdead(defender) == false)
 		begin
 			//Too many visuals, so commenting this effector out for all damage ticks of Ignite
 			//$createeffector( defender, "Ignite_Effector", 0 );
@@ -130,7 +130,7 @@ begin
 			if ($ListSize(ignite_spread) > 0)
 				foreach guy in ignite_spread do
 				begin
-					if (($IsValidGamePiece(guy) == TRUE) && ($isdead(guy) != TRUE))
+					if (($IsValidGamePiece(guy) == TRUE) && ($isdead(guy) == false))
 						begin
 							$AddIgniteEffect(guy);
 							if ($IsRunning(guy's "Ignite_Duration") == False)
@@ -185,7 +185,7 @@ function Ignite_Duration( agent defender, agent attacker, integer radius )
 declare
 	
 begin
-	if (($IsValidGamePiece(defender) != TRUE) || (defender's "Ignite_Counter" < 1))
+	if (($IsValidGamePiece(defender) == false) || (defender's "Ignite_Counter" < 1))
 		begin
 			$KillThread(defender's "Ignite_Duration");
 			$KillThread(defender's "Ignite_Cycle");

@@ -133,7 +133,7 @@ Begin
 	if (current_best_monster != $NullAgent())
 		begin
 			local_intent = "IDTXT_INTENT_HUNTING" + $getintentext(current_best_monster);
-			$UpdateTaskPackage(thisagent, $attack_object_pack, $notvalid, current_best_monster, local_intent);
+			$UpdateTaskPackage(thisagent, $attack_object, $notvalid, current_best_monster, local_intent);
 
 			return $NotDuplicateTask(thisagent, thisagent's "TaskPackageTypeIndex");
 		end
@@ -179,7 +179,7 @@ Begin
 	if (current_best_monster != $NullAgent())
 		begin
 			intentext = "IDTXT_INTENT_BATTLINGENEMYHERO" + $getintentext(current_best_monster);
-			$UpdateTaskPackage(thisagent, $attack_object_pack, $notvalid, current_best_monster, intentext);
+			$UpdateTaskPackage(thisagent, $attack_object, $notvalid, current_best_monster, intentext);
 			
 			return $NotDuplicateTask(thisagent, thisagent's "TaskPackageTypeIndex");
 		end

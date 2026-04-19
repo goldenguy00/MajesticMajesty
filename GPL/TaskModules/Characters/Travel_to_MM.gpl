@@ -11,20 +11,25 @@ begin
 		begin
 			// can I use any helpful travel spells?
 			spellname = $getbestspell(thisagent,#list_travel);
-			travel_spellname = $Spell_List_Travel(thisagent, thisagent);
 			if (spellname != "nothing")
 				begin
 					$cast(thisagent,spellname,thisagent, "");
 					return True;
 				end
-			else if (travel_spellname != "nothing")
+			
+			travel_spellname = $Spell_List_Travel(thisagent);
+			if (travel_spellname != "nothing")
 				begin
 					$cast(thisagent,travel_spellname,thisagent, "");
 					return True;
 				end
-			else if ($isspellAvailable(thisagent,"rogue_Assassin") == TRUE)
-				//$rogue_Assassin_cast(thisagent, thisagent);
-				$cast(thisagent,"rogue_Assassin",thisagent, "");
+			
+			if ($isspellAvailable(thisagent,"rogue_Assassin") == TRUE)
+				begin
+					//$rogue_Assassin_cast(thisagent, thisagent);
+					$cast(thisagent,"rogue_Assassin",thisagent, "");
+					return true;
+				end
 				
 			return False;
 

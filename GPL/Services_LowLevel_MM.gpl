@@ -322,7 +322,7 @@ begin
 			thisagent's "Potential_Misc" << "ScionsOfChaos";
 			thisagent's "Potential_Misc" << "AGnomesLife";
 			thisagent's "Potential_Misc" << "TheVagrant";
-			thisagent's "Potential_Misc" << "KROLM";
+			thisagent's "Potential_Misc" << "KROLMM";
 			thisagent's "Potential_Misc" << "VendralTheHarbinger";
 			thisagent's "Potential_Misc" << "DaemonwoodForest";
 			thisagent's "Potential_Misc" << "SecretsOfTheOculus";

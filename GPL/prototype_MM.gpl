@@ -517,9 +517,8 @@ declare
 	//list SpellsTravel;
 	//list SpellsSummon;
 	
-	agent BestTarget;
-	agent spell_target;			//The target agent specifically for spells
-	integer spell_range;			//The range specifically for spells
+	//agent spell_target;			//The target agent specifically for spells
+	//integer spell_range;			//The range specifically for spells
 	
 	boolean obtained_newitem; //Whenever a hero obtains a new inventory item, turn True for the next periodic inventory arrange to trigger and sort the item.
 	

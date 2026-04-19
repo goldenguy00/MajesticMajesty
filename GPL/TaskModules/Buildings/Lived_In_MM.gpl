@@ -21,36 +21,20 @@ Begin
 
 	Hero_Gold = $GetAttribute (ThisAgent, #ATTRIB_Gold);
 
-	//This is used to figure out which intention to display
-	if ($HasAttribute("Running_intent", thisagent))
-		begin
-			Current_Intent = ThisAgent's "Running_Intent";
-			//If the Hero was going home, then they are now resting
-			If (Current_Intent == "IDTXT_INTENT_GOINGHOME")
-				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RESTINGHOME");
+	Current_Intent = $GetStringSafe(ThisAgent, "Running_Intent");
+	Intent_int = $GetAttribute ( ThisAgent, #ATTRIB_AIIntentionString );
+	
+	//If the Hero was going home, then they are now resting
+	If (Current_Intent == "IDTXT_INTENT_GOINGHOME" || Intent_int == #Intent_Going_Home)
+		$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RESTINGHOME");
 
-			//Otherwise they are recuperating or seeking refuge
-			Else if (Current_Intent == "IDTXT_INTENT_FLEEINGINJURED")
-				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RECUPERATINGHOME");
+	//Otherwise they are recuperating or seeking refuge
+	Else if (Current_Intent == "IDTXT_INTENT_FLEEINGINJURED" || Intent_int == #Intent_flee_lowHP)
+		$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_RECUPERATINGHOME");
 
-			Else
-				$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_SEEKINGREFUGEHOME");
-		end
-	else
-		begin
-			Intent_int = $GetAttribute ( ThisAgent, #ATTRIB_AIIntentionString );
-			//If the Hero was going home, then they are now resting
-			If (Current_Intent == #Intent_Going_Home)
-				$SpecifyIntent (ThisAgent, #Intent_Resting);
-
-			//Otherwise they are recuperating or seeking refuge
-			Else if (Current_Intent == #Intent_flee_lowHP)
-				$SpecifyIntent (ThisAgent, #Intent_recuperating);
-
-			Else
-				$SpecifyIntent (ThisAgent, #Intent_Seeking_Refuge);
-		end
-
+	Else
+		$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_SEEKINGREFUGEHOME");
+	
 	//Give Taxed Gold to the Guild, put the rest in ThisAgent's stored gold
 	Gold_Given = (Hero_Gold * $GetAttribute (ThisBuilding, #ATTRIB_TaxRate)) / 100;
 

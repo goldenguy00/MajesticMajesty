@@ -102,7 +102,7 @@ begin
 	If ($NotValid (Palace's "Swarm_Target") == False)
 		begin
 			ThisAgent's completetarget = Palace's "Swarm_Target";
-			ThisAgent's completeaction = $Attack_Object_Pack;
+			ThisAgent's completeaction = $Attack_Object;
 			Thisagent's completeintent = "IDTXT_INTENT_SWARMING";
 			ThisAgent's completecondition = $notvalid;
 			return True;
@@ -133,7 +133,7 @@ begin
 				begin
 					//Attack the target, and put it in the Palace's Gnome_Target slot
 					Palace's "Swarm_Target" = current_best_monster;
-					thisagent's completeaction = $attack_object_pack;
+					thisagent's completeaction = $attack_object;
 					thisagent's completetarget = current_best_monster;
 					ThisAgent's completecondition = $notvalid;
 

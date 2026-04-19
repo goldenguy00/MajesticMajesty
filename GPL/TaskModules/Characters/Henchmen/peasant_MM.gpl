@@ -50,7 +50,7 @@ begin
 	$ListObjects (ThisAgent, "Building", -1, list1, #NotMyPlayer);
 	
 	foreach building in list1 do
-	if (($isdead(building) != TRUE) && ($GetAttribute(building, #ATTRIB_HP) > 1))
+	if (($isdead(building) == false) && ($GetAttribute(building, #ATTRIB_HP) > 1))
 		begin
 			buildings << building;
 		end

@@ -87,6 +87,7 @@ declare
 	agent guy,palace;
 	list guys;
 	integer attackrange, dmg;
+	boolean flag;
 
 begin
 	// do a reaction for the thing being hit
@@ -109,9 +110,16 @@ begin
 			// add thisagent to target's hostilelist?
 			if (thisagent != target)
 				begin
+					$KiteTarget(thisagent, target);
+
 					if ($agentinlist(thisagent,target's "Hostiles") == FALSE)
-						if ($GetAttribute( thisagent, #ATTRIB_HasEffectInvisibility) != 1)
-							target's "Hostiles" << thisagent;
+						begin
+							if ($GetAttribute( thisagent, #ATTRIB_HasEffectInvisibility) != 1)
+								begin
+									target's "Hostiles" << thisagent;
+								end
+							$eval_enemies_nearby_fake(target);
+						end
 				end
 			else
 				begin
@@ -158,10 +166,56 @@ begin
 					end
 
 			end
-	
+
 	if ($HasAttribute("SearingMantle_Tier_1", target) == True)
-	if (target's "SearingMantle_Tier_1" == True)
-		$HandleSearingMantle(thisagent, target);
+		if (target's "SearingMantle_Tier_1" == True)
+			$HandleSearingMantle(thisagent, target);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function KiteTarget(agent thisAgent, agent target)
+declare
+	integer xDistance,yDistance,optimalRange,halfOptimalRange,percent,x,y,maxX,maxY;
+	coordinate thisAgentCoord,targetCoord,destination,mapSize;
+begin
+	if (target's "attacktype" != 2 && target's "attacktype" != 3)
+		return;
+
+	if (thisagent's "attacktype" != 1 || $IsAdjacent(thisagent, target) == false)
+		return;
+	
+	targetCoord = $locationof(target);
+	x = $getx(targetCoord);
+	y = $gety(targetCoord);
+
+	thisAgentCoord = $locationof(thisAgent);
+	xDistance = x - $getx(thisagentCoord);
+	yDistance = y - $gety(thisagentCoord);
+	
+	//if(targetRange < 1)
+	//	targetRange = 1;
+	
+	// Move away from enemy
+	optimalRange = $HeroAttackRange(target);
+	x += (xDistance * optimalRange);// / targetRange;
+	y += (yDistance * optimalRange);// / targetRange;
+	
+	mapSize = $GetBoardExtents();
+	maxX = $getx(mapSize);
+	maxY = $getx(mapSize);
+	
+	// Make sure not to try and leave map border
+	if (x < #edge_buffer)
+		x = #edge_buffer;
+	if (x > maxX - #edge_buffer)
+		x = maxX - #edge_buffer;
+	if (y < #edge_buffer)
+		y = #edge_buffer;
+	if (y > maxY - #edge_buffer)
+		y = maxY - #edge_buffer;
+		
+	destination = $makecoord(x, y);	
+	$move(target, destination);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -234,11 +288,11 @@ begin
 	if ($getAttribute( defender, #ATTRIB_HasEffectMagicMirror) == 1)
 		return 2;
 
-	defenderavoid = $getattribute(defender,#ATTRIB_magicresistance);
-	if (defenderavoid < $randomnumber(100))
+	//defenderavoid = $getattribute(defender,#ATTRIB_magicresistance);
+	//if (defenderavoid < $randomnumber(100))
 		return 1; // hit
 	
-	return 2; // resisted
+	//return 2; // resisted
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -398,7 +452,8 @@ begin
 		end
 	else if (type == 3)
 		begin
-			value = $getattribute(defender,#ATTRIB_magicresistance);
+			value = 0;
+			//value = $getattribute(defender,#ATTRIB_magicresistance);
 		end
 	else if (Attacker's "AttackType" == 5)
 		begin

@@ -19,7 +19,7 @@ begin
 //	//$DebugOut("Should I combat wandering monsters?");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 	
-	if ($IsExpansion(thisagent) != TRUE)
+	if ($IsExpansion(thisagent) == false)
 		return False;
 	
 	current_best_score = 0;
@@ -80,7 +80,7 @@ Begin
 	chance = $ListMember(thisagent's "TaskPackageCombineIntegerList", thisagent's "TaskPackageListIndex");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 	
-	if ($IsExpansion(thisagent) != TRUE)
+	if ($IsExpansion(thisagent) == false)
 		return False;
 	
 	taskindex = thisagent's "TaskPackageTypeIndex";
@@ -120,7 +120,7 @@ Begin
 
 	if (current_best_score > 0)
 		begin
-			thisagent's completeaction = $attack_object_pack;
+			thisagent's completeaction = $attack_object;
 			thisagent's completetarget = current_best_monster;
 			ThisAgent's completeintent = "IDTXT_INTENT_HEEDINGCHAMPIONSCALL";
 			ThisAgent's completecondition = $notvalid;

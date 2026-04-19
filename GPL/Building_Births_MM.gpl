@@ -10,7 +10,6 @@ declare
 	integer num_blacksmith_lvl2, num_blacksmith_lvl3, FullHP;
 
 begin
-	$InitBaseStats(thisagent);
 	$ListObjects(thisagent,"building",-1,buildings, #MyPlayer);
 	list1 = $listtitles(buildings,"Blacksmith");
 	
@@ -44,7 +43,6 @@ declare
 	integer num_blacksmith_lvl2, num_blacksmith_lvl3, FullHP;
 
 begin
-	$InitBaseStats(thisagent);
 	$ListObjects(thisagent,"building",-1,buildings, #MyPlayer);
 	list1 = $listtitles(buildings,"Blacksmith");
 	
@@ -79,27 +77,23 @@ declare
 	string name;
 
 begin
-	$InitBaseStats(theBuilding);
+	$GeneralAttributes(theBuilding);
 	AIRootAgent = $RetrieveAgent("GplAIRoot");
 	member_limit = 4;
 
 	////$DebugOut(911,"BuildingReachedMaxHP() for ",theBuilding);
 
 	if($getattribute(theBuilding,#ATTRIB_FirstStageBuilt) != 1)
-	begin
-		if($hasattribute("birthscript2",theBuilding))
-			begin
-				//Have advisor say that a building has been upgraded
-				$PlaySound(TheBuilding,"Advisor_Building_Complete","VFX_ADVISOR");
-				$LocalChatMessage($GetUnitPlayerNumber(TheBuilding ),#chat_building_complete,TheBuilding);
+		begin
+			if($hasattribute("birthscript2",theBuilding))
+				begin
+					//Have advisor say that a building has been upgraded
+					$PlaySound(TheBuilding,"Advisor_Building_Complete","VFX_ADVISOR");
+					$LocalChatMessage($GetUnitPlayerNumber(TheBuilding ),#chat_building_complete,TheBuilding);
 
-				$runthread(theBuilding's "birthscript2",1,theBuilding);
-
-				////$DebugOut(911," ran 'birthscript2'.");
-			end
-		//else
-			////$DebugOut(911," COULDN'T run 'birthscript2'.");
-	end
+					$runthread(theBuilding's "birthscript2",1,theBuilding);
+				end
+		end
 	else
 		// is being repaired or upgraded?
 		if($getattribute(theBuilding,#ATTRIB_currentstagebuilt) != 1)
@@ -169,6 +163,7 @@ begin
 	$setattribute(theBuilding,#ATTRIB_HP,$getattribute(theBuilding,#ATTRIB_MaxHP));
 	$setattribute(theBuilding,#ATTRIB_currentstagebuilt,1);
 	$setattribute(theBuilding,#ATTRIB_FirstStageBuilt,1);
+	$BasicHelpSignFilter(theBuilding);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -181,7 +176,7 @@ declare
 	integer member_limit;
 
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	AIRootAgent = $RetrieveAgent ( "GPLAIRoot" );
 	member_limit = 4;
 
@@ -227,7 +222,7 @@ declare
 
 begin
 	
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	AIRootAgent = $RetrieveAgent("GPLAIRoot");
 	member_limit = 4;
 	if ($IsExpansion(thisagent) != False)
@@ -287,13 +282,7 @@ begin
 			$setattribute(thisagent,#ATTRIB_currentstageBuilt,1);
 			//$setattribute(thisagent,#ATTRIB_firststageBuilt,1);
 			$playsound(thisagent,"Advisor_Building_Upgraded","VFX_ADVISOR");
-
-			//Chat to the message area
-			if ($HasAttribute("Initial_Misc", thisagent))
-				(thisagent's "Initial_Misc")(thisagent);
-
-			if ($HasAttribute("Initial_Research", thisagent))
-				(thisagent's "Initial_Research")(thisagent);
+			$BasicHelpSignFilter(thisagent);
 
 			$LocalChatMessage($GetUnitPlayerNumber(ThisAgent), #chat_building_upgraded, ThisAgent);
 		end
@@ -303,16 +292,11 @@ end
 function building_upgraded(agent thisagent)
 declare
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 
 	$runthread(thisagent's "upgradescript",1,thisagent);
 	$blacksmith_bonus_upgrade(thisagent);
-	
-	if ($HasAttribute("Initial_Misc", thisagent))
-		(thisagent's "Initial_Misc")(thisagent);
-
-	if ($HasAttribute("Initial_Research", thisagent))
-		(thisagent's "Initial_Research")(thisagent);
+	$BasicHelpSignFilter(thisagent);
 
 	$count_building(thisagent);
 end
@@ -441,7 +425,7 @@ begin
 	
 	if ($IsValidGamePiece(palace) == True)
 		begin
-			if ($isrunning(palace's "Guard_Spawn_Function") != TRUE)
+			if ($isrunning(palace's "Guard_Spawn_Function")== false)
 				$runthread(palace's "Guard_Spawn_Function",#Guard_Spawn_Time,palace);
 		end
 		
@@ -527,7 +511,7 @@ begin
 		
 	if ($IsValidGamePiece(palace) == True)
 		begin
-			if ($isrunning(palace's "Guard_Spawn_Function") != TRUE)
+			if ($isrunning(palace's "Guard_Spawn_Function")== false)
 				$runthread(palace's "Guard_Spawn_Function",#Guard_Spawn_Time,palace);
 		end
 			
@@ -580,7 +564,7 @@ begin
 	
 	if ($IsValidGamePiece(palace) == True)
 		begin
-			if ($isrunning(palace's "Guard_Spawn_Function") != TRUE)
+			if ($isrunning(palace's "Guard_Spawn_Function")== false)
 				$runthread(palace's "Guard_Spawn_Function",#Guard_Spawn_Time,palace);
 	end
 		
@@ -637,7 +621,7 @@ function Shrine_InsightGeneration( agent thisagent )
 declare
 	
 begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
+	if ($IsValidGamePiece(thisagent)== false)
 		begin
 			$KillThread(thisagent's "Shrine_InsightGeneration");
 			return;
@@ -652,10 +636,10 @@ end
 Function Palace_Birth (agent ThisAgent)
 Declare
 	coordinate sign_loc;
-	list uh;
 
 Begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
+
 	sign_loc = $UnitPointWithOffset(thisagent, -150, 35);
 	$AddHelpSign(thisagent, "Help_Sign_Attributes", sign_loc);
 	
@@ -682,15 +666,13 @@ declare
 	coordinate B_loc;
 
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	HP = $getattribute(thisagent,#ATTRIB_HP);
 	MaxHP = $getattribute(thisagent,#ATTRIB_MAXHP);
 	$AddAttribute(ThisAgent, "Help_Signs", "list"); //Not In Prototype
 	thisagent's "in_danger" = FALSE;
 				
 	$blacksmith_bonus_basic(thisagent);
-	
-	$BasicHelpSignFilter(thisagent);
 	
 	if (HP != MAXHP)
 	// if (thisagent is not completed)
@@ -701,6 +683,7 @@ begin
 		end
 	else
 		begin
+			$BasicHelpSignFilter(thisagent);
 			$runthread(thisagent's "birthscript2",1,thisagent);
 		end
 end
@@ -711,27 +694,11 @@ function building_birth(agent thisagent)
 declare
 
 begin
-	//	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
-
-	$InitBaseStats(thisagent);
-
 	If ($HasAttribute ("RevenueScript", ThisAgent))
 		If ($ValidFunction (ThisAgent's "RevenueScript"))
 			$NewThread (ThisAgent's "RevenueScript", ThisAgent's "revenue_time", ThisAgent);
 
 	$count_building(thisagent);
-
-	if ($HasAttribute("Initial_Misc", thisagent))
-		if ($ValidFunction(thisagent's "Initial_Misc"))
-			(thisagent's "Initial_Misc")(thisagent);
-
-	if ($HasAttribute("Initial_Research", thisagent))
-		if ($ValidFunction(thisagent's "Initial_Research"))
-			(thisagent's "Initial_Research")(thisagent);
-	
-	// to fix team changes and ranger guild moving
-	$AddAttribute(thisagent, "SignParentChecker", "function", $SignParentChecker);
-	$NewThread(thisagent's "SignParentChecker", 2000 + $RandomNumber(2000), thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -770,7 +737,7 @@ declare
 	integer HP, Maxhp, build_rate;
 
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 	AIRootAgent = $RetrieveAgent ("GPLAIRoot");
 
 	HP = $getattribute ( thisagent, #ATTRIB_HP );
@@ -830,9 +797,26 @@ declare
 	agent sign;
 
 begin
-	if ($HasAttribute("title", thisagent) != True)
+	if ($HasAttribute("title", thisagent)== false)
 		return;
-		
+	if ($HasAttribute("SignParentChecker", thisagent))
+		return;
+	
+	$AddAttribute(thisagent, "SignParentChecker", "function", $SignParentChecker);
+	$NewThread(thisagent's "SignParentChecker", 2000 + $RandomNumber(2000), thisagent);
+	
+	if ($HasAttribute("Initial_Misc", thisagent))
+	If ($ValidFunction (ThisAgent's "Initial_Misc"))
+		begin
+			(thisagent's "Initial_Misc")(thisagent);
+		end
+
+	if ($HasAttribute("Initial_Research", thisagent))
+	If ($ValidFunction (ThisAgent's "Initial_Research"))
+		begin
+			(thisagent's "Initial_Research")(thisagent);
+		end
+	
 	building_name = thisagent's "Title";
 	
 	if (building_name == "Library")
@@ -890,13 +874,11 @@ declare
 	boolean flag;
 
 begin
-	$InitBaseStats(thisagent);
-	
+	$GeneralAttributes(thisagent);
+
 	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
 	palace = $gettruepalace ( thisagent );
 	flag = TRUE;
-	
-	$GeneralAttributes(thisagent);
 
 	if ($isvalidgamepiece(palace))
 		begin
@@ -1052,7 +1034,7 @@ begin
 
 			if ($isvalidgamepiece(palace))
 				if ($listsize(list1) < #max_gnome_camps + num_sewer)
-					if ($isrunning(palace's "gnome_camp_spawner") != TRUE)
+					if ($isrunning(palace's "gnome_camp_spawner")== false)
 						$runthread(palace's "gnome_camp_spawner",#gnome_camp_delay,palace);
 		end
 	$guild_birth(thisagent);

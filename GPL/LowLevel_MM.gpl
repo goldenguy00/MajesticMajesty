@@ -258,14 +258,14 @@ declare
 begin
 	// play overlay over thisagent
 	if (amount > 0)
-		if ($HasAttribute("Has_Bank_Account", thisagent) != True)
+		if ($HasAttribute("Has_Bank_Account", thisagent) == false)
 			begin
 				$createeffector(thisagent,"got_gold",0, Amount);
 				$adjustattribute(thisagent,#ATTRIB_gold,amount);
 				////$DebugOut(thisagent's "title","got",amount,"gold.");
 			end
 		else if ($HasAttribute("Has_Bank_Account", thisagent) != False)
-			if (thisagent's "Has_Bank_Account" != True)
+			if (thisagent's "Has_Bank_Account" == false)
 				begin
 					$createeffector(thisagent,"got_gold",0, Amount);
 					$adjustattribute(thisagent,#ATTRIB_gold,amount);
@@ -871,9 +871,8 @@ declare
 	agent AIRootAgent;
 
 begin
-	$SpecifyIntent (ThisAgent, intent);
-	if ($HasAttribute("Running_Intent", thisagent) == TRUE)
-		thisagent's "Running_Intent" = intent;
+	$SpecifyIntent(ThisAgent, intent);
+	$SetStringSafe(thisagent, "Running_Intent", intent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -925,6 +924,22 @@ begin
 
 end
 
+
+
+///////////////////////////////////////////////////////////////////////////////
+function compile_enemies(agent thisagent,integer range) is list
+
+declare
+	list targets,t2,t3;
+
+begin
+	$ListObjects(thisagent,"monster",range,targets,#NotMyTeam);
+	$ListObjects(thisagent,"hero",range,t2,#NotMyTeam);
+	t3 = $addlists(targets,t2);
+	return t3;
+end
+
+
 ///////////////////////////////////////////////////////////////////////////////
 function compile_enemies_buildings(agent thisagent, integer range) is list
 //Use this for the caster of an area of effect spell
@@ -932,8 +947,8 @@ declare
 	list targets,t2,t3,t4,t5;
 
 begin
-	$ListObjects(thisagent,"monster",range,targets,#NotMyPlayer);
-	$ListObjects(thisagent,"lair",range,t4,#NotMyPlayer);
+	$ListObjects(thisagent,"monster",range,targets,#NotMyTeam);
+	$ListObjects(thisagent,"lair",range,t4,#NotMyTeam);
 	$ListObjects(thisagent,"hero",range,t2,#NotMyTeam);
 	$ListObjects(thisagent,"building",range,t3,#NotMyTeam);
 	t5 = $addlists(targets,t2,t3,t4);
@@ -1199,7 +1214,7 @@ begin
 			if (chance <= roll)
 				begin
 					pref_attribute = stat;
-					break;
+					roll = 0;
 				end
 		end
 		
@@ -1366,7 +1381,7 @@ declare
 	integer new_amount;
 	
 begin
-	if (high != TRUE)
+	if (high == false)
 		begin
 			new_amount = ((amount * percent) / 100);
 			return new_amount;
@@ -1387,7 +1402,7 @@ declare
 	integer amount_diff, new_amount;
 	
 begin
-	if (high != TRUE)
+	if (high == false)
 		begin
 			amount_diff = ((amount * percent) / 100);
 			new_amount = (amount + amount_diff);
@@ -1410,7 +1425,7 @@ declare
 	integer amount_diff, new_amount;
 	
 begin
-	if (high != TRUE)
+	if (high == false)
 		begin
 			amount_diff = ((amount * percent) / 100);
 			new_amount = (amount - amount_diff);
@@ -1539,20 +1554,6 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function hero_damage(agent thisagent) is integer
-
-declare
-	integer value;
-
-begin
-	value = $hero_weapon_value(thisagent);
-	value += ($getattribute(thisagent,#ATTRIB_Strength) / #strength_div);
-	if (value < 1)
-		value = 1;
-	return value;
-end
-
-///////////////////////////////////////////////////////////////////////////////
 // ThisAgent is only passed so that GetPalace works
 Function Vaporize_Gold (agent ThisAgent, integer Gold)
 Declare
@@ -1609,7 +1610,7 @@ declare
 	integer healthregen_amount, manaregen_amount;
 	
 begin
-	if ($IsValidGamePiece(thisagent) != TRUE)
+	if ($IsValidGamePiece(thisagent) == false)
 		begin
 			$KillThread(thisagent's "RegenerationSystem");
 			return;
@@ -1667,16 +1668,17 @@ End
 function RestoreMana( Agent ThisAgent, integer Mana_Amount )
 
 Declare
-	integer	missing_mana;
+	integer	missing_mana, maxMP;
 
 Begin
 	if ($isdead(thisagent))
 		return;
 
+	maxMP = $GetBaseStatTotal(thisagent, "MaxMana");
 	if (mana_amount < 0)
 		mana_amount *= -1;
 		
-	missing_mana = thisagent's "MaxMana_Total" - thisagent's "CurrentMana";
+	missing_mana = maxMP - thisagent's "CurrentMana";
 	If (Mana_Amount > missing_mana)
 		Mana_Amount = missing_mana;
 
@@ -1708,8 +1710,8 @@ declare
 	integer MP,maxMP;
 
 begin
+	maxMP = $GetBaseStatTotal(thisagent, "MaxMana");
 	MP = thisagent's "CurrentMana";
-	maxMP = thisagent's "MaxMana_Total";
 	
 	if (maxMP == 0)
 		maxMP = 1;
@@ -1726,8 +1728,8 @@ declare
 	integer MP,maxMP;
 
 begin
+	maxMP = $GetBaseStatTotal(thisagent, "MaxMana");
 	MP = thisagent's "CurrentMana";
-	maxMP = thisagent's "MaxMana_Total";
 
 	if (maxMP == 0)
 		maxMP = 1;
@@ -1782,7 +1784,7 @@ declare
 	agent RootAgent;
 
 begin
-	$InitBaseStats(thisagent);
+	$GeneralAttributes(thisagent);
 
 	// fairground, library, Fervus, and Krolm affect attributes of all heros
 	// Fervus gives rogues artifice...
@@ -1947,12 +1949,10 @@ function InitBaseStat(agent thisagent, string stat, integer default)
 declare
 begin
 	if ($AddAttribute(thisagent, stat+"_Base", "integer", default) == false)
-		if (thisagent's (stat+"_Base") == 0)
-			thisagent's (stat+"_Base") = default;
+		thisagent's (stat+"_Base") += default;
 	
 	if ($AddAttribute(thisagent, stat+"_Total", "integer", default) == false)
-		if (thisagent's (stat+"_Total") == 0)
-			thisagent's (stat+"_Total") = default;
+		thisagent's (stat+"_Total") += default;
 end
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1968,7 +1968,7 @@ declare
 begin
 	// since this is used for wisdom a lot, we cant be sure it exists yet...
 	if ($HasAttribute(stat+"_Total", thisagent) == false)
-		$InitBaseStats(thisagent);
+		$GeneralAttributes(thisagent);
 	return thisagent's (stat+"_Total");
 end
 
@@ -1989,7 +1989,6 @@ function SetBaseStat(agent thisagent, string stat_name, integer delta)
 declare
 	function update_func;
 begin
-	//$InitBaseStats(thisagent);
 	thisagent's (stat_name+"_Base") = delta;
 
 	update_func = $LookupFunction("Update"+stat_name);
@@ -2217,28 +2216,6 @@ begin
 end
 
 ////////////////////////////////////////////////////////////////////////////////
-function GenerateHeroAttributes(agent thisagent)
-declare
-begin
-	if ($HasAttribute("RegenerationSystem", thisagent))
-		return;
-
-	$AddAttribute(thisagent, "In_Combat", "boolean");
-	$AddAttribute(thisagent, "ManaRegenPoints", "integer");
-	$AddAttribute(thisagent, "HealthRegenPoints", "integer");
-	$AddAttribute(thisagent, "RegenerationSystem", "function", $Regeneration_System);
-	$NewThread(ThisAgent's "RegenerationSystem", 300, ThisAgent ); //Doubled the cycle time, halved the threshold for regen
-
-	if (thisagent's "title" == "wizard")
-		$LearnFireTree(thisagent);
-	
-	if ($HasAttribute("Uses_Equipment", thisagent))
-		if (thisagent's "Uses_Equipment"== True)
-			$HeroStartingEquipment(thisagent); // Take care of this part now that new prototype is used
-	
-end
-
-////////////////////////////////////////////////////////////////////////////////
 function SetNegativeResistance(agent thisagent)
 
 declare
@@ -2397,14 +2374,52 @@ end
 function GeneralAttributes(agent thisagent)
 declare
 begin
-	$InitBaseStats(thisagent);
-	
-	$AddAttribute(thisagent, "Running_Intent", "string");
+	if ($HasAttribute("General_attributes", thisagent))
+		return;
+
+	$AddAttribute(thisagent, "General_Attributes", "boolean", true);	
+	$AddAttribute(thisagent, "In_Combat", "boolean");
+
+	if ($IsBuilding(thisagent) == false)
+		begin
+			$AddAttribute(thisagent, "Running_Intent", "string");
+			$AddAttribute(thisagent, "Fear", "integer");
+
+			$AddAttribute(thisagent, "Best_Spell", "string", "nothing");
+			$AddAttribute(thisagent, "Best_Target", "agentref");
+			$AddAttribute(thisagent, "Best_Target_Distance", "integer");
+			$AddAttribute(thisagent, "Best_Range", "integer");
+		end
+
+	$InitBaseStats(thisagent);	
 
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));
 
-	if ($HasAttribute("Unit_Type", thisagent))	
-		if (thisagent's "Unit_Type" == "Unit")
-			$UnitAttributes(thisagent);
+	if ($HasAttribute("Unit_Type", thisagent))
+		begin
+			if (thisagent's "Unit_Type" == "Unit")
+				$UnitAttributes(thisagent);
+		end
+end
+
+
+////////////////////////////////////////////////////////////////////////////////
+function GenerateHeroAttributes(agent thisagent)
+declare
+begin
+	if ($HasAttribute("RegenerationSystem", thisagent))
+		return;
+	$AddAttribute(thisagent, "ManaRegenPoints", "integer");
+	$AddAttribute(thisagent, "HealthRegenPoints", "integer");
+	$AddAttribute(thisagent, "RegenerationSystem", "function", $Regeneration_System);
+	$NewThread(ThisAgent's "RegenerationSystem", 300, ThisAgent ); //Doubled the cycle time, halved the threshold for regen
+
+	if (thisagent's "title" == "wizard")
+		$LearnFireTree(thisagent);
+	
+	if ($HasAttribute("Uses_Equipment", thisagent))
+		if (thisagent's "Uses_Equipment"== True)
+			$HeroStartingEquipment(thisagent); // Take care of this part now that new prototype is used
+	
 end

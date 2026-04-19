@@ -2686,17 +2686,19 @@ declare
 
 begin
 	if ($HasAttribute("TaskPackageStatus", thisagent))
-		begin
-			thisagent's "TaskPackageStatus" = "Complete";
-		end
-	if ($HasAttribute("In_Combat", thisagent))
-		thisagent's "In_Combat" = false;
-
+		thisagent's "TaskPackageStatus" = "Complete";
+	
 	$StopMoving (ThisAgent);
-	thisagent's "target" = $Nullagent();	
+
+	$clearlist(thisagent's "hostiles");
+
 	thisagent's "activescript" = thisagent's "basicscript";
 	thisagent's "backscript" = thisagent's "basicscript";
-	$clearlist(thisagent's "hostiles");
+	thisagent's "target" = $Nullagent();
+
+	$SetStringSafe(thisagent, "best_spell", "nothing");
+	$SetAgentSafe(thisagent, "best_target", $Nullagent());
+	$SetBooleanSafe(thisagent, "In_Combat", false);
 end
 
 ///////////////////////////////////////////////////////////////////////////////

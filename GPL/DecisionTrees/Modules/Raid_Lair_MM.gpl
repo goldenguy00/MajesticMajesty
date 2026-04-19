@@ -194,7 +194,7 @@ begin
 
 			if (easiest_lair != $nullAgent() && easiest_lair_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
 				begin
-					thisagent's completeaction = $Attack_object_pack;
+					thisagent's completeaction = $Attack_object;
 					ThisAgent's completecondition = $notvalid;
 					thisagent's completetarget = easiest_lair;
 
@@ -272,7 +272,7 @@ begin
 
 			if (easiest_building != $NullAgent() && easiest_building_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
 				begin
-					thisagent's completeaction = $attack_object_pack;
+					thisagent's completeaction = $attack_object;
 					ThisAgent's completecondition = $notvalid;
 					thisagent's completetarget = easiest_building;
 

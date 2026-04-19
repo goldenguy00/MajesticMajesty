@@ -95,22 +95,13 @@ begin
 		begin
 			cost = $PathCost($LocationOf(thisagent), $LocationOf(target), "check_all_units", can_path, thisagent);
 			dist = $DistanceBetweenAgents(thisagent, target);
-			if (can_path)
+			if (can_path || dist > 10)
 				begin
 					ThisAgent's "ActiveScript" = $Travel_To;
 					thisagent's "destination" = $locationof(target);
 					thisagent's "backScript" = $grab_item;
 					$move(thisagent,target);
 					return;
-				end
-			else if (cost > 10 || dist > 10)
-				begin
-					$Reset_tasks(thisagent);
-					return;
-				end
-			else
-				begin
-					$Breakpoint(1);
 				end
 		end
 

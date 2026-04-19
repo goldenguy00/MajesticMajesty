@@ -259,16 +259,16 @@
 	}
 [end]
 
-[KROLM]
+[KROLMM]
 	{Book_Item
 		(type 		Special_Item)
 		(subtype henchman)
-		(Title		KROLM)
+		(Title		KROLMM)
 		(BirthScript	Stack_Item_Birth)
 		(gold_value		70)
 		(XP_value		750)
 		(XPMultiplier		1)
-		(IntentExt		KROLM)
+		(IntentExt		KROLMM)
 	}
 [end]
 

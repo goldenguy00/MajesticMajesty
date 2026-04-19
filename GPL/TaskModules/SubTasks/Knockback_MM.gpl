@@ -7,7 +7,7 @@ declare
 	boolean attacker_alive;
 	
 begin
-	if (($IsValidGamePiece(defender) != TRUE) || (defender's "Knockback_Counter" < 1))
+	if (($IsValidGamePiece(defender) == false) || (defender's "Knockback_Counter" < 1))
 		begin
 			$KillThread(defender's "Knockback_Cycle");
 			return;
@@ -15,9 +15,9 @@ begin
 	
 	defender's "Knockback_Counter" = (defender's "Knockback_Counter" - 1);
 	
-	if ($IsValidGamePiece(attacker) != TRUE)
+	if ($IsValidGamePiece(attacker) == false)
 		begin
-			if ($isdead(attacker) != TRUE)
+			if ($isdead(attacker) == false)
 				attacker_alive = True;
 			else
 				attacker_alive = False;
@@ -33,7 +33,7 @@ begin
 				Knockback_Damage_Max = defender's "Knockback_Damage_Max";
 		end
 		
-	if ($isdead(defender) != TRUE)
+	if ($isdead(defender) == false)
 		begin
 			//$createeffector( defender, "Knockback_Effector", 0 );
 			$TeleportToPoint(defender, 20, knockback_destination);

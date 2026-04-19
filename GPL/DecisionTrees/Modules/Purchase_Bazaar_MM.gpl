@@ -16,7 +16,7 @@ Begin
 	If ( bazaar_chance > $RandomNumber ( 100 ) + 1 )
 		Wants_bazaar_item = TRUE;
 
-	if ($IsExpansion(thisagent) != TRUE)
+	if ($IsExpansion(thisagent) == false)
 		return False;
 
 	// construct some lists here, and pass them as parameters,
@@ -73,7 +73,7 @@ Begin
 	If ( bazaar_chance > $RandomNumber ( 100 ) + 1 )
 		Wants_bazaar_item = TRUE;
 
-	if ($IsExpansion(thisagent) != TRUE)
+	if ($IsExpansion(thisagent) == false)
 		return False;
 
 	taskindex = thisagent's "TaskPackageTypeIndex";
