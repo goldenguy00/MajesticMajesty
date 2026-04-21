@@ -38,7 +38,6 @@
 		(Armor_Magical_Base					4)
 		(Physical_Attack		21)
 		(Physical_Attack_Type	Slashing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		STONES)
 	}
@@ -85,7 +84,6 @@
 		(Armor_Magical_Base					4)
 		(Physical_Attack		21)
 		(Physical_Attack_Type	Crushing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		STYX)
 	}
@@ -209,7 +207,6 @@
 		(Armor_Magical_Base					17)
 		(Magical_Attack		39)
 		(Magical_Attack_Type	Chaotic)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		ABOMINATION)
 	}
@@ -511,7 +508,6 @@
 		(Physical_Attack_Type	Crushing)
 		(ItemDrop1						Frostblood)
 		(ItemDropChance1				220000)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		YETI)
 	}
@@ -555,7 +551,6 @@
 		(Magical_Attack_Type	Necrotic)
 		(ItemDrop1						DuskFang)
 		(ItemDropChance1				500000)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		SHADOWBEAST)
 	}
@@ -598,7 +593,6 @@
 		(Armor_Physical_Base					9)
 		(Physical_Attack		22)
 		(Physical_Attack_Type	Slashing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		RHODENKINGRAT)
 	}
@@ -643,7 +637,6 @@
 		(Physical_Attack_Type	Crushing)
 		(ItemDrop1						MassiveFang)
 		(ItemDropChance1				750000)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		WENDIGO)
 	}
@@ -1631,7 +1624,6 @@
 		(Kill_Credit_Type	Henchman)
 		(Kill_Credit_Faction	KCF_Kingdom)
 		(Kill_Credit_Specific	KCS_Hooligan)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		HOOLIGAN)
 	}
@@ -1674,7 +1666,6 @@
 		(Armor_Magical_Base					5)
 		(Magical_Attack		17)
 		(Magical_Attack_Type	Necrotic)
-		(Experience_Value_Base	100)
 		(XPMultiplier	2)
 		(IntentExt		BLACKPHANTOM)
 	}
@@ -1717,7 +1708,6 @@
 		(Armor_Magical_Base					2)
 		(Magical_Attack		15)
 		(Magical_Attack_Type	Fire)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		URLSHEKK)
 	}
@@ -1754,7 +1744,6 @@
 		(Armor_Physical_Base					4)
 		(Physical_Attack		40)
 		(Physical_Attack_Type	Crushing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	3)
 		(IntentExt		DIRGO)
 	}
@@ -1791,7 +1780,6 @@
 		(Armor_Physical_Base					7)
 		(Physical_Attack		25)
 		(Physical_Attack_Type	Slashing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	3)
 		(IntentExt		RRONGOL)
 	}
@@ -1837,7 +1825,6 @@
 		(Armor_Magical_Base					15)
 		(Magical_Attack		24)
 		(Magical_Attack_Type	Necrotic)
-		(Experience_Value_Base	100)
 		(XPMultiplier	3)
 		(IntentExt		LICHEQUEEN)
 	}
@@ -1875,7 +1862,6 @@
 		(Armor_Magical_Base					8)
 		(Magical_Attack		20)
 		(Magical_Attack_Type	Poison)
-		(Experience_Value_Base	100)
 		(XPMultiplier	3)
 		(IntentExt		WITCHKING)
 	}
@@ -1918,7 +1904,6 @@
 		(Armor_Magical_Base					7)
 		(Magical_Attack		15)
 		(Magical_Attack_Type	Fire)
-		(Experience_Value_Base	100)
 		(XPMultiplier	3)
 		(IntentExt		VENDRAL)
 	}
@@ -1946,7 +1931,6 @@
 		(Divine_Resistance_Percent		30)
 		(Divine_Resistance_Percent_Neg	True)
 		(Necrotic_Resistance_Percent	20)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		SANGUINEPEASANT)
 	}
@@ -1975,7 +1959,6 @@
 		(Divine_Resistance_Percent		30)
 		(Divine_Resistance_Percent_Neg	True)
 		(Necrotic_Resistance_Percent	20)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		SANGUINEPEASANT)
 	}
@@ -2016,7 +1999,6 @@
 		(Magical_Attack_Type	Necrotic)
 		(Physical_Attack		8)
 		(Physical_Attack_Type	Piercing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		GOREGUARD)
 	}
@@ -2058,7 +2040,6 @@
 		(Magical_Attack_Type	Necrotic)
 		(Physical_Attack		8)
 		(Physical_Attack_Type	Slashing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		SCARLETSQUIRE)
 	}
@@ -2098,7 +2079,6 @@
 		(Magical_Attack_Type	Necrotic)
 		(Physical_Attack		8)
 		(Physical_Attack_Type	Piercing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		CRIMSONARCHER)
 	}
@@ -2138,7 +2118,6 @@
 		(Magical_Attack_Type	Necrotic)
 		(Physical_Attack		14)
 		(Physical_Attack_Type	Piercing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		MANIACALARBALEST)
 	}
@@ -2177,7 +2156,6 @@
 		(Armor_Magical_Base					5)
 		(Magical_Attack		7)
 		(Magical_Attack_Type	Necrotic)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		BLOODMAGE)
 	}
@@ -2219,7 +2197,6 @@
 		(Armor_Magical_Base					1)
 		(Physical_Attack		8)
 		(Physical_Attack_Type	Crushing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		SPIRITTROLL)
 	}
@@ -2258,7 +2235,6 @@
 		(Armor_Physical_Base					7)
 		(Physical_Attack		16)
 		(Physical_Attack_Type	Slashing)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		MINOTAURLORD)
 	}
@@ -2296,7 +2272,6 @@
 		(Arcane_Resistance_Percent		66)
 		(Chaotic_Resistance_Percent		15)
 		(Armor_Magical_Base					9)
-		(Experience_Value_Base	100)
 		(XPMultiplier	1)
 		(IntentExt		ELDERORBS)
 	}

@@ -187,7 +187,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="1000"/>
+			<TimeoutDuration value="2400"/>
 			<SpellType value="Other"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>

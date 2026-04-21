@@ -2492,7 +2492,8 @@ begin
 	$createeffector ( target, "generic_Regenerate_effector", 0 );
 	
 	$Heal ( thisagent, target, heal_amount );
-	
+	if ($HasAttribute("HealthRegeneration_Base", target) == false)
+		return;
 	if ($AddAttribute(target, buff_name, "function", $Generic_RegenerateBuff_End) == false)
 		if ($IsRunning (target's buff_name) == TRUE)
 			return;

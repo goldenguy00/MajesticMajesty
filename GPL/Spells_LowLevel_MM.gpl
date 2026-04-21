@@ -225,10 +225,6 @@ begin
 		begin
 			newtarget = $BasicCastHealAlly_hero(thisagent, target, spell_name);
 		end
-	else if (spell_name == "generic_regenerate")
-		begin
-			newtarget = $BasicCastHealAlly_hero(thisagent, target, spell_name);
-		end
 	
 	return newtarget;
 end
@@ -1009,6 +1005,8 @@ end
 function SpellManaAvailable( agent thisagent, string spell_name ) is boolean
 declare
 begin
+	if (thisagent's "type" != "hero")
+		return true;
 	if ($GetIntegerSafe(thisagent, "CurrentMana") >= $SpellManaCost(thisagent, spell_name))
 		return TRUE;
 	return FALSE;
@@ -1020,6 +1018,8 @@ function SpellResourceAvailable( agent thisagent, string spell_name ) is boolean
 // Currently only checks for mana
 declare
 begin
+	if (thisagent's "type" != "hero")
+		return true;
 	if ($GetIntegerSafe(thisagent, "CurrentMana") >= $SpellManaCost(thisagent, spell_name))
 		return TRUE;
 	return FALSE;
@@ -1034,6 +1034,8 @@ declare
 	string mana_cost, mana_mult, mana_div;
 
 begin
+	if (thisagent's "type" != "hero")
+		return 0;
 	mana_cost = spell_name + "_Mana";
 	mana_mult = spell_name + "_Mana_Mult";
 	mana_div = spell_name + "_Mana_Div";
@@ -1093,6 +1095,8 @@ declare
 	integer base, mana_increase;
 
 begin
+	if (thisagent's "type" != "hero")
+		return 0;
 	////CULTIST
 	if (spell_name == "camouflage")
 		return $WisdomManaReduction(thisagent, 5);

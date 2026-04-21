@@ -2610,6 +2610,9 @@ begin
 	$SetTaskParametersBasic(thisagent, "None", 85, "Idle");
 	
 	flist << $check_library_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Wizard_spell", 90, "Prepare");
+
+	flist << $check_library_Packet;	//Preapre
 	$SetTaskParametersBasic(thisagent, "Wizard_train_intel", 55, "Prepare");
 	
 	flist << $check_library_Packet;	//Preapre
@@ -2899,13 +2902,12 @@ begin
 	exhaustion = thisagent's "Exhaustion";
 	fear = thisagent's "Fear";
 	
-	in_combat = thisagent's "In_Combat";
-	resting = $InsideBuilding(thisagent) && in_combat == false;
+	resting = $InsideBuilding(thisagent);
 	if (resting)
 		begin
 			thisagent's "Fear" = 0;
-			if (exhaustion > 10)
-				thisagent's "Exhaustion" -= 10;
+			if (exhaustion >= 50)
+				thisagent's "Exhaustion" -= 50;
 			else if (exhaustion != 0)
 				thisagent's "Exhaustion" = 0;
 		end
@@ -2914,6 +2916,7 @@ begin
 			thisagent's "Exhaustion" += 5;
 		end
 		
+	in_combat = thisagent's "In_Combat";
 	if (in_combat == false && fear > 0)
 		thisagent's "Fear"--;
 		
@@ -2923,6 +2926,8 @@ begin
 		begin															//Current should only every go through this once, after that is switches to Next/Reserved/Backup instead of searching again.
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet"; //Tasks should not update simultaneously. Current must update first. Then Next and Backup can update simultaneously following that. Reserve updates last.
 			thisagent's "TaskPackageTypeIndex" = "Current";				 //Otherwise the function that catches duplicates fails.
+			if (resting == false && thisagent's "Exhaustion" >= 500) //Dead tired, so do this asap
+				thisagent's "TaskPackageVar" = "Idle";
 			$Search_For_Task(thisagent);
 			thisagent's "TaskPackageTargetActionBackup" = $Search_For_Task;
 			flag = false;
@@ -2934,7 +2939,7 @@ begin
 	if (thisagent's "TaskPackageTargetActionNext" == $Search_For_Task)
 		begin															//Next must not update simultaneously with Reserve. It can update simultaneously with Backup, since they don't directly conflict.
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
-			if (resting == false && thisagent's "Exhaustion" >= 200) //Tired, so start looking for a place to sleep
+			if (resting == false && thisagent's "Exhaustion" >= 350) //More tired, so look for a few places to sleep
 				thisagent's "TaskPackageVar" = "Idle";
 			thisagent's "TaskPackageTypeIndex" = "Next";
 			$Search_For_Task(thisagent);
@@ -2961,7 +2966,7 @@ begin
 	if (thisagent's "TaskPackageTargetActionReserve" == $Search_For_Task) 
 		begin
 			thisagent's "TaskPackageVar" = thisagent's "TaskPackageSet";
-			if (resting == false && thisagent's "Exhaustion" >= 500) //Dead tired, so plan to sleep a lot
+			if (resting == false && thisagent's "Exhaustion" >= 200) //Tired, so start looking for a place to sleep
 				thisagent's "TaskPackageVar" = "Idle";
 			thisagent's "TaskPackageTypeIndex" = "Reserve";
 			$Search_For_Task(thisagent);

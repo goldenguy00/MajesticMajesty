@@ -4,36 +4,38 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
-function eval_enemies_nearby_fake(agent thisagent)
+function eval_reaction(agent thisagent, agent new_target)
 
 declare
-	agent new_target,target;
+	agent target;
 	boolean flaggie;
 	string intent;
 
 begin
 
-	$list_enemies(thisagent,1);
+	// new enemy hit me, now im reconsidering the fight... stay or flee?
+	// attack -> flee -> berserk
 
-	if ($listsize(thisagent's "Hostiles") == 0)
-		return;
-	// add thisagent's target back onto the list, if neccessary????
-
-	// decide whether to run or not
-	if ($should_I_Run(thisagent,thisagent's "Hostiles"))
+	if ($Berserk_check(thisagent) == 0)
 		begin
-			// hero has decided to run!
-
-			// empty thisagent's Hostiles list
-			
-			$clearlist(thisagent's "Hostiles");
-			return;
+			$Cleanse_Hostiles (ThisAgent);
+			if ($should_I_Run(thisagent,thisagent's "Hostiles"))
+				begin
+					//$clearlist(thisagent's "Hostiles");
+					return;
+				end
 		end
-		
+	
+	if ($flee_check(thisagent) == 1)
+		return;
+	
+	if (thisagent's "target" == new_target)
+		return;
+	
 	flaggie = FALSE; // thisagent does not have a new target
 
 	target = thisagent's "target";
-	new_target = $pick_closest(thisagent,thisagent's "Hostiles");
+	//new_target = $pick_closest(thisagent,thisagent's "Hostiles");
 
 	// if thisagent's target is a building or lair,
 	// they should just pick the closest enemy
@@ -46,22 +48,30 @@ begin
 		begin
 			if ((target's "type" == "lair") || (target's "type" == "building"))
 				flaggie = TRUE;
-			if (($distanceBetweenAgents(thisagent,new_target) <
-			$distanceBetweenAgents(thisagent,Target)))
+			if (($distanceBetweenAgents(thisagent,new_target) < $distanceBetweenAgents(thisagent,Target)))
 				flaggie = TRUE;
 		end
 
 	if (flaggie)
 		begin
-			$stopmoving(thisagent);
-			thisagent's "Target" = new_target;
 
-			//Say See Hostile voice line if Target's "Type" is monster
-			If (New_Target's "Type" == "Monster")
-				$Say (ThisAgent, "VFX_See_Hostile");
-			intent = "IDTXT_INTENT_FIGHTING" + $getintentext(New_Target);
-			$SpecifyIntentString (ThisAgent, intent);
-			thisagent's "ActiveScript" = $attack_object;
+			if ($Berserk_Check(thisagent) == 1)
+				begin
+					$Go_berserk(thisagent);
+				end
+			else
+				begin		
+					$stopmoving(thisagent);	
+					//Say See Hostile voice line if Target's "Type" is monster
+					If (New_Target's "Type" == "Monster")
+						$Say (ThisAgent, "VFX_See_Hostile");
+					
+					intent = "IDTXT_INTENT_FIGHTING" + $getintentext(New_Target);
+					$SpecifyIntentString (ThisAgent, intent);
+					thisagent's "ActiveScript" = $attack_object;
+				end
+			// do this after cuz berserk sets to null
+			thisagent's "Target" = new_target;
 		end
 end
 
@@ -94,14 +104,15 @@ begin
 
 			// if there is a target closer than thisagent's
 			// current target - pick a new target
-			if (($isvalidgamepiece(Target) == FALSE) || (Target == ThisAgent))
+			if ($notvalid(Target))
 				flaggie = TRUE;
+			else if (Target == ThisAgent)
+				flaggie = true;
 			else
 				begin
 					if ((target's "type" == "lair") || (target's "type" == "building"))
 						flaggie = TRUE;
-					if (($distanceBetweenAgents(thisagent,new_target) <
-					$distanceBetweenAgents(thisagent,Target)))
+					if (($distanceBetweenAgents(thisagent,new_target) < $distanceBetweenAgents(thisagent,Target)))
 						flaggie = TRUE;
 				end
 
@@ -152,10 +163,11 @@ begin
 
 	thislist << defender;
 
-	score = $list_eval(attacker,thislist);
+	$list_eval_opt(attacker,thislist);
+	score = attacker's "eval_best_score";
 
 	// modify scores by distance between agents
-	score -= ($distancebetweenagents(attacker,defender) / 250);
+	//score -= ($distancebetweenagents(attacker,defender) / 250);
 
 	return score;
 end
@@ -192,6 +204,7 @@ begin
 
 	if ($listsize(thislist) == 0)
 		begin
+			$SetIntegerSafe(thisagent, "Eval_Best_Score", 0);
 			return $NullAgent();
 		end
 
@@ -239,18 +252,11 @@ begin
 							thisagent_extra_range = 0;
 							hostile_extra_range = 0;
 
-							// if thisagent is in range of hostile, but hostile is not in range of
-							// thisagent then thisagent has a range bonus
-							if (dist1 <= attack_range)
-								if (dist1 > hostile_range)
-									thisagent_extra_range = dist1;
-
-							// if hostile is in range of thisagent, but thisagent is not in range of
-							// hostile then the hostiles have an advantage in range
-							if (dist1 <= hostile_range)
-								if (dist1 > attack_range)
-									hostile_extra_range = dist1;
-
+							// longer stick gets small bonus
+							if (hostile_range > attack_range)
+								hostile_extra_range = hostile_range - attack_range;
+							else if (attack_range < hostile_range)
+								thisagent_extra_range = attack_range - hostile_range;
 
 							htohit_f = $gettohit(hostile);
 							ta_avoid_f = $gettoavoid(hostile,thisagent);
@@ -274,16 +280,19 @@ begin
 							// it is also exaggerated by the number of swings it would take the hero
 							// to kill them times the hostiles armor value
 
-							// adjust for enemy armor
+							// adjust enemy HP upward for the chance of the hero missing them
+							enemy_HP = $getattribute(hostile,#ATTRIB_HP);
+							if (hostile's "type" == "hero")
+								enemy_HP += $GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard) * #Heal_Potion_Recovery;
+							
 							if (spellcaster)
 								hostile_armor = $GetAttribute(hostile, #ATTRIB_MagicResistance);
 							else
-								hostile_armor = $GetArmor(hostile);
-							
-							// adjust enemy HP upward for the chance of the hero missing them
-							enemy_HP = $GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard) * #Heal_Potion_Recovery;
-							enemy_HP += $getattribute(hostile,#ATTRIB_HP);
-							enemy_HP += (hostile_armor * (enemy_HP / hero_dmg));
+								hostile_armor = $getArmor(hostile);
+
+							if (hostile_armor > 0)
+								enemy_HP += ((enemy_HP*hostile_armor) / 100);
+
 							enemy_HP *= (100.0 / ta_mod_tohit);
 							hitstokill = enemy_HP / hero_dmg;
 							hitstokill += (hostile_extra_range / #extra_shot_mod);
@@ -316,6 +325,7 @@ begin
 				end
 		end
 
+	$SetIntegerSafe(thisagent, "Eval_Best_Score", best_score);
 	return best_target;
 end
 
@@ -338,6 +348,9 @@ declare
 	integer spell_mod;
 	boolean spellcaster;
 	integer hero_armor, hero_damage, hostile_armor, hero_hp;
+	list heroes;
+	agent hero;
+	integer friend_mod, friend_count;
 
 	// to make this work with towers:
 	// make functions: $getattackrange, $getstrength, $getarmor
@@ -363,6 +376,18 @@ begin
 	
 	hero_hp = $GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard) * #Heal_Potion_Recovery;
 	hero_hp += $getattribute(thisagent,#ATTRIB_HP);
+
+	// count friendlies
+	heroes = $list_heroes(thisagent);
+
+	friend_mod = 0;
+	friend_count = $listsize(heroes);
+	if (friend_count > 0)
+		foreach hero in heroes do
+			begin
+				if ($HasAttribute("eval_self", hero) == true)
+					friend_mod += hero's "eval_self";
+			end
 
 	foreach hostile in thislist do
 		begin
@@ -407,42 +432,44 @@ begin
 			// to kill them times the hostiles armor value
 
 			// adjust for enemy armor
-			if (spellcaster)
-				hostile_armor = hero_damage - $GetAttribute(hostile, #ATTRIB_MagicResistance);
-			else
-				hostile_armor = hero_damage - $getArmor(hostile);
-			if (hostile_armor < 1)
-				hostile_armor = 1;
+			enemy_HP = $getattribute(hostile,#ATTRIB_HP);
+			if (hostile's "type" == "hero")
+				enemy_HP += $GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard) * #Heal_Potion_Recovery;
 			
-			enemy_HP = $GetAttribute(thisagent, #ATTRIB_ResearchGoodGuard) * #Heal_Potion_Recovery;
-			enemy_HP += $getattribute(hostile,#ATTRIB_HP);
-			enemy_HP += (enemy_hp / hostile_armor);
+			if (spellcaster)
+				hostile_armor = $GetAttribute(hostile, #ATTRIB_MagicResistance);
+			else
+				hostile_armor = $getArmor(hostile);
+				
+			if (hostile_armor > 0)
+				enemy_HP += ((enemy_hp * hostile_armor)/100);
 
 			// adjust enemy HP upward for the chance of the hero missing them
 			enemy_total_HP += (enemy_HP * (100.0 / (ta_mod_tohit)) );
 
+			// a creature's actual damage is underestimated to account for
+			// the chance of them missing the hero
+			// it is also underestimated by the hero's armor
+			htohit_f = $gettohit(hostile);
+			ta_avoid_f = $gettoavoid(hostile,thisagent);
+			hmod_tohit = htohit_f * ((100.0 - ta_avoid_f) / 100.0);
+			if (hmod_tohit == 0)
+				hmod_tohit = 1;
 
-			if (hostile's "target" == thisagent)
-				begin
-					// a creature's actual damage is underestimated to account for
-					// the chance of them missing the hero
-					// it is also underestimated by the hero's armor
-					htohit_f = $gettohit(hostile);
-					ta_avoid_f = $gettoavoid(hostile,thisagent);
-					hmod_tohit = htohit_f * ((100.0 - ta_avoid_f) / 100.0);
-					if (hmod_tohit == 0)
-						hmod_tohit = 1;
+			enemy_strength = $getstrength(hostile); //$getattribute(hostile,#ATTRIB_Strength);
+			enemy_strength -= hero_armor;
 
-					enemy_strength = $getstrength(hostile); //$getattribute(hostile,#ATTRIB_Strength);
-					enemy_strength -= hero_armor;
-					if (enemy_strength < 1)
-						enemy_strength = 1;
+			if (friend_count > 0)
+				if (hostile's "target" != thisagent)
+					enemy_strength = enemy_strength / friend_count;
+					
+			if (enemy_strength < 1)
+				enemy_strength = 1;
 
-					enemy_total_strength += (enemy_strength / (100.0 / hmod_tohit));
-				end
+			enemy_total_strength += (enemy_strength / (100.0 / hmod_tohit));
 		end
 
-	hitstokill = enemy_total_HP / hero_damage;
+	hitstokill = enemy_total_HP / (hero_damage + friend_mod);
 	hitstokill += (hostile_extra_range - thisagent_extra_range) / #Extra_shot_mod;
 	hitstokill = thisagent's "enemy_estimation" * hitstokill;
 
@@ -453,6 +480,7 @@ begin
 	//hitstildead += thisagent_extra_range / #extra_shot_mod;
 	hitstildead = (thisagent's "self_estimation") * hitstildead;
 	
+	$SetIntegerSafe(thisagent, "Eval_Friends", friend_mod);
 	$SetIntegerSafe(thisagent, "Eval_Till_death", hitstildead);
 	$SetIntegerSafe(thisagent, "Eval_To_Kill", 0 - hitstokill);
 	$SetIntegerSafe(thisagent, "Eval_total", hitstildead - hitstokill);
@@ -535,7 +563,7 @@ begin
 				should_support = thisagent's fuck_this_shit == $follow_support;
 		end
 
-	if (should_support == false)
+	if (should_support == true)
 		begin
 			If ($listsize(thisagent's "Hostiles") == 0)
 		 		return FALSE;
@@ -578,7 +606,7 @@ begin
 				end
 		end
 
-	if ($isvalidgamepiece(thisagent's "target") == false)
+	if ($isvalidgamepiece(thisagent's "target") == true)
 		if (($getattribute(thisagent's "target",#ATTRIB_magicresistance) > 60))
 			danger_danger_flag = TRUE;
 
@@ -648,43 +676,70 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function Possibly_remove_target(agent thisagent,list hostiles) is list
+function list_enemies(agent thisagent,integer mult)
 
+// this function lists all dangerous enemies near thisagent,
+// and exits the function with that list in thisagent's "hostiles"
 declare
+	list in_sight,in_sight2,newl,units,buildings,btowers,ghouses,wtowers,towers, settlements;
+	//list forts, others;
+	integer sightrange;
+	agent unit;
+	list hostiles;
+
 
 begin
-	// remove thisagent's target from the list
-	// if the target is not a coord and is valid
-	// then if the target is out of sight, or the only one around, remove it
-	// from the list
-	if ((thisagent's "target" != thisagent) && ($isvalidgamepiece(thisagent's "target"))) // != $Nullagent()))
-		// possibly put in : remove target from the list
-		if ($distanceBetweenAgents(thisagent,thisagent's "target") > $getattribute(thisagent,#ATTRIB_Sightrange))
-			hostiles -= thisagent's "target";
-		else
-			if (($listsize(hostiles) == 1) && ($agentinlist(thisagent's "target",hostiles)))
-				$clearlist(hostiles);
+	//first add all enemies in sight of thisagent to thisagent's hostiles list
+	sightrange = $getattribute(thisagent,#ATTRIB_sightrange) * mult;
 
-	return hostiles;
-end
+	$ListObjects(thisagent,"monster",sightrange,in_sight,#NotMyTeam);
+	$ListObjects(thisagent,"hero",sightrange,in_sight2,#NotMyTeam);
+	$listobjects(thisagent,"building",sightrange,buildings,#ATTRIB_FirstStageBuilt, 1, #NotMyTeam);
+	//buildings = $listcompleted(buildings);
+	btowers = $removetitles(buildings,"ballista_Tower");
+	settlements = $removetitles(buildings,"Dwarven_settlement");
+	btowers = $addlists(btowers,settlements);
 
-///////////////////////////////////////////////////////////////////////////////
-Function List_Heroes (agent ThisAgent) is List
-Declare
-	list	Heroes,newheroes;
-	agent hero;
+	//Enchanted wizard's towers
+	wtowers = $removetitles(buildings,"wizards_tower");
+	wtowers = $listenchanted(wtowers);
 
-Begin
-	$ListObjects (ThisAgent, "Hero", $getattribute (ThisAgent,#ATTRIB_SightRange),Heroes, #MyTeam );
+	//Guardhouses with arrows
+	ghouses = $removetitles(buildings,"guardhouse");
+	ghouses = $listarrowed(ghouses);
 
-	foreach hero in heroes do
+	towers = $addlists(btowers,ghouses);
+	towers = $addlists(towers,wtowers);
+
+	in_sight = $addlists(in_sight,in_sight2);
+
+	in_sight = $addlists(in_sight,towers);
+
+	//This takes all Friends off of In_Sight
+	If (ThisAgent's "Friend" != "xx")
+		$Cull_Subtypes (In_sight, ThisAgent's "Friend");
+	if ($listsize(in_sight) > 0)
 		begin
-			//we only want true "heroes" here, so check their subtype
-			if (Hero's "subtype" == "Hero")// != "Henchman" && $GetSubtype(Hero) != "Controlled")
-				newheroes << hero;
+			foreach unit in in_sight do
+				begin
+					if ($notvalid(unit) == FALSE)
+						newl << Unit;
+				end
+			in_sight = newl;
 		end
-	Return newHeroes;
-End
+	// make sure that there are no duplicates in hostiles and sight range
+	hostiles = thisagent's "hostiles";
+	if ($listsize(hostiles) > 0)
+		foreach unit in hostiles do
+			begin
+				if ($notvalid(unit) == FALSE)
+					if ($agentinlist(unit, in_sight) == false)
+						Units << Unit;
+			end
+	units = $addlists(in_sight,units);
+	units = $possibly_remove_target(thisagent,units);
+	thisagent's "hostiles" = units;
+end
 
 ///////////////////////////////////////////////////////////////////////////////
 function should_I_run(agent thisagent, list thislist) is Boolean
@@ -695,29 +750,15 @@ declare
 	agent Speedy,hero;
 	integer killorbekilled,friend_mod;
 	list heroes;
+	integer exhaustion;
+	integer money;
 
 begin
 	// get the "numbers" for the list
 	killorbekilled = $list_eval(thisagent, thislist);
 
-	// count friendlies
-	heroes = $list_heroes(thisagent);
-
-	friend_mod = 0;
-	if ($listsize(heroes) > 0)
-		foreach hero in heroes do
-			begin
-				if ($HasAttribute("eval_self", hero) == false)
-					$Hero_damage(hero);
-				friend_mod += hero's "eval_self";
-			end
-	
-	$SetIntegerSafe(thisagent, "Eval_Friends", friend_mod);
-	killorbekilled += friend_mod;
-
-	$SetIntegerSafe(thisagent, "Eval_Final", killorbekilled);
 	// see if the total of the targets is too dangerous
-	if (killorbekilled < 1)
+	if (killorbekilled < 1 || $GetIntegerSafe(thisagent, "Exhaustion") > 750)
 		begin
 			// thisagent thinks it would be dead before it killed these guys
 			// can thisagent outrun the fastest enemy?
@@ -744,38 +785,68 @@ end
 
 
 ///////////////////////////////////////////////////////////////////////////////
-function getstrength(agent thisagent) is integer
-
-declare
-
-begin
-	if ($IsBuilding(thisagent) == false)
-		return $hero_damage(thisagent);
-	else
-		return $getattribute(thisagent,#ATTRIB_strength);
-end
-
-///////////////////////////////////////////////////////////////////////////////
 function hero_damage(agent thisagent) is integer
 
 declare
 	integer value;
 
 begin
-	value = $hero_weapon_value(thisagent);
+	value = $getStrength(thisagent);
+	value += $hero_weapon_value(thisagent);
+	
+	$SetIntegerSafe(thisagent, "eval_self", value);
+	return value;
+end
 
-	if ($IsSpellCaster(thisagent))
-		value += $GetAttribute(thisagent, #ATTRIB_Intelligence) / #Intelligence_div;
-	else
-		value += $getattribute(thisagent,#ATTRIB_Strength) / #strength_div;
+///////////////////////////////////////////////////////////////////////////////
+function hero_weapon_value(agent thisagent) is integer
+
+declare
+	integer value;
+
+begin
+	value = $Spell_Extra_Value(thisagent);
+
+	value += $getattribute(thisagent,#ATTRIB_weapon_struct_bonus);
+	value += $getattribute(thisagent,#ATTRIB_weapon_magic_bonus);
+	return value;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function hero_armor_value(agent thisagent) is integer
+
+declare
+	integer value;
+
+begin
+	value = $getattribute(thisagent,#ATTRIB_armor_basic_damage);
+	value += $getattribute(thisagent,#ATTRIB_armor_struct_bonus);
+	value += $getattribute(thisagent,#ATTRIB_armor_magic_bonus);
+	return value;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function getstrength(agent thisagent) is integer
+
+declare
+	integer value;
+
+begin
+	if ($GetBooleanSafe(thisagent, "attack_damage_based_on_weapon") == true)
+		value = $GetAttribute(thisagent, #ATTRIB_Weapon_basic_damage);
+	else 
+		value = $GetIntegerSafe(thisagent, "Physical_Attack") + $GetIntegerSafe(thisagent, "Magical_attack");
 	
-	if (value < 1) value = 1;
-	
-	if (thisagent's "type" == "hero")
+	if (value > 0)
 		begin
-			value += $Spell_Extra_Value(thisagent);
-			$SetIntegerSafe(thisagent, "Eval_Self", value);
+			if ($IsSpellCaster(thisagent))
+				value += $GetAttribute(thisagent, #ATTRIB_Intelligence) / #Intelligence_div;
+			else
+				value += $getattribute(thisagent,#ATTRIB_Strength) / #strength_div;
 		end
+	else
+		value = $GetAttribute(thisagent, #ATTRIB_Strength);
+	
 	return value;
 end
 

@@ -20,7 +20,7 @@ expression #DAMAGE_Necrotic 1024
 expression #DAMAGE_Chaotic 2048
 
 expression #artifice_movespeed 1
-expression #artifice_attackspeed 4
+expression #artifice_attackspeed 2
 expression #artifice_sightrange 2
 expression #artifice_attackrange 2
 expression #artifice_castrange 3

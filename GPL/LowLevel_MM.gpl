@@ -254,30 +254,25 @@ end
 function give_gold(agent thisagent, integer amount)
 
 declare
+	boolean has_bank;
 
 begin
-	// play overlay over thisagent
-	if (amount > 0)
-		if ($HasAttribute("Has_Bank_Account", thisagent) == false)
-			begin
-				$createeffector(thisagent,"got_gold",0, Amount);
-				$adjustattribute(thisagent,#ATTRIB_gold,amount);
-				////$DebugOut(thisagent's "title","got",amount,"gold.");
-			end
-		else if ($HasAttribute("Has_Bank_Account", thisagent) != False)
-			if (thisagent's "Has_Bank_Account" == false)
-				begin
-					$createeffector(thisagent,"got_gold",0, Amount);
-					$adjustattribute(thisagent,#ATTRIB_gold,amount);
-					////$DebugOut(thisagent's "title","got",amount,"gold.");
-				end
-			else if (thisagent's "Has_Bank_Account" != False)
-				begin
-					$createeffector(thisagent,"got_gold",0, Amount);
-					$adjustattribute(thisagent,#ATTRIB_StoredGold,amount);
-					////$DebugOut(thisagent's "title","got",amount,"gold.");
-					thisagent's "Bank_Account_Gold" = $GetAttribute(thisagent, #ATTRIB_StoredGold);
-				end
+	if (amount < 1)
+		return;
+	
+	$createeffector(thisagent,"got_gold",0, Amount);
+
+	has_bank = $GetBooleanSafe(thisagent, "has_bank_account");
+
+	if (has_bank)
+		begin
+			$adjustattribute(thisagent,#ATTRIB_StoredGold,amount);
+			thisagent's "Bank_Account_Gold" = $GetAttribute(thisagent, #ATTRIB_StoredGold);
+		end
+	else
+		begin
+			$adjustattribute(thisagent,#ATTRIB_gold,amount);
+		end
 end
 ///////////////////////////////////////////////////////////////////////////////
 function RandomNumberNonZero(integer rand) is integer
@@ -1534,8 +1529,6 @@ begin
 
 
 	hitresult = $hit(thisagent,target);
-
-	// expereience checking
 
 	exp_given = $exp_value(thisagent,target);
 

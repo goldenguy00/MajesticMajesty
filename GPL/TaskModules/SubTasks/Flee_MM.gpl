@@ -12,7 +12,10 @@ declare
 	agent inn;
 	integer num_enemies;
 
-begin	
+begin
+	if ($Berserk_check(thisagent) == 1)
+		return;
+	
 	$list_enemies(thisagent,1);
 	
 	num_enemies = $Listsize(thisagent's "hostiles");
@@ -59,8 +62,8 @@ end
 function flee_absolute_packet(agent thisagent,string intent)
 
 declare
-	list inns,trading_posts;
-	agent post;
+	list inns,trading_posts, new_list;
+	agent post, inn;
 
 begin		
 	$listobjects(thisagent, "building", -1,inns, #CheckTitles, "Inn", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
@@ -73,6 +76,16 @@ begin
 	if ($isvalidgamepiece(thisagent's "home"))
 		inns << thisagent's "home";
 	
+	// remove any buildings that are too close from the list
+	foreach inn in inns do
+		begin
+			// wizards guild getting attacked by magic mirror enemies is painful to watch...
+			if ($IsAdjacent(thisagent, inn) == false)
+				new_list << inn;
+		end
+
+	inns = new_list;
+	
 	$flee_part_II_packet(thisagent,inns,intent);
 
 end
@@ -82,21 +95,31 @@ end
 function flee_part_II_packet(agent thisagent,list places,string intent)
 
 declare
+	agent new_target;
 
 begin
 	if ($listsize(places) == 0)
 		begin
 			// hero has no where to flee to!
-			$go_berserk(thisagent);
+			if ($Berserk_check(thisagent) == 0)
+				$go_berserk(thisagent);
 			return;
 		end
+	new_target = $pick_closest(thisagent,places);
 
-	thisagent's "target" = $pick_closest(thisagent,places);
+	thisagent's "target" = new_target;
 	if (thisagent's "target" == thisagent's "home")
 		thisagent's "taskname" = "go_home";
 	else
 		thisagent's "taskname" = "visiting";
 	
+	thisagent's "Activescript" = $use_building_safe;
+	thisagent's "backscript" = $use_building_safe;
+	thisagent's "destination" = $locationof(thisagent's "target");
+
+	if ($Flee_check(thisagent) == 1)
+		return;
+
 	if ($HasAttribute("taskpackagefled", thisagent))
 		begin
 			thisagent's "TaskPackageFled" ++;
@@ -105,10 +128,6 @@ begin
 		end
 	
 	$SpecifyIntentString (ThisAgent, intent);
-	thisagent's "Activescript" = $use_building_safe;
-	thisagent's "backscript" = $use_building_safe;
-	thisagent's "destination" = $locationof(thisagent's "target");
-
 	$createeffector(thisagent,"thought_bubble_danger",#danger_bubble_time);
 	$say(thisagent,"VFX_FLEE_COMBAT");
 end
@@ -119,12 +138,12 @@ function go_berserk(agent thisagent)
 declare
 
 begin
-	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BERSERKING");
-
 	if ($haslowHP(thisagent))
 		thisagent's "activescript" = $berserk;
 	else
 		thisagent's "activescript" = $berserk_defend;
+
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BERSERKING");
 
 	thisagent's "target" = $nullagent();
 end

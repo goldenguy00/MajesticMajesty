@@ -8,6 +8,7 @@ function make_attack( agent thisagent, agent target)
 
 declare
 	integer hitresult,exp_given, attackrange;
+	integer mult;
 
 begin
 	// these two checks are here due to the time delay between the action initiation
@@ -33,22 +34,23 @@ begin
 	// expereience checking
 	if (target's "type" != "monster")
 		exp_given = $exp_value(thisagent,target);	//Exp given for attacking non-monsters
-	else	
-		exp_given = #attack_exp_bonus + $GetIntegerSafe(target, "XPMultiplier");	//Exp given for attacking monsters, regardless of the attack landing
+	else
+		exp_given = #attack_exp_bonus;
 
 	if (hitresult == 1) // hit!
 		begin
 			$HandleSearingMantle(thisagent, target);
 			$damage(thisagent,target);
 		end
-
-	$attack_end(thisagent,exp_given);
+	else
+		$attack_end(thisagent,exp_given);
 end
 ///////////////////////////////////////////////////////////////////////////////
 function spell_type_attack(agent thisagent, agent target, string s_type, integer min_damage, integer max_damage)
 
 declare
 	integer exp_given,hitresult;
+	integer mult;
 
 begin
 	if ($notvalid(target))
@@ -66,16 +68,13 @@ begin
 
 	hitresult = $spelltypehit(target);
 
-	$attack_end(thisagent,exp_given);
-	
 	if (hitresult == 1) // hit
 		begin
 			$spelltypedamage(thisagent,target,s_type,min_damage,max_damage);
 		end
 	else
-		if (hitresult == 2) // resisted
-			begin
-			end
+		$attack_end(thisagent,exp_given);
+	
 
 end
 
@@ -97,12 +96,9 @@ begin
 	//	the target may need to have thisagent 'revealed' to them
 	// a check here would be too expensive, a reveal area call is faster
 	$revealArea(target,$locationof(thisagent),75);
-	
-	if ($HasAttribute("In_Combat", target))
-		target's "In_Combat" = true;
 
-	if ($HasAttribute("In_Combat", thisagent))
-		thisagent's "In_Combat" = true;
+	$SetBooleanSafe(thisagent, "In_Combat", true);
+	$SetBooleanSafe(target, "In_Combat", true);
 
 	if ((target's "type" != "Building") && (target's "type" != "lair"))
 	  	begin
@@ -110,16 +106,16 @@ begin
 			// add thisagent to target's hostilelist?
 			if (thisagent != target)
 				begin
-					$KiteTarget(thisagent, target);
+					if (target's "subtype" == "hero")
+						$KiteTarget(thisagent, target);
 
 					if ($agentinlist(thisagent,target's "Hostiles") == FALSE)
-						begin
-							if ($GetAttribute( thisagent, #ATTRIB_HasEffectInvisibility) != 1)
-								begin
-									target's "Hostiles" << thisagent;
-								end
-							$eval_enemies_nearby_fake(target);
-						end
+						if ($GetAttribute( thisagent, #ATTRIB_HasEffectInvisibility) != 1)
+							begin
+								target's "Hostiles" << thisagent;
+								if (target's "subtype" == "hero")
+									$Eval_reaction(target, thisagent);
+							end
 				end
 			else
 				begin
@@ -181,7 +177,8 @@ begin
 	if (target's "attacktype" != 2 && target's "attacktype" != 3)
 		return;
 
-	if (thisagent's "attacktype" != 1 || $IsAdjacent(thisagent, target) == false)
+	optimalRange = $HeroAttackRange(target);
+	if (thisagent's "attacktype" != 1 || $distancebetweenagents(thisagent, target) > (optimalRange / 2))
 		return;
 	
 	targetCoord = $locationof(target);
@@ -196,7 +193,6 @@ begin
 	//	targetRange = 1;
 	
 	// Move away from enemy
-	optimalRange = $HeroAttackRange(target);
 	x += (xDistance * optimalRange);// / targetRange;
 	y += (yDistance * optimalRange);// / targetRange;
 	
@@ -250,9 +246,7 @@ declare
 	list guys;
 
 begin
-	
-	if ($HasAttribute("In_Combat", target))
-		target's "In_Combat" = true;
+	$SetBooleanSafe(target, "In_Combat", true);
 
 	// do a reaction for the thing being hit
 	if (target's "type" == "Building")
@@ -308,12 +302,8 @@ begin
 
 	$revealArea(target,$locationof(thisagent),75);
 
-	
-	if ($HasAttribute("In_Combat", target))
-		target's "In_Combat" = true;
-
-	if ($HasAttribute("In_Combat", thisagent))
-		thisagent's "In_Combat" = true;
+	$SetBooleanSafe(thisagent, "In_Combat", true);
+	$SetBooleanSafe(target, "In_Combat", true);
 		
 	if ((target's "type" != "Building") && (target's "type" != "lair"))
 	  	begin
@@ -365,38 +355,27 @@ begin
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function exp_value(agent thisagent,agent target) is integer
+function exp_value(agent thisagent, agent target) is integer
 
 declare
 	integer exp_given, exp_mult;
 
 begin
+	
 	if (target's "type" == "monster")
-		begin
-			exp_given = $getattribute(target,#ATTRIB_LevelXP);
-			//$DebugOut(exp_given);
-		end
+		exp_given = $getattribute(target,#ATTRIB_LevelXP);
+	else if (target's "type" == "lair")
+		exp_given = target's "difficulty" * #lair_exp;
+	else if (target's "subtype" == "hero")
+		exp_given = ($getattribute(target,#ATTRIB_experienceLevel) * 10) + #attack_hero_exp;
 	else
-		if (target's "type" == "lair")
-			exp_given = target's "difficulty" * #lair_exp;
-		else
-			if (target's "subtype" == "hero")// && ($getsubtype(target) != "Henchman" && $GetSubtype(target) != "Controlled"))
-				exp_given = $getattribute(target,#ATTRIB_experienceLevel) * #attack_hero_exp;
-			else
-				if ((target's "type" == "building") || (target's "subtype" == "henchman"))
-					begin
-						if ($getunitplayernumber(thisagent) == $getunitplayernumber(target))
-							exp_given = 0;
-						else
-							exp_given = #attack_other_exp;
-					end
-				else
-					exp_given = #attack_other_exp;
-
-	if ($HasAttribute("XPMultiplier", target))
 		begin
-			exp_given *= target's "XPMultiplier";
+			exp_given = #attack_other_exp;
+			if (thisagent != $Nullagent())
+				if ($getunitplayernumber(thisagent) == $getunitplayernumber(target))
+					exp_given = 0;
 		end
+		
 	return exp_given;
 end
 
@@ -554,13 +533,7 @@ begin
 	
 	dmg_exp = $exp_value(attacker, defender);
 	dmg_exp = (dmg_exp * dmg) / $GetAttribute(defender, #ATTRIB_MaxHP);
-	if (attacker's "subtype" == "hero")
-		$give_exp(attacker, dmg_exp);
-		
-	if ($hasattribute("familiar",attacker))
-		if (attacker's "familiar" == TRUE)
-			if ($isdead(attacker's "leader") == FALSE)
-				$give_exp(attacker's "leader", dmg_exp);
+	$attack_end(attacker, dmg_exp);
 			
 	$adjustattribute ( defender, #ATTRIB_HP, -dmg );
 end
@@ -609,7 +582,7 @@ begin
 			begin
 				dmg_exp = $exp_value(attacker, defender);
 				dmg_exp = (dmg_exp * dmg) / $GetAttribute(defender, #ATTRIB_MaxHP);
-				$give_exp(attacker, dmg_exp);
+				$attack_end(attacker,dmg_exp);
 			end
 				
 	$adjustattribute(defender,#ATTRIB_HP,-dmg);
