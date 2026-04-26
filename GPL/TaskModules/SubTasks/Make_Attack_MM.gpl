@@ -363,10 +363,11 @@ end
 function exp_value(agent thisagent, agent target) is integer
 
 declare
-	integer exp_given, exp_mult;
+	integer exp_given;
 
 begin
-	
+	exp_given = 0;
+
 	if (target's "type" == "monster")
 		exp_given = $getattribute(target,#ATTRIB_LevelXP);
 	else if (target's "type" == "lair")
@@ -376,7 +377,7 @@ begin
 	else
 		begin
 			exp_given = #attack_other_exp;
-			if (thisagent != $Nullagent())
+			if ($isvalidgamepiece(thisagent))
 				if ($getunitplayernumber(thisagent) == $getunitplayernumber(target))
 					exp_given = 0;
 		end

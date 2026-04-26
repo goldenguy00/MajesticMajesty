@@ -3,7 +3,73 @@
 //CONFIDENTIAL MATERIAL
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////
+function give_exp(agent thisagent, integer new_exp)
 
+declare
+	integer exp_needed,exp_level,exp;
+
+begin
+	exp_level = $getattribute(thisagent,#ATTRIB_experiencelevel);
+	if (exp_level < 1)
+		return;
+
+	exp_needed = $getattribute(thisagent,#ATTRIB_LevelXP);
+	if (exp_needed < 1)
+		return;
+	
+	exp = $getattribute(thisagent,#ATTRIB_experience);
+
+	new_exp = new_exp / exp_level;
+
+	exp += new_exp;
+
+	while (exp >= exp_needed) do
+		begin
+			// character went up a level!
+			exp -= exp_needed;
+			exp_level += 1;
+
+//			exp /= exp_level; // divide remaining exp by new hero level
+			exp = exp / exp_level;
+
+			$adjustattribute(thisagent,#ATTRIB_ExperienceLevel,1);
+			$createeffector(thisagent,"level_up",0);
+
+			//Gnomes say their level 10 lines earlier, when it coincides with them becoming adventurers...
+			If (ThisAgent's "Title" == "Gnome")
+				begin
+
+					If ($GetAttribute (ThisAgent, #ATTRIB_ExperienceLevel) == #gnome_hero_level)
+						$Say (ThisAgent, "VFX_LEVEL_10");
+
+					//Otherwise, say your normal voice line
+					Else
+						$say(thisagent,"VFX_GAIN_LEVEL");
+
+				end
+
+			Else
+				begin
+
+					//If this is the Hero's tenth level, they say a special global voice line - global because of the editor
+					If ($GetAttribute (ThisAgent, #ATTRIB_ExperienceLevel) == 10)
+						$Say (ThisAgent, "VFX_LEVEL_10");
+
+					//Otherwise, say your normal voice line
+					Else
+						$say(thisagent,"VFX_GAIN_LEVEL");
+
+				end
+
+			$createeffector(thisagent,"thought_bubble_talk",#talk_bubble_time);
+
+			$level_up_stats_increase(thisagent);
+
+		end
+
+	$setattribute(thisagent,#ATTRIB_experience,exp);
+
+end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function level_up_stats_increase(agent thisagent)
 

@@ -18,41 +18,6 @@ begin
 	if (thisagent's "Starting_Equipment_3" != "Nothing")
 		$CreateAndEquipItem(thisagent, thisagent's "Starting_Equipment_3");
 end
-///////////////////////////////////////////////////////////////////////////////
-function Death_Item_Drops(agent thisagent)
-
-declare
-	string item, agentType;
-
-begin
-	$Death_Item_Drops_Process(thisagent, "ItemDrop1", "ItemDropChance1");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop2", "ItemDropChance2");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop3", "ItemDropChance3");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop4", "ItemDropChance4");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop5", "ItemDropChance5");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop6", "ItemDropChance6");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop7", "ItemDropChance7");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop8", "ItemDropChance8");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop9", "ItemDropChance9");
-	$Death_Item_Drops_Process(thisagent, "ItemDrop10", "ItemDropChance10");
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function Death_Item_Drops_Process(agent thisagent, string itemdrop, string itemdropchance)
-
-declare
-	string agentType;
-
-begin
-	if ($HasAttribute(itemdrop, thisagent) == false)
-		return;
-	
-	if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
-		begin
-			agentType = $GetInventoryItemAgentType(thisagent's itemdrop);
-			$SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(thisagent's itemdrop), 0) );
-		end
-end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Equipment_Item_Birth(agent thisagent)
@@ -405,14 +370,55 @@ begin
 			$UpdateArmor_Magical(thisagent);
 		end
 end
+
+///////////////////////////////////////////////////////////////////////////////
+function Death_Item_Drops(agent thisagent)
+
+declare
+	integer base_chance;
+
+begin
+	base_chance = $GetIntegerSafe(thisagent, "ItemDropChance1");
+	if (base_chance == 0)
+		return;
+	
+	$Death_Item_Drops_Process(thisagent, "ItemDrop1", "ItemDropChance1");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop2", "ItemDropChance2");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop3", "ItemDropChance3");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop4", "ItemDropChance4");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop5", "ItemDropChance5");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop6", "ItemDropChance6");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop7", "ItemDropChance7");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop8", "ItemDropChance8");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop9", "ItemDropChance9");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop10", "ItemDropChance10");
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Death_Item_Drops_Process(agent thisagent, string itemdrop, string itemdropchance)
+
+declare
+	string agentType;
+
+begin	
+	if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
+		begin
+			agentType = $GetInventoryItemAgentType(thisagent's itemdrop);
+			$SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(thisagent's itemdrop), 0) );
+		end
+end
+
 ///////////////////////////////////////////////////////////////////////////////
 function Item_Stack(agent thisagent, agent target )
 
 declare
-	list items;
-	string item, itemtype;
+	integer base_chance;
 
 begin
+	base_chance = $GetIntegerSafe(thisagent, "ItemDropChance1");
+	if (base_chance == 0)
+		return;
+	
 	$Item_Stack_Process(thisagent, target, "ItemDrop1", "ItemDropChance1");
 	$Item_Stack_Process(thisagent, target, "ItemDrop2", "ItemDropChance2");
 	$Item_Stack_Process(thisagent, target, "ItemDrop3", "ItemDropChance3");
@@ -426,53 +432,45 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function Item_Stack_Process(agent thisagent, agent target, string itemdrop, string itemdropchance )
+function Item_Stack_Process(agent thisagent, agent target, string itemdrop_name, string itemdropchance )
 
 declare
 	agent itemagent;
+	string itemdrop;
 
 begin
-	if ($HasAttribute(itemdrop, thisagent) == false || $HasAttribute("Total_Item_list", target) == false)
-		return;
-	else if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
+	if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
 		begin
-			$createeffector(target,"got_item",0);
-			if ($AgentHasInventoryItem(thisagent's itemdrop, target) == false)
+			itemdrop = thisagent's itemdrop_name;
+			$AddAttribute(target, itemdrop, "integer");
+			if ($AgentHasInventoryItem(itemdrop, target) == false)
 				begin
-					$CreateNewInventoryItem(thisagent's itemdrop, target, 1);
-					$AddAttribute(target, thisagent's itemdrop, "integer");
-					itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(thisagent's itemdrop), "Override", $Concatenate($MakeInventoryAttribute(thisagent's itemdrop), 0) );
+					$CreateNewInventoryItem(itemdrop, target, 1);
+					itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(itemdrop), "Override", $Concatenate($MakeInventoryAttribute(itemdrop), 0) );
 					if (itemagent's "Type" == "Loot")
 						begin
-							if ($StringInList(thisagent's itemdrop, target's "Loot_Item_List") == False)
+							if ($StringInList(itemdrop, target's "Loot_Item_List") == False)
 								begin
-									target's "Loot_Item_List" << thisagent's itemdrop;
+									target's "Loot_Item_List" << itemdrop;
 									target's "Loot_Item_Value_List" << itemagent's "Gold_Value";
-								end
-							if ($StringInList(thisagent's itemdrop, target's "Total_Item_List") == False)
-								begin
-									target's "Total_Item_List" << thisagent's itemdrop;
 								end
 						end
 					else if (itemagent's "Type" == "Equipment")
 						begin
-							if ($StringInList(thisagent's itemdrop, target's "Loot_Item_List") == False)
+							if ($StringInList(itemdrop, target's "Equipment_Item_List") == False)
 								begin
-									target's "Equipment_Item_List" << thisagent's itemdrop;
+									target's "Equipment_Item_List" << itemdrop;
 									target's "Equipment_Item_Value_List" << itemagent's "Gold_Value";
 								end
-							if ($StringInList(thisagent's itemdrop, target's "Total_Item_List") == False)
-								begin
-									target's "Total_Item_List" << thisagent's itemdrop;
-								end
+						end
+					if ($StringInList(itemdrop, target's "Total_Item_List") == False)
+						begin
+							target's "Total_Item_List" << itemdrop;
 						end
 					$DeleteGamePiece(itemagent);
-					target's (thisagent's itemdrop) += 1;
 				end
-			else
-				begin
-					target's (thisagent's itemdrop) += 1;
-				end
+			target's itemdrop += 1;
+			$createeffector(target,"got_item",0);
 		end
 end
 
