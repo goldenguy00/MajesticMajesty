@@ -2902,6 +2902,7 @@ begin
 	exhaustion = thisagent's "Exhaustion";
 	fear = thisagent's "Fear";
 	
+	in_combat = thisagent's "In_Combat";
 	resting = $InsideBuilding(thisagent);
 	if (resting)
 		begin
@@ -2913,12 +2914,11 @@ begin
 		end
 	else
 		begin
-			thisagent's "Exhaustion" += 5;
+			if (in_combat)
+				thisagent's "exhaustion" += 5;
+			else if ( thisagent's "fear" > 0)
+				thisagent's "fear"--;
 		end
-		
-	in_combat = thisagent's "In_Combat";
-	if (in_combat == false && fear > 0)
-		thisagent's "Fear"--;
 		
 	flag = true;
 

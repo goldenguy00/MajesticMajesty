@@ -13,8 +13,8 @@ declare
 	integer num_enemies;
 
 begin
-	if ($Berserk_check(thisagent) == 1)
-		return;
+	if (thisagent's "fear" < 10)
+		thisagent's "fear" = 10;
 	
 	$list_enemies(thisagent,1);
 	
@@ -25,10 +25,11 @@ begin
 			if (intent == "IDTXT_INTENT_FLEEING")
 				thisagent's "Fear" += (2 * num_enemies);
 			
-			if ($isvalidgamepiece(thisagent's "home"))
+			if ($isdead(thisagent's "home") == false)
 				if ($distancebetweenagents(thisagent,thisagent's "home") < #Near_home_dist)
 					begin
-						$go_berserk(thisagent);
+						if ($berserk_check(thisagent) == 0)
+							$go_berserk(thisagent);
 						return;
 					end
 		end
@@ -43,17 +44,20 @@ begin
 	if ($isvalidgamepiece(thisagent's "home"))
 		inns << thisagent's "home";
 
-	if (num_enemies > 0)
+
+	// remove any buildings that are too close from the list
+	foreach inn in inns do
 		begin
-			// remove any buildings that are too close from the list
-			foreach inn in inns do
+			if ($isdead(inn) == false)
 				begin
-					if ($distancebetweenagents(thisagent,inn) > #Near_inn_dist)
+					if (num_enemies == 0)
+						new_list << inn;
+					else if ($distancebetweenagents(thisagent,inn) > #Near_inn_dist)
 						new_list << inn;
 				end
-
-			inns = new_list;
 		end
+
+	inns = new_list;
 	$Flee_part_II_packet(thisagent, inns, intent);
 
 end
@@ -75,12 +79,12 @@ begin
 
 	if ($isvalidgamepiece(thisagent's "home"))
 		inns << thisagent's "home";
-	
+	thisagent's "Fear" = 100;
 	// remove any buildings that are too close from the list
 	foreach inn in inns do
 		begin
 			// wizards guild getting attacked by magic mirror enemies is painful to watch...
-			if ($IsAdjacent(thisagent, inn) == false)
+			if ($isdead(inn) == false && $IsAdjacent(thisagent, inn) == false)
 				new_list << inn;
 		end
 
@@ -105,6 +109,7 @@ begin
 				$go_berserk(thisagent);
 			return;
 		end
+
 	new_target = $pick_closest(thisagent,places);
 
 	thisagent's "target" = new_target;
@@ -116,10 +121,8 @@ begin
 	thisagent's "Activescript" = $use_building_safe;
 	thisagent's "backscript" = $use_building_safe;
 	thisagent's "destination" = $locationof(thisagent's "target");
-
-	if ($Flee_check(thisagent) == 1)
+	if ($flee_check(thisagent) == 1)
 		return;
-
 	if ($HasAttribute("taskpackagefled", thisagent))
 		begin
 			thisagent's "TaskPackageFled" ++;

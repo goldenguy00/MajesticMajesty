@@ -203,7 +203,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="1000"/>
 			<SpellType value="Other"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="2"/>
@@ -234,7 +234,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="1000"/>
 			<SpellType value="Travel"/>
 			<CharacterLevel value="4"/>
 			<SpellRank value="2"/>
@@ -266,7 +266,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="1000"/>
 			<SpellType value="Other"/>
 			<CharacterLevel value="7"/>
 			<SpellRank value="3"/>
@@ -529,7 +529,7 @@
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="1000"/>
 			<Sound value="Healing"/>
 			<SoundPhase begin="Begin"/>
 			<Script type="0" cProc="0" GPLFunction="generic_Regenerate_Cast"/>
@@ -545,7 +545,7 @@
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="1000"/>
 			<Sound value="Wither"/>
 			<SoundPhase begin="Begin"/>
 			<Script type="0" cProc="0" GPLFunction="Priestess_Wither_Cast"/>
@@ -561,7 +561,7 @@
 			<ImageSet value="Cast"/>
 			<CompletionImageSet value="Stand"/>
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="300"/>
+			<TimeoutDuration value="1000"/>
 			<Sound value="Iron_Will"/>
 			<SoundPhase begin="Begin"/>
 			<Script type="0" cProc="0" GPLFunction="Wizard_Transmute_Cast"/>
@@ -763,7 +763,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
+			<TimeoutDuration value="1000"/>
 			<SpellType value="Other"/>
 			<CharacterLevel value="1"/>
 			<SpellRank value="1"/>
@@ -779,7 +779,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
+			<TimeoutDuration value="1000"/>
 			<SpellType value="Other"/>
 			<CharacterLevel value="10"/>
 			<SpellRank value="1"/>
@@ -795,7 +795,7 @@
 		</Engine>
 		<Game version="1">
 			<Flags value="IsSpell"/>
-			<TimeoutDuration value="400"/>
+			<TimeoutDuration value="1000"/>
 			<SpellType value="Other"/>
 			<CharacterLevel value="20"/>
 			<SpellRank value="1"/>

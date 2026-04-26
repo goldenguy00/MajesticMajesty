@@ -47,11 +47,11 @@ begin
 
 	target = $SelectBestSpell(thisagent);
 	
-	if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range" && $IsAdjacent(thisagent, target) == false)
+	if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range")
 		begin
 			// move towards target
 			thisagent's "destination" = $locationof(target);
-			thisagent's "activeScript" = $travel_to;
+			thisagent's "activeScript" = $travel_to_berserk;
 			thisagent's "backScript" = $berserk_defend;
 			$move(thisagent,target);
 		end

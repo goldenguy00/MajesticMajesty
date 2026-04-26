@@ -90,7 +90,7 @@ begin
 			thisagent's "activescript" = $Attack_object;
 			thisagent's "target" = current_best_monster;
 
-			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BATTLINGENEMYHERO");
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_ATTACKINGENEMY" + $getintentext(current_best_monster));
   //		//$DebugOut("Yes");
 			return TRUE;
 		end
@@ -178,7 +178,7 @@ Begin
 
 	if (current_best_monster != $NullAgent())
 		begin
-			intentext = "IDTXT_INTENT_BATTLINGENEMYHERO" + $getintentext(current_best_monster);
+			intentext = "IDTXT_INTENT_ATTACKINGENEMY" + $getintentext(current_best_monster);
 			$UpdateTaskPackage(thisagent, $attack_object, $notvalid, current_best_monster, intentext);
 			
 			return $NotDuplicateTask(thisagent, thisagent's "TaskPackageTypeIndex");

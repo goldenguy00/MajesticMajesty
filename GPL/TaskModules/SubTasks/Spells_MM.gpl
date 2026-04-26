@@ -90,11 +90,11 @@ Declare
 	boolean  fired;
 
 Begin
+	If ($IsDead (victim))
+		return;
 	// First check to see if the target has a mirror up, if so, just jump
 	// out of the effect.
 	if ( $GetAttribute ( victim, #ATTRIB_HasEffectMagicMirror ) == 1 )
-		return;
-	if ( $IsDead ( victim ))
 		return;
 		
 	$createeffector ( victim, "Chainlightning_effector", 0 );
@@ -283,7 +283,9 @@ declare
 	integer	Effector_Duration;
 
 begin
-	if ($isvalidgamepiece(target) == FALSE)
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
 		return;
 
 	// CBT note: as of Majesty Alpha the effector duration below is 0
@@ -312,10 +314,9 @@ Declare
 	integer	Effector_Duration;
 
 Begin
-	If ($IsValidGamePiece (Target) == False)
+	if ($notvalid_attacker(thisagent))
 		return;
-
-	If ($IsDead (Target))
+	if ($notvalid(target))
 		return;
 
 	Effector_Duration = $GetSpellAttribute ("level_leach", "effector_duration");
@@ -343,6 +344,10 @@ declare
 	agent targetD;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	// CBT note: as of Majesty Alpha the effector duration below is 0
 	$createeffector(target,"exploding_aura_effector1",$getspellattribute("exploding_aura","effector_duration"));
 	$spell_type_attack(thisagent, target, "Fire", 33, 36);
@@ -365,6 +370,8 @@ declare
 	agent dude;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
 	$ListObjects(thisagent,"building",ThisAgent's "CastingRange",t1,#NotMyPlayer);
 	$ListObjects(thisagent,"hero",ThisAgent's "CastingRange",t2,#NotMyPlayer);
 	targets = $addlists(t1,t2);
@@ -385,6 +392,8 @@ declare
 	agent dude;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
 	$createeffector( thisagent, "radiate_energy_effector1", 0 );
 
 	$ListObjects(thisagent,"hero",thisagent's "castingrange",targets,#NotMyPlayer);
@@ -406,6 +415,9 @@ declare
 	agent target;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	
 	targets = $compile_enemies(thisagent,75);
 
 	foreach target in targets do
@@ -417,21 +429,16 @@ begin
 		end
 end
 
-function HandleSearingMantle(agent thisagent, agent target)
+function HandleSearingMantle(agent attacker, agent defender)
 declare
 begin
-		if ($IsDead(target) == True)
-			return;
-			
-		if ($HasAttribute("SearingMantleBuff_End", target) == True)
-		if ($IsRunning(Target's "SearingMantleBuff_End") == True)
-			begin
-				if ($GetAttribute(thisagent, #ATTRIB_MaxAttackRange) < 50)
-					begin
-						$createeffector( thisagent, "SearingMantleDamage_Effector", 0 );
-						$spelltypedamage(target, thisagent, "fire", target's "SearingMantle_Damage_Min",  target's "SearingMantle_Damage_Max");
-					end
-			end
+	if ($HasAttribute(defender, "SearingMantleBuff_End"))
+		if ($IsRunning(defender's "searingmantlebuff_end"))
+			if ($GetAttribute(attacker, #ATTRIB_MaxAttackRange) < 50)
+				begin
+					$createeffector( attacker, "SearingMantleDamage_Effector", 0 );
+					$spelltypedamage(defender, attacker, "fire", defender's "SearingMantle_Damage_Min",  defender's "SearingMantle_Damage_Max");
+				end
 end
 // --- Howl of Discord Functions begin here --- //
 
@@ -443,6 +450,9 @@ declare
 	integer level, fear_mod, min_damage, max_damage;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	
 	$CreateEffector ( thisagent, "Howl_of_Discord_Effector", 0 );
 
 	All_Targets = $compile_enemies (ThisAgent, #Howl_of_Discord_Radius);
@@ -459,7 +469,7 @@ begin
 					// All valid targets get the effector.
 					$CreateEffector ( victim, "Howl_of_Discord_Hit", 0 );
 					//$Spell_Attack ( thisagent, victim, max_damage );
-					$spell_type_attack(thisagent, target, "Chaos", min_damage, max_damage);
+					$spell_type_attack(thisagent, victim, "Chaos", min_damage, max_damage);
 
 					// Only actual heroes can be affected by the fear.
 					if ( victim's "subtype" == "hero" )
@@ -503,7 +513,7 @@ declare
 	agent guy;
 
 begin
-	if ($isdead(thisagent))
+	if ($notvalid_attacker(thisagent))
 		return;
 
 	guys = $list_enemies_seen(thisagent,$getattribute(thisagent,#ATTRIB_sightrange));
@@ -559,6 +569,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	spell_cast = "power_shock";
 	cooldown = 6000;
 	
@@ -597,23 +611,31 @@ function Flame_Shield_Begin( agent thisagent, agent target )
 // generic library hero spell - lvl 1 - uses Fire Shield art
 // - callback from cast action
 declare
-	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_armor, add_resistance, mana_cost;
+	integer stat_int, stat_willpower, stat_wisdom, duration, cooldown, add_armor, add_resistance, mana_cost;
 	string buff_name, spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	
 	spell_cast = "flame_shield";
+	buff_name = "Generic_FlameShieldBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Generic_FlameShieldBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
 	duration = 14000;
 	cooldown = 12000;
 	add_armor = (1 + (stat_int / 10));
 	add_resistance = (8 + (stat_int / 6));
-	buff_name = "Generic_FlameShieldBuff_End";
 	
 	duration = $DurationBuff(thisagent, target, duration);
-	
+
 	add_armor = $EffectBuff(thisagent, target, add_armor);
 	add_resistance = $EffectBuff(thisagent, target, add_resistance);
 	
@@ -624,13 +646,9 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector( target, "fire_shield_effector", 0 );
-
-	if ($AddAttribute(target, buff_name, "function", $Generic_FlameShieldBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-	
 	$createeffector( target, "flame_shield_icon", duration );
-	$NewThread(target's buff_name, duration, thisagent, stat_int, stat_willpower, stat_wisdom);
+	
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
 	$adjustattribute(target,#ATTRIB_Armor_Basic_Damage,add_armor);
 	$MagicalAdjustAttribute(target,#ATTRIB_Magicresistance,add_resistance);
@@ -655,8 +673,6 @@ begin
 	
 	$adjustattribute(thisagent,#ATTRIB_Armor_Basic_Damage, - add_armor);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_magicresistance, - add_resistance);
-	
-	$KillThread(thisagent's "Generic_FlameShieldBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -670,15 +686,25 @@ declare
 	string buff_name, spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+
 	spell_cast = "camouflage";
+	buff_name = "Cultist_CamouflageBuff_End";	
+	if ($AddAttribute(target, buff_name, "function", $Cultist_camouflageBuff_end) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
+	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
 	duration = 16000;
 	cooldown = 8000;
-	buff_name = "Cultist_CamouflageBuff_End";
-	duration = $DurationBuff(thisagent, thisagent, duration);
+
+	duration = $DurationBuff(thisagent, target, duration);
 	
 	mana_cost =  $SpellManaCost(thisagent, spell_cast);
 	$SpendMana(thisagent, mana_cost);
@@ -686,19 +712,15 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 	
-	$createeffector( thisagent, "camouflage_effector", 0 );
-	$createeffector( thisagent, "camouflage_icon", duration );
-	
-	if ($AddAttribute(target, buff_name, "function", $Cultist_camouflageBuff_end) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			$KillThread(thisagent's buff_name);
-	
-	$NewThread(thisagent's buff_name, duration, thisagent, stat_int, stat_willpower, stat_wisdom);
+	$createeffector( target, "camouflage_effector", 0 );
+	$createeffector( target, "camouflage_icon", duration );
 
-	$SetAttribute( thisagent, #ATTRIB_HasEffectCamouflage, 1 );
-	$GetProperUnitArt( thisagent );
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
-	thisagent's "type" = "camouflaged";
+	$SetAttribute( target, #ATTRIB_HasEffectCamouflage, 1 );
+	$GetProperUnitArt( target );
+
+	target's "type" = "camouflaged";
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -721,8 +743,6 @@ begin
 		end
 		
 	$GetProperUnitArt( thisagent );
-	
-	$KillThread(thisagent's "Cultist_CamouflageBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -734,6 +754,13 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	
+	if ($CheckEffector(target, "Charm_icon") == TRUE)
+		return;
 	spell_cast = "charm_monster";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
@@ -746,9 +773,6 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector( thisagent, "charm_monster_effector", 0 );
-	
-	if ($CheckEffector(target, "Charm_icon") == TRUE)
-		return;
 	
 	$control_monster(thisagent,target);
 	
@@ -771,9 +795,18 @@ declare
 	string buff_name, spell_cast;
 	
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	spell_cast = "change_shape";
+	buff_name = "Cultist_ChangeShapeBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Cultist_ChangeShapeBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
+	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
 	duration = 20000;
 	cooldown = 34000;
@@ -781,46 +814,41 @@ begin
 	add_strength = (6 + (stat_int / 7));
 	add_vitality = (9 + (stat_int / 6));
 	add_MaxHP = (24 + (stat_int / 5));
-	buff_name = "Cultist_ChangeShapeBuff_End";
 	
-	duration = $DurationBuff(thisagent, thisagent, duration);
+	duration = $DurationBuff(thisagent, target, duration);
 	
-	add_armor = $EffectBuff(thisagent, thisagent, add_armor);
-	add_strength = $EffectBuff(thisagent, thisagent, add_strength);
-	add_vitality = $EffectBuff(thisagent, thisagent, add_vitality);
-	add_MaxHP = $EffectBuff(thisagent, thisagent, add_MaxHP);
-	
-	$createeffector( thisagent, "change_shape_effector", 0 );
-	$createeffector( thisagent, "change_shape_icon", duration );
-	
+	add_armor = $EffectBuff(thisagent, target, add_armor);
+	add_strength = $EffectBuff(thisagent, target, add_strength);
+	add_vitality = $EffectBuff(thisagent, target, add_vitality);
+	add_MaxHP = $EffectBuff(thisagent, target, add_MaxHP);
+
 	mana_cost =  $SpellManaCost(thisagent, spell_cast);
 	$SpendMana(thisagent, mana_cost);
 
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
-
-	if ($HasAttribute(buff_name, thisagent) == False)
-		$AddAttribute(thisagent, buff_name, "function", $Cultist_ChangeShapeBuff_End);
 		
-		
-	$NewThread(thisagent's buff_name, duration, thisagent, stat_int, stat_willpower, stat_wisdom);
+	$createeffector(target, "change_shape_effector", 0);
+	$createeffector(target, "change_shape_icon", duration);
+	
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
-	$ChangeUnitType( thisagent, "Red_Bear" );
+	$ChangeUnitType( target, "Red_Bear" );
 
 	// increase various attributes
-	$adjustattribute(thisagent,#ATTRIB_Armor_Basic_Damage,add_armor);
+	$adjustattribute(target,#ATTRIB_Armor_Basic_Damage,add_armor);
 
-	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength,add_strength);
-	$MagicalAdjustAttribute(thisagent,#ATTRIB_Vitality,add_vitality);
+	$MagicalAdjustAttribute(target,#ATTRIB_Strength,add_strength);
+	$MagicalAdjustAttribute(target,#ATTRIB_Vitality,add_vitality);
 
-	$AdjustIntegerSafe(thisagent, "Strength_Flat", add_strength);
-	$AdjustIntegerSafe(thisagent, "Vitality_Flat", add_vitality);
-	$AdjustIntegerSafe(thisagent, "MaxHP_Flat", add_vitality);
+	$AdjustIntegerSafe(target, "Strength_Flat", add_strength);
+	$AdjustIntegerSafe(target, "Vitality_Flat", add_vitality);
+	$AdjustIntegerSafe(target, "MaxHP_Flat", add_vitality);
 
-	$adjustattribute(thisagent,#ATTRIB_MaxHP,add_MaxHP);
-	$adjustattribute(thisagent,#ATTRIB_HP,add_MaxHP);
+	$adjustattribute(target,#ATTRIB_MaxHP,add_MaxHP);
+	$adjustattribute(target,#ATTRIB_HP,add_MaxHP);
 
-	$RecalculateStats(thisagent);
+	$RecalculateStats(target);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -832,7 +860,7 @@ declare
 	integer maxHP, add_strength, add_vitality, add_MaxHP, add_armor;
 
 begin
-	if ($IsValidGamePiece(thisagent) == false)
+	if ($isdead(thisagent))
 		return;
 		
 	add_armor = (3 + (intelligence / 8));
@@ -867,7 +895,6 @@ begin
 		$SetAttribute( thisagent, #ATTRIB_HP, maxHP );
 	
 	$RecalculateStats(thisagent);
-	$KillThread(thisagent's "Cultist_ChangeShapeBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -881,7 +908,9 @@ declare
 	integer Healing;
 	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_strength, add_htoh, mana_cost;
 begin
-	if ( $isdead ( target ))
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
 		return;
 	spell_cast = "healer_heal";
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
@@ -895,35 +924,32 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
-	if ( $isdead ( thisagent ) == FALSE )
-		begin
-			$createeffector( target, "healer_heal", 0 );
+	$createeffector( target, "healer_heal", 0 );
 
-			AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-  			if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
+	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+	if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
+		begin
+			if ( AIRootAgent's "Deathmatch_Rules" == TRUE )
 				begin
-					if ( AIRootAgent's "Deathmatch_Rules" == TRUE )
-						begin
-							healing = ( #Deathmatch_Agrella_Healing_Multiplier * $GetAttribute ( ThisAgent, #ATTRIB_ExperienceLevel ));
-							if ( healing > #Deathmatch_Agrella_Healing_Cap )
-								healing = #Deathmatch_Agrella_Healing_Cap;
-						end
-					else
-						begin
-							healing = ( #Agrella_Healing_Multiplier * $GetAttribute ( ThisAgent, #ATTRIB_ExperienceLevel ));
-						end
+					healing = ( #Deathmatch_Agrella_Healing_Multiplier * $GetAttribute ( ThisAgent, #ATTRIB_ExperienceLevel ));
+					if ( healing > #Deathmatch_Agrella_Healing_Cap )
+						healing = #Deathmatch_Agrella_Healing_Cap;
 				end
 			else
 				begin
 					healing = ( #Agrella_Healing_Multiplier * $GetAttribute ( ThisAgent, #ATTRIB_ExperienceLevel ));
 				end
+		end
+	else
+		begin
+			healing = ( #Agrella_Healing_Multiplier * $GetAttribute ( ThisAgent, #ATTRIB_ExperienceLevel ));
+		end
 
-			$Heal ( ThisAgent, Target, healing );
-			if ( target's "backscript" == $use_building_safe )
-				begin
-					if ( $haslowHP ( target ) == False )
-						$reset_tasks ( target );
-				end
+	$Heal ( ThisAgent, Target, healing );
+	if ( target's "backscript" == $use_building_safe)
+		begin
+			if ( $haslowHP ( target ) == False )
+				$reset_tasks ( target );
 		end
 end
 
@@ -937,7 +963,17 @@ declare
 	string buff_name, spell_cast;
 	
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	
 	spell_cast = "meditation";
+	buff_name = "Healer_MeditationBuff_End";	
+	if ($AddAttribute(target, buff_name, "function", $Healer_MeditationBuff_end) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
@@ -947,7 +983,6 @@ begin
 	add_dodge = (15 + (stat_int / 5));
 	add_parry = (15 + (stat_int / 5));
 	add_sight = (30 + (stat_int / 4));
-	buff_name = "Healer_MeditationBuff_End";
 	//add_healrate = (1 + (stat_int / 12));
 	
 	duration = $DurationBuff(thisagent, target, duration);
@@ -964,13 +999,9 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector(target,"Meditation_effector",0);
-	
-	if ($AddAttribute(target, buff_name, "function", $Healer_MeditationBuff_end) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;		
-		
 	$createeffector(target,"Meditation_icon",duration);
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
+
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$MagicalAdjustAttribute(target,#ATTRIB_dodge,add_dodge);
 	$MagicalAdjustAttribute(target,#ATTRIB_parry,add_parry);
@@ -987,7 +1018,7 @@ declare
 	integer add_dodge, add_parry, add_sight, add_healrate;
 
 begin
-	if ($IsValidGamePiece(thisagent) == false)
+	if ($isdead(thisagent))
 		return;
 		
 	add_dodge = (15 + (intelligence / 5));
@@ -1003,10 +1034,7 @@ begin
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_dodge,- add_dodge);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_parry,- add_parry);
 	$adjustattribute(thisagent,#ATTRIB_sightrange,- add_sight);
-	//$adjustattribute(thisagent,#ATTRIB_HealingRateModifier,add_healrate);
-	
-	$KillThread(thisagent's "Healer_MeditationBuff_End");
-	
+	//$adjustattribute(thisagent,#ATTRIB_HealingRateModifier,add_healrate);	
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1019,9 +1047,19 @@ declare
 	string buff_name, spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+
 	spell_cast = "hands_of_steel";
+	buff_name = "Monk_HandsOfSteelBuff_End";	
+	if ($AddAttribute(target, buff_name, "function", $Monk_HandsOfSteelBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
+	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
 	mana_cost =  $SpellManaCost(thisagent,"hands_of_steel");
@@ -1029,12 +1067,11 @@ begin
 	cooldown = 10000;
 	add_strength = (8 + (stat_int / 5));
 	add_htoh = (12 + (stat_int / 4));
-	buff_name = "Monk_HandsOfSteelBuff_End";
+
+	duration = $DurationBuff(thisagent, target, duration);
 	
-	duration = $DurationBuff(thisagent, thisagent, duration);
-	
-	add_strength = $EffectBuff(thisagent, thisagent, add_strength);
-	add_htoh = $EffectBuff(thisagent, thisagent, add_htoh);
+	add_strength = $EffectBuff(thisagent, target, add_strength);
+	add_htoh = $EffectBuff(thisagent, target, add_htoh);
 	
 	mana_cost =  $SpellManaCost(thisagent, spell_cast);
 	$SpendMana(thisagent, mana_cost);
@@ -1042,20 +1079,15 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
-	$createeffector( thisagent, "hands_of_steel_effector", 0 );
+	$createeffector(target, "hands_of_steel_effector", 0 );
+	$createeffector(target, "hands_of_steel_icon", duration );
 
-	if ($AddAttribute(target, buff_name, "function", $Monk_HandsOfSteelBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			$KillThread(thisagent's buff_name);
-	
-	$createeffector( thisagent, "hands_of_steel_icon", duration );
-	$NewThread(thisagent's buff_name, duration, thisagent, stat_int, stat_willpower, stat_wisdom);
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
-	$MagicalAdjustAttribute(thisagent,#ATTRIB_strength, add_strength);
-	$AdjustIntegerSafe(thisagent, "Strength_Flat", add_strength);
-	$UpdateStrength(thisagent);
-	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, add_htoh);
-	
+	$MagicalAdjustAttribute(target,#ATTRIB_HtoH, add_htoh);
+	$MagicalAdjustAttribute(target,#ATTRIB_strength, add_strength);
+	$AdjustIntegerSafe(target, "Strength_Flat", add_strength);
+	$UpdateStrength(target);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1079,8 +1111,6 @@ begin
 	$AdjustIntegerSafe(thisagent, "Strength_Flat", -add_strength);
 	$UpdateStrength(thisagent);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_HtoH, - add_htoh);
-	
-	$KillThread(thisagent's "Monk_HandsOfSteelBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1092,15 +1122,24 @@ declare
 	string buff_name, spell_cast;
 	
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+
+	spell_cast = "monk_stone_skin";
+	buff_name = "Monk_StoneSkinBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Monk_StoneSkinBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
-	spell_cast = "monk_stone_skin";
 	duration = 27000;
 	cooldown = 18000;
 	add_armor = (3 + (stat_int / 7));
-	buff_name = "Monk_StoneSkinBuff_End";
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
@@ -1113,16 +1152,11 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector( target, "monk_stone_skin_effector", 0 );
-
-	if ($AddAttribute(target, buff_name, "function", $Monk_StoneSkinBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-	
 	$createeffector( target, "monk_stone_skin_icon", duration );
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
+
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
-	$adjustattribute(target,#ATTRIB_armor_basic_damage,add_armor);
-	
+	$adjustattribute(target,#ATTRIB_armor_basic_damage,add_armor);	
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1141,8 +1175,6 @@ begin
 	add_armor = $EffectBuff_Thread(willpower, wisdom, add_armor);
 	
 	$adjustattribute(thisagent,#ATTRIB_armor_basic_damage, - add_armor);
-	
-	$KillThread(thisagent's "Monk_StoneSkinBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1154,16 +1186,25 @@ declare
 	string buff_name, spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+
+	spell_cast = "iron_will";	
+	buff_name = "Monk_IronWillBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Monk_IronWillBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
-	spell_cast = "iron_will";
 	duration = 32000;
 	cooldown = 20000;
 	add_resistance = (35 + (stat_int / 2));
 	add_crit = (1 + (stat_int / 7));
-	buff_name = "Monk_IronWillBuff_End"; 
 
 	duration = $DurationBuff(thisagent, target, duration);
 	
@@ -1177,13 +1218,9 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector( target, "iron_will_effector", 0 );
-
-	if ($AddAttribute(target, buff_name, "function", $Monk_IronWillBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-	
 	$createeffector( target, "iron_will_icon", duration );
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
+
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$MagicalAdjustAttribute(target, #ATTRIB_magicresistance,add_resistance);
 	$adjustattribute(target, #ATTRIB_Healingratemodifier,-1);
@@ -1213,8 +1250,6 @@ begin
 	$adjustattribute(thisagent,#ATTRIB_Healingratemodifier, 1);
 	
 	thisagent's "critical_chance" -= add_crit;
-	
-	$KillThread(thisagent's "Monk_IronWillBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1223,22 +1258,30 @@ function Shield_of_Light_Begin( agent thisagent, agent target )
 // paladin spell - lvl 4
 // - callback from cast action
 declare
-	integer stat_int, stat_willpower, stat_wisdom, stat_art, duration, cooldown, add_armor, add_dodge, add_parry, add_resistance, mana_cost;
+	integer stat_int, stat_willpower, stat_wisdom, duration, cooldown, add_armor, add_dodge, add_parry, add_resistance, mana_cost;
 	string buff_name, spell_cast;
 	
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	
+	spell_cast = "shield_of_light";
+	buff_name = "Paladin_ShieldOfLightBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Paladin_ShieldOfLightBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
-	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
-	spell_cast = "shield_of_light";
 	duration = 15000;
 	cooldown = 11000;
 	add_armor = (1 + (stat_int / 7));
 	add_dodge = (6 + (stat_int / 4));
 	add_parry = (6 + (stat_int / 4));
 	add_resistance = (9 + (stat_int / 3));
-	buff_name = "Paladin_ShieldOfLightBuff_End";
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
@@ -1253,14 +1296,10 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
-	$createeffector(thisagent,"shield_of_light_effector",0);
-	
-	if ($AddAttribute(target, buff_name, "function", $Paladin_ShieldOfLightBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-
+	$createeffector(target,"shield_of_light_effector",0);
 	$createeffector( target, "shield_of_light_icon", duration );
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
+
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$adjustattribute(target,#ATTRIB_armor_basic_damage,add_armor);
 	$MagicalAdjustAttribute(target,#ATTRIB_dodge,add_dodge);
@@ -1271,7 +1310,7 @@ end
 function Shield_Of_Life_Check(agent thisagent) is integer
 declare
 begin
-
+	return $GenericSpellCheck(thisagent, "shield_of_light");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1299,8 +1338,6 @@ begin
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_dodge, - add_dodge);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_parry, - add_parry);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_magicresistance, - add_resistance);
-	
-	$KillThread(thisagent's "Paladin_ShieldOfLightBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1313,6 +1350,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	spell_cast = "drain_life";
 	cooldown = 2000;
 
@@ -1335,6 +1376,8 @@ declare
 	integer  Healing_Needed, Temp_Healing_Needed, HP, MaxHP;
 
 begin
+	if ($isdead(thisagent))
+		return;
 	if ($isvalidgamepiece(target) == FALSE)
 		return;
 
@@ -1392,10 +1435,20 @@ function Animate_Skeleton_Effect( agent thisagent, agent target )
 // - callback from cast action
 declare
 	integer cooldown, mana_cost;
-	string spell_cast;
+	string spell_cast, buff_name;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+			
+	buff_name = "Priestess_AnimateSkeleton_Summon";
 	spell_cast = "animate_skeleton";
+	if ($AddAttribute(target, buff_name, "function", $Priestess_AnimateSkeleton_Summon) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	cooldown = 5000;
 	
 	mana_cost =  $SpellManaCost(thisagent, spell_cast);
@@ -1404,11 +1457,9 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
-	$createeffector( thisagent, "animate_skeleton", 2500 );
+	$createeffector(target, "animate_skeleton", 2500 );
 	
-	$AddAttribute(thisagent, "Priestess_AnimateSkeleton_Summon", "function", $Priestess_AnimateSkeleton_Summon);
-	
-	$NewThread(thisAgent's "Priestess_AnimateSkeleton_Summon", 2500, thisAgent );
+	$RunThread(target's buff_name, 2500, target );
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1419,6 +1470,8 @@ declare
 	agent s_Minion;
 	integer p_Level;
 begin
+	if ($isdead(thisagent))
+		return;
 	p_Level = $getattribute(thisagent, #ATTRIB_ExperienceLevel);
 	s_Minion = $SpawnUnit ( thisagent, "Skeleton" );
 	$adjustattribute( s_Minion, #ATTRIB_MaxHP, ($getattribute(thisagent, #ATTRIB_ExperienceLevel)));
@@ -1431,8 +1484,6 @@ begin
 	$adjustattribute( s_Minion, #ATTRIB_HtoH, ($getattribute(thisagent, #ATTRIB_Intelligence) / 6));
 	$adjustattribute( s_Minion, #ATTRIB_Ranged, ($getattribute(thisagent, #ATTRIB_Intelligence) / 6));
 	(ThisAgent's "Num_Followers") ++;
-	
-	$KillThread(thisagent's "Priestess_AnimateSkeleton_Summon");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1445,6 +1496,12 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	if ($CheckEffector(target, "Charm_icon") == TRUE)
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_willpower = $getattribute(thisagent, #ATTRIB_Willpower);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
@@ -1459,10 +1516,6 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector( thisagent, "control_undead_effector", 0 );
-	
-	if ($CheckEffector(target, "Charm_icon") == TRUE)
-		return;
-	
 	$control_monster(thisagent,target);
 	
 	$setattribute( target, #ATTRIB_MaxHP, ($getattribute(target, #ATTRIB_MaxHP) + ($getattribute(thisagent, #ATTRIB_ExperienceLevel) / 2)));
@@ -1504,6 +1557,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	radius = 50 + (stat_int / 2);
 	spell_cast = "sun_scorch";
@@ -1539,6 +1596,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	spell_cast = "energy_blast";
@@ -1566,6 +1627,8 @@ function Energy_Blast_Hit( agent thisagent, agent target )
 declare
 
 begin
+	if ($isvalidgamepiece(target) == FALSE)
+		return;
 	$PlaySound (Target, "Energy_Blast", "Attack");
 
 	// CBT note: as of Majesty Alpha the effector duration below is 0
@@ -1583,16 +1646,26 @@ declare
 	string spell_cast, buff_name;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	
+	spell_cast = "fire_shield";
+	buff_name = "Wizard_FireShieldBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Wizard_FireShieldBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
-	spell_cast = "fire_shield";
+
 	duration = 15000;
 	cooldown = 7000;
 	add_armor = (1 + (stat_int / 8));
 	add_resistance = (10 + (stat_int / 5));
-	buff_name = "Wizard_FireShieldBuff_End";
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
@@ -1606,17 +1679,12 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector( target, "fire_shield_effector", 0 );
-
-	if ($AddAttribute(target, buff_name, "function", $Wizard_FireShieldBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-	
 	$createeffector( target, "fire_shield_icon", duration );
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
+	
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
 	$adjustattribute(target,#ATTRIB_Armor_Basic_Damage,add_armor);
 	$MagicalAdjustAttribute(target,#ATTRIB_Magicresistance,add_resistance);
-	
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1638,8 +1706,6 @@ begin
 	
 	$adjustattribute(thisagent,#ATTRIB_Armor_Basic_Damage, - add_armor);
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_magicresistance, - add_resistance);
-	
-	$KillThread(thisagent's "Wizard_FireShieldBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1653,6 +1719,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	// list all enemies nearby -
 	radius = $CastRangeForSpell(thisagent's "castingrange", "fire_blast");
 	targets = $compile_enemies(thisagent,radius);
@@ -1701,6 +1771,10 @@ function Fire_Blast_Hit( agent thisagent, agent target )
 declare
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == FALSE)
+		return;
 	$createeffector( target, "fire_blast_effector", 0 );
 	$spell_type_attack(thisagent, target, "Fire", 18, 21);
 	//$spell_attack( thisagent, target, 20 );
@@ -1715,6 +1789,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	spell_cast = "fire_ball";
@@ -1746,6 +1824,10 @@ declare
 	coordinate target_loc;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == FALSE)
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	radius = 70 + (stat_int / 5);
 
@@ -1790,12 +1872,22 @@ declare
 	string spell_cast, buff_name;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	
+	spell_cast = "resist_magic";
+	buff_name = "Wizard_ResistMagicBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Wizard_ResistMagicBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
+
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
-	spell_cast = "resist_magic";
-	buff_name = "Wizard_ResistMagicBuff_End";
 	duration = 26000;
 	cooldown = 12000;
 	add_resistance = (20 + (stat_int / 4));
@@ -1811,13 +1903,9 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector( target, "Resist_magic_effector", 0 );
-	
-	if ($AddAttribute(target, buff_name, "function", $Wizard_ResistMagicBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-	
 	$createeffector( target, "Resist_magic_icon", duration );
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
+
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
 	$MagicalAdjustAttribute(target,#ATTRIB_Magicresistance,add_resistance);
 end
@@ -1838,8 +1926,6 @@ begin
 	add_resistance = $EffectBuff_Thread(willpower, wisdom, add_resistance);
 	
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_magicresistance, - add_resistance);
-	
-	$KillThread(thisagent's "Wizard_ResistMagicBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1851,6 +1937,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
@@ -1899,6 +1989,8 @@ declare
 	integer stat_int, radius;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	radius = $getattribute(thisagent, #ATTRIB_maxattackrange);
 	
@@ -1917,6 +2009,10 @@ declare
 	integer stat_int, min_damage, max_damage;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == FALSE)
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	min_damage = (stat_int / 4);
 	max_damage = (16 + (stat_int / 4));
@@ -1937,6 +2033,10 @@ declare
 	agent unit;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == FALSE)
+		return;
 	$createeffector ( target, "Supernova_Blast_Effector", 0 );
 
 	targets = $compile_enemies ( target, #Supernova_Radius );
@@ -2059,6 +2159,8 @@ declare
 	agent target1,target2,target3,target4;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
 	// list all enemies nearby -
 	targets = $compile_enemies(thisagent,thisagent's "castingrange");
 
@@ -2099,6 +2201,8 @@ function Pestilence_missile_Hit( agent thisagent, agent target )
 declare
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
 	if ($isdead(target))
 		return;
 
@@ -2122,6 +2226,8 @@ function Spire_Blast_Hit ( agent thisagent, agent target )
 declare
 
 begin
+	if ($isvalidgamepiece(target) == FALSE)
+		return;
 	$PlaySound ( Target, "Energy_Blast", "Attack" );
 
 	$createeffector ( target, "Spire_blast_effector", 0 );
@@ -2141,6 +2247,10 @@ function Infectious_Cloud_Hit ( agent thisagent, agent target )
 declare
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == FALSE)
+		return;
 	$createeffector ( target, "Infectious_Cloud_Effector", 0 );
 	//$spell_attack ( thisagent, target, 10 );
 	$spell_type_attack(thisagent, target, "Poison", 9, 10);
@@ -2161,6 +2271,8 @@ end
 function Ratman_Plague_Begin ( agent thisagent, agent target )
 declare
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
 	If ( $IsDead ( target ))
 		return;
 
@@ -2246,6 +2358,8 @@ end
 function Ratman_Plague_End ( agent thisagent )
 declare
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
 	$SetAttribute ( thisagent, #ATTRIB_HasEffectRatmanPlague, 0 );
 
 	$MagicalAdjustAttribute ( thisagent, #ATTRIB_Strength, 10 );
@@ -2267,6 +2381,10 @@ function horrify_hit(agent thisagent,agent target)
 declare
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	$createeffector( target, "horrify_eff1", $GetSpellAttribute( "horrify", "effector_duration" ) );
 	//$spell_attack( thisagent, target, 55 );
 	$spell_type_attack(thisagent, target, "Chaos", 3, 21);
@@ -2286,6 +2404,10 @@ declare
 	coordinate target_loc, sentry_loc, thisagent_loc;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	$ForgetSpell(thisagent, "deploy_dart_sentry");
 
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
@@ -2339,6 +2461,8 @@ declare
 	integer distance;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
 	Enemies = $list_enemies_seen(thisagent,$getattribute (ThisAgent, #ATTRIB_SightRange));
 	If ($ListSize (Enemies) > 0)
 		begin
@@ -2363,6 +2487,10 @@ declare
 	integer stat, radius, damage;
 	
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	stat = $getattribute(thisagent, #ATTRIB_Artifice);
 	damage = (8 + (stat / 8));
 	radius = (60 + stat);
@@ -2388,6 +2516,10 @@ function rogue_Assassin_cast ( agent thisagent, agent target )
 declare
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	$ForgetSpell(thisagent, "rogue_Assassin");
 
 	$AdjustAttribute ( thisagent, #ATTRIB_MovementRateModifier, - 50 );
@@ -2410,6 +2542,10 @@ declare
 	integer stat, cooldown;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	stat = $getattribute(thisagent, #ATTRIB_Artifice);
 	cooldown = (60000 - (stat * 250));
 	$ForgetSpell(thisagent, "rogue_Assassinate");
@@ -2468,16 +2604,25 @@ declare
 	string buff_name, spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+		
+	spell_cast = "generic_regenerate";
+	buff_name = "Generic_RegenerateBuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Generic_RegenerateBuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
 	duration = 8000;
 	cooldown = 14000;
-	spell_cast = "generic_regenerate";
 	heal_amount = (1 + (stat_int / 6));
 	regen_amount = (2 + ((stat_int) / 2));
-	buff_name = "Generic_RegenerateBuff_End";
 	
 	duration = $DurationBuff(thisagent, target, duration);
 	
@@ -2490,19 +2635,16 @@ begin
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
 	$createeffector ( target, "generic_Regenerate_effector", 0 );
+	$createeffector ( target, "generic_Regenerate_icon", duration );
+
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 	
 	$Heal ( thisagent, target, heal_amount );
+	
 	if ($HasAttribute("HealthRegeneration_Base", target) == false)
 		return;
-	if ($AddAttribute(target, buff_name, "function", $Generic_RegenerateBuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-	
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
-	
-	$createeffector ( target, "generic_Regenerate_icon", duration );
 	$AdjustIntegerSafe(target, "HealthRegeneration_Flat", regen_amount);
-	$UpdateHealthRegeneration(thisagent);
+	$UpdateHealthRegeneration(target);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2519,11 +2661,11 @@ begin
 	regen_amount = (4 + ((intelligence * 4) / 6));
 	
 	regen_amount = $EffectBuff_Thread(willpower, wisdom, regen_amount);
-	
+		
+	if ($HasAttribute("HealthRegeneration_Base", thisagent) == false)
+		return;
 	$AdjustIntegerSafe(thisagent, "HealthRegeneration_Flat", -regen_amount);
 	$UpdateHealthRegeneration(thisagent);
-
-	$KillThread(thisagent's "Generic_RegenerateBuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2534,17 +2676,26 @@ declare
 	string buff_name, spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
+	
+	spell_cast = "priestess_Wither";
+	buff_name = "Priestess_WitherDebuff_End";
+	if ($AddAttribute(target, buff_name, "function", $Priestess_WitherDebuff_End) == false)
+		if ($IsRunning(target's buff_name))
+			return;
+	
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	stat_willpower = $getattribute(target, #ATTRIB_Willpower);
 	stat_wisdom = $GetBaseStatTotal(thisagent, "Wisdom");
 	duration = 10000;
 	cooldown = 12000;
-	spell_cast = "priestess_Wither";
 	attack_slow = (150 + (stat_int * 2));
 	minus_strength = (3 + (stat_int / 5));
 	move_slow = (60 + (stat_int));
-	buff_name = "Priestess_WitherDebuff_End";
 	
 	duration = $DurationDebuff(thisagent, target, duration);
 	
@@ -2558,20 +2709,17 @@ begin
 	cooldown = $GetSpellCooldown(thisagent, cooldown);
 	$StartCooldown(thisagent, spell_cast, cooldown);
 
-	$createeffector(target,"priestess_wither_effector",0);
-	if ($AddAttribute(target, buff_name, "function", $Priestess_WitherDebuff_End) == false)
-		if ($IsRunning (target's buff_name) == TRUE)
-			return;
-	
+	$createeffector(target,"priestess_wither_effector",0);	
 	$createeffector(target,"priestess_wither_icon",duration);
-	$NewThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
+
+	$RunThread(target's buff_name, duration, target, stat_int, stat_willpower, stat_wisdom);
 
 	$MagicalAdjustAttribute(target,#ATTRIB_Strength,- minus_strength);
-	
 	$AdjustIntegerSafe(target, "Strength_Flat", - minus_strength);
-	$UpdateStrength(target);
 	$adjustattribute(target,#ATTRIB_ActionRateModifier, attack_slow);
 	$adjustattribute(target,#ATTRIB_MovementRateModifier, move_slow );
+
+	$UpdateStrength(target);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2598,8 +2746,6 @@ begin
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_Strength, minus_strength);
 	$AdjustIntegerSafe(thisagent, "Strength_Flat", minus_strength);
 	$UpdateStrength(thisagent);
-	
-	$KillThread(thisagent's "Priestess_WitherDebuff_End");
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2610,6 +2756,10 @@ declare
 	string spell_cast;
 
 begin
+	if ($notvalid_attacker(thisagent))
+		return;
+	if ($notvalid(target))
+		return;
 	stat_int = $getattribute(thisagent, #ATTRIB_Intelligence);
 	stat_art = $getattribute(thisagent, #ATTRIB_Artifice);
 	cooldown = 12500;
@@ -2644,6 +2794,10 @@ declare
 	integer attackrange;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	attackrange = $getattribute(thisagent, #ATTRIB_maxattackrange);
 	// list all enemies nearby -
 	targets = $compile_enemies(thisagent,attackrange);
@@ -2671,6 +2825,10 @@ declare
 	integer stat, duration, attackspeed;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
 	duration = (1500 + (stat * 100));
 	attackspeed =  2000;
@@ -2688,10 +2846,10 @@ function cm_corrosion_ball_Hit( agent thisagent, agent target )
 declare
 	integer stat, duration, minusarmor, current_armor;
 begin
-	if ($isvalidgamepiece(target) == FALSE)
+	if ($isvalidgamepiece(thisagent) == false)
 		return;
-		
-		
+	if ($isvalidgamepiece(target) == false)
+		return;
 	$createeffector(target, "Rustspit_Splat", 0);
 	$spell_type_attack( thisagent, target, "poison", 6, 8 );
 	
@@ -2723,6 +2881,10 @@ declare
 	integer stat, cooldown, duration;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
 	cooldown = (60000 - (stat * 250));
 	duration = (45000 + (stat * 250));
@@ -2762,6 +2924,10 @@ declare
 	integer stat, cooldown, duration, move_slow, attack_slow, minus_res;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
 	move_slow = ((stat * 3) / 2);
 	attack_slow = (stat * 3);
@@ -2799,6 +2965,10 @@ declare
 	integer stat, cooldown, duration, periodic;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	if ($isvalidgamepiece(target) == false)
+		return;
 	stat = $getattribute(thisagent, #ATTRIB_Intelligence);
 	periodic = (2000 - (stat * 20));
 	cooldown = (35000 - (stat * 250));
@@ -2820,6 +2990,9 @@ declare
 	integer stat, CurrentHP, CurrentMaxHP, HPDifference, minus_MaxHP, debuff_duration, max_damage, min_damage, duration;
 
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+		
 	stat = $GetAttribute(thisagent, #ATTRIB_Intelligence);
 	minus_MaxHP = (stat / 12);
 	min_damage = (stat / 15);
@@ -2867,7 +3040,9 @@ declare
 	coordinate target_loc;
 
 begin
-	if ($isvalidgamepiece(target) == FALSE)
+	if ($isdead(thisagent))
+		return;
+	if ($isdead(target))
 		return;
 
 	targetHP = $getattribute(target, #ATTRIB_HP);
@@ -2941,8 +3116,12 @@ declare
 	agent target1,target2,target3;
 
 begin
-	if ((target's "type" == "building") || (target's "type" == "lair"))
-		$make_attack(thisagent,target);
+	if ($isdead(thisagent))
+		return;
+
+	if ($isvalidgamepiece(target))
+		if ((target's "type" == "building") || (target's "type" == "lair"))
+			$make_attack(thisagent,target);
 		
 	// list all enemies nearby -
 	targets = $compile_enemies(thisagent,30);

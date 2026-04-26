@@ -25,11 +25,11 @@ begin
 					return;
 				end
 		end
-	
+		
 	if ($flee_check(thisagent) == 1)
 		return;
-	
-	if (thisagent's "target" == new_target)
+
+	if (thisagent's "target" == new_target || $notvalid(new_target))
 		return;
 	
 	flaggie = FALSE; // thisagent does not have a new target
@@ -61,7 +61,7 @@ begin
 				end
 			else
 				begin		
-					$stopmoving(thisagent);	
+					//$stopmoving(thisagent);	
 					//Say See Hostile voice line if Target's "Type" is monster
 					If (New_Target's "Type" == "Monster")
 						$Say (ThisAgent, "VFX_See_Hostile");
@@ -512,25 +512,7 @@ begin
 			if (spell_name != "nothing")
 				$Cast (ThisAgent, spell_name, thisagent's "best_target", "");
 		end
-
-//	If ( $IsSpellAvailable (ThisAgent, "turn_undead_healer") )
-//		begin
-
-//				Undead = $compile_enemies(thisagent,200);
-//				Undead = $ListSubtypes (Undead, "undead");
-
-
-//				if ($listsize(Undead) > 0)
-//					begin
-
-						//$CastSpellTarget(thisagent,"turn_undead_healer",thisagent,"");
-//						$Turn_Undead(thisagent, thisagent);
-
-
-//					end
-
-//		  end
-
+	
 	If ($listsize(thisagent's "Hostiles") == 0)
 		 return FALSE;
 
@@ -758,7 +740,7 @@ begin
 	killorbekilled = $list_eval(thisagent, thislist);
 
 	// see if the total of the targets is too dangerous
-	if (killorbekilled < 1 || $GetIntegerSafe(thisagent, "Exhaustion") > 750)
+	if (killorbekilled < 1)
 		begin
 			// thisagent thinks it would be dead before it killed these guys
 			// can thisagent outrun the fastest enemy?
@@ -844,8 +826,10 @@ begin
 			else
 				value += $getattribute(thisagent,#ATTRIB_Strength) / #strength_div;
 		end
+	else if ($isbuilding(thisagent))
+		value = $GetIntegerSafe(thisagent, "strength");
 	else
-		value = $GetAttribute(thisagent, #ATTRIB_Strength);
+		value = $getattribute(thisagent, #ATTRIB_Strength);
 	
 	return value;
 end

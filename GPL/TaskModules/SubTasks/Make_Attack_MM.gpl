@@ -39,7 +39,6 @@ begin
 
 	if (hitresult == 1) // hit!
 		begin
-			$HandleSearingMantle(thisagent, target);
 			$damage(thisagent,target);
 		end
 	else
@@ -106,9 +105,6 @@ begin
 			// add thisagent to target's hostilelist?
 			if (thisagent != target)
 				begin
-					if (target's "subtype" == "hero")
-						$KiteTarget(thisagent, target);
-
 					if ($agentinlist(thisagent,target's "Hostiles") == FALSE)
 						if ($GetAttribute( thisagent, #ATTRIB_HasEffectInvisibility) != 1)
 							begin
@@ -116,6 +112,10 @@ begin
 								if (target's "subtype" == "hero")
 									$Eval_reaction(target, thisagent);
 							end
+					
+					if (target's "subtype" == "hero")
+						$KiteTarget(thisagent, target);
+
 				end
 			else
 				begin
@@ -163,52 +163,50 @@ begin
 
 			end
 
-	if ($HasAttribute("SearingMantle_Tier_1", target) == True)
-		if (target's "SearingMantle_Tier_1" == True)
-			$HandleSearingMantle(thisagent, target);
+	//if ($HasAttribute("SearingMantle_Tier_1", target) == True)
+	//	if (target's "SearingMantle_Tier_1" == True)
+	//		$HandleSearingMantle(thisagent, target);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function KiteTarget(agent thisAgent, agent target)
 declare
-	integer xDistance,yDistance,optimalRange,halfOptimalRange,percent,x,y,maxX,maxY;
+	integer xDistance,yDistance,optimalRange,x,y,maxX,maxY;
 	coordinate thisAgentCoord,targetCoord,destination,mapSize;
+	integer xPercent, yPercent, distance;
 begin
 	if (target's "attacktype" != 2 && target's "attacktype" != 3)
 		return;
+	if (thisagent's "attacktype" != 1)
+		return;
+	if (target's "activescript" != $berserk_defend && target's "activescript" != $Attack_object && target's "activescript" != $Berserk)
+		return;
+	thisAgentCoord = $locationof(thisAgent);
+	targetCoord = $locationof(target);
 
-	optimalRange = $HeroAttackRange(target);
-	if (thisagent's "attacktype" != 1 || $distancebetweenagents(thisagent, target) > (optimalRange / 2))
+	optimalRange = ($HeroAttackRange(target) * 2) / 3;
+	distance = $distancebetweencoords(thisAgentCoord, targetCoord);
+	if (distance > optimalRange)
 		return;
 	
-	targetCoord = $locationof(target);
-	x = $getx(targetCoord);
-	y = $gety(targetCoord);
+	destination = $PointPolarOffset(thisAgentCoord, targetCoord, optimalRange);
+	x = $GetX(destination);
+	y = $GetY(destination);
 
-	thisAgentCoord = $locationof(thisAgent);
-	xDistance = x - $getx(thisagentCoord);
-	yDistance = y - $gety(thisagentCoord);
-	
-	//if(targetRange < 1)
-	//	targetRange = 1;
-	
-	// Move away from enemy
-	x += (xDistance * optimalRange);// / targetRange;
-	y += (yDistance * optimalRange);// / targetRange;
-	
 	mapSize = $GetBoardExtents();
-	maxX = $getx(mapSize);
-	maxY = $getx(mapSize);
+	maxX = $getx(mapSize) - #edge_buffer;
+	maxY = $getx(mapSize) - #edge_buffer;
 	
 	// Make sure not to try and leave map border
 	if (x < #edge_buffer)
 		x = #edge_buffer;
-	if (x > maxX - #edge_buffer)
-		x = maxX - #edge_buffer;
 	if (y < #edge_buffer)
 		y = #edge_buffer;
-	if (y > maxY - #edge_buffer)
-		y = maxY - #edge_buffer;
+
+	if (x > maxX)
+		x = maxX;
+	if (y > maxY)
+		y = maxY;
 		
 	destination = $makecoord(x, y);	
 	$move(target, destination);
@@ -312,7 +310,14 @@ begin
 				begin
 					if ($agentinlist(thisagent,target's "Hostiles") == FALSE)
 						if ($GetAttribute( thisagent, #ATTRIB_HasEffectInvisibility) != 1)
-							target's "Hostiles" << thisagent;
+							begin
+								target's "Hostiles" << thisagent;
+								if (target's "subtype" == "hero")
+									$Eval_reaction(target, thisagent);
+							end
+					
+					if (target's "subtype" == "hero")
+						$KiteTarget(thisagent, target);
 				end
 			else
 				begin

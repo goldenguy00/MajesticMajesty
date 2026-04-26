@@ -15,9 +15,27 @@ begin
 	target = thisagent's "target";
 	
 	if ($notvalid(target))
-		begin
-			$reset_tasks(thisagent);
-			return;
+		begin			// pick new target
+			$Cleanse_hostiles(thisagent);
+
+			if ($listsize(thisagent's "Hostiles") > 0)
+				begin
+					//$DebugOut("There are hostiles.");
+					thisagent's "target" = $pick_closest(thisagent,thisagent's "Hostiles");
+				end
+			
+			//$clearlist(thisagent's "Hostiles");
+			if ($NotValid(thisagent's "target"))
+				begin
+					$reset_tasks(thisagent);
+					return;
+				end
+
+			if ($DistanceBetweenAgents(thisagent, thisagent's "target") > $GetAttribute(thisagent,  #ATTRIB_Sightrange))
+				begin
+					$reset_tasks(thisagent);
+					return;
+				end
 		end
 
 	if ($haslowMP(thisagent))
@@ -32,20 +50,27 @@ begin
 
 	target = $SelectBestSpell(thisagent);
 	
-	if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range" && $IsAdjacent(thisagent, target) == false)
-		begin
+	if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range")
+		begin	
+
 			// move towards target
 			thisagent's "destination" = $locationof(target);
 			thisagent's "activeScript" = $travel_to;
 			thisagent's "backScript" = $attack_object;
 			$move(thisagent,target);
+			return;
 		end
-	// is target within min attack range? - later
-	else if (($listsize(thisagent's "hostiles") > 0) && $IsBuilding(target))
+
+	if ($listsize(thisagent's "hostiles") > 0 && (target's "type" == "building" || target's "type" == "lair"))
 		begin
-			(thisagent's "evaluationscript") (thisagent);
+			if ($agentinlist(target, thisagent's "hostiles") == false)
+				begin
+					(thisagent's "evaluationscript") (thisagent);
+					return;
+				end
 		end
-	else if ($Hero_Peasant_check(thisagent) == FALSE)
+	
+	if ($Hero_Peasant_check(thisagent) == FALSE)
 		begin
 		
 			if ($HasAttribute("TaskPackageStatus", thisagent))
@@ -163,7 +188,7 @@ begin
 			targetrange = $distanceBetweenAgents(thisagent,target);
 
 			// is thisagent in attackrange of target
-			if (targetrange > attackrange && $IsAdjacent(thisagent, target) == false)
+			if (targetrange > attackrange)
 				begin
 					// move towards target
 					thisagent's "destination" = $locationof(target);

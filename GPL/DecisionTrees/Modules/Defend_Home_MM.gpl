@@ -282,7 +282,7 @@ begin
 				begin
 					targetrange = $distanceBetweenAgents(thisagent,target);
 
-					if (targetrange > $gettargetrange(thisagent) && $IsAdjacent(thisagent, target) == false)
+					if (targetrange > $gettargetrange(thisagent))
 						begin
 							// move towards target
 							thisagent's "destination" = $locationof(target);

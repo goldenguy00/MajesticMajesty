@@ -32,7 +32,7 @@ Begin
 				
 			target = thisagent's "best_target";
 
-			if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range" && $IsAdjacent(thisagent, target) == false)
+			if (thisagent's "Best_Target_Distance" > thisagent's "Best_Range")
 				begin
 					// move towards target
 					thisagent's "destination" = $LocationOf(target);

@@ -875,7 +875,7 @@ declare
 begin
 	cooldown_name = spell_name+"_cooldown";
 	$AddAttribute(thisagent, cooldown_name, "function", $Cooldown_End);
-	$NewThread(thisAgent's cooldown_name, cooldown, thisAgent, cooldown_name);
+	$RunThread(thisAgent's cooldown_name, cooldown, thisAgent, cooldown_name);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -883,7 +883,6 @@ end
 function Cooldown_End( agent thisagent, string cooldown_name )
 declare
 begin
-	$KillThread(thisagent's cooldown_name);
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

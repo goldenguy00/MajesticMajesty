@@ -4,8 +4,8 @@ function AddSearingMantleEffect( agent thisagent )
 declare
 	
 begin
-	if ($HasAttribute("SearingMantleBuff_End", ThisAgent) == True)
-		return;
+	//if ($HasAttribute("SearingMantle_Tier_1", ThisAgent) == True)
+	//	return;
 		
 	$AddAttribute(ThisAgent, "SearingMantle_Damage_Min", "integer");
 	$AddAttribute(ThisAgent, "SearingMantle_Damage_Max", "integer");
@@ -72,12 +72,12 @@ function AddBurningEffect( agent thisagent )
 declare
 	
 begin
-	if ($HasAttribute("Burning_Counter", ThisAgent) == True)
-		return;
+	//if ($HasAttribute("Burning_Counter", ThisAgent) == True)
+	//	return;
 		
 	$AddAttribute(ThisAgent, "Burning_Counter", "integer", 0);
-	$AddAttribute(ThisAgent, "Burning_Damage_Min", "integer");
-	$AddAttribute(ThisAgent, "Burning_Damage_Max", "integer");
+	$AddAttribute(ThisAgent, "Burning_Damage_Min", "integer", 0);
+	$AddAttribute(ThisAgent, "Burning_Damage_Max", "integer", 0);
 	$AddAttribute(ThisAgent, "Burning_Cycle", "function", $Burning_Cycle);
 	$AddAttribute(ThisAgent, "Burning_Duration", "function", $Burning_Duration);
 end
@@ -201,8 +201,8 @@ function AddIgniteEffect( agent thisagent )
 declare
 	
 begin
-	if ($HasAttribute("Ignite_Counter", ThisAgent) == True)
-		return;
+	//if ($HasAttribute("Ignite_Counter", ThisAgent) == True)
+	//	return;
 		
 	$AddAttribute(ThisAgent, "Ignite_Counter", "integer", 0);
 	$AddAttribute(ThisAgent, "Ignite_Damage_Min", "integer");
@@ -216,8 +216,8 @@ function AddPyrelightEffect( agent thisagent )
 declare
 	
 begin
-	if ($HasAttribute("PyrelightDebuff_End", ThisAgent) == True)
-		return;
+	//if ($HasAttribute("Pyrelight_Tier_1", ThisAgent) == True)
+	//	return;
 		
 	$AddAttribute(ThisAgent, "Pyrelight_Mana_Spent", "integer");
 	$AddAttribute(ThisAgent, "Pyrelight_Fire_Resistance_Reduction", "integer");
@@ -254,8 +254,8 @@ function AddCindersEffect( agent thisagent )
 declare
 	
 begin
-	if ($HasAttribute("Cinders_Counter", ThisAgent) == True)
-		return;
+	//if ($HasAttribute("Cinders_Counter", ThisAgent) == True)
+	//	return;
 		
 	$AddAttribute(ThisAgent, "Cinders_Counter", "integer", 0);
 	$AddAttribute(ThisAgent, "Cinders_Stack", "integer", 0);

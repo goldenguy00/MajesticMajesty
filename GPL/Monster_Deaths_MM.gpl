@@ -14,6 +14,9 @@ declare
 	integer gold_per, gold_killer;
 	integer xp_per, xp_killer;
 begin
+	if ($isvalidgamepiece(thisagent) == false)
+		return;
+	
 	killer_exists = false;
 
 	gold_amount = amount;
@@ -26,59 +29,44 @@ begin
 	gold_killer = 0;
 	xp_killer = 0;
 
-	if ($hasattribute("Killing_Unit", thisagent))
-		if ($isvalidgamepiece(thisagent's "Killing_Unit") == True)
-			if ($IsDead(thisagent's "Killing_Unit") == False)
-				begin
-					killer = thisagent's "Killing_Unit";
-					if ($HasAttribute("subtype", killer) == True)
-						if (killer's "subtype" == "Hero")
-							begin
-								killer_exists = true;
+	killer = $GetAgentSafe(thisagent, "Killing_Unit");
+	if ($IsDead(killer) == False)
+		if ($GetSubtype(killer) == "hero")
+			begin
+				killer_exists = true;
 
-								gold_killer = gold_amount;
-								xp_killer = xp_amount;
-							end
-				end
+				gold_killer = gold_amount;
+				xp_killer = xp_amount;
+			end
 					
-	$ListObjects(thisagent,"hero",#gold_drop_radius, guysnearby, #notmyteam);
+	$ListObjects(thisagent,"hero",#gold_drop_radius, guysnearby, #CheckSubTypes, "hero", #notmyteam);
 
 	// add rangers who are out of normal range!
 	$listobjects(thisagent,"hero",#Gold_drop_radius + 200,rangers, #CheckTitles, "Ranger",#notmyteam);
-	$listobjects(thisagent,"hero",#Gold_drop_radius + 200,wizards, #CheckTitles, "Wizard",#notmyteam);
+	//$listobjects(thisagent,"hero",#Gold_drop_radius + 200,wizards, #CheckTitles, "Wizard",#notmyteam);
 
-	rangers = $addlists(rangers, wizards);
+	//rangers = $addlists(rangers, wizards);
+	rangers = $ListSubtypes (rangers, "Hero");
 	foreach guy in rangers do
 		begin
-			if (guy's "subtype" == "hero")
-				//if ($distancebetweenagents(guy,thisagent) <= $getattribute(guy,#ATTRIB_maxattackrange))
-					if ($agentinlist(guy,guysnearby) == FALSE)
-						begin
-							if (killer_exists == false)
-								guysnearby << guy;
-							else if (guy != killer)
-								guysnearby << guy;
-						end
+			if ($agentinlist(guy,guysnearby) == FALSE)
+				guysnearby << guy;
 		end
 	// check for invisible and camoflauged guys
-	$listobjects(thisagent,"invisible",#gold_drop_radius,l4, #notmyteam);
-	$listobjects(thisagent,"Camouflaged",#gold_drop_radius,l5, #notmyteam);
+	$listobjects(thisagent,"invisible",#gold_drop_radius,l4,#CheckSubTypes, "hero", #notmyteam);
+	$listobjects(thisagent,"Camouflaged",#gold_drop_radius,l5,#CheckSubTypes, "hero", #notmyteam);
 
 	l4 = $addlists(l4,l5);
 
 	foreach guy in l4 do
 		begin
-			if (guy's "subtype" == "hero")
-				begin
-					if (killer_exists == false)
-						guysnearby << guy;
-					else if (guy != killer)
-						guysnearby << guy;
-				end
+			if ($agentinlist(guy,guysnearby) == FALSE)
+				guysnearby << guy;
 		end
 
-
-	guysnearby = $ListSubtypes (GuysNearby, "Hero");
+	if (killer_exists)
+		if ($agentinlist(killer, guysnearby))
+			guysnearby -= killer;
 
 	num_guys = $listsize(guysnearby);
 	if (num_guys > 0)

@@ -1632,30 +1632,30 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function AddHealthPoints( Agent ThisAgent, integer HealthPoint_Amount ) 
+function AddHealthPoints( Agent ThisAgent, integer amount ) 
 declare
+	integer current, mod, count;
 Begin
-	thisagent's "HealthRegenPoints" += HealthPoint_Amount;
-	while (thisagent's "HealthRegenPoints" >= #Health_point_limit) do
-		begin
-			thisagent's "HealthRegenPoints" -= #Health_point_limit;
-			if ($getattribute( thisagent,#ATTRIB_MaxHP ) > $getattribute( thisagent,#ATTRIB_HP ))
-				$Heal(thisagent, thisagent, 1);
-		end
+	current = thisagent's "HealthRegenPoints" + amount;
+	mod = current % #Health_point_limit;
+	count = (current - mod) / #Health_point_limit;
+	if ($getattribute( thisagent,#ATTRIB_MaxHP ) > $getattribute( thisagent,#ATTRIB_HP ))
+		$Heal(thisagent, thisagent, count);
+	thisagent's "HealthRegenPoints" = mod;
 End
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function AddManaPoints( Agent ThisAgent, integer ManaPoint_Amount )
+function AddManaPoints( Agent ThisAgent, integer amount )
 
 Declare
+	integer current, mod, count;
 
 Begin
-	thisagent's "ManaRegenPoints" += ManaPoint_Amount;
-	while (thisagent's "ManaRegenPoints" >= #Mana_point_limit) do
-		begin
-			$RestoreMana(thisagent, 1);
-			thisagent's "ManaRegenPoints" -= #Mana_point_limit;
-		end
+	current = thisagent's "ManaRegenPoints" + amount;
+	mod = current % #Mana_point_limit;
+	count = (current - mod) / #Mana_point_limit;
+	$RestoreMana(thisagent, count);
+	thisagent's "ManaRegenPoints" = mod;
 End
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 function RestoreMana( Agent ThisAgent, integer Mana_Amount )
@@ -1664,14 +1664,17 @@ Declare
 	integer	missing_mana, maxMP;
 
 Begin
-	if ($isdead(thisagent))
+	if (mana_amount == 0)
 		return;
 
 	maxMP = $GetBaseStatTotal(thisagent, "MaxMana");
+	missing_mana = maxMP - thisagent's "CurrentMana";
+	if (missing_mana == 0)
+		return;
+
 	if (mana_amount < 0)
 		mana_amount *= -1;
-		
-	missing_mana = maxMP - thisagent's "CurrentMana";
+
 	If (Mana_Amount > missing_mana)
 		Mana_Amount = missing_mana;
 
@@ -1684,9 +1687,6 @@ function SpendMana( Agent Thisagent, integer Mana_Amount )
 Declare
 
 Begin
-	if ($isdead(thisagent))
-		return;
-
 	if (mana_amount < 0)
 		mana_amount *= -1;
 
