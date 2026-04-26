@@ -2270,98 +2270,6 @@ begin
 
 end
 
-////////////////////////////////////////////////////////////////////////////////
-function UnitAttributes(agent thisagent)
-
-declare
-
-begin
-	$RemoveAttribute(thisagent,"visited_script");
-	$RemoveAttribute(thisagent,"Occupants");
-	$RemoveAttribute(thisagent,"RevenueScript");
-	$RemoveAttribute(thisagent,"Revenue_Amount");
-	$RemoveAttribute(thisagent,"Revenue_Time");
-	$RemoveAttribute(thisagent,"Magical_Build_Rate");
-	$RemoveAttribute(thisagent,"spawn_1");
-	$RemoveAttribute(thisagent,"spawn_2");
-	$RemoveAttribute(thisagent,"birthScript2");
-	$RemoveAttribute(thisagent,"upgradescript");
-	$RemoveAttribute(thisagent,"upgradescript2");
-	$RemoveAttribute(thisagent,"History_Modifier");
-	$RemoveAttribute(thisagent,"Spawn_Function");
-	$RemoveAttribute(thisagent,"Base_Spawn_Rate");
-	$RemoveAttribute(thisagent,"difficulty");
-	$RemoveAttribute(thisagent,"Spawn_Type");
-	$RemoveAttribute(thisagent,"Special_Spawn_Type");
-	$RemoveAttribute(thisagent,"Multi_Spawn_Num");
-	$RemoveAttribute(thisagent,"Stored_Spawns");
-	$RemoveAttribute(thisagent,"Max_Simul_Spawns");
-	$RemoveAttribute(thisagent,"Max_Stored_Spawns");
-	$RemoveAttribute(thisagent,"Has_Special_Spawn");
-	$RemoveAttribute(thisagent,"Cleaning_Combatants");
-	$RemoveAttribute(thisagent,"Combatants");
-	$RemoveAttribute(thisagent,"Current_Contest");
-	$RemoveAttribute(thisagent,"Current_XPLevel");
-	$RemoveAttribute(thisagent,"ResetScript");
-	$RemoveAttribute(thisagent,"Lived_In_Script");
-	$RemoveAttribute(thisagent,"hero_lvl_upgrade");
-	$RemoveAttribute(thisagent,"members");
-	$RemoveAttribute(thisagent,"member_title");
-	$RemoveAttribute(thisagent,"member_basicscript");
-	$RemoveAttribute(thisagent,"max_members");
-	$RemoveAttribute(thisagent,"SpecialScript");
-	$RemoveAttribute(thisagent,"SpecialList");
-	$RemoveAttribute(thisagent,"Guard_Function");
-	$RemoveAttribute(thisagent,"Guard_Spawn_Function");
-	$RemoveAttribute(thisagent,"Alt_Guard_Spawn_Function");
-	$RemoveAttribute(thisagent,"Waiting_Guards");
-	$RemoveAttribute(thisagent,"Waiting_Guardhouses");
-	$RemoveAttribute(thisagent,"Guards");
-	$RemoveAttribute(thisagent,"Under_Const_In_Sight");
-	$RemoveAttribute(thisagent,"Max_Guards");
-	$RemoveAttribute(thisagent,"current_gun");
-	$RemoveAttribute(thisagent,"grovelist");
-	$RemoveAttribute(thisagent,"spell_callback");
-	$RemoveAttribute(thisagent,"tax_spawn");
-	$RemoveAttribute(thisagent,"num_tax_collectors");
-	$RemoveAttribute(thisagent,"max_tax_collectors");
-	$RemoveAttribute(thisagent,"tax_route");
-	$RemoveAttribute(thisagent,"tax_targets");
-	$RemoveAttribute(thisagent,"spawn_taxman_return_list");
-	$RemoveAttribute(thisagent,"spawn_taxman_pickup_list");
-	$RemoveAttribute(thisagent,"tax_route_dead");
-	$RemoveAttribute(thisagent,"peasant_spawn");
-	$RemoveAttribute(thisagent,"num_peasants");
-	$RemoveAttribute(thisagent,"max_peasants");
-	$RemoveAttribute(thisagent,"busy_peasants");
-	$RemoveAttribute(thisagent,"buildings_waiting");
-	$RemoveAttribute(thisagent,"buildings_under_construction");
-	$RemoveAttribute(thisagent,"Vaporized_Gold");
-	$RemoveAttribute(thisagent,"troll_gold");
-	$RemoveAttribute(thisagent,"gnome_camp_spawner");
-	$RemoveAttribute(thisagent,"Gambling_hall_building");
-	$RemoveAttribute(thisagent,"gazebo_building");
-	$RemoveAttribute(thisagent,"Population_counter");
-	$RemoveAttribute(thisagent,"Waiting_population");
-	$RemoveAttribute(thisagent,"num_deceased_heroes");
-	$RemoveAttribute(thisagent,"total_buildings");
-	$RemoveAttribute(thisagent,"buildings_lately");
-	$RemoveAttribute(thisagent,"henchmen_dead_lately");
-	$RemoveAttribute(thisagent,"fountain_buildings");
-	$RemoveAttribute(thisagent,"blacksmith_trips");
-	$RemoveAttribute(thisagent,"heroes_to_upgrade");
-	//thisagent's "General" = "GeneralTree";
-	//thisagent's "Item" = "ItemTree";
-	//$LearnSpell(thisagent, "GeneralTree");
-	//$LearnSpell(thisagent, "ItemTree");
-	//thisagent's "SpellsGeneral" << "General";
-	//thisagent's "SpellsItem" << "Item";
-	//thisagent's "SpellArrange" << thisagent's "SpellsGeneral";
-	//thisagent's "SpellArrange" << thisagent's "SpellsItem";
-	if (thisagent's "Type" == "Hero")
-		$RemoveAttribute(thisagent,"speed");
-end
-
 
 ////////////////////////////////////////////////////////////////////////////////
 function GeneralAttributes(agent thisagent)
@@ -2388,12 +2296,6 @@ begin
 
 	if ($getparent(thisagent) != $NullAgent())
 		$ApplyUpgrades(thisagent, $getparent(thisagent));
-
-	if ($HasAttribute("Unit_Type", thisagent))
-		begin
-			if (thisagent's "Unit_Type" == "Unit")
-				$UnitAttributes(thisagent);
-		end
 end
 
 

@@ -1,5 +1,5 @@
 [Adept]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Adept)
@@ -73,7 +73,7 @@
 [end]
 
 [Barbarian]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Barbarian)
@@ -148,7 +148,7 @@
 [end]
 
 [Cultist]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Cultist)
@@ -227,7 +227,7 @@
 [end]
 
 [Dwarf]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Dwarf)
@@ -305,7 +305,7 @@
 [end]
 
 [Elf]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Elf)
@@ -380,7 +380,7 @@
 [end]
 
 [Gnome]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Gnome)
@@ -455,7 +455,7 @@
 [end]
 
 [Healer]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Healer)
@@ -531,7 +531,7 @@
 [end]
 
 [Monk]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Monk)
@@ -607,7 +607,7 @@
 [end]
 
 [Paladin]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Paladin)
@@ -681,7 +681,7 @@
 [end]
 
 [Priestess]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Priestess)
@@ -756,7 +756,7 @@
 [end]
 
 [Ranger]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Ranger)
@@ -833,7 +833,7 @@
 [end]
 
 [Rogue]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Rogue)
@@ -909,7 +909,7 @@
 [end]
 
 [Solarus]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Solarus)
@@ -984,7 +984,7 @@
 [end]
 
 [Warrior]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Warrior)
@@ -1057,7 +1057,7 @@
 [end]
 
 [Warrior_of_Discord]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Warrior_of_Discord)
@@ -1133,7 +1133,7 @@
 [end]
 
 [Wizard]
-	{Unit
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Wizard)
@@ -1206,440 +1206,3 @@
 	}
 [end]
 
-[City_Guard]
-	{Unit
-		(type	Hero)
-		(subtype Henchman)
-		(title City_Guard)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(Friend	xx)
-		(attacktype 1)
-		(PercentageHPRetreat 35)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			GuardhouseGuard_Voyage_Home)
-		(basicscript				GuardhouseGuard_Voyage_Home)
-		(backscript				GuardhouseGuard_Voyage_Home)
-		(birthScript				City_Guard_Birth)
-		(IGdeathscript				Guard_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_City_Guard)
-		(Recruit_Time					17000)
-		(Piercing_Resistance_Percent	5)
-		(Crushing_Resistance_Percent	100)
-		(Crushing_Resistance_Percent_Neg	True)
-		(Armor_Physical_Base			3)
-		(Physical_Attack		6)
-		(Physical_Attack_Type	Slashing)
-		(IntentExt		CITYGUARD)
-	}
-[end]
-
-[Archer]
-	{Unit
-		(type	hero)
-		(subtype henchman)
-		(title Archer)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action ranger_arrow)
-		(Cast_Action Basic_Cast)
-		(Friend	xx)
-		(attacktype 2)
-		(castingrange 25)
-		(PercentageHPRetreat 50)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			GuardhouseGuard_Voyage_Home)
-		(basicscript				GuardhouseGuard_Voyage_Home)
-		(backscript				GuardhouseGuard_Voyage_Home)
-		(birthScript				City_Guard_Birth)
-		(IGdeathscript				Guard_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Archer)
-		(Recruit_Time					20000)
-		(Armor_Physical_Base			2)
-		(Physical_Attack		7)
-		(Physical_Attack_Type	Piercing)
-		(IntentExt		ARCHER)
-	}
-[end]
-
-
-[Veteran_City_Guard]
-	{Unit
-		(type	Hero)
-		(subtype Henchman)
-		(title Veteran_City_Guard)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(Friend	xx)
-		(attacktype 1)
-		(PercentageHPRetreat 35)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			Guard_Voyage_Home)
-		(basicscript				Guard_Voyage_Home)
-		(backscript				Guard_Voyage_Home)
-		(birthScript				City_Guard_Birth)
-		(IGdeathscript				Guard_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Veteran_City_Guard)
-		(UsesAttackTypes				True)
-		(Slashing_Resistance_Percent	5)
-		(Piercing_Resistance_Percent	10)
-		(Armor_Physical_Base			4)
-		(Physical_Attack		7)
-		(Physical_Attack_Type	Slashing)
-		(IntentExt		VETERANCITYGUARD)
-	}
-[end]
-
-
-[Palace_Guard]
-	{Unit
-		(type	Hero)
-		(subtype henchman)
-		(title Palace_Guard)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(Friend	xx)
-		(attacktype 1)
-		(PercentageHPRetreat 35)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			Guard_Voyage_Home)
-		(basicscript				Guard_Voyage_Home)
-		(backscript				Guard_Voyage_Home)
-		(birthScript				Palace_Guard_Birth)
-		(IGdeathscript				Guard_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-
-
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Palace_Guard)
-		(UsesAttackTypes				True)
-		(Slashing_Resistance_Percent	5)
-		(Piercing_Resistance_Percent	10)
-		(Armor_Physical_Base			5)
-		(Physical_Attack		7)
-		(Physical_Attack_Type	Slashing)
-		(IntentExt		PALACEGUARD)
-	}
-[end]
-
-
-
-[Tax_Collector]
-	{Unit
-		(type	hero)
-		(subtype Henchman)
-		(title Tax_Collector)
-		(original_type Hero)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(attacktype 1)
-		(activeScript	    		   	collect_tax)
-		(basicscript				collect_tax)
-		(backscript				collect_tax)
-		(birthScript				tax_collector_birth)
-		(IGdeathscript				tax_collector_death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Tax_Collector)
-		(IntentExt		TAXCOLLECTOR)
-	}
-[end]
-
-
-[Peasant]
-	{Unit
-		(type	hero)
-		(subtype Henchman)
-		(title Peasant)
-		(original_type Hero)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(attacktype 1)
-		(activeScript	       	peasant_basic)
-		(basicscript					peasant_basic)
-		(backscript						peasant_basic)
-		(birthScript					peasant_birth)
-		(IGdeathscript		peasant_death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Peasant)
-		(IntentExt		PEASANT)
-	}
-[end]
-
-
-[Peasant_Female]
-	{Unit
-		(type	hero)
-		(subtype Henchman)
-		(title Peasant)
-		(original_type Hero)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(attacktype 1)
-		(activeScript	       	peasant_basic)
-		(basicscript					peasant_basic)
-		(backscript						peasant_basic)
-		(birthScript					peasant_birth)
-		(IGdeathscript		peasant_death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Peasant)
-		(IntentExt		PEASANT)
-	}
-[end]
-
-
-[Caravan]
-	{Unit
-		(type	hero)
-		(subtype Henchman)
-		(title Caravan)
-		(original_type Hero)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(attacktype 1)
-		(activeScript	       	Caravan_start)
-		(basicscript					Caravan_start)
-		(backscript						Caravan_start)
-		(birthScript		Caravan_Birth)
-		(IGdeathscript		Caravan_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Caravan)
-		(IntentExt		CARAVAN)
-	}
-[end]
-
-[illusionary_hero]
-	{Unit
-		(type	Mystery)
-		(subtype controlled)
-		(original_type Mystery)
-		(title Illusion)
-		(EnemyType mystery)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(Friend	xx)
-		(attacktype 1)
-		(PercentageHPRetreat 5)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       	illusionary_follow)
-		(basicscript			illusionary_follow)
-		(backscript				illusionary_follow)
-		(startingScript illusionary_follow)
-		(birthScript			Illusionary_Hero_Birth)
-		(IGdeathscript			illusionary_death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Illusion)
-		(Kill_Credit_Type	Illusion)
-		(Kill_Credit_Faction	KCF_Neutral)
-		(Kill_Credit_Specific	KCS_Illusion)
-		(IntentExt		ILLUSIONARYHERO)
-	}
-[end]
-
-[Royal_Archer]
-	{Unit
-		(type	hero)
-		(subtype henchman)
-		(title Royal_Archer)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action ranger_arrow)
-		(Cast_Action Basic_Cast)
-		(Friend	xx)
-		(attacktype 2)
-		(castingrange 25)
-		(PercentageHPRetreat 50)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			Guard_Voyage_Home)
-		(basicscript				Guard_Voyage_Home)
-		(backscript				Guard_Voyage_Home)
-		(birthScript				Royal_Archer_Birth)
-		(IGdeathscript				Royal_Archer_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Royal_Archer)
-		(Armor_Physical_Base			2)
-		(Physical_Attack		7)
-		(Physical_Attack_Type	Piercing)
-		(IntentExt		ROYALARCHER)
-	}
-[end]
-
-[Mercenary_Arbalest]
-	{Unit
-		(type	hero)
-		(subtype henchman)
-		(title Mercenary_Arbalest)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action rogue_bolt)
-		(Cast_Action Basic_Cast)
-		(Friend	xx)
-		(attacktype 2)
-		(castingrange 25)
-		(PercentageHPRetreat 50)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			Guard_Voyage_Home)
-		(basicscript				Guard_Voyage_Home)
-		(backscript				Guard_Voyage_Home)
-		(birthScript				Mercenary_Arbalest_Birth)
-		(IGdeathscript				Mercenary_Arbalest_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Mercenary_Arbalest)
-		(Armor_Physical_Base			1)
-		(Physical_Attack		12)
-		(Physical_Attack_Type	Piercing)
-		(IntentExt		MERCENARYARBALEST)
-	}
-[end]
-
-[Court_Mage]
-	{Unit
-		(type	hero)
-		(subtype henchman)
-		(title Court_Mage)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action do_nothing)
-		(Cast_Action Basic_Cast)
-		(Friend	xx)
-		(attacktype 3)
-		(castingrange 220)
-		(PercentageHPRetreat 75)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			Guard_Voyage_Home)
-		(basicscript				Guard_Voyage_Home)
-		(backscript				Guard_Voyage_Home)
-		(birthScript				Court_Mage_Birth)
-		(IGdeathscript				Court_Mage_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Court_Mage)
-		(Poison_Resistance_Percent		15)
-		(Arcane_Resistance_Percent		30)
-		(Necrotic_Resistance_Percent	15)
-		(Armor_Magical_Base					3)
-		(IntentExt		COURTMAGE)
-	}
-[end]
-
-[Squire]
-	{Unit
-		(type	hero)
-		(subtype henchman)
-		(title Squire)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action basic_attack)
-		(Cast_Action Basic_Cast)
-		(Friend	xx)
-		(attacktype 1)
-		(castingrange 25)
-		(PercentageHPRetreat 40)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	       			Guard_Voyage_Home)
-		(basicscript				Guard_Voyage_Home)
-		(backscript				Guard_Voyage_Home)
-		(birthScript				Squire_Birth)
-		(IGdeathscript				Squire_Death)
-		(Unit_Type			Unit)
-		(Unit_Subtype		Henchman)
-		(Kill_Credit_Type	Henchman)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Squire)
-		(Slashing_Resistance_Percent	15)
-		(Piercing_Resistance_Percent	25)
-		(Armor_Physical_Base			8)
-		(Physical_Attack		8)
-		(Physical_Attack_Type	Slashing)
-		(IntentExt		SQUIRE)
-	}
-[end]
-
-
-[dart_sentry_unit]
-	{Unit
-		(type		Hero)
-		(subtype	Mystery)
-		(title		dart_sentry_unit)
-		(original_type Hero)
-		(EnemyType monster)
-		(Idle_action	basic_idle)
-		(attack_action launch_dart)
-		(Cast_Action Basic_Cast)
-		(Friend	xx)
-		(attacktype 2)
-		(castingrange 10)
-		(PercentageHPRetreat 1)
-		(enemy_estimation 1.0)
-		(self_estimation 1.0)
-		(activeScript	dart_sentry_scan)
-		(IGdeathscript				spelldummydeath)
-		(deathScript		 spelldummydeath)
-		(IntentExt		DARTSENTRY)
-	}
-[end]
-
-[FloatingText]
-	{FloatingText
-		(type			FloatingText)
-		(subtype		FloatingText)
-		(title			FloatingText)
-		(textScript		FloatingTextUpdate)
-		(target_linked		False)
-		(target_locked		False)
-		(is_research		False)
-	}
-[end]

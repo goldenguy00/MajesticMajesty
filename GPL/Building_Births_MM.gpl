@@ -638,6 +638,7 @@ Declare
 	coordinate sign_loc;
 
 Begin
+	//$NoDebugMessages();
 	$GeneralAttributes(thisagent);
 
 	sign_loc = $UnitPointWithOffset(thisagent, -150, 35);

@@ -1,5 +1,5 @@
 [Zoo1]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			Zoo)
@@ -23,7 +23,7 @@
 [end]
 
 [Zoo2]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			Zoo)
@@ -47,7 +47,7 @@
 [end]
 
 [Zoo3]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			Zoo)
@@ -71,7 +71,7 @@
 
 
 [SorcerersAbode]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			SorcerersAbode)
@@ -95,7 +95,7 @@
 [end]
 
 [SorcerersAbode2]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			SorcerersAbode)
@@ -117,7 +117,7 @@
 [end]
 
 [SorcerersAbode3]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			SorcerersAbode)
@@ -138,7 +138,7 @@
 [end]
 
 [MagicBazaar]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			Magic_Bazaar)
@@ -163,7 +163,7 @@
 [end]
 
 [MagicBazaar2]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			Magic_Bazaar)
@@ -188,7 +188,7 @@
 [end]
 
 [MagicBazaar3]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			Magic_Bazaar)
@@ -213,7 +213,7 @@
 [end]
 
 [HallOfChampions]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			HallOfChampions)
@@ -238,7 +238,7 @@
 
 
 [Mausoleum]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		xx)
 		(title 			Mausoleum)
@@ -263,7 +263,7 @@
 
 
 [Outpost]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Outpost)
 		(AttackType 		5)
@@ -299,7 +299,7 @@
 [end]
 
 [Embassy]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype		Guild)
 		(title 			Embassy)
@@ -324,7 +324,7 @@
 [end]
 
 [Goblin_Watchtower]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			Goblin_Watchtower)
@@ -354,7 +354,7 @@
 [end]
 
 [GoblinFortress]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			GoblinFortress)
@@ -385,7 +385,7 @@
 
 
 [RatsNest]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			RatsNest)
@@ -412,7 +412,7 @@
 [end]
 
 [Ancient_Graveyard]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			Ancient_Graveyard)
@@ -440,7 +440,7 @@
 
 
 [FortressofIxmil]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			FortressOfIxmil)
@@ -473,7 +473,7 @@
 
 
 [BrokenSewerMain]
-	{Unit
+	{Building_Unit
 		(type 					Lair)
 		(subtype 				xx)
 		(title 					BrokenSewerMain)
@@ -498,7 +498,7 @@
 [end]
 
 [Sanguine_Pit]
-	{Unit
+	{Building_Unit
 		(type 					Lair)
 		(subtype 				xx)
 		(title 					Sanguine_Pit)
@@ -523,7 +523,7 @@
 [end]
 
 [Ice_Cave]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			Ice_Cave)
@@ -550,7 +550,7 @@
 [end]
 
 [AncientBarrow]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			AncientBarrow)
@@ -577,7 +577,7 @@
 [end]
 
 [WightsTomb]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			WightsTomb)
@@ -605,7 +605,7 @@
 
 
 [SnakePit]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			SnakePit)
@@ -633,7 +633,7 @@
 
 
 [SpireOfDeath]
-	{Unit
+	{Building_Unit
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			SpireOfDeath)
@@ -664,7 +664,7 @@
 [end]
 
 [EvilPalace]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -693,7 +693,7 @@
 [end]
 
 [Palace1]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -726,7 +726,7 @@
 [end]
 
 [Palace2]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -759,7 +759,7 @@
 [end]
 
 [Palace3]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -789,7 +789,7 @@
 [end]
 
 [Ballista_Tower]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		xx)
 		(title 			Ballista_Tower)
@@ -818,7 +818,7 @@
 [end]
 
 [BlackSmith1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype xx)
 		(title Blacksmith)
@@ -845,7 +845,7 @@
 [end]
 
 [BlackSmith2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype xx)
 		(title Blacksmith)
@@ -871,7 +871,7 @@
 [end]
 
 [BlackSmith3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype xx)
 		(title Blacksmith)
@@ -896,7 +896,7 @@
 [end]
 
 [Fairgrounds]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		xx)
 		(title 			Fairgrounds)
@@ -923,7 +923,7 @@
 [end]
 
 [GuardHouse1]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		xx)
 		(title 			GuardHouse)
@@ -961,7 +961,7 @@
 
 
 [GuardHouse2]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		xx)
 		(title 			GuardHouse)
@@ -998,7 +998,7 @@
 [end]
 
 [Inn]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Inn)
 		(title Inn)
@@ -1023,7 +1023,7 @@
 [end]
 
 [Library1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype xx)
 		(title Library)
@@ -1053,7 +1053,7 @@
 [end]
 
 [Library2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype xx)
 		(title Library)
@@ -1082,7 +1082,7 @@
 [end]
 
 [Marketplace1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Shop)
 		(title Marketplace)
@@ -1111,7 +1111,7 @@
 [end]
 
 [Marketplace2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Shop)
 		(title Marketplace)
@@ -1139,7 +1139,7 @@
 [end]
 
 [Marketplace3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Shop)
 		(title Marketplace)
@@ -1166,7 +1166,7 @@
 [end]
 
 [Trading_Post]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Shop)
 		(title 			Trading_Post)
@@ -1191,7 +1191,7 @@
 [end]
 
 [Wizards_Tower]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		xx)
 		(title 			Wizards_Tower)
@@ -1220,7 +1220,7 @@
 [end]
 
 [Brothel]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Entertainment)
 		(title 			Brothel)
@@ -1242,7 +1242,7 @@
 [end]
 
 [Dwarven_Settlement]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Dwarven_Settlement)
@@ -1278,7 +1278,7 @@
 [end]
 
 [Elven_Bungalow]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Elven_Bungalow)
@@ -1308,7 +1308,7 @@
 [end]
 
 [Graveyard]
-	{Unit
+	{Building_Unit
 		(type 			AutoBuilding)
 		(subtype 		xx)
 		(title 			Graveyard)
@@ -1333,7 +1333,7 @@
 [end]
 
 [Gambling_Hall]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Entertainment)
 		(title 			Gambling_Hall)
@@ -1355,7 +1355,7 @@
 [end]
 
 [Gnome_Hovel]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Gnome_Hovel)
@@ -1383,7 +1383,7 @@
 [end]
 
 [General_Housing]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		xx)
 		(title 			General_Housing)
@@ -1403,7 +1403,7 @@
 [end]
 
 [General_Housing_Lv2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype xx)
 		(title General_Housing_Lv2)
@@ -1423,7 +1423,7 @@
 [end]
 
 [General_Housing_Lv3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype xx)
 		(title General_Housing_Lv3)
@@ -1444,7 +1444,7 @@
 [end]
 
 [Warriors_Guild]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Warriors_Guild)
@@ -1472,7 +1472,7 @@
 [end]
 
 [Rangers_Guild]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Rangers_Guild)
@@ -1502,7 +1502,7 @@
 [end]
 
 [Rogues_Guild1]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Rogues_Guild)
@@ -1534,7 +1534,7 @@
 [end]
 
 [Rogues_Guild2]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Rogues_Guild)
@@ -1565,7 +1565,7 @@
 [end]
 
 [Wizards_Guild1]
-	{Unit
+	{Building_Unit
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Wizards_Guild)
@@ -1598,7 +1598,7 @@
 [end]
 
 [Wizards_Guild2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Wizards_Guild)
@@ -1629,7 +1629,7 @@
 [end]
 
 [Wizards_Guild3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Wizards_Guild)
@@ -1659,7 +1659,7 @@
 [end]
 
 [Temple_Agrela1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Agrela)
@@ -1690,7 +1690,7 @@
 [end]
 
 [Temple_Agrela2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Agrela)
@@ -1720,7 +1720,7 @@
 [end]
 
 [Temple_Agrela3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Agrela)
@@ -1749,7 +1749,7 @@
 [end]
 
 [Temple_Dauros1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Dauros)
@@ -1780,7 +1780,7 @@
 [end]
 
 [Temple_Dauros2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Dauros)
@@ -1810,7 +1810,7 @@
 [end]
 
 [Temple_Dauros3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Dauros)
@@ -1839,7 +1839,7 @@
 [end]
 
 [Temple_Fervus1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Fervus)
@@ -1871,7 +1871,7 @@
 [end]
 
 [Temple_Fervus2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Fervus)
@@ -1902,7 +1902,7 @@
 [end]
 
 [Temple_Fervus3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Fervus)
@@ -1932,7 +1932,7 @@
 [end]
 
 [Temple_Helia1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Helia)
@@ -1963,7 +1963,7 @@
 [end]
 
 [Temple_Helia2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Helia)
@@ -1992,7 +1992,7 @@
 [end]
 
 [Temple_Krolm]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Krolm)
@@ -2022,7 +2022,7 @@
 [end]
 
 [Temple_Krypta1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Krypta)
@@ -2053,7 +2053,7 @@
 [end]
 
 [Temple_Krypta2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Krypta)
@@ -2083,7 +2083,7 @@
 [end]
 
 [Temple_Krypta3]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Krypta)
@@ -2112,7 +2112,7 @@
 [end]
 
 [Temple_Lunord1]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Lunord)
@@ -2143,7 +2143,7 @@
 [end]
 
 [Temple_Lunord2]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Guild)
 		(title Temple_Lunord)
@@ -2172,7 +2172,7 @@
 [end]
 
 [Goblin_Camp]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Goblin_Camp)
@@ -2199,7 +2199,7 @@
 [end]
 
 [Goblin_Hovel]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Goblin_Hovel)
@@ -2226,7 +2226,7 @@
 [end]
 
 [Dark_Castle1]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2253,7 +2253,7 @@
 [end]
 
 [Dark_Castle2]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2280,7 +2280,7 @@
 [end]
 
 [Dark_Castle3]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2307,7 +2307,7 @@
 [end]
 
 [Dark_Castle4]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2334,7 +2334,7 @@
 [end]
 
 [Ruined_Altar1]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Ruined_Altar1)
@@ -2361,7 +2361,7 @@
 [end]
 
 [Ruined_Keep1]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Ruined_Keep1)
@@ -2388,7 +2388,7 @@
 [end]
 
 [Ruined_Shrine1]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Ruined_Shrine1)
@@ -2415,7 +2415,7 @@
 [end]
 
 [Sewers]
-	{Unit
+	{Building_Unit
 		(type AutoBuilding)
 		(subtype xx)
 		(title Sewers)
@@ -2442,7 +2442,7 @@
 [end]
 
 [Brashnards_Sphere]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Brashnards_Sphere)
@@ -2471,7 +2471,7 @@
 [end]
 
 [Elven_Hideout]
-	{Unit
+	{Building_Unit
 		(type Building)
 		(subtype xx)
 		(title ElvenHideout)
@@ -2500,7 +2500,7 @@
 [end]
 
 [Slave_Pits]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Slave_Pits)
@@ -2527,7 +2527,7 @@
 [end]
 
 [Slave_Cross]
-	{Unit
+	{Building_Unit
 		(type mystery)
 		(subtype xx)
 		(title Slave_Cross)
@@ -2554,7 +2554,7 @@
 [end]
 
 [Hidden_Sword_Site]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Hidden_Sword_Site)
@@ -2583,7 +2583,7 @@
 [end]
 
 [Hidden_Chalice_Site]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Hidden_Chalice_Site)
@@ -2612,7 +2612,7 @@
 [end]
 
 [Hidden_Ring_Site]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Hidden_Ring_Site)
@@ -2641,7 +2641,7 @@
 [end]
 
 [Crown_Site]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Crown_Site)
@@ -2668,7 +2668,7 @@
 [end]
 
 [Tower_Prison]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Tower_Prison)
@@ -2695,7 +2695,7 @@
 [end]
 
 [Dragon_Lair]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Dragon_Lair)
@@ -2722,7 +2722,7 @@
 [end]
 
 [Witch_King_Tower]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Witch_King_Tower)
@@ -2749,7 +2749,7 @@
 [end]
 
 [Dragon_Tomb]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Dragon_Tomb)
@@ -2776,7 +2776,7 @@
 [end]
 
 [Liche_Queen_lair]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Liche_Queen_Lair)
@@ -2804,7 +2804,7 @@
 
 
 [Animal_Den]
-	{Unit
+	{Building_Unit
 		(type Lair)
 		(subtype xx)
 		(title Animal_Den)
@@ -2833,7 +2833,7 @@
 [end]
 
 [Gazebo]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype gazebo)
 		(title Inn)
@@ -2854,7 +2854,7 @@
 [end]
 
 [Fountain]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype Color)
 		(title Fountain)
@@ -2874,7 +2874,7 @@
 [end]
 
 [Royal_gardens]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype color)
 		(title Royal_gardens)
@@ -2899,7 +2899,7 @@
 [end]
 
 [Statue]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype color)
 		(title Statue)
@@ -2919,7 +2919,7 @@
 [end]
 
 [Arcane_Spire]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype color)
 		(title Arcane_Spire)
@@ -2939,7 +2939,7 @@
 [end]
 
 [Shrine]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype color)
 		(title Shrine)
@@ -2960,7 +2960,7 @@
 [end]
 
 [Bank]
-	{Unit
+	{Building_Unit
 		(type building)
 		(subtype color)
 		(title Bank)

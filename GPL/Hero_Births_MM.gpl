@@ -380,81 +380,68 @@ end
 Function Caravan_Birth  (agent ThisAgent)
 Declare
 	agent		Market, AIRootAgent;
-	list 		Markets, Bungalows, tradeposts, buildings, statues, fountains;
-	list 		Potentials;
-	integer	Gold, modifier, divisor, statue_bonus, num_fountain, fountain_gold, elf_gold;
+	list 		Markets, buildings, ClosedMarkets, l1, l2, l3;
+	integer	Gold, modifier, divisor, num_fountain, num_elf, num_post;
+	integer fountain_gold, elf_gold;
+	integer base_gold, rnd_gold;
 
 Begin
 	$GeneralAttributes(thisagent);
 
-	AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
-
-	$ListObjects ( thisagent, "Building", -1, buildings, #MyPlayer );
-	
-	$listobjects(thisagent,"building",-1,fountains,#Myplayer);
-	fountains = $listtitles(fountains,"fountain");
-	num_fountain = $listsize(fountains);
-	elf_gold = 0;
-	
 	$manor_bonus(thisagent);
-	
 	$statue_bonus(thisagent);
-	
 	$spire_bonus(thisagent);
-	
-	Markets = $listtitles ( buildings, "Marketplace" );
-	Markets = $ListCompleted ( Markets );
+		
+	$ListObjects ( thisagent, "Building", -1, buildings, #MyPlayer, #ATTRIB_FirstStageBuilt, 1);
 
-	tradeposts = $listtitles ( buildings, "trading_post" );
-	tradeposts = $ListCompleted ( tradeposts );
+	Markets = $ListTitles ( buildings, "Marketplace" );
+	ClosedMarkets = $ListTitles ( buildings, "Closed" );
+	Markets = $addlists ( Markets, ClosedMarkets );
 	
-	$ListObjects( thisAgent, "building",-1,Bungalows,  #MyPlayer );
-	Bungalows = $ListCompleted ($ListTitles (Bungalows, "Elven_Bungalow"));
+	l1 = $ListTitles ( buildings, "Fountain" );
+	num_fountain = $listsize(l1);
 	
+	l2 = $ListTitles ( buildings, "trading_post" );
+	num_post = $listsize(l2);
+
+	l3 = $ListTitles ( buildings, "Elven_Bungalow" );
+	num_elf = $listsize(l3);
 
 	If ( $ListSize ( Markets ) > 0 )
 		begin
-//			Foreach Market in Markets do
-//				begin
-//					If ($DistanceBetweenAgents (ThisAgent, Market) > #Min_Dist_to_Market_For_Caravan_Spawn)
-//						Potentials << Market;
-//				end
-			potentials = Markets;
-
-			If ($ListSize (Potentials) > 0)
+			ThisAgent's "Target" = $ListMember (Markets, 1);
+			
+			rnd_gold = #caravan_random_gold;
+			base_gold = $DistanceBetweenAgents (ThisAgent, ThisAgent's "Target") / #caravan_gold_mod;
+				
+			AIRootAgent = $RetrieveAgent ( "GplAIRoot" );
+			if ( AIRootAgent's "Quest_Number" == #QNumber_Trade_Routes )
 				begin
-					ThisAgent's "Target" = $ListMember (Potentials, 1);
-					//ThisAgent's "Target" = $Pick_Closest (ThisAgent, Potentials);
-					Gold = $DistanceBetweenAgents (ThisAgent, ThisAgent's "Target") / #caravan_gold_mod;
-					If ( $ListSize(Bungalows) > 0 )
-						elf_gold = ((#caravan_random_gold * ($ListSize(Bungalows) * #Elf_Caravan_Random_Gold_Mod)) / 100);
-					gold += $randomnumber(#caravan_random_gold + elf_gold);
-					fountain_gold = (((num_fountain * #caravan_fountain_gold_mod) * gold) / 100);
-					gold += fountain_gold;
-
-					// This section enforces the reducing rate of returns during deathmatch.
-  					if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
-						if ( AIRootAgent's "Deathmatch_Rules" == TRUE )
-							begin
-								modifier = ( #Deathmatch_income_modifier - 1 );
-								divisor = ( $listsize ( tradeposts ) + modifier );
-								if ( divisor < 1 )
-									divisor = 1;
-								gold = (( gold * #Deathmatch_income_modifier ) / divisor );
-							end
-
-					$SetAttribute (ThisAgent, #ATTRIB_Gold, Gold);
-//					//$DebugOut(911,"caravan choose",thisagent's "target","as a target.");
+					rnd_gold += 50;
+					base_gold += 200;
 				end
 
-			Else
-				begin
-					ThisAgent's "Target" = $Parent (ThisAgent);
-//					//$DebugOut(911,"Caravan chose parent as target");
-				end
+			elf_gold = ((rnd_gold * num_elf * #Elf_Caravan_Random_Gold_Mod) / 100);
+			rnd_gold += elf_gold;
+			
+			fountain_gold = ((base_gold * num_fountain * #caravan_fountain_gold_mod) / 100);
+			base_gold += fountain_gold;
+
+			gold = $randomnumber(rnd_gold) + base_gold;
+
+			// This section enforces the reducing rate of returns during deathmatch.
+			if ( $HasAttribute ( "Deathmatch_Rules", AIRootAgent ))
+				if ( AIRootAgent's "Deathmatch_Rules" == TRUE )
+					begin
+						modifier = ( #Deathmatch_income_modifier - 1 );
+						divisor = ( $listsize ( l2 ) + modifier );
+						if ( divisor < 1 )
+							divisor = 1;
+						gold = (( gold * #Deathmatch_income_modifier ) / divisor );
+					end
+
+			$SetAttribute (ThisAgent, #ATTRIB_Gold, Gold);
 		end
-
-
 	Else
 		begin
 			ThisAgent's "Target" = $Parent (ThisAgent);

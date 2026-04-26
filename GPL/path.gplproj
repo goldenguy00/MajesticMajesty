@@ -13,7 +13,6 @@ data="Data\Services\Services_MM.dat"
 
 source="prototype_MM.gpl"
 source="Rules\construction_rules_MM.gpl"
-source="Init_MM.gpl"
 
 source="LowLevel_MM.gpl"
 source="Items_LowLevel_MM.gpl"
