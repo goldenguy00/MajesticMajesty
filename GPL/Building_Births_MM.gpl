@@ -296,7 +296,6 @@ begin
 
 	$runthread(thisagent's "upgradescript",1,thisagent);
 	$blacksmith_bonus_upgrade(thisagent);
-	$BasicHelpSignFilter(thisagent);
 
 	$count_building(thisagent);
 end
@@ -670,7 +669,6 @@ begin
 	$GeneralAttributes(thisagent);
 	HP = $getattribute(thisagent,#ATTRIB_HP);
 	MaxHP = $getattribute(thisagent,#ATTRIB_MAXHP);
-	$AddAttribute(ThisAgent, "Help_Signs", "list"); //Not In Prototype
 	thisagent's "in_danger" = FALSE;
 				
 	$blacksmith_bonus_basic(thisagent);
@@ -743,7 +741,6 @@ begin
 
 	HP = $getattribute ( thisagent, #ATTRIB_HP );
 	MaxHP = $getattribute ( thisagent, #ATTRIB_MAXHP );
-	$AddAttribute(ThisAgent, "Help_Signs", "list"); //Not In Prototype
 	
 	if ($HasAttribute("magical_build_rate", thisagent) != False)
 		build_rate = thisagent's "magical_build_rate";
@@ -782,7 +779,6 @@ begin
 					$LocalChatMessage ( $GetUnitPlayerNumber( ThisAgent ), #chat_building_complete, ThisAgent);
 				end
 
-			$BasicHelpSignFilter(thisagent);
 			$setattribute ( thisagent, #ATTRIB_currentstageBuilt, 1 );
 			$setattribute ( thisagent, #ATTRIB_firststageBuilt, 1 );
 			$runthread ( thisagent's "birthscript2", 1, thisagent );
@@ -798,25 +794,30 @@ declare
 	agent sign;
 
 begin
-	if ($HasAttribute("title", thisagent)== false)
+	if ($HasAttribute("title", thisagent) == false)
 		return;
 	if ($HasAttribute("SignParentChecker", thisagent))
 		return;
 	
+	if ($getattribute(thisagent,#ATTRIB_HP) != $getattribute(thisagent,#ATTRIB_MaxHP) && 
+		$getattribute(thisagent,#ATTRIB_FirstStageBuilt) == 0 &&
+		$Getattribute(thisagent, #ATTRIB_currentstagebuilt) == 0)
+		return;
+
 	$AddAttribute(thisagent, "SignParentChecker", "function", $SignParentChecker);
 	$NewThread(thisagent's "SignParentChecker", 2000 + $RandomNumber(2000), thisagent);
 	
 	if ($HasAttribute("Initial_Misc", thisagent))
-	If ($ValidFunction (ThisAgent's "Initial_Misc"))
-		begin
-			(thisagent's "Initial_Misc")(thisagent);
-		end
+		If ($ValidFunction (ThisAgent's "Initial_Misc"))
+			begin
+				(thisagent's "Initial_Misc")(thisagent);
+			end
 
 	if ($HasAttribute("Initial_Research", thisagent))
-	If ($ValidFunction (ThisAgent's "Initial_Research"))
-		begin
-			(thisagent's "Initial_Research")(thisagent);
-		end
+		If ($ValidFunction (ThisAgent's "Initial_Research"))
+			begin
+				(thisagent's "Initial_Research")(thisagent);
+			end
 	
 	building_name = thisagent's "Title";
 	
@@ -1012,6 +1013,7 @@ begin
 						end
 				end
 		end
+	$BasicHelpSignFilter(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////

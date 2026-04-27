@@ -577,27 +577,14 @@ begin
 				return;
 		end
 		
-	if ($HasAttribute("Help_Signs", thisagent) == True)
-		begin
-			new_sign = $SpawnUnit(thisagent, sign, sign_loc);
-			thisagent's "Help_Signs" << new_sign;
-			$AddAttribute(new_sign, "SignParent", "list");  //Not In Prototype
-			new_sign's "SignParent" << thisagent;
-			$AddAttribute(new_sign, "HelpSignAutoRemoval", "function", $HelpSignAutoRemoval);  //Not In Prototype
-			$NewThread(new_sign's "HelpSignAutoRemoval", 1500, new_sign, thisagent );
-			$AddAttribute(new_sign, "IGdeathscript", "function", $building_death);  //Not In Prototype
-		end
-	else
-		begin
-			$AddAttribute(ThisAgent, "Help_Signs", "list");  //Not In Prototype
-			new_sign = $SpawnUnit(thisagent, sign, sign_loc);
-			thisagent's "Help_Signs" << new_sign;
-			$AddAttribute(new_sign, "SignParent", "list");  //Not In Prototype
-			new_sign's "SignParent" << thisagent;
-			$AddAttribute(new_sign, "HelpSignAutoRemoval", "function", $HelpSignAutoRemoval);  //Not In Prototype
-			$NewThread(new_sign's "HelpSignAutoRemoval", 1500, new_sign, thisagent );
-			$AddAttribute(new_sign, "IGdeathscript", "function", $building_death);  //Not In Prototype
-		end
+	$AddAttribute(ThisAgent, "Help_Signs", "list");  //Not In Prototype
+	new_sign = $SpawnUnit(thisagent, sign, sign_loc);
+	thisagent's "Help_Signs" << new_sign;
+	$AddAttribute(new_sign, "SignParent", "list");  //Not In Prototype
+	new_sign's "SignParent" << thisagent;
+	$AddAttribute(new_sign, "HelpSignAutoRemoval", "function", $HelpSignAutoRemoval);  //Not In Prototype
+	$NewThread(new_sign's "HelpSignAutoRemoval", 1500, new_sign, thisagent );
+	$AddAttribute(new_sign, "IGdeathscript", "function", $building_death);  //Not In Prototype
 end
 
 
