@@ -1,0 +1,75 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function wizards_guild_visited(agent thisagent)
+
+declare
+	agent building, book;
+
+begin
+	building = thisagent's "target";
+	book = $nullagent();
+	if ($isdead(building) == false)
+		if ($titleinagentlist("Available_Books", building's "Attachments"))
+			book = $agentintentextinlist(thisagent's "TaskName", $GetBuildingContents($agenttitleinlist("Available_Books", building's "Attachments")));
+	
+	if ($isvalidgamepiece(book) == false)
+		begin
+			$reset_tasks(thisagent);
+			return;
+		end
+	$enter_building(thisagent,building);
+	
+	thisagent's "TASK_subIntentCurrent" = "IDTXT_INTENT_WIZARDGUILDSTUDYING" + thisagent's "TaskName"; //If the building is damaaged and the agent exits, this intent would not work right as the current one.
+
+	$SpecifyIntentString (ThisAgent, thisagent's "TASK_subIntentCurrent");
+			
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Book_Read_Duration + (2500 * book's "XPMultiplier"));
+
+	thisagent's "Activescript" = $reading_book_at_wizards_guild;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function reading_book_at_wizards_guild(agent thisagent)
+
+declare
+
+begin
+	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
+	ThisAgent's "ActiveScript" = $done_studying_at_wizards_guild;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function done_studying_at_wizards_guild(agent thisagent)
+
+declare
+	agent book, building;
+	integer experience, XPLevel;
+
+begin
+	//thisagent's "TASK_subIntentCurrent" == "IDTXT_INTENT_THINKING";
+	//$SpecifyIntentString (ThisAgent, thisagent's "TASK_subIntentCurrent");
+	building = thisagent's "target";
+	book = $nullagent();
+	if ($isdead(building) == false)
+		if ($titleinagentlist("Available_Books", building's "Attachments"))
+			book = $agentintentextinlist(thisagent's "TaskName", $GetBuildingContents($agenttitleinlist("Available_Books", building's "Attachments")));
+	
+	if ($isvalidgamepiece(book) == false)
+		begin
+			$reset_tasks(thisagent);
+			return;
+		end
+	experience = book's "XP_Value";
+	XPLevel = book's "XPMultiplier" + 3;
+	
+	$exit_building(thisagent,building);
+	
+	$give_exp(thisagent, experience * XPLevel);
+	$AddAttribute(thisagent, "Books_Read", "list");
+	thisagent's "Books_Read" << book's "IntentExt"; //For simplicity sake, the intentext may as well serve as the title when checking if the agent read the book before.
+	$reset_tasks(thisagent);
+end

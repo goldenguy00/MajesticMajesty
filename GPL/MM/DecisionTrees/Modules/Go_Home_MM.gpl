@@ -1,0 +1,93 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function go_home(agent thisagent, integer chance) is Boolean
+
+declare
+
+begin
+//	//$DebugOut("Should I go home?");
+	if ($randomnumber(100) + 1 > chance)
+		begin
+//			//$DebugOut("Not interesting enough to think about!");
+			return FALSE;
+		end
+
+	if (thisagent's "home" == $Nullagent())
+		begin
+//			//$DebugOut("I don't have a home!");
+			
+			return False;
+		end
+
+	thisagent's "ActiveScript" = $use_building;
+	thisagent's "target" = thisagent's "home";
+	thisagent's "taskname" = "go_home";
+
+	$createeffector(thisagent,"thought_bubble_home",#home_bubble_time);
+
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_GOINGHOME");
+
+//	//$DebugOut("Yes!");
+	return TRUE;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function go_home_packet(agent thisagent) is Boolean
+
+declare
+	agent Target;
+	integer chance; 
+	string actionsub, intentsub, targetsub, tnamesub, taskindex, completeaction, completeintent, completetarget, completetname;
+	string conditionsub, completecondition, visitsub, completevisit;
+
+begin
+//            //$DebugOut("Should I go home?");
+	chance = thisagent's "TASK_activeChance";
+	if ($randomnumber(100) + 1 > chance)
+		begin
+//		            //$DebugOut("Not interesting enough to think about!");
+			return FALSE;
+		end
+
+	if ($NotValid(thisagent's "home"))
+		begin
+//		            //$DebugOut("I don't have a home!");
+			
+			return False;
+		end
+
+	taskindex = thisagent's "TASK_activeSubset";
+	actionsub = "TASK_subActiveScript";
+	intentsub = "TASK_subIntent";
+	targetsub = "TASK_subTarget";
+	tnamesub = "TASK_subTaskName";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex; 
+	completetname = tnamesub + taskindex;
+
+	conditionsub = "TASK_subExitCondition";
+	completecondition = conditionsub + taskindex;
+	
+	visitsub = "TASK_subVisitingScript";
+	completevisit = visitsub + taskindex;
+	
+	Target = thisagent's "home";
+	thisagent's completetarget = Target;
+	thisagent's completeaction  = $Use_Building_Packet;
+	ThisAgent's completevisit = Target's "visited_script";
+	ThisAgent's completecondition = $isdead;
+	thisagent's completetname = "go_home";
+
+	//$createeffector(thisagent,"thought_bubble_home",#home_bubble_time); //No effector since this is in the task list
+
+	Thisagent's completeintent = "IDTXT_INTENT_GOINGHOME";
+
+//            //$DebugOut("Yes!");
+	return TRUE;
+
+end

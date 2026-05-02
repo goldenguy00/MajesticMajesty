@@ -1,0 +1,63 @@
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//The cycle will run on a fixed interval of 0.05 seconds for smoothest transition.
+function Knockback_Cycle( agent defender, agent attacker, coordinate knockback_destination )
+declare
+	integer Knockback_Damage_Min, Knockback_Damage_Max;
+	boolean attacker_alive;
+	
+begin
+	if (($IsValidGamePiece(defender) == false) || (defender's "Knockback_Counter" < 1))
+		begin
+			$KillThread(defender's "Knockback_Cycle");
+			return;
+		end
+	
+	defender's "Knockback_Counter" = (defender's "Knockback_Counter" - 1);
+	
+	if ($IsValidGamePiece(attacker) == false)
+		begin
+			if ($isdead(attacker) == false)
+				attacker_alive = True;
+			else
+				attacker_alive = False;
+		end
+		
+	if ((defender's "Knockback_Damage_Min" > 0) || (defender's "Knockback_Damage_Max" > 0))
+		begin
+			Knockback_Damage_Min = defender's "Knockback_Damage_Min";
+		
+			if (defender's "Knockback_Damage_Max" < defender's "Knockback_Damage_Min")
+				Knockback_Damage_Max = defender's "Knockback_Damage_Min";
+			else
+				Knockback_Damage_Max = defender's "Knockback_Damage_Max";
+		end
+		
+	if ($isdead(defender) == false)
+		begin
+			//$createeffector( defender, "Knockback_Effector", 0 );
+			$TeleportToPoint(defender, 20, knockback_destination);
+			if (Knockback_Damage_Max > 0)
+				begin
+					if (attacker_alive == True)
+						$spelltypedamage(attacker, defender, "Force", Knockback_Damage_Min, Knockback_Damage_Max);
+					else
+						$spelltypedamage($NullAgent(), defender, "Force", Knockback_Damage_Min, Knockback_Damage_Max);
+				end
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function AddKnockbackEffect( agent thisagent )
+declare
+	
+begin
+	if ($HasAttribute("Knockback_Counter", ThisAgent) == True)
+		return;
+		
+	//$AddAttribute(ThisAgent, "Knockback_Destination", "coordinate");
+	$AddAttribute(ThisAgent, "Knockback_Counter", "integer", 0);
+	$AddAttribute(ThisAgent, "Knockback_Damage_Min", "integer");
+	$AddAttribute(ThisAgent, "Knockback_Damage_Max", "integer");
+	$AddAttribute(ThisAgent, "Knockback_Cycle", "function", $Knockback_Cycle);
+end

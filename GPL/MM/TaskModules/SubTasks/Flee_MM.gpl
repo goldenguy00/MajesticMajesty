@@ -1,0 +1,211 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function flee_packet(agent thisagent,string intent)
+
+declare
+	list inns,new_list,trading_posts;
+	agent post;
+	agent inn;
+	integer num_enemies;
+
+begin
+	if (thisagent's "fear" < 10)
+		thisagent's "fear" = 10;
+	
+	$list_enemies(thisagent,1);
+	
+	num_enemies = $Listsize(thisagent's "hostiles");
+
+	if (num_enemies > 0)
+		begin
+			if (intent == "IDTXT_INTENT_FLEEING")
+				thisagent's "Fear" += (2 * num_enemies);
+			
+			if ($isdead(thisagent's "home") == false)
+				if ($distancebetweenagents(thisagent,thisagent's "home") < #Near_home_dist)
+					begin
+						if ($berserk_check(thisagent) == 0)
+							$go_berserk(thisagent);
+						return;
+					end
+		end
+		
+	$listobjects(thisagent, "building", -1,inns, #CheckTitles, "Inn", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
+	$listobjects(thisagent, "building", -1,trading_posts, #CheckTitles, "Trading_Post", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
+	
+	foreach post in trading_posts do
+		if ($HasProperty(post, "Can_Rest_Here"))
+			inns << post;
+
+	if ($isvalidgamepiece(thisagent's "home"))
+		inns << thisagent's "home";
+
+
+	// remove any buildings that are too close from the list
+	foreach inn in inns do
+		begin
+			if ($isdead(inn) == false)
+				begin
+					if (num_enemies == 0)
+						new_list << inn;
+					else if ($distancebetweenagents(thisagent,inn) > #Near_inn_dist)
+						new_list << inn;
+				end
+		end
+
+	inns = new_list;
+	$Flee_part_II_packet(thisagent, inns, intent);
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function flee_absolute_packet(agent thisagent,string intent)
+
+declare
+	list inns,trading_posts, new_list;
+	agent post, inn;
+
+begin		
+	$listobjects(thisagent, "building", -1,inns, #CheckTitles, "Inn", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
+	$listobjects(thisagent, "building", -1,trading_posts, #CheckTitles, "Trading_Post", #MyTeam, #ATTRIB_FirstStageBuilt, 1 );
+	
+	foreach post in trading_posts do
+		if ($HasProperty(post, "Can_Rest_Here"))
+			inns << post;
+
+	if ($isvalidgamepiece(thisagent's "home"))
+		inns << thisagent's "home";
+	thisagent's "Fear" = 100;
+	// remove any buildings that are too close from the list
+	foreach inn in inns do
+		begin
+			// wizards guild getting attacked by magic mirror enemies is painful to watch...
+			if ($isdead(inn) == false && $IsAdjacent(thisagent, inn) == false)
+				new_list << inn;
+		end
+
+	inns = new_list;
+	
+	$flee_part_II_packet(thisagent,inns,intent);
+
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+function flee_part_II_packet(agent thisagent,list places,string intent)
+
+declare
+	agent new_target;
+
+begin
+	if ($listsize(places) == 0)
+		begin
+			// hero has no where to flee to!
+			if ($Berserk_check(thisagent) == 0)
+				$go_berserk(thisagent);
+			return;
+		end
+
+	new_target = $pick_closest(thisagent,places);
+
+	thisagent's "target" = new_target;
+	if (thisagent's "target" == thisagent's "home")
+		thisagent's "taskname" = "go_home";
+	else
+		thisagent's "taskname" = "visiting";
+	
+	thisagent's "Activescript" = $use_building_safe;
+	thisagent's "backscript" = $use_building_safe;
+	thisagent's "destination" = $locationof(thisagent's "target");
+	if ($flee_check(thisagent) == 1)
+		return;
+	
+	if ($HasAttribute("TASK_activeStatus", thisagent))
+		thisagent's "TASK_activeStatus" = "Failed";
+	
+	$SpecifyIntentString (ThisAgent, intent);
+	$createeffector(thisagent,"thought_bubble_danger",#danger_bubble_time);
+	$say(thisagent,"VFX_FLEE_COMBAT");
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function go_berserk(agent thisagent)
+
+declare
+
+begin
+	if ($haslowHP(thisagent))
+		thisagent's "activescript" = $berserk;
+	else
+		thisagent's "activescript" = $berserk_defend;
+
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_BERSERKING");
+
+	thisagent's "target" = $nullagent();
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+// This is a spell validation check that returns 1 if the agent is fleeing (except fleeing map)
+// else it returns 0
+Function Flee_Check (agent ThisAgent) is integer
+Declare
+	integer	Intent;
+	string _intent;
+
+Begin
+	_Intent = $GetStringSafe(thisagent, "Running_Intent");
+	Intent = $GetAttribute ( ThisAgent, #ATTRIB_AIIntentionString );
+
+	//Return 1 if the unit is fleeing - but not if they are fleeing map
+	If (Intent == #intent_flee_Scared || Intent == #intent_flee_lowHP ||
+		_Intent == "IDTXT_INTENT_FLEEING" || _Intent == "IDTXT_INTENT_FLEEINGINJURED" )
+		begin
+		
+			if ($getattribute(thisagent,#ATTRIB_HasEffectInvisibility) == 0)
+				begin
+					if ($isexpansion(thisagent) == false)
+						return 1;
+					if ($CheckEffector (ThisAgent, "Speed_Tonic_Icon") == False )
+							return 1;
+				end
+		end
+
+	return 0;
+
+End
+
+
+///////////////////////////////////////////////////////////////////////////////
+// This is a spell validation check that returns 1 if the agent is berserking
+// else it returns 0
+Function Berserk_Check (agent ThisAgent) is integer
+Declare
+	integer	Intent;
+	string _Intent;
+
+Begin
+	_Intent = $GetStringSafe(thisagent, "Running_Intent");
+	Intent = $GetAttribute(ThisAgent, #ATTRIB_AIIntentionString);
+
+	//Return 1 if the unit is fleeing
+	If (Intent == #intent_berserk ||
+		_Intent == "IDTXT_INTENT_BERSERKING")
+		begin
+		
+			if ($isexpansion(thisagent) == false)
+				return 1;
+			
+			if ($checkeffector (ThisAgent, "Strength_Potion_Icon") == False)
+				if ($CheckEffector (ThisAGent, "Shapeshift_Potion_Icon") == False)
+					return 1;
+
+		end
+
+	return 0;
+
+End

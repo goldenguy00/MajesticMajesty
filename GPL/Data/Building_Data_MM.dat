@@ -1,5 +1,5 @@
 [Zoo1]
-	{Building_Unit
+	{building
 		(type 			building)
 		(subtype		xx)
 		(title 			Zoo)
@@ -9,21 +9,15 @@
 		(birthScript2		Building_Birth)
 		(IGdeathscript		building_death)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Zoo)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Zoo)
 		(IntentExt		ZOO)
 	}
 [end]
 
 [Zoo2]
-	{Building_Unit
+	{building
 		(type 			building)
 		(subtype		xx)
 		(title 			Zoo)
@@ -33,21 +27,15 @@
 		(birthScript2		Building_Birth)
 		(IGdeathscript		building_death)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Zoo)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Zoo)
 		(IntentExt		ZOO)
 	}
 [end]
 
 [Zoo3]
-	{Building_Unit
+	{building
 		(type 			building)
 		(subtype		xx)
 		(title 			Zoo)
@@ -56,24 +44,18 @@
 		(birthScript2		Building_Birth)
 		(IGdeathscript		building_death)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Zoo)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Zoo)
 		(IntentExt		ZOO)
 	}
 [end]
 
 
 [SorcerersAbode]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Utility)
 		(title 			SorcerersAbode)
 		(Level			1)
 		(birthscript		magical_birth)
@@ -81,66 +63,48 @@
 		(IGdeathscript		building_death)
 		(upgradescript		magical_upgrade)
 		(Magical_build_rate     2)
-		(Unit_Type			Building)
-		(Unit_Subtype		Sorcerers_Abode)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Sorcerers_Abode)
 		(IntentExt		SORCERERSABODE)
 	}
 [end]
 
 [SorcerersAbode2]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Utility)
 		(title 			SorcerersAbode)
 		(Level			2)
 		(birthScript		Building_Birth)
 		(IGdeathscript		building_death)
 		(upgradescript		magical_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Sorcerers_Abode)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Sorcerers_Abode)
 		(IntentExt		SORCERERSABODE)
 	}
 [end]
 
 [SorcerersAbode3]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Utility)
 		(title 			SorcerersAbode)
 		(Level			3)
 		(birthScript		Building_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Sorcerers_Abode)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Sorcerers_Abode)
 		(IntentExt		SORCERERSABODE)
 	}
 [end]
 
 [MagicBazaar]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Market)
 		(title 			Magic_Bazaar)
 		(Level			1)
 		(Visited_Script		Bazaar_Visited)
@@ -149,23 +113,17 @@
 		(IGdeathscript		building_death)
 		(upgradescript		basic_upgrade)
 		(Sleep_For		10000)
-		(Unit_Type			Building)
-		(Unit_Subtype		Market)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Magic_Bazaar)
 		(IntentExt		MAGICBAZAAR)
 	}
 [end]
 
 [MagicBazaar2]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Market)
 		(title 			Magic_Bazaar)
 		(Level			2)
 		(Visited_Script		Bazaar_Visited)
@@ -174,23 +132,17 @@
 		(IGdeathscript		building_death)
 		(upgradescript		basic_upgrade)
 		(Sleep_For		10000)
-		(Unit_Type			Building)
-		(Unit_Subtype		Market)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Magic_Bazaar)
 		(IntentExt		MAGICBAZAAR)
 	}
 [end]
 
 [MagicBazaar3]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Market)
 		(title 			Magic_Bazaar)
 		(Level			3)
 		(Visited_Script		Bazaar_Visited)
@@ -199,23 +151,17 @@
 		(IGdeathscript		building_death)
 		(upgradescript		basic_upgrade)
 		(Sleep_For		10000)
-		(Unit_Type			Building)
-		(Unit_Subtype		Market)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Magic_Bazaar)
 		(IntentExt		MAGICBAZAAR)
 	}
 [end]
 
 [HallOfChampions]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Utility)
 		(title 			HallOfChampions)
 		(Level			1)
 		(Visited_Script		Hall_Of_Champions_visited)
@@ -223,24 +169,18 @@
 		(birthScript2		Building_Birth)
 		(IGdeathscript		building_death)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		HallOfChampions)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Hall_Of_Champions)
 		(IntentExt		HALLOFCHAMPIONS)
 	}
 [end]
 
 
 [Mausoleum]
-	{Building_Unit
+	{building
 		(type 			building)
-		(subtype		xx)
+		(subtype		Utility)
 		(title 			Mausoleum)
 		(Level			1)
 		(Visited_Script		Upgrade_Equipment)
@@ -248,22 +188,16 @@
 		(birthScript2		Building_Birth)
 		(IGdeathscript		mausoleum_death)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Mausoleum)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Mausoleum)
 		(IntentExt		MAUSOLEUM)
 	}
 [end]
 
 
 [Outpost]
-	{Building_Unit
+	{Outpost
 		(type 			building)
 		(subtype 		Outpost)
 		(AttackType 		5)
@@ -287,19 +221,14 @@
 		(birthscript		basic_birth)
 		(birthScript2		Outpost_Birth)
 		(IGdeathscript		Outpost_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Outpost)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Outpost)
 		(IntentExt		OUTPOST)
 	}
 [end]
 
 [Embassy]
-	{Building_Unit
+	{Guild
 		(type 			building)
 		(subtype		Guild)
 		(title 			Embassy)
@@ -310,23 +239,17 @@
 		(birthscript		basic_birth)
 		(birthScript2		Embassy_Birth)
 		(IGdeathscript		Embassy_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Embassy)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Embassy)
 		(IntentExt		EMBASSY)
 	}
 [end]
 
 [Goblin_Watchtower]
-	{Building_Unit
+	{Tower_Lair
 		(type 			Lair)
-		(subtype 		xx)
+		(subtype 		Tower)
 		(title 			Goblin_Watchtower)
 		(difficulty 		2)
 		(EnemyType 		Hero)
@@ -340,21 +263,16 @@
 		(BackScript		Tower_scan)
 		(birthscript		Goblin_Watchtower_birth)
 		(IGdeathscript		lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 		(Physical_Attack		15)
 		(Physical_Attack_Type	Piercing)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Goblin)
-		(Kill_Credit_Specific	KCS_Goblin_Watchtower)
 		(IntentExt		GOBLINWATCHTOWER)
 	}
 [end]
 
 [GoblinFortress]
-	{Building_Unit
+	{Lair
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			GoblinFortress)
@@ -370,22 +288,16 @@
 		(Stored_Spawns		3)
 		(Max_Simul_Spawns	4)
 		(Max_Stored_Spawns	3)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Goblin)
-		(Kill_Credit_Specific	KCS_Goblin_Fortress) 
 		(IntentExt		GOBLINFORTRESS)
 	}
 [end]
 
 
 [RatsNest]
-	{Building_Unit
+	{Lair
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			RatsNest)
@@ -398,21 +310,15 @@
 		(Spawn_function         Rats_Nest)
 		(birthScript		Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Ratkin)
-		(Kill_Credit_Specific	KCS_Rats_Nest) 
 		(IntentExt		RATSNEST)
 	}
 [end]
 
 [Ancient_Graveyard]
-	{Building_Unit
+	{Lair
 		(type 			Lair)
 		(subtype 		xx)
 		(title 			Ancient_Graveyard)
@@ -425,24 +331,18 @@
 		(Spawn_function         Spawn)
 		(birthScript		Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Ancient_Graveyard) 
 		(IntentExt		ANCIENTGRAVEYARD)
 	}
 [end]
 
 
 [FortressofIxmil]
-	{Building_Unit
+	{Tower_Lair
 		(type 			Lair)
-		(subtype 		xx)
+		(subtype 		Tower)
 		(title 			FortressOfIxmil)
 		(difficulty 		4)
 		(EnemyType		Hero)
@@ -458,22 +358,16 @@
 		(Spawn_function         Spawn)
 		(birthScript		Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Fortress_of_Ixmil) 
 		(IntentExt		FORTRESSOFIXMIL)
 	}
 [end]
 
 
 [BrokenSewerMain]
-	{Building_Unit
+	{Lair
 		(type 					Lair)
 		(subtype 				xx)
 		(title 					BrokenSewerMain)
@@ -486,19 +380,14 @@
 		(Spawn_function         Rat_Spawn)
 		(birthScript			Broken_sewer_Birth)
 		(IGdeathscript			Lair_death)
-		(Unit_Type				Building)
-		(Unit_Subtype			Lair)
 		(Armor_Physical_Base	10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type		Lair)
-		(Kill_Credit_Faction	KCF_Ratkin)
-		(Kill_Credit_Specific	KCS_Broken_Sewer_Main) 
 		(IntentExt				BROKENSEWERMAIN)
 	}
 [end]
 
 [Sanguine_Pit]
-	{Building_Unit
+	{Lair
 		(type 					Lair)
 		(subtype 				xx)
 		(title 					Sanguine_Pit)
@@ -511,20 +400,15 @@
 		(Spawn_function			Sanguine_Pit_Spawn)
 		(birthScript			sanguine_pit_birth)
 		(IGdeathscript			Lair_death)
-		(Unit_Type				Building)
-		(Unit_Subtype			Lair)
 		(Armor_Physical_Base	10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type		Lair)
-		(Kill_Credit_Faction	KCF_Sanguine_Cult)
-		(Kill_Credit_Specific	KCS_Sanguine_Pit)
 		(IntentExt				SANGUINEPIT)
 	}
 [end]
 
 [Ice_Cave]
-	{Building_Unit
-		(type 			Lair)
+	{Lair
+		(type 					Lair)
 		(subtype 		xx)
 		(title 			Ice_Cave)
 		(difficulty 		3)
@@ -536,22 +420,16 @@
 		(Spawn_function 	Spawn)
 		(birthScript		Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Nature)
-		(Kill_Credit_Specific	KCS_Ice_Cave) 
 		(IntentExt		ICECAVE)
 	}
 [end]
 
 [AncientBarrow]
-	{Building_Unit
-		(type 			Lair)
+	{Lair
+		(type 					Lair)
 		(subtype 		xx)
 		(title 			AncientBarrow)
 		(difficulty 		4)
@@ -563,22 +441,16 @@
 		(Spawn_function 	Spawn)
 		(birthScript		Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Ancient_Barrow) 
 		(IntentExt		ANCIENTBARROW)
 	}
 [end]
 
 [WightsTomb]
-	{Building_Unit
-		(type 			Lair)
+	{Lair
+		(type 					Lair)
 		(subtype 		xx)
 		(title 			WightsTomb)
 		(difficulty 		10)
@@ -590,23 +462,17 @@
 		(Spawn_function 	Spawn)
 		(birthScript		Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Wights_Tomb) 
 		(IntentExt		WIGHTSTOMB)
 	}
 [end]
 
 
 [SnakePit]
-	{Building_Unit
-		(type 			Lair)
+	{Lair
+		(type 					Lair)
 		(subtype 		xx)
 		(title 			SnakePit)
 		(difficulty 		10)
@@ -618,24 +484,18 @@
 		(Spawn_function 	Snake_Pit_Spawn)
 		(birthScript		Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Snake_Pit) 
 		(IntentExt		SNAKEPIT)
 	}
 [end]
 
 
 [SpireOfDeath]
-	{Building_Unit
+	{Tower_Lair
 		(type 			Lair)
-		(subtype 		xx)
+		(subtype 		Tower)
 		(title 			SpireOfDeath)
 		(difficulty 		4)
 		(EnemyType 		Hero)
@@ -652,19 +512,14 @@
 		(Spawn_Function 	Spire_Spawn_One)
 		(Special_Spawn_Type	xx)
 		(Dispersion_Range	200)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Spire_Of_Death) 
 		(IntentExt		SPIREOFDEATH)
 	}
 [end]
 
 [EvilPalace]
-	{Building_Unit
+	{Palace
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -681,19 +536,14 @@
 		(gnome_camp_spawner 	gnome_camp_spawn)
 		(birthScript		Palace_Birth)
 		(IGdeathscript		Palace_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Palace)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Evil_Palace) 
 		(IntentExt		PALACE)
 	}
 [end]
 
 [Palace1]
-	{Building_Unit
+	{Palace
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -713,20 +563,14 @@
 		(IGdeathscript		Palace_death)
 		(upgradescript		Palace_upgrade)
 		(upgradescript2		Palace_upgrade2)
-		(Unit_Type			Building)
-		(Unit_Subtype		Palace)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Palace)
 		(IntentExt		PALACE)
 	}
 [end]
 
 [Palace2]
-	{Building_Unit
+	{Palace
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -746,20 +590,14 @@
 		(IGdeathscript		Palace_death)
 		(upgradescript		Palace_upgrade)
 		(upgradescript2		Palace_upgrade2)
-		(Unit_Type			Building)
-		(Unit_Subtype		Palace)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Palace)
 		(IntentExt		PALACE)
 	}
 [end]
 
 [Palace3]
-	{Building_Unit
+	{Palace
 		(type 			building)
 		(subtype 		Palace)
 		(title 			Palace)
@@ -776,22 +614,16 @@
 		(gnome_camp_spawner 	gnome_camp_spawn)
 		(birthScript		Palace_Birth)
 		(IGdeathscript		Palace_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Palace)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Palace)
 		(IntentExt		PALACE)
 	}
 [end]
 
 [Ballista_Tower]
-	{Building_Unit
+	{Tower
 		(type 			building)
-		(subtype 		xx)
+		(subtype 		Tower)
 		(title 			Ballista_Tower)
 		(EnemyType 		Monster)
 		(Attack_Action  	Ballista_Bolt)
@@ -804,11 +636,6 @@
 		(birthscript		basic_birth)
 		(birthScript2		Tower_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Tower)
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Ballista_Tower)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
 		(Physical_Attack		25)
@@ -818,62 +645,50 @@
 [end]
 
 [BlackSmith1]
-	{Building_Unit
-		(type building)
-		(subtype xx)
-		(title Blacksmith)
-		(Level		1)
-		(RevenueScript		Revenue_Adjuster_Blacksmith)
-		(Revenue_Amount		30)
+	{building
+		(type 				building)
+		(subtype 			Utility)
+		(title 				Blacksmith)
+		(Level				1)
+		(RevenueScript			Revenue_Adjuster_Blacksmith)
+		(Revenue_Amount			30)
 		(Revenue_Time			45000)
-		(Visited_Script		Upgrade_Equipment)
+		(Visited_Script			Upgrade_Equipment)
 		(birthscript			basic_birth)
 		(birthScript2			Building_Birth)
 		(IGdeathscript			building_death)
-		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Blacksmith)
+		(upgradescript			basic_upgrade)
 
 		(Armor_Physical_Base		10)
-		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Blacksmith)
+		(Armor_Magical_Base			10)
 		(IntentExt		BLACKSMITH)
 	}
 [end]
 
 [BlackSmith2]
-	{Building_Unit
-		(type building)
-		(subtype xx)
-		(title Blacksmith)
-		(Level		2)
-		(RevenueScript		Revenue_Adjuster_Blacksmith)
-		(Revenue_Amount		50)
+	{building
+		(type 				building)
+		(subtype 			Utility)
+		(title 				Blacksmith)
+		(Level				2)
+		(RevenueScript			Revenue_Adjuster_Blacksmith)
+		(Revenue_Amount			50)
 		(Revenue_Time			32500)
-		(Visited_Script		Upgrade_Equipment)
+		(Visited_Script			Upgrade_Equipment)
 		(birthScript			Building_Birth)
 		(IGdeathscript			building_death)
-		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Blacksmith)
+		(upgradescript			basic_upgrade)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Blacksmith)
 		(IntentExt		BLACKSMITH)
 	}
 [end]
 
 [BlackSmith3]
-	{Building_Unit
+	{building
 		(type building)
-		(subtype xx)
+		(subtype Utility)
 		(title Blacksmith)
 		(Level		3)
 		(RevenueScript		Revenue_Adjuster_Blacksmith)
@@ -882,23 +697,17 @@
 		(Visited_Script			Upgrade_Equipment)
 		(birthScript				Building_Birth)
 		(IGdeathscript				building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Blacksmith)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Blacksmith)
 		(IntentExt		BLACKSMITH)
 	}
 [end]
 
 [Fairgrounds]
-	{Building_Unit
+	{Fairgrounds
 		(type 			building)
-		(subtype 		xx)
+		(subtype 		Utility)
 		(title 			Fairgrounds)
 		(RevenueScript		Fairgrounds_Revenue)
 		(Revenue_Amount		100)
@@ -909,23 +718,17 @@
 		(IGdeathscript		building_death)
 		(ActiveScript		Fairgrounds_Poll)
 		(ResetScript		Fairgrounds_Reset)
-		(Unit_Type			Building)
-		(Unit_Subtype		Fairgrounds)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Fairgrounds)
 		(IntentExt		FAIRGROUNDS)
 	}
 [end]
 
 [GuardHouse1]
-	{Building_Unit
+	{GuardHouse
 		(type 			building)
-		(subtype 		xx)
+		(subtype 		Tower)
 		(title 			GuardHouse)
 		(EnemyType 		Monster)
 		(Max_City_Guard		1)
@@ -946,24 +749,19 @@
 		(Initial_Misc			Guardhouse_Misc)
 		(Initial_Research		Guardhouse_Research)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guardhouse)
 		(Physical_Attack		10)
 		(Physical_Attack_Type	Piercing)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Guardhouse)
 		(IntentExt		GUARDHOUSE)
 	}
 [end]
 
 
 [GuardHouse2]
-	{Building_Unit
+	{GuardHouse
 		(type 			building)
-		(subtype 		xx)
+		(subtype 		Tower)
 		(title 			GuardHouse)
 		(EnemyType 		Monster)
 		(Max_City_Guard		1)
@@ -984,21 +782,16 @@
 		(Initial_Misc			Guardhouse_Misc)
 		(Initial_Research		Guardhouse_Research)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guardhouse)
 		(Armor_Physical_Base		100)
 		(Armor_Magical_Base		10)
 		(Physical_Attack		10)
 		(Physical_Attack_Type	Piercing)
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Guardhouse)
 		(IntentExt		GUARDHOUSE)
 	}
 [end]
 
 [Inn]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype Inn)
 		(title Inn)
@@ -1009,23 +802,16 @@
 		(birthscript			basic_birth)
 		(birthScript2					Building_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-
-		(Unit_Subtype		Inn)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Inn)
 		(IntentExt		INN)
 	}
 [end]
 
 [Library1]
-	{Building_Unit
+	{Library
 		(type building)
-		(subtype xx)
+		(subtype Utility)
 		(title Library)
 		(Level		1)
 		(RevenueScript		Revenue_Adjuster_Library)
@@ -1039,23 +825,17 @@
 		(Initial_Misc			Library_Misc)
 		(Initial_Research		Library_Research)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Library)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Library)
 		(IntentExt		LIBRARY)
 	}
 [end]
 
 [Library2]
-	{Building_Unit
+	{building
 		(type building)
-		(subtype xx)
+		(subtype Utility)
 		(title Library)
 		(Level		2)
 		(RevenueScript		Revenue_Adjuster_Library)
@@ -1068,21 +848,15 @@
 		(IGdeathscript		building_death)
 		(Initial_Misc			Library_Misc)
 		(Initial_Research		Library_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Library)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Library)
 		(IntentExt		LIBRARY)
 	}
 [end]
 
 [Marketplace1]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype Shop)
 		(title Marketplace)
@@ -1097,21 +871,15 @@
 		(Initial_Misc			Marketplace_Misc)
 		(Initial_Research		Marketplace_Research)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Market)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Marketplace)
 		(IntentExt		MARKETPLACE)
 	}
 [end]
 
 [Marketplace2]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype Shop)
 		(title Marketplace)
@@ -1125,21 +893,15 @@
 		(Initial_Misc			Marketplace_Misc)
 		(Initial_Research		Marketplace_Research)
 		(upgradescript		basic_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Market)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Marketplace)
 		(IntentExt		MARKETPLACE)
 	}
 [end]
 
 [Marketplace3]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype Shop)
 		(title Marketplace)
@@ -1152,21 +914,15 @@
 		(IGdeathscript		building_death)
 		(Initial_Misc			Marketplace_Misc)
 		(Initial_Research		Marketplace_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Market)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Marketplace)
 		(IntentExt		MARKETPLACE)
 	}
 [end]
 
 [Trading_Post]
-	{Building_Unit
+	{building
 		(type 			building)
 		(subtype 		Shop)
 		(title 			Trading_Post)
@@ -1177,23 +933,17 @@
 		(Initial_Misc			Trading_Post_Misc)
 		(Initial_Research		Trading_Post_Research)
 		(ActiveScript		Trading_Post)
-		(Unit_Type			Building)
-		(Unit_Subtype		Trading_Post)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Trading_Post)
 		(IntentExt		TRADINGPOST)
 	}
 [end]
 
 [Wizards_Tower]
-	{Building_Unit
+	{Tower
 		(type 			building)
-		(subtype 		xx)
+		(subtype 		Tower)
 		(title 			Wizards_Tower)
 		(EnemyType 		Monster)
 		(Strength		20)
@@ -1206,21 +956,16 @@
 		(birthScript2		Tower_Birth)
 		(IGdeathscript		building_death)
 		(Magical_build_rate     5)
-		(Unit_Type			Building)
-		(Unit_Subtype		Wizard_Tower)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
 		(Magical_Attack			20)
 		(Magical_Attack_Type	Arcane)
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Wizards_Tower)
 		(IntentExt		WIZARDSTOWER)
 	}
 [end]
 
 [Brothel]
-	{Building_Unit
+	{building
 		(type 			building)
 		(subtype 		Entertainment)
 		(title 			Brothel)
@@ -1228,21 +973,15 @@
 		(Visited_Script		Brothel)
 		(birthScript		auto_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Brothel)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Brothel)
 		(IntentExt		ELVENLOUNGE)
 	}
 [end]
 
 [Dwarven_Settlement]
-	{Building_Unit
+	{Dwarven_Settlement
 		(type building)
 		(subtype Guild)
 		(title Dwarven_Settlement)
@@ -1264,21 +1003,16 @@
 		(birthscript			basic_birth)
 		(birthScript2					Guild_Birth)
 		(IGdeathscript		Guild_destroyed_a)
-		(Unit_Type			Building)
-		(Unit_Subtype		Dwarven_Settlement)
 		(Physical_Attack		30)
 		(Physical_Attack_Type	Piercing)
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Dwarven_Settlement)
 		(IntentExt		DWARVENSETTLEMENT)
 	}
 [end]
 
 [Elven_Bungalow]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Elven_Bungalow)
@@ -1294,21 +1028,15 @@
 		(birthscript			basic_birth)
 		(birthScript2					bungalow_Birth)
 		(IGdeathscript		bungalow_destroyed)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Elven_Bungalow)
 		(IntentExt		ELVENBUNGALOW)
 	}
 [end]
 
 [Graveyard]
-	{Building_Unit
+	{Lair
 		(type 			AutoBuilding)
 		(subtype 		xx)
 		(title 			Graveyard)
@@ -1321,19 +1049,12 @@
 		(activeScript		Sewer_Graveyard)
 		(birthScript		City_Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
-
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Graveyard)
 		(IntentExt		GRAVEYARD)
 	}
 [end]
 
 [Gambling_Hall]
-	{Building_Unit
+	{building
 		(type 			building)
 		(subtype 		Entertainment)
 		(title 			Gambling_Hall)
@@ -1341,21 +1062,15 @@
 		(Visited_Script		Gambling_Hall)
 		(birthScript		gambling_hall_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Gambling_Hall)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Gambling_Hall)
 		(IntentExt		GAMBLINGHALL)
 	}
 [end]
 
 [Gnome_Hovel]
-	{Building_Unit
+	{Guild
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Gnome_Hovel)
@@ -1369,82 +1084,58 @@
 		(birthScript		built_or_auto_birth)
 		(birthScript2		gnome_camp_Birth)
 		(IGdeathscript		gnome_camp_destroyed)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Gnome_Hovel)
 		(IntentExt		GNOMEHOVEL)
 	}
 [end]
 
 [General_Housing]
-	{Building_Unit
+	{building
 		(type 			building)
 		(subtype 		xx)
 		(title 			General_Housing)
 		(birthScript		auto_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		House)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_House)
 		(IntentExt		HOUSE)
 	}
 [end]
 
 [General_Housing_Lv2]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype xx)
 		(title General_Housing_Lv2)
 		(birthScript					manor_birth)
 		(IGdeathscript					 building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		House)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Manor)
 		(IntentExt		MANOR)
 	}
 [end]
 
 [General_Housing_Lv3]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype xx)
 		(title General_Housing_Lv3)
 		(visited_script		estate_visited)
 		(birthScript					estate_birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		House)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Estate)
 		(IntentExt		ESTATE)
 	}
 [end]
 
 [Warriors_Guild]
-	{Building_Unit
+	{Guild
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Warriors_Guild)
@@ -1458,21 +1149,15 @@
 		(IGdeathscript		guild_destroyed_a)
 		(Initial_Misc			Warriors_Guild_Misc)
 		(Initial_Research		Warriors_Guild_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Warriors_Guild)
 		(IntentExt		WARRIORSGUILD)
 	}
 [end]
 
 [Rangers_Guild]
-	{Building_Unit
+	{Guild
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Rangers_Guild)
@@ -1488,21 +1173,15 @@
 		(IGdeathscript		guild_destroyed_a)
 		(Initial_Misc			Rangers_Guild_Misc)
 		(Initial_Research		Rangers_Guild_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Rangers_Guild)
 		(IntentExt		RANGERSGUILD)
 	}
 [end]
 
 [Rogues_Guild1]
-	{Building_Unit
+	{Guild
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Rogues_Guild)
@@ -1520,21 +1199,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Rogues_Guild_Misc)
 		(Initial_Research		Rogues_Guild_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Rogues_Guild)
 		(IntentExt		ROGUESGUILD)
 	}
 [end]
 
 [Rogues_Guild2]
-	{Building_Unit
+	{Guild
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Rogues_Guild)
@@ -1551,21 +1224,15 @@
 		(IGdeathscript		rogues_guild_destroyed)
 		(Initial_Misc			Rogues_Guild_Misc)
 		(Initial_Research		Rogues_Guild_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Rogues_Guild)
 		(IntentExt		ROGUESGUILD)
 	}
 [end]
 
 [Wizards_Guild1]
-	{Building_Unit
+	{Guild
 		(type 			building)
 		(subtype 		Guild)
 		(title 			Wizards_Guild)
@@ -1584,21 +1251,15 @@
 		(Initial_Research		Wizard_Guild_Research)
 		(upgradescript		magical_upgrade)
 		(Magical_build_rate     5)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Wizards_Guild)
 		(IntentExt		WIZARDSGUILD)
 	}
 [end]
 
 [Wizards_Guild2]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Wizards_Guild)
@@ -1615,21 +1276,15 @@
 		(Initial_Misc			Wizard_Guild_Misc)
 		(Initial_Research		Wizard_Guild_Research)
 		(upgradescript		magical_upgrade)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Wizards_Guild)
 		(IntentExt		WIZARDSGUILD)
 	}
 [end]
 
 [Wizards_Guild3]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Wizards_Guild)
@@ -1645,21 +1300,15 @@
 		(IGdeathscript		guild_destroyed_a)
 		(Initial_Misc			Wizard_Guild_Misc)
 		(Initial_Research		Wizard_Guild_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Guild)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Wizards_Guild)
 		(IntentExt		WIZARDSGUILD)
 	}
 [end]
 
 [Temple_Agrela1]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Agrela)
@@ -1676,21 +1325,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Agrela_Misc)
 		(Initial_Research		Temple_Agrela_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Agrela_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Agrela)
 		(IntentExt		TEMPLETOAGRELA)
 	}
 [end]
 
 [Temple_Agrela2]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Agrela)
@@ -1706,21 +1349,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Agrela_Misc)
 		(Initial_Research		Temple_Agrela_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Agrela_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Agrela)
 		(IntentExt		TEMPLETOAGRELA)
 	}
 [end]
 
 [Temple_Agrela3]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Agrela)
@@ -1735,21 +1372,14 @@
 		(IGdeathscript		agrela_destroyed)
 		(Initial_Misc			Temple_Agrela_Misc)
 		(Initial_Research		Temple_Agrela_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
-
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Agrela_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Agrela)
 		(IntentExt		TEMPLETOAGRELA)
 	}
 [end]
 
 [Temple_Dauros1]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Dauros)
@@ -1766,21 +1396,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Dauros_Misc)
 		(Initial_Research		Temple_Dauros_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Dauros_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Dauros)
 		(IntentExt		TEMPLETODAUROS)
 	}
 [end]
 
 [Temple_Dauros2]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Dauros)
@@ -1796,21 +1420,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Dauros_Misc)
 		(Initial_Research		Temple_Dauros_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Dauros_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Dauros)
 		(IntentExt		TEMPLETODAUROS)
 	}
 [end]
 
 [Temple_Dauros3]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Dauros)
@@ -1825,21 +1443,14 @@
 		(IGdeathscript		dauros_destroyed)
 		(Initial_Misc			Temple_Dauros_Misc)
 		(Initial_Research		Temple_Dauros_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
-
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Dauros_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Dauros)
 		(IntentExt		TEMPLETODAUROS)
 	}
 [end]
 
 [Temple_Fervus1]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Fervus)
@@ -1857,21 +1468,14 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Fervus_Misc)
 		(Initial_Research		Temple_Fervus_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
-
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Fervus_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Fervus)
 		(IntentExt		TEMPLETOFERVUS)
 	}
 [end]
 
 [Temple_Fervus2]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Fervus)
@@ -1888,21 +1492,14 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Fervus_Misc)
 		(Initial_Research		Temple_Fervus_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
-
-		(Armor_Physical_Base		10)
+		(Armor_Physical_Base	10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Fervus_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Fervus)
 		(IntentExt		TEMPLETOFERVUS)
 	}
 [end]
 
 [Temple_Fervus3]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Fervus)
@@ -1918,21 +1515,15 @@
 		(IGdeathscript		fervus_destroyed)
 		(Initial_Misc			Temple_Fervus_Misc)
 		(Initial_Research		Temple_Fervus_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Fervus_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Fervus)
 		(IntentExt		TEMPLETOFERVUS)
 	}
 [end]
 
 [Temple_Helia1]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Helia)
@@ -1949,21 +1540,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Helia_Misc)
 		(Initial_Research		Temple_Helia_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Helia_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Helia)
 		(IntentExt		TEMPLETOHELIA)
 	}
 [end]
 
 [Temple_Helia2]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Helia)
@@ -1978,21 +1563,15 @@
 		(IGdeathscript		guild_destroyed_a)
 		(Initial_Misc			Temple_Helia_Misc)
 		(Initial_Research		Temple_Helia_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Helia_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Helia)
 		(IntentExt		TEMPLETOHELIA)
 	}
 [end]
 
 [Temple_Krolm]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Krolm)
@@ -2008,21 +1587,15 @@
 		(IGdeathscript		guild_destroyed_a)
 		(Initial_Misc			Temple_Krolm_Misc)
 		(Initial_Research		Temple_Krolm_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Krolm_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Krolm)
 		(IntentExt		TEMPLETOKROLM)
 	}
 [end]
 
 [Temple_Krypta1]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Krypta)
@@ -2039,21 +1612,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Krypta_Misc)
 		(Initial_Research		Temple_Krypta_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Krypta_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Krypta)
 		(IntentExt		TEMPLETOKRYPTA)
 	}
 [end]
 
 [Temple_Krypta2]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Krypta)
@@ -2069,21 +1636,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Krypta_Misc)
 		(Initial_Research		Temple_Krypta_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Krypta_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Krypta)
 		(IntentExt		TEMPLETOKRYPTA)
 	}
 [end]
 
 [Temple_Krypta3]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Krypta)
@@ -2098,21 +1659,15 @@
 		(IGdeathscript		krypta_destroyed)
 		(Initial_Misc			Temple_Krypta_Misc)
 		(Initial_Research		Temple_Krypta_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Krypta_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Krypta)
 		(IntentExt		TEMPLETOKRYPTA)
 	}
 [end]
 
 [Temple_Lunord1]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Lunord)
@@ -2129,21 +1684,15 @@
 		(upgradescript		basic_upgrade)
 		(Initial_Misc			Temple_Lunord_Misc)
 		(Initial_Research		Temple_Lunord_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Lunord_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Lunord)
 		(IntentExt		TEMPLETOLUNORD)
 	}
 [end]
 
 [Temple_Lunord2]
-	{Building_Unit
+	{Guild
 		(type building)
 		(subtype Guild)
 		(title Temple_Lunord)
@@ -2158,21 +1707,15 @@
 		(IGdeathscript		guild_destroyed_a)
 		(Initial_Misc			Temple_Lunord_Misc)
 		(Initial_Research		Temple_Lunord_Research)
-		(Unit_Type			Building)
-		(Unit_Subtype		Temple)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Lunord_Cult)
-		(Kill_Credit_Specific	KCS_Temple_Lunord)
 		(IntentExt		TEMPLETOLUNORD)
 	}
 [end]
 
 [Goblin_Camp]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Goblin_Camp)
@@ -2185,21 +1728,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Goblin)
-		(Kill_Credit_Specific	KCS_Goblin_Camp) 
 		(IntentExt		GOBLINCAMP)
 	}
 [end]
 
 [Goblin_Hovel]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Goblin_Hovel)
@@ -2212,21 +1749,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Goblin)
-		(Kill_Credit_Specific	KCS_Goblin_Hovel) 
 		(IntentExt		GOBLINHOVEL)
 	}
 [end]
 
 [Dark_Castle1]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2239,21 +1770,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Dark_Castle) 
 		(IntentExt		DARKCASTLE)
 	}
 [end]
 
 [Dark_Castle2]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2266,21 +1791,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Dark_Castle) 
 		(IntentExt		DARKCASTLE)
 	}
 [end]
 
 [Dark_Castle3]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2293,21 +1812,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Dark_Castle) 
 		(IntentExt		DARKCASTLE)
 	}
 [end]
 
 [Dark_Castle4]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Dark_Castle)
@@ -2320,21 +1833,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Nature)
-		(Kill_Credit_Specific	KCS_Dark_Castle) 
 		(IntentExt		DARKCASTLE)
 	}
 [end]
 
 [Ruined_Altar1]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Ruined_Altar1)
@@ -2347,21 +1854,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Ruined_Altar) 
 		(IntentExt		RUINEDALTAR)
 	}
 [end]
 
 [Ruined_Keep1]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Ruined_Keep1)
@@ -2374,21 +1875,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Ruined_Altar) 
 		(IntentExt		RUINEDKEEP)
 	}
 [end]
 
 [Ruined_Shrine1]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Ruined_Shrine1)
@@ -2401,21 +1896,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Ruined_Shrine) 
 		(IntentExt		RUINEDSHRINE)
 	}
 [end]
 
 [Sewers]
-	{Building_Unit
+	{Lair
 		(type AutoBuilding)
 		(subtype xx)
 		(title Sewers)
@@ -2428,21 +1917,15 @@
 		(activeScript					Sewer_Graveyard)
 		(birthScript					City_Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Ratkin)
-		(Kill_Credit_Specific	KCS_Sewers) 
 		(IntentExt		SEWERS)
 	}
 [end]
 
 [Brashnards_Sphere]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Brashnards_Sphere)
@@ -2457,21 +1940,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript					Sphere_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Brashnards_Sphere) 
 		(IntentExt		BRASHNARDSSPHERE)
 	}
 [end]
 
 [Elven_Hideout]
-	{Building_Unit
+	{Lair
 		(type Building)
 		(subtype xx)
 		(title ElvenHideout)
@@ -2486,21 +1963,15 @@
 		(activeScript					hideout_active)
 		(birthScript					Hideout_Birth)
 		(IGdeathscript		Hideout_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Outlaw)
-		(Kill_Credit_Specific	KCS_Elven_Hideout)
 		(IntentExt		ELVENHIDEOUT)
 	}
 [end]
 
 [Slave_Pits]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Slave_Pits)
@@ -2513,21 +1984,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Slave_pits_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Slave_Pits)
 		(IntentExt		SLAVEPITS)
 	}
 [end]
 
 [Slave_Cross]
-	{Building_Unit
+	{Lair
 		(type mystery)
 		(subtype xx)
 		(title Slave_Cross)
@@ -2540,21 +2005,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Monster)
-		(Kill_Credit_Specific	KCS_Slave_Cross)
 		(IntentExt		SLAVECROSS)
 	}
 [end]
 
 [Hidden_Sword_Site]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Hidden_Sword_Site)
@@ -2569,21 +2028,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Hidden_Sword_Death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Neutral)
-		(Kill_Credit_Specific	KCS_Hidden_Sword_Site)
 		(IntentExt		HIDDENSWORDSITE)
 	}
 [end]
 
 [Hidden_Chalice_Site]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Hidden_Chalice_Site)
@@ -2598,21 +2051,15 @@
 		(activeScript				Lair_brains)
 		(birthScript				Hidden_Chalice_Birth)
 		(IGdeathscript				Hidden_Chalice_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Neutral)
-		(Kill_Credit_Specific	KCS_Hidden_Chalice_Site)
 		(IntentExt		HIDDENCHALICESITE)
 	}
 [end]
 
 [Hidden_Ring_Site]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Hidden_Ring_Site)
@@ -2627,21 +2074,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Hidden_Ring_Birth)
 		(IGdeathscript		Hidden_Ring_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Neutral)
-		(Kill_Credit_Specific	KCS_Hidden_Ring_Site)
 		(IntentExt		HIDDENRINGSITE)
 	}
 [end]
 
 [Crown_Site]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Crown_Site)
@@ -2654,21 +2095,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Crown_site_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Neutral)
-		(Kill_Credit_Specific	KCS_Crown_Site)
 		(IntentExt		CROWNSITE)
 	}
 [end]
 
 [Tower_Prison]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Tower_Prison)
@@ -2681,21 +2116,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Neutral)
-		(Kill_Credit_Specific	KCS_Tower_Prison)
 		(IntentExt		TOWERPRISON)
 	}
 [end]
 
 [Dragon_Lair]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Dragon_Lair)
@@ -2708,21 +2137,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Dragonkin)
-		(Kill_Credit_Specific	KCS_Dragon_Lair)
 		(IntentExt		DRAGONLAIR)
 	}
 [end]
 
 [Witch_King_Tower]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Witch_King_Tower)
@@ -2735,21 +2158,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					Lair_Birth)
 		(IGdeathscript		Witch_king_tower_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Witch_King_Tower)
 		(IntentExt		WITCHKINGTOWER)
 	}
 [end]
 
 [Dragon_Tomb]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Dragon_Tomb)
@@ -2762,21 +2179,15 @@
 		(activeScript					Lair_brains)
 		(birthScript					tomb_Birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Dragonkin)
-		(Kill_Credit_Specific	KCS_Dragon_Tomb)
 		(IntentExt		DRAGONTOMB)
 	}
 [end]
 
 [Liche_Queen_lair]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Liche_Queen_Lair)
@@ -2789,22 +2200,16 @@
 		(activeScript					Lair_brains)
 		(birthScript		lair_birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Undead)
-		(Kill_Credit_Specific	KCS_Liche_Queen_lair)
 		(IntentExt		LICHEQUEENLAIR)
 	}
 [end]
 
 
 [Animal_Den]
-	{Building_Unit
+	{Lair
 		(type Lair)
 		(subtype xx)
 		(title Animal_Den)
@@ -2819,62 +2224,44 @@
 		(activeScript					Lair_brains)
 		(birthScript		lair_birth)
 		(IGdeathscript		Lair_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Lair)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Lair)
-		(Kill_Credit_Faction	KCF_Nature)
-		(Kill_Credit_Specific	KCS_Animal_Den)
 		(IntentExt		ANIMALDEN)
 	}
 [end]
 
 [Gazebo]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype gazebo)
 		(title Inn)
 		(visited_script		Inn_visited)
 		(birthScript					auto_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Gazebo)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Gazebo)
 		(IntentExt		GAZEBO)
 	}
 [end]
 
 [Fountain]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype Color)
 		(title Fountain)
 		(birthScript					Fountain_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Fountain)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Fountain)
 		(IntentExt		FOUNTAIN)
 	}
 [end]
 
 [Royal_gardens]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype color)
 		(title Royal_gardens)
@@ -2885,102 +2272,72 @@
 		(visited_script		Gardens_visited)
 		(birthScript			gardens_Birth)
 		(IGdeathscript		gardens_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Royal_Gardens)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Royal_gardens)
 		(IntentExt		ROYALGARDENS)
 	}
 [end]
 
 [Statue]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype color)
 		(title Statue)
 		(birthScript			statue_Birth)
 		(IGdeathscript		statue_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Statue)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Statue)
 		(IntentExt		STATUE)
 	}
 [end]
 
 [Arcane_Spire]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype color)
 		(title Arcane_Spire)
 		(birthScript			arcane_spire_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Arcane_Spire)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Arcane_Spire)
 		(IntentExt		ARCANESPIRE)
 	}
 [end]
 
 [Shrine]
-	{Building_Unit
+	{building
 		(type building)
 		(subtype color)
 		(title Shrine)
 		(visited_script		shrine_visited)
 		(birthScript			shrine_Birth)
 		(IGdeathscript		building_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Shrine)
 
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Shrine)
 		(IntentExt		SHRINE)
 	}
 [end]
 
 [Bank]
-	{Building_Unit
-		(type building)
-		(subtype color)
-		(title Bank)
+	{building
+		(type 				building)
+		(subtype 			Utility)
+		(title 				Bank)
 		(RevenueScript		Revenue_Adjuster_Bank)
 		(Revenue_Amount		100)
-		(Revenue_Time			60000)
+		(Revenue_Time		60000)
 		(visited_script		bank_visited)
 		(birthScript		basic_Birth)
 		(birthScript2		bank_Birth)
 		(IGdeathscript		bank_death)
-		(Unit_Type			Building)
-		(Unit_Subtype		Bank)
 
 		(Armor_Physical_Base		10)
-		(Armor_Magical_Base		10)
-
-		(Kill_Credit_Type	Building)
-		(Kill_Credit_Faction	KCF_Kingdom)
-		(Kill_Credit_Specific	KCS_Bank)
-		(IntentExt		BANK)
+		(Armor_Magical_Base			10)
+		(IntentExt				BANK)
 	}
 [end]
 

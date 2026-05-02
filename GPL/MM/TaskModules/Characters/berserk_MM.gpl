@@ -1,0 +1,63 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function berserk(agent thisagent)
+
+declare
+	integer targetrange,attackrange;
+	agent target;
+	string spell_name, attacklist_name, supportlist_name, healspell_name;
+
+begin
+	if ($haslowHP(thisagent) == FALSE)
+		begin
+			// return to normal decisions
+			$reset_tasks(thisagent);
+			return;
+		end
+	
+	if ($notvalid(thisagent's "target"))
+		begin
+			// pick new target
+			$list_enemies(thisagent,2);
+
+			if ($listsize(thisagent's "Hostiles") > 0)
+				begin
+					//$DebugOut("There are hostiles.");
+					thisagent's "target" = $pick_closest(thisagent,thisagent's "Hostiles");
+				end
+			$clearlist(thisagent's "Hostiles");
+			if ($NotValid(thisagent's "target"))
+				begin
+					// no more enemies to fight!
+					//$DebugOut("no more enemies to fight, un-berserking.");
+					$reset_tasks(thisagent);
+					return;
+				end
+		end
+
+	if ($haslowMP(thisagent))
+		if ($restore_mana_self(thisagent) == false)
+			return;
+
+	if ($Heal_Self_action(thisagent))
+		return;		
+	
+	target = $SelectBestSpell(thisagent);
+
+	if ($ReachedTargetDistance(thisagent, target, thisagent's "Best_Range") == false)
+		begin
+			// move towards target
+			thisagent's "destination" = $locationof(target);
+			thisagent's "activeScript" = $travel_to_berserk;
+			thisagent's "backScript" = $berserk;
+			$move(thisagent,target);
+		end
+	else
+		begin
+			$PerformBestAttack(thisagent);
+		end
+end

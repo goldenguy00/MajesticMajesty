@@ -1,0 +1,2822 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function adept_tree(agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+
+	if ($Open_Bank_Account(thisagent) == False)
+	
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 45) == False)
+	
+	if ($Check_Champion_Rewards (ThisAgent, 85) == False)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($patrol(thisagent, "building", 65) == FALSE)
+
+	if ($Combat_wandering(thisagent,60) == False)
+
+	if ($combat_wandering_heroes(thisagent,55) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 20) == False)
+
+	if ($check_library(thisagent, 25, "Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 40, "Learn_generic_spell") == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 60) == False)
+
+	if ($Go_home(thisagent,95) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function barbarian_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False) //Barbarians are attracted to attack flags
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Rangers_guild") == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($raid_enemy_building(thisagent,95) == False)
+
+	if ($Raid_lair(thisagent,95) == False)
+
+	if ($combat_wandering_heroes(thisagent,95) == False)
+
+	if ($Combat_wandering(thisagent,95) == False)
+
+	if	($explore_map(thisagent,45) == FALSE)
+
+	if ($check_library(thisagent, 5, "Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 5, "Learn_generic_spell") == FALSE)
+
+	if ($collect_special_item (ThisAgent, 30) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 5) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 40) == False)
+
+	if ($Go_home(thisagent,45) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Cultist_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+		
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+   if ($Build_Pack(ThisAgent,95) == False)
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Swarm (ThisAgent, 90) == False)
+
+	if ($Combat_wandering(thisagent,85) == False) //Cultists never attack animals, they try to charm them
+
+	if ($combat_wandering_heroes(thisagent,85) == False)
+
+	if ($Patrol (ThisAgent, "Animal_Den", 60) == False)
+
+	if ($Steal_Check(thisagent,25) == False)
+
+	if ($Seed_Resource_Check (ThisAgent, 55) == False)
+
+	if ($collect_special_item (ThisAgent, 45) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 20) == False)
+
+	if ($Go_home(thisagent,30) == False)
+
+	if ($Raid_lair(thisagent,20) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 50) == False)
+
+	if ($check_library(thisagent, 25,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 30,"Learn_generic_spell") == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 50) == False)
+
+	if ($raid_enemy_building(thisagent,20) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Discord_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Temple_Fervus") == False)
+
+	if ($rest(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+//	if ($Join_Cult_Mob(thisagent,20) == False)
+
+	if ($raid_enemy_building(thisagent,95) == False)
+
+	if ($Raid_lair(thisagent,95) == False)
+
+	if ($combat_wandering_heroes(thisagent,95) == False)
+
+	if ($Combat_wandering(thisagent,95) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 20) == False)
+
+	if ($check_library(thisagent, 5,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 5,"Learn_generic_spell") == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 10) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 5) == False)
+
+	if ($Go_home(thisagent,50) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Dwarf_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+		
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Blacksmith") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 35) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($Raid_lair(thisagent,75) == False)  //Dwarves do extra damage against buildings
+
+	if ($raid_enemy_building(thisagent,80) == False)
+
+	if ($Check_Champion_Rewards (ThisAgent, 70) == False)
+
+	if ($Combat_wandering(thisagent,15) == False)
+
+	if ($combat_wandering_heroes(thisagent,15) == False)
+
+	if ($help_build(thisagent,2000,85) == False)
+
+	if ($collect_special_item (ThisAgent, 40) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 20) == False)
+
+	if ($check_library(thisagent, 25,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent,25, "Learn_generic_spell") == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 20) == False)
+
+	if ($Go_home(thisagent,80) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Elf_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Gambling_hall") == FALSE)
+
+	if ($defend_building(thisagent,"Brothel") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 50) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 20) == False)
+
+	if ($Visit_Building(ThisAgent, "Trading_Post", 35) == False)
+
+	if ($Visit_Building(ThisAgent, "Marketplace", 20) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 60) == False)
+
+	if ($Combat_wandering(thisagent,80) == False)
+
+	if ($Combat_wandering_heroes(thisagent,80) == False)
+
+	if ($Raid_lair(thisagent,15) == False)
+
+	if ($Raid_enemy_building(thisagent,15) == False)
+
+	if ($Steal_Check(thisagent,50) == False)
+
+	if ($collect_special_item (ThisAgent, 80) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 45) == False)
+
+	if ($check_library(thisagent, 25,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 55,"Learn_generic_spell") == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 20) == False)
+
+
+	if ($Go_home(thisagent,90) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Gnome_tree (agent thisagent)
+
+declare
+
+begin
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+//	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($help_build(thisagent,3500,75) == False)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($Combat_Wandering (ThisAgent, 20) == False)
+
+	if ($Combat_wandering_heroes( thisagent,10) == False)
+
+//  	if ($Swarm (thisagent,90) == False)
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 50) == False)
+
+	if ($check_library(thisagent, 10,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 15,"Learn_generic_spell") == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 5) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 15) == False)
+
+	if ($Go_home(thisagent,90) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Healer_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,TRUE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+ 	if ($Heal_Others(ThisAgent,95) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 50) == False)
+	
+	if ($Follow_Heal_Check (ThisAgent, "Paladin", 85) == False)
+	if ($Follow_Heal_Check (ThisAgent, "Warrior", 75) == False)
+	if ($Follow_Heal_Check (ThisAgent, "Warrior_Of_Discord", 50) == False)
+	if ($Follow_Heal_Check (ThisAgent, "Wizard", 35) == False)
+	if ($Follow_Heal_Check (thisagent, "tax_collector",50) == FALSE)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Seed_Resource_Check (ThisAgent, 50) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 20) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 50) == False)
+
+	if ($check_library(thisagent, 35,"Train_magic_resist",35) == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 70) == False)
+
+	if ($Go_home(thisagent,90) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Monk_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Marketplace") == FALSE)
+
+	if ($rest(thisagent) == False)
+
+//	if ($Guard_check(thisagent,"hero","Healer",95) == False)
+
+//	if ($Guard_check(ThisAgent,"hero","caravan",75) == False)
+
+	if ($Combat_wandering(thisagent,75) == False)
+
+	if ($Raid_Lair(ThisAgent,50) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 50) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 40) == False)
+
+	if ($check_library(thisagent, 45,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent,55,"Learn_generic_spell") == FALSE)
+
+	if ($collect_special_item (ThisAgent, 70) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 10) == False)
+	
+	if ($Hall_Champs_Check(thisagent, 50) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 75) == False)
+
+	if ($Go_home(thisagent,60) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Paladin_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Temple_Dauros") == False)
+
+	if ($rest(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 80) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+	
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 60) == False)
+
+	if ($Raid_lair(thisagent,85) == False)
+
+	if ($raid_enemy_building(thisagent,85) == FALSE)
+
+	if ($Combat_wandering(thisagent,90) == False)
+
+	if ($combat_wandering_heroes(thisagent,80) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 10) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 60) == False)
+
+	if ($check_library(thisagent, 25,"Train_magic_resist") == FALSE)
+
+	if ($Go_home(thisagent,80) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Priestess_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+   if ($Build_Horde(ThisAgent,95) == False)
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+	
+	if ($Check_Library(thisagent,90,"Priestess_Spell") == False)
+
+	if ($Combat_wandering(thisagent,75) == False) //Priestesses never attack undead-- they try to control them
+
+	if ($combat_wandering_heroes(thisagent,70) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 30) == False)
+	
+	if ($Raid_Lair(ThisAgent,40) == False)
+
+	if ($raid_enemy_building(thisagent,30) == FALSE)
+
+	if ($Explore_Map(thisagent,50) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 15) == False)
+
+	if ($check_library(thisagent,45, "Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 70,"Learn_generic_spell") == FALSE)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 45) == False)
+
+	if ($Go_home(thisagent,80) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function ranger_tree (agent thisagent)
+
+declare
+
+begin
+
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"trading_post") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Collect_resource(thisagent,"healing_herbs",95) == FALSE)
+
+	if ($follow_support_check(thisagent,"barbarian",90) == FALSE)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 40) == False)
+	
+	if ($explore_map(thisagent,95) == false)
+
+	if ($Combat_wandering(thisagent,75) == False)
+
+	if ($combat_wandering_heroes(thisagent,55) == False)
+
+// if ($Heal_another(thisagent,80) == False)
+
+   if ($Journey_Offmap_Check (thisagent,30) == false)
+
+	if ($Go_home(thisagent,15) == False)
+
+	if ($check_library(thisagent,15,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent,30, "Learn_generic_spell") == FALSE)
+
+	if ($Raid_lair(thisagent,15) == False)
+
+	if ($raid_enemy_building(thisagent,10) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 30) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 35) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 15) == False)
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Rogue_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+	
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Gambling_hall") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Loot_Gravestones(ThisAgent,100) == False)
+
+	if ($Steal_Check(thisagent,95) == False)
+
+	if ($collect_special_item (ThisAgent, 90) == False)
+
+	if ($Collect_Resource(thisagent,"poison_plants",90) == False)
+
+	if ($check_library(thisagent, 15,"Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 25,"Learn_generic_spell") == FALSE)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($Combat_wandering(thisagent,65) == False)
+
+	if ($combat_wandering_heroes(thisagent,55) == False)
+
+//	if ($Raid_lair(thisagent,35) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 35) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 25) == False)
+	
+	if	($explore_map(thisagent,20) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 30) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 15) == False)
+
+	if ($Go_home(thisagent,95) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Solarus_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Marketplace") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 65) == False)
+	
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	//if ($Raid_lair(thisagent,95) == False)
+
+	if ($Check_Champion_Rewards (ThisAgent, 70) == False)
+
+	//This covers both hidden and unhidden lairs
+	if ($Find_Lair (ThisAgent, 95) == False)
+
+	if ($Raid_enemy_building(thisagent,95) == False)
+
+	//if ($patrol(thisagent, "guardhouse", 25) == FALSE)
+
+	if ($Garrison_Check(ThisAgent, 50) == False)
+
+	if ($explore_map(thisagent,75) == FALSE)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 15) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 40) == False)
+	
+	if ($check_library(thisagent,15, "Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 50,"Learn_generic_spell") == FALSE)
+
+	if ($Go_home(thisagent,5) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function warrior_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"temple_agrela") == FALSE)
+	
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($Hall_Champs_Check(thisagent, 40) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 50) == False)
+	
+//	if ($Guard_check(thisagent,"hero","caravan",90) == FALSE)
+
+	if ($Raid_lair(thisagent,95) == False)
+
+	if ($raid_enemy_building(thisagent,90) == False)
+
+	if ($Combat_wandering(thisagent,95) == False)
+
+	if ($combat_wandering_heroes(thisagent,95) == False)
+
+	if ($Visit_Building(ThisAgent, "Inn", 50) == False)
+
+	if ($check_library(thisagent,10, "Train_magic_resist") == FALSE)
+
+	if ($check_library(thisagent, 10,"Learn_generic_spell") == FALSE)
+
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 30) == False)
+	
+	if ($collect_special_item (ThisAgent, 20) == False)
+
+	if ($Go_home(thisagent,90) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 20) == False)
+
+	if	($explore_map(thisagent,45) == FALSE)
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+
+function Wizard_tree (agent thisagent)
+
+declare
+
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+					
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
+	if ($check_nearby(thisagent) == False)
+
+	if ($Check_Rewards(thisagent,FALSE) == False)
+
+	if ($Defend_home(thisagent) == False)
+
+	if ($defend_building(thisagent,"Library") == FALSE)
+
+	if ($defend_building(thisagent,"Marketplace") == FALSE)
+
+	if ($rest(thisagent) == False)
+	
+	if ($Open_Bank_Account(thisagent) == False)
+
+	if ($Purchase_equipment(thisagent) == False)
+
+	if ($Purchase_bazaar(thisagent, 70) == False)
+
+	if ($pursue_entertainment(thisagent) == False)
+
+	if ($Visit_Building_Other(ThisAgent, "General_Housing_Lv3", 70) == False)
+	
+	if ($Collect_Resource (ThisAgent, "Magic_Crystals",90) == FALSE)
+
+	if ($Check_Library(thisagent, 90,"Wizard_Spell") == False)
+
+	if ($check_library(thisagent, 55,"Wizard_train_intel") == FALSE)
+
+	if ($check_library(thisagent, 15,"Train_magic_resist") == FALSE)
+
+	if ($Hall_Champs_Check(thisagent, 30) == False)
+
+	if ($follow_support_check(thisagent,"barbarian",30) == FALSE)
+
+	if ($follow_support_check(thisagent,"monk",20) == FALSE)
+
+	if ($Raid_lair(thisagent,45) == False)
+
+	if ($raid_enemy_building(thisagent,30) == False)
+
+	if ($Combat_wandering(thisagent,65) == False)
+
+	if ($combat_wandering_heroes(thisagent,60) == False)
+
+	if ($Explore_Map(thisagent,50) == False)
+	
+	if ($Visit_Building_Other(ThisAgent, "Shrine", 25) == False)
+
+	if ($Visit_Building(ThisAgent, "Royal_gardens", 5) == False)
+
+	if ($Go_Home(thisagent,85) == False)
+
+		begin
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Adept_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 66, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 60, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+
+	flist << $Patrol_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "building", 65, "Combat"); //"building" is not checked for anyway, can leave it as None, but leaving it as is just in case.
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+
+	flist << $Check_Champion_Rewards_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 45, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 40, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 95, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Barbarian_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Rangers_guild", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 5, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 5, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 45, "Idle");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 45, "Explore");
+
+	flist << $collect_special_item_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Cultist_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 33, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Build_Pack_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	
+	flist << $Swarm_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+	
+	flist << $Patrol_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "Animal_Den", 60, "Combat");
+
+	flist << $Steal_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+
+	flist << $Seed_Resource_Check_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 55, "Prepare");
+
+	flist << $collect_special_item_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 45, "Combat");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 20, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 50, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 30, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Discord_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Temple_Fervus", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 15, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Visit_Building_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 5, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 50, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Dwarf_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Blacksmith", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 35, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 40, "Combat");
+	
+	flist << $Check_Champion_Rewards_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+
+	flist << $help_build_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 35, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Elf_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 100, "General");
+
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Brothel", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Trading_Post", 35, "Idle");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Marketplace", 20, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 60, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+
+	flist << $Steal_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 80, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 45, "Prepare");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Gnome_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 10, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare");
+
+	flist << $help_build_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare");
+	
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 15, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Healer_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Heal_Others_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare"); //Prepare doesn't really fit.
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "Paladin", 85, "Combat");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "Warrior", 75, "Combat");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "Warrior_of_discord", 50, "Combat");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "Wizard", 35, "Combat");
+
+	flist << $Follow_Heal_Check_Packet;			//Support
+	$SetTaskParametersBasic(thisagent, "tax_collector", 50, "Combat");
+
+	flist << $Seed_Resource_Check_Packet;	//Support
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 35, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 70, "Prepare");
+	
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Monk_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 50, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 40, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 75, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 60, "Idle");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Paladin_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Temple_Dauros", 100, "General");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 65, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None",90, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 10, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Priestess_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Build_Horde_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 90, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 30, "Prepare");
+	
+	flist << $Raid_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 40, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 45, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 70, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Priestess_Spell", 90, "Prepare");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Ranger_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Trading_Post", 100, "General");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Collect_Resource_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "healing_herbs", 95, "Prepare");
+
+	flist << $follow_support_check_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "barbarian", 90, "Combat");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 40, "Prepare");
+	
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 95, "Explore");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+
+	flist << $Journey_Offmap_Check_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 80, "Explore");
+
+	flist << $Go_home_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 15, "Idle");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare");
+
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 10, "Combat");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 35, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 35, "Prepare");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 15, "Idle");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Rogue_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 100, "General");
+
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Loot_Gravestones_Packet;		//Combat
+	$SetTaskParametersBasic(thisagent, "None", 100, "Combat");
+
+	flist << $Steal_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+
+	flist << $collect_special_item_Packet;		//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+
+	flist << $Collect_Resource_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "poison_plants", 90, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 65, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 35, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 25, "Prepare");
+	
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare");
+
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 95, "Idle");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 30, "Prepare");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Solarus_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin	
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 65, "Prepare");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Check_Champion_Rewards_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+
+	flist << $Find_Lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Garrison_Check_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 50, "Combat");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 75, "Explore");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 50, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare");
+
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 5, "Idle");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare");
+	
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Warrior_Task_Packages (agent thisagent)
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "Combat");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_building_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+
+	flist << $Check_Blacksmith_Packet;		//Combat
+	$SetTaskParametersBasic(thisagent, "None", 100, "Combat");	//Warriors consider checking blacksmiths to be both part of preparation and combat.
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare");
+
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+
+	flist << $Raid_enemy_building_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+
+	flist << $Combat_wandering_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Combat_wandering_heroes_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+
+	flist << $Visit_Building_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare");
+
+	flist << $check_library_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 10, "Prepare");
+
+	flist << $Visit_Building_Other_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Shrine", 30, "Prepare");
+
+	flist << $collect_special_item_Packet;	//Combet
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+
+	flist << $Visit_Building_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 20, "Prepare");
+
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 45, "Explore");
+
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Wizard_Task_Packages (agent thisagent)
+//Packets are only for functions that use indexing
+//the sets up the heroes initial task packets, it isn't the thread for calling new decisions, this is called once upon the hero's birth.
+//Might be best to have multiple Prepares into a heroes package lists.
+declare
+	list flist;
+begin
+	flist << $Check_rewards_Packet;
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	
+	flist << $Defend_home_Packet;				//Defend
+	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+
+	flist << $Check_Wizards_Guild_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare");
+	
+	flist << $Check_Library_Books_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	
+	flist << $Open_Bank_Account_Packet;			//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Marketplace_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Check_Blacksmith_Packet;		//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	
+	flist << $Purchase_bazaar_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	
+	flist << $pursue_entertainment_Packet;		//Idle
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	
+	flist << $Hall_Champs_Check_Packet;	//Prepare
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	
+	flist << $Raid_lair_Packet;			//Combat
+	$SetTaskParametersBasic(thisagent, "None", 45, "Combat");
+	
+	flist << $raid_enemy_building_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	
+	flist << $Combat_wandering_packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "None", 65, "Combat");
+	
+	flist << $combat_wandering_heroes_packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "None", 60, "Combat");
+	
+	flist << $Explore_Map_Packet;	//Explore
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+	
+	flist << $Go_Home_Packet;	//Idle
+	$SetTaskParametersBasic(thisagent, "None", 85, "Idle");
+	
+	flist << $check_library_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Wizard_spell", 90, "Prepare");
+
+	flist << $check_library_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Wizard_train_intel", 55, "Prepare");
+	
+	flist << $check_library_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	
+	flist << $defend_building_Packet;	//Defend
+	$SetTaskParametersBasic(thisagent, "Library", 100, "General");
+	
+	flist << $defend_building_Packet;	//Defend
+	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General");
+	
+	flist << $follow_support_check_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "barbarian", 30, "Combat");
+	
+	flist << $follow_support_check_Packet;	//Combat
+	$SetTaskParametersBasic(thisagent, "monk", 20, "Combat");
+	
+	flist << $Visit_Building_Other_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 70, "Prepare");
+	
+	flist << $Visit_Building_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 5, "Prepare");
+	
+	flist << $Visit_Building_Other_Packet;	//Preapre
+	$SetTaskParametersBasic(thisagent, "Shrine", 25, "Prepare");
+
+	thisagent's "TASK_globalTaskList" = flist;
+	$BuildTasks(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Wizard_Initial_Task (agent thisagent)
+declare
+	
+begin
+	thisagent's "activescript" = $Wizard_Tree;
+
+	if ($isvalidgamepiece(thisagent's "Home"))
+		if ($GetTitle(thisagent's "Home") == "Wizards_Guild")
+			if ($titleinagentlist("Available_Books", (thisagent's "Home")'s "Attachments"))
+				begin
+					thisagent's "activescript" = thisagent's "basicscript";
+					Thisagent's "TASK_subIsValidCurrent" = true;
+					ThisAgent's "TASK_subTargetCurrent" = thisagent's "Home";
+					ThisAgent's "TASK_subTaskNameCurrent" = "MAGICALTREATISES1";
+					ThisAgent's "TASK_subIntentCurrent" = "IDTXT_INTENT_STUDYINGATWIZARDSGUILD";
+					ThisAgent's "TASK_subActiveScriptCurrent" = $Use_Building_Packet;
+					ThisAgent's "TASK_subVisitingScriptCurrent" = $wizards_guild_visited;
+					ThisAgent's "TASK_subExitConditionCurrent" = $isdead;
+					thisagent's "TASK_activeStatus" = "Ongoing";
+				end
+end
+///////////////////////////////////////////////////////////////////////////////
+function reset_tasks(agent thisagent)
+
+declare
+
+begin	
+	$StopMoving (ThisAgent);
+	
+	$clearlist(thisagent's "hostiles");
+	thisagent's "activescript" = thisagent's "basicscript";
+	thisagent's "backscript" = thisagent's "basicscript";
+	thisagent's "target" = $Nullagent();
+
+	$SetStringSafe(thisagent, "best_spell", "nothing");
+	$SetAgentSafe(thisagent, "best_target", $Nullagent());
+	$SetBooleanSafe(thisagent, "In_Combat", false);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function NextTask (agent thisagent)
+
+declare
+begin
+
+//	//$DebugOut("I'm deciding what to do!");
+	if ($isdead(thisagent))
+		begin
+			thisagent's "activescript" = $be_dead;
+			return;
+		end
+	
+	if ($check_nearby(thisagent) == False)
+	if ($Defend_home(thisagent) == False)
+	//if ($Check_Rewards(thisagent,FALSE) == False)
+	if ($rest(thisagent) == false)
+	//if ($Open_Bank_Account(thisagent) == False)
+	if ($Defend_Building_Nearby(thisagent) == false)
+	if ($pursueTask(thisagent) == false)
+	//if ($explore_map(thisagent, thisagent's "TASK_typeBaseChanceExplore") == false)
+	if ($go_home(thisagent, thisagent's "TASK_typeBaseChanceIdle") == false)
+		begin
+			// do some immediate reactions while finding a long term plan
+			thisagent's "TASK_activeStatus" = "Searching";			
+			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "counter" = 0;
+			thisagent's "activescript" = $hero_wander;
+		end
+end
+
+
+function PursueTask(agent thisagent) is boolean
+declare
+	agent flag;
+	list waypoints;
+	integer waypointCount;
+	function travelScript;
+begin
+
+	if ($IsTaskValid(thisagent, "Current") == false)
+		thisagent's "TASK_activeStatus" = "Complete";
+	
+	if (thisagent's "TASK_activeStatus" == "Ongoing")
+		thisagent's "TASK_activeStatus" = "Complete";
+	
+	if (thisagent's "TASK_activeStatus" == "Complete")
+		begin
+			$overridetasksequence(thisagent, "current", "next");
+			$overridetasksequence(thisagent, "next", "reserve");
+		end
+
+	if ($IsTaskValid(thisagent, "Current") == true)
+		begin
+			thisagent's "Target" = thisagent's "TASK_subTargetCurrent";
+			thisagent's "BackTarget" = thisagent's "TASK_subBackTargetCurrent";	
+			thisagent's "ActiveScript" = thisagent's "TASK_subActiveScriptCurrent";
+			thisagent's "BackScript" = thisagent's "TASK_subBackScriptCurrent";
+			thisagent's "TaskName" = thisagent's "TASK_subTaskNameCurrent";
+			thisagent's "VisitingScript" = thisagent's "TASK_subVisitingScriptCurrent";
+			$SpecifyIntentString (ThisAgent, thisagent's "TASK_subIntentCurrent");
+			flag = thisagent's "backtarget";
+			if ($isvalidgamepiece(flag))
+				if (flag's "type" == "rewardflag")
+					begin
+						$setparent(thisagent, flag);
+						if ($agentinlist(thisagent, flag's "heroes") == false)
+							flag's "heroes" << thisagent;
+					end
+			
+			waypoints = thisagent's "TASK_subWaypointsCurrent";
+			waypointCount = $listsize(waypoints);
+			if (waypointCount > 0)
+				begin
+					thisagent's "Destination" = $listmember(waypoints, waypointCount);
+
+					travelscript = thisagent's "TASK_subTravelScriptCurrent";
+					if ($validfunction(travelscript) && travelscript != $nullfunction)
+						begin
+							if (travelScript == $movewaypoint)
+								(travelscript)(thisagent, waypoints);
+							else if (travelscript == $move)
+								(travelscript)(thisagent, thisagent's "Destination");
+						end
+				end
+			thisagent's "TASK_activeStatus" = "Ongoing";
+			return true;
+		end
+		
+	thisagent's "TASK_activeStatus" = "Searching";
+	return false;
+end
+
+function IsTaskValid(agent thisagent, string subset) is boolean
+declare
+	function condition;
+	string _isValid, _condition, _target, _action;
+
+begin
+	_isValid = "TASK_subIsValid"+subset;
+
+	if (thisagent's _isValid == false)
+		return false;
+	
+	_condition = "TASK_subExitCondition"+subset;
+	_target = "TASK_subTarget"+subset;
+	_action = "TASK_subActiveScript"+subset;
+
+	if ($validfunction(thisagent's _action) && thisagent's _action != $nullfunction)
+		if ($ValidFunction(thisagent's _condition) && thisagent's _condition != $nullfunction)
+			if ((thisagent's _condition)(thisagent's _target) == false)
+				thisagent's _isValid = true;
+	
+	if (thisagent's _isvalid == false)
+		$ResetTaskSequence(thisagent, subset);
+	
+	return thisagent's _isValid;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function NotDuplicateTask (agent thisagent) is boolean
+//Checks to see if the task is a duplicate of other ones
+
+declare
+
+	string targetsub, completetarget, othertarget, actionsub, completeaction, otheraction, index;
+	
+begin
+	index = thisagent's "TASK_activeSubset";
+	if (index == "Current")
+		return true;
+	
+	targetsub = "TASK_subTarget";
+	actionsub = "TASK_subActiveScript";
+	completetarget = targetsub + index;
+	completeaction = actionsub + index;
+
+	// If Backup/Next/Reserve or any other index are duplicates of Current, then return false
+	othertarget = targetsub + "Current";
+	otheraction = actionsub + "Current";
+	if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
+		begin
+			return False;
+		end
+
+	if (index == "Reserve") //If Reserve is a duplicate of Backup or Next, then return false
+		begin
+			othertarget = targetsub + "Next";
+			otheraction = actionsub + "Next";
+			if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
+				begin
+					return False;
+				end
+		end
+		
+	return true;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function General_Task_Cycle (agent thisagent)
+//This function cycles every few seconds to adjust the hero's task packets.
+declare
+	boolean flag, resting, in_combat;
+	integer exhaustion, fear;
+	string tasktype, _subset, _isValid;
+
+begin
+	exhaustion = thisagent's "Exhaustion";
+	fear = thisagent's "Fear";
+	
+	if ($InsideBuilding(thisagent))
+		begin
+			Fear -= 5;
+			Exhaustion -= 50;
+		end
+	else
+		begin
+			exhaustion += 5;
+			if (thisagent's "In_Combat" == false)
+				fear--;
+		end
+
+	
+	if (Exhaustion < 0) Exhaustion = 0;
+	thisagent's "Exhaustion" = exhaustion;
+	
+	if (Fear < 0) Fear = 0;
+	thisagent's "Fear" = fear;
+	
+	$update_invalid_tasks(thisagent);
+end
+
+function update_invalid_tasks(agent thisagent)
+declare
+	string tasktype;
+
+begin
+	//Tasks should not update simultaneously. Current must update first. Then Next and Backup can update simultaneously following that. Reserve updates last.
+	if ($IsTaskValid(thisagent, "Current") == false)
+		begin
+			//Dead tired, so do this asap
+			tasktype = thisagent's "TASK_activeType";
+			if (thisagent's "Exhaustion" >= 500)
+				tasktype = "Idle";
+			
+			if ($Search_For_Task(thisagent, tasktype, "Current") == false)
+				begin
+					$overridetasksequence(thisagent, "current", "next");
+					$overridetasksequence(thisagent, "next", "Reserve");
+					return;
+				end
+		end
+	
+	// It can update simultaneously with Backup, since they don't directly conflict.
+	if ($IsTaskValid(thisagent, "Next") == false)
+		begin
+
+			// use the ordered task type
+			tasktype = thisagent's "TASK_activeType";
+
+			//More tired, so look for a few places to sleep
+			if (thisagent's "Exhaustion" >= 350)
+				tasktype = "Idle";
+
+			if ($Search_For_Task(thisagent, tasktype, "next") == false)
+				begin
+					$overridetasksequence(thisagent, "next", "Reserve");
+					return;
+				end
+		end
+	
+	//Reserve must update at the end, and alone, not simultaneously with other tasks.
+	if ($IsTaskValid(thisagent, "Reserve") == false)
+		begin
+			// use the ordered task type
+			tasktype = thisagent's "TASK_activeType";
+
+		 	//Tired, so start looking for a place to sleep
+			if (thisagent's "Exhaustion" >= 200)
+				tasktype = "Idle";
+
+			$Search_For_Task(thisagent, tasktype, "Reserve");
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Search_For_Task (agent thisagent, string taskType, string subset) is boolean
+//This function searches for new tasks for packets lacking one.
+//This function should NOT have any setting for Primary/Current/Next/etc. Tasks
+declare
+	string _isValid, _type, _task;
+	integer rand, guid, chance;
+	list tasklist, guidlist, namelist, chancelist;
+	function task;
+	string taskname;
+
+begin
+	_isValid = "TASK_subIsValid" + subset;
+
+	guidlist = thisagent's ("TASK_typeGuidList" + tasktype);
+	namelist = thisagent's "TASK_globalNameList";
+	chancelist = thisagent's "TASK_globalChanceList";
+	tasklist = thisagent's "TASK_globalTaskList";
+
+	if (thisagent's ("TASK_typeCount"+tasktype) >= $listsize(guidlist))
+		begin
+			if (thisagent's "TASK_activeType" == tasktype)
+				begin
+					taskType = $RerollTaskSet(thisagent, taskType);
+					thisagent's "TASK_activeType" = tasktype;
+				end
+			thisagent's ("TASK_typeCount"+tasktype) = 0;
+		end
+	
+	thisagent's ("TASK_typeCount"+tasktype)++;
+
+	// gets referenced by the task evaluation functions to get supporting info
+	if ($listsize(guidlist) > 0)
+		begin
+			rand = $RandomNumberNonZero($listsize(guidlist));
+			guid = $listmember(guidlist, rand);
+			task = $listmember(tasklist, guid);
+			chance = $listmember(chancelist, guid);
+			taskname = $listmember(namelist, guid);
+			
+
+			thisagent's "TASK_activeSubset" = subset;
+			thisagent's "TASK_activeGuid" = guid;
+			thisagent's "TASK_activeTaskName" = taskname;
+			thisagent's "TASK_activeChance" = chance;
+			thisagent's _isValid = (task)(thisagent);
+		end
+	return thisagent's _isValid;
+end
+
+function RerollTaskSet(agent thisagent, string tasktype) is string
+declare
+	string _baseChance;
+	integer chance_total, chance;
+
+begin
+	if (tasktype != "general")
+		return "general";
+	_baseChance = "TASK_typeBaseChance";
+	chance_total = $RandomNumber(thisagent's "TASK_typeBaseChancePrepare" + thisagent's "TASK_typeBaseChanceCombat" + thisagent's "TASK_typeBaseChanceExplore" + thisagent's "TASK_typeBaseChanceIdle");
+
+	chance = thisagent's (_baseChance+"Prepare");
+	if (chance >= chance_total)
+		return "Prepare";
+	
+	chance_total -= chance;
+	chance = thisagent's (_baseChance+"Combat");
+	if (chance >= chance_total)
+		return "Combat";	
+	
+	chance_total -= chance;
+	chance = thisagent's (_baseChance+"Explore");
+	if (chance >= chance_total)
+		return "Explore";
+	
+	return "Idle";
+end
+
+
+
+	////////////////////////////////////
+	/////// {word}{index|type} ///////
+	/////////// keywords ////////////
+	///////////////////////////////
+	// string		TASK_subIntent
+	// string		TASK_subTaskName
+	// list			TASK_subWaypoints
+
+	// function		TASK_subActiveScript
+	// function		TASK_subBackScript
+	// function 	TASK_subTravelScript
+	// function		TASK_subVisitingScript
+	// function		TASK_subExitCondition
+
+	// integer 		TASK_typeBaseChance
+	// integer 		TASK_typeCount
+
+	////////////////////////////////////////////////////////
+	////////// it would be nicer as a struct /////////////
+	////////////////////////////////////////////////////
+	// list			TASK_globalTaskList
+	// list			TASK_globalTypeList
+	// list			TASK_globalChanceList
+	// list			TASK_globalNameList
+	
+	/////////////////////////////
+	///////// sub/seq /////////
+	/////////////////////////
+	// Current
+	// Next
+	// Backup
+	// Reserve
+
+	////////////////////////////
+	///////// types //////////
+	////////////////////////
+	// Prepare
+	// Combat
+	// Explore
+	// Idle
+	// Defend
+	// General
+
+function BuildTasks(agent thisagent)
+declare
+	integer count, size;
+	string type;
+	string _typeGuidList;
+
+begin
+	count = 0;
+	size = $ListSize(thisagent's "TASK_globalTaskList"); // If an agent gets new tasks packets dynamically, the list part can be added in manually
+	while (size > count) do
+		begin
+			count ++;
+			type = $ListMember(thisagent's "TASK_globalTypeList", count);		// Prepare, Combat, Idle etc
+
+			_typeGuidList = "TASK_typeGuidList" + type; 									// "TASK_typeGuidList{TYPE}"
+			thisagent's _typeGuidList << count; 									// Add the global index as a guid into "TASK_typeGuidList{TYPE}";
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function SetTaskParametersBasic (agent thisagent, string name, integer chance, string type)
+//This function searches for new tasks for packets lacking one.
+declare
+begin
+	// but why lol
+	// global just means index with the task's guid ig, idk
+	thisagent's "TASK_globalNameList" << name;
+	thisagent's "TASK_globalChanceList" << chance;
+	thisagent's "TASK_globalTypeList" << type;
+//	thisagent's "TASK_globalTaskList" << func;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function OverrideTaskSequence (agent thisagent, string thistask, string nexttask)
+
+declare
+
+begin
+	$ResetTaskSequence(thisagent, thistask);
+
+	if ($IsTaskValid(thisagent, nexttask) == true)
+		begin
+			thisagent's ("TASK_subIsValid" + thistask) = true;
+
+			thisagent's ("TASK_subTaskName" + thistask) = thisagent's ("TASK_subTaskName" + nexttask);
+			thisagent's ("TASK_subTarget" + thistask) = thisagent's ("TASK_subTarget" + nexttask);
+			thisagent's ("TASK_subBackTarget" + thistask) = thisagent's ("TASK_subBackTarget" + nexttask);
+
+			thisagent's ("TASK_subActiveScript" + thistask) = thisagent's ("TASK_subActiveScript" + nexttask);
+			thisagent's ("TASK_subBackScript" + thistask) = thisagent's ("TASK_subBackScript" + nexttask);
+			thisagent's ("TASK_subTravelScript" + thistask) = thisagent's ("TASK_subTravelScript" + nexttask);
+			thisagent's ("TASK_subVisitingScript" + thistask) = thisagent's ("TASK_subVisitingScript" + nexttask);
+
+			thisagent's ("TASK_subIntent" + thistask) = thisagent's ("TASK_subIntent" + nexttask);
+			thisagent's ("TASK_subExitCondition" + thistask) = thisagent's ("TASK_subExitCondition" + nexttask);
+			thisagent's ("TASK_subWaypoints" + thistask) = thisagent's ("TASK_subWaypoints" + nexttask);
+		end
+	
+	$ResetTaskSequence(thisagent, nexttask);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+///////////CACHE INVALIDATION FUCK YEAAAAAAAAAAAAAAAAAHHHHHHHH/////////////////
+///////////////////////////////////////////////////////////////////////////////
+function ResetTaskSequence (agent thisagent, string thistask)
+
+declare
+
+begin
+	thisagent's ("TASK_subIsValid" + thistask) = false;
+
+	thisagent's ("TASK_subTarget" + thistask) = $nullagent();
+	thisagent's ("TASK_subBackTarget" + thistask) = $nullagent();
+	thisagent's ("TASK_subActiveScript" + thistask) = $nullfunction;
+	thisagent's ("TASK_subBackScript" + thistask) = $nullfunction;
+	thisagent's ("TASK_subTaskName" + thistask) = "";
+	thisagent's ("TASK_subVisitingScript" + thistask) = $nullfunction;
+	thisagent's ("TASK_subIntent" + thistask) = "";
+
+	thisagent's ("TASK_subExitCondition" + thistask) = $nullfunction;
+	thisagent's ("TASK_subTravelScript" + thistask) = $nullfunction;
+	$clearlist(thisagent's ("TASK_subWaypoints" + thistask));
+end
+
+function InitTaskAttributes(agent thisagent)
+declare
+
+begin
+	$AddAttribute(thisagent, "Exhaustion", "integer");
+	$AddAttribute(thisagent, "Fear", "integer");
+
+	$inittasksub(thisagent, "Current");
+	$inittasksub(thisagent, "Next");
+	$inittasksub(thisagent, "Reserve");
+	$inittasksub(thisagent, "Backup");
+end
+
+function InitTaskSub(agent thisagent, string thistask)
+declare
+
+begin
+	$AddAttribute(thisagent, "TASK_subIsValid" + thistask, "boolean");
+
+	$AddAttribute(thisagent, "TASK_subTarget" + thistask, "agentRef");
+	$AddAttribute(thisagent, "TASK_subBackTarget" + thistask, "agentref");
+
+	$AddAttribute(thisagent, "TASK_subActiveScript" + thistask, "function");
+	$AddAttribute(thisagent, "TASK_subBackScript" + thistask, "function");
+	$AddAttribute(thisagent, "TASK_subTravelScript" + thistask, "function");
+	$AddAttribute(thisagent, "TASK_subVisitingScript" + thistask, "function");
+	$AddAttribute(thisagent, "TASK_subExitCondition" + thistask, "function");
+	
+	$AddAttribute(thisagent, "TASK_subIntent" + thistask, "string");
+	$AddAttribute(thisagent, "TASK_subTaskName" + thistask, "string");
+	$AddAttribute(thisagent, "TASK_subWaypoints" + thistask, "list");
+	
+	$ResetTaskSequence(thisagent, thistask);
+end
+
+function UpdateTaskPackage(agent thisagent, function action, function condition, agent target, string intent)
+declare
+	string actionsub, conditionsub, targetsub, intentsub;
+	string completeaction, completecondition, completetarget, completeintent;
+	string taskindex;
+begin
+	//thisagent's "ActiveScript" = thisagent's "TASK_subActiveScriptCurrent";
+	//thisagent's "Target" = thisagent's "TASK_subTargetCurrent";
+	//$SpecifyIntentString (ThisAgent, thisagent's "TASK_subIntentCurrent");
+
+	// could you make this any more fucking stupidly convoluted? like ohh my god im losing my mind here
+	actionsub = "TASK_subActiveScript";
+	conditionsub = "TASK_subExitCondition";
+	targetsub = "TASK_subTarget";
+	intentsub = "TASK_subIntent";
+
+	taskindex = thisagent's "TASK_activeSubset";
+	completeaction = actionsub + taskindex;
+	completecondition = conditionsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completeintent = intentsub + taskindex;
+	
+	thisagent's completeaction = action;
+	thisagent's completecondition = condition;
+	thisagent's completetarget = target;
+	thisagent's completeintent = intent;
+end
+
+function UpdateVisitTaskPackage(agent thisagent, function action, function condition, agent target, string intent, string name, function visit)
+declare
+	string actionsub, conditionsub, targetsub, intentsub, namesub, visitsub;
+	string completeaction, completecondition, completetarget, completeintent, completename, completevisit;
+	string taskindex;
+begin
+	actionsub = "TASK_subActiveScript";
+	conditionsub = "TASK_subExitCondition";
+	targetsub = "TASK_subTarget";
+	intentsub = "TASK_subIntent";
+	namesub = "TASK_subTaskName";
+	visitsub = "TASK_subVisitingScript";
+
+	taskindex = thisagent's "TASK_activeSubset";
+	completeaction = actionsub + taskindex;
+	completecondition = conditionsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completename = namesub + taskindex;
+	completevisit = visitsub + taskindex;
+	
+	thisagent's completeaction = action;
+	thisagent's completecondition = condition;
+	thisagent's completetarget = target;
+	thisagent's completeintent = intent;
+	thisagent's completename = name;
+	thisagent's completevisit = visit;
+end

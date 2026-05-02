@@ -774,7 +774,7 @@
 			<AttackRange min="1" max="1"/>
 			<Intelligence value="8"/>
 			<Strength value="13"/>
-			<MagicResistance value="90"/>
+			<MagicResistance value="25"/>
 			<Attack value="60"/>
 			<Parry value="35"/>
 			<Dodge value="35"/>
@@ -1132,7 +1132,7 @@
 			<AttackRange min="1" max="1"/>
 			<Intelligence value="9"/>
 			<Strength value="20"/>
-			<MagicResistance value="98"/>
+			<MagicResistance value="75"/>
 			<Attack value="70"/>
 			<Parry value="45"/>
 			<Dodge value="50"/>
@@ -1772,11 +1772,11 @@
 			<Speed value="3"/>
 			<AttackRange min="1" max="1"/>
 			<Strength value="15"/>
-			<MagicResistance value="50"/>
+			<MagicResistance value="0"/>
 			<Attack value="90"/>
 			<Parry value="96"/>
 			<Dodge value="40"/>
-			<ArmorBasicDamage value="3"/>
+			<ArmorBasicDamage value="5"/>
 			<Gold value="125"/>
 			<Flags value="Heals"/>
 			<Flags value="HasHPBar"/>

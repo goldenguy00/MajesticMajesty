@@ -20,11 +20,14 @@
   	}
 [end]
 
-[Flag_Guard]
+[Flag_Protect]
 	{Flag
 		(type RewardFlag)
-		(subtype Flag_Guard)
-		(title Flag_Guard)
-		(birthscript 	RewardFlag_Birth)
+		(subtype Flag_Protect)
+		(title Flag_Protect)
+		(birthscript 	Protect_Flag_birth)
+		(activescript Protect_Flag_poll)
+		(deathscript Protect_Flag_death)
+		(IGDeathScript Protect_Flag_death)
   	}
 [end]

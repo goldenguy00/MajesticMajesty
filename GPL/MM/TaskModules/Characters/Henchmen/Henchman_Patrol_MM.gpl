@@ -1,0 +1,51 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+
+Function Henchman_Patrol (agent ThisAgent)
+Declare
+	list	Buildings;
+	agent	Building;
+
+Begin
+//	//$DebugOut ("Should I patrol the city?");
+
+	If ($RandomNumber (100) > 25)
+		begin
+//			//$DebugOut ("Not interested.");
+			return False;
+		end
+
+	 //If this is a henchman, then they want to patrol GHouses
+	 //If (What_To_Patrol == "Guardhouse")
+		begin
+			 $ListObjects (ThisAgent, "Building", -1, Buildings, #MyPlayer);
+
+			 Buildings = $ListTitles (Buildings, "Guardhouse");
+		end
+
+	//Else, patrol the city (if no Guardhouses)
+	//Else
+		//$ListObjects( thisagent, "Building", -1, Buildings, #MyPlayer );
+
+	//For travel_to, use the last entry in the list as the destination.
+
+	If ($ListSize (Buildings) > 0)
+		begin
+			ThisAgent's "Destination" = $LocationOf ($ListMember (Buildings, ($ListSize (Buildings) )));
+
+			Foreach Building in Buildings do
+				begin
+					$Move (ThisAgent, $LocationOf (Building), "Add_Waypoint");
+					ThisAgent's "Target" = ThisAgent;
+					ThisAgent's "BackScript" = $Guard_Find_Target;
+					ThisAgent's "ActiveScript" = $Voyaging_Guard_Travel_To;
+					////$DebugOut(911,"add_waypoint: ", building );
+				end
+
+		end
+//	//$DebugOut ("Sure! Going to patrol.");
+End

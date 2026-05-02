@@ -1,0 +1,2319 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+// Return the Palace ThisAgent belongs to, this can return an Outpost if
+// an Outpost is ThisAgent's "Parent"
+function GetPalace (Agent ThisAgent) is agent
+Declare
+	list	Palaces;
+	agent Parent;
+
+Begin
+	Parent = $Parent (ThisAgent);
+
+	If ($IsDead (Parent) == False)
+		begin
+			If (Parent's "SubType" == "Outpost")
+				return Parent;
+		end
+		
+	return $GetTruePalace(thisagent);
+End
+
+///////////////////////////////////////////////////////////////////////////////
+// Returns the Palace of the player ThisAgent belongs to, even if ThisAgent
+// is owned by an Outpost of the player.
+Function GetTruePalace (agent ThisAgent) is agent
+Declare
+	list	Palaces;
+	agent Palace;
+
+Begin
+	if ($HasAttribute("Palace", thisagent))
+		begin
+			Palace = thisagent's "Palace";
+			if ($IsDead(Palace) == false)
+				if ($GetUnitPlayerNumber(thisagent) == $GetUnitPlayerNumber(Palace))
+					return Palace;
+		end
+
+	$ListObjects (ThisAgent, "Building", -1, Palaces, #CheckTitles, "Palace", #MyPlayer, #NoHiddenMap);
+
+	If (ThisAgent's "Title" == "Palace")
+		Palaces << ThisAgent;
+
+	If ($ListSize (Palaces) > 0)
+		Palace = $ListMember (Palaces, 1);
+	else
+		Palace = $NullAgent();
+
+	if ($AddAttribute(thisagent, "Palace", "agent", Palace) == false)
+		thisagent's "Palace" = Palace;
+
+	return Palace;
+End
+
+function Palace_Central_Lists(agent thisagent)
+declare
+	list monsters, enemies, allies, buildings, attractions, fairgrounds, peasants;
+begin
+	$ListObjects(thisagent,"monster",-1, monsters,#NotMyTeam);
+	if ($AddAttribute(thisagent, "Enemy_Monster_List", "list", monsters) == false)
+		thisagent's "Enemy_Monster_List" = monsters;
+
+	$ListObjects(thisagent,"hero",-1, enemies,#NotMyTeam);
+	if ($AddAttribute(thisagent, "Enemy_Hero_List", "list", enemies) == false)
+		thisagent's "Enemy_Hero_List" = enemies;
+
+	$ListObjects(thisagent,"hero",-1, allies,#myplayer);
+	if ($AddAttribute(thisagent, "Ally_Hero_List", "list", allies) == false)
+		thisagent's "Ally_Hero_List" = allies;
+
+	$ListObjects(thisagent,"building",-1, buildings,#myplayer);
+	if ($agentinlist(thisagent,buildings) == FALSE)
+		buildings << thisagent;
+	if ($AddAttribute(thisagent, "Ally_Building_List", "list", buildings) == false)
+		thisagent's "Ally_Building_List" = buildings;
+
+		//fuckin pursue entertainment
+		
+	$listobjects(thisagent,"building",-1,attractions, #CheckSubTypes, "Entertainment", #ATTRIB_FirstStageBuilt, 1);
+	if ($AddAttribute(thisagent, "Entertainment_List", "list", attractions) == false)
+		thisagent's "Entertainment_List" = attractions;
+
+	//$listobjects(thisagent,"building",-1,fairgrounds, #CheckTitles, "Fairgrounds", #ATTRIB_FirstStageBuilt, 1);
+	fairgrounds = $ListCompletedTitlesJ(buildings, "Fairgrounds");
+	if ($AddAttribute(thisagent, "Fairgrounds_List", "list", fairgrounds) == false)
+		thisagent's "Fairgrounds_List" = fairgrounds;
+
+	peasants = $ListTitles (allies, "Peasant");
+	if ($AddAttribute(thisagent, "Peasant_List", "list", peasants) == false)
+		thisagent's "Peasant_List" = peasants;
+
+// so that peasants dont lag the fuck outta the game doing this reconstructing
+// they will be slightly less responsive, but thats honestly a good thing. their reaction times were too good.	
+	$reconstruct_lists_opt(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function reconstruct_lists(agent palace)
+
+declare
+	agent bldg;
+	list buildings,newlist;
+
+begin
+	// check lists for buildings who shouldn't be on them
+	buildings = palace's "buildings_under_construction";
+
+	foreach bldg in buildings do
+		begin
+			If ($IsDead (Bldg) == False)
+				begin
+					if ($building_level_complete(bldg))
+						if (($getattribute(bldg,#ATTRIB_isrepaired) == 0) && ($getattribute(bldg,#ATTRIB_QuickRepair) == 0))
+							palace's "buildings_under_construction" -= bldg;
+				end
+			else
+				palace's "buildings_under_construction" -= bldg;
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function reconstruct_lists_opt(agent palace)
+
+declare
+	agent bldg;
+	list buildings,newlist;
+
+begin
+	// check lists for buildings who shouldn't be on them
+	buildings = palace's "buildings_under_construction";
+
+	foreach bldg in buildings do
+		begin
+			If ($IsDead (Bldg) == False)
+				begin
+					if ($building_level_complete(bldg))
+						if (($getattribute(bldg,#ATTRIB_isrepaired) == 0) && ($getattribute(bldg,#ATTRIB_QuickRepair) == 0))
+							palace's "buildings_under_construction" -= bldg;
+				end
+			else
+				palace's "buildings_under_construction" -= bldg;
+		end
+
+	// check all existing buildings, to see if they are damaged and need to be added
+	//$listobjects(palace,"building",-1,buildings,#MyPLayer, #ATTRIB_FirstStageBuilt, 1);
+	//buildings = $listcompleted(buildings);
+	//buildings << palace; // the palace wasn't getting checked before!!!
+
+	foreach bldg in palace's "Ally_Building_List" do
+		begin
+			If ($IsDead (Bldg) == False)
+				if ($building_level_complete(bldg))
+					if ($getattribute(bldg,#ATTRIB_HP) < $getattribute(bldg,#ATTRIB_MAXHP))
+						if ($agentinlist(bldg,palace's "buildings_under_construction") == FALSE)
+							if (($getattribute(bldg,#ATTRIB_isrepaired) == 1) || ($getattribute(bldg,#ATTRIB_QuickRepair) == 1))
+								palace's "buildings_under_construction" << bldg;
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// This checks to see if ThisAgent is the closest Peasant with the intention of building their target
+Function Closest_Peasant_Building (agent ThisAgent) is boolean
+Declare
+	list		Peasants;
+	agent		Peasant, Target, palace;
+	integer	My_Dist, Their_Dist;
+	boolean closest_flag;
+
+Begin
+	closest_flag = true;
+
+	Target = ThisAgent's "Target";
+	My_Dist = $DistanceBetweenAgents (ThisAgent, Target);
+	
+	Palace = $GetTruePalace (ThisAgent);
+	if ($isdead(palace))
+		begin
+			$ListObjects (ThisAgent, "hero", -1, Peasants, #CheckTitles, "Peasant", #myplayer);
+		end
+	else if ($HasAttribute("Peasant_List", palace) == false)
+		begin
+			$ListObjects (ThisAgent, "hero", -1, Peasants, #CheckTitles, "Peasant", #myplayer);
+		end
+	else
+		begin
+			peasants = palace's "Peasant_List";
+		end
+
+	//Peasants = $ListTitles (Peasants, "Peasant");
+
+	//$DebugOut (911, "Listsize of Peasants:", $ListSize (Peasants));
+
+//	If ($ListSize (Peasants) > 0)
+//		begin
+	Foreach Peasant in Peasants do
+		begin
+			if (closest_flag)
+				if ($IsValidGamePiece(peasant))
+					If (Peasant's "Target" == Target && peasant != thisagent)
+						begin
+							Their_Dist = $DistanceBetweenAgents (Peasant, Target);
+							If (Their_Dist <= My_Dist)
+								begin
+									//$DebugOut (911, "Their dist is less than or equal to my dist.");
+									//return False;
+									closest_flag = FALSE;
+								end
+						end
+		end
+//		end
+
+	//$DebugOut (911, "I am the closest Peasant with the intention of building this building.");
+	//return True;
+	return closest_flag;
+
+End
+
+
+function IsBuilding(agent thisagent) is boolean
+declare
+begin
+	return thisagent's "Type" == "Building" || thisagent's "type" == "lair";
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// Checks to see is marketplace is dead or closed
+function MarketInvalid ( agent thisagent ) is boolean
+declare
+begin
+	if ($isdead(thisagent) == TRUE)
+		return TRUE;
+
+	if (thisagent's "Title" == "Closed")
+		return TRUE;
+
+	return FALSE;
+end
+///////////////////////////////////////////////////////////////////////////////
+function listtitlesinRadiusAdvanced(agent thisagent,string type, string title, integer dist, integer modifier) is list
+
+declare
+	list new_list;
+	list final_list;
+	agent diddly;
+
+begin
+	$ListObjects(thisagent,type,dist,new_list, modifier );
+
+	foreach diddly in new_list do
+		begin
+			if (diddly's "title" == title)
+				begin
+					final_list << diddly;
+				end
+		end
+	return final_list;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function give_gold(agent thisagent, integer amount)
+
+declare
+	boolean has_bank;
+
+begin
+	if (amount < 1)
+		return;
+	
+	$createeffector(thisagent,"got_gold",0, Amount);
+
+	has_bank = $GetBooleanSafe(thisagent, "has_bank_account");
+
+	if (has_bank)
+		begin
+			$adjustattribute(thisagent,#ATTRIB_StoredGold,amount);
+			thisagent's "Bank_Account_Gold" = $GetAttribute(thisagent, #ATTRIB_StoredGold);
+		end
+	else
+		begin
+			$adjustattribute(thisagent,#ATTRIB_gold,amount);
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function RandomNumberNonZero(integer rand) is integer
+
+declare
+	integer return_int;
+
+begin
+	if (rand  <= 1)
+		return rand;
+	
+	return_int = $RandomNumber(rand-1) + 1;
+	return return_int;
+end
+///////////////////////////////////////////////////////////////////////////////
+// Returns the absolute value of an integer passed to it.
+function AbsoluteValue ( integer number ) is integer
+declare
+begin
+	if ( number < 0 )
+		number = ( number * ( - 1 ));
+
+	return number;
+end
+	
+//////////////////////////////////////////////////////////////////////////////
+function i2s(integer int) is string
+declare
+	string return_s;
+	integer mod_int, control_int;
+
+begin
+	control_int = int;
+	mod_int = int;
+	return_s = "";
+	
+	if (int < 10)
+		return $i2s_sub(int);
+		
+	if (int > 1000000)
+		begin
+			return "Value too high";
+		end
+	
+	if (int > 100000)
+		begin
+			if (int == control_int)
+				return_s += $i2s_sub(int/100000);
+			while (int > 100000) do
+				int -= 100000;
+			return_s += $i2s_sub(int/10000);
+		end
+	else if (int == 10000)
+		return_s += "1";
+	
+	if (int > 10000)
+		begin
+			if (int == control_int)
+				return_s += $i2s_sub(int/10000);
+			while (int > 10000) do
+				int -= 10000;
+			return_s += $i2s_sub(int/1000);
+		end
+	else if (int == 10000)
+		return_s += "1";
+	
+	if (int > 1000)
+		begin
+			if (int == control_int)
+				return_s += $i2s_sub(int/1000);
+			while (int > 1000) do
+				int -= 1000;
+			return_s += $i2s_sub(int/100);
+		end
+	else if (int == 1000)
+		return_s += "1";
+	
+	if (int > 100)
+		begin
+			if (int == control_int)
+				return_s += $i2s_sub(int/100);
+			while (int > 100) do
+				int -= 100;
+			return_s += $i2s_sub(int/10);
+		end
+	else if (int == 100)
+		return_s += "1";
+	
+	if (int > 10)
+		begin
+			if (int == control_int)
+				return_s += $i2s_sub(int/10);
+			while (int > 10) do
+				int -= 10;
+			return_s += $i2s_sub(int);
+		end
+	else if (int == 10)
+		return_s += "10";
+	
+	return return_s;
+end
+//////////////////////////////////////////////////////////////////////////////
+function i2s_sub(integer int) is string
+declare
+	string return_s;
+
+begin
+	return_s = "";
+	if (int == 0)
+		return_s = "0";
+	else if (int == 1)
+		return_s = "1";
+	else if (int == 2)
+		return_s = "2";
+	else if (int == 3)
+		return_s = "3";
+	else if (int == 4)
+		return_s = "4";
+	else if (int == 5)
+		return_s = "5";
+	else if (int == 6)
+		return_s = "6";
+	else if (int == 7)
+		return_s = "7";
+	else if (int == 8)
+		return_s = "8";
+	else if (int == 9)
+		return_s = "9";
+	return return_s;
+end
+///////////////////////////////////////////////////////////////////////////////
+function stringinlist(string thistitle,list thislist) is boolean
+//Find out if a list has the supplied string. This is only for lists containing strings.
+declare
+	string joe_smith;
+	boolean result;
+
+begin
+	result = false;
+	foreach joe_smith in thislist do
+		if (joe_smith == thistitle) 
+			begin
+				result = true;
+			end
+
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function addstringtolist(string thistitle,list thislist)
+//Find out if a list has the supplied string. This is only for lists containing strings.
+declare
+begin
+	if ($StringInList(thistitle, thislist) == false)
+		thislist << thistitle;
+end
+///////////////////////////////////////////////////////////////////////////////
+function intentextinlist(string thisintent,list thislist) is boolean
+//Find out if a list has a title the same as the title.
+declare
+	string joe_smith;
+	boolean result;
+begin
+	result = false;
+	foreach joe_smith in thislist do
+		if (joe_smith == thisintent) 
+			begin
+				result = true;
+			end
+
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function agentinagentlist(agent thisagent,list thislist) is boolean
+//Find out if a list has an agent's title the same as the supplied title.
+declare
+	agent joe_smith;
+	boolean result;
+begin
+	result = false;
+	foreach joe_smith in thislist do
+		if (joe_smith == thisagent) 
+			begin
+				result = true;
+			end
+
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function titleinagentlist(string thistitle,list thislist) is boolean
+//Find out if a list has an agent's title the same as the supplied title.
+declare
+	agent joe_smith;
+	boolean result;
+begin
+	result = false;
+	foreach joe_smith in thislist do
+		if (joe_smith's "Title" == thistitle) 
+			begin
+				result = true;
+			end
+
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function intentextinagentlist(string thisintent,list thislist) is boolean
+//Find out if a list has an agent's title the same as the supplied title.
+declare
+	agent joe_smith;
+	boolean result;
+begin
+	result = false;
+	foreach joe_smith in thislist do
+		if ($getintentext(joe_smith) == thisintent)
+			begin
+				result = true;
+			end
+
+	return result;
+end
+///////////////////////////////////////////////////////////////////////////////
+function agenttitleinlist(string thistitle,list thislist) is agent
+//Find out if a list has an agent with the supplied title and return that agent.
+declare
+	agent joe_smith, result;
+
+begin
+	result = $nullagent();
+	foreach joe_smith in thislist do
+		if (joe_smith's "Title" == thistitle) 
+			begin
+				result = joe_smith;
+			end
+
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function agentintentextinlist(string thisintent,list thislist) is agent
+//Find out if a list has an agent with the supplied intent and return that agent.
+declare
+	agent joe_smith, result;
+
+begin
+	result = $nullagent();
+	foreach joe_smith in thislist do
+		if ($getintentext(joe_smith) == thisintent)
+			begin
+				result = joe_smith;
+			end
+
+	return result;
+
+end
+///////////////////////////////////////////////////////////////////////////////
+function getintentext(agent thisagent) is string
+
+declare
+
+begin
+	if ($HasAttribute("intentext", thisagent) == false)
+		return "";
+	return thisagent's "intentext";
+
+end
+
+// https://stackoverflow.com/questions/31241304/how-can-i-check-that-a-bit-is-set-without-bitwise-operation
+// floor(value/mask) mod 2 = 1
+function HasFlag(integer value, integer mask) is integer
+declare
+	integer result;
+begin
+	result = value / mask;
+	result = result % 2;
+	return result == 1; 
+end
+	
+///////////////////////////////////////////////////////////////////////////////
+function AddHelpSign(agent thisagent, string sign, coordinate sign_loc)
+
+declare
+	agent new_sign, palace;
+
+begin
+	palace = $gettruepalace(thisagent);
+	if ($IsValidGamePiece(palace) == True)
+		begin
+			if ($HasAttribute("Toggle_Signs", palace) == False)
+				begin
+					$AddAttribute(palace, "Toggle_Signs", "boolean", True);  //Not In Prototype
+					new_sign = $SpawnUnit(palace, "Help_Sign_Toggle_Off");
+					$AddAttribute(new_sign, "IGdeathscript", "function", $HelpDeath);  //Not In Prototype
+					$AddAttribute(new_sign, "HelpSignAutoRemoval", "function", $HelpSignAutoRemoval);  //Not In Prototype
+					$NewThread(new_sign's "HelpSignAutoRemoval", 1500, new_sign, palace );
+					$AddAttribute(new_sign, "SignParent", "list");  //Not In Prototype
+					new_sign's "SignParent" << palace;
+				end
+			else if (palace's "Toggle_Signs" == False)
+				return;
+		end
+		
+	$AddAttribute(ThisAgent, "Help_Signs", "list");  //Not In Prototype
+	new_sign = $SpawnUnit(thisagent, sign, sign_loc);
+	thisagent's "Help_Signs" << new_sign;
+	$AddAttribute(new_sign, "SignParent", "list");  //Not In Prototype
+	new_sign's "SignParent" << thisagent;
+	$AddAttribute(new_sign, "HelpSignAutoRemoval", "function", $HelpSignAutoRemoval);  //Not In Prototype
+	$NewThread(new_sign's "HelpSignAutoRemoval", 1500, new_sign, thisagent );
+	$AddAttribute(new_sign, "IGdeathscript", "function", $building_death);  //Not In Prototype
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+function RemoveHelpSigns(agent thisagent)
+
+declare
+	agent sign;
+
+begin
+	if ($HasAttribute("Help_Signs", thisagent) == True)
+		if ($ListSize(thisagent's "Help_Signs") > 0)
+			foreach sign in thisagent's "Help_Signs" do
+				if ($IsValidGamePiece(sign) == True)
+					begin
+						sign's "type" = "Dead";
+						$deleteGamePiece(sign);
+					end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function HelpDeath(agent thisagent)
+
+declare
+	agent parent, new_sign;
+	string name;
+
+begin
+	if ($IsValidGamePiece(thisagent) == True)
+		begin
+			thisagent's "type" = "Dead";
+			name = thisagent's "title";
+			
+			if ($IsValidGamePiece($ListMember(thisagent's "SignParent", 1)) == True)
+				parent = $ListMember(thisagent's "SignParent", 1);
+			else if ($IsValidGamePiece($GetPalace(thisagent)) == True)
+				parent = $GetPalace(thisagent);
+			else
+				begin
+					$deletegamepiece(thisagent);
+					return;
+				end
+				
+			if (name == "Help_Sign_Toggle_On")
+				begin
+					$AddAttribute(parent, "Toggle_Signs", "boolean");  //Not In Prototype
+					parent's "Toggle_Signs" = True;
+					new_sign = $SpawnUnit(parent, "Help_Sign_Toggle_Off");
+					$AddAttribute(new_sign, "IGdeathscript", "function", $HelpDeath);  //Not In Prototype
+					$AddAttribute(new_sign, "HelpSignAutoRemoval", "function", $HelpSignAutoRemoval);  //Not In Prototype
+					$NewThread(new_sign's "HelpSignAutoRemoval", 1500, new_sign, parent );
+					$AddAttribute(new_sign, "SignParent", "list");  //Not In Prototype
+					new_sign's "SignParent" << parent;
+				end
+			else if (name == "Help_Sign_Toggle_Off")
+				begin
+					$AddAttribute(parent, "Toggle_Signs", "boolean");  //Not In Prototype
+					parent's "Toggle_Signs" = False;
+					new_sign = $SpawnUnit(parent, "Help_Sign_Toggle_On");
+					$AddAttribute(new_sign, "IGdeathscript", "function", $HelpDeath);  //Not In Prototype
+					$AddAttribute(new_sign, "HelpSignAutoRemoval", "function", $HelpSignAutoRemoval);  //Not In Prototype
+					$NewThread(new_sign's "HelpSignAutoRemoval", 1500, new_sign, parent );
+					$AddAttribute(new_sign, "SignParent", "list");  //Not In Prototype
+					new_sign's "SignParent" << parent;
+				end
+			
+			
+			$deletegamepiece(thisagent);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function ExceedMapBounds(coordinate c) is boolean
+
+declare
+	integer x1, y1, x2, y2;
+	coordinate board_size;
+
+begin
+	board_size = $getboardextents();
+	
+	x1 = $GetX(c);
+	y1 = $GetY(c);
+	
+	x2 = $GetX(board_size);
+	y2 = $GetY(board_size);
+	
+	if ((x1 > x2) || (y1 > y2))
+		return TRUE;
+	
+	return FALSE;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function UnitPointWithOffset(agent thisagent, integer dx, integer dy) is coordinate
+
+declare
+	integer x1, y1, x2, y2;
+	coordinate thisagent_loc, return_loc;
+
+begin
+	thisagent_loc = $LocationOf(thisagent);
+	x1 = $GetX(thisagent_loc);
+	y1 = $GetY(thisagent_loc);
+	
+	x2 = x1 + dx;
+	y2 = y1 + dy;
+	return_loc = $MakeCoord(x2, y2);
+	
+	return return_loc;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function LocationPointWithOffset(coordinate this_loc, integer dx, integer dy) is coordinate
+
+declare
+	integer x1, y1, x2, y2;
+	coordinate return_loc;
+
+begin
+	x1 = $GetX(this_loc);
+	y1 = $GetY(this_loc);
+	
+	x2 = x1 + dx;
+	y2 = y1 + dy;
+	return_loc = $MakeCoord(x2, y2);
+	
+	return return_loc;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function LocationPointWithOffsetRandom(coordinate this_loc, integer dx, integer dy) is coordinate
+//This is for locations to return with an offset ranging from 0 to dx/dy and having the possibility of being negative or positive
+declare
+	integer x1, y1, x2, y2;
+	coordinate return_loc;
+
+begin
+	x1 = $GetX(this_loc);
+	y1 = $GetY(this_loc);
+	
+	if ($RandomNumberNonZero(2) == 1)
+		x2 = x1 + $RandomNumberNonZero(dx);
+	else
+		x2 = x1 - $RandomNumberNonZero(dx);
+		
+	if ($RandomNumberNonZero(2) == 1)
+		y2 = y1 + $RandomNumberNonZero(dy);
+	else
+		y2 = y1 - $RandomNumberNonZero(dy);
+	
+	return_loc = $MakeCoord(x2, y2);
+	
+	return return_loc;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function LocationPointWithOffsetSimpleRandom(coordinate this_loc, integer offset) is coordinate
+//This is for locations to return with an offset ranging from 0 to offset and having the possibility of being negative or positive
+declare
+	integer x1, y1, x2, y2;
+	coordinate return_loc;
+
+begin
+	x1 = $GetX(this_loc);
+	y1 = $GetY(this_loc);
+	
+	if ($RandomNumberNonZero(2) == 1)
+		x2 = x1 + $RandomNumberNonZero(offset);
+	else
+		x2 = x1 - $RandomNumberNonZero(offset);
+		
+	if ($RandomNumberNonZero(2) == 1)
+		y2 = y1 + $RandomNumberNonZero(offset);
+	else
+		y2 = y1 - $RandomNumberNonZero(offset);
+	
+	return_loc = $MakeCoord(x2, y2);
+	
+	return return_loc;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+//Returns an offset coordinate in the direction of xy2 from xy1
+function PointPolarOffset(coordinate xy1, coordinate xy2, integer offset) is coordinate
+
+declare
+	integer x1, y1, x2, y2, dx, dy, ddx, ddy, dddx, dddy, rx, ry, total_ddxy, distance;
+	coordinate return_xy;
+
+begin
+	x1 = $GetX(xy1);
+	y1 = $GetY(xy1);
+	x2 = $GetX(xy2);
+	y2 = $GetY(xy2);
+	distance = $DistanceBetweenCoords(xy1, xy2);
+	
+	dx = (x2 - x1);
+	dy = (y2 - y1);
+	
+	if (dx < 0)
+		ddx = (dx * -1);
+	else
+		ddx = dx;
+					
+	if (dy < 0)
+		ddy = (dy * -1);
+	else
+		ddy = dy;
+					
+	total_ddxy = ddx + ddy;
+	
+	if (total_ddxy == 0)
+		return xy1;
+		
+	dddx = (dx * offset) / total_ddxy;
+	dddy = (dy * offset) / total_ddxy;
+	
+	rx = x1 + dddx;
+	ry = y1 + dddy;
+	
+	return_xy = $MakeCoord(rx, ry);
+	
+	return return_xy;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function IsControlled(agent thisagent) is boolean
+
+declare
+
+begin
+	if ($CheckEffector(thisagent, "Charm_icon") == TRUE)
+		return TRUE;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function IsExpansion(agent thisagent) is boolean
+
+declare
+	agent AIRootAgent;
+
+begin
+	AIRootAgent = $RetrieveAgent("GplAIRoot");
+	if ($HasAttribute("Quest_Flag_20", AIRootAgent) == TRUE)
+		return TRUE;
+	return False;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function IsABuilding(agent thisagent) is boolean
+
+declare
+
+begin
+	if (thisagent's "Type" == "Building" || thisagent's "Type" == "Lair")
+		return TRUE;
+	else
+		return FALSE;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function SpecifyIntentString(agent thisagent, string intent)
+
+declare
+	agent AIRootAgent;
+
+begin
+	$SpecifyIntent(ThisAgent, intent);
+	$SetStringSafe(thisagent, "Running_Intent", intent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Henchman_haslowHP(agent thisagent) is boolean
+
+declare
+	integer HP,maxHP;
+
+begin
+	HP = $getattribute(thisagent,#ATTRIB_HP);
+	maxHP = $getattribute(thisagent,#ATTRIB_MAXHP);
+
+ 	if (((HP * 100) / maxHP) <= 50) return TRUE;
+	else
+		return FALSE;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function StringInList(string thisstring,list thislist) is Boolean
+
+declare
+	string any_string;
+	boolean is_it_here;
+
+begin
+	is_it_here = FALSE;
+
+	foreach any_string in thislist do
+		if (any_string == thisstring) is_it_here = TRUE;
+
+	return is_it_here;
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function IntegerInList(integer thisinteger,list thislist) is Boolean
+
+declare
+	integer any_integer;
+	boolean is_it_here;
+
+begin
+	is_it_here = FALSE;
+
+	foreach any_integer in thislist do
+		if (any_integer == thisinteger) is_it_here = TRUE;
+
+	return is_it_here;
+
+end
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+function compile_enemies(agent thisagent,integer range) is list
+
+declare
+	list targets,t2,t3;
+
+begin
+	$ListObjects(thisagent,"monster",range,targets,#NotMyTeam);
+	$ListObjects(thisagent,"hero",range,t2,#NotMyTeam);
+	t3 = $addlists(targets,t2);
+	return t3;
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+function compile_enemies_buildings(agent thisagent, integer range) is list
+//Use this for the caster of an area of effect spell
+declare
+	list targets,t2,t3,t4,t5;
+
+begin
+	$ListObjects(thisagent,"monster",range,targets,#NotMyTeam);
+	$ListObjects(thisagent,"lair",range,t4,#NotMyTeam);
+	$ListObjects(thisagent,"hero",range,t2,#NotMyTeam);
+	$ListObjects(thisagent,"building",range,t3,#NotMyTeam);
+	t5 = $addlists(targets,t2,t3,t4);
+	return t5;
+end
+///////////////////////////////////////////////////////////////////////////////
+function compiletarget_enemies(agent thisagent, integer range) is list
+//Use this for the target of an area of effect spell
+declare
+	list targets,t2,t3,t4,t5;
+
+begin
+	$ListObjects(thisagent,"monster",range,targets,#MyPlayer);
+	$ListObjects(thisagent,"hero",range,t2,#MyPlayer);
+	t5 = $addlists(targets,t2);
+	return t5;
+end
+///////////////////////////////////////////////////////////////////////////////
+function compiletarget_enemies_buildings(agent thisagent, integer range) is list
+//Use this for the target of an area of effect spell
+declare
+	list targets,t2,t3,t4,t5;
+
+begin
+	$ListObjects(thisagent,"monster",range,targets,#MyPlayer);
+	$ListObjects(thisagent,"hero",range,t2,#MyPlayer);
+	$ListObjects(thisagent,"building",range,t3,#MyPlayer);
+	$ListObjects(thisagent,"lair",range,t4,#MyPlayer);
+	t5 = $addlists(targets,t2,t3,t4);
+	return t5;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function list_all_enemy_heroes(agent palace) is list
+
+declare
+	list guys,l2,l3;
+	agent thing;
+
+begin
+	$listobjects(palace,"hero",-1,guys,#NotMyPlayer,#NoHiddenMap);
+	$listobjects(palace,"invisible",-1,l2,#NotMyPlayer,#NoHiddenMap);
+	$listobjects(palace,"camouflaged",-1,l3,#NotMyPlayer,#NoHiddenMap);
+
+	l2 = $addlists(l2,l3);
+	foreach thing in l2 do
+		if (thing's "subtype" == "hero")
+			guys << thing;
+
+	return guys;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function LevelTenHero(agent thisagent)
+
+declare
+	agent palace;
+begin
+	if (thisagent's "title" == "warrior")
+		begin
+			palace = $GetPalace(thisagent);
+			if ($IsRunning (palace's "Guard_Spawn_Function") == False)
+				begin
+					$RunThread (palace's "Guard_Spawn_Function", 1000, palace);
+				end
+		end
+	
+end
+
+function GetStatOrder(string unit_name) is list
+declare
+	list stat_list;
+begin
+	if (unit_name == "warrior")
+		begin
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Artifice";
+			stat_list << "Wisdom";
+		end
+		
+	else if (unit_name == "ranger")
+		begin
+			stat_list << "Willpower";
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Strength";
+			stat_list << "Wisdom";
+			stat_list << "Vitality";
+		end
+		
+	else if (unit_name == "rogue")
+		begin
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+		end
+		
+	else if (unit_name == "wizard")
+		begin
+			stat_list << "Intelligence";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+			stat_list << "Artifice";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+		end
+		
+	else if (unit_name == "paladin")
+		begin
+			stat_list << "Willpower";
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list << "Intelligence";
+			stat_list <<  "Artifice";
+		end
+		
+	else if (unit_name == "warrior_of_discord")
+		begin
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Willpower";
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
+		end
+		
+	else if (unit_name == "adept")
+		begin
+			stat_list << "Intelligence";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list <<  "Artifice";
+		end
+		
+	else if (unit_name == "barbarian")
+		begin
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Artifice";
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
+		end
+		
+	else if (unit_name == "cultist")
+		begin
+			stat_list << "Intelligence";
+			stat_list << "Artifice";
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list << "Willpower";
+		end
+		
+	else if (unit_name == "healer")
+		begin
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
+			stat_list << "Vitality";
+			stat_list << "Artifice";
+			stat_list << "Strength";
+		end
+		
+	else if (unit_name == "monk")
+		begin
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list <<  "Artifice";
+		end
+		
+	else if (unit_name == "priestess")
+		begin
+			stat_list << "Intelligence";
+			stat_list << "Willpower";
+			stat_list <<  "Wisdom";
+			stat_list << "Vitality";
+			stat_list << "Artifice";
+			stat_list << "Strength";
+		end
+		
+	else if (unit_name == "solarus")
+		begin
+			stat_list << "Strength";
+			stat_list << "Vitality";
+			stat_list << "Intelligence";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+			stat_list << "Artifice";
+		end
+		
+	else if (unit_name == "dwarf")
+		begin
+			stat_list << "Artifice";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Intelligence";
+			stat_list << "Wisdom";
+		end
+		
+	else if (unit_name == "elf")
+		begin
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Strength";
+			stat_list << "Willpower";
+			stat_list << "Wisdom";
+		end
+		
+	else if (unit_name == "gnome")
+		begin
+			stat_list << "Willpower";
+			stat_list << "Artifice";
+			stat_list << "Intelligence";
+			stat_list << "Vitality";
+			stat_list << "Wisdom";
+			stat_list << "Strength";
+		end
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function PreferredAttribute(agent thisagent, boolean allow_primary) is string
+
+declare
+	list stat_list;
+	string pref_attribute, stat;
+	integer chance, max_roll, roll;
+	
+begin
+	stat_list = $GetStatOrder(thisagent's "title");
+	if ($ListSize(stat_list) == 0)
+		return $RandomAttribute();
+
+	pref_attribute = thisagent's "PrimaryStat_Name";
+	if (allow_primary == false)
+		stat_list -= pref_attribute;
+
+	foreach stat in stat_list do
+		begin
+			chance = $GetBaseStat(thisagent,stat) + $GetIntegerSafe(thisagent, ("Up"+stat+"Chance"));
+			max_roll += chance;
+		end
+
+	roll = $RandomNumber(max_roll);
+
+	foreach stat in stat_list do
+		begin
+			chance = $GetBaseStat(thisagent,stat) + $GetIntegerSafe(thisagent, ("Up"+stat+"Chance"));
+			if (chance <= roll)
+				begin
+					pref_attribute = stat;
+					roll = 0;
+				end
+		end
+		
+	return pref_attribute;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function RandomAttribute() is string
+
+declare
+	integer rand;
+	
+begin
+	rand = $RandomNumber(5);
+	
+	if (rand == 0)
+		return "Intelligence";
+	else if (rand == 1)
+		return "Artifice";
+	else if (rand == 2)
+		return "Vitality";
+	else if (rand == 3)
+		return "Willpower";
+	else if (rand == 4)
+		return "Wisdom";
+		
+	return "Strength";
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function StartingWisdom(agent thisagent) is integer
+
+declare
+	string unit_name;
+	integer random_n, amount;
+begin
+	unit_name = thisagent's "title";
+
+	random_n = $randomnumber(3);
+	if (random_n > 0)
+		if (($randomnumber(2) + 1) == 1)
+			amount += random_n;
+		else
+			amount -= random_n;
+
+	if (unit_name == "warrior")
+		amount += 5;
+	else if (unit_name == "ranger")
+		amount += 14;
+	else if (unit_name == "rogue")
+		amount += 2;
+	else if (unit_name == "wizard")
+		amount += 15;
+	else if (unit_name == "paladin")
+		amount += 16;
+	else if (unit_name == "warrior_of_discord")
+		amount += 1;
+	else if (unit_name == "adept")
+		amount += 14;
+	else if (unit_name == "barbarian")
+		amount += 6;
+	else if (unit_name == "cultist")
+		amount += 6;
+	else if (unit_name == "healer")
+		amount += 17;
+	else if (unit_name == "monk")
+		amount += 21;
+	else if (unit_name == "priestess")
+		amount += 9;
+	else if (unit_name == "solarus")
+		amount += 7;
+	else if (unit_name == "dwarf")
+		amount += 8;
+	else if (unit_name == "elf")
+		amount += 4;
+	else if (unit_name == "gnome")
+		amount += 2;
+	return amount;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function StartingPrestige(agent thisagent) is integer
+
+declare
+	string unit_name;
+	integer amount;
+begin
+	unit_name = thisagent's "title";
+
+	if (thisagent's "loyalty" > 30)
+		amount += 1;
+	if (thisagent's "loyalty" > 50)
+		amount += 1;
+		
+//	if (unit_name == "warrior")
+//		amount += 0;
+//	else if (unit_name == "ranger")
+//		amount += 0;
+//	else if (unit_name == "rogue")
+//		amount += 0;
+	if (unit_name == "wizard")
+		amount += 1;
+	else if (unit_name == "paladin")
+		amount += 3;
+//	else if (unit_name == "warrior_of_discord")
+//		amount += 0;
+	else if (unit_name == "adept")
+		amount += 1;
+//	else if (unit_name == "barbarian")
+//		amount += 0;
+//	else if (unit_name == "cultist")
+//		amount += 0;
+	else if (unit_name == "healer")
+		amount += 2;
+//	else if (unit_name == "monk")
+//		amount += 0;
+//	else if (unit_name == "priestess")
+//		amount += 0;
+	else if (unit_name == "solarus")
+		amount += 1;
+	else if (unit_name == "dwarf")
+		amount += 1;
+	else if (unit_name == "elf")
+		amount += 2;
+//	else if (unit_name == "gnome")
+//		amount += 0;
+	return amount;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function AddInsightPoints(agent thisagent, integer insight_points)
+
+declare
+	integer attribute_points;
+	string picked_attribute;
+	
+begin
+	if ($AddAttribute(thisagent, "InsightPoints", "integer") == false)
+		insight_points += thisagent's "InsightPoints";
+
+	while (insight_points >= #insight_point_limit) do
+		begin
+			attribute_points ++;
+			insight_points -= #insight_point_limit;
+		end
+
+	thisagent's "InsightPoints" = insight_points;
+
+	While (attribute_points > 0) do
+		begin
+			picked_attribute = $PreferredAttribute(thisagent, (attribute_points % 2) == 0);
+			$AdjustBaseStat(thisagent, picked_attribute, 1);
+			attribute_points--;
+		end
+
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function PercentOf( integer amount, integer percent, boolean high ) is integer
+// Should have made this ages ago
+
+
+declare
+	integer new_amount;
+	
+begin
+	if (high == false)
+		begin
+			new_amount = ((amount * percent) / 100);
+			return new_amount;
+		end
+	else
+		begin
+			new_amount = ((amount / 100) * percent);
+			return new_amount;
+		end
+	return new_amount;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function IncreaseByPercent( integer amount, integer percent, boolean high) is integer
+// Should have made this ages ago
+
+declare
+	integer amount_diff, new_amount;
+	
+begin
+	if (high == false)
+		begin
+			amount_diff = ((amount * percent) / 100);
+			new_amount = (amount + amount_diff);
+			return new_amount;
+		end
+	else
+		begin
+			amount_diff = ((amount / 100) * percent);
+			new_amount = (amount + amount_diff);
+			return new_amount;
+		end
+	return new_amount;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function DecreaseByPercent( integer amount, integer percent, boolean high) is integer
+// Should have made this ages ago
+
+declare
+	integer amount_diff, new_amount;
+	
+begin
+	if (high == false)
+		begin
+			amount_diff = ((amount * percent) / 100);
+			new_amount = (amount - amount_diff);
+			return new_amount;
+		end
+	else
+		begin
+			amount_diff = ((amount / 100) * percent);
+			new_amount = (amount - amount_diff);
+			return new_amount;
+		end
+	return new_amount;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function MinMax(integer min, integer max) is integer
+
+declare
+	integer return_int;
+
+begin
+	if (min == max)
+		return max;
+
+	// will be anywhere from minimum to maximum
+	// regardless of param order
+	if (max < min)
+		begin
+			return_int = max;
+			max = min;
+			min = return_int;
+		end
+
+	return_int = $randomnumber(max - min) + min;
+
+	return return_int;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function HasProperty(agent thisagent, string property) is boolean
+//Check if a unit has this in their "Properties" List
+declare
+	
+begin
+	if ($hasattribute("properties", thisagent))
+	if ($stringinlist(property, thisagent's "Properties"))
+		return True;
+		
+	return False;
+		
+end
+////////////////////////////////////////////////////////////////////////////////
+function MoveWaypoint(agent thisagent, list destinations)
+//Setup move to with waypoints for coordinates
+
+declare
+	coordinate l_dest;
+
+begin
+	foreach l_dest in destinations do
+		$move(thisagent, l_dest, "Add_Waypoint");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function Hero_Build_Condition(agent thisagent) is boolean
+//A condition solely for the $Hero_Build action in Help Build task package.
+
+declare
+	boolean flag;
+	agent palace, target;
+
+begin
+	if ($notvalid(thisagent))
+		return true;
+		 
+	palace = $gettruepalace(thisagent);
+	if ($HasAttribute("TASK_subTargetCurrent", thisagent))
+		target = thisagent's "TASK_subTargetCurrent";
+	if ($isdead(target))
+		return True;
+	else if ($offrepair(target))
+		return True;
+	else if ($getattribute(target,#ATTRIB_HP) == $getattribute(target,#ATTRIB_MAXHP))
+		return True;
+	else if	($isdead(palace))
+		return True;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function make_attack_assassination( agent thisagent, agent target)
+//For Rogue Assassination, deal 5x damage in one strike if the blow lands.
+declare
+	integer hitresult,exp_given;
+
+begin
+	// these two checks are here due to the time delay between the action initiation
+	// and the action conclusion;
+	if ($notvalid(target))
+		return;
+
+
+	if ($notvalid_attacker(thisagent))
+		return;
+
+
+	$react(thisagent,target);
+
+
+	hitresult = $hit(thisagent,target);
+
+	exp_given = $exp_value(thisagent,target);
+
+
+	if (hitresult == 1) // hit!
+		begin
+			$damage(thisagent,target);
+			$damage(thisagent,target);
+			$damage(thisagent,target);
+			$damage(thisagent,target);
+			$damage(thisagent,target);
+		end
+		
+	$attack_end(thisagent,exp_given);
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// ThisAgent is only passed so that GetPalace works
+Function Vaporize_Gold (agent ThisAgent, integer Gold)
+Declare
+	agent	Palace,spawn_target;
+	list buildings;
+	integer i, troll_count;
+
+Begin
+	Palace = $GetPalace (ThisAgent);
+
+	if ($isvalidgamepiece(palace) == FALSE)
+		return;
+
+	if ($isvalidgamepiece(palace) == FALSE)
+		return;
+
+	Palace's "Vaporized_Gold" += Gold;
+
+	Palace's "troll_gold" += gold;
+
+	if (Palace's "troll_gold" > #troll_gold_limit)
+		begin
+			Palace's "troll_gold" -= #troll_gold_limit;
+			
+			$adjustattribute(palace,#ATTRIB_HtoH, 1);
+			troll_count = $getattribute(palace, #ATTRIB_HtoH);
+			
+			// spawn a troll from a random complete building
+			$listobjects(palace,"building",-1,buildings,#MyPlayer);
+			buildings = $listcompleted(buildings);
+
+			buildings << palace;
+
+			i = $listsize(buildings);
+			
+			spawn_target = $listmember(buildings,$randomnumber(i) + 1);
+
+			if (troll_count < #Spirit_Troll_limit)
+				begin
+					$spawnUnit(spawn_target,"Troll",#Monster_Player,$concatenate(#ATTRIB_artifice,#force_overlay));
+				end
+			else
+				begin
+					$adjustattribute(palace, #ATTRIB_HtoH, - #Spirit_Troll_limit);
+					$spawnUnit(spawn_target,"Spirit_Troll",#Monster_Player,$concatenate(#ATTRIB_artifice,#force_overlay));
+				end
+		end
+End
+
+///////////////////////////////////COMBINED REGEN SYSTEM/////////////////////////////////////////////////////////
+//Regeneration Increase for both health and mana values are 0.25 per point since it is multiplied by 50 in this section. For an increase of 1 Regeneration per second requires 4 points.
+function Regeneration_System( agent thisagent )
+declare
+	integer healthregen_amount, manaregen_amount;
+	
+begin
+	if ($IsValidGamePiece(thisagent) == false)
+		begin
+			$KillThread(thisagent's "RegenerationSystem");
+			return;
+		end
+	
+	if ($Isdead(thisagent))
+		begin
+			return;
+		end
+		
+	if ($HasAttribute("Embers_ManaRegeneration", thisagent))
+		begin
+			$Embers_Passive(thisagent);
+		end
+	
+	healthregen_amount = thisagent's "HealthRegeneration_Total";
+	manaregen_amount = thisagent's "ManaRegeneration_Total";
+	
+	if (thisagent's "In_Combat" == true)
+		begin
+			healthregen_amount = healthregen_amount / 4;
+		end
+
+	$AddHealthPoints(thisagent, healthregen_amount);
+	$AddManaPoints(thisagent, manaregen_amount);
+end
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+function AddHealthPoints( Agent ThisAgent, integer amount ) 
+declare
+	integer current, mod, count;
+Begin
+	current = thisagent's "HealthRegenPoints" + amount;
+	mod = current % #Health_point_limit;
+	count = (current - mod) / #Health_point_limit;
+
+	if (count > 0)
+		if ($getattribute( thisagent,#ATTRIB_MaxHP ) > $getattribute( thisagent,#ATTRIB_HP ))
+			$Heal(thisagent, thisagent, count);
+	
+	thisagent's "HealthRegenPoints" = mod;
+End
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+function AddManaPoints( Agent ThisAgent, integer amount )
+
+Declare
+	integer current, mod, count;
+
+Begin
+	current = thisagent's "ManaRegenPoints" + amount;
+	mod = current % #Mana_point_limit;
+	count = (current - mod) / #Mana_point_limit;
+	
+	if (count > 0)
+		$RestoreMana(thisagent, count);
+
+	thisagent's "ManaRegenPoints" = mod;
+End
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+function RestoreMana( Agent ThisAgent, integer Mana_Amount )
+
+Declare
+	integer	missing_mana, maxMP;
+
+Begin
+	if (mana_amount == 0)
+		return;
+
+	maxMP = $GetBaseStatTotal(thisagent, "MaxMana");
+	missing_mana = maxMP - thisagent's "CurrentMana";
+	if (missing_mana == 0)
+		return;
+
+	if (mana_amount < 0)
+		mana_amount *= -1;
+
+	If (Mana_Amount > missing_mana)
+		Mana_Amount = missing_mana;
+
+	thisagent's "CurrentMana" += Mana_Amount;
+End
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+function SpendMana( Agent Thisagent, integer Mana_Amount )
+
+Declare
+
+Begin
+	if (mana_amount < 0)
+		mana_amount *= -1;
+
+	if (mana_amount > thisagent's "CurrentMana")
+		mana_amount = thisagent's "CurrentMana";
+
+	thisagent's "CurrentMana" -= Mana_Amount;
+End
+
+///////////////////////////////////////////////////////////////////////////////
+function haslowMP(agent thisagent) is boolean
+
+declare
+	integer MP,maxMP;
+
+begin
+	maxMP = $GetBaseStatTotal(thisagent, "MaxMana");
+	MP = thisagent's "CurrentMana";
+	
+	if (maxMP == 0)
+		maxMP = 1;
+	
+ 	if (((MP * 100) / maxMP) <= 25) return TRUE;
+	else
+		return FALSE;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function hasMPPercent(agent thisagent, integer whatpercent) is boolean
+
+declare
+	integer MP,maxMP;
+
+begin
+	maxMP = $GetBaseStatTotal(thisagent, "MaxMana");
+	MP = thisagent's "CurrentMana";
+
+	if (maxMP == 0)
+		maxMP = 1;
+	
+ 	if (((MP * 100) / maxMP) >= whatpercent) return TRUE;
+	else
+		return FALSE;
+end
+///////////////////////////////////////////////////////////////////////////////
+function hasMPFlat(agent thisagent, integer whatamount) is boolean
+
+declare
+	integer MP,maxMP;
+
+begin
+	MP = thisagent's "CurrentMana";
+
+ 	if (MP >= whatamount) return TRUE;
+	else
+		return FALSE;
+end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// healing shared code
+Function Healing_Shared( Agent Target, integer Healing_Amount )
+
+Declare
+	integer	Max_Healing;
+
+Begin
+	if ($isdead(target))
+		return;
+
+	//This is the maximum amount of healing that a target can endure before they are over-healed
+	Max_Healing = ($getattribute( Target,#ATTRIB_MaxHP )) - ($getattribute( Target,#ATTRIB_HP ));
+
+	If (Healing_Amount > Max_Healing)
+		Healing_amount = Max_healing;
+
+	$adjustattribute( Target, #ATTRIB_HP, Healing_Amount );
+	//$DebugOut ( Target's "Type", "is healed for", Healing_Amount, "points of healing." );
+End
+
+///////////////////////////////////////////////////////////////////////////////
+// this function is called by the in-game code when a vehicle is generated
+Function Generate_Character_Attributes(agent thisagent)
+
+declare
+	integer var_range,i,var_amount,adjustment,mult;
+	list var_names,buildings,sublist1;
+	string thisvar;
+	agent RootAgent;
+
+begin
+	$GeneralAttributes(thisagent);
+
+	// fairground, library, Fervus, and Krolm affect attributes of all heros
+	// Fervus gives rogues artifice...
+
+	// do the basic randomness per var
+	var_names << "strength";
+	var_names << "vitality";
+	var_names << "Artifice";
+	var_names << "intelligence";
+	var_names << "willpower";
+	
+	i = 0;
+
+	while (i < 4) do
+		begin
+			thisvar = $listmember(var_names,1);
+			var_names -= thisvar;
+
+			var_range = $randomnumber(5) - 2;
+
+			var_amount = $GetBaseStat(thisagent,thisvar);
+			var_amount += var_range;
+			if (var_amount < 1) var_amount = 1;
+
+			$AdjustBaseStat(thisagent,thisvar,var_amount);
+			i++;
+		end
+	
+	// check for special conditions in the kingdom
+	$ListObjects(thisagent,"building",-1,buildings,#MyPlayer);
+
+	// library +1 intelligence per 1,2,4,8... libraries
+	sublist1 = $removetitles(buildings,"library");
+
+	adjustment = 0; mult = 1; i = 1;
+
+	while ($listsize(sublist1) > 0) do
+		begin
+			if (i / mult > 0)
+				begin
+					adjustment += (i / mult);
+					mult *= 2;
+				end
+			i++;
+			$removelistmember(sublist1,1);
+		end
+
+	$AdjustBaseStat(thisagent, "Intelligence", adjustment);
+
+	// fairground +1 stregnth
+	sublist1 = $removetitles(buildings,"fairgrounds");
+
+	if ($listsize(sublist1) > 0)
+		$AdjustBaseStat(thisagent,"strength", 1);
+	
+	// fervus rogues +3 artifice, everyone +1 luck
+
+	// Krolm +.1 self_estimation, -5 HPretreat per temple
+	sublist1 = $removetitles(buildings,"Temple_krolm");
+
+	adjustment = $listsize(sublist1);
+
+	thisagent's "self_estimation" += (adjustment / 10);
+	adjustment *= 5;
+	adjustment = thisagent's "percentageHPretreat" - adjustment;
+	if (adjustment < 5) adjustment = 5;
+	thisagent's "percentageHPretreat" = adjustment;
+
+	// gnomes +1 luck
+
+	// statues +5 loyalty each
+	sublist1 = $removetitles(buildings,"statue");
+
+	adjustment = $listsize(sublist1) *	#statue_loyalty_boost;
+	thisagent's "loyalty" += adjustment;
+
+	sublist1 = $removetitles(buildings,"royal_gardens");
+	adjustment = $listsize(sublist1) *	#gardens_loyalty_boost;
+
+	thisagent's "loyalty" += adjustment;
+
+	//Quest-specific ActiveScript overrides to make units dumber. See Wizard's Curse
+	RootAgent = $RetrieveAgent ("GPLAiRoot");
+
+	If (RootAgent's "Quest_Number" == #QNumber_Wizards_Curse)
+		begin
+			If ($GetUnitPlayerNumber (ThisAgent) == #Player_1)
+				begin
+
+					//This is run after a heroes be dumb script runs
+					ThisAgent's "QuestScript" = ThisAgent's "StartingScript";
+
+					//Init scripts to be_dumb. it will call their decision trees via QuestScript
+					ThisAgent's "StartingScript" = $Be_Dumb;
+
+
+					//Make the hero stupid, with the worst intel being 1
+					If ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) <= #WCurse_Dumb_Penalty)
+						$SetBaseStat (ThisAgent, "Intelligence", 1);
+
+					Else
+						$AdjustBaseStat (ThisAgent, "Intelligence", -(#WCurse_Dumb_Penalty));
+
+				end
+		end
+
+	$RecalculateStats(thisagent);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+// The necessary function for if heroes have not loaded in their hero attributes for leveling up
+Function RecalculateStats(agent thisagent)
+declare
+begin
+	$UpdateArtifice(thisagent);
+	$UpdateStrength(thisagent);
+	$UpdateVitality(thisagent);
+	$UpdateIntelligence(thisagent);
+	$UpdateWillpower(thisagent);
+	$UpdateWisdom(thisagent);
+
+	$UpdateMaxHP(thisagent);
+	$UpdateMaxMana(thisagent);
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function InitBaseStats(agent thisagent)
+declare
+begin
+	// just check if something only created here exists. not foolproof but the prototype bloat needs to stop.
+	if ($HasAttribute("Prestige", thisagent) == false)
+		begin
+			$AddAttribute(thisagent, "loyalty", "integer", 50);
+			$AddAttribute(thisagent, "Prestige", "integer", $StartingPrestige(thisagent));
+
+			$InitBaseStat(thisagent, "Artifice", $GetAttribute(thisagent, #ATTRIB_Artifice));
+			$InitBaseStat(thisagent, "Strength", $GetAttribute(thisagent, #ATTRIB_Strength));
+			$InitBaseStat(thisagent, "Vitality", $GetAttribute(thisagent, #ATTRIB_Vitality));
+			$InitBaseStat(thisagent, "Intelligence", $GetAttribute(thisagent, #ATTRIB_Intelligence));
+			$InitBaseStat(thisagent, "Willpower", $GetAttribute(thisagent, #ATTRIB_Willpower));
+			$InitBaseStat(thisagent, "Wisdom", $StartingWisdom(thisagent));
+
+			$InitBaseStat(thisagent, "Armor_Magical", $GetAttribute(thisagent, #ATTRIB_MagicResistance));
+			$InitBaseStat(thisagent, "Armor_Physical", $GetAttribute(thisagent, #ATTRIB_armor_basic_damage));
+
+			$InitBaseStat(thisagent, "MaxHP", $GetAttribute(thisagent, #ATTRIB_MaxHP));
+			$InitBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
+			$AddAttribute(thisagent, "CurrentMana", "integer", thisagent's "MaxMana_Total");
+			$InitBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
+			$InitBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
+			
+			$AddAttribute(thisagent, "PrimaryStat", "integer", #ATTRIB_Vitality);
+			$AddAttribute(thisagent, "PrimaryStat_Name", "string", "Vitality");
+			$AddAttribute(thisagent, "InsightPoints", "integer");
+			$SetNegativeResistance(thisagent);
+			$RecalculateStats(thisagent);
+		end
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function InitBaseStat(agent thisagent, string stat, integer default)
+declare
+begin
+	if ($AddAttribute(thisagent, stat+"_Base", "integer", default) == false)
+		thisagent's (stat+"_Base") += default;
+	
+	if ($AddAttribute(thisagent, stat+"_Total", "integer", default) == false)
+		thisagent's (stat+"_Total") += default;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetBaseStat(agent thisagent, string stat) is integer
+declare
+begin
+	return thisagent's (stat+"_Base");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetBaseStatTotal(agent thisagent, string stat) is integer
+declare
+begin
+	// since this is used for wisdom a lot, we cant be sure it exists yet...
+	if ($HasAttribute(stat+"_Total", thisagent) == false)
+		$GeneralAttributes(thisagent);
+	return thisagent's (stat+"_Total");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function AdjustBaseStat(agent thisagent, string stat_name, integer delta)
+declare
+	function update_func;
+begin
+	thisagent's (stat_name+"_Base") += delta;
+
+	update_func = $LookupFunction("Update"+stat_name);
+	if ($ValidFunction(update_func))
+		update_func(thisagent);
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetBaseStat(agent thisagent, string stat_name, integer delta)
+declare
+	function update_func;
+begin
+	thisagent's (stat_name+"_Base") = delta;
+
+	update_func = $LookupFunction("Update"+stat_name);
+	if ($ValidFunction(update_func))
+		update_func(thisagent);
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetIntegerSafe(agent thisagent, string attr) is integer
+declare
+begin
+	if ($HasAttribute(attr, thisagent) == false) return 0;
+	return thisagent's attr;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetIntegerSafe(agent thisagent, string attr, integer value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "integer", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function AdjustIntegerSafe(agent thisagent, string attr, integer delta)
+declare
+begin
+	if (delta == 0) return;
+	if ($AddAttribute(thisagent, attr, "integer", delta) == false)
+		thisagent's attr += delta;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetStringSafe(agent thisagent, string attr) is string
+declare
+begin
+	if ($HasAttribute(attr, thisagent) == false)
+		return "Nothing";
+
+	if (thisagent's attr == "")
+		return "Nothing";
+
+	return thisagent's attr;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetStringSafe(agent thisagent, string attr, string value)
+declare
+begin
+	if (value == "")
+		value = "Nothing";
+	if ($AddAttribute(thisagent, attr, "string", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetBooleanSafe(agent thisagent, string attr) is boolean
+declare
+begin
+	if ($HasAttribute(attr, thisagent) == false) return false;
+	return thisagent's attr;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetBooleanSafe(agent thisagent, string attr, boolean value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "boolean", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function GetAgentSafe(agent thisagent, string attr) is agent
+declare
+begin
+	if ($HasAttribute(attr, thisagent) == false) return $NullAgent();
+	return thisagent's attr;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetAgentSafe(agent thisagent, string attr, agent value)
+declare
+begin
+	if ($AddAttribute(thisagent, attr, "agentref", value) == false)
+		thisagent's attr = value;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateArtifice(agent thisagent)
+declare
+	integer delta;
+begin
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Artifice, "Artifice");
+	if (delta != 0)
+		begin
+			delta *= -1;
+			$adjustattribute(thisagent,#ATTRIB_MovementRateModifier, delta * #artifice_movespeed );
+			$adjustattribute(thisagent,#ATTRIB_ActionRateModifier, delta * #artifice_attackspeed );
+		end
+end
+
+////////////////////////////////////////////////////////////////////////////
+function UpdateStrength(agent thisagent)
+declare
+begin
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_Strength, "Strength");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateVitality(agent thisagent)
+declare
+	integer delta;
+begin
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Vitality, "Vitality");
+	$AdjustBaseStat(thisagent, "Armor_Physical", (delta / 10));
+	$SetBaseStat(thisagent, "HealthRegeneration", #Health_Regeneration_Base + ($GetBaseStat(thisagent, "Vitality") * #Health_Regeneration_Vit));
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateHealthRegeneration(agent thisagent)
+declare
+begin
+	$RecalculateStatTotal(thisagent, "HealthRegeneration");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateWillpower(agent thisagent)
+declare
+begin
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_Willpower, "Willpower");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateWisdom(agent thisagent)
+declare
+begin
+	$RecalculateStatTotal(thisagent, "Wisdom");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateIntelligence(agent thisagent)
+declare
+	integer delta;
+begin
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_Intelligence, "Intelligence");
+	$AdjustBaseStat(thisagent, "Armor_Magical", (delta / 10));
+	$SetBaseStat(thisagent, "MaxMana", #Base_Mana + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Amount_Int));
+	$SetBaseStat(thisagent, "ManaRegeneration", #Mana_Regeneration_Base + ($GetBaseStat(thisagent, "Intelligence") * #Mana_Regeneration_Int));
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateManaRegeneration(agent thisagent)
+declare
+begin
+	$RecalculateStatTotal(thisagent, "ManaRegeneration");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateMaxMana(agent thisagent)
+declare
+	integer delta;
+begin
+	delta = $RecalculateStatTotal(thisagent, "MaxMana");
+	if (delta > 0)
+		thisagent's "CurrentMana" += delta;
+
+	if (thisagent's "CurrentMana" > thisagent's "MaxMana_Total")
+		thisagent's "CurrentMana" = thisagent's "MaxMana_Total";
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateMaxHP(agent thisagent)
+declare
+	integer delta;
+begin
+	delta = $RecalculateAttributeTotal(thisagent, #ATTRIB_MaxHP, "MaxHP");
+	if (delta > 0)
+		$AdjustAttribute(thisagent, #ATTRIB_HP, delta);
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateArmor_Physical(agent thisagent)
+declare
+begin
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_armor_basic_damage, "Armor_Physical");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function UpdateArmor_Magical(agent thisagent)
+declare
+begin
+	$RecalculateAttributeTotal(thisagent, #ATTRIB_MagicResistance, "Armor_Magical");
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function RecalculateAttributeTotal(agent thisagent, integer attrib_int, string attrib) is integer
+declare
+	integer delta;
+begin
+	delta = $RecalculateStatTotal(thisagent, attrib);
+	if (delta != 0)
+		$AdjustAttribute(thisagent, attrib_int, delta);
+	//thisagent's (attrib+"_Total") = $GetAttribute(thisagent, attrib_int);
+	return delta;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function RecalculateStatTotal(agent thisagent, string attrib) is integer
+declare
+	integer prev_total, new_total;
+	integer base, flat, percent;
+
+begin
+	base = thisagent's (attrib+"_Base");
+	flat = $GetIntegerSafe(thisagent, attrib+"_Flat");
+	percent = $GetIntegerSafe(thisagent, attrib+"_Percent");
+
+	if (percent != 0) 
+		percent = $PercentOf(base, percent, (base >= 1000));
+
+	new_total = base + flat + percent;
+	prev_total = thisagent's (attrib+"_Total");
+	thisagent's (attrib+"_Total") = new_total;
+	return new_total - prev_total;
+end
+
+////////////////////////////////////////////////////////////////////////////////
+function SetNegativeResistance(agent thisagent)
+
+declare
+
+begin
+	// not our prototype
+	if ($HasAttribute("Fire_Resistance_Percent_Neg", thisagent) == false)
+		return;
+
+	if (thisagent's "Fire_Resistance_Percent_Neg" == True)
+		thisagent's "Fire_Resistance_Percent" *= -1;
+	if (thisagent's "Cold_Resistance_Percent_Neg" == True)
+		thisagent's "Cold_Resistance_Percent" *= -1;
+	if (thisagent's "Electric_Resistance_Percent_Neg" == True)
+		thisagent's "Electric_Resistance_Percent" *= -1;
+	if (thisagent's "Poison_Resistance_Percent_Neg" == True)
+		thisagent's "Poison_Resistance_Percent" *= -1;
+	if (thisagent's "Arcane_Resistance_Percent_Neg" == True)
+		thisagent's "Arcane_Resistance_Percent" *= -1;
+	if (thisagent's "Force_Resistance_Percent_Neg" == True)
+		thisagent's "Force_Resistance_Percent" *= -1;
+	if (thisagent's "Divine_Resistance_Percent_Neg" == True)
+		thisagent's "Divine_Resistance_Percent" *= -1;
+	if (thisagent's "Necrotic_Resistance_Percent_Neg" == True)
+		thisagent's "Necrotic_Resistance_Percent" *= -1;
+	if (thisagent's "Chaotic_Resistance_Percent_Neg" == True)
+		thisagent's "Chaotic_Resistance_Percent" *= -1;
+	if (thisagent's "Crushing_Resistance_Percent_Neg" == True)
+		thisagent's "Crushing_Resistance_Percent" *= -1;
+	if (thisagent's "Slashing_Resistance_Percent_Neg" == True)
+		thisagent's "Slashing_Resistance_Percent" *= -1;
+	if (thisagent's "Piercing_Resistance_Percent_Neg" == True)
+		thisagent's "Piercing_Resistance_Percent" *= -1;
+		
+	if (thisagent's "Fire_Resistance_Flat_Neg" == True)
+		thisagent's "Fire_Resistance_Flat" *= -1;
+	if (thisagent's "Cold_Resistance_Flat_Neg" == True)
+		thisagent's "Cold_Resistance_Flat" *= -1;
+	if (thisagent's "Electric_Resistance_Flat_Neg" == True)
+		thisagent's "Electric_Resistance_Flat" *= -1;
+	if (thisagent's "Poison_Resistance_Flat_Neg" == True)
+		thisagent's "Poison_Resistance_Flat" *= -1;
+	if (thisagent's "Arcane_Resistance_Flat_Neg" == True)
+		thisagent's "Arcane_Resistance_Flat" *= -1;
+	if (thisagent's "Force_Resistance_Flat_Neg" == True)
+		thisagent's "Force_Resistance_Flat" *= -1;
+	if (thisagent's "Divine_Resistance_Flat_Neg" == True)
+		thisagent's "Divine_Resistance_Flat" *= -1;
+	if (thisagent's "Necrotic_Resistance_Flat_Neg" == True)
+		thisagent's "Necrotic_Resistance_Flat" *= -1;
+	if (thisagent's "Chaotic_Resistance_Flat_Neg" == True)
+		thisagent's "Chaotic_Resistance_Flat" *= -1;
+	if (thisagent's "Crushing_Resistance_Flat_Neg" == True)
+		thisagent's "Crushing_Resistance_Flat" *= -1;
+	if (thisagent's "Slashing_Resistance_Flat_Neg" == True)
+		thisagent's "Slashing_Resistance_Flat" *= -1;
+	if (thisagent's "Piercing_Resistance_Flat_Neg" == True)
+		thisagent's "Piercing_Resistance_Flat" *= -1;
+
+end
+
+
+////////////////////////////////////////////////////////////////////////////////
+function GeneralAttributes(agent thisagent)
+declare
+begin
+	if ($HasAttribute("General_attributes", thisagent))
+		return;
+
+	$AddAttribute(thisagent, "General_Attributes", "boolean", true);	
+	$AddAttribute(thisagent, "In_Combat", "boolean");
+
+	if ($IsBuilding(thisagent) == false)
+		begin
+			$AddAttribute(thisagent, "Running_Intent", "string");
+			$AddAttribute(thisagent, "Fear", "integer");
+
+			$AddAttribute(thisagent, "Best_Spell", "string", "nothing");
+			$AddAttribute(thisagent, "Best_Target", "agentref");
+			$AddAttribute(thisagent, "Best_Range", "integer");
+		end
+
+	$InitBaseStats(thisagent);	
+
+	if ($getparent(thisagent) != $NullAgent())
+		$ApplyUpgrades(thisagent, $getparent(thisagent));
+end
+
+
+////////////////////////////////////////////////////////////////////////////////
+function GenerateHeroAttributes(agent thisagent)
+declare
+begin
+	if ($HasAttribute("RegenerationSystem", thisagent))
+		return;
+	
+	$AddAttribute(thisagent, "ManaRegenPoints", "integer");
+	$AddAttribute(thisagent, "HealthRegenPoints", "integer");
+	$AddAttribute(thisagent, "RegenerationSystem", "function", $Regeneration_System);
+	$NewThread(ThisAgent's "RegenerationSystem", 300, ThisAgent ); //Doubled the cycle time, halved the threshold for regen
+
+	if (thisagent's "title" == "wizard")
+		$LearnFireTree(thisagent);
+	
+	$HeroStartingEquipment(thisagent);
+end

@@ -1,0 +1,1611 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+//attribute locations cleared: LowLevel_HB, Hero_Births_HB, Building_Births_HB, give_exp_HB, Make_Attack_HB, Monster_birth_HB, Items_LowLevel_HB, Auto_Revenue_HB
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Lair ()
+Declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	integer	History_Modifier; 			//A counter that is incremented depending on a monster's strength. Used to adjust spawn_rate.
+
+	// These are both used when a building is too close to a Lair. The lair become annoyed,
+	// and sets the offending building as its target, which all of the Lairs spawned creatures querry.
+	// boolean	Annoyed;
+	
+	agent		Target;
+
+	integer	Dispersion_Range;
+	
+	function activescript;
+	function Spawn_Function; 			// This Holds the agent's Spawning mechanism
+
+
+	integer	Base_Spawn_Rate; 			// This is for lairs, it holds BaseLine interval between monster creations
+
+	integer	difficulty; 				// this holds the relative difficulty of the lair for a character to undertake
+
+	string Spawn_Type; 					// Holds the type of monster the lair spawns
+	string Special_Spawn_Type; 			// Holds the "special" monster to spawn when the Lair is destroyed
+
+	integer	Multi_Spawn_Num; 			// Number of spawns a lair will do when it dies if it uses Lair_Multispawn_Death
+	integer  Stored_Spawns; 			// Number of spawns a lair has stored up to release when hit. Used only by Goblin fort.
+
+	integer  Max_Simul_Spawns; 			// Currently Used by the Goblin Fortress. Max number of Gobs it spawns at a time.
+	integer	Max_Stored_Spawns; 			// Currently used by the Goblin Fortress. Max number of spawns that the unit can store up
+										// To dump on enemies that come up and whack it.
+
+	boolean	Has_Special_Spawn; 			// This is set to TRUE if the lair wants to spawn its special spawn type instead of its
+										// lairdata special spawn list
+
+	//removed because now we only use inventory attribs
+	//integer	Epic_Quest_Item; //This	holds and integer that corresponed to an entry in qitmes.txt (if applicable)
+
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Tower_Lair ()
+// This is the prototype for a tower lair.  These are MX monster buildings that are capable of firing
+// bolts as well as potentially spawning creatures.
+
+Declare
+	string type;
+	string subtype;
+	string title;
+
+	integer	History_Modifier; 			//A counter that is incremented depending on a monster's strength. Used to adjust spawn_rate.
+
+	// These are both used when a building is too close to a Lair. The lair become annoyed,
+	// and sets the offending building as its target, which all of the Lairs spawned creatures querry.
+	// boolean	Annoyed;
+	
+	agent Target;
+
+	integer	Dispersion_Range;
+
+	function activescript;
+	function basicscript; 				// this holds the basic script the monster
+										// always returns to when done with tasks
+	function backscript;
+
+	function Spawn_Function; 			//This Holds the agent's Spawning mechanism
+
+	integer	Base_Spawn_Rate; 			//This is for lairs, it holds BaseLine interval between monster creations
+
+	integer	difficulty; 				// this holds the relative difficulty of the lair for a character to undertake
+
+	string Spawn_Type; 					// Holds the type of monster the lair spawns
+	string Special_Spawn_Type; 			// Holds the "special" monster to spawn when the Lair is destroyed
+
+	integer	Multi_Spawn_Num; 			//Number of spawns a lair will do when it dies if it uses Lair_Multispawn_Death
+
+	boolean	Has_Special_Spawn; 			//This is set to TRUE if the lair wants to spawn its special spawn type instead of its
+										//lairdata special spawn list
+
+	integer  Max_Simul_Spawns; 			//Currently Used by the Spire. Max number of Gobs it spawns at a time.
+	integer	Max_Stored_Spawns; 			//Currently used by the Spire. Max number of spawns that the unit can store up
+										//To dump on enemies that come up and whack it.
+
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+
+	/////////////////////////////////////////////////////////////////////////
+	// This stuff below was scavenged from the ballista tower to handle tower
+	// weapon functions for the special MX guntower lairs.
+	boolean in_danger;
+
+	integer	Strength;
+	integer	HtoH;
+	integer	Ranged;
+	integer	AttackType;
+
+	string current_gun; 				// Used for spires of death only.
+
+  	string attack_action;
+	string EnemyType;
+	//
+	/////////////////////////////////////////////////////////////////////////
+
+	list grovelist; 					// used by the Fortress of Ixmil only.
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype building ()
+
+declare
+	string type;
+	string subtype;
+	string title;
+
+	boolean in_danger; 					// has the building been hit lately
+
+	integer Level; 						//This is what Level this building is
+
+	integer Sleep_For; 					//This holds how long a building holds Heroes for
+
+	function visited_script; 			//holds the Building's visited function. Requested by Heroes.
+
+	function ActiveScript; 				//For any buildings, like the TradingPost, that have ActiveScripts
+
+	list Occupants;  					//List of all Occupants currently being held in this building
+
+	function RevenueScript; 			//This holds the script that either Auto Adds or Subracts money from the player's gold
+	integer	Revenue_Amount; 			//Either Pos or Neg, this is the amount of gold the Revenue Script adds or subtracts
+	integer	Revenue_Time; 				//This is how frequently a building executes its RevenueScript
+
+	integer Magical_Build_Rate; 		// Used to determine how fast magical buildings construct or upgrade.
+
+	function spawn_1;  					// these are used if the building needs to spawn other buildings
+
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function birthScript2;  			// This script will be called once, when the building is 'completed;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+
+	function upgradescript;
+		
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	/////////////////////////////////////////Misc Attributes///////////////
+	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
+	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
+
+	list Attachments;
+	coordinate research_loc;
+	integer max_level;
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Outpost ()
+
+Declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	function activescript;
+	integer level;
+
+	agent Target;
+
+	boolean in_danger;
+
+	function Guard_Function;			//This Holds the Guard script that the Building constantly runs (after being set off by trigger)
+
+	function Guard_Spawn_Function; 		//This holds the Spawn_Function for the Palace. It is on the agent because
+										//it gets $RunThread-ed, so it needs to be persistent.
+
+	list Waiting_Guards;				//This list holds Guards that have suspended their threads, and don't have targets
+	list Guards;  						//List of this building's Guards
+
+	list Waiting_Guardhouses; 			//This is a list of Guardhouses that are waiting for Guards.
+
+	integer	Max_Guards; 				//Holds the Maximum number of Guards a palace can have
+	integer	Num_Guards; 				//Keeps track of current number of Guards Palace has or is spawning
+
+	integer	AttackType; 				//These are so the outpost can fire missiles.
+	integer Ranged;
+	integer	Strength;
+
+	function Lived_In_Script; 			//Holds script that tells the character what to do here
+
+	integer	Sleep_For;  				//This holds the duration a unit stays here for
+	list Occupants;  					//List of all Occupants currently being held in this building
+
+	list members; 						// all the current guild members
+	// integer max_members;
+	
+	function spell_callback;			// special callback for spells (only used for supercharge for now)
+
+	function tax_spawn;
+
+	integer num_tax_collectors;
+	integer max_tax_collectors;
+
+	list tax_route;
+	list tax_targets;
+
+	list spawn_taxman_return_list; 		//These lists hold deadtax collectors tax attribs so
+	list spawn_taxman_pickup_list; 		//that the next one gets spawned with the same Attribs
+
+	integer tax_route_dead;
+
+	function peasant_spawn;
+
+	integer num_peasants;
+	integer max_peasants;
+	integer busy_peasants;
+
+	list buildings_waiting;
+	list buildings_under_construction;
+
+	list Under_Const_In_Sight; 			//This is the list of all Buildings Under construction within sight
+
+	integer	Vaporized_Gold; 			//Gold that has been vapoized when heroes spend money, etc.
+	integer  troll_gold; 				// gold that is counting up to produce a troll somewhere in town
+
+	agent Swarm_Target; 				//Holds the target that the Swarmers refer to/fill up when they want to combat wandering monsters
+
+	function gnome_camp_spawner; 		// holds the function which spawns Gnome Camps
+
+	Boolean Gambling_hall_building;
+	boolean gazebo_building;
+
+	integer Population_counter; 		// counts total # heroes recruited in town
+	integer Waiting_population; 		// how much extras are waiting for housing
+
+	integer num_deceased_heroes;
+
+	integer total_buildings; 			// counts how many buildings have been built
+	integer buildings_lately; 			// counts how many buildings have been built since the last sewer
+
+	integer henchmen_dead_lately; 		//counts how many henchmen have died since last broken sewer main spawn
+
+	integer fountain_buildings; 		// counts how many buildings towards a fountain have been built
+
+	integer blacksmith_trips; 			// how many visits to the blacksmith?
+
+	string  TaskName;
+
+	integer heroes_to_upgrade; 			// how many heroes are needed to upgrade the palace
+
+	integer num_resources;
+
+	string 	Enemytype;
+
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+
+	function BirthScript2;
+
+	function upgradescript;
+	function upgradescript2;
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	/////////////////////////////////////////Misc Attributes///////////////
+	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
+	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
+
+	list Attachments;
+	coordinate research_loc;
+	integer max_level;
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Palace ()
+
+Declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	function activescript;
+	integer level;
+
+	boolean in_danger;
+
+	function Guard_Function;			//This Holds the Guard script that the Building constantly runs (after being set off by trigger)
+
+	function Guard_Spawn_Function; 		//This holds the Spawn_Function for the Palace. It is on the agent because
+										//it gets $RunThread-ed, so it needs to be persistent.
+
+	list Waiting_Guards;				//This list holds Guards that have suspended their threads, and don't have targets
+	list Guards;  						//List of this building's Guards
+
+	list Waiting_Guardhouses; 			//This is a list of Guardhouses that are waiting for Guards.
+
+	integer	Max_Guards; 				//Holds the Maximum number of Guards a palace can have
+	integer	Num_Guards; 				//Keeps track of current number of Guards Palace has or is spawning
+	
+	function spell_callback;			// special callback for spells (only used for supercharge for now)
+
+	function tax_spawn;
+
+	integer num_tax_collectors;
+	integer max_tax_collectors;
+
+	list tax_route;
+	list tax_targets;
+
+	list spawn_taxman_return_list; 		//These lists hold deadtax collectors tax attribs so
+	list spawn_taxman_pickup_list; 		//that the next one gets spawned with the same Attribs
+
+	integer tax_route_dead;
+
+	function peasant_spawn;
+
+	integer num_peasants;
+	integer max_peasants;
+	integer busy_peasants;
+
+	list buildings_waiting;
+	list buildings_under_construction;
+
+	list	Under_Const_In_Sight; 		//This is the list of all Buildings Under construction within sight
+
+	integer	Vaporized_Gold; 			// Gold that has been vapoized when heroes spend money, etc.
+	integer  troll_gold; 				// Gold that is counting up to produce a troll somewhere in town
+
+	agent Swarm_Target; 				//Holds the target that the Swarmers refer to/fill up when they want to combat wandering monsters
+
+	function gnome_camp_spawner; 		// holds the function which spawns Gnome Camps
+
+	Boolean Gambling_hall_building;
+	boolean gazebo_building;
+
+	integer Population_counter; 		// counts total # heroes recruited in town
+	integer Waiting_population; 		// how much extras are waiting for housing
+
+	integer num_deceased_heroes;
+
+	integer total_buildings; 			// counts how many buildings have been built
+	integer buildings_lately; 			// counts how many buildings have been built since the last sewer
+
+	integer henchmen_dead_lately; 		// counts how many henchmen have died since last broken sewer main spawn
+
+	integer fountain_buildings; 		// counts how many buildings towards a fountain have been built
+
+	integer blacksmith_trips; 			// how many visits to the blacksmith?
+
+	string  TaskName;
+
+	integer heroes_to_upgrade; 			// how many heroes are needed to upgrade the palace
+
+	string 	Enemytype;
+
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+	
+	function upgradescript;
+	function upgradescript2;
+
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	/////////////////////////////////////////Misc Attributes///////////////
+	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
+	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
+
+	list Attachments;
+	coordinate research_loc;
+	integer max_level;
+
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Library ()
+
+declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	boolean in_danger; 					// has the building been hit lately
+
+	integer Sleep_For; 					//This holds how long a building holds Heroes for
+
+	function visited_script; 			//holds the Building's visited function. Requested by Heroes.
+	list Occupants;  					//List of all Occupants currently being held in this building
+
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function birthScript2;  			// This script will be called once, when the building is 'completed;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+
+	function upgradescript;
+
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+	/////////////////////////////////////////Misc Attributes///////////////
+	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
+	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
+
+	list Attachments;
+	coordinate research_loc;
+	integer level;
+	integer max_level;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Fairgrounds ()
+
+declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	boolean in_danger; 					// has the building been hit lately
+
+	boolean  Cleaning_Combatants ; 		// TRUE when the fair is not letting in new combatants because
+										// it is resetting
+
+	function visited_script; 			//holds the Building's visited function. Requested by Heroes.
+	list Occupants;  					//List of all Occupants currently being held in this building
+
+	list Combatants; 					//List of Heroes who are currently waiting for a Tourney, or on their way to the fair
+
+	integer	Counter; 					//This is used to inform the number of execuction cycles that a Fairground will run
+										//before it gives exp to winners, and releases them
+
+	integer	Current_Contest; 			//This is the Fairgrounds current contest. It is directly informed by the ATTRIB
+										//Used to see if the fairgrounds has changed its contest or not
+
+	integer Current_XPLevel; 			//This is the Fairgrounds current max XP level. It is directly informed by the ATTRIB
+										//Used to see if the fairgrounds has changed its max XP level or not
+
+	function ResetScript; 				// This function will callback and reset the fairgrounds to Fairgrounds_poll after a certain
+										//(global) amount of time. It is so the fairgrounds will sit and clean up its combatants list
+										//for a few cycles before it starts the next tourney (to deal with execution lag/mis-timing)
+
+	function RevenueScript; 			//This holds the script that either Auto Adds or Subracts money from the player's gold
+	integer	Revenue_Amount; 			//Either Pos or Neg, this is the amount of gold the Revenue Script adds or subtracts
+	integer	Revenue_Time; 				//This is how frequently a building executes its RevenueScript
+
+	function ActiveScript;
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function birthScript2;  			// This script will be called once, when the building is 'completed;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+	
+	function upgradescript;
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	integer level;
+	integer max_level;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Guild()
+
+declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	integer	Level; 						//This is what level the Guild is
+
+	function Lived_In_Script; 			//Holds script that tells the character what to do here
+	function Visited_Script; 			//This holds the script Heroes call when they are "Visiting" a building
+
+	function ActiveScript; 				//This is for the Embassy, which can run a script which keeps producing heroes.
+
+	Boolean	in_danger;
+	integer	Sleep_For;  				//This holds the duration a unit stays here for
+	list Occupants;  					//List of all Occupants currently being held in this building
+
+	function spawn_1;  					// these are used if the building needs to spawn other
+	function spawn_2;  					// buildings and or units automatically when built. (Fervus uses this for spawning Monsters)
+
+	string	Spawn_Type; 				//This is for Fervus. It holds the animal type that the Temple spawns.
+
+	integer hero_lvl_upgrade; 			// minimum lvl any hero in this guild needs to be
+										// before the player can upgrade it
+										
+	list members; 						// all the current guild members
+	string member_title;
+	function member_basicscript;
+	//integer max_members;
+
+	function SpecialScript; 			//This holds any quest-specific functionality for the guild. For instance, in
+										//Magic Ring, it runs Hero_Generator
+
+	list SpecialList; 					//This is used for setup-type stuff, like having a rescued building spawn heroes
+
+	integer num_resources;
+	
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function birthScript2;  			// This script will be called once, when the building is 'completed;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+	
+	function upgradescript;
+
+	integer  Magical_Build_Rate; 		// Used to determine how fast magical buildings construct or upgrade.
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	/////////////////////////////////////////Misc Attributes///////////////
+	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
+	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
+
+	list Attachments;
+	coordinate research_loc;
+	integer max_level;
+	integer max_members;
+
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Dwarven_Settlement()
+
+declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	integer	Level; 						//This is what level the Guild is
+
+	function Lived_In_Script; 			//Holds script that tells the character what to do here
+	function Visited_Script; 			//This holds the script Heroes call when they are "Visiting" a building
+
+	Boolean	in_danger;
+	integer	Sleep_For;  				//This holds the duration a unit stays here for
+	list Occupants;  					//List of all Occupants currently being held in this building
+
+	function spawn_1;  					// these are used if the building needs to spawn other
+	function spawn_2;  					// buildings and or units automatically when built
+
+	list members; 						// all the current guild members
+	string member_title;
+	function member_basicscript;
+	//integer max_members;
+
+	agent		Target;
+
+	integer	Strength;
+	integer	HtoH;
+	integer	Ranged;
+//	integer	SightRange;
+	integer	AttackType;
+
+  	string attack_action;
+
+	function basicscript; 				// this holds the basic script the monster
+										// always returns to when done with tasks
+	function backscript;
+	function activescript;
+
+
+	list SpecialList; 					//This is used for setup-type stuff, like having a rescued building spawn heroes
+
+	function SpecialScript; 			//This holds any quest-specific functionality for the guild. For instance, in
+										//Magic Ring, it runs Hero_Generator
+
+	string EnemyType;
+
+	integer num_resources;
+	
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function birthScript2;  			// This script will be called once, when the building is 'completed;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+	
+	function upgradescript;
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+	integer max_level;
+	integer max_members;
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype GuardHouse ()
+
+declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+
+	function Guard_Function;			//Guardhouse's version of an ActiveScript
+										//This Holds the Guard script that the Building constantly runs
+
+	function Guard_Spawn_Function;
+
+	integer	Strength;
+	integer	AttackType;
+	integer	Ranged;
+
+
+	boolean in_danger; 					// has the building been hit lately
+
+	list Waiting_Guards;				//This list holds Guards that have suspended their threads
+	list Guards;  						//List of this building's Guards
+
+	list Occupants; 					//This holds all of the Heroes who are currently in the Guardhouse. For Use_Building.
+
+	list Under_Const_In_Sight; 			//This is the list of all Buildings Under construction within sight
+
+	integer	Max_Guards; 				//Holds the Maximum number of Guards a guardhouse can have
+	integer	Num_Guards; 				//Keeps track of current number of Guards Guardhouse has or is spawning
+
+ //	boolean	Hero_Guarded; 				//TRUE if the Guardhouse currently has a Hero Guard. FALSE if they don't.
+
+	integer	Sleep_For; 					//This tells Heroes how long to stay IN the Guardhouse for.
+
+	agent Target; 						//This holds the Guardhouse's target. It is for firing arrows.
+
+	string	TaskName;
+
+	string 	Enemytype;
+
+	function RevenueScript; 			//This holds the script that either Auto Adds or Subracts money from the player's gold
+	integer	Revenue_Amount; 			//Either Pos or Neg, this is the amount of gold the Revenue Script adds or subtracts
+	integer	Revenue_Time; 				//This is how frequently a building executes its RevenueScript
+
+	function Visited_Script; 			//This holds the script that Heroes call when they enter the Guardhouse
+
+	function upgradescript;
+
+	function birthScript;  				// This script will be called once, when the unit is created;
+	function birthScript2;  			// This script will be called once, when the building is 'completed;
+	function IGdeathScript; 			// This script will be called once, when the unit is ki  lled;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	/////////////////////////////////////////Misc Attributes///////////////
+	list Upgrades;					//A list holding functions for upgrades applied to this unit on birth
+
+	integer Max_City_Guard;
+	integer Max_Archer;
+	integer Num_City_Guard;
+	integer Num_Archer;
+
+	function Initial_Misc; //Any objects that are added to the Available Misc List on the birth of the structure.
+	function Initial_Research; //Upgrades that are added to the Available Upgrade List on the birth of the structure.
+	
+	list Attachments;
+	coordinate research_loc;
+	integer level;
+	integer max_level;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Tower ()
+declare
+	string type;
+	string subtype;
+	string title;
+	agent Target;
+
+	boolean in_danger; 					// has the building been hit lately
+
+	integer	Strength;
+	integer	HtoH;
+	integer	Ranged;
+	integer	AttackType;
+
+  	string attack_action;
+
+	function basicscript; 				// this holds the basic script the monster
+										// always returns to when done with tasks
+	function backscript;
+	function activescript;
+
+	string EnemyType;
+
+	function RevenueScript; 			//This holds the script that either Auto Adds or Subracts money from the player's gold
+	integer	Revenue_Amount; 			//Either Pos or Neg, this is the amount of gold the Revenue Script adds or subtracts
+	integer	Revenue_Time; 				//This is how frequently a building executes its RevenueScript
+
+	function birthScript;  				// This scpt will be called once, when the unit is created;
+	function birthScript2;  			// This script will be called once, when the building is 'completed;
+	function IGdeathScript; 			// This script will be called once, when the unit is killed;
+	function deathScript; 				// This script will be called once, when the unit is killed;
+	
+	function upgradescript;
+
+	integer  Magical_Build_Rate; 		// Used to determine how fast magical buildings construct or upgrade.
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+begin
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+prototype hero ()
+// Can't hold negative numbers
+declare
+//////////////////////////////////////////Artifact attributes///////////////
+
+	string type;
+	string subtype;
+	string title;
+	string Original_type;
+
+	integer percentageHPretreat;
+	float Enemy_estimation;
+	float self_estimation;
+
+	integer Greed;
+	integer Loyalty;
+	integer Luck;
+
+	integer critical_chance; 		// how likely a character is to deliver a killing blow
+
+	Boolean resist_critical; 		// does this guy resist critical hits? (reduce their damage)
+	Boolean Immune_to_poison;
+	Boolean rangeIncrease; 			// does this hero get a attackrange bonus per level up?
+	boolean criticalIncrease; 		// does this hero get a point of critical attack per level?
+
+	agent leader;  					// Chris hackarama so heros can be controlled monsters
+
+	integer Counter; 				// Exactly what it says it is.
+
+	coordinate destination;
+
+	string special_splat; 			// does this creature need a special splat player
+									// when it hits its target?
+
+	agent target; 					// this holds the target for any particular task
+	agent BackTarget; 				// this is for those special times when a Hero has to remember their target
+	string taskname; 				// used to tell what the hero is up to
+
+	list hostiles; 					// this is a list used by the unit to help determine
+									// targets and strength of enemies nearby
+
+	string	Friend; 				//This holds subtype that this Hero is Friendly with
+
+	integer num_guards; 			// this is the number of guards this unit currently has
+									// or the Number of Healers that are currently following and Healing it
+
+	integer num_followers; 			// used by Priestess, and probably Cultist in regards to controlled monsters
+
+	integer Reborn_Counter; 		//This holds how many free "go home and Ressurect"s the Healer has
+
+	integer	Task_Number; 			//This typically holds Attrib references. For things like figuring out what a hero
+									//wanted to buy at a blacksmith. They would store #Attrib_Weapon_Struct_Bonus in this case
+
+	function StartingScript; 		//this holds the core start script that is inited with the agent. never change, because we rely
+									//on this to always hold the agent's starting/basic behavior. this script is never 'executed'
+
+	function basicscript; 			// this holds the basic decision tree a hero
+									// always returns to checking
+	function backscript;
+	function activescript;			// this holds the current activity of the hero
+
+	function evaluationScript; 		// holds the script which the hero uses to check nearby them fro danger
+
+	function birthScript;  			// This script will be called once, when the unit is created;
+	function IGdeathScript; 		// This script will be called once, when the unit is killed;
+	function deathScript; 			// This script will be called once, when the unit is killed;
+
+	agent home; 					// where the hero lives, set by the engine upon recruition
+
+	agent palace; 					// the palace that this Hero is loyal to. set in the engine.
+
+	boolean Raider_respond; 		// jim hackerama so heroes can become raider mosnters
+
+	function teleportScript; 		// callback for the teleport spell
+
+	function QuestScript; 			//This holds Quest-Specific logic
+
+	// the distance a hero casts spells from
+	integer castingrange;
+
+  	integer PrimaryStat;
+
+	integer num_picked_goodies;		//These may be stored in the engine
+
+	integer	Upgrade_Armor_Chance;	//The chance that a hero will decide to think about upgrading their armor
+  
+	integer	Upgrade_Weapon_Chance;	//The chance that a hero will decide to think about upgrading their weapon
+  
+	integer	Poison_Weapon_Chance;	//The chance that a hero will decide to think about poisoning their weapon
+
+	boolean	Special_Boolean; 		//This is quest specific. For instance, in WCurse, it is TRUE if a Hooligan has been found.
+
+	string Enemytype;				// What the agent attacks, can be "Hero", "Monster" or "Nothing"
+	integer attacktype;				// The agent's attack type
+	string attack_action;			// The name of the action to perform when attacking
+	string Special_attack_action; 	// This holds special attack actions (currently only used for Fire Balm)
+									// Gets swapped with Attack_action for a duration, then swapped back again
+	string cast_action;				// The name of the action to perform when casting a spell
+	string Pickup_Action;			// The name of the action to perform when picking something up
+	string Idle_Action;				// The name of the action to perform when going into idle
+
+	// -- New MX additions below this line -- //
+	function PlagueScript;
+	function ShieldScript; 			//This is for the Frost Field spell
+
+	boolean	Resists_Fire;
+
+//////////////////////////////////////////Artifact attributes end///////////////
+	
+//////////////////////////////////////////Combat Attributes///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	integer Fire_Resistance_Percent;
+	integer Cold_Resistance_Percent; 
+	integer Electric_Resistance_Percent;
+	integer Poison_Resistance_Percent;
+	integer Arcane_Resistance_Percent;
+	integer Force_Resistance_Percent;
+	integer Divine_Resistance_Percent;
+	integer Necrotic_Resistance_Percent;
+	integer Chaotic_Resistance_Percent;
+	integer Slashing_Resistance_Percent;
+	integer Crushing_Resistance_Percent;
+	integer Piercing_Resistance_Percent;
+	
+	boolean Fire_Resistance_Percent_Neg;
+	boolean Cold_Resistance_Percent_Neg; 
+	boolean Electric_Resistance_Percent_Neg;
+	boolean Poison_Resistance_Percent_Neg;
+	boolean Arcane_Resistance_Percent_Neg;
+	boolean Force_Resistance_Percent_Neg;
+	boolean Divine_Resistance_Percent_Neg;
+	boolean Necrotic_Resistance_Percent_Neg;
+	boolean Chaotic_Resistance_Percent_Neg;
+	boolean Slashing_Resistance_Percent_Neg;
+	boolean Crushing_Resistance_Percent_Neg;
+	boolean Piercing_Resistance_Percent_Neg;
+	
+	integer Fire_Resistance_Flat;
+	integer Cold_Resistance_Flat; 
+	integer Electric_Resistance_Flat;
+	integer Poison_Resistance_Flat;
+	integer Arcane_Resistance_Flat;
+	integer Force_Resistance_Flat;
+	integer Divine_Resistance_Flat;
+	integer Necrotic_Resistance_Flat;
+	integer Chaotic_Resistance_Flat;
+	integer Slashing_Resistance_Flat;
+	integer Crushing_Resistance_Flat;
+	integer Piercing_Resistance_Flat;
+	
+	boolean Fire_Resistance_Flat_Neg;
+	boolean Cold_Resistance_Flat_Neg; 
+	boolean Electric_Resistance_Flat_Neg;
+	boolean Poison_Resistance_Flat_Neg;
+	boolean Arcane_Resistance_Flat_Neg;
+	boolean Force_Resistance_Flat_Neg;
+	boolean Divine_Resistance_Flat_Neg;
+	boolean Necrotic_Resistance_Flat_Neg;
+	boolean Chaotic_Resistance_Flat_Neg;
+	boolean Slashing_Resistance_Flat_Neg;
+	boolean Crushing_Resistance_Flat_Neg;
+	boolean Piercing_Resistance_Flat_Neg;
+	
+	//////////////////////////////////////////General Attributes///////////////
+	
+	function TASK_StartingScript;
+	function TASK_TaskScript;
+	//////////////////////////
+	//	Maybe thinking about it all wrong, instead of a Primary task with a conclusion, maybe just have the hero cycle through them?
+	//	Prepare -> Combat -> Idle -> Explore but maybe randomize it or base it on hero with weighted preferences.
+	//	Support task types are for things like Dwarfs and Gnomes aiding in construction, Adepts Patrolling, Solarus Garrisonning, Healers/Cultists seeding plants, etc.
+	//	Quest tasks have their completed parts removed from the list and the next part added as part of the Quest tasks function to allow the hero to retroactively add it to their cycle.
+	//	Maybe just stick to Current, Next, Backup, and Immediate
+	//	Make the primary and conclusion taks for thing that need to be done in a process, like quests or other activities that simply can't be randomly sequenced
+	//	Current Task -> The task from the que actively being carried out
+	//	Next Task -> The task that comes next from the que. Must not be the same as the Current Task.
+	//	Backup Task -> The task that comes in case the Current Task can't be accomplished. May be the same as the Current Task.
+	//	Immediate Task -> The task that comes immediately after the Current Task has been attempted for emergencies (home under attack).
+	//	Stored? Task -> Storage for the Current Task if it's overtaken by an Immediate Task. Maybe not if it overlaps with Next Task.
+	//	Reserved? Task -> This task can be given to Next or Backup as the situation demands if either of those aren't available in time.
+	//	Taskflow should change to Current -> Next, Next -> Search for task, Backup -> Search for Task. Current -> Backup, Backup -> Search for Task, Next remains unchanged.
+	//////////////////////////
+	integer TASK_activeGuid;
+	string TASK_activeStatus; //The status of the Current task (Failed, Complete, Skip, Rereoll, Ongoing)
+	string TASK_activeType; //What type the Task Packages are currently set to look for and are static (Combat, Prepare, Explore)
+	string TASK_activeSubset; // The Index that determines it is for the Current, Next, Backup, Reserve task.
+	integer TASK_activeChance;
+	string TASK_activeTaskName;
+
+	list TASK_globalNameList;
+	list TASK_globalChanceList;
+	list TASK_globalTypeList;
+	list TASK_globalTaskList;
+
+	integer TASK_typeBaseChancePrepare;
+	integer TASK_typeBaseChanceCombat;
+	integer TASK_typeBaseChanceExplore;
+	integer TASK_typeBaseChanceIdle;
+
+	list TASK_typeGuidListGeneral;
+	list TASK_typeGuidListPrepare;
+	list TASK_typeGuidListCombat;
+	list TASK_typeGuidListExplore;
+	list TASK_typeGuidListIdle;
+
+	integer TASK_typeCountGeneral;
+	integer TASK_typeCountPrepare;
+	integer TASK_typeCountCombat;
+	integer TASK_typeCountExplore;
+	integer TASK_typeCountIdle;
+
+	integer TASK_ConstructionRadius; //For Help_Build tasks.
+	
+	string Running_Intent;
+	
+	function VisitingScript;
+
+	list SpellsAttack;
+
+	integer CurrentMana;
+	
+	integer UpArtificeChance; //Chance for hero to increase this attribute on level-up/Insight point limit reached.
+	integer UpIntelligenceChance;
+	integer UpStrengthChance;
+	integer UpVitalityChance;
+	integer UpWillpowerChance;
+	integer UpWisdomChance;
+	
+	list Primary_Bank;
+	boolean Has_Bank_Account;
+	integer Bank_Account_Gold;
+	
+	//////////////////////////////////////////Item Attributes///////////////
+	
+	list Loot_Item_List;
+	list Equipment_Item_List;
+	list Loot_Item_Value_List;
+	list Equipment_Item_Value_List;
+	list Total_Item_List;		//The list for all chance drops from monsters
+
+	list Equipment; //The list for the heroes equipped items.
+	list Inventory; //The list for all other items.	(This list's items are not stacked in code because of Properties)
+	
+	list Equipment_Value;	//The list containing the Gold Value of items
+	list Inventory_Value;
+
+	string Equipment_RightHand;		
+	string Equipment_LeftHand;			//Just do a check to see is the Left Hand value is equal to the Right hand to see if Both hands are used on the same object.
+	string Equipment_BodyArmor;
+	
+	string Equipment_RightHandType;		//Type of equipment (Sword/Axe/Bow)
+	string Equipment_LeftHandType;
+	string Equipment_BodyArmorType;		
+	string Equipment_HeadType;			
+	string Equipment_BeltType;			
+	string Equipment_GlovesType;		
+	string Equipment_BootsType;			
+	
+	string Starting_Equipment_1;
+	string Starting_Equipment_2;
+	string Starting_Equipment_3;		
+	
+	integer RightHandLevel;		//Used to be BS_WeaponLevel
+	integer BodyArmorLevel;		//Used to be BS_BodyArmorLevel
+	integer EN_WeaponLevel;
+	integer EN_BodyArmorLevel;
+	
+	string ItemDrop1;
+	string ItemDrop2;
+	string ItemDrop3;
+	
+	integer ItemDropChance1;
+	integer ItemDropChance2;
+	integer ItemDropChance3;
+	
+	/////////////////////////////////////////Misc Attributes///////////////
+
+	integer Max_Followers;
+
+	boolean Attack_Damage_Based_On_Weapon;
+
+	begin
+	end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+prototype unit ()
+// Can't hold negative numbers
+declare
+//////////////////////////////////////////Artifact attributes///////////////
+	string type;
+	string subtype;
+	string title;
+	string Original_type;
+	integer percentageHPretreat;
+	float Enemy_estimation;
+	float self_estimation;
+	integer Greed;
+	integer Loyalty;
+	integer Luck;
+	integer critical_chance; 		// how likely a character is to deliver a killing blow
+	Boolean resist_critical; 		// does this guy resist critical hits? (reduce their damage)
+	Boolean Immune_to_poison;
+	Boolean rangeIncrease; 			// does this hero get a attackrange bonus per level up?
+	boolean criticalIncrease; 		// does this hero get a point of critical attack per level?
+	agent leader;  					// Chris hackarama so heros can be controlled monsters
+	integer Counter; 				// Exactly what it says it is.
+	coordinate destination;
+	string special_splat; 			// does this creature need a special splat player
+	agent target; 					// this holds the target for any particular task
+	agent BackTarget; 				//this is for those special times when a Hero has to remember their target
+	string taskname; 				// used to tell what the hero is up to
+	list hostiles; 					// this is a list used by the unit to help determine
+	string	Friend; 				//This holds subtype that this Hero is Friendly with
+	integer num_followers; 			// used by Priestess, and probably Cultist in regards to controlled monsters
+	integer max_followers;
+	integer Reborn_Counter; 		//This holds how many free "go home and Ressurect"s the Healer has
+	integer	Task_Number; 			//This typically holds Attrib references. For things like figuring out what a hero
+	function StartingScript; 		//this holds the core start script that is inited with the agent. never change, because we rely
+	function basicscript; 			// this holds the basic decision tree a hero
+	function backscript;
+	function activescript;			// this holds the current activity of the hero
+	function evaluationScript; 		// holds the script which the hero uses to check nearby them fro danger
+	function birthScript;  			// This script will be called once, when the unit is created;
+	function IGdeathScript; 		// This script will be called once, when the unit is killed;
+	function deathScript; 			// This script will be called once, when the unit is killed;
+	agent home; 					// where the hero lives, set by the engine upon recruition
+	agent palace; 					// the palace that this Hero is loyal to. set in the engine.
+	boolean Raider_respond; 		// jim hackerama so heroes can become raider mosnters
+	function teleportScript; 		// callback for the teleport spell
+	function QuestScript; 			// This holds Quest-Specific logic
+	integer castingrange;			// The distance a hero casts spells from
+  	integer PrimaryStat;
+	integer num_picked_goodies;		//These may be stored in the engine
+	integer	Upgrade_Armor_Chance;	//The chance that a hero will decide to think about upgrading their armor
+	integer	Upgrade_Weapon_Chance;	//The chance that a hero will decide to think about upgrading their weapon
+	integer	Poison_Weapon_Chance;	//The chance that a hero will decide to think about poisoning their weapon
+	boolean	Special_Boolean; 		//This is quest specific. For instance, in WCurse, it is TRUE if a Hooligan has been found.
+	string Enemytype;				// What the agent attacks, can be "Hero", "Monster" or "Nothing"
+	integer attacktype;				// The agent's attack type
+	string attack_action;			// The name of the action to perform when attacking
+	string special_attack_action;			// The name of the action to perform when attacking
+	string cast_action;				// The name of the action to perform when casting a spell
+	string Pickup_Action;			// The name of the action to perform when picking something up
+	string Idle_Action;				// The name of the action to perform when going into idle
+	function PlagueScript;
+	function ShieldScript; 			//This is for the Frost Field spell
+	boolean	Resists_Fire;
+	integer	Target_Item; 			//This is for Item_Hunters (like the Black Phantoms in Magic Ring
+	function SleeperScript; 		//This holds the script that calls the unit back to its lair after a duration.
+	agent Sleeper_Home; 			//This is for Sleepers. It holds their agent home.
+	integer	Guardian_Mod; 			//This is multiplied times a Guardian Monster's sightrange to find the area that
+	boolean isLeader; 				// used by war_party logic
+	coordinate	Coord_Home; 		//This holds the coord home for all monsters that use it (ie. Guardians and Offmap Sleepers)
+	boolean Familiar; 				// if this is true, a monster is someone's 'familiar'
+	boolean Relentless; 			// will the monster relentlessly pursue its target (ignore range cheking)
+	string family; 					//This is used by buff-ing monsters, so they know which monster types to buff
+	boolean in_danger; 					// has the building been hit lately
+	integer Level; 						//This is what Level this building is
+	integer Max_Level; 					//This is the max level the building can reach
+	integer Sleep_For;
+	integer	Armor;
+	integer	Weapon;
+	boolean gavereward;
+	list heroes;
+	integer charm_percentage;
+	list TargetsHit; 					// Primarily used by Chain Lightning for cleanup purposes
+	agent zoo_agent;
+
+//////////////////////////////////////////Artifact attributes end///////////////
+
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	integer Fire_Resistance_Percent;
+	integer Cold_Resistance_Percent; 
+	integer Electric_Resistance_Percent;
+	integer Poison_Resistance_Percent;
+	integer Arcane_Resistance_Percent;
+	integer Force_Resistance_Percent;
+	integer Divine_Resistance_Percent;
+	integer Necrotic_Resistance_Percent;
+	integer Chaotic_Resistance_Percent;
+	integer Slashing_Resistance_Percent;
+	integer Crushing_Resistance_Percent;
+	integer Piercing_Resistance_Percent;
+	
+	boolean Fire_Resistance_Percent_Neg;
+	boolean Cold_Resistance_Percent_Neg; 
+	boolean Electric_Resistance_Percent_Neg;
+	boolean Poison_Resistance_Percent_Neg;
+	boolean Arcane_Resistance_Percent_Neg;
+	boolean Force_Resistance_Percent_Neg;
+	boolean Divine_Resistance_Percent_Neg;
+	boolean Necrotic_Resistance_Percent_Neg;
+	boolean Chaotic_Resistance_Percent_Neg;
+	boolean Slashing_Resistance_Percent_Neg;
+	boolean Crushing_Resistance_Percent_Neg;
+	boolean Piercing_Resistance_Percent_Neg;
+	
+	integer Fire_Resistance_Flat;
+	integer Cold_Resistance_Flat; 
+	integer Electric_Resistance_Flat;
+	integer Poison_Resistance_Flat;
+	integer Arcane_Resistance_Flat;
+	integer Force_Resistance_Flat;
+	integer Divine_Resistance_Flat;
+	integer Necrotic_Resistance_Flat;
+	integer Chaotic_Resistance_Flat;
+	integer Slashing_Resistance_Flat;
+	integer Crushing_Resistance_Flat;
+	integer Piercing_Resistance_Flat;
+	
+	boolean Fire_Resistance_Flat_Neg;
+	boolean Cold_Resistance_Flat_Neg; 
+	boolean Electric_Resistance_Flat_Neg;
+	boolean Poison_Resistance_Flat_Neg;
+	boolean Arcane_Resistance_Flat_Neg;
+	boolean Force_Resistance_Flat_Neg;
+	boolean Divine_Resistance_Flat_Neg;
+	boolean Necrotic_Resistance_Flat_Neg;
+	boolean Chaotic_Resistance_Flat_Neg;
+	boolean Slashing_Resistance_Flat_Neg;
+	boolean Crushing_Resistance_Flat_Neg;
+	boolean Piercing_Resistance_Flat_Neg;
+	
+	
+	string ItemDrop1;
+	string ItemDrop2;
+	string ItemDrop3;
+	
+	integer ItemDropChance1;
+	integer ItemDropChance2;
+	integer ItemDropChance3;
+
+	integer Recruit_Time;
+	begin
+	end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Loot_Item()
+Declare
+	boolean owned;
+	
+	string type;
+	string subtype;
+	string title;
+	string IntentExt;
+
+	integer gold_value;
+
+	function transferScript;  	// This script will be called when the item is transfered to its new owner.
+	function birthScript;  	// This script will be called once, when the unit is created;
+	function deathScript; 	// This script will be called once, when the unit is killed;
+	function IGDeathScript;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+//Convert books that are used for reading into Services, not items
+prototype Book_Item()
+Declare
+	boolean owned;
+	
+	string type;
+	string subtype;
+	string title;
+	string IntentExt;
+
+	integer gold_value;
+	integer XP_value; //Experience gained from reading this book
+	integer XPMultiplier; //The Level of experience gained from the book being read.
+
+	function transferScript;  	// This script will be called when the item is transfered to its new owner.
+	function birthScript;  	// This script will be called once, when the unit is created;
+	function deathScript; 	// This script will be called once, when the unit is killed;
+	function IGDeathScript;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Research()
+Declare
+	string type;
+	string subtype;
+	string title;
+	string IntentExt;
+
+	string ResearchStatus;		//Is it Complete(Green), Available(Blue), Unavailable(Red), Researching(Yellow)
+	string ResearchDisplayName;		//The string name for the Research when applying specify name changes to reflect status
+									//The string name must be set in a function, not in .dat
+	
+	string ResearchVoice;		//The advisor voice to use for this research
+	
+	string Service_Title;		//If a service is assosciated with the research, then it's title is used to spawn the service at the corresponding attachment. If no service_title is listed, then use "None"
+	string Service_Type;		//Item or Unit (If an item, it becomes a part of the Service menu, if a unit like a City Guard, it is used as the guard spawn type
+	
+	integer gold_value;			//The gold cost of the Research
+	integer Research_Time;		//The time it takes for the research to complete
+	integer Level;				//The Level of Research if it can have multiple levels (Blacksmith equipment upgrades for example)
+	integer Max_Level;			//The max Level a research can reach
+	
+	list Checklist;			//The list for all Research titles in the same structure that had this research as a Requirement to now check for.
+
+	function birthScript;  	// This script is a dummy call, since you don't necessarily want it triggered right when it spawns
+	function birthScript2;  	// This script will be called once, when the unit is created;
+	function deathScript; 	// This script will be called once, when the unit is killed;
+	function IGDeathScript;
+	function DismissScript; 	// Function to call when the research is attempted (The Dismiss Hero button in this case)
+	function ResearchCompleteScript;	//The function to call when the research is complete
+	function ResearchCheck;
+	
+	string Increment;			//The attribute this research increments on completion
+	integer Increment_Amount;			//The amount to increase by
+	
+	boolean Repeatable;			//Is the research repeatable, still requires passing it's ResearchCheck
+	function RepeatableCheck;		//Determine if the research should be labelled as Complete or Unavailable depending on this check.
+	
+	agent Container;			//The container object for this Research item
+	agent PrimaryStructure;		//The structure that holds the container object. The Primary Building that the research is occurring at
+	
+	agent ResearchText;		//The floating text research assosciated with this agent
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Service() //For available service agents available at structures (Potions in Marketplace)
+					//Can NOT double as items!!!
+					//Sequence of events: Hero checks shop -> Looks at Services -> Active script set to use_building, Task_Name given by Service looked at (for this case, it's the service "Title"
+					//Hero enters building -> Task_Name correlates to Service in list from which hero determines duration at structure, gold costs, and items gained.
+Declare
+	string type;
+	string subtype;
+	string title;
+	string IntentExt;
+	
+	string service_title;			//If an item service, this corresponds to the item's title
+
+	string ServiceDisplayName;		//The string name for the Service when applying specify name changes to reflect status
+									//The string name must be set in a function, not in .dat
+	
+	integer gold_value;					//The gold cost of the Service for heroes
+	integer Service_Time;				//The time it takes for the service to be handled for the hero
+	integer Service_Time_Increment;		//The additional time if the service has been multi-purchased (buying multiple potions instead of one)
+	integer Level;						//The Level of the service if applicable
+	
+	list Requirements;					//The requirements for the Service in order for a hero to use it.
+	list Hero_Preference;				//The heroes that prefer this service.
+
+	function birthScript;  				//This script will be called once, when the unit is created;
+	function birthScript2;  	// This script will be called once, when the unit is created;
+	function deathScript; 				//This script will be called once, when the unit is killed;
+	function IGDeathScript;
+	function DismissScript; 			//Respawns the service if it ends up being dismissed
+	function ServiceCheckScript;		//The function to call when the service is being checked for by the hero (the Conditions for the service to be used)
+	
+	agent Container;					//The container object for this Service
+	agent PrimaryStructure;				//The structure that holds the container object. The Primary Building that the service is occurring at
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype FloatingText()
+Declare
+	string type;
+	string subtype;
+	string title;
+
+	string text;
+	integer duration;			//The total amount of time needed to pass
+	integer duration_current; 	//The amount of time currently passed
+	integer update_counter;		//The counter for when to update the floating text display (should reset at 3, approximately 1500 miliseconds)
+								//Update_Counter really only useful for Research % display
+	list Research_Queue;			//The list for researches that are queued for this text
+	
+	integer gold_value;					//The gold cost for any research incurred for floating text
+	
+	function birthScript;  	// This script will be called once, when the unit is created
+	function deathScript; 	// This script will be called once, when the unit is killed
+	function textScript;  	// This script will periodically update the text for research
+	function callbackScript; 	// This script will be called when the text duration ends
+	
+	agent research;			//The research that was dismissed to call the floating text if applicable
+	
+	agent target;			//The target agent for the floating text to use as a reference (The primary structure)
+	coordinate loc;		//The location of the text if there is no target
+	
+	boolean target_linked;	//For whether the text relies on the target being valid in order to continue being run
+	boolean target_locked;	//For whether the text updates and moves with the target while running
+
+	boolean is_research;	//For whether the floating text is a Research text
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Equipment()
+Declare
+	string type;
+	string subtype;
+	string title;
+	string subclass;
+	integer gold_value;
+	boolean owned;
+
+	boolean armor_struct;
+	boolean weapon_struct;
+	
+	integer num_enchant;
+	integer num_upgrade;
+	
+	integer upgrade_level;
+	
+	string upgrade_equipment;
+	string upgrade_increase;
+	
+	string Equip_Slot;
+
+	integer Physical_Armor_Value;	
+	integer Magical_Armor_Value;
+	
+	string Physical_Damage_Type;
+	string Magical_Damage_Type;
+
+	integer Physical_Damage;
+	integer Magical_Damage;
+	
+	function transferScript;  	// This script will be called when the item is transfered to its new owner.
+	function birthScript;  	// This script will be called once, when the unit is created;
+	function deathScript; 	// This script will be called once, when the unit is killed;
+	function IGDeathScript;
+
+begin
+end
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+prototype Flag()
+// added the charm_percentage integer for zoo flags.
+declare
+	string type;
+	string subtype;
+	string title;
+
+	function birthscript;
+	function deathScript;
+	function IGDeathScript;
+	function activescript;
+	
+	boolean gavereward;
+	list heroes;
+
+// New MX stuff below this point //
+	integer charm_percentage;
+	
+	agent Killing_Unit;
+	
+	list hostiles;
+	agent target;
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype map_goodie()
+declare
+	string 	type;
+	string 	subtype;
+	string 	title;
+	function birthscript; 				// not used, but attribute must exist for $NewUnitInit()
+	function deathScript; 				// not used, but attribute must exist for $UnitDelete()
+	function activescript;
+
+	function IGDeathScript; 			// not used, but attribute must exist for $Unit_Call_Deathscript()
+	
+	agent Container;			//The container object for this item.
+	agent PrimaryStructure;		//The structure that holds the container object.
+begin
+end

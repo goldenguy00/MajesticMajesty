@@ -1,0 +1,134 @@
+///////////////////////////////////////////////////////////////////////////////
+Function Check_Blacksmith_Packet (agent ThisAgent) is boolean
+Declare
+	agent item, marketplace, target;
+	list buildings, blacksmiths, services, shops, potentials;
+	integer search_dist, Intel_Roll, chance, loot_mod, intent_mod, equipment_level, gold_needed; 
+	string actionsub, intentsub, targetsub, tnamesub, completeaction, completeintent, completetarget, completetname;
+	string conditionsub, completecondition, visitsub, completevisit, equipment, intent;
+	boolean flag, Wants_Weapon, Wants_Armor;
+
+	string taskindex;
+
+Begin
+
+	flag = FALSE;
+	
+	//See if ThisAgent can use Weapons, and if they want to think about upgrading
+	If ($GetAttribute (ThisAgent, #ATTRIB_WeaponTypeIndex) > 0)
+		begin
+			If (ThisAgent's "Upgrade_Weapon_Chance" > $RandomNumber (100) + 1)
+				Wants_Weapon = TRUE;
+		end
+	//See if ThisAgent can wear Armor, and if they want to think about upgrading
+	If ($GetAttribute (ThisAgent, #ATTRIB_ArmorTypeIndex) > 0)
+		begin
+			If (ThisAgent's "Upgrade_Armor_Chance" > $RandomNumber (100) + 1)
+				Wants_Armor = TRUE;
+		end
+		
+	if ((Wants_Weapon) && ($RandomNumber(2) == 1))
+		begin
+			equipment = "RightHand";
+			intent = "IDTXT_INTENT_BUYWEAPONUPGRADE";
+		end
+	else if (Wants_Armor)
+		begin
+			equipment = "BodyArmor";
+			intent = "IDTXT_INTENT_BUYARMORUPGRADE";
+		end
+	else
+		return False;
+		
+	equipment_level = $GetIntegerSafe(thisagent, equipment+"Level");
+	if (equipment_level >= 3)
+		return False;
+	
+	If (equipment_level == 0)
+		Gold_Needed = #Cost_Per_Struct_Upgrade1;
+
+	If (equipment_level == 1)
+		Gold_Needed = #Cost_Per_Struct_Upgrade2;
+
+	If (equipment_level == 2)
+		Gold_Needed = #Cost_Per_Struct_Upgrade3;
+
+	if (equipment == "BodyArmor")
+		gold_needed = gold_needed * #armor_multiplier;
+
+	If ($Total_Gold (ThisAgent) < Gold_Needed)
+		begin
+			return False;
+		end
+
+	taskindex = thisagent's "TASK_activeSubset";
+	actionsub = "TASK_subActiveScript";
+	intentsub = "TASK_subIntent";
+	targetsub = "TASK_subTarget";
+	tnamesub = "TASK_subTaskName";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completetname = tnamesub + taskindex;
+	
+	conditionsub = "TASK_subExitCondition";
+	completecondition = conditionsub + taskindex;
+	
+	visitsub = "TASK_subVisitingScript";
+	completevisit = visitsub + taskindex;
+	
+	// construct some lists here, and pass them as parameters,
+	// instead of over and over again in the lower level subroutines.
+	Search_Dist = $GetAttribute (ThisAgent, #ATTRIB_SightRange) * ($GetAttribute (ThisAgent, #ATTRIB_Intelligence) / 2);
+	
+	$listobjects(thisagent,"building",search_Dist,buildings,#ATTRIB_FirstStageBuilt, 1 );
+
+	blacksmiths = $listTitles(buildings,"Blacksmith");
+	
+	//Check to see if hero needs armor or weapon
+	If (Equipment == "BodyArmor")
+		begin
+			//This is used by the Upgrade Equipment script
+			ThisAgent's "Task_Number" = #ATTRIB_Armor_Struct_Bonus;
+				
+			If (equipment_level == 0)
+				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchArmorLevel_2 );
+
+			Else If (equipment_level == 1)
+				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchArmorLevel_3 );
+
+			Else If (equipment_level == 2)
+				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchArmorLevel_4 );
+		end
+
+	If (Equipment == "RightHand")
+		begin
+			//This is used by the Upgrade Equipment script
+			ThisAgent's "Task_Number" = #ATTRIB_Weapon_Struct_Bonus;
+
+			If (equipment_level == 0)
+				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchWeaponLevel_2 );
+
+			Else If (equipment_level == 1)
+				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchWeaponLevel_3 );
+
+			Else If (equipment_level == 2)
+				Potentials = $List_Attribs (Blacksmiths, #ATTRIB_ResearchWeaponLevel_4 );
+		end
+		
+	If ($ListSize (Potentials) == 0)
+		begin
+			//$DebugOut ("No Blacksmiths that are high enough level to upgrade my",equipment);
+			return False;
+		end
+	
+	ThisAgent's completetarget = $Loyalty_Mod_Pick_Closest (ThisAgent, Potentials);
+	Thisagent's completeintent = intent;
+	target = ThisAgent's completetarget;
+	ThisAgent's completeaction = $Use_Building_Packet;
+	ThisAgent's completevisit = target's "visited_script";
+	ThisAgent's completecondition = $isdead;
+	//$DebugOut ("I've got a Blacksmith- going to upgrade my",equipment);
+	thisagent's completetname = "visiting";
+	return $NotDuplicateTask(thisagent);
+End

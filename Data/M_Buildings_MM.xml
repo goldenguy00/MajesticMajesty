@@ -2003,4 +2003,49 @@
 			<HelpID value="IDTXT_RESEARCH_HELP"/>
 		</Game>
 	</Description>
+	<Description type="Unit" subType="Overlay" ID="ARA3" Name="Flag_Protect" Description="Protect Flag">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Category value="1"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARA4"/>
+			<Script type="0" cProc="0" GPLFunction="Protect_flag_death"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP80"/>
+			<StackPriority value="2"/>
+			<HelpID value="IDTXT_PROTECTFLAG_HELP"/>
+		</Game>
+	</Description>
+		<Description type="Unit" subType="Overlay" ID="ARA2" Name="Flag_Attack" Description="Attack Flag">
+		<Engine version="1">
+			<Info value="Directionless"/>
+			<Info value="DontBlock"/>
+			<Category value="1"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="11"/>
+			<ImageIDBase value="ARA2"/>
+			<Script type="0" cProc="0" GPLFunction="Attack_flag_death_callback"/>
+			<DefaultSound value="0"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="AP46"/>
+			<StackPriority value="2"/>
+		</Game>
+	</Description>
+	<Description type="Action" subType="Standard" ID="XRA2" Name="flag_attack" Description="flag attack">
+		<Engine version="1">
+			<ImageSet value="Special"/>
+			<Overlay value="Flag_Attack"/>
+		</Engine>
+	</Description>
+	<Description type="Action" subType="Standard" ID="XRA3" Name="flag_protect" Description="flag protect">
+		<Engine version="1">
+			<ImageSet value="Special"/>
+			<Overlay value="Flag_Protect"/>
+		</Engine>
+	</Description>
 </Majesty>

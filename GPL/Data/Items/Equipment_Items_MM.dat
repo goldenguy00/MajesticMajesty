@@ -356,7 +356,9 @@
 		(Equip_Slot		RightHand)
 		(upgrade_increase	Dirk)
 		(Physical_Damage_Type	Slashing)
-		(Physical_Damage	5)
+		(Physical_Damage	4)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	1)
 		(gold_value	6)
 	}
 [end]
@@ -374,7 +376,9 @@
 		(Equip_Slot		RightHand)
 		(upgrade_increase	Kris)
 		(Physical_Damage_Type	Slashing)
-		(Physical_Damage	6)
+		(Physical_Damage	4)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	2)
 		(gold_value	8)
 	}
 [end]
@@ -392,7 +396,9 @@
 		(Equip_Slot		RightHand)
 		(upgrade_increase	Blade)
 		(Physical_Damage_Type	Slashing)
-		(Physical_Damage	7)
+		(Physical_Damage	4)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	3)
 		(gold_value	10)
 	}
 [end]
@@ -410,7 +416,9 @@
 		(Equip_Slot		RightHand)
 		(upgrade_increase	Nothing)
 		(Physical_Damage_Type	Slashing)
-		(Physical_Damage	8)
+		(Physical_Damage	4)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	4)
 		(gold_value	13)
 	}
 [end]
@@ -429,6 +437,8 @@
 		(upgrade_increase	WingedKnife)
 		(Physical_Damage_Type	Slashing)
 		(Physical_Damage	5)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	1)
 		(gold_value	7)
 	}
 [end]
@@ -447,6 +457,8 @@
 		(upgrade_increase	FlyingKnife)
 		(Physical_Damage_Type	Slashing)
 		(Physical_Damage	6)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	2)
 		(gold_value	9)
 	}
 [end]
@@ -465,6 +477,8 @@
 		(upgrade_increase	BattleDart)
 		(Physical_Damage_Type	Slashing)
 		(Physical_Damage	7)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	3)
 		(gold_value	11)
 	}
 [end]
@@ -483,6 +497,8 @@
 		(upgrade_increase	Nothing)
 		(Physical_Damage_Type	Slashing)
 		(Physical_Damage	8)
+		(Magical_Damage_Type	Arcane)
+		(Magical_Damage	4)
 		(gold_value	14)
 	}
 [end]

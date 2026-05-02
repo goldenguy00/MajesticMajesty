@@ -1,0 +1,77 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function explore_map(agent thisagent,integer chance) is Boolean
+
+declare
+	coordinate dest;
+
+begin
+//	//$DebugOut("Should I explore map?");
+	if ($randomnumber(100) + 1 > chance)
+		return FALSE;
+
+	if ($getnearesthiddencoord(thisagent,dest) == FALSE)
+		return FALSE;
+
+	thisagent's "target" = thisagent;
+	thisagent's "destination" = dest;
+	$move(thisagent,dest);
+	thisagent's "ActiveScript" = $Travel_to_exp;
+	thisagent's "backscript" = thisagent's "basicscript";
+
+//	//$DebugOut(" Yes.",dest);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_EXPLORING");
+
+	return TRUE;
+end
+///////////////////////////////////////////////////////////////////////////////
+function explore_map_packet(agent thisagent) is Boolean
+
+declare
+	coordinate dest;
+	integer chance; 
+	string actionsub, action2sub, intentsub, targetsub, destsub, movesub, movedsub, taskindex, completeaction, completeaction2, completeintent, completetarget, completedestination, completemove, completemoved;
+	string conditionsub, completecondition;
+
+
+begin
+//            //$DebugOut("Should I explore map?");
+	chance = thisagent's "TASK_activeChance";
+	if ($randomnumber(100) + 1 > chance)
+		return FALSE;
+
+	if ($getnearesthiddencoord(thisagent,dest) == FALSE)
+		return FALSE;
+
+	taskindex = thisagent's "TASK_activeSubset";
+	actionsub = "TASK_subActiveScript";
+	action2sub = "TASK_subBackScript";
+	intentsub = "TASK_subIntent";
+	targetsub = "TASK_subTarget";
+	movesub = "TASK_subTravelScript";
+	movedsub = "TASK_subWaypoints";
+	conditionsub = "TASK_subExitCondition";
+	completeaction = actionsub + taskindex;
+	completeaction2 = action2sub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex; 
+	completemove = movesub + taskindex;
+	completemoved = movedsub + taskindex;
+	completecondition = conditionsub + taskindex;
+	
+	
+	$clearlist(thisagent's completemoved);
+	thisagent's completetarget = thisagent;
+	thisagent's completemoved << dest;
+	thisagent's completemove = $move;
+	thisagent's completeaction = $Travel_to_exp;
+	thisagent's completeaction2 = thisagent's "basicscript";
+	ThisAgent's completecondition = $isdead;
+	thisagent's completeintent = "IDTXT_INTENT_EXPLORING";
+
+	return TRUE;
+end

@@ -1,0 +1,839 @@
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function HeroStartingEquipment(agent thisagent)
+
+declare
+	agent itemagent;
+	string unit_name, starting_weapon, starting_armor, starting_item1;
+
+begin
+	$CreateAndEquipItem(thisagent, $GetStringSafe(thisagent, "Starting_Equipment_1"));
+	$CreateAndEquipItem(thisagent, $GetStringSafe(thisagent, "Starting_Equipment_2"));
+	$CreateAndEquipItem(thisagent, $GetStringSafe(thisagent, "Starting_Equipment_3"));
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Equipment_Item_Birth(agent thisagent)
+
+declare
+	integer despawn_time;
+	string title;
+	integer stack;
+
+begin
+	title = thisagent's "Title";
+	$AddAttribute(thisAgent, title, "integer", 0);
+	
+	$SetDrawEffects( thisagent, "gray", 1 );
+	
+	// prevent loot pile up
+	if (thisagent's "Type" == "Equipment" && $HasAttribute("gold_value", thisagent))
+		begin
+			despawn_time = (60 + thisagent's "gold_value") * 1000;
+			$AddAttribute(thisagent, "DespawnTimer", "function", $DespawnTimer);
+			$RunThread(thisagent's "DespawnTimer", despawn_time, thisagent);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Stack_Item_Birth(agent thisagent)
+
+declare
+	integer despawn_time;
+	string title;
+	integer stack;
+
+begin
+	title = thisagent's "Title";
+	if ($AddAttribute(thisAgent, title, "integer", 1) == false)
+		begin
+			stack = thisagent's title;
+			if (stack < 1)
+				thisagent's title = 1;		
+		end
+
+	$AddAttribute(thisAgent, "TransferScript", "function", $Basic_Stack_Transfer);
+	$SetDrawEffects( thisagent, "gray", 1 );
+	
+	// prevent loot pile up
+	if (thisagent's "Type" == "Loot" && $HasAttribute("gold_value", thisagent))
+		begin
+			despawn_time = (60 + thisagent's "gold_value") * 1000;
+			$AddAttribute(thisagent, "DespawnTimer", "function", $DespawnTimer);
+			$RunThread(thisagent's "DespawnTimer", despawn_time, thisagent);
+		end
+end
+
+function DespawnTimer(agent thisagent)
+declare
+begin
+	$DeleteGamePiece(thisagent);
+end
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Basic_Stack_Transfer(agent Item, agent Hero, integer attributeID)
+// This will get called with someone has picked up the special item and put it in their inventory.
+declare
+	integer	stack;
+	string  itemname;
+
+begin
+	if (Hero != $NullAgent ())
+		begin
+			itemname = Item's "Title";
+			if ($HasAttribute(itemname, Item))
+				begin
+					stack = Item's itemname;
+					
+					if (stack == 0)
+						stack = 1;
+					$AdjustIntegerSafe(hero, itemname, stack);
+				end
+		end
+	
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function CreateAndEquipItem(agent thisagent, string item)
+
+declare
+	agent itemagent;
+
+begin
+	if (item == "Nothing" || item == "")
+		return;
+	itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(item), "Override", $Concatenate($MakeInventoryAttribute(item), 0) ); //Creates the item on the ground to apply its .dat attributes to the unit
+	itemagent's "Owned" = True;
+	(itemagent's "TransferScript")(itemagent, ThisAgent, -1);
+	if ($IsValidGamePiece(itemagent))
+		$DeleteGamePiece (itemagent);
+end
+///////////////////////////////////////////////////////////////////////////////
+function UpgradeAndEquipItem(agent thisagent, string item, string equipment_slot, integer num_enchant, integer num_upgrade)
+
+//item = Short Sword, num_upgrade = 1, equipment_slot = Equipment_RightHand
+declare
+	agent itemagent;
+	
+begin
+	if (item == "Nothing" || item == "")
+		return;
+	itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(item), "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
+	itemagent's "Owned" = True;
+	itemagent's "num_enchant" = num_enchant;
+	itemagent's "num_upgrade" = num_upgrade;
+	(itemagent's "TransferScript")(itemagent, ThisAgent, -1);
+	if ($IsValidGamePiece(itemagent))
+		$DeleteGamePiece (itemagent);
+end
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Basic_Equipment_Transfer(agent Item, agent Hero, integer attributeID)
+// This will get called with someone has picked up an equipment item and put it in their inventory.
+declare
+	string itemname, equip_name,  subclass, equip_slot, subtype, upgrade_increase;
+	integer	upgrade_level, num_upgrade, num_enchant;
+
+	string equip_slot_type;
+	integer held_equip_level;
+
+	string _held_equip_level, _held_equip_en_level, _held_equip_slot, _held_equip_type, held_equip;
+
+	boolean should_equip;
+	integer stack;
+	
+begin
+	if (Hero == $NullAgent ())
+		return;
+	
+	// item properties
+	itemname = Item's "Title";						// WoodenStaff, Crossbow
+	equip_name = itemname + "EQ";					// WoodenStaffEQ, CrossbowEQ
+	subclass = Item's "Subclass";					// Sword, Bow, - Heavy, Light
+	equip_slot = Item's "Equip_Slot";				// RightHand, BodyArmor
+	subtype = Item's "Subtype"; 					// weapon, armor
+	upgrade_increase = Item's "upgrade_increase";	// WitheredStaff, HeavyCrossbow, nothing
+	upgrade_level = Item's "Upgrade_Level"; 		// 0-3 static item tier
+	num_upgrade = Item's "num_upgrade";				// 0-3 target tier	
+	num_enchant = Item's "num_enchant";				// 0-3 target tier
+	stack = $GetIntegerSafe(item, itemname);
+	if (stack < 1)
+		stack = 1;
+
+	// attribute strings
+	_held_equip_level = equip_slot+"Level";			// RightHandLevel
+	_held_equip_en_level = "EN_"+equip_slot+"Level";	// EN_RightHandLevel
+	_held_equip_slot = "Equipment_"+equip_slot;		// Equipment_RightHand
+	_held_equip_type = "Equipment_"+equip_slot+"Type";	// Equipment_RightHandType, Equipment_BodyArmorType
+
+	// hero properties
+	held_equip = $GetStringSafe(hero, _held_equip_slot);
+	held_equip_level = $GetIntegerSafe(hero, _held_equip_level);
+	equip_slot_type = $GetStringSafe(Hero, _held_equip_type);
+	
+	if (num_upgrade > 0)
+		begin
+			num_upgrade -= 1;
+			$DeleteGamePiece (Item);
+			$UpgradeAndEquipItem(Hero, upgrade_increase, equip_slot, num_enchant, num_upgrade);
+			return;
+		end
+
+	// can they weild this?
+	should_equip = false;
+	if (equip_slot_type == subclass)
+		begin
+			// has better item?
+			if (held_equip == "Nothing")
+				should_equip = true;
+			else if (held_equip_level < upgrade_level)
+				should_equip = true;
+		end
+
+	if (should_equip)
+		begin
+			// attempt to unequip current, move to inventory
+			$UnequipItemSlot(Hero, _held_equip_slot);
+
+			// add new EQ version
+			$CreateNewInventoryItem(equip_name, Hero, 1);
+			$SetStringSafe(Hero, _held_equip_slot, itemname);
+			$SetIntegerSafe(Hero, _held_equip_level, Upgrade_Level);
+			$SetIntegerSafe(Hero, _held_equip_en_level, num_enchant);
+			
+			// give new stats
+			$EquipArmor(Hero, Item);
+
+			// blacksmith bonuses
+			if (equip_slot == "RightHand")
+				begin
+					$EquipWeapon(Hero, Item);
+
+					$setattribute(Hero,#ATTRIB_weapon_struct_bonus,upgrade_level);
+					$setattribute(Hero,#ATTRIB_weapon_magic_bonus,num_enchant);
+				end
+			else if (equip_slot == "BodyArmor")
+				begin
+					$setattribute(Hero,#ATTRIB_armor_struct_bonus,upgrade_level);
+					$setattribute(Hero,#ATTRIB_armor_magic_bonus,num_enchant);
+				end
+			stack--;
+		end
+
+	if (stack > 0)
+		begin
+			$AdjustIntegerSafe(Hero, itemname, stack);
+			if ($AgentHasInventoryItem(itemname, hero) == false)
+				$TransferInventoryItem (-1, item, hero);
+		end
+
+	$DeleteGamePiece(item);
+end
+
+
+///////////////////////////////////////////////////////////////////////////////
+function UnequipItemSlot(agent thisagent, string equip_slot)
+
+declare
+	string equipment_item, inventory_item;
+	string held_equip_level, held_equip_en_level;
+	integer armor, mr;
+
+begin
+	inventory_item = $GetStringSafe(thisagent, equip_slot);
+	$SetStringSafe(thisagent, equip_slot, "Nothing");
+	if (inventory_item == "Nothing")
+		return;
+
+	equipment_item = inventory_item + "EQ";
+	if ($AgentHasInventoryItem(equipment_item, thisagent) == true)
+		$DeleteInventoryItem(equipment_item, thisagent);
+
+	if ($AgentHasInventoryItem(inventory_item, thisagent) == false)
+		$CreateNewInventoryItem(inventory_item, thisagent, 1);
+			
+	$AdjustIntegerSafe(thisagent, inventory_item, 1);
+
+	armor = $GetIntegerSafe(thisagent, "Armor_Physical_"+equip_slot);
+	mr = $GetIntegerSafe(thisagent, "Armor_Magical_"+equip_slot);
+
+	if (armor != 0)
+		begin
+			$AdjustIntegerSafe(thisagent, "Armor_Physical_Flat", (0 - armor));
+			thisagent's ("Armor_Physical_"+equip_slot) = 0; 
+			$UpdateArmor_Physical(thisagent);
+		end
+
+	if (mr != 0)
+		begin
+			$AdjustIntegerSafe(thisagent, "Armor_Magical_Flat", (0 - mr));
+			thisagent's ("Armor_Magical_"+equip_slot) = 0;
+			$UpdateArmor_Magical(thisagent);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function UpgradeEquipment(agent thisagent, string equip_slot, integer upgrade)
+
+declare
+	string inventory_item, held_equip_level, held_equip_en_level;
+	integer held_upgrade, upgrade_adjust, held_enchant;
+
+begin
+	// blacksmith bonuses
+	if (equip_slot == "RightHand")
+		$setattribute(thisagent,#ATTRIB_weapon_magic_bonus,upgrade);
+	else if (equip_slot == "BodyArmor")
+		$setattribute(thisagent,#ATTRIB_armor_magic_bonus,upgrade);
+
+	inventory_item = $GetStringSafe(thisagent, equip_slot);
+	if (inventory_item == "Nothing")
+		return;
+	
+	held_equip_level = equip_slot+"Level";	// RightHandLevel
+	held_equip_en_level = "EN_"+equip_slot+"Level";	// EN_RightHandLevel
+	held_upgrade = $GetIntegerSafe(thisagent, held_equip_level);
+	held_enchant = $GetIntegerSafe(thisagent, held_equip_en_level);
+
+	upgrade_adjust = upgrade - held_upgrade;
+	$UpgradeAndEquipItem(thisagent, inventory_item, equip_slot, held_enchant, upgrade_adjust);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function EnchantEquipment(agent hero, string equip_slot, integer num_enchant)
+
+declare
+	string held_equip_en_level;
+
+begin
+	// blacksmith bonuses
+	if (equip_slot == "RightHand")
+		$setattribute(Hero,#ATTRIB_weapon_magic_bonus,num_enchant);
+	else if (equip_slot == "BodyArmor")
+		$setattribute(Hero,#ATTRIB_armor_magic_bonus,num_enchant);
+		
+	held_equip_en_level = "EN_"+equip_slot+"Level";	// EN_RightHandLevel
+	$SetIntegerSafe(hero, held_equip_en_level, num_enchant);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function EquipWeapon(agent thisagent, agent item)
+
+declare
+	string physical_damage_type, magical_damage_type;
+	integer physical_damage, magical_damage;
+
+begin
+	if ($GetBooleanSafe(thisagent, "Attack_Damage_Based_On_Weapon") == false)
+		return;
+	
+	physical_damage = item's "Physical_Damage";
+	physical_damage_type = $GetStringSafe(item, "Physical_Damage_Type");
+	thisagent's "Physical_Attack" = physical_damage;
+	thisagent's "Physical_Attack_Type" = physical_damage_type;
+
+	magical_damage = item's "Magical_Damage";
+	magical_damage_type = $GetStringSafe(item, "Magical_Damage_Type");
+	thisagent's "Magical_Attack" = magical_damage;
+	thisagent's "Magical_Attack_Type" = magical_damage_type;
+	$SetAttribute(thisagent, #ATTRIB_Weapon_Basic_Damage, physical_damage + magical_damage);
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function EquipArmor(agent thisagent, agent item)
+declare
+	integer armor, mr;
+	string equip_slot;
+begin
+	equip_slot = Item's "Equip_Slot";
+	armor = $GetIntegerSafe(item, "Physical_Armor_Value");
+	mr = $GetIntegerSafe(item, "Magical_Armor_Value");
+	
+	if (armor != 0)
+		begin
+			$AdjustIntegerSafe(thisagent, "Armor_Physical_Flat", armor);
+			$SetIntegerSafe(thisagent, "Armor_Physical_"+equip_slot, armor);
+			$UpdateArmor_Physical(thisagent);
+		end
+
+	if (mr != 0)
+		begin
+			$AdjustIntegerSafe(thisagent, "Armor_Magical_Flat", mr);
+			$SetIntegerSafe(thisagent, "Armor_Magical_"+equip_slot, mr);
+			$UpdateArmor_Magical(thisagent);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Death_Item_Drops(agent thisagent)
+
+declare
+	integer base_chance;
+
+begin
+	base_chance = $GetIntegerSafe(thisagent, "ItemDropChance1");
+	if (base_chance == 0)
+		return;
+	
+	$Death_Item_Drops_Process(thisagent, "ItemDrop1", "ItemDropChance1");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop2", "ItemDropChance2");
+	$Death_Item_Drops_Process(thisagent, "ItemDrop3", "ItemDropChance3");
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Death_Item_Drops_Process(agent thisagent, string itemdrop, string itemdropchance)
+
+declare
+	string agentType;
+
+begin	
+	if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
+		begin
+			agentType = $GetInventoryItemAgentType(thisagent's itemdrop);
+			$SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(thisagent's itemdrop), 0) );
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Item_Stack(agent thisagent, agent target )
+
+declare
+	integer base_chance;
+
+begin
+	base_chance = $GetIntegerSafe(thisagent, "ItemDropChance1");
+	if (base_chance == 0)
+		return;
+	
+	$Item_Stack_Process(thisagent, target, "ItemDrop1", "ItemDropChance1");
+	$Item_Stack_Process(thisagent, target, "ItemDrop2", "ItemDropChance2");
+	$Item_Stack_Process(thisagent, target, "ItemDrop3", "ItemDropChance3");
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Item_Stack_Process(agent thisagent, agent target, string itemdrop_name, string itemdropchance )
+
+declare
+	agent itemagent;
+	string itemdrop;
+
+begin
+	if ((thisagent's itemdropchance) >= $RandomNumberNonZero(#Item_Chance_Limit))
+		begin
+			itemdrop = thisagent's itemdrop_name;
+			$AddAttribute(target, itemdrop, "integer");
+			if ($AgentHasInventoryItem(itemdrop, target) == false)
+				begin
+					$CreateNewInventoryItem(itemdrop, target, 1);
+					itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(itemdrop), "Override", $Concatenate($MakeInventoryAttribute(itemdrop), 0) );
+					if (itemagent's "Type" == "Loot")
+						begin
+							if ($StringInList(itemdrop, target's "Loot_Item_List") == False)
+								begin
+									target's "Loot_Item_List" << itemdrop;
+									target's "Loot_Item_Value_List" << itemagent's "Gold_Value";
+								end
+						end
+					else if (itemagent's "Type" == "Equipment")
+						begin
+							if ($StringInList(itemdrop, target's "Equipment_Item_List") == False)
+								begin
+									target's "Equipment_Item_List" << itemdrop;
+									target's "Equipment_Item_Value_List" << itemagent's "Gold_Value";
+								end
+						end
+					if ($StringInList(itemdrop, target's "Total_Item_List") == False)
+						begin
+							target's "Total_Item_List" << itemdrop;
+						end
+					$DeleteGamePiece(itemagent);
+				end
+			target's itemdrop += 1;
+			$createeffector(target,"got_item",0);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Drop_All_Stack_Items(agent thisAgent)
+declare
+	integer	item, stack;
+	string  agentType, itemname;
+	list	items;
+	agent dropped_item;
+	list loot_on_ground;
+	integer loot_dropped;
+	
+begin
+	$UnequipItemSlot(thisagent, "Equipment_RightHand");
+	$UnequipItemSlot(thisagent, "Equipment_BodyArmor");
+	
+	items = $GetInventoryItems(thisAgent);
+	loot_dropped = $ListObjects(thisagent, "loot", 200, loot_on_ground);
+	foreach item in items do
+		begin
+			if ($GetInventoryItemDropType(item) >= 3 && $RandomNumber(100) > 30)
+				begin
+					agentType = $GetInventoryItemAgentType(item);
+					if ($titleinagentlist(agenttype, loot_on_ground))
+						dropped_item = $agenttitleinlist(agenttype, loot_on_ground);
+					else
+						dropped_item = $SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
+					itemname = dropped_item's "Title";
+					
+					if ($HasAttribute(itemname, thisagent)!=False)
+						begin
+							stack = thisagent's itemname;
+							$AddAttribute(dropped_item, itemname, "integer", stack);
+						end
+					$DeleteInventoryItem(item, thisAgent);
+				end
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function Drop_All_Stacks_Equipment_Process(agent thisAgent, string unequipname)
+
+declare
+	agent dropped_item;
+	integer stack;
+	string equipname, agentType, itemname;
+
+begin
+	if (unequipname != "Nothing")
+		begin
+			equipname = unequipname + "EQ";
+			agentType = $GetInventoryItemAgentType(unequipname);
+			dropped_item = $SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(unequipname), 0) );
+			itemname = dropped_item's "Title";
+			
+			if ($HasAttribute(itemname, thisagent)!=False)
+				begin
+					stack = thisagent's itemname;
+					$AddAttribute(dropped_item, itemname, "integer", stack);
+				end
+					
+			$DeleteInventoryItem(equipname, thisAgent);
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+// A special function to drop only items that are marked as immediate drop.
+function Drop_Immediate_Items(agent thisAgent)
+declare
+	integer	item;
+	string  agentType;
+	list	items;
+begin
+	
+	items = $GetInventoryItems(thisAgent);
+
+	foreach item in items do
+		begin
+			if ($GetInventoryItemDropType(item) == 2)
+				begin
+					// Get what type of agent the inventory item will be while it exists on the map
+					agentType = $GetInventoryItemAgentType(item);
+					// Create the item, adding a copy of its type to its attibute list for the inventory system to use.
+					$SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
+					// Delete the item from their inventory
+					$DeleteInventoryItem(item, thisAgent);
+				end				
+		end
+end
+///////////////////////////////////////////////////////////////////////////////
+function Total_Loot_Value(agent thisagent) is integer
+
+declare
+	agent itemagent;
+	list item_list, item_value_list;
+	string item, thisstring;
+	integer stack_multplier, item_value, loot_value, loot_size, i;
+
+begin
+	if ($HasAttribute("Loot_Item_list", thisagent) == false)
+		return 0;
+
+	item_list = thisagent's "Loot_Item_List";
+	item_value_list = thisagent's "Loot_Item_Value_List";
+	loot_size = $ListSize(item_list);
+	while (loot_size > i) do
+		begin
+			i ++;
+			thisstring = $listmember(item_list,i);
+			item_value = $listmember(item_value_list,i);
+			loot_value += (thisagent's thisstring * item_value);
+		end
+		
+	return loot_value;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Total_Equipment_Value(agent thisagent) is integer
+
+declare
+	agent itemagent;
+	list item_list, item_value_list;
+	string item, thisstring;
+	integer stack_multplier, item_value, equipment_value, equipment_size, i;
+
+begin
+	if ($HasAttribute("Equipment_Item_List", thisagent) == false)
+		return 0;
+		
+	item_list = thisagent's "Equipment_Item_List";
+	item_value_list = thisagent's "Equipment_Item_Value_List";
+	equipment_size = $ListSize(item_list);
+	while (equipment_size > i) do
+		begin
+			i ++;
+			thisstring = $listmember(item_list,i);
+			item_value = $listmember(item_value_list,i);
+			equipment_value += (thisagent's thisstring * item_value);
+		end
+		
+	return equipment_value;
+//	if (equipment == "Weapon")
+//		begin
+//			if ($AgentHasInventoryItem("ShortSword", thisagent) != False)
+//				loot_value += 10 * (thisagent's "ShortSword");
+//			if ($AgentHasInventoryItem("GlintingShortSword", thisagent) != False)
+//				loot_value += 13 * (thisagent's "GlintingShortSword");
+//			if ($AgentHasInventoryItem("ShiningShortSword", thisagent) != False)
+//				loot_value += 16 * (thisagent's "ShiningShortSword");
+//			if ($AgentHasInventoryItem("GlowingShortSword", thisagent) != False)
+//				loot_value += 19 * (thisagent's "GlowingShortSword");
+				
+		
+//	return loot_value;
+end
+///////////////////////////////////////////////////////////////////////////////
+function Total_Equipment_Value_BlacksmithAdjust(agent thisagent, agent blacksmith) is integer
+
+declare
+	list item_list, item_value_list;
+	string item, thisstring;
+	integer stack_multplier, item_value, equipment_value, equipment_size, i;
+
+begin
+	equipment_value = 0;
+	
+	if ($HasAttribute("Equipment_Item_List", thisagent) == false)
+		return 0;
+		
+	item_list = thisagent's "Equipment_Item_List";
+	item_value_list = thisagent's "Equipment_Item_Value_List";
+	equipment_size = $ListSize(item_list);
+	while (equipment_size > i) do
+		begin
+			i ++;
+			thisstring = $listmember(item_list,i);
+			item_value = $listmember(item_value_list,i);
+			//equipment_value += (thisagent's thisstring * item_value);
+			if ($AgentHasInventoryItem(thisstring, thisagent) != False)
+				equipment_value += $Item_Sell_Value_BlacksmithAdjust(thisagent, blacksmith, thisstring, item_value);
+		end
+		
+	return equipment_value;
+//			if ($AgentHasInventoryItem("ShortSword", thisagent) != False)
+//				loot_value += $Item_Sell_Value_BlacksmithAdjust(thisagent, blacksmith, "ShortSword", 10);
+//			if ($AgentHasInventoryItem("GlintingShortSword", thisagent) != False)
+//				loot_value += $Item_Sell_Value_BlacksmithAdjust(thisagent, blacksmith, "GlintingShortSword", 13);
+//			if ($AgentHasInventoryItem("ShiningShortSword", thisagent) != False)
+//				loot_value += $Item_Sell_Value_BlacksmithAdjust(thisagent, blacksmith, "ShiningShortSword", 16);
+//			if ($AgentHasInventoryItem("GlowingShortSword", thisagent) != False)
+//				loot_value += $Item_Sell_Value_BlacksmithAdjust(thisagent, blacksmith, "GlowingShortSword", 19);
+//				
+//	return loot_value;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Item_Sell_Value_BlacksmithAdjust(agent thisagent, agent blacksmith, string item, integer itemcost) is integer
+
+//expression #MP_ItemSellPrice_Max 150
+//expression #MP_ItemSellPrice_Min 75
+//expression #MP_ItemSellThreshold 100
+
+declare
+	integer return_int, adjust_cost, blacksmith_mod;
+
+begin
+	return_int = 0;
+	
+	if ($HasAttribute(item, blacksmith) == false)
+		$AddAttribute(blacksmith, item, "integer");
+	
+	while (thisagent's item > 0) do
+		begin
+			if (blacksmith's item >= #MP_ItemSellThreshold)
+				blacksmith_mod = (#MP_ItemSellPrice_Min);
+			else
+				blacksmith_mod = (#MP_ItemSellPrice_Max - blacksmith's item);
+			
+			if ((blacksmith_mod < #MP_ItemSellThreshold) && (blacksmith's item < 76))
+				blacksmith_mod = 100;
+				
+			if (itemcost < 1000)	
+				adjust_cost = ((itemcost * blacksmith_mod) / 100);
+			else
+				adjust_cost = ((itemcost / 100) * blacksmith_mod);
+				
+			return_int += adjust_cost;
+			blacksmith's item += 1;
+			thisagent's item -= 1;
+			if (thisagent's item <= 0)
+				$DeleteInventoryItem(item, thisAgent);
+		end
+		
+	return return_int;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Total_Loot_Value_MarketplaceAdjust(agent thisagent, agent marketplace) is integer
+
+declare
+	list item_list, item_value_list;
+	string item, thisstring;
+	integer stack_multplier, item_value, loot_value, loot_size, i;
+
+begin
+	loot_value = 0;
+	
+	if ($HasAttribute("Loot_Item_List", thisagent) == false)
+		return 0;
+		
+	item_list = thisagent's "Loot_Item_List";
+	item_value_list = thisagent's "Loot_Item_Value_List";
+	loot_size = $ListSize(item_list);
+	while (loot_size > i) do
+		begin
+			i ++;
+			thisstring = $listmember(item_list,i);
+			item_value = $listmember(item_value_list,i);
+			//loot_value += (thisagent's thisstring * item_value);
+			if ($AgentHasInventoryItem(thisstring, thisagent) != False)
+				loot_value += $Item_Sell_Value_MarketplaceAdjust(thisagent, marketplace, thisstring, item_value);
+		end
+		
+	return loot_value;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Item_Sell_Value_MarketplaceAdjust(agent thisagent, agent marketplace, string item, integer itemcost) is integer
+
+//expression #MP_ItemSellPrice_Max 150
+//expression #MP_ItemSellPrice_Min 75
+//expression #MP_ItemSellThreshold 100
+
+declare
+	integer return_int, adjust_cost, market_mod;
+
+begin
+	return_int = 0;
+	
+	if ($HasAttribute(item, marketplace) == false)
+		$AddAttribute(marketplace, item, "integer");
+	
+	while (thisagent's item > 0) do
+		begin
+			if (marketplace's item >= #MP_ItemSellThreshold)
+				market_mod = (#MP_ItemSellPrice_Min);
+			else
+				market_mod = (#MP_ItemSellPrice_Max - marketplace's item);
+			
+			if ((market_mod < #MP_ItemSellThreshold) && (marketplace's item < 76))
+				market_mod = 100;
+				
+			if (itemcost < 1000)	
+				adjust_cost = ((itemcost * market_mod) / 100);
+			else
+				adjust_cost = ((itemcost / 100) * market_mod);
+				
+			return_int += adjust_cost;
+			marketplace's item += 1;
+			thisagent's item -= 1;
+			if (thisagent's item <= 0)
+				$DeleteInventoryItem(item, thisAgent);
+		end
+		
+	return return_int;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function chance_weapon(agent thisagent,agent hero)
+
+declare
+	integer bonus_limit,struct_bonus,magic_bonus, enchant_level, upgrade_level, total_level;
+	boolean goody_flag;
+
+begin
+	enchant_level = $GetIntegerSafe(hero, "EN_RightHandLevel");
+	upgrade_level = $GetIntegerSafe(hero, "RightHandLevel");
+	total_level = enchant_level + upgrade_level;
+	if ($getattribute(hero,#ATTRIB_weapontypeindex) > 0)
+		begin
+			// check to see if the hero gets a bonus weapon
+			goody_flag = FALSE;
+			if ($randomnumber(100) < #lair_weapon_chance * thisagent's "difficulty")
+				begin
+						begin
+							// they found a normal 'bonus' weapon
+							bonus_limit = (thisagent's "difficulty" / 3) + 2;
+							struct_bonus = $randomnumber(bonus_limit);
+							if (struct_bonus > 3)
+								struct_bonus = 3;
+							magic_bonus = $randomnumber(bonus_limit);
+							if (magic_bonus > 3)
+								magic_bonus = 3;
+							if (struct_bonus + magic_bonus > total_level)
+								goody_flag = TRUE;
+						end
+					if (goody_flag)
+						begin
+							$setattribute(hero,#ATTRIB_weapon_struct_bonus,struct_bonus);
+							$setattribute(hero,#ATTRIB_weapon_magic_bonus,magic_bonus);
+							$UpgradeEquipment(hero, "RightHand", struct_bonus);
+							$createeffector(hero,"got_weapon",0);
+						end
+				end
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function chance_armor(agent thisagent, agent hero)
+
+declare
+	integer bonus_limit,struct_bonus,magic_bonus, enchant_level, upgrade_level, total_level;
+	boolean goody_flag;
+
+begin
+	enchant_level = $GetIntegerSafe(hero, "EN_BodyArmorLevel");
+	upgrade_level = $GetIntegerSafe(hero, "BodyArmorLevel");
+	total_level = enchant_level + upgrade_level;
+	if ($getattribute(hero,#ATTRIB_armortypeindex) > 0)
+		begin
+			// check to see if the hero gets a bonus armor
+			goody_flag = FALSE;
+			if ($randomnumber(100) < #lair_armor_chance * thisagent's "difficulty")
+				begin
+						begin
+							// they found a normal 'bonus' weapon
+							bonus_limit = (thisagent's "difficulty" / 3) + 2;
+							struct_bonus = $randomnumber(bonus_limit);
+							if (struct_bonus > 3)
+								struct_bonus = 3;
+							magic_bonus = $randomnumber(bonus_limit);
+							if (magic_bonus > 3)
+								magic_bonus = 3;
+							if (struct_bonus + magic_bonus > total_level)
+								goody_flag = TRUE;
+						end
+					if (goody_flag)
+						begin
+							$setattribute(hero,#ATTRIB_armor_struct_bonus,struct_bonus);
+							$setattribute(hero,#ATTRIB_armor_magic_bonus,magic_bonus);
+							$UpgradeEquipment(hero, "BodyArmor", struct_bonus);
+							$createeffector(hero,"got_armor",0);
+						end
+				end
+		end
+end

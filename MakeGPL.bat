@@ -2,6 +2,7 @@
 
 rem Where the source files are located
 set SRC=GPL
+set MM=GPL\MM
 rem Where the compiled code will go
 set DEST=Data
 rem The name of the compiled GPL byte code.
@@ -10,6 +11,8 @@ rem The project file that defines what files will be compiled
 set GPLPROJECTFILE=path.gplproj
 rem The published build folder
 set PUB=C:\Program Files (x86)\Steam\steamapps\workshop\content\73230\3700913062
+set SDK=C:\Program Files (x86)\Steam\steamapps\common\Majesty HD\SDK\OriginalQuests\GPL\MM
+set MXSDK=C:\Program Files (x86)\Steam\steamapps\common\Majesty HD\SDK\OriginalQuests\GPLMx\MM
 
 set GPLBCC=""
 rem Is the compiler in the Quest's source directory?
@@ -71,4 +74,9 @@ echo Copying %SRC% to %PUB%\%SRC%
 robocopy "%SRC%" "%PUB%\%SRC%" /mir > nul
 echo Copying %DEST% to %PUB%\%DEST%
 robocopy "%DEST%" "%PUB%\%DEST%" /mir > nul
+
+echo Copying %MM% to %SDK%
+robocopy "%MM%" "%SDK%" /mir > nul
+echo Copying %MM% to %MXSDK%
+robocopy "%MM%" "%MXSDK%" /mir > nul
 goto :EOF

@@ -1,0 +1,164 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+function peasant_spawner(agent thisagent)
+
+declare
+	list statues;
+	integer num_p, num_statue, num_total;
+
+begin
+	$listobjects(thisagent,"building",-1,statues,#Myplayer);
+	statues = $listtitles(statues,"statue");
+	num_statue = $listsize(statues);
+	
+	num_p = thisagent's "num_peasants";
+	num_total = num_statue + (thisagent's "max_peasants");
+	if (num_p < num_total)
+		begin
+			//Spawn either a female or a male peasant
+			If ($RandomNumber (2) == 0)
+				begin
+					$spawnunit(thisagent,"Peasant");
+				end
+
+			Else
+				$SpawnUnit (ThisAgent, "Peasant_Female");
+
+			$runthread(thisagent's "Peasant_spawn",#peasant_delay,thisagent);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function sanguine_peasant_basic(agent thisagent)
+
+declare
+	list list1, buildings;
+	agent building;
+
+begin
+
+
+	$ListObjects (ThisAgent, "Building", -1, list1, #NotMyPlayer);
+	
+	foreach building in list1 do
+	if (($isdead(building) == false) && ($GetAttribute(building, #ATTRIB_HP) > 1))
+		begin
+			buildings << building;
+		end
+	
+
+	if ($listsize(buildings) > 0)
+		begin
+			thisagent's "target" = $listmember(buildings,1);
+			thisagent's "Activescript" = $sanguine_peasant_deconstruct;
+
+		end
+	else
+		thisagent's "Activescript" = $wandering_deconstruct;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function sanguine_peasant_deconstruct(agent thisagent)
+
+declare
+	agent building;
+	integer HP, strength;
+
+begin
+	building = thisagent's "target";
+
+	if ($isdead(building))
+		begin
+			thisagent's "activescript" = $sanguine_peasant_basic;
+		end
+	else
+		if ($getattribute(building,#ATTRIB_HP) <= 1)
+			begin
+				thisagent's "activescript" = $sanguine_peasant_basic;
+			end
+		else
+			if ($isadjacent(thisagent,thisagent's "target") == FALSE)
+				begin
+					thisagent's "destination" = $locationof(thisagent's "Target");
+					thisagent's "Activescript" = $sanguine_Peasant_travel_deconstruct;
+					thisagent's "backscript" = $sanguine_peasant_deconstruct;
+					$move(thisagent,thisagent's "target");
+				end
+			else
+				begin
+					// wreck building
+					strength = $getattribute(thisagent, #ATTRIB_Strength);
+					$performaction(thisagent,"basic_build",building);
+					HP = $getattribute(building,#ATTRIB_HP);
+
+					HP -= (#basic_build_amount + strength);
+
+					if (HP < 1)
+						HP = 1;
+
+					$setattribute(building,#ATTRIB_HP,HP);
+					
+					if ($isdead(building))
+						begin
+							thisagent's "activescript" = $sanguine_peasant_basic;
+						end
+				end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function sanguine_Peasant_travel_deconstruct(agent thisagent)
+
+declare
+	agent building;
+
+begin
+	building = thisagent's "target";
+
+	if ($IsValidGamePiece(building) == True)
+		begin
+			if (($isdead(building)) || ($GetAttribute(building, #ATTRIB_HP) <= 1))
+				begin
+					$stopmoving(thisagent);
+					thisagent's "activescript" = $sanguine_peasant_basic;
+				end
+			else
+				if ($getattribute(building,#ATTRIB_HP) <= 1)
+					begin
+						$stopmoving(thisagent);
+						thisagent's "activescript" = $sanguine_peasant_basic;
+					end
+				else
+					if ($has_arrived(thisagent,false) == FALSE)
+						$ClearList (ThisAgent's "Hostiles");
+		end
+	else
+		if ($has_arrived(thisagent,false) == FALSE)
+			$ClearList (ThisAgent's "Hostiles");
+
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function wandering_deconstruct(agent thisagent)
+
+declare
+
+begin
+	if ($ismoving(thisagent) == False)
+		begin
+			if ($randomNumber(100) > 98)
+				$performaction(thisagent,thisAgent's "Idle_action",$locationof(thisagent));
+			else
+				$Move(thisagent,$randomCoord(thisagent,300));
+		end
+	else
+		$sanguine_peasant_basic(thisagent);
+end

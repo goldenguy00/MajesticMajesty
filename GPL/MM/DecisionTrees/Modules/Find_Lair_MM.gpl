@@ -1,0 +1,107 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright (c) 1999 Cyberlore Studios, Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function Find_Lair_Packet(agent thisagent) is Boolean
+
+declare
+
+	list seen_lairs, lairs;
+	agent lair, palace;
+	integer easiest_lair_score, chance;
+	agent easiest_lair;
+	integer score;
+	string actionsub, intentsub, targetsub, taskindex, completeaction, completeintent, completetarget;
+	string conditionsub, completecondition, intentext;
+
+begin
+
+
+	chance = thisagent's "TASK_activeChance";
+
+	if ($randomnumber(100) + 1 > chance) return;
+	
+	taskindex = thisagent's "TASK_activeSubset";
+	actionsub = "TASK_subActiveScript";
+	intentsub = "TASK_subIntent";
+	targetsub = "TASK_subTarget";
+	completeaction = actionsub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex;
+
+	conditionsub = "TASK_subExitCondition";
+	completecondition = conditionsub + taskindex;
+	
+	palace = $GetTruePalace(thisagent);
+	
+//	if (palace == $NullAgent())
+		$ListObjects(thisagent,"lair",-1, lairs, #NoHiddenMap,#NotMyTeam);
+//	else
+//		lairs = palace's "Enemy_Lair_List";
+
+	//Find all the lairs that are visible
+	$ListObjects(thisagent,"lair",-1, seen_lairs, #NotMyTeam);
+
+
+	if ($listsize(lairs) > 0)
+		begin
+			easiest_lair_score = 90000;
+			easiest_lair = $NullAgent();
+			foreach lair in lairs do
+				begin
+					if (lair != $NullAgent())
+					//	palace's "Enemy_Lair_List" -= lair;
+					//else
+						begin
+							score = lair's "difficulty";
+							score = score * $distancebetweenagents(thisagent,lair) / #Solarii_Raid_Find_Lair_Mod;
+							if (score < easiest_lair_score)
+								begin
+									easiest_lair_score = score;
+									easiest_lair = lair;
+								end
+						end
+				end
+
+			// modify easiest_lair score by thisagent's enemy_estimation
+
+  //			//$DebugOut("final score - ",easiest_lair_score);
+
+			if (easiest_lair != $NullAgent() && easiest_lair_score < $getattribute(thisagent,#ATTRIB_experienceLevel) * 100 * thisagent's "Self_estimation")
+				begin
+					ThisAgent's completecondition = $notvalid;
+					thisagent's completetarget = easiest_lair;
+
+					//See if the lair was hidden or not in order to reveal it or not
+					If ($AgentInList (Easiest_Lair , Seen_Lairs) == False)
+							thisagent's completeaction = $Find_Lair_Sub_Packet;
+					Else
+						begin
+							thisagent's completeaction = $Attack_object;
+							intentext = "IDTXT_INTENT_RAIDING" + $getintentext(thisagent's completetarget);
+							ThisAgent's completeintent = intentext;
+						end
+
+					return $NotDuplicateTask(thisagent);
+				end
+		end
+
+//	//$DebugOut("No.");
+	return False;
+end
+///////////////////////////////////////////////////////////////////////////////
+function Find_Lair_Sub_Packet(agent thisagent)
+//The action that Find_Lair_Packet will be set to if the agent is trying to find the lair.
+
+declare
+
+
+begin
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_FINDINGLAIR");
+	$PerformAction (ThisAgent, thisagent's "cast_action", thisagent's "TASK_subTargetCurrent");
+	$RevealArea (ThisAgent, $LocationOf (thisagent's "TASK_subTargetCurrent"), #reveal_found_lair_dist);
+	thisagent's "TASK_subActiveScriptCurrent" = $Attack_object;
+	$reset_tasks(thisagent);
+end

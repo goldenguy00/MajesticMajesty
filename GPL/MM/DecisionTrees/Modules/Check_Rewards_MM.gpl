@@ -1,0 +1,520 @@
+///////////////////////////////////////////////////////////////////////////////
+//Copyright(c) 1999 Cyberlore Studios,Inc. All rights Reserved.
+//CONFIDENTIAL MATERIAL
+///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function check_rewards_packet(agent thisagent) is Boolean
+
+declare
+	list flags;
+	agent flag,bestflag,target;
+	integer bestscore,score,greedmod,others,rewardcost,distance;
+	boolean no_attack; 
+	string actionsub, action2sub, intentsub, targetsub, target2sub, destsub, movesub, movedsub, taskindex;
+	string completeaction, completeaction2, completeintent, completetarget, completetarget2, completemove, completemoved, completedestination;
+	string conditionsub, completecondition;
+
+
+begin
+
+	$ListObjects(thisagent,"RewardFlag",-1,flags,#RewardFlags);
+	no_attack = FALSE;
+	
+	if (thisagent's "Title" == "Healer" || $getstringsafe(thisagent, "Original_Title") == "healer")
+		no_attack = TRUE;
+		
+	taskindex = thisagent's "TASK_activeSubset";
+	actionsub = "TASK_subActiveScript";
+	action2sub = "TASK_subBackScript";
+	targetsub = "TASK_subTarget";
+	target2sub = "TASK_subBackTarget";
+	intentsub = "TASK_subIntent";
+	movesub = "TASK_subTravelScript";
+	movedsub = "TASK_subWaypoints";
+	completeaction = actionsub + taskindex;
+	completeaction2 = action2sub + taskindex;
+	completeintent = intentsub + taskindex;
+	completetarget = targetsub + taskindex; 
+	completetarget2 = target2sub + taskindex; 
+	completemove = movesub + taskindex;
+	completemoved = movedsub + taskindex;
+	
+	conditionsub = "TASK_subExitCondition";
+	completecondition = conditionsub + taskindex;
+	
+	$clearlist(thisagent's completemoved);
+
+	bestflag = $check_rewards_core(thisagent, no_attack);
+
+	if ( bestflag != $nullagent())
+		begin
+			// what kind of flag was it?
+			// what should they do now,explore or attack?
+			if (bestflag's "title" == "flag_explore")
+				begin
+					thisagent's completeintent = "IDTXT_INTENT_GOINGTOEXPLOREFLAG";
+					thisagent's completeaction = $travel_to;
+					thisagent's completeaction2 = thisagent's "basicscript";
+					ThisAgent's completecondition = $isdead;
+					thisagent's completetarget = flag;
+					//thisagent's completedestination = $locationof(bestflag);
+					//$move(thisagent,thisagent's "destination"); //this action needs to be adressed
+					thisagent's completemove = $move;
+					thisagent's completemoved << $locationof(bestflag);
+					//bestflag's "heroes" << thisagent; //This probably sets the lists for what heroes are going after the flag, need to adress this.
+					//$setparent(thisagent,bestflag);
+				end
+
+			if (bestflag's "title" == "flag_attack")
+				begin
+					thisagent's completeintent  = "IDTXT_INTENT_GOINGTOATTACKFLAG";
+					thisagent's completetarget = $agentnumber($getattribute(bestflag,#ATTRIB_targetID));
+					thisagent's completeaction = $attack_object;
+					ThisAgent's completecondition = $notvalid;
+					//bestflag's "heroes" << thisagent;
+					//$setparent(thisagent,bestflag);
+				end
+			
+			if (bestflag's "title" == "Flag_Protect")
+				begin
+					thisagent's completeintent  = "IDTXT_INTENT_GOINGTOPROTECTFLAG";
+					thisagent's completetarget = $agentnumber($getattribute(bestflag,#ATTRIB_targetID));
+					thisagent's completeaction = $defend_flag_task;
+					ThisAgent's completecondition = $isdead;
+					thisagent's completetarget2 = flag;
+					//$setparent(thisagent,bestflag);
+				end
+
+			//$say(thisagent,"VFX_GO_REWARD");
+			return $NotDuplicateTask(thisagent);
+		end
+
+	return FALSE;
+end
+
+function check_rewards ( agent thisagent, boolean no_attack ) is Boolean
+
+declare
+	agent bestflag;
+
+begin
+	bestflag = $check_rewards_core(thisagent, no_attack);
+
+	if ( bestflag != $nullagent())
+		begin
+			// what kind of flag was it?
+			// what should they do now, explore or attack?
+			if ( bestflag's "title" == "flag_explore" )
+				begin
+					$SpecifyIntent ( ThisAgent, #Intent_Going_To_Explore_Flag );
+					thisagent's "activescript" = $travel_to;
+					thisagent's "backscript" = thisagent's "basicscript";
+					thisagent's "target" = thisagent;
+					thisagent's "destination" = $locationof ( bestflag );
+					$move ( thisagent, thisagent's "destination" );
+					bestflag's "heroes" << thisagent;
+					$setparent ( thisagent, bestflag );
+				end
+
+			if (( bestflag's "title" == "flag_attack" ) || ( bestflag's "title" == "flag_guard" ))
+				begin
+					$SpecifyIntent ( ThisAgent, #Intent_Going_To_Attack_Flag );
+					thisagent's "target" = $agentnumber ( $getattribute ( bestflag, #ATTRIB_targetID ));
+					thisagent's "activescript" = $attack_object;
+					bestflag's "heroes" << thisagent;
+					$setparent ( thisagent, bestflag );
+				end
+			if (bestflag's "title" == "Flag_Protect")
+				begin
+					$SpecifyIntent ( ThisAgent, "IDTXT_INTENT_GOINGTOPROTECTFLAG" );
+					thisagent's "target" = thisagent;
+					thisagent's "backtarget" = bestflag;
+					thisagent's "activescript" = $defend_flag_task;
+					thisagent's "destination" = $locationof ( thisagent's "target" );
+					bestflag's "heroes" << thisagent;
+					$setparent ( thisagent, bestflag );
+				end
+			
+			$say ( thisagent, "VFX_GO_REWARD" );
+			return TRUE;
+		end
+
+	return FALSE;
+end
+
+function check_rewards_core(agent thisagent, boolean no_attack) is agent
+declare
+	list flags;
+	agent flag, bestflag, target;
+	integer bestscore, score, greedmod, others, rewardcost, distance;
+
+begin
+	$ListObjects ( thisagent, "RewardFlag", -1, flags, #RewardFlags );
+
+	bestflag = $nullagent();
+	bestscore = 1;
+	greedmod = thisagent's "greed" / #greed_div;
+	if ( greedmod == 0 ) greedmod = 1;
+
+	greedmod = greedmod * #reward_multiplier;
+
+	foreach flag in flags do
+		begin
+			rewardcost = $getattribute ( flag, #ATTRIB_rewardcost );
+
+			if ( rewardcost > 0 )
+				begin
+					distance = $distancebetweenagents ( thisagent, flag );
+
+					if ( distance < 100 ) // This check ensures that the evaluation does not spike up to
+						distance = 100;    // unrealistically high values as you move close to flags.
+												 // This made if very likely for	heroes to attack their own guilds.
+
+					score = ( rewardcost * greedmod ) / distance;
+					others = $listsize ( flag's "heroes" );
+
+					if ( flag's "title" == "flag_attack" )
+						begin
+							if ( no_attack || $notvalid ( $agentnumber ( $getattribute ( flag, #ATTRIB_TargetID ))))
+								begin
+									score = 0;
+								end
+							else
+								begin
+									target = $agentnumber( $getattribute ( flag, #ATTRIB_targetID ));
+									if ( target == thisagent )
+										score = 0;
+									else
+										if (( target's "type" != "building" ) && ( target's "type" != "lair" ))
+											score += $target_eval ( thisagent, target );
+
+									// if units belong to the same player, they are harder to make fight
+									// same if on the same team - this can happen if plyr 3 puts a flag
+									// on plyr 1's unit, plyr 2 heroes should be harder to make fight
+									// against plye 1,
+
+									if ( $getunitplayernumber ( thisagent ) == $getunitplayernumber ( target ))
+										score -= thisagent's "loyalty" * #attack_flag_loyalty_mod;
+									else
+										if ( $getplayerteamnumber ( thisagent ) == $getplayerteamnumber ( target ))
+											score -= thisagent's "loyalty" * #attack_flag_loyalty_mod;
+
+
+									score -= others * #attack_flag_mod;
+								end
+						end
+					else if ( flag's "title" == "flag_explore" )
+							begin
+								// a unit can't go to any other player's explore flags
+								if ( $getunitplayernumber ( thisagent ) != $getunitplayernumber ( flag ))
+									score = 0;
+								else
+									score -= others * #explore_flag_mod;
+							end
+					else if(flag's "title" == "Flag_Protect")
+						begin
+							if (thisagent's "backtarget" != $nullagent() || $isdead(flag's "target"))
+								begin
+									score = 0;
+								end
+							else
+								begin 
+									if ($getunitplayernumber(thisagent) != $getunitplayernumber(flag))
+										score = 0;
+									else if ($listsize(flag's "hostiles") > 0)
+										begin
+											//$list_eval_opt(thisagent, flag's "hostiles");
+											//score += (thisagent's "eval_best_score");
+											score += (($listsize(flag's "hostiles") + others) * 5);
+										end
+								end
+						end
+					if ( score > bestscore )
+						begin
+							bestscore = score;
+							bestflag = flag;
+						end
+				end
+		end
+	return bestflag;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function attack_flag_birth(agent thisagent)
+
+declare
+
+	agent target, new_agent, parent;
+	integer flagplayer,targetplayer;
+
+begin
+	target = $agentnumber($getattribute(thisagent,#ATTRIB_targetID));
+	targetplayer = $getunitplayernumber(target);
+	flagplayer = $getunitplayernumber(thisagent);
+
+	thisagent's "gavereward" = FALSE;
+	
+	if (targetplayer == flagplayer && $Isbuilding(target) && $Getbooleansafe(target, "has_protection") == false)
+		begin
+			$Protect_Flag_birth(thisagent);
+		end
+	
+	$NewThread( thisagent's "activeScript", #flag_Cycle, thisagent );
+
+	if (targetplayer != #monster_player)
+		if (targetplayer != flagplayer)
+			if ($getplayerteamnumber(target) == $getplayerteamnumber(thisagent))
+				begin
+					$setplayerteamnumber(thisagent,$newteamnumber());
+				end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Protect_Flag_birth ( agent thisagent )
+
+declare
+
+	agent target, new_flag;
+	coordinate coord;
+	integer flagplayer,targetplayer;
+
+begin
+	thisagent's "gavereward" = true;
+	$SetDrawEffects(thisagent, "green", 1);
+	target = $agentnumber ( $getattribute ( thisagent, #ATTRIB_targetID ));
+	$SetBooleanSafe(target, "has_protection", true);
+
+	thisagent's "subtype" = "Flag_Protect";
+	thisagent's "title" = "Flag_Protect";
+	thisagent's "birthscript" = $Protect_Flag_birth;
+	thisagent's "activescript" = $Protect_Flag_poll;
+	thisagent's "deathscript" = $Protect_Flag_death;
+	thisagent's "IGDeathScript" = $Protect_Flag_death;
+	thisagent's "target" = target;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Protect_Flag_poll ( agent thisagent )
+
+declare
+	list new_heroes;
+	agent hero,target;
+	agent guy;
+	integer max_val, val, num_guys;
+	boolean in_danger;
+
+begin
+	if ($isvalidgamepiece(thisagent) == FALSE)
+		return;
+
+	target = thisagent's "target";
+	if ($isdead(target))
+		begin
+			$deletegamepiece(thisagent);
+			return;
+		end
+					
+	// check to see if all the guys on my list are alive,
+	// then, are they coming to attack my target
+	if ($listsize(thisagent's "heroes") > 0)
+		begin
+			foreach hero in thisagent's "heroes" do
+				begin
+					if ($isdead(hero) == FALSE)
+						begin
+							if ($flee_check(hero) == 1)
+								hero's "backtarget" = $nullagent();
+
+							if (hero's "backtarget" != thisagent)
+								$clearflag(hero);
+							else
+								new_heroes << hero;
+
+						end
+				end
+		end
+
+	thisagent's "heroes" = new_heroes;
+	$setattribute(thisagent, #ATTRIB_flagseekers, $listsize(new_heroes));
+
+	
+	max_val = $getattribute ( thisagent, #ATTRIB_rewardcost );
+	if (max_val == 0)
+		return;
+
+	num_guys = $listsize(thisagent's "hostiles");
+	if (num_guys == 0)
+		begin
+			thisagent's "hostiles" = $list_enemies_seen(target, #protection_flag_range);
+			if ($listsize(thisagent's "hostiles") > 0)
+				begin
+					$doflagassembly(thisagent);
+				end
+		end
+	else
+		begin
+			val = 0;
+			foreach guy in thisagent's "hostiles" do
+				begin
+					if (max_val > 0)
+						if ($isdead(guy))
+							begin
+								val = max_val / (num_guys * 300);
+								if (val < 1) val = 1;
+								val *= 100;
+								max_val -= val;
+
+								$dropgoldinradius_samePlayer ( thisagent, val);
+							end
+				end
+			if (max_val <= 0)
+				begin
+					$playsound ( thisagent, "completed_reward", "begin" );
+					$deletegamepiece(thisagent);
+					return;
+				end
+			if (val > 0)
+				$setattribute(thisagent, #ATTRIB_Rewardcost, max_val);
+			thisagent's "hostiles" = $list_enemies_seen(target, #protection_flag_range);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Protect_Flag_death ( Agent thisagent )
+
+declare
+	agent hero;
+	agent target;
+
+begin
+	target = thisagent's "target";
+	if ($isvalidgamepiece(target))
+		target's "has_protection" = false;
+
+	if ( $listsize ( thisagent's "heroes" ) > 0 )
+		begin
+			//$debugout ( 911, thisagent's "heroes" );
+			foreach hero in thisagent's "heroes" do
+				begin
+					if ( $isdead ( hero ) == FALSE )
+						begin
+							if (hero's "backtarget" == thisagent)
+								hero's "backtarget" = $nullagent();
+							if ($getflag(hero) == thisagent)
+								$clearflag(hero);
+						end
+				end
+		end
+	$clearlist(thisagent's "heroes");
+	thisagent's "target" = $Nullagent();
+end
+
+
+function defend_flag_task(agent thisagent)
+
+declare
+	agent flag, target, best;
+	integer targetrange;
+	list enemies_near_home;
+
+begin
+	flag = thisagent's "backtarget";
+
+	if ($isvalidgamepiece(flag) == false)
+		begin
+			$reset_tasks(thisagent);
+			return;
+		end
+	
+	target = flag's "target";
+	
+	if ($isdead(target))
+		begin
+			// go do something else
+			// like get revenge!
+			thisagent's "target" = thisagent;
+			thisagent's "backtarget" = $Nullagent();
+			thisagent's "activescript" = $travel_to;
+			$move(thisagent,thisagent's "destination");
+			thisagent's "backscript" = $hero_wander;
+			thisagent's "counter" = 0;
+			$clearflag(thisagent);
+		end
+	else
+		begin
+			targetrange = $distanceBetweenAgents(thisagent,target);
+			if (targetrange > #protection_flag_range)
+				begin
+					// move towards target
+					thisagent's "target" = target;
+					thisagent's "destination" = $locationof(target);
+					thisagent's "activeScript" = $travel_to;
+					thisagent's "backScript" = $defend_flag_task;
+					$move(thisagent,target);
+				end
+			else
+				begin
+					enemies_near_home = flag's "hostiles";
+					if ($listsize(enemies_near_home) == 0)
+						begin
+							$createeffector(thisagent,"thought_bubble_talk",#talk_bubble_time);
+							$performaction(thisagent,thisAgent's "Idle_action",thisagent);
+							thisagent's "activescript" = $hero_wander_m;
+							thisagent's "counter" = 0;
+						end
+					else
+						begin
+							thisagent's "target" = $listmember(enemies_near_home,1);
+							thisagent's "activescript" = $berserk_defend;
+						end
+				end
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function DoFlagAssembly(agent thisAgent)
+declare
+	agent 	Member;
+	integer  Range;
+
+begin
+	//Establish range within which Members will go berserk
+	//Range = #Assembly_Go_Berserk_Mod * $GetAttribute (ThisAgent, #ATTRIB_SightRange);
+
+
+	Foreach Member in ThisAgent's "heroes" do
+		begin
+			//Make sure the member is alive (we don't want to teleport gravestones around)
+			If ($isdead(Member) == false && $IsFrozen (Member) == False)
+				begin
+
+					//If the Member is inside of a building, then release them
+					If ($InsideBuilding (Member))
+						begin
+							$Exit_Building (Member, Member's "Target");
+						end
+
+					//Otherwise, just reset their tasks
+					//Else
+						$Reset_Tasks (Member);
+
+
+					//If they are far away, then teleport them home
+					//If ($DistanceBetweenAgents (ThisAgent, Member) > Range)
+						//begin
+						//$createeffector( Member, "teleport_effector", $GetSpellAttribute( "teleport", "effector_duration" ) );
+						//$TeleportToUnit( Member, 50000, ThisAgent, 0 );
+						//end
+
+
+
+					//Make all Members go berserk
+					Member's "ActiveScript" = $defend_flag_task;
+					Member's "backtarget" = thisagent;
+
+				end
+		end
+
+	$playsound(thisagent,"Call_to_arms","begin");
+end
