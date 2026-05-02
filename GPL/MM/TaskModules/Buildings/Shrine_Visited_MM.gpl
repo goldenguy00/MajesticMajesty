@@ -43,12 +43,10 @@ declare
 begin
 	target = thisagent's "target";
 	$exit_building(thisagent,thisagent's "target");
-	
-	if ($HasAttribute("TASK_activeStatus", thisagent))
-		thisagent's "TASK_activeStatus" = "Complete";
 
 	$StartCooldown(thisAgent, "Shrine", 45000);
 	
 	$AddInsightPoints(thisagent, #insight_point_limit + $GetBaseStatTotal(thisagent, "Wisdom"));
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+	$checktaskcompletion(thisagent);
 end

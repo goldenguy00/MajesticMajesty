@@ -132,6 +132,7 @@ begin
 					$stopmoving(thisagent);
 					thisagent's "activescript" = thisagent's "backscript";
 					$debugout("not valid target");
+					$checktaskcompletion(thisagent);
 					return TRUE;
 				end
 
@@ -143,6 +144,7 @@ begin
 					// so go back to the task that called travel to
 					thisagent's "activescript" = thisagent's "backscript";
 					$debugout("I'm in a building.");
+					$checktaskcompletion(thisagent);
 					return TRUE;
 				end
 
@@ -159,6 +161,7 @@ begin
 							$stopmoving(thisagent);
 						thisagent's "activescript" = thisagent's "backscript";
 						$debugout("I'm at my target.");
+						$checktaskcompletion(thisagent);
 						return TRUE;
 					end
 		end
@@ -180,6 +183,8 @@ begin
 					$debugout("I've arrived at my coord destination.");
 					$stopmoving(thisagent);
 					thisagent's "activescript" = thisagent's "backscript";
+
+					$checktaskcompletion(thisagent);
 					return TRUE;
 				end
 

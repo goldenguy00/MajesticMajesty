@@ -1094,6 +1094,8 @@ declare
 begin
 	if (thisagent's "attacktype" == 3)
 		return true;
+	if ($hasattribute("attack_action", thisagent) == false)
+		return false;
 	return thisagent's "Attack_action" == "do_nothing";
 end
 

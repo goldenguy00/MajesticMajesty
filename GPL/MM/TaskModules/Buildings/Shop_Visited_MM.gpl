@@ -126,11 +126,9 @@ declare
 begin
 	$exit_building(thisagent,thisagent's "target");
 
-	if ($HasAttribute("TASK_activeStatus", thisagent))
-	thisagent's "TASK_activeStatus" = "Complete";
-
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
 	thisAgent's "taskname" = "";
+	$checktaskcompletion(thisagent);
 end
 
 

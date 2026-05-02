@@ -42,10 +42,10 @@ function hero_wander(agent thisagent)
 declare
 
 begin
-	$Update_invalid_tasks(thisagent);
 	if ($check_nearby(thisagent) == false)
+		if ($pursuetask(thisagent) == false)
 		if ($ismoving(thisagent) == FALSE)
-			if (thisagent's "counter" < #wander_limit && thisagent's "TASK_subIsValidCurrent" == false)
+			if (thisagent's "counter" < #wander_limit)
 				begin
 					thisagent's "target" = thisagent;
 					ThisAgent's "Destination" = $randomcoord(thisagent,#wander_dist);

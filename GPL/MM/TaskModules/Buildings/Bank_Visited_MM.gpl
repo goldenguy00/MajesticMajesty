@@ -41,9 +41,6 @@ begin
 	bank = thisagent's "target";
 	$exit_building(thisagent,thisagent's "target");
 	
-	if ($HasAttribute("TASK_activeStatus", thisagent))
-		thisagent's "TASK_activeStatus" = "Complete";
-	
 	untaxed_gold = $GetAttribute(thisagent, #ATTRIB_Gold);
 	stored_gold = $GetAttribute(thisagent, #ATTRIB_StoredGold);
 	total_gold = untaxed_gold + stored_gold;
@@ -63,4 +60,5 @@ begin
 	$SetIntegerSafe(thisagent, "Bank_Account_Gold", total_gold);
 	
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
+	$checktaskcompletion(thisagent);
 end

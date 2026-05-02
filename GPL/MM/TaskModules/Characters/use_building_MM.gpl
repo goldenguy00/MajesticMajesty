@@ -34,7 +34,7 @@ begin
 			else
 				begin
 					// I'm inside the building
-
+					$checktaskcompletion(thisagent);
 					// this line is so that the building knows the guy is here
 					// right away.
 					if ($agentinlist(thisagent,target's "occupants") == False)
@@ -88,7 +88,7 @@ begin
 			else
 				begin
 					// I'm inside the building
-
+					$checktaskcompletion(thisagent);
 					// this line is so that the building knows the guy is here
 					// right away.
 					if ($agentinlist(thisagent,target's "occupants") == False)
@@ -162,7 +162,7 @@ begin
 			else
 				begin
 					// Thisagent is inside the building
-
+					$checktaskcompletion(thisagent);
 					// this line is so that the building knows the guy is here
 					// right away.
 					if ($agentinlist(thisagent,target's "occupants") == False)

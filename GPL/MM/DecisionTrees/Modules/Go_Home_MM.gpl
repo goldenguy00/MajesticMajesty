@@ -16,7 +16,7 @@ begin
 			return FALSE;
 		end
 
-	if (thisagent's "home" == $Nullagent())
+	if ($isdead(thisagent's "home"))// == $Nullagent())
 		begin
 //			//$DebugOut("I don't have a home!");
 			
@@ -53,7 +53,7 @@ begin
 			return FALSE;
 		end
 
-	if ($NotValid(thisagent's "home"))
+	if ($isdead(thisagent's "home"))
 		begin
 //		            //$DebugOut("I don't have a home!");
 			
@@ -79,7 +79,8 @@ begin
 	Target = thisagent's "home";
 	thisagent's completetarget = Target;
 	thisagent's completeaction  = $Use_Building_Packet;
-	ThisAgent's completevisit = Target's "visited_script";
+	if ($hasattribute("visited_script", target))
+		ThisAgent's completevisit = Target's "visited_script";
 	ThisAgent's completecondition = $isdead;
 	thisagent's completetname = "go_home";
 

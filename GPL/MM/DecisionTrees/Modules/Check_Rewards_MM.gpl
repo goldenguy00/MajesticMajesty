@@ -56,8 +56,9 @@ begin
 					thisagent's completeintent = "IDTXT_INTENT_GOINGTOEXPLOREFLAG";
 					thisagent's completeaction = $travel_to;
 					thisagent's completeaction2 = thisagent's "basicscript";
-					ThisAgent's completecondition = $isdead;
-					thisagent's completetarget = flag;
+					ThisAgent's completecondition = $invalid;
+					thisagent's completetarget = thisagent;
+					thisagent's completetarget2 = flag;
 					//thisagent's completedestination = $locationof(bestflag);
 					//$move(thisagent,thisagent's "destination"); //this action needs to be adressed
 					thisagent's completemove = $move;
@@ -71,7 +72,8 @@ begin
 					thisagent's completeintent  = "IDTXT_INTENT_GOINGTOATTACKFLAG";
 					thisagent's completetarget = $agentnumber($getattribute(bestflag,#ATTRIB_targetID));
 					thisagent's completeaction = $attack_object;
-					ThisAgent's completecondition = $notvalid;
+					ThisAgent's completecondition = $isdead;
+					thisagent's completetarget2 = flag;
 					//bestflag's "heroes" << thisagent;
 					//$setparent(thisagent,bestflag);
 				end
@@ -81,7 +83,7 @@ begin
 					thisagent's completeintent  = "IDTXT_INTENT_GOINGTOPROTECTFLAG";
 					thisagent's completetarget = $agentnumber($getattribute(bestflag,#ATTRIB_targetID));
 					thisagent's completeaction = $defend_flag_task;
-					ThisAgent's completecondition = $isdead;
+					ThisAgent's completecondition = $invalid;
 					thisagent's completetarget2 = flag;
 					//$setparent(thisagent,bestflag);
 				end
@@ -92,7 +94,11 @@ begin
 
 	return FALSE;
 end
-
+function invalid(agent thisagent) is boolean
+declare
+begin
+	return $isvalidgamepiece(thisagent) == false;
+end
 function check_rewards ( agent thisagent, boolean no_attack ) is Boolean
 
 declare

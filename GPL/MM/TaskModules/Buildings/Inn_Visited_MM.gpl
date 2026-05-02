@@ -111,9 +111,6 @@ declare
 
 begin
 	$exit_building(thisagent,thisagent's "target");
-
-	if ($HasAttribute("TASK_activeStatus", thisagent))
-		thisagent's "TASK_activeStatus" = "Complete";
 	
 	//If the hero's intention was to play a minstrel show, than they make some money
 	If (ThisAgent's "Running_Intent" == "IDTXT_INTENT_PERFORMBARD")
@@ -124,6 +121,7 @@ begin
 
 	ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
 	thisAgent's "taskname" = "";
+	$checktaskcompletion(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -189,9 +187,6 @@ begin
 
 	if (Flag)
 		begin
-
-			if ($HasAttribute("TASK_activeStatus", thisagent))
-				thisagent's "TASK_activeStatus" = "Complete";
 			ThisAgent's "ActiveScript" = ThisAgent's "BasicScript";
 			$Exit_Building (ThisAgent, ThisAgent's "Target");
 
@@ -217,4 +212,5 @@ begin
 
 				end
 		end
+		$checktaskcompletion(thisagent);
 end

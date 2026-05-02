@@ -43,6 +43,7 @@ Begin
 			else
 				begin
 					$Cast (ThisAgent, spellname, target, "");
+					$reset_tasks(thisagent);
 				end
 		end
 End

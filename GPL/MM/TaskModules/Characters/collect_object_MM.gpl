@@ -32,8 +32,7 @@ begin
 				begin
 					// pick the damn thingie
 					$PerformAction (ThisAgent, ThisAgent's "Pickup_Action", Target);
-					if ($HasAttribute("TASK_activeStatus", thisagent))
-						thisagent's "TASK_activeStatus" = "Complete";
+					$checktaskcompletion(thisagent);
 				end
 		end
 

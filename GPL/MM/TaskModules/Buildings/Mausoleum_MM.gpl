@@ -122,7 +122,7 @@ begin
 	flag = FALSE;
 
 	// This sets up their basic scripts and stats so that they are 'alive' again.
-
+	$invalidatetasks(thisagent);
 	thisagent's "activescript" = thisagent's "startingscript";
 	thisagent's "backscript" = thisagent's "startingscript";
 	thisagent's "basicscript" = thisagent's "startingscript";

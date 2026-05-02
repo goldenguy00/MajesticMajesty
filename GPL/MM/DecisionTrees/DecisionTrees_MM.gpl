@@ -2246,18 +2246,17 @@ begin
 
 	if ($isvalidgamepiece(thisagent's "Home"))
 		if ($GetTitle(thisagent's "Home") == "Wizards_Guild")
-			if ($titleinagentlist("Available_Books", (thisagent's "Home")'s "Attachments"))
-				begin
-					thisagent's "activescript" = thisagent's "basicscript";
-					Thisagent's "TASK_subIsValidCurrent" = true;
-					ThisAgent's "TASK_subTargetCurrent" = thisagent's "Home";
-					ThisAgent's "TASK_subTaskNameCurrent" = "MAGICALTREATISES1";
-					ThisAgent's "TASK_subIntentCurrent" = "IDTXT_INTENT_STUDYINGATWIZARDSGUILD";
-					ThisAgent's "TASK_subActiveScriptCurrent" = $Use_Building_Packet;
-					ThisAgent's "TASK_subVisitingScriptCurrent" = $wizards_guild_visited;
-					ThisAgent's "TASK_subExitConditionCurrent" = $isdead;
-					thisagent's "TASK_activeStatus" = "Ongoing";
-				end
+			begin
+				thisagent's "activescript" = $NextTask;
+				Thisagent's "TASK_subIsValidCurrent" = true;
+				ThisAgent's "TASK_subTargetCurrent" = thisagent's "Home";
+				ThisAgent's "TASK_subTaskNameCurrent" = "MAGICALTREATISES1";
+				ThisAgent's "TASK_subIntentCurrent" = "IDTXT_INTENT_STUDYINGATWIZARDSGUILD";
+				ThisAgent's "TASK_subActiveScriptCurrent" = $Use_Building_Packet;
+				ThisAgent's "TASK_subVisitingScriptCurrent" = $wizards_guild_visited;
+				ThisAgent's "TASK_subExitConditionCurrent" = $isdead;
+				thisagent's "TASK_activeStatus" = "Ongoing";
+			end
 end
 ///////////////////////////////////////////////////////////////////////////////
 function reset_tasks(agent thisagent)
@@ -2266,7 +2265,9 @@ declare
 
 begin	
 	$StopMoving (ThisAgent);
-	
+
+	$checktaskcompletion(thisagent);
+		
 	$clearlist(thisagent's "hostiles");
 	thisagent's "activescript" = thisagent's "basicscript";
 	thisagent's "backscript" = thisagent's "basicscript";
@@ -2277,6 +2278,16 @@ begin
 	$SetBooleanSafe(thisagent, "In_Combat", false);
 end
 
+function CheckTaskCompletion(agent thisagent)
+declare
+begin
+	if ($getstringsafe(thisagent, "TASK_activeStatus") == "Ongoing")
+		begin
+			if (thisagent's "target" == thisagent's "TASK_subTargetCurrent")
+				thisagent's "TASK_activeStatus" = "complete";
+		end
+
+end
 ///////////////////////////////////////////////////////////////////////////////
 function NextTask (agent thisagent)
 
@@ -2290,19 +2301,23 @@ begin
 			return;
 		end
 	
+	$createeffector(thisagent,"thought_bubble_think",#think_bubble_time);
+	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_THINKING");
+
 	if ($check_nearby(thisagent) == False)
 	if ($Defend_home(thisagent) == False)
 	//if ($Check_Rewards(thisagent,FALSE) == False)
 	if ($rest(thisagent) == false)
 	//if ($Open_Bank_Account(thisagent) == False)
-	if ($Defend_Building_Nearby(thisagent) == false)
+	//if ($Defend_Building_Nearby(thisagent) == false)
 	if ($pursueTask(thisagent) == false)
-	//if ($explore_map(thisagent, thisagent's "TASK_typeBaseChanceExplore") == false)
+	if ($explore_map(thisagent, thisagent's "TASK_typeBaseChanceExplore") == false)
 	if ($go_home(thisagent, thisagent's "TASK_typeBaseChanceIdle") == false)
 		begin
 			// do some immediate reactions while finding a long term plan
-			thisagent's "TASK_activeStatus" = "Searching";			
+			
 			$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_WANDERING");
+			thisagent's "TASK_activeStatus" = "Searching";
 			thisagent's "counter" = 0;
 			thisagent's "activescript" = $hero_wander;
 		end
@@ -2315,15 +2330,21 @@ declare
 	list waypoints;
 	integer waypointCount;
 	function travelScript;
+	string status;
 begin
+	status = thisagent's "TASK_activeStatus";
 
 	if ($IsTaskValid(thisagent, "Current") == false)
-		thisagent's "TASK_activeStatus" = "Complete";
-	
-	if (thisagent's "TASK_activeStatus" == "Ongoing")
-		thisagent's "TASK_activeStatus" = "Complete";
-	
-	if (thisagent's "TASK_activeStatus" == "Complete")
+		status = "Complete";
+
+	if (status == "failed")
+		begin
+			$overridetasksequence(thisagent, "backup", "current");
+			$overridetasksequence(thisagent, "current", "next");
+			$overridetasksequence(thisagent, "next", "reserve");
+			$overridetasksequence(thisagent, "reserve", "backup");
+		end
+	else if (Status == "Complete")
 		begin
 			$overridetasksequence(thisagent, "current", "next");
 			$overridetasksequence(thisagent, "next", "reserve");
@@ -2338,6 +2359,7 @@ begin
 			thisagent's "TaskName" = thisagent's "TASK_subTaskNameCurrent";
 			thisagent's "VisitingScript" = thisagent's "TASK_subVisitingScriptCurrent";
 			$SpecifyIntentString (ThisAgent, thisagent's "TASK_subIntentCurrent");
+
 			flag = thisagent's "backtarget";
 			if ($isvalidgamepiece(flag))
 				if (flag's "type" == "rewardflag")
@@ -2354,14 +2376,12 @@ begin
 					thisagent's "Destination" = $listmember(waypoints, waypointCount);
 
 					travelscript = thisagent's "TASK_subTravelScriptCurrent";
-					if ($validfunction(travelscript) && travelscript != $nullfunction)
-						begin
-							if (travelScript == $movewaypoint)
-								(travelscript)(thisagent, waypoints);
-							else if (travelscript == $move)
-								(travelscript)(thisagent, thisagent's "Destination");
-						end
+					if (travelScript == $movewaypoint)
+						(travelscript)(thisagent, waypoints);
+					else if (travelscript == $move)
+						(travelscript)(thisagent, thisagent's "Destination");
 				end
+			
 			thisagent's "TASK_activeStatus" = "Ongoing";
 			return true;
 		end
@@ -2373,7 +2393,7 @@ end
 function IsTaskValid(agent thisagent, string subset) is boolean
 declare
 	function condition;
-	string _isValid, _condition, _target, _action;
+	string _isValid, _condition, _target;
 
 begin
 	_isValid = "TASK_subIsValid"+subset;
@@ -2383,15 +2403,12 @@ begin
 	
 	_condition = "TASK_subExitCondition"+subset;
 	_target = "TASK_subTarget"+subset;
-	_action = "TASK_subActiveScript"+subset;
 
-	if ($validfunction(thisagent's _action) && thisagent's _action != $nullfunction)
-		if ($ValidFunction(thisagent's _condition) && thisagent's _condition != $nullfunction)
-			if ((thisagent's _condition)(thisagent's _target) == false)
-				thisagent's _isValid = true;
+	if ((thisagent's _condition)(thisagent's _target) == false)
+		thisagent's _isValid = true;
 	
 	if (thisagent's _isvalid == false)
-		$ResetTaskSequence(thisagent, subset);
+		$InvalidateTask(thisagent, subset);
 	
 	return thisagent's _isValid;
 end
@@ -2683,7 +2700,7 @@ function OverrideTaskSequence (agent thisagent, string thistask, string nexttask
 declare
 
 begin
-	$ResetTaskSequence(thisagent, thistask);
+	$InvalidateTask(thisagent, thistask);
 
 	if ($IsTaskValid(thisagent, nexttask) == true)
 		begin
@@ -2703,13 +2720,13 @@ begin
 			thisagent's ("TASK_subWaypoints" + thistask) = thisagent's ("TASK_subWaypoints" + nexttask);
 		end
 	
-	$ResetTaskSequence(thisagent, nexttask);
+	$InvalidateTask(thisagent, nexttask);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////CACHE INVALIDATION FUCK YEAAAAAAAAAAAAAAAAAHHHHHHHH/////////////////
 ///////////////////////////////////////////////////////////////////////////////
-function ResetTaskSequence (agent thisagent, string thistask)
+function InvalidateTask (agent thisagent, string thistask)
 
 declare
 
@@ -2718,15 +2735,28 @@ begin
 
 	thisagent's ("TASK_subTarget" + thistask) = $nullagent();
 	thisagent's ("TASK_subBackTarget" + thistask) = $nullagent();
-	thisagent's ("TASK_subActiveScript" + thistask) = $nullfunction;
-	thisagent's ("TASK_subBackScript" + thistask) = $nullfunction;
+	thisagent's ("TASK_subActiveScript" + thistask) = $NextTask;
+	thisagent's ("TASK_subBackScript" + thistask) = $NextTask;
 	thisagent's ("TASK_subTaskName" + thistask) = "";
 	thisagent's ("TASK_subVisitingScript" + thistask) = $nullfunction;
 	thisagent's ("TASK_subIntent" + thistask) = "";
 
-	thisagent's ("TASK_subExitCondition" + thistask) = $nullfunction;
+	thisagent's ("TASK_subExitCondition" + thistask) = $nevervalid;
 	thisagent's ("TASK_subTravelScript" + thistask) = $nullfunction;
 	$clearlist(thisagent's ("TASK_subWaypoints" + thistask));
+end
+function InvalidateTasks(agent thisagent)
+declare
+begin
+	$InvalidateTask(thisagent, "Current");
+	$InvalidateTask(thisagent, "Next");
+	$InvalidateTask(thisagent, "Reserve");
+	$InvalidateTask(thisagent, "Backup");
+end
+function nevervalid(agent thisagent) is boolean
+declare
+begin
+	return true;
 end
 
 function InitTaskAttributes(agent thisagent)
@@ -2761,7 +2791,7 @@ begin
 	$AddAttribute(thisagent, "TASK_subTaskName" + thistask, "string");
 	$AddAttribute(thisagent, "TASK_subWaypoints" + thistask, "list");
 	
-	$ResetTaskSequence(thisagent, thistask);
+	$InvalidateTask(thisagent, thistask);
 end
 
 function UpdateTaskPackage(agent thisagent, function action, function condition, agent target, string intent)

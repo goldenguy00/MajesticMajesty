@@ -103,9 +103,6 @@ Begin
 	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
 
 	ThisAgent's "TaskName" = "";
-
-	if ($HasAttribute("TASK_activeStatus", thisagent))
-	thisagent's "TASK_activeStatus" = "Complete";
 	
 	$Exit_Building (ThisAgent, Target);
 	

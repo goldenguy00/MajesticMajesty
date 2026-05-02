@@ -234,21 +234,17 @@ begin
 	if (thisagent's "home" == $nullagent())
 		thisagent's "home" = $parent(thisagent);
 
+	thisagent's "basicScript" = thisagent's "StartingScript";
+	thisagent's "activeScript" = thisagent's "StartingScript";
+	thisagent's "backscript" = thisagent's "StartingScript";
+	
 	if ($HasAttribute("TASK_StartingScript",thisagent))
 		begin
 			$InitTaskAttributes(thisagent);
 			(thisagent's "TASK_StartingScript")(thisagent);
-
-			$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 			$NewThread( thisagent's "TASK_TaskScript", #Task_Cycle, thisagent );
 		end
-	else
-		begin
-			thisagent's "basicScript" = thisagent's "StartingScript";
-			thisagent's "activeScript" = thisagent's "StartingScript";
-			thisagent's "backscript" = thisagent's "StartingScript";
-			$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
-		end
+	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );
 	
 	
 	if ($isvalidgamepiece(thisagent's "home"))
@@ -491,6 +487,8 @@ begin
 		return;
 
 	Palace = thisagent's "home";
+	if ($isdead(palace))
+		return;
 	places_to_visit = Palace's "tax_route";
 	old_target = thisagent's "target";
 

@@ -40,6 +40,6 @@ Begin
 
   //	Else
 	 //	//$DebugOut (911, "I can see another resource, so I am not going to seed.");
-
+	
 	$Reset_Tasks (ThisAgent);
 End

@@ -849,4 +849,5 @@ Begin
 
 	$SetThreadInterval (ThisAgent's "ActiveScript", #Normal_Cycle);
 
+	$InvalidateTasks(thisagent);
 End
