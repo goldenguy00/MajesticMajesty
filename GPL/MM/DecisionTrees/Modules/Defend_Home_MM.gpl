@@ -267,6 +267,7 @@ begin
 
 	if ($isdead(target))
 		begin
+			$Checktaskcompletion(thisagent);
 			// go do something else
 			// like get revenge!
 			thisagent's "target" = thisagent;
@@ -297,6 +298,7 @@ begin
 						end
 					else
 						begin
+							$Checktaskcompletion(thisagent);
 							thisagent's "target" = $listmember(enemies_near_home,1);
 							thisagent's "activescript" = $berserk_defend;
 						end

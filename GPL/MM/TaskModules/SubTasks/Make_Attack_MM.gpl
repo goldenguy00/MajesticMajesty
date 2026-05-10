@@ -389,10 +389,10 @@ begin
 	// if attacker wasn't a spell unit, intelligence affects damage amount
 	if ($IsValidGamePiece(attacker) == True)
 		begin
-			if (attacker's "subtype" == "hero")
-				damage_max += ((damage_max * $getattribute(attacker,#ATTRIB_intelligence)) / (100 * #intelligence_div));
+			//if (attacker's "subtype" == "hero")
+			//	damage_max += ((damage_max * $getattribute(attacker,#ATTRIB_intelligence)) / (100 * #intelligence_div));
 			damage_max = $DamageTypeModifiers(attacker, _type, damage_max);
-			//damage_min = $DamageTypeModifiers(attacker, _type, damage_min);
+			damage_min = $DamageTypeModifiers(attacker, _type, damage_min);
 		end
 
 	damage_max = $ResistanceTypeModifiers(defender, _type, damage_max);
@@ -658,7 +658,10 @@ begin
 			if (is_magical)
 				begin
 					if (attacker's "subtype" == "hero")
-						magical_dmg += $GetAttribute(attacker, #ATTRIB_weapon_magic_bonus);
+						begin
+							magical_dmg += ((magical_dmg * $getattribute(attacker,#ATTRIB_intelligence)) / (100 * #intelligence_div));
+							magical_dmg += $GetAttribute(attacker, #ATTRIB_weapon_magic_bonus);
+						end
 
 					magical_dmg = $AttackWithType(attacker, defender, magical_type, magical_dmg);
 					magical_dmg = $ApplyMagicalArmorReductions(defender, magical_dmg);
@@ -825,7 +828,7 @@ begin
 	if (damage <= 1)
 		return 1;
 
-	multiplier = $GetAttribute(defender, #ATTRIB_magicresistance) / #armor_magic_mult;
+	multiplier = $GetAttribute(defender, #ATTRIB_magicresistance);// #armor_magic_mult;
 	if (multiplier == 0)
 		return damage;
 

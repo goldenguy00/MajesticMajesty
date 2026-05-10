@@ -16,6 +16,7 @@
 					<Descriptions>Data\Services\Services_MM.xml</Descriptions>
 					<GPL>Data\bytecode.bcd</GPL>
 					<Strings>Data\M_Text_MM.xml</Strings>
+					<GPLSource>$(MajestySDKPath)\..\..\..\workshop\content\73230\3700913062\GPL</GPLSource>
 				</Load>
 			</Dataset>
 		</DataConfiguration>

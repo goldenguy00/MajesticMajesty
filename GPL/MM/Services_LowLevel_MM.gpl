@@ -1,4 +1,77 @@
 ///////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+function GetResearchContainer(agent thisagent) is agent
+declare
+	agent spawn;
+begin
+
+	$AddAttribute(thisagent, "research_text", "agentref");
+	$AddAttribute(thisagent, "Is_Researching", "boolean");
+	$addattribute(thisagent, "Attachments", "list");
+	if ($TitleInAgentList("Research", thisagent's "Attachments"))
+		begin
+			spawn = $agenttitleinlist("Research", thisagent's "Attachments");
+		end
+	else
+		begin
+			spawn = $SpawnUnit(thisagent, "Research", $UnitPointWithOffset(thisagent, -10, 50));
+			$setattribute(spawn, #ATTRIB_FirstStageBuilt, 1);
+			spawn's "PrimaryStructure" = thisagent;
+			thisagent's "Attachments" << spawn;
+		end
+
+	return spawn;
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function AddHelpItem(agent thisagent, string name, agent parent)
+declare
+	agent spawn;
+begin
+	if ($TitleInAgentList(name, thisagent's "Attachments") == false)
+		begin
+			spawn = $SpawnUnit(parent, name);
+			$setattribute(spawn, #ATTRIB_FirstStageBuilt, 1);
+			spawn's "PrimaryStructure" = thisagent;
+			spawn's "Container" = parent;
+			thisagent's "Attachments" << spawn;
+			$Hide(spawn, parent, 1);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function AddResearchItem(agent thisagent, string name, agent parent)
+declare
+	agent spawn;
+begin
+	if ($TitleInAgentList(name, $GetBuildingContents(parent)) == false)
+		begin
+			spawn = $spawnunit(parent, name);
+			spawn's "PrimaryStructure" = thisagent;
+			spawn's "Container" = parent;
+			(spawn's "BirthScript2")(spawn);
+			$Hide(spawn, parent, 1);
+		end
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function Research_Birth(agent thisagent)
+//Research birth used by all researches
+declare
+
+begin
+	$setattribute(thisagent, #ATTRIB_Gold, thisagent's "gold_value");
+	$setattribute(thisagent, #ATTRIB_MaxHP, thisagent's "Research_Time");
+	$setattribute(thisagent, #ATTRIB_HP, thisagent's "gold_value");
+	$setattribute(thisagent,#ATTRIB_ExperienceLevel, thisagent's "Level");
+end
+///////////////////////////////////////////////////////////////////////////////
+function Research_dummybirth(agent thisagent)
+declare
+
+begin
+end
 ///////////////////////////////////////////////////////////////////////////////
 function Service_Birth(agent thisagent, string name)
 //Research birth used by all researches
@@ -463,7 +536,7 @@ function ResearchExpandedLivingQuarters_Check(agent thisBuilding) is boolean
 declare
 
 begin
-	if (thisBuilding's "Level" == thisBuilding's "Max_Level")
+	if (thisBuilding's "Level" >= thisBuilding's "Max_Level")
 		return True;
 	return False;
 end		
@@ -475,7 +548,16 @@ begin
 	if (thisagent's "Level" < thisagent's "Max_Level")
 		return True;
 	return False;
-end		
+end
+
+function DummyCheck(agent thisagent) is boolean
+declare
+	boolean ret;
+begin
+	ret = true;
+	return ret;
+end
+
 ///////////////////////////////////////////////////////////////////////////////
 function ResearchExpandedLivingQuarters_Complete(agent thisagent)
 
@@ -484,7 +566,7 @@ declare
 
 begin
 	p_structure = thisagent's "PrimaryStructure";
-	$SetAttribute(p_structure,#ATTRIB_MaxGuildMembers,p_structure's "max_members");
+	$AdjustAttribute(p_structure,#ATTRIB_MaxGuildMembers,1);
 	$Research_Complete(thisagent);
 end	
 ///////////////////////////////////////////////////////////////////////////////
@@ -524,8 +606,6 @@ declare
 begin
 	p_structure = thisagent's "PrimaryStructure";
 	thisagent's "ResearchDisplayName" = "Research Barracks";
-	
-	$addattribute(thisagent, "checklist", "list");
 	thisagent's "Checklist" << "ResearchRecruitAdditionalGuard"; //Because this adds to the structure's max guard count, recruiting additional guards must be a checked by this.
 	thisagent's "Checklist" << "ResearchRecruitAdditionalArcher";
 	
@@ -573,8 +653,6 @@ declare
 begin
 	p_structure = thisagent's "PrimaryStructure";
 	thisagent's "ResearchDisplayName" = "Research Recruit Additional Archer";
-	
-	$addattribute(thisagent, "checklist", "list");
 	thisagent's "Checklist" << "ResearchRecruitAdditionalGuard";
 	
 	if ((thisagent's "ResearchCheck")(p_structure))
@@ -593,7 +671,6 @@ declare
 begin
 	p_structure = thisagent's "PrimaryStructure";
 	thisagent's "ResearchDisplayName" = "Research Recruit Additional Guard";
-	$addattribute(thisagent, "checklist", "list");
 	thisagent's "Checklist" << "ResearchRecruitAdditionalArcher";
 	
 	if ((thisagent's "ResearchCheck")(p_structure))
@@ -618,7 +695,7 @@ declare
 
 begin
 	p_structure = thisagent's "PrimaryStructure";
-	if ($getintegersafe(p_structure, "Num_Guards") < $getintegersafe(p_structure, "Max_Guards"))
+	if (p_structure's "Num_Guards" < p_structure's "Max_Guards")
 		return True;
 	return False;
 end		
@@ -632,7 +709,7 @@ declare
 begin
 	p_structure = thisagent's "PrimaryStructure";
 	max_guard = "Max_" + thisagent's "Service_Title";
-	$adjustintegersafe(p_structure, max_guard, 1);
+	p_structure's max_guard += 1;
 	$GuardhouseRestartGuardSpawnThread(p_structure, 1, thisagent's "Service_Title"); //Recruit the new guard immediately, since the Research time is already a delay enough on it
 	$Research_Complete(thisagent); 
 end	

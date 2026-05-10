@@ -7,14 +7,12 @@
 function monster_birth(agent thisagent)
 
 declare
-	string unit_name;
 
 begin
 	$GeneralAttributes(thisagent);
 
 	thisagent's "target" = $nullagent();
 	$clearlist(thisagent's "hostiles");
-	unit_name = thisagent's "Title";
 
 	if ($IsExpansion(thisagent))
 		begin
@@ -38,6 +36,67 @@ begin
 
 	thisagent's "startingScript" = thisagent's "basicScript";
 	
+end
+
+///////////////////////////////////////////////////////////////////////////////
+function find_guardian_home(agent thisagent)
+
+declare
+	agent parent;
+	agent AIRootAgent;
+
+begin
+	If ($IsValidGamePiece ($Parent (ThisAgent)))
+		begin
+			Parent = $Parent (ThisAgent);
+
+			if (parent's "type" == "lair")
+
+				begin
+					if ($unitisoffmaplair(Parent) == FALSE)
+						begin
+							If ($GetAttribute (Parent, #ATTRIB_Lair_Dispersion) == 0)
+								$SetAttribute (Parent, #ATTRIB_Lair_Dispersion, Parent's "Dispersion_Range");
+
+							ThisAgent's "coord_home" = $RandomCoord (Parent, $GetAttribute (Parent, #ATTRIB_Lair_Dispersion));
+
+						end
+					else
+						ThisAgent's "coord_home" = $LocationOf (ThisAgent);
+				end
+			else
+				ThisAgent's "coord_home" = $LocationOf (parent);
+
+		end
+
+	Else
+		ThisAgent's "coord_home" = $LocationOf (ThisAgent);
+	
+	
+	AIRootAgent = $RetrieveAgent ("GPLAIRoot");
+	if (AIRootAgent's "Quest_Number" == 1001) // Twilight
+	if (thisagent's "title" == "Black_Phantom")
+		begin		
+			thisagent's "Poison_Resistance_Percent" = 20;
+			thisagent's "Arcane_Resistance_Percent" = 35;
+			thisagent's "Necrotic_Resistance_Percent" = 50;
+			thisagent's "Divine_Resistance_Percent" = 50;
+			thisagent's "Divine_Resistance_Percent_Neg" = True;
+			thisagent's "Slashing_Resistance_Percent" = 40;
+			thisagent's "Slashing_Resistance_Percent_Neg" = True;
+			thisagent's "Piercing_Resistance_Percent" = 40;
+			thisagent's "Piercing_Resistance_Percent_Neg" = True;
+			thisagent's "Crushing_Resistance_Percent" = 40;
+			thisagent's "Crushing_Resistance_Percent_Neg" = True;
+			thisagent's "Magical_Attack" = 17;
+			thisagent's "Magical_Attack_Type" = "Necrotic";
+			thisagent's "XPMultiplier" = 2;
+			thisagent's "IntentExt" = "BLACKPHANTOM";
+			
+			$GeneralAttributes(thisagent);
+
+		end
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////

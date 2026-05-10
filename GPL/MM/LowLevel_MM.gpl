@@ -1483,23 +1483,12 @@ function Hero_Build_Condition(agent thisagent) is boolean
 //A condition solely for the $Hero_Build action in Help Build task package.
 
 declare
-	boolean flag;
-	agent palace, target;
-
 begin
-	if ($notvalid(thisagent))
+	if ($isdead(thisagent))
 		return true;
-		 
-	palace = $gettruepalace(thisagent);
-	if ($HasAttribute("TASK_subTargetCurrent", thisagent))
-		target = thisagent's "TASK_subTargetCurrent";
-	if ($isdead(target))
+	else if ($offrepair(thisagent))
 		return True;
-	else if ($offrepair(target))
-		return True;
-	else if ($getattribute(target,#ATTRIB_HP) == $getattribute(target,#ATTRIB_MAXHP))
-		return True;
-	else if	($isdead(palace))
+	else if ($getattribute(thisagent,#ATTRIB_HP) == $getattribute(thisagent,#ATTRIB_MAXHP))
 		return True;
 end
 
@@ -1942,12 +1931,12 @@ end
 ////////////////////////////////////////////////////////////////////////////////
 function InitBaseStat(agent thisagent, string stat, integer default)
 declare
+	integer initial;
 begin
-	if ($AddAttribute(thisagent, stat+"_Base", "integer", default) == false)
-		thisagent's (stat+"_Base") += default;
-	
-	if ($AddAttribute(thisagent, stat+"_Total", "integer", default) == false)
-		thisagent's (stat+"_Total") += default;
+	initial = $getintegersafe(thisagent, stat+"_Base");
+	$SetIntegerSafe(thisagent, stat+"_Base", default);
+	$SetIntegerSafe(thisagent, stat+"_Total", default);
+	thisagent's (stat+"_Base") += initial;
 end
 
 ////////////////////////////////////////////////////////////////////////////////

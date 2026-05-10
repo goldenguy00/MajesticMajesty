@@ -96,10 +96,6 @@ begin
 	if ($listsize(buildings) > 0)
 		begin
 			thisagent's completetarget = $listmember(buildings,1);
-			//palace's "buildings_waiting" -= thisagent's "target";                     //This could cause problems if this is carried out when it's in a que
-			//palace's "buildings_under_construction" -= thisagent's "target";	//For now commented out, if the hero helps build, its additional help alongside others, if not then it will cause a building to remain unconstructed
-
-			//palace's "buildings_under_construction" << thisagent's "target";
 			thisagent's completeaction = $hero_build;
 			thisagent's completecondition = $Hero_Build_Condition;
 			intentext = "IDTXT_INTENT_BUILDING" + $getintentext(thisagent's completetarget);

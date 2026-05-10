@@ -197,15 +197,15 @@ begin
 		end
 	else if (spell_name == "Searing_Mantle")
 		begin
-			newtarget = $AdvancedCastCombatSupportAlly_hero(thisagent, target, "searing_mantle_icon", spell_name, 40);
+			newtarget = $SearingMantleCondition(thisagent, "Searing_Mantle");
 		end
 	else if (spell_name == "Pyrelight")
 		begin
-			newtarget = $AdvancedCastCombatDebuffEnemy_hero(thisagent, target, "Pyrelight_icon", spell_name, 30);
+			newtarget = $PyrelightCondition(thisagent, "Pyrelight");
 		end
 	else if (spell_name == "Ignite")
 		begin
-			newtarget = $BasicCastDebuffEnemy_hero(thisagent, target, "ignite_icon", spell_name);
+			newtarget = $IgniteCondition(thisagent, "Ignite");
 		end
 	
 	return newtarget;
@@ -281,14 +281,6 @@ begin
 		end
 		
 	return newtarget;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function ValidSummonTarget_hero( agent thisagent, agent target, string spell_name ) is agent
-// This will return a valid target for the spell listed for this agent.
-declare
-begin
-	return thisagent;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -543,53 +535,6 @@ begin
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
-function AdvancedCastCombatSupportAlly_hero( agent thisagent, agent target, string buff_name, string spell_name, integer required_mana ) is agent
-// Return a viable allied target for support spell. This version prioritizes the caster's Mana in concern towards casting support spells on allies.
-declare
-	list potential_targets;
-	
-	agent new_target;
-	
-begin
-	new_target = $NullAgent();
-
-	if ($HasMPPercent(thisagent, required_mana) == false)
-		return new_target;
-	
-	if ($Checkeffector(thisagent,buff_name) == false)
-		return thisagent;
-
-	$ListObjects(thisagent, "hero", thisagent's "castingrange", potential_targets, #MyPlayer);
-	if ($ListSize(potential_targets) > 0)
-		new_target = $FirstWithoutEffector(potential_targets, buff_name);
-	
-	return new_target;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function AdvancedCastCombatDebuffEnemy_hero( agent thisagent, agent target, string debuff_name, string spell_name, integer required_mana ) is agent
-// Return a viable allied target for support spell.
-declare
-	list potential_targets;
-	
-	agent new_target;
-	
-begin
-	new_target = $NullAgent();
-	if ($HasMPPercent(thisagent, required_mana) == false)
-		return new_target;
-	
-	if ($IsBuilding(target) == false && $Checkeffector(target,debuff_name) == false)
-		return target;
-
-	potential_targets = $compile_enemies(thisagent,thisagent's "castingrange");
-	if ($Listsize(potential_targets) > 0)
-		new_target = $FirstWithoutEffector(potential_targets, debuff_name);
-	
-	return new_target;
-end
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
 function Spell_List_Heal( agent thisagent, agent target ) is string
 // List of Healing spells to retrieve for a hero.
 // Currently ignoring mana cost.
@@ -657,8 +602,6 @@ declare
 	agent new_target;
 
 begin
-	$Reset_Best_Spell(thisagent);
-	
 	new_spell = "camouflage";
 	new_target = $CastableSpell_Travel(thisagent, thisagent, new_spell);
 	if (new_target != $Nullagent())
@@ -702,11 +645,8 @@ declare
 	agent new_target;
 
 begin
-	$Reset_Best_Spell(thisagent);
-
 	new_spell = "animate_skeleton";
-	new_target = $CastableSpell_Summon(thisagent, thisagent, new_spell);
-	if (new_target != $Nullagent())
+	if ($CanCast(thisagent, new_spell))
 		return new_spell;
 	
 	return "nothing";
@@ -1014,16 +954,6 @@ declare
 begin
 	if ($CanCast(thisagent, spell_name))
 		return $ValidControlTarget_hero(thisagent, target, spell_name);
-	return $NullAgent();
-end
-/////////////////////////////////////////////////////////////////////////////////////////////////
-function CastableSpell_Summon( agent thisagent, agent target, string spell_name ) is agent
-// Returns a valid spell to cast ONLY for Spell_List_Support
-
-declare
-begin
-	if ($CanCast(thisagent, spell_name))
-		return $ValidSummonTarget_hero(thisagent, target, spell_name);
 	return $NullAgent();
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////

@@ -21,7 +21,7 @@ begin
 	thisagent's "destination" = dest;
 	$move(thisagent,dest);
 	thisagent's "ActiveScript" = $Travel_to_exp;
-	thisagent's "backscript" = thisagent's "basicscript";
+	thisagent's "backscript" = $ContinueExploring;
 
 //	//$DebugOut(" Yes.",dest);
 	$SpecifyIntentString (ThisAgent, "IDTXT_INTENT_EXPLORING");
@@ -34,7 +34,8 @@ function explore_map_packet(agent thisagent) is Boolean
 declare
 	coordinate dest;
 	integer chance; 
-	string actionsub, action2sub, intentsub, targetsub, destsub, movesub, movedsub, taskindex, completeaction, completeaction2, completeintent, completetarget, completedestination, completemove, completemoved;
+	string actionsub, action2sub, intentsub, targetsub, destsub, taskindex;
+	string completeaction, completeaction2, completeintent, completetarget, completedest;
 	string conditionsub, completecondition;
 
 
@@ -52,26 +53,36 @@ begin
 	action2sub = "TASK_subBackScript";
 	intentsub = "TASK_subIntent";
 	targetsub = "TASK_subTarget";
-	movesub = "TASK_subTravelScript";
-	movedsub = "TASK_subWaypoints";
+	destsub = "TASK_subDestination";
 	conditionsub = "TASK_subExitCondition";
 	completeaction = actionsub + taskindex;
 	completeaction2 = action2sub + taskindex;
 	completeintent = intentsub + taskindex;
-	completetarget = targetsub + taskindex; 
-	completemove = movesub + taskindex;
-	completemoved = movedsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completedest = destsub + taskindex;
 	completecondition = conditionsub + taskindex;
 	
 	
-	$clearlist(thisagent's completemoved);
+	$clearlist(thisagent's completedest);
 	thisagent's completetarget = thisagent;
-	thisagent's completemoved << dest;
-	thisagent's completemove = $move;
+	thisagent's completedest << dest;
 	thisagent's completeaction = $Travel_to_exp;
-	thisagent's completeaction2 = thisagent's "basicscript";
+	thisagent's completeaction2 = $continueexploring;
 	ThisAgent's completecondition = $isdead;
 	thisagent's completeintent = "IDTXT_INTENT_EXPLORING";
 
 	return TRUE;
+end
+
+function ContinueExploring(agent thisagent)
+declare
+	integer chance;
+	coordinate dest;
+
+begin
+	chance = thisagent's "TASK_typeBaseChanceExplore";
+	if ($explore_map(thisagent, chance) == false)
+		begin
+			$reset_tasks(thisagent);
+		end
 end

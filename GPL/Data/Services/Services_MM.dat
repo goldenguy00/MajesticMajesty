@@ -1,37 +1,81 @@
-
-[ServiceHealingPotions]
-	{Service
-		(type 						Service)
-		(subtype 					henchman)
-		(Title						ServiceHealingPotions)
-		(Service_Title				HealingPotions)
-		(BirthScript				Research_Dummy)
-		(BirthScript2				ServiceHealingPotions_Birth)
-		(ServiceCheckScript			ServiceHealingPotions_Check)
-		(DismissScript				Service_Dismissed)
-		(gold_value					25)
-		(Level						1)
-		(Service_Time				10000)
-		(Service_Time_Increment		1000)
-		(IntentExt					HEALINGPOTIONS)
+[Help_Sign_Toggle_On]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Help_Sign_Toggle_On)
+		(birthScript SignBirth)
 	}
 [end]
 
-[ServiceManaPotions]
-	{Service
-		(type 						Service)
-		(subtype 					henchman)
-		(Title						ServiceManaPotions)
-		(Service_Title				ManaPotions)
-		(BirthScript				Research_Dummy)
-		(BirthScript2				ServiceManaPotions_Birth)
-		(ServiceCheckScript			ServiceManaPotions_Check)
-		(DismissScript				Service_Dismissed)
-		(gold_value					30)
-		(Level						1)
-		(Service_Time				10000)
-		(Service_Time_Increment		1000)
-		(IntentExt					MANAPOTIONS)
+[Help_Sign_Toggle_Off]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Help_Sign_Toggle_Off)
+		(birthScript SignBirth)
+	}
+[end]
+
+[Help_Sign_Attributes]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Help_Sign_Attributes)
+		(birthScript SignBirth)
+	}
+[end]
+
+[Help_Sign_Spell_System]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Help_Sign_Spell_System)
+		(birthScript SignBirth)
+	}
+[end]
+
+[Help_Sign_Library_Spells]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Help_Sign_Library_Spells)
+		(birthScript SignBirth)
+	}
+[end]
+
+[Available_Books]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Available_Books)
+		(birthScript SignBirth)
+	}
+[end]
+
+[Options]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Options)
+		(birthScript SignBirth)
+	}
+[end]
+
+[Research]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Research)
+		(birthScript SignBirth)
+	}
+[end]
+
+[Services]
+	{map_goodie
+		(type color)
+		(subtype color)
+		(title Services)
+		(birthScript SignBirth)
 	}
 [end]
 

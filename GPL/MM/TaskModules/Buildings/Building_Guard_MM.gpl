@@ -1144,9 +1144,8 @@ Declare
 Begin
 	max_guards = "max_" + type; //This is for tracking max guard type, so for City_Guard it becomes max_City_Guard
 	Num_guards = "num_" + type; //This is for tracking current number of guard type, so for City_Guard it becomes num_City_Guard
-	
-			$addattribute(thisagent, num_guards, "integer");
-			$addattribute(thisagent, max_guards, "integer");
+
+
 	if ($hasproperty(thisagent, "Recruit_Here"))
 		begin
 			recruiter = thisagent;

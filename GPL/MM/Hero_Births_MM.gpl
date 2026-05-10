@@ -148,7 +148,10 @@ declare
 	string string1, string2, string3;
 	integer starting_gold, random_gold, stat_adjust, stat_strength, stat_artifice, stat_vitality, stat_wisdom, MaxXP, MaxXP_diff, new_MaxXP, num_hovel;
 
+	string _taskList, _typeList, _nameList, _chanceList;
+	string title;
 begin
+
 	$GeneralAttributes(thisagent);
 
 	palace = $getpalace(thisagent);
@@ -238,10 +241,20 @@ begin
 	thisagent's "activeScript" = thisagent's "StartingScript";
 	thisagent's "backscript" = thisagent's "StartingScript";
 	
-	if ($HasAttribute("TASK_StartingScript",thisagent))
+	if ($HasAttribute("TASK_TaskScript",thisagent))
+	if ($ValidFunction(thisagent's "TASK_TaskScript") && thisagent's "TASK_TaskScript" != $nullfunction)
 		begin
 			$InitTaskAttributes(thisagent);
-			(thisagent's "TASK_StartingScript")(thisagent);
+			if ($AddAttribute(AIRootAgent, thisagent's "Title", "boolean", true))
+				begin
+					$AddAttribute(AIRootAgent, thisagent's "Title" + "_globalTaskList", "list");
+					$AddAttribute(AIRootAgent, thisagent's "Title" + "_globalTypeList", "list");
+					$AddAttribute(AIRootAgent, thisagent's "Title" + "_globalNameList", "list");
+					$AddAttribute(AIRootAgent, thisagent's "Title" + "_globalChanceList", "list");
+					
+					(thisagent's "TASK_StartingScript")(thisagent);
+				end
+			$BuildTasks(thisagent);
 			$NewThread( thisagent's "TASK_TaskScript", #Task_Cycle, thisagent );
 		end
 	$NewThread( thisagent's "activeScript", #Normal_Cycle, thisagent );

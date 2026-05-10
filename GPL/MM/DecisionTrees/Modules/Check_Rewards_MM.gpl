@@ -7,18 +7,14 @@
 function check_rewards_packet(agent thisagent) is Boolean
 
 declare
-	list flags;
-	agent flag,bestflag,target;
-	integer bestscore,score,greedmod,others,rewardcost,distance;
+	agent bestflag;
 	boolean no_attack; 
-	string actionsub, action2sub, intentsub, targetsub, target2sub, destsub, movesub, movedsub, taskindex;
-	string completeaction, completeaction2, completeintent, completetarget, completetarget2, completemove, completemoved, completedestination;
+	string actionsub, action2sub, intentsub, targetsub, target2sub, destsub, taskindex;
+	string completeaction, completeaction2, completeintent, completetarget, completetarget2, completedest;
 	string conditionsub, completecondition;
 
 
 begin
-
-	$ListObjects(thisagent,"RewardFlag",-1,flags,#RewardFlags);
 	no_attack = FALSE;
 	
 	if (thisagent's "Title" == "Healer" || $getstringsafe(thisagent, "Original_Title") == "healer")
@@ -30,20 +26,17 @@ begin
 	targetsub = "TASK_subTarget";
 	target2sub = "TASK_subBackTarget";
 	intentsub = "TASK_subIntent";
-	movesub = "TASK_subTravelScript";
-	movedsub = "TASK_subWaypoints";
+	destsub = "TASK_subDestination";
+	conditionsub = "TASK_subExitCondition";
 	completeaction = actionsub + taskindex;
 	completeaction2 = action2sub + taskindex;
 	completeintent = intentsub + taskindex;
 	completetarget = targetsub + taskindex; 
 	completetarget2 = target2sub + taskindex; 
-	completemove = movesub + taskindex;
-	completemoved = movedsub + taskindex;
-	
-	conditionsub = "TASK_subExitCondition";
+	completedest = destsub + taskindex;
 	completecondition = conditionsub + taskindex;
 	
-	$clearlist(thisagent's completemoved);
+	$clearlist(thisagent's completedest);
 
 	bestflag = $check_rewards_core(thisagent, no_attack);
 
@@ -58,13 +51,8 @@ begin
 					thisagent's completeaction2 = thisagent's "basicscript";
 					ThisAgent's completecondition = $invalid;
 					thisagent's completetarget = thisagent;
-					thisagent's completetarget2 = flag;
-					//thisagent's completedestination = $locationof(bestflag);
-					//$move(thisagent,thisagent's "destination"); //this action needs to be adressed
-					thisagent's completemove = $move;
-					thisagent's completemoved << $locationof(bestflag);
-					//bestflag's "heroes" << thisagent; //This probably sets the lists for what heroes are going after the flag, need to adress this.
-					//$setparent(thisagent,bestflag);
+					thisagent's completetarget2 = bestflag;
+					thisagent's completedest << $locationof(bestflag);
 				end
 
 			if (bestflag's "title" == "flag_attack")
@@ -73,9 +61,7 @@ begin
 					thisagent's completetarget = $agentnumber($getattribute(bestflag,#ATTRIB_targetID));
 					thisagent's completeaction = $attack_object;
 					ThisAgent's completecondition = $isdead;
-					thisagent's completetarget2 = flag;
-					//bestflag's "heroes" << thisagent;
-					//$setparent(thisagent,bestflag);
+					thisagent's completetarget2 = bestflag;
 				end
 			
 			if (bestflag's "title" == "Flag_Protect")
@@ -84,8 +70,7 @@ begin
 					thisagent's completetarget = $agentnumber($getattribute(bestflag,#ATTRIB_targetID));
 					thisagent's completeaction = $defend_flag_task;
 					ThisAgent's completecondition = $invalid;
-					thisagent's completetarget2 = flag;
-					//$setparent(thisagent,bestflag);
+					thisagent's completetarget2 = bestflag;
 				end
 
 			//$say(thisagent,"VFX_GO_REWARD");

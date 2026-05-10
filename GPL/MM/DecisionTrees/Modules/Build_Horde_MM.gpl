@@ -97,15 +97,12 @@ Begin
 						end
 				end
 
-			if ($CanCast(thisagent,"animate_skeleton"))
+			//No undead nearby? Go ahead and animate.
+			spell_name = $Spell_List_Summon(thisagent);
+			if (spell_name != "nothing" )
 				begin
-					//No undead nearby? Go ahead and animate.
-					spell_name = $Spell_List_Summon(thisagent);
-					if (spell_name != "nothing" )
-						begin
-							$Cast (ThisAgent, spell_name, thisagent, "");
-							return True;
-						end
+					$Cast (ThisAgent, spell_name, thisagent, "");
+					return True;
 				end
 		end
 

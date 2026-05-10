@@ -247,7 +247,6 @@ Declare
 	list Occupants;  					//List of all Occupants currently being held in this building
 
 	list members; 						// all the current guild members
-	// integer max_members;
 	
 	function spell_callback;			// special callback for spells (only used for supercharge for now)
 
@@ -588,7 +587,6 @@ declare
 	list members; 						// all the current guild members
 	string member_title;
 	function member_basicscript;
-	//integer max_members;
 
 	function SpecialScript; 			//This holds any quest-specific functionality for the guild. For instance, in
 										//Magic Ring, it runs Hero_Generator
@@ -654,7 +652,6 @@ declare
 	list members; 						// all the current guild members
 	string member_title;
 	function member_basicscript;
-	//integer max_members;
 
 	agent		Target;
 
@@ -873,7 +870,96 @@ end
 
 
 
-prototype hero ()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+prototype Hero ()
 // Can't hold negative numbers
 declare
 //////////////////////////////////////////Artifact attributes///////////////
@@ -982,76 +1068,6 @@ declare
 
 //////////////////////////////////////////Artifact attributes end///////////////
 	
-//////////////////////////////////////////Combat Attributes///////////////
-
-	integer Experience_Value_Base;
-	integer XPMultiplier;
-	string IntentExt;
-	
-	integer Physical_Attack;
-	string Physical_Attack_Type;
-	
-	integer Magical_Attack;
-	string Magical_Attack_Type;
-	
-	integer Armor_Physical_Base;
-	integer Armor_Physical_Total;
-	
-	integer Armor_Magical_Base;
-	integer Armor_Magical_Total;
-
-	integer Fire_Resistance_Percent;
-	integer Cold_Resistance_Percent; 
-	integer Electric_Resistance_Percent;
-	integer Poison_Resistance_Percent;
-	integer Arcane_Resistance_Percent;
-	integer Force_Resistance_Percent;
-	integer Divine_Resistance_Percent;
-	integer Necrotic_Resistance_Percent;
-	integer Chaotic_Resistance_Percent;
-	integer Slashing_Resistance_Percent;
-	integer Crushing_Resistance_Percent;
-	integer Piercing_Resistance_Percent;
-	
-	boolean Fire_Resistance_Percent_Neg;
-	boolean Cold_Resistance_Percent_Neg; 
-	boolean Electric_Resistance_Percent_Neg;
-	boolean Poison_Resistance_Percent_Neg;
-	boolean Arcane_Resistance_Percent_Neg;
-	boolean Force_Resistance_Percent_Neg;
-	boolean Divine_Resistance_Percent_Neg;
-	boolean Necrotic_Resistance_Percent_Neg;
-	boolean Chaotic_Resistance_Percent_Neg;
-	boolean Slashing_Resistance_Percent_Neg;
-	boolean Crushing_Resistance_Percent_Neg;
-	boolean Piercing_Resistance_Percent_Neg;
-	
-	integer Fire_Resistance_Flat;
-	integer Cold_Resistance_Flat; 
-	integer Electric_Resistance_Flat;
-	integer Poison_Resistance_Flat;
-	integer Arcane_Resistance_Flat;
-	integer Force_Resistance_Flat;
-	integer Divine_Resistance_Flat;
-	integer Necrotic_Resistance_Flat;
-	integer Chaotic_Resistance_Flat;
-	integer Slashing_Resistance_Flat;
-	integer Crushing_Resistance_Flat;
-	integer Piercing_Resistance_Flat;
-	
-	boolean Fire_Resistance_Flat_Neg;
-	boolean Cold_Resistance_Flat_Neg; 
-	boolean Electric_Resistance_Flat_Neg;
-	boolean Poison_Resistance_Flat_Neg;
-	boolean Arcane_Resistance_Flat_Neg;
-	boolean Force_Resistance_Flat_Neg;
-	boolean Divine_Resistance_Flat_Neg;
-	boolean Necrotic_Resistance_Flat_Neg;
-	boolean Chaotic_Resistance_Flat_Neg;
-	boolean Slashing_Resistance_Flat_Neg;
-	boolean Crushing_Resistance_Flat_Neg;
-	boolean Piercing_Resistance_Flat_Neg;
-	
 	//////////////////////////////////////////General Attributes///////////////
 	
 	function TASK_StartingScript;
@@ -1078,11 +1094,6 @@ declare
 	integer TASK_activeChance;
 	string TASK_activeTaskName;
 
-	list TASK_globalNameList;
-	list TASK_globalChanceList;
-	list TASK_globalTypeList;
-	list TASK_globalTaskList;
-
 	integer TASK_typeBaseChancePrepare;
 	integer TASK_typeBaseChanceCombat;
 	integer TASK_typeBaseChanceExplore;
@@ -1099,7 +1110,7 @@ declare
 	integer TASK_typeCountCombat;
 	integer TASK_typeCountExplore;
 	integer TASK_typeCountIdle;
-
+	
 	integer TASK_ConstructionRadius; //For Help_Build tasks.
 	
 	string Running_Intent;
@@ -1155,138 +1166,12 @@ declare
 	integer BodyArmorLevel;		//Used to be BS_BodyArmorLevel
 	integer EN_WeaponLevel;
 	integer EN_BodyArmorLevel;
-	
-	string ItemDrop1;
-	string ItemDrop2;
-	string ItemDrop3;
-	
-	integer ItemDropChance1;
-	integer ItemDropChance2;
-	integer ItemDropChance3;
-	
-	/////////////////////////////////////////Misc Attributes///////////////
+
+//////////////////////////////////////////Combat Attributes///////////////
 
 	integer Max_Followers;
 
 	boolean Attack_Damage_Based_On_Weapon;
-
-	begin
-	end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-prototype unit ()
-// Can't hold negative numbers
-declare
-//////////////////////////////////////////Artifact attributes///////////////
-	string type;
-	string subtype;
-	string title;
-	string Original_type;
-	integer percentageHPretreat;
-	float Enemy_estimation;
-	float self_estimation;
-	integer Greed;
-	integer Loyalty;
-	integer Luck;
-	integer critical_chance; 		// how likely a character is to deliver a killing blow
-	Boolean resist_critical; 		// does this guy resist critical hits? (reduce their damage)
-	Boolean Immune_to_poison;
-	Boolean rangeIncrease; 			// does this hero get a attackrange bonus per level up?
-	boolean criticalIncrease; 		// does this hero get a point of critical attack per level?
-	agent leader;  					// Chris hackarama so heros can be controlled monsters
-	integer Counter; 				// Exactly what it says it is.
-	coordinate destination;
-	string special_splat; 			// does this creature need a special splat player
-	agent target; 					// this holds the target for any particular task
-	agent BackTarget; 				//this is for those special times when a Hero has to remember their target
-	string taskname; 				// used to tell what the hero is up to
-	list hostiles; 					// this is a list used by the unit to help determine
-	string	Friend; 				//This holds subtype that this Hero is Friendly with
-	integer num_followers; 			// used by Priestess, and probably Cultist in regards to controlled monsters
-	integer max_followers;
-	integer Reborn_Counter; 		//This holds how many free "go home and Ressurect"s the Healer has
-	integer	Task_Number; 			//This typically holds Attrib references. For things like figuring out what a hero
-	function StartingScript; 		//this holds the core start script that is inited with the agent. never change, because we rely
-	function basicscript; 			// this holds the basic decision tree a hero
-	function backscript;
-	function activescript;			// this holds the current activity of the hero
-	function evaluationScript; 		// holds the script which the hero uses to check nearby them fro danger
-	function birthScript;  			// This script will be called once, when the unit is created;
-	function IGdeathScript; 		// This script will be called once, when the unit is killed;
-	function deathScript; 			// This script will be called once, when the unit is killed;
-	agent home; 					// where the hero lives, set by the engine upon recruition
-	agent palace; 					// the palace that this Hero is loyal to. set in the engine.
-	boolean Raider_respond; 		// jim hackerama so heroes can become raider mosnters
-	function teleportScript; 		// callback for the teleport spell
-	function QuestScript; 			// This holds Quest-Specific logic
-	integer castingrange;			// The distance a hero casts spells from
-  	integer PrimaryStat;
-	integer num_picked_goodies;		//These may be stored in the engine
-	integer	Upgrade_Armor_Chance;	//The chance that a hero will decide to think about upgrading their armor
-	integer	Upgrade_Weapon_Chance;	//The chance that a hero will decide to think about upgrading their weapon
-	integer	Poison_Weapon_Chance;	//The chance that a hero will decide to think about poisoning their weapon
-	boolean	Special_Boolean; 		//This is quest specific. For instance, in WCurse, it is TRUE if a Hooligan has been found.
-	string Enemytype;				// What the agent attacks, can be "Hero", "Monster" or "Nothing"
-	integer attacktype;				// The agent's attack type
-	string attack_action;			// The name of the action to perform when attacking
-	string special_attack_action;			// The name of the action to perform when attacking
-	string cast_action;				// The name of the action to perform when casting a spell
-	string Pickup_Action;			// The name of the action to perform when picking something up
-	string Idle_Action;				// The name of the action to perform when going into idle
-	function PlagueScript;
-	function ShieldScript; 			//This is for the Frost Field spell
-	boolean	Resists_Fire;
-	integer	Target_Item; 			//This is for Item_Hunters (like the Black Phantoms in Magic Ring
-	function SleeperScript; 		//This holds the script that calls the unit back to its lair after a duration.
-	agent Sleeper_Home; 			//This is for Sleepers. It holds their agent home.
-	integer	Guardian_Mod; 			//This is multiplied times a Guardian Monster's sightrange to find the area that
-	boolean isLeader; 				// used by war_party logic
-	coordinate	Coord_Home; 		//This holds the coord home for all monsters that use it (ie. Guardians and Offmap Sleepers)
-	boolean Familiar; 				// if this is true, a monster is someone's 'familiar'
-	boolean Relentless; 			// will the monster relentlessly pursue its target (ignore range cheking)
-	string family; 					//This is used by buff-ing monsters, so they know which monster types to buff
-	boolean in_danger; 					// has the building been hit lately
-	integer Level; 						//This is what Level this building is
-	integer Max_Level; 					//This is the max level the building can reach
-	integer Sleep_For;
-	integer	Armor;
-	integer	Weapon;
-	boolean gavereward;
-	list heroes;
-	integer charm_percentage;
-	list TargetsHit; 					// Primarily used by Chain Lightning for cleanup purposes
-	agent zoo_agent;
-
-//////////////////////////////////////////Artifact attributes end///////////////
-
 	integer Experience_Value_Base;
 	integer XPMultiplier;
 	string IntentExt;
@@ -1355,7 +1240,106 @@ declare
 	boolean Crushing_Resistance_Flat_Neg;
 	boolean Piercing_Resistance_Flat_Neg;
 	
+	begin
+	end
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Monster ()
+
+declare
+	string type;
+	string subtype;
+	string title;
+	string Original_type;
+
+	string family; 					//This is used by buff-ing monsters, so they know which monster types to buff
+
+	Boolean resist_critical; 		// does this guy resist critical hits? (reduce their damage)
+	Boolean Immune_to_poison; 		// does poison not affect this monster
+	boolean Familiar; 				// if this is true, a monster is someone's 'familiar'
+	boolean Relentless; 			// will the monster relentlessly pursue its target (ignore range cheking)
+
+	integer critical_chance; 		// how likely a monster is to deliver a killing blow
+
+	coordinate destination;
+
+	string special_splat; 			// does this creature need a special splat player
+									// when it hits its target?
+
+	agent target;
+	list hostiles; 					// this a list used by the unit to help determine
+									// targets and strength of enemies nearby
+
+	string Friend; 					//This holds Hero Title that this Monster is friends with.
+
+	coordinate	Coord_Home; 		//This holds the coord home for all monsters that use it (ie. Guardians and Offmap Sleepers)
+
+	agent	Sleeper_Home; 			//This is for Sleepers. It holds their agent home.
+
+	integer castingrange; 			// their spell range
+
+	boolean isLeader; 				// used by war_party logic
+
+	agent leader;
+
+	integer num_followers; 			// used by war_party
+	integer max_followers;
+
+	boolean Raider_respond; 		// sets whether a raider will respond to being attacked
+									// while in the midst of pounding on a building
+
+
+	integer	Guardian_Mod; 			//This is multiplied times a Guardian Monster's sightrange to find the area that
+									//they will pick a random coord to move to (around their home)
+
+	function StartingScript; 		//this holds the core start script that is inited with the agent. never change, because we rely
+									//on this to always hold the agent's starting/basic behavior
+	function basicscript; 			// this holds the basic script the monster
+									// always returns to when done with tasks
+	function backscript;
+	function activescript;
+
+	function SleeperScript; 		//This holds the script that calls the unit back to its lair after a duration.
+
+	function evaluationScript; 		// holds the script the monster uses to check nearby them for danger
+
+	integer	Target_Item; 			//This is for Item_Hunters (like the Black Phantoms in Magic Ring
+									//It holds the index of the item they are after
+
+	boolean	Special_Boolean; 		//This is quest specific. For instance, in WCurse, it is TRUE if a Hooligan has been found.
+
+	function teleportScript; 		// callback for the teleport spell
+
+	function birthScript;  			// This script will be called once, when the unit is created;
+	function IGdeathScript; 		// This script will be called once, when the unit is killed;
+	function deathScript; 			// This script will be called once, when the unit is killed;
+
+	integer counter;
+	string Enemytype;
+
+	integer attacktype;
+	string attack_action;
+	string idle_action;
+
+// New MX stuff below this point //
+	agent zoo_agent;
+	function PlagueScript;
+	function ShieldScript; 			//This is for the Frost Field spell
+
+	boolean	Resists_Fire;
 	
+//////////////////////////////////////////Artifact attributes end///////////////
+
 	string ItemDrop1;
 	string ItemDrop2;
 	string ItemDrop3;
@@ -1364,9 +1348,338 @@ declare
 	integer ItemDropChance2;
 	integer ItemDropChance3;
 
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	integer Fire_Resistance_Percent;
+	integer Cold_Resistance_Percent; 
+	integer Electric_Resistance_Percent;
+	integer Poison_Resistance_Percent;
+	integer Arcane_Resistance_Percent;
+	integer Force_Resistance_Percent;
+	integer Divine_Resistance_Percent;
+	integer Necrotic_Resistance_Percent;
+	integer Chaotic_Resistance_Percent;
+	integer Slashing_Resistance_Percent;
+	integer Crushing_Resistance_Percent;
+	integer Piercing_Resistance_Percent;
+	
+	boolean Fire_Resistance_Percent_Neg;
+	boolean Cold_Resistance_Percent_Neg; 
+	boolean Electric_Resistance_Percent_Neg;
+	boolean Poison_Resistance_Percent_Neg;
+	boolean Arcane_Resistance_Percent_Neg;
+	boolean Force_Resistance_Percent_Neg;
+	boolean Divine_Resistance_Percent_Neg;
+	boolean Necrotic_Resistance_Percent_Neg;
+	boolean Chaotic_Resistance_Percent_Neg;
+	boolean Slashing_Resistance_Percent_Neg;
+	boolean Crushing_Resistance_Percent_Neg;
+	boolean Piercing_Resistance_Percent_Neg;
+	
+	integer Fire_Resistance_Flat;
+	integer Cold_Resistance_Flat; 
+	integer Electric_Resistance_Flat;
+	integer Poison_Resistance_Flat;
+	integer Arcane_Resistance_Flat;
+	integer Force_Resistance_Flat;
+	integer Divine_Resistance_Flat;
+	integer Necrotic_Resistance_Flat;
+	integer Chaotic_Resistance_Flat;
+	integer Slashing_Resistance_Flat;
+	integer Crushing_Resistance_Flat;
+	integer Piercing_Resistance_Flat;
+	
+	boolean Fire_Resistance_Flat_Neg;
+	boolean Cold_Resistance_Flat_Neg; 
+	boolean Electric_Resistance_Flat_Neg;
+	boolean Poison_Resistance_Flat_Neg;
+	boolean Arcane_Resistance_Flat_Neg;
+	boolean Force_Resistance_Flat_Neg;
+	boolean Divine_Resistance_Flat_Neg;
+	boolean Necrotic_Resistance_Flat_Neg;
+	boolean Chaotic_Resistance_Flat_Neg;
+	boolean Slashing_Resistance_Flat_Neg;
+	boolean Crushing_Resistance_Flat_Neg;
+	boolean Piercing_Resistance_Flat_Neg;
+
+begin
+end
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Tax_collector()
+
+declare
+	string type;
+	string subtype;
+	string title;
+	string Original_type;
+
+	agent leader;  					// Chris hackarama so heros can be controlled monsters
+
+	function activeScript;
+	function basicscript; 			// this holds the basic script the taxman
+									// always returns to when done with tasks
+	function backscript;
+
+	agent target;
+	coordinate destination;
+	agent home;
+
+	list hostiles;
+
+	function birthScript;  			// This script will be called once, when the unit is created;
+	function IGdeathScript; 		// This script will be called once, when the unit is killed;
+	function deathScript; 			// This script will be called once, when the unit is killed;
+	integer attacktype;
+
+	string Idle_Action;
+	
+	string IntentExt;
+
+begin
+end
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Caravan()
+
+declare
+	string type;
+	string subtype;
+	string title;
+	string Original_type;
+
+	function activeScript;
+	function basicscript; 		// this holds the basic script the monster
+								// always returns to when done with tasks
+	function backscript;
+
+//	integer num_guards; 		// this is the number of guards this unit currently has
+
+	agent target;
+	coordinate destination;
+	agent home;
+
+	list hostiles;
+
+	function birthScript;  		// This script will be called once, when the unit is created;
+	function IGdeathScript; 	// This script will be called once, when the unit is killed;
+	function deathScript; 		// This script will be called once, when the unit is killed;
+	integer attacktype;
+
+	string Idle_Action;
+	
+	string IntentExt;
+
+begin
+end
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+prototype Unit ()
+
+declare
+	string type;
+	string subtype;
+	string title;
+	string Original_type;
+
+	integer percentageHPretreat;
+	float Enemy_estimation;
+	float self_estimation;
+
+	integer Greed;
+	integer Loyalty;
+	integer Luck;
+
+	integer critical_chance; 		// how likely a character is to deliver a killing blow
+
+	Boolean resist_critical; 		// does this guy resist critical hits? (reduce their damage)
+	Boolean Immune_to_poison;
+	Boolean rangeIncrease; 			// does this hero get a attackrange bonus per level up?
+	boolean criticalIncrease; 		// does this hero get a point of critical attack per level?
+
+	agent leader;  					// Chris hackarama so heros can be controlled monsters
+
+	integer Counter; 				// Exactly what it says it is.
+
+	coordinate destination;
+
+	string special_splat; 			// does this creature need a special splat player
+									// when it hits its target?
+
+	agent target; 					// this holds the target for any particular task
+	agent BackTarget; 				// this is for those special times when a Hero has to remember their target
+	string taskname; 				// used to tell what the hero is up to
+
+	list hostiles; 					// this is a list used by the unit to help determine
+									// targets and strength of enemies nearby
+
+	string	Friend; 				//This holds subtype that this Hero is Friendly with
+
+//	integer num_guards; 			// this is the number of guards this unit currently has
+									// or the Number of Healers that are currently following and Healing it
+
+	integer num_followers; 			// used by Priestess, and probably Cultist in regards to controlled monsters
+
+	integer Reborn_Counter; 		//This holds how many free "go home and Ressurect"s the Healer has
+
+	integer	Task_Number; 			//This typically holds Attrib references. For things like figuring out what a hero
+									//wanted to buy at a blacksmith. They would store #Attrib_Weapon_Struct_Bonus in this case
+
+	function StartingScript; 		//this holds the core start script that is inited with the agent. never change, because we rely
+									//on this to always hold the agent's starting/basic behavior. this script is never 'executed'
+
+	function basicscript; 			// this holds the basic decision tree a hero
+									// always returns to checking
+	function backscript;
+	function activescript;			// this holds the current activity of the hero
+
+	function evaluationScript; 		// holds the script which the hero uses to check nearby them fro danger
+
+	function birthScript;  			// This script will be called once, when the unit is created;
+	function IGdeathScript; 		// This script will be called once, when the unit is killed;
+	function deathScript; 			// This script will be called once, when the unit is killed;
+
+	agent home; 					// where the hero lives, set by the engine upon recruition
+
+	agent palace; 					// the palace that this Hero is loyal to. set in the engine.
+
+	boolean Raider_respond; 		// jim hackerama so heroes can become raider mosnters
+
+	function teleportScript; 		// callback for the teleport spell
+
+	function QuestScript; 			//This holds Quest-Specific logic
+
+	// the distance a hero casts spells from
+	integer castingrange;
+
+  	integer PrimaryStat;
+
+	integer num_picked_goodies;		//These may be stored in the engine
+
+	integer	Upgrade_Armor_Chance;	//The chance that a hero will decide to think about upgrading their armor
+  
+	integer	Upgrade_Weapon_Chance;	//The chance that a hero will decide to think about upgrading their weapon
+  
+	integer	Poison_Weapon_Chance;	//The chance that a hero will decide to think about poisoning their weapon
+
+	boolean	Special_Boolean; 		//This is quest specific. For instance, in WCurse, it is TRUE if a Hooligan has been found.
+
+	string Enemytype;				// What the agent attacks, can be "Hero", "Monster" or "Nothing"
+	integer attacktype;				// The agent's attack type
+	string attack_action;			// The name of the action to perform when attacking
+	string Special_attack_action; 	// This holds special attack actions (currently only used for Fire Balm)
+									// Gets swapped with Attack_action for a duration, then swapped back again
+	string cast_action;				// The name of the action to perform when casting a spell
+	string Pickup_Action;			// The name of the action to perform when picking something up
+	string Idle_Action;				// The name of the action to perform when going into idle
+
+	// -- New MX additions below this line -- //
+	function PlagueScript;
+	function ShieldScript; 			//This is for the Frost Field spell
+
+	boolean	Resists_Fire;
+
+//////////////////////////////////////////Artifact attributes end///////////////
+
 	integer Recruit_Time;
-	begin
-	end
+	integer Experience_Value_Base;
+	integer XPMultiplier;
+	string IntentExt;
+	
+	integer Physical_Attack;
+	string Physical_Attack_Type;
+	
+	integer Magical_Attack;
+	string Magical_Attack_Type;
+	
+	integer Armor_Physical_Base;
+	integer Armor_Physical_Total;
+	
+	integer Armor_Magical_Base;
+	integer Armor_Magical_Total;
+
+	integer Fire_Resistance_Percent;
+	integer Cold_Resistance_Percent; 
+	integer Electric_Resistance_Percent;
+	integer Poison_Resistance_Percent;
+	integer Arcane_Resistance_Percent;
+	integer Force_Resistance_Percent;
+	integer Divine_Resistance_Percent;
+	integer Necrotic_Resistance_Percent;
+	integer Chaotic_Resistance_Percent;
+	integer Slashing_Resistance_Percent;
+	integer Crushing_Resistance_Percent;
+	integer Piercing_Resistance_Percent;
+	
+	boolean Fire_Resistance_Percent_Neg;
+	boolean Cold_Resistance_Percent_Neg; 
+	boolean Electric_Resistance_Percent_Neg;
+	boolean Poison_Resistance_Percent_Neg;
+	boolean Arcane_Resistance_Percent_Neg;
+	boolean Force_Resistance_Percent_Neg;
+	boolean Divine_Resistance_Percent_Neg;
+	boolean Necrotic_Resistance_Percent_Neg;
+	boolean Chaotic_Resistance_Percent_Neg;
+	boolean Slashing_Resistance_Percent_Neg;
+	boolean Crushing_Resistance_Percent_Neg;
+	boolean Piercing_Resistance_Percent_Neg;
+	
+	integer Fire_Resistance_Flat;
+	integer Cold_Resistance_Flat; 
+	integer Electric_Resistance_Flat;
+	integer Poison_Resistance_Flat;
+	integer Arcane_Resistance_Flat;
+	integer Force_Resistance_Flat;
+	integer Divine_Resistance_Flat;
+	integer Necrotic_Resistance_Flat;
+	integer Chaotic_Resistance_Flat;
+	integer Slashing_Resistance_Flat;
+	integer Crushing_Resistance_Flat;
+	integer Piercing_Resistance_Flat;
+	
+	boolean Fire_Resistance_Flat_Neg;
+	boolean Cold_Resistance_Flat_Neg; 
+	boolean Electric_Resistance_Flat_Neg;
+	boolean Poison_Resistance_Flat_Neg;
+	boolean Arcane_Resistance_Flat_Neg;
+	boolean Force_Resistance_Flat_Neg;
+	boolean Divine_Resistance_Flat_Neg;
+	boolean Necrotic_Resistance_Flat_Neg;
+	boolean Chaotic_Resistance_Flat_Neg;
+	boolean Slashing_Resistance_Flat_Neg;
+	boolean Crushing_Resistance_Flat_Neg;
+	boolean Piercing_Resistance_Flat_Neg;
+begin
+end
 
 ///////////////////////////////////////////////////////////////////////////////
 prototype Loot_Item()

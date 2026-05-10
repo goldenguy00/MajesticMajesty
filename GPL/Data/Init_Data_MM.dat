@@ -155,7 +155,7 @@
 
 
 [Tax_Collector]
-	{Unit
+	{Tax_Collector
 		(type	hero)
 		(subtype Henchman)
 		(title Tax_Collector)
@@ -212,7 +212,7 @@
 
 
 [Caravan]
-	{Unit
+	{Caravan
 		(type	hero)
 		(subtype Henchman)
 		(title Caravan)

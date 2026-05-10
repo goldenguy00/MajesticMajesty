@@ -1,4 +1,3 @@
-
 [ResearchHealingPotions]
 	{Research
 		(type 						Research)
@@ -6,7 +5,8 @@
 		(Title						ResearchHealingPotions)
 		(BirthScript				Research_Dummy)
 		(BirthScript2				ResearchHealingPotions_Birth)
-		(ResearchCompleteScript		Research_Complete)
+		(ResearchCompleteScript		Research_Complete)		
+		(ResearchCheck				DummyCheck)
 		(DismissScript				Research_Dismissed)
 		(ResearchVoice				Advisor_Marketplace_Upgrade)
 		(Service_Title				ServiceHealingPotions)
@@ -28,6 +28,7 @@
 		(BirthScript				Research_Dummy)
 		(BirthScript2				ResearchManaPotions_Birth)
 		(ResearchCompleteScript		Research_Complete)
+		(ResearchCheck				DummyCheck)
 		(DismissScript				Research_Dismissed)
 		(ResearchVoice				Advisor_Marketplace_Upgrade)
 		(Service_Title				ServiceManaPotions)
@@ -41,6 +42,43 @@
 	}
 [end]
 
+
+[ServiceHealingPotions]
+	{Service
+		(type 						Service)
+		(subtype 					henchman)
+		(Title						ServiceHealingPotions)
+		(Service_Title				HealingPotions)
+		(BirthScript				Research_Dummy)
+		(BirthScript2				ServiceHealingPotions_Birth)
+		(ServiceCheckScript			ServiceHealingPotions_Check)
+		(DismissScript				Service_Dismissed)
+		(gold_value					25)
+		(Level						1)
+		(Service_Time				10000)
+		(Service_Time_Increment		1000)
+		(IntentExt					HEALINGPOTIONS)
+	}
+[end]
+
+[ServiceManaPotions]
+	{Service
+		(type 						Service)
+		(subtype 					henchman)
+		(Title						ServiceManaPotions)
+		(Service_Title				ManaPotions)
+		(BirthScript				Research_Dummy)
+		(BirthScript2				ServiceManaPotions_Birth)
+		(ServiceCheckScript			ServiceManaPotions_Check)
+		(DismissScript				Service_Dismissed)
+		(gold_value					30)
+		(Level						1)
+		(Service_Time				10000)
+		(Service_Time_Increment		1000)
+		(IntentExt					MANAPOTIONS)
+	}
+[end]
+
 [ResearchSleepingQuarters]
 	{Research
 		(type 						Research)
@@ -49,6 +87,7 @@
 		(BirthScript				Research_Dummy)
 		(BirthScript2				ResearchSleepingQuarters_Birth)
 		(ResearchCompleteScript		ResearchSleepingQuarters_Complete)
+		(ResearchCheck				DummyCheck)
 		(DismissScript				Research_Dismissed)
 		(ResearchVoice				Advisor_Trading_Post_Upgrade)
 		(Service_Title				None)
@@ -78,8 +117,7 @@
 		(Max_Level					2)
 		(Repeatable					True)
 		(RepeatableCheck			ResearchExpandedLivingQuarters_RepeatableCheck)
-		(Increment					Max_Members)
-		(Increment_Amount			1)
+		(Increment					None)
 		(Research_Time				23000)
 		(IntentExt					RESEARCHEXPANDEDLIVINGQUARTERS)
 	}
@@ -93,6 +131,7 @@
 		(BirthScript				Research_Dummy)
 		(BirthScript2				ResearchRecruitmentQuarters_Birth)
 		(ResearchCompleteScript		ResearchRecruitmentQuarters_Complete)
+		(ResearchCheck				DummyCheck)
 		(DismissScript				Research_Dismissed)
 		(ResearchVoice				Advisor_Guardhouse_Upgrade)
 		(Service_Title				None)

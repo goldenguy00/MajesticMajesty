@@ -35,7 +35,7 @@ Declare
 	coordinate	dest;
 	integer chance; 
 	string actionsub, intentsub, targetsub, destsub, taskindex, completeaction, completeintent, completetarget, completedestination;
-	string conditionsub, completecondition, movesub, completemove;
+	string conditionsub, completecondition;
 
 Begin
 
@@ -57,20 +57,17 @@ Begin
 	actionsub = "TASK_subActiveScript";
 	intentsub = "TASK_subIntent";
 	targetsub = "TASK_subTarget";
-	destsub = "TASK_subWaypoints";
-	movesub = "TASK_subTravelScript";
+	destsub = "TASK_subDestination";
 	conditionsub = "TASK_subExitCondition";
 	completeaction = actionsub + taskindex;
 	completeintent = intentsub + taskindex;
 	completetarget = targetsub + taskindex; 
 	completedestination = destsub + taskindex;
 	completecondition = conditionsub + taskindex;
-	completemove = movesub + taskindex;
 	
 //	//$DebugOut ("YES! I'm going to journey offmap!");
 	thisagent's completetarget = thisagent;
 	thisagent's completecondition = $isdead;
-	thisagent's completemove = $move;
 	$clearlist(thisagent's completedestination);
 	ThisAgent's completedestination << $FarthestMapEdge (ThisAgent); //Need to put in a destination index too
 	ThisAgent's completeaction  = $Journey_Offmap;

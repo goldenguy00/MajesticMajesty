@@ -64,6 +64,29 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
+Function Gate_Hit (agent ThisAgent, agent Target)
+Declare
+	list	Gates;
+	agent	Gate;
+
+Begin
+	//$ListObjects (ThisAgent, "spell", -1, Gates, #MyPlayer);
+	//Gates = $ListTitles (Gates, "Gate");
+
+	If ($ListObjects (ThisAgent, "spell", -1, Gates, #FindFirstMatchOnly, #MyPlayer) > 0)
+		begin
+
+			$CreateEffector (Target, "Gate_Effector", 0);
+
+			$TeleportToUnit( Target, 80000, $ListMember( Gates, $RandomNumber( $ListSize ( Gates ) ) + 1 ), 0  );
+			$invalidatetasks(target);
+			$Reset_Tasks ( Target );
+
+		end
+
+End
+
+///////////////////////////////////////////////////////////////////////////////
 function Frost_Missile_Hit( agent thisagent, agent target )
 // wizard spell - lvl 3
 // - callback from missile hit
@@ -258,7 +281,7 @@ begin
 
 	// CBT note: as of Majesty Alpha the effector duration below is 0
 	$createeffector(target,"Electrical_fury_effector",$getspellattribute("electrical_fury","effector_duration"));
-	$spell_type_attack(thisagent, target, "Electric", 16, 22);
+	$spell_type_attack(thisagent, target, "Electric", 15, 20);
 	//$spell_attack( thisagent, target, 20 );
 end
 
@@ -350,14 +373,14 @@ begin
 		return;
 	// CBT note: as of Majesty Alpha the effector duration below is 0
 	$createeffector(target,"exploding_aura_effector1",$getspellattribute("exploding_aura","effector_duration"));
-	$spell_type_attack(thisagent, target, "Fire", 33, 36);
+	$spell_type_attack(thisagent, target, "Fire", 25, 35);
 	//$spell_attack( thisagent, target, 35 );
 
 	$ListObjects(target ,"hero",40, targets );
 
 	foreach targetD in targets do
 		begin
-			$spell_type_attack(thisagent, targetD, "Fire", 14, 16);
+			$spell_type_attack(thisagent, targetD, "Fire", 1, 15);
 			//$spell_attack(thisagent, targetD, 15 );
 		end
 
@@ -379,7 +402,7 @@ begin
 	foreach dude in targets do
 		begin
 			$createeffector( dude, "inferno_effector2", 0 );
-			$spell_type_attack(thisagent, dude, "Fire", 38, 42);
+			$spell_type_attack(thisagent, dude, "Fire", 30, 40);
 			//$spell_attack( thisagent, dude, 40 );
 		end
 end
@@ -401,7 +424,7 @@ begin
 	foreach dude in targets do
 		begin
 			$createeffector( dude, "radiate_energy_effector2", 0 );
-			$spell_type_attack(thisagent, dude, "Fire", 22, 25);
+			$spell_type_attack(thisagent, dude, "Fire", 20, 25);
 			//$spell_attack( thisagent, dude, 25 );
 		end
 end
@@ -422,7 +445,7 @@ begin
 
 	foreach target in targets do
 		begin
-			$spell_type_attack(thisagent, target, "Necrotic", 19, 20);
+			$spell_type_attack(thisagent, target, "Necrotic", 15, 20);
 			//$spell_attack( thisagent, target, 20 );
 			$createeffector( target, "vortex_effector2", 0 );
 			////$DebugOut(911, "hit", target);
@@ -1224,8 +1247,9 @@ begin
 	
 	$MagicalAdjustAttribute(target, #ATTRIB_magicresistance,add_resistance);
 	$adjustattribute(target, #ATTRIB_Healingratemodifier,-1);
-		
-	target's "critical_chance" += add_crit;
+	
+	if ($hasAttribute("critical_chance", target))
+		target's "critical_chance" += add_crit;
 	
 end
 
@@ -1248,8 +1272,9 @@ begin
 	
 	$MagicalAdjustAttribute(thisagent,#ATTRIB_magicresistance, - add_resistance);
 	$adjustattribute(thisagent,#ATTRIB_Healingratemodifier, 1);
-	
-	thisagent's "critical_chance" -= add_crit;
+		
+	if ($hasAttribute("critical_chance", thisagent))
+		thisagent's "critical_chance" -= add_crit;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2110,7 +2135,7 @@ begin
 
 			$createeffector( thisagent, "ChangeHeart", 0 );
 
-			Intent = $GetStringSafe(thisagent's "Running_Intent");
+			Intent = $GetStringSafe(thisagent, "Running_Intent");
 			Intent_int = $GetAttribute ( ThisAgent, #ATTRIB_AIIntentionString );
 
 			//If the unit is currently leaving Ardania, then don't do anything
@@ -2118,7 +2143,7 @@ begin
 			If ( Intent == "IDTXT_INTENT_FLEEINGMAP" || Intent_int == #intent_flee_Map || $IsFrozen ( ThisAgent ))
 				return;
 
-
+			$invalidatetasks(thisagent);
 			//ThisAgent should go berserk if they are currently fleeing
 			If ( Intent == "IDTXT_INTENT_FLEEING" || Intent == "IDTXT_INTENT_FLEEINGINJURED" ||
 				Intent_int == #intent_flee_Scared || Intent_int == #intent_flee_lowHP )
@@ -2282,6 +2307,7 @@ begin
 	If (Target's "Type" != "Building" && Target's "Type" != "Lair")
 		begin
 			$CreateEffector ( target, "Ratman_Plague_Icon", 1, "infinite" );
+			$addattribute(target, "PlagueScript", "function");
 			target's "PlagueScript" = $Ratman_Plague_Active;
 			$NewThread ( target's "PlagueScript", #Ratman_Plague_Callback_Time, target );
 
@@ -2361,7 +2387,7 @@ end
 function Ratman_Plague_End ( agent thisagent )
 declare
 begin
-	if ($isvalidgamepiece(thisagent) == false)
+	if ($isdead(thisagent))
 		return;
 	$SetAttribute ( thisagent, #ATTRIB_HasEffectRatmanPlague, 0 );
 

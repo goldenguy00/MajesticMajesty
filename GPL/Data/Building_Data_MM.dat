@@ -993,7 +993,7 @@
 		(ranged 90)
 		(member_title Dwarf)
 		(member_basicscript dwarf_tree)
-		(max_members 1)
+		(max_members 3)
 		(level 1)
 		(max_level 1)
 		(Lived_In_Script	Lived_In)
@@ -2338,87 +2338,5 @@
 		(Armor_Physical_Base		10)
 		(Armor_Magical_Base			10)
 		(IntentExt				BANK)
-	}
-[end]
-
-
-[Help_Sign_Toggle_On]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Help_Sign_Toggle_On)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Help_Sign_Toggle_Off]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Help_Sign_Toggle_Off)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Help_Sign_Attributes]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Help_Sign_Attributes)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Help_Sign_Spell_System]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Help_Sign_Spell_System)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Help_Sign_Library_Spells]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Help_Sign_Library_Spells)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Available_Books]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Available_Books)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Options]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Options)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Research]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Research)
-		(birthScript SignBirth)
-	}
-[end]
-
-[Services]
-	{map_goodie
-		(type color)
-		(subtype color)
-		(title Services)
-		(birthScript SignBirth)
 	}
 [end]

@@ -896,27 +896,18 @@ end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function SearingMantleCondition( agent thisagent, string spell_name) is agent
 declare
-	//string icon, manapercent;
-	
 begin
-	//icon = spell_name + "_Icon";		//Set these up in an alternative of AdvancedCastCombatSupportAlly_hero that holds the spells specific icon and mana percent extension in
-	return $AdvancedCastCombatSupportAlly_hero(thisagent, thisagent's "Target", "Searing_Mantle_Icon", spell_name, 40);
+	return $BasicCastSupportAlly_hero(thisagent, thisagent's "Target", "Searing_Mantle_Icon", spell_name);
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function PyrelightCondition( agent thisagent, string spell_name) is agent
 declare
-	//string icon, manapercent;
-	
 begin
-	//icon = spell_name + "_Icon";
-	return $AdvancedCastCombatDebuffEnemy_hero(thisagent, thisagent's "Target", "Pyrelight_icon", spell_name, 30);
+	return $BasicCastDebuffEnemy_hero(thisagent, thisagent's "Target", "Pyrelight_icon", spell_name);
 end
 /////////////////////////////////////////////////////////////////////////////////////////////////
 function IgniteCondition( agent thisagent, string spell_name) is agent
 declare
-	//string icon, manapercent;
-	
 begin
-	//icon = spell_name + "_Icon";
 	return $BasicCastDebuffEnemy_hero(thisagent, thisagent's "Target", "Ignite_Icon", spell_name);
 end

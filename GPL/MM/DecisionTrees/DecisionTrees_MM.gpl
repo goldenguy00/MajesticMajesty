@@ -1019,1132 +1019,786 @@ end
 ///////////////////////////////////////////////////////////////////////////////
 function Adept_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin	
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General");
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General", $Defend_building_Packet);
 
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 66, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 66, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare", $Hall_Champs_Check_Packet);
 	
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 60, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 60, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Patrol_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "building", 65, "Combat"); //"building" is not checked for anyway, can leave it as None, but leaving it as is just in case.
+	$SetTaskParametersBasic(thisagent, "building", 65, "Combat", $Patrol_Packet); //"building" is not checked for anyway, can leave it as None, but leaving it as is just in case.
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle", $Visit_Building_Packet);
 
-	flist << $Check_Champion_Rewards_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat", $Check_Champion_Rewards_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare", $Visit_Building_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 45, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 45, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare", $check_library_Packet);
 	
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 40, "Prepare", $check_library_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 95, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+
+	$SetTaskParametersBasic(thisagent, "None", 85, "Explore", $Explore_Map_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 95, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Barbarian_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Rangers_guild", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Rangers_guild", 100, "General", $Defend_building_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 5, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare", $Hall_Champs_Check_Packet);
 
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Raid_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Raid_Lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 5, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare", $check_library_Packet);
 	
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare", $check_library_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 45, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 45, "Idle", $Go_home_Packet);
 
-	flist << $Explore_Map_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 45, "Explore");
+	$SetTaskParametersBasic(thisagent, "None", 45, "Explore", $Explore_Map_Packet);
 
-	flist << $collect_special_item_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat", $collect_special_item_Packet);
 	
-	thisagent's "TASK_globalTaskList" = flist;
+	$SetTaskParametersBasic(thisagent, "None", 35, "Explore", $Journey_Offmap_Check_Packet);
+
+
 	$BuildTasks(thisagent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Cultist_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 33, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 33, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Build_Pack_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare", $Build_Pack_Packet);
 	
-	flist << $Swarm_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat", $Swarm_Packet);
 	
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat", $Combat_wandering_heroes_Packet);
 	
-	flist << $Raid_lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat", $Raid_lair_Packet);
 	
-	flist << $Patrol_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "Animal_Den", 60, "Combat");
+	$SetTaskParametersBasic(thisagent, "Animal_Den", 60, "Combat", $Patrol_Packet);
 
-	flist << $Steal_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare", $Steal_Check_Packet);
 
-	flist << $Seed_Resource_Check_Packet;	//Support
-	$SetTaskParametersBasic(thisagent, "None", 55, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 55, "Prepare", $Seed_Resource_Check_Packet);
 
-	flist << $collect_special_item_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 45, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 45, "Combat", $collect_special_item_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare", $Visit_Building_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 20, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 20, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 50, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare", $check_library_Packet);
 	
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare", $check_library_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 30, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore", $Explore_Map_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 30, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Discord_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Temple_Fervus", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Temple_Fervus", 100, "General", $Defend_building_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 15, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Raid_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Raid_Lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Visit_Building_Packet;	//Preapre
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 20, "Prepare", $Visit_Building_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 5, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 5, "Prepare", $check_library_Packet);
 	
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 5, "Prepare", $check_library_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 50, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 35, "Explore", $Journey_Offmap_Check_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 75, "Explore", $Explore_Map_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 50, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Dwarf_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Blacksmith", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Blacksmith", 100, "General", $Defend_building_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 35, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 35, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare", $Hall_Champs_Check_Packet);
 
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Raid_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat", $Raid_Lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle", $Visit_Building_Packet);
 
-	flist << $collect_special_item_Packet;	//Combet
-	$SetTaskParametersBasic(thisagent, "None", 40, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Combat", $collect_special_item_Packet);
 	
-	flist << $Check_Champion_Rewards_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat", $Check_Champion_Rewards_Packet);
 
-	flist << $help_build_Packet;	//Support
-	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare", $help_build_Packet);
+	$SetTaskParametersBasic(thisagent, "None", 85, "General", $help_build_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 35, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 35, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare");
-
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare");
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 35, "Explore", $Explore_Map_Packet);
+
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare", $check_library_Packet);
 	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare", $check_library_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Elf_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 100, "General", $Defend_building_Packet);
 
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Brothel", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Brothel", 100, "General", $Defend_building_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Trading_Post", 35, "Idle");
+	$SetTaskParametersBasic(thisagent, "Trading_Post", 35, "Idle", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Marketplace", 20, "Idle");
+	$SetTaskParametersBasic(thisagent, "Marketplace", 20, "Idle", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 60, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 60, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 20, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare", $Hall_Champs_Check_Packet);
 
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
-
-	flist << $Raid_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
-
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 15, "Combat");
-
-	flist << $Steal_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 80, "Prepare");
-
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 45, "Prepare");
-
-	flist << $collect_special_item_Packet;	//Combet
-	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
-
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat", $Combat_wandering_heroes_Packet);
 	
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore", $Explore_Map_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat", $Raid_Lair_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 15, "Combat", $Raid_enemy_building_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 80, "Prepare", $Steal_Check_Packet);
+
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 45, "Prepare", $Visit_Building_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat", $collect_special_item_Packet);
 	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 30, "Explore", $Journey_Offmap_Check_Packet);
+
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare", $check_library_Packet);
+	
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare", $check_library_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Gnome_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 20, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare", $Hall_Champs_Check_Packet);
 	
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+	//flist << $Combat_wandering_Packet;			//Combat
+	//$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 10, "Combat");
+	//flist << $Combat_wandering_heroes_Packet;			//Combat
+	//$SetTaskParametersBasic(thisagent, "None", 10, "Combat");
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $help_build_Packet;	//Support
-	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $help_build_Packet);
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $help_build_Packet);
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $help_build_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare", $Visit_Building_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare", $check_library_Packet);
 	
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 15, "Prepare", $check_library_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Healer_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General");
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General", $Defend_building_Packet);
 
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Heal_Others_Packet;	//Support
-	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare"); //Prepare doesn't really fit.
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare", $Heal_Others_Packet); //Prepare doesn't really fit.
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Follow_Heal_Check_Packet;			//Support
-	$SetTaskParametersBasic(thisagent, "Paladin", 85, "Combat");
+	$SetTaskParametersBasic(thisagent, "Paladin", 85, "Combat", $Follow_Heal_Check_Packet);
 
-	flist << $Follow_Heal_Check_Packet;			//Support
-	$SetTaskParametersBasic(thisagent, "Warrior", 75, "Combat");
+	$SetTaskParametersBasic(thisagent, "Warrior", 75, "Combat", $Follow_Heal_Check_Packet);
 
-	flist << $Follow_Heal_Check_Packet;			//Support
-	$SetTaskParametersBasic(thisagent, "Warrior_of_discord", 50, "Combat");
+	$SetTaskParametersBasic(thisagent, "Warrior_of_discord", 50, "Combat", $Follow_Heal_Check_Packet);
 
-	flist << $Follow_Heal_Check_Packet;			//Support
-	$SetTaskParametersBasic(thisagent, "Wizard", 35, "Combat");
+	$SetTaskParametersBasic(thisagent, "Wizard", 35, "Combat", $Follow_Heal_Check_Packet);
 
-	flist << $Follow_Heal_Check_Packet;			//Support
-	$SetTaskParametersBasic(thisagent, "tax_collector", 50, "Combat");
+	$SetTaskParametersBasic(thisagent, "tax_collector", 50, "Combat", $Follow_Heal_Check_Packet);
 
-	flist << $Seed_Resource_Check_Packet;	//Support
-	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare", $Seed_Resource_Check_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 50, "Prepare", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle");
+	$SetTaskParametersBasic(thisagent, "Inn", 20, "Idle", $Visit_Building_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 35, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 35, "Prepare", $check_library_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 70, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Monk_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General", $Defend_building_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare", $Hall_Champs_Check_Packet);
 	
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Raid_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 50, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Combat", $Raid_Lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 10, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 40, "Prepare", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 75, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 75, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 55, "Prepare", $check_library_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 60, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 60, "Idle", $Go_home_Packet);
 
-	flist << $collect_special_item_Packet;	//Combet
-	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat", $collect_special_item_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 20, "Explore", $Explore_Map_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Paladin_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Temple_Dauros", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Temple_Dauros", 100, "General", $Defend_building_Packet);
 
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 65, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 65, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare", $Hall_Champs_Check_Packet);
 	
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None",90, "Combat");
+	$SetTaskParametersBasic(thisagent, "None",90, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 80, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 80, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 80, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Raid_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat", $Raid_Lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 85, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 10, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 35, "Explore", $Explore_Map_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 10, "Prepare", $Visit_Building_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 60, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 25, "Prepare", $check_library_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Priestess_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Build_Horde_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare", $Build_Horde_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 90, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 90, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare", $Hall_Champs_Check_Packet);
 	
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 30, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Raid_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 40, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Combat", $Raid_Lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Explore_Map_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore", $Explore_Map_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 45, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 45, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare", $Visit_Building_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 45, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 70, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Priestess_Spell", 90, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Priestess_Spell", 90, "Prepare", $check_library_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 80, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 80, "Idle", $Go_home_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Ranger_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Trading_Post", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Trading_Post", 100, "General", $Defend_building_Packet);
 
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 60, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Collect_Resource_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "healing_herbs", 95, "Prepare");
+	$SetTaskParametersBasic(thisagent, "healing_herbs", 95, "Prepare", $Collect_Resource_Packet);
 
-	flist << $follow_support_check_Packet;	//Combat
-	$SetTaskParametersBasic(thisagent, "barbarian", 90, "Combat");
+	$SetTaskParametersBasic(thisagent, "barbarian", 90, "Combat", $follow_support_check_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare", $Hall_Champs_Check_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 40, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Explore_Map_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 95, "Explore");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Explore", $Explore_Map_Packet);
 
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 75, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Journey_Offmap_Check_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 80, "Explore");
+	$SetTaskParametersBasic(thisagent, "None", 80, "Explore", $Journey_Offmap_Check_Packet);
 
-	flist << $Go_home_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 15, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 15, "Idle", $Go_home_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 30, "Prepare", $check_library_Packet);
 
-	flist << $Raid_lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat", $Raid_lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 10, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 10, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 35, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 35, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 35, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 35, "Prepare", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Inn", 15, "Idle");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "Inn", 15, "Idle", $Visit_Building_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Rogue_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Gambling_Hall", 100, "General", $Defend_building_Packet);
 
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 25, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Loot_Gravestones_Packet;		//Combat
-	$SetTaskParametersBasic(thisagent, "None", 100, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Combat", $Loot_Gravestones_Packet);
 
-	flist << $Steal_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Prepare", $Steal_Check_Packet);
 
-	flist << $collect_special_item_Packet;		//Combat
-	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat", $collect_special_item_Packet);
 
-	flist << $Collect_Resource_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "poison_plants", 90, "Prepare");
+	$SetTaskParametersBasic(thisagent, "poison_plants", 90, "Prepare", $Collect_Resource_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 25, "Prepare", $check_library_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare", $Hall_Champs_Check_Packet);
 
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 65, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 65, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 55, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 55, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Inn", 35, "Idle");
+	$SetTaskParametersBasic(thisagent, "Inn", 35, "Idle", $Visit_Building_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 25, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 25, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Explore_Map_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore", $Explore_Map_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare");
-
-	flist << $Go_Home_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "None", 95, "Idle");
-
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 15, "Prepare", $Visit_Building_Other_Packet);
 	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore", $Journey_Offmap_Check_Packet);
+
+	$SetTaskParametersBasic(thisagent, "None", 95, "Idle", $Go_Home_Packet);
+
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 30, "Prepare", $Visit_Building_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Solarus_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin	
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General", $Defend_building_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 	
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 65, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 65, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare", $Hall_Champs_Check_Packet);
 
-	flist << $Check_Champion_Rewards_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 70, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Combat", $Check_Champion_Rewards_Packet);
 
-	flist << $Find_Lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Find_Lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Garrison_Check_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 50, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Combat", $Garrison_Check_Packet);
 
-	flist << $Explore_Map_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 75, "Explore");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Explore", $Explore_Map_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 50, "Prepare", $check_library_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 40, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Go_Home_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "None", 5, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 5, "Idle", $Go_Home_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare");
-	
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 15, "Prepare", $Visit_Building_Packet);
+
 end
 
 ///////////////////////////////////////////////////////////////////////////////
 function Warrior_Task_Packages (agent thisagent)
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Combat", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 	
-	flist << $Defend_building_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General");
+	$SetTaskParametersBasic(thisagent, "temple_agrela", 100, "General", $Defend_building_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 	
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 
-	flist << $Check_Blacksmith_Packet;		//Combat
-	$SetTaskParametersBasic(thisagent, "None", 100, "Combat");	//Warriors consider checking blacksmiths to be both part of preparation and combat.
+	$SetTaskParametersBasic(thisagent, "None", 100, "Combat", $Check_Blacksmith_Packet);	//Warriors consider checking blacksmiths to be both part of preparation and combat.
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 40, "Prepare", $Hall_Champs_Check_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 50, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $Raid_lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat", $Raid_lair_Packet);
 
-	flist << $Raid_enemy_building_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 90, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 90, "Combat", $Raid_enemy_building_Packet);
 
-	flist << $Combat_wandering_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Combat_wandering_Packet);
 
-	flist << $Combat_wandering_heroes_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 95, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 95, "Combat", $Combat_wandering_heroes_Packet);
 
-	flist << $Visit_Building_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle");
+	$SetTaskParametersBasic(thisagent, "Inn", 50, "Idle", $Visit_Building_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 10, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 10, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Learn_generic_spell", 10, "Prepare", $check_library_Packet);
 
-	flist << $Visit_Building_Other_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Shrine", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Shrine", 30, "Prepare", $Visit_Building_Other_Packet);
 
-	flist << $collect_special_item_Packet;	//Combet
-	$SetTaskParametersBasic(thisagent, "None", 20, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 20, "Combat", $collect_special_item_Packet);
 
-	flist << $Go_Home_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "None", 90, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 90, "Idle", $Go_Home_Packet);
 
-	flist << $Visit_Building_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 20, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_Gardens", 20, "Prepare", $Visit_Building_Packet);
 
-	flist << $Explore_Map_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 45, "Explore");
-
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "None", 45, "Explore", $Explore_Map_Packet);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2153,88 +1807,58 @@ function Wizard_Task_Packages (agent thisagent)
 //the sets up the heroes initial task packets, it isn't the thread for calling new decisions, this is called once upon the hero's birth.
 //Might be best to have multiple Prepares into a heroes package lists.
 declare
-	list flist;
 begin
-	flist << $Check_rewards_Packet;
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Check_rewards_Packet);
 	
-	flist << $Defend_home_Packet;				//Defend
-	$SetTaskParametersBasic(thisagent, "None", 100, "General");
+	$SetTaskParametersBasic(thisagent, "None", 100, "General", $Defend_home_Packet);
 
-	flist << $Check_Wizards_Guild_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Prepare", $Check_Wizards_Guild_Packet);
 	
-	flist << $Check_Library_Books_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 75, "Prepare", $Check_Library_Books_Packet);
 	
-	flist << $Open_Bank_Account_Packet;			//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Open_Bank_Account_Packet);
 	
-	flist << $Check_Marketplace_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Marketplace_Packet);
 	
-	flist << $Check_Blacksmith_Packet;		//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Prepare", $Check_Blacksmith_Packet);
 	
-	flist << $Purchase_bazaar_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 70, "Prepare", $Purchase_bazaar_Packet);
 	
-	flist << $pursue_entertainment_Packet;		//Idle
-	$SetTaskParametersBasic(thisagent, "None", 100, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 100, "Idle", $pursue_entertainment_Packet);
 	
-	flist << $Hall_Champs_Check_Packet;	//Prepare
-	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Prepare", $Hall_Champs_Check_Packet);
 	
-	flist << $Raid_lair_Packet;			//Combat
-	$SetTaskParametersBasic(thisagent, "None", 45, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 45, "Combat", $Raid_lair_Packet);
 	
-	flist << $raid_enemy_building_Packet;	//Combat
-	$SetTaskParametersBasic(thisagent, "None", 30, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 30, "Combat", $raid_enemy_building_Packet);
 	
-	flist << $Combat_wandering_packet;	//Combat
-	$SetTaskParametersBasic(thisagent, "None", 65, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 65, "Combat", $Combat_wandering_packet);
 	
-	flist << $combat_wandering_heroes_packet;	//Combat
-	$SetTaskParametersBasic(thisagent, "None", 60, "Combat");
+	$SetTaskParametersBasic(thisagent, "None", 60, "Combat", $combat_wandering_heroes_packet);
 	
-	flist << $Explore_Map_Packet;	//Explore
-	$SetTaskParametersBasic(thisagent, "None", 50, "Explore");
+	$SetTaskParametersBasic(thisagent, "None", 50, "Explore", $Explore_Map_Packet);
 	
-	flist << $Go_Home_Packet;	//Idle
-	$SetTaskParametersBasic(thisagent, "None", 85, "Idle");
+	$SetTaskParametersBasic(thisagent, "None", 85, "Idle", $Go_Home_Packet);
 	
-	flist << $check_library_Packet;	//Preapre
-	$SetTaskParametersBasic(thisagent, "Wizard_spell", 90, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Wizard_spell", 90, "Prepare", $check_library_Packet);
 
-	flist << $check_library_Packet;	//Preapre
-	$SetTaskParametersBasic(thisagent, "Wizard_train_intel", 55, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Wizard_train_intel", 55, "Prepare", $check_library_Packet);
 	
-	flist << $check_library_Packet;	//Preapre
-	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Train_magic_resist", 15, "Prepare", $check_library_Packet);
 	
-	flist << $defend_building_Packet;	//Defend
-	$SetTaskParametersBasic(thisagent, "Library", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Library", 100, "General", $defend_building_Packet);
 	
-	flist << $defend_building_Packet;	//Defend
-	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General");
+	$SetTaskParametersBasic(thisagent, "Marketplace", 100, "General", $defend_building_Packet);
 	
-	flist << $follow_support_check_Packet;	//Combat
-	$SetTaskParametersBasic(thisagent, "barbarian", 30, "Combat");
+	$SetTaskParametersBasic(thisagent, "barbarian", 30, "Combat", $follow_support_check_Packet);
 	
-	flist << $follow_support_check_Packet;	//Combat
-	$SetTaskParametersBasic(thisagent, "monk", 20, "Combat");
+	$SetTaskParametersBasic(thisagent, "monk", 20, "Combat", $follow_support_check_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Preapre
-	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 70, "Prepare");
+	$SetTaskParametersBasic(thisagent, "General_Housing_Lv3", 70, "Prepare", $Visit_Building_Other_Packet);
 	
-	flist << $Visit_Building_Packet;	//Preapre
-	$SetTaskParametersBasic(thisagent, "Royal_gardens", 5, "Prepare");
+	$SetTaskParametersBasic(thisagent, "Royal_gardens", 5, "Prepare", $Visit_Building_Packet);
 	
-	flist << $Visit_Building_Other_Packet;	//Preapre
-	$SetTaskParametersBasic(thisagent, "Shrine", 25, "Prepare");
-
-	thisagent's "TASK_globalTaskList" = flist;
-	$BuildTasks(thisagent);
+	$SetTaskParametersBasic(thisagent, "Shrine", 25, "Prepare", $Visit_Building_Other_Packet);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2284,7 +1908,12 @@ begin
 	if ($getstringsafe(thisagent, "TASK_activeStatus") == "Ongoing")
 		begin
 			if (thisagent's "target" == thisagent's "TASK_subTargetCurrent")
-				thisagent's "TASK_activeStatus" = "complete";
+				begin
+					if (thisagent's "activescript" == thisagent's "TASK_subActiveScriptCurrent" ||
+						thisagent's "activescript" == thisagent's "TASK_subBackScriptCurrent" ||
+						thisagent's "activescript" == thisagent's "TASK_subVisitingScriptCurrent")
+						thisagent's "TASK_activeStatus" = "complete";
+				end
 		end
 
 end
@@ -2306,11 +1935,10 @@ begin
 
 	if ($check_nearby(thisagent) == False)
 	if ($Defend_home(thisagent) == False)
-	//if ($Check_Rewards(thisagent,FALSE) == False)
+	if ($defend_building_nearby(thisagent) == false)
 	if ($rest(thisagent) == false)
-	//if ($Open_Bank_Account(thisagent) == False)
-	//if ($Defend_Building_Nearby(thisagent) == false)
 	if ($pursueTask(thisagent) == false)
+	if ($check_rewards(thisagent, true) == false)
 	if ($explore_map(thisagent, thisagent's "TASK_typeBaseChanceExplore") == false)
 	if ($go_home(thisagent, thisagent's "TASK_typeBaseChanceIdle") == false)
 		begin
@@ -2346,8 +1974,8 @@ begin
 		end
 	else if (Status == "Complete")
 		begin
-			$overridetasksequence(thisagent, "current", "next");
-			$overridetasksequence(thisagent, "next", "reserve");
+			$invalidatetask(thisagent, "Current");
+			$update_invalid_tasks(thisagent);
 		end
 
 	if ($IsTaskValid(thisagent, "Current") == true)
@@ -2369,17 +1997,16 @@ begin
 							flag's "heroes" << thisagent;
 					end
 			
-			waypoints = thisagent's "TASK_subWaypointsCurrent";
+			waypoints = thisagent's "TASK_subDestinationCurrent";
 			waypointCount = $listsize(waypoints);
 			if (waypointCount > 0)
 				begin
 					thisagent's "Destination" = $listmember(waypoints, waypointCount);
 
-					travelscript = thisagent's "TASK_subTravelScriptCurrent";
-					if (travelScript == $movewaypoint)
-						(travelscript)(thisagent, waypoints);
-					else if (travelscript == $move)
-						(travelscript)(thisagent, thisagent's "Destination");
+					if (waypointCount > 1)
+						$movewaypoint(thisagent, waypoints);
+					else
+						$move(thisagent, thisagent's "Destination");
 				end
 			
 			thisagent's "TASK_activeStatus" = "Ongoing";
@@ -2404,8 +2031,7 @@ begin
 	_condition = "TASK_subExitCondition"+subset;
 	_target = "TASK_subTarget"+subset;
 
-	if ((thisagent's _condition)(thisagent's _target) == false)
-		thisagent's _isValid = true;
+	thisagent's _isValid = ((thisagent's _condition)(thisagent's _target) == false);
 	
 	if (thisagent's _isvalid == false)
 		$InvalidateTask(thisagent, subset);
@@ -2418,8 +2044,10 @@ function NotDuplicateTask (agent thisagent) is boolean
 //Checks to see if the task is a duplicate of other ones
 
 declare
-
-	string targetsub, completetarget, othertarget, actionsub, completeaction, otheraction, index;
+	string index;
+	string targetsub, actionsub, destsub;
+	string completetarget, completeaction, completedest;
+	string othertarget, otheraction, otherdest;
 	
 begin
 	index = thisagent's "TASK_activeSubset";
@@ -2428,24 +2056,40 @@ begin
 	
 	targetsub = "TASK_subTarget";
 	actionsub = "TASK_subActiveScript";
+	destsub = "TASK_subDestination";
 	completetarget = targetsub + index;
 	completeaction = actionsub + index;
+	completedest = destsub + index;
 
 	// If Backup/Next/Reserve or any other index are duplicates of Current, then return false
 	othertarget = targetsub + "Current";
 	otheraction = actionsub + "Current";
+	otherdest = destsub + "Current";
 	if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
 		begin
-			return False;
+			if ($listsize(thisagent's completedest) == $listsize(thisagent's otherdest))
+				begin
+					if ($listsize(thisagent's completedest) == 0)
+						return false;
+					if ($listmember(thisagent's completedest, 1) == $listmember(thisagent's otherdest, 1))
+						return false;
+				end
 		end
 
 	if (index == "Reserve") //If Reserve is a duplicate of Backup or Next, then return false
 		begin
 			othertarget = targetsub + "Next";
 			otheraction = actionsub + "Next";
+			otherdest = destsub + "Next";
 			if ((thisagent's completetarget == thisagent's othertarget) && (thisagent's completeaction == thisagent's otheraction))
 				begin
-					return False;
+					if ($listsize(thisagent's completedest) == $listsize(thisagent's otherdest))
+						begin
+							if ($listsize(thisagent's completedest) == 0)
+								return false;
+							if ($listmember(thisagent's completedest, 1) == $listmember(thisagent's otherdest, 1))
+								return false;
+						end
 				end
 		end
 		
@@ -2542,51 +2186,61 @@ end
 ///////////////////////////////////////////////////////////////////////////////
 function Search_For_Task (agent thisagent, string taskType, string subset) is boolean
 //This function searches for new tasks for packets lacking one.
-//This function should NOT have any setting for Primary/Current/Next/etc. Tasks
 declare
-	string _isValid, _type, _task;
-	integer rand, guid, chance;
-	list tasklist, guidlist, namelist, chancelist;
-	function task;
+	string _isValid, _guidlist, _count;
+	integer guid, chance;
 	string taskname;
+	function task;
 
+	agent AIRootAgent;
+	string _taskList, _nameList, _chanceList;
+	string title;
 begin
+	title = thisagent's "Title";
+	
+	_taskList = title + "_globalTaskList";
+	_nameList = title + "_globalNameList";
+	_chanceList = title + "_globalChanceList";
+
 	_isValid = "TASK_subIsValid" + subset;
+	_count = "TASK_typeCount" + tasktype;
+	_guidlist = "TASK_typeGuidList" + tasktype;
 
-	guidlist = thisagent's ("TASK_typeGuidList" + tasktype);
-	namelist = thisagent's "TASK_globalNameList";
-	chancelist = thisagent's "TASK_globalChanceList";
-	tasklist = thisagent's "TASK_globalTaskList";
-
-	if (thisagent's ("TASK_typeCount"+tasktype) >= $listsize(guidlist))
+	if (thisagent's _count >= $listsize(thisagent's _guidlist))
 		begin
 			if (thisagent's "TASK_activeType" == tasktype)
 				begin
 					taskType = $RerollTaskSet(thisagent, taskType);
 					thisagent's "TASK_activeType" = tasktype;
+					_count = "TASK_typeCount" + tasktype;
+					_guidlist = "TASK_typeGuidList" + tasktype;
 				end
-			thisagent's ("TASK_typeCount"+tasktype) = 0;
+			thisagent's _count = 0;
 		end
 	
-	thisagent's ("TASK_typeCount"+tasktype)++;
+	if (thisagent's _count == 0)	
+		thisagent's _guidlist = $shuffle_list(thisagent's _guidlist);
+	
+	thisagent's _count ++;
 
-	// gets referenced by the task evaluation functions to get supporting info
-	if ($listsize(guidlist) > 0)
+	if ($listsize(thisagent's _guidlist) > 0)
 		begin
-			rand = $RandomNumberNonZero($listsize(guidlist));
-			guid = $listmember(guidlist, rand);
-			task = $listmember(tasklist, guid);
-			chance = $listmember(chancelist, guid);
-			taskname = $listmember(namelist, guid);
+			guid = $listmember(thisagent's _guidlist, thisagent's _count);
+
+			AIRootAgent = $RetrieveAgent("GplAIRoot");
+			task = $listmember(AIRootAgent's _taskList, guid);
+			taskname = $listmember(AIRootAgent's _nameList, guid);
+			chance = $listmember(AIRootAgent's _chanceList, guid);
 			
 
+			// gets referenced by the task evaluation functions to get supporting info
 			thisagent's "TASK_activeSubset" = subset;
 			thisagent's "TASK_activeGuid" = guid;
 			thisagent's "TASK_activeTaskName" = taskname;
 			thisagent's "TASK_activeChance" = chance;
 			thisagent's _isValid = (task)(thisagent);
 		end
-	return thisagent's _isValid;
+	return $istaskvalid(thisagent, subset);
 end
 
 function RerollTaskSet(agent thisagent, string tasktype) is string
@@ -2601,23 +2255,40 @@ begin
 	chance_total = $RandomNumber(thisagent's "TASK_typeBaseChancePrepare" + thisagent's "TASK_typeBaseChanceCombat" + thisagent's "TASK_typeBaseChanceExplore" + thisagent's "TASK_typeBaseChanceIdle");
 
 	chance = thisagent's (_baseChance+"Prepare");
-	if (chance >= chance_total)
+	if (chance_total < chance)
 		return "Prepare";
 	
 	chance_total -= chance;
 	chance = thisagent's (_baseChance+"Combat");
-	if (chance >= chance_total)
+	if (chance_total < chance)
 		return "Combat";	
 	
 	chance_total -= chance;
 	chance = thisagent's (_baseChance+"Explore");
-	if (chance >= chance_total)
+	if (chance_total < chance)
 		return "Explore";
 	
 	return "Idle";
 end
 
+function shuffle_list(list thislist) is list
+declare
+	list newl;
+	integer size, num;
 
+begin
+	size = $listsize(thislist);
+	while (size > 0) do
+		begin
+			num = $randomnumbernonzero(size);
+			newl << $listmember(thislist, num);
+			$removelistmember(thislist, num);
+			size--;
+		end
+	
+	thislist = newl;
+	return thislist;
+end
 
 	////////////////////////////////////
 	/////// {word}{index|type} ///////
@@ -2625,24 +2296,15 @@ end
 	///////////////////////////////
 	// string		TASK_subIntent
 	// string		TASK_subTaskName
-	// list			TASK_subWaypoints
+	// list			TASK_subDestination
 
 	// function		TASK_subActiveScript
 	// function		TASK_subBackScript
-	// function 	TASK_subTravelScript
 	// function		TASK_subVisitingScript
 	// function		TASK_subExitCondition
 
 	// integer 		TASK_typeBaseChance
 	// integer 		TASK_typeCount
-
-	////////////////////////////////////////////////////////
-	////////// it would be nicer as a struct /////////////
-	////////////////////////////////////////////////////
-	// list			TASK_globalTaskList
-	// list			TASK_globalTypeList
-	// list			TASK_globalChanceList
-	// list			TASK_globalNameList
 	
 	/////////////////////////////
 	///////// sub/seq /////////
@@ -2665,16 +2327,21 @@ end
 function BuildTasks(agent thisagent)
 declare
 	integer count, size;
-	string type;
-	string _typeGuidList;
-
+	string type, title;
+	string _typeGuidList, _typeList;
+	agent AIRootAgent;
 begin
+	title = thisagent's "Title";
+	_typelist = title + "_globalTypeList";
+	
+	AIRootAgent = $RetrieveAgent("GplAIRoot");
+
 	count = 0;
-	size = $ListSize(thisagent's "TASK_globalTaskList"); // If an agent gets new tasks packets dynamically, the list part can be added in manually
+	size = $ListSize(AIRootAgent's _typeList); // If an agent gets new tasks packets dynamically, the list part can be added in manually
 	while (size > count) do
 		begin
 			count ++;
-			type = $ListMember(thisagent's "TASK_globalTypeList", count);		// Prepare, Combat, Idle etc
+			type = $ListMember(AIRootAgent's _typeList, count);		// Prepare, Combat, Idle etc
 
 			_typeGuidList = "TASK_typeGuidList" + type; 									// "TASK_typeGuidList{TYPE}"
 			thisagent's _typeGuidList << count; 									// Add the global index as a guid into "TASK_typeGuidList{TYPE}";
@@ -2682,16 +2349,25 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function SetTaskParametersBasic (agent thisagent, string name, integer chance, string type)
+function SetTaskParametersBasic (agent thisagent, string name, integer chance, string type, function func)
 //This function searches for new tasks for packets lacking one.
 declare
+	agent AIRootAgent;
+	string _taskList, _typeList, _nameList, _chanceList;
+	string title;
 begin
-	// but why lol
-	// global just means index with the task's guid ig, idk
-	thisagent's "TASK_globalNameList" << name;
-	thisagent's "TASK_globalChanceList" << chance;
-	thisagent's "TASK_globalTypeList" << type;
-//	thisagent's "TASK_globalTaskList" << func;
+	title = thisagent's "Title";
+	AIRootAgent = $RetrieveAgent("GplAIRoot");
+	
+	_taskList = title + "_globalTaskList";
+	_typeList = title + "_globalTypeList";
+	_nameList = title + "_globalNameList";
+	_chanceList = title + "_globalChanceList";
+
+	AIRootAgent's _taskList << func;
+	AIRootAgent's _typeList << type;
+	AIRootAgent's _nameList << name;
+	AIRootAgent's _chanceList << chance;
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -2712,12 +2388,11 @@ begin
 
 			thisagent's ("TASK_subActiveScript" + thistask) = thisagent's ("TASK_subActiveScript" + nexttask);
 			thisagent's ("TASK_subBackScript" + thistask) = thisagent's ("TASK_subBackScript" + nexttask);
-			thisagent's ("TASK_subTravelScript" + thistask) = thisagent's ("TASK_subTravelScript" + nexttask);
 			thisagent's ("TASK_subVisitingScript" + thistask) = thisagent's ("TASK_subVisitingScript" + nexttask);
 
 			thisagent's ("TASK_subIntent" + thistask) = thisagent's ("TASK_subIntent" + nexttask);
 			thisagent's ("TASK_subExitCondition" + thistask) = thisagent's ("TASK_subExitCondition" + nexttask);
-			thisagent's ("TASK_subWaypoints" + thistask) = thisagent's ("TASK_subWaypoints" + nexttask);
+			thisagent's ("TASK_subDestination" + thistask) = thisagent's ("TASK_subDestination" + nexttask);
 		end
 	
 	$InvalidateTask(thisagent, nexttask);
@@ -2742,9 +2417,9 @@ begin
 	thisagent's ("TASK_subIntent" + thistask) = "";
 
 	thisagent's ("TASK_subExitCondition" + thistask) = $nevervalid;
-	thisagent's ("TASK_subTravelScript" + thistask) = $nullfunction;
-	$clearlist(thisagent's ("TASK_subWaypoints" + thistask));
+	$clearlist(thisagent's ("TASK_subDestination" + thistask));
 end
+
 function InvalidateTasks(agent thisagent)
 declare
 begin
@@ -2753,6 +2428,7 @@ begin
 	$InvalidateTask(thisagent, "Reserve");
 	$InvalidateTask(thisagent, "Backup");
 end
+
 function nevervalid(agent thisagent) is boolean
 declare
 begin
@@ -2783,13 +2459,12 @@ begin
 
 	$AddAttribute(thisagent, "TASK_subActiveScript" + thistask, "function");
 	$AddAttribute(thisagent, "TASK_subBackScript" + thistask, "function");
-	$AddAttribute(thisagent, "TASK_subTravelScript" + thistask, "function");
 	$AddAttribute(thisagent, "TASK_subVisitingScript" + thistask, "function");
 	$AddAttribute(thisagent, "TASK_subExitCondition" + thistask, "function");
 	
 	$AddAttribute(thisagent, "TASK_subIntent" + thistask, "string");
 	$AddAttribute(thisagent, "TASK_subTaskName" + thistask, "string");
-	$AddAttribute(thisagent, "TASK_subWaypoints" + thistask, "list");
+	$AddAttribute(thisagent, "TASK_subDestination" + thistask, "list");
 	
 	$InvalidateTask(thisagent, thistask);
 end
@@ -2800,10 +2475,6 @@ declare
 	string completeaction, completecondition, completetarget, completeintent;
 	string taskindex;
 begin
-	//thisagent's "ActiveScript" = thisagent's "TASK_subActiveScriptCurrent";
-	//thisagent's "Target" = thisagent's "TASK_subTargetCurrent";
-	//$SpecifyIntentString (ThisAgent, thisagent's "TASK_subIntentCurrent");
-
 	// could you make this any more fucking stupidly convoluted? like ohh my god im losing my mind here
 	actionsub = "TASK_subActiveScript";
 	conditionsub = "TASK_subExitCondition";
@@ -2822,31 +2493,20 @@ begin
 	thisagent's completeintent = intent;
 end
 
-function UpdateVisitTaskPackage(agent thisagent, function action, function condition, agent target, string intent, string name, function visit)
+function UpdateVisitTask(agent thisagent, string name, function visit)
 declare
-	string actionsub, conditionsub, targetsub, intentsub, namesub, visitsub;
-	string completeaction, completecondition, completetarget, completeintent, completename, completevisit;
+	string namesub, visitsub;
+	string completename, completevisit;
 	string taskindex;
 begin
-	actionsub = "TASK_subActiveScript";
-	conditionsub = "TASK_subExitCondition";
-	targetsub = "TASK_subTarget";
-	intentsub = "TASK_subIntent";
 	namesub = "TASK_subTaskName";
 	visitsub = "TASK_subVisitingScript";
 
 	taskindex = thisagent's "TASK_activeSubset";
-	completeaction = actionsub + taskindex;
-	completecondition = conditionsub + taskindex;
-	completetarget = targetsub + taskindex;
-	completeintent = intentsub + taskindex;
+
 	completename = namesub + taskindex;
 	completevisit = visitsub + taskindex;
 	
-	thisagent's completeaction = action;
-	thisagent's completecondition = condition;
-	thisagent's completetarget = target;
-	thisagent's completeintent = intent;
 	thisagent's completename = name;
 	thisagent's completevisit = visit;
 end

@@ -248,6 +248,7 @@
 			<Flags value="NotBuildable"/>
 			<Flags value="NoFlaggable"/>
 			<Flags value="NotSpellTarget"/>
+			<Flags value="NotInMiniMap"/>
 			<HelpID value="h080"/>
 		</Game>
 	</Description>
@@ -1528,6 +1529,31 @@
 			<Flags value="NotInMiniMap"/>
 			<Flags value="HasGoldToolTip"/>
 			<HelpID value="h155"/>
+		</Game>
+	</Description>	
+	<Description type="Unit" subType="Building" ID="ABN1" Name="Sewers" Description="Sewer Entrance">
+		<Engine version="1">
+			<Info value="Static"/>
+			<Info value="Directionless"/>
+			<Info value="BlockGround"/>
+			<Info value="ModifyTerrainTextureOnPlacement"/>
+			<Info value="ModifyTerrainHeightOnPlacement"/>
+			<CanUse value="HumanPlayer"/>
+			<Menu value="3"/>
+			<ImageIDBase value="BBN1"/>
+			<DefaultSound value="Sewer"/>
+		</Engine>
+		<Game version="1">
+			<DialogID value="APa9"/>
+			<IncomeType value="3"/>
+			<MaxHP value="200"/>
+			<SightRange value="64"/>
+			<Flags value="NotBuildable"/>
+			<Flags value="NoFlaggable"/>
+			<Flags value="NotSpellTarget"/>
+			<Flags value="NumberedName"/>
+			<Flags value="NotInMiniMap"/>
+			<HelpID value="h081"/>
 		</Game>
 	</Description>
 	<Description type="Unit" subType="Building" ID="MMb1" Name="Sanguine_Pit" Description="Sanguine Pit">

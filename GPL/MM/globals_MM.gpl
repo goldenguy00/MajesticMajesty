@@ -7,7 +7,7 @@
 //For Heroes
 expression #protection_flag_range 300
 
-expression #artifice_movespeed 1
+expression #artifice_movespeed 2
 expression #artifice_attackspeed 2
 expression #artifice_sightrange 2
 expression #artifice_attackrange 2
@@ -17,10 +17,10 @@ expression #artifice_castrange 3
 expression #insight_point_limit 14
 
 //The minimum amount of mana a hero can have assuming 0 Intelligence.
-expression #Base_Mana 5
+expression #Base_Mana 10
 
 //The minimum amount of mana regeneration a hero can have assuming 0 Intelligence.
-expression #Mana_Regeneration_Base 1
+expression #Mana_Regeneration_Base 2
 
 //The amount of points generated per Intelligence.
 expression #Mana_Regeneration_Int 8
@@ -29,13 +29,13 @@ expression #Mana_Regeneration_Int 8
 expression #Mana_Amount_Int 2
 
 //The amount of points generated per Wisdom.
-expression #Mana_Regeneration_Wis 0
+expression #Mana_Regeneration_Wis 2
 
 //The amount each point of Wisdom increases Max Mana by.
-expression #Mana_Amount_Wis 0
+expression #Mana_Amount_Wis 8
 
 //Threshold for points needed to generate a single point of mana
-expression #Mana_point_limit 500
+expression #Mana_point_limit 400
 
 //The minimum amount of Health regeneration a hero can have assuming 0 Vitality.
 expression #Health_Regeneration_Base 1
@@ -44,7 +44,7 @@ expression #Health_Regeneration_Base 1
 expression #Health_Regeneration_Vit 6
 
 //Threshold for points needed to generate a single point of HP
-expression #Health_point_limit 500
+expression #Health_point_limit 400
 
 //Shrines Insight points generation Intervals
 expression #Shrine_Insight_Interval 8000

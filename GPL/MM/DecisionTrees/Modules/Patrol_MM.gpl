@@ -77,7 +77,7 @@ Declare
 	agent	Building;
 	integer chance;
 	string What_To_Patrol; 
-	string actionsub, action2sub, intentsub, targetsub, destsub, movesub, movedsub, taskindex, completeaction, completeaction2, completeintent, completetarget, completemove, completemoved, completedestination;
+	string actionsub, action2sub, intentsub, targetsub, destsub, taskindex, completeaction, completeaction2, completeintent, completetarget, completedest;
 	string conditionsub, completecondition;
 
 
@@ -97,18 +97,16 @@ Begin
 	action2sub = "TASK_subBackScript";
 	intentsub = "TASK_subIntent";
 	targetsub = "TASK_subTarget";
-	movedsub = "TASK_subWaypoints";
-	movesub = "TASK_subTravelScript";
+	destsub = "TASK_subDestination";
 	conditionsub = "TASK_subExitCondition";
 	completeaction = actionsub + taskindex;
 	completeaction2 = action2sub + taskindex;
 	completeintent = intentsub + taskindex;
-	completetarget = targetsub + taskindex; 
-	completemove = movesub + taskindex;
-	completemoved = movedsub + taskindex;
+	completetarget = targetsub + taskindex;
+	completedest = destsub + taskindex;
 	completecondition = conditionsub + taskindex;
 	
-	$clearlist(thisagent's completemoved);
+	$clearlist(thisagent's completedest);
 	
 	//Cultists want to patrol animal dens
 	If (What_To_Patrol == "Animal_Den")
@@ -141,14 +139,13 @@ Begin
 			Foreach Building in Buildings do
 				begin
 					//$Move (ThisAgent, $LocationOf (Building), "Add_Waypoint"); //Don't move right away, this is in a que
-					thisagent's completemoved << $LocationOf (Building);
+					thisagent's completedest << $LocationOf (Building);
 				end
 
 			ThisAgent's completetarget = ThisAgent;
 			ThisAgent's completeaction2 = ThisAgent's "BasicScript";
 			ThisAgent's completeaction = $Travel_To_exp;
 			thisagent's completecondition = $isdead;
-			thisagent's completemove = $MoveWaypoint;
 					
 			If (What_To_Patrol == "Animal_Den")
 				Thisagent's completeintent = "IDTXT_INTENT_PATROLLINGDENS";

@@ -718,15 +718,19 @@ begin
 
 	myplayer = $GetUnitPlayerNumber(thisagent);
 	childplayer = $GetUnitPlayerNumber($ListMember(attachments, 1));
-	if (childplayer == myplayer)
-		return;
+	//if (childplayer == myplayer)
+	//	return;
 	
 	foreach attach in attachments do
 		begin
 			$SetUnitPlayerNumber(attach, myplayer);
+			$SetAttribute(attach, #ATTRIB_HasBeenDismissed, 0);
+
 			foreach widget in $GetBuildingContents(attach) do
-				if ($agentinagentlist(widget, attachments) == false)
+				begin
 					$SetUnitPlayerNumber(widget, myplayer);
+					$SetAttribute(widget, #ATTRIB_HasBeenDismissed, 0);
+				end
 		end
 end
 

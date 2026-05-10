@@ -11,8 +11,8 @@ expression #firebolt_Damage_Level_Div 2			//The divider for damage per additiona
 expression #firebolt_Cooldown 1000					//The cooldown in milliseconds
 expression #firebolt_Range 70						//The range is a percentage of the hero's casting range. It must not exceed 100 or the spell will behave erratically. 67 is considered baseline range for non-modded Majesty.
 expression #firebolt_Mana 4						//The base Mana cost at level 1
-expression #firebolt_Mana_Mult 3					//The Multplier for Mana cost increase
-expression #firebolt_Mana_Div 4					//The Divider for Mana cost increase. NEVER SET TO 0.
+expression #firebolt_Mana_Mult 1					//The Multplier for Mana cost increase
+expression #firebolt_Mana_Div 1					//The Divider for Mana cost increase. NEVER SET TO 0.
 													//This comes out to Fire Bolt costs 2 + (0.75 Mana per level)
 
 expression #FireSurge_Damage_Synergy_firebolt 8
@@ -28,8 +28,8 @@ expression #FireSurge_Burn_Cycle 1000				//The duration for each time the effect
 expression #FireSurge_Cooldown 3000
 expression #FireSurge_Range 80
 expression #FireSurge_Mana 6
-expression #FireSurge_Mana_Mult 3
-expression #FireSurge_Mana_Div 2
+expression #FireSurge_Mana_Mult 2
+expression #FireSurge_Mana_Div 1
 
 expression #Perdition_Barrage_Damage_Synergy_firebolt 4
 expression #Perdition_Barrage_Damage_Synergy_FireSurge 7
@@ -47,8 +47,8 @@ expression #Perdition_Barrage_Random_Level 12
 expression #Perdition_Barrage_Cooldown 7500
 expression #Perdition_Barrage_Range 90
 expression #Perdition_Barrage_Mana 16
-expression #Perdition_Barrage_Mana_Mult 13
-expression #Perdition_Barrage_Mana_Div 4
+expression #Perdition_Barrage_Mana_Mult 4
+expression #Perdition_Barrage_Mana_Div 1
 
 expression #Incandescent_Ray_Damage_Min 35
 expression #Incandescent_Ray_Damage_Max 45
@@ -60,8 +60,8 @@ expression #Incandescent_Ray_Distance_Level 15				//How much the distance increa
 expression #Incandescent_Ray_Cooldown 10000
 expression #Incandescent_Ray_Range 70						//The range for this spell will not alter the length of the ray, merely the range at the Wizard decides to cast it.
 expression #Incandescent_Ray_Mana 25
-expression #Incandescent_Ray_Mana_Mult 14
-expression #Incandescent_Ray_Mana_Div 5
+expression #Incandescent_Ray_Mana_Mult 5
+expression #Incandescent_Ray_Mana_Div 1
 
 expression #Searing_Mantle_Damage_Min 3
 expression #Searing_Mantle_Damage_Max 4
@@ -101,11 +101,11 @@ expression #Ignite_Duration 7			//This is the duration for ignite in normal seco
 expression #Ignite_Duration_Div 2		//This is what the duration is divided by for each additional second (Currently at +1 second per 2 levels)
 expression #Ignite_Cycle 1000			//The duration for each time the effect triggers on the afflicted unit
 expression #Ignite_Mana 15
-expression #Ignite_Mana_Mult 9
-expression #Ignite_Mana_Div 4
+expression #Ignite_Mana_Mult 2
+expression #Ignite_Mana_Div 1
 
-expression #Embers_Mana_Regen 5			//Mana regeneration per second is the value times 0.25 (In this case, Embers restores 1.25 Mana + 0.75/Level)
-expression #Embers_Mana_Regen_Mult 3
+expression #Embers_Mana_Regen 12			//Mana regeneration per second is the value times 0.25 (In this case, Embers restores 1.25 Mana + 0.75/Level)
+expression #Embers_Mana_Regen_Mult 8
 
 expression #Heatwave_Damage_Synergy_Embers 5
 expression #Heatwave_Radius_Synergy_FireSurge 7
