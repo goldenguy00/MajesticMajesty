@@ -136,34 +136,33 @@ begin
 					return TRUE;
 				end
 
-			arrivedist = $gettargetrange(thisagent);
-
 			if ((target's "type" == "building") && ($insidebuilding(thisagent)))
 				begin
 					// thiaagent has arrived inside its target building
 					// so go back to the task that called travel to
 					thisagent's "activescript" = thisagent's "backscript";
 					$debugout("I'm in a building.");
-					$checktaskcompletion(thisagent);
+					//$checktaskcompletion(thisagent);
 					return TRUE;
 				end
-
+			
 			if ((target's "type" == "building") && ($isenteringbuilding(thisagent)))
 				begin
 					return FALSE;
 				end
-			else
-				if ( $ReachedTargetDistance(thisagent,target,arrivedist) || ($ismoving(thisagent) == FALSE))
-					begin
-						// thisagent has arrived at its target agent
-						// so go back to the task that called 'travel_to'
-						if ($ismoving(target) == false)
-							$stopmoving(thisagent);
-						thisagent's "activescript" = thisagent's "backscript";
-						$debugout("I'm at my target.");
-						$checktaskcompletion(thisagent);
-						return TRUE;
-					end
+			
+			arrivedist = $gettargetrange(thisagent);
+			if ( $ReachedTargetDistance(thisagent,target,arrivedist) || ($ismoving(thisagent) == FALSE))
+				begin
+					// thisagent has arrived at its target agent
+					// so go back to the task that called 'travel_to'
+					if ($ismoving(target) == false)
+						$stopmoving(thisagent);
+					thisagent's "activescript" = thisagent's "backscript";
+					$debugout("I'm at my target.");
+					//$checktaskcompletion(thisagent);
+					return TRUE;
+				end
 		end
 	else
 		begin
@@ -187,7 +186,8 @@ begin
 					$checktaskcompletion(thisagent);
 					return TRUE;
 				end
-
-			return False;
 		end
+		
+
+	return False;
 end

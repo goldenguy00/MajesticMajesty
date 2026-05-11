@@ -14,7 +14,7 @@ begin
 	thisagent's "target" = $nullagent();
 	$clearlist(thisagent's "hostiles");
 
-	if ($IsExpansion(thisagent))
+	if ($IsExpansion())
 		begin
 			//See if ThisAgent needs to get a Hall of Champs effector over them
 			If ($GetUnitPlayerNumber (ThisAgent) == #Monster_Player)

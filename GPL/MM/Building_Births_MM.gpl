@@ -109,7 +109,7 @@ begin
 								$ResearchSet(check, "AVAILABLE");
 						end
 					
-				if ($IsExpansion(theBuilding) != False)
+				if ($IsExpansion() != False)
 					If (AIRootAgent's "Quest_Number" == #QNumber_Legendary_Heroes)
 						begin
 							$SetAttribute(theBuilding,#ATTRIB_MaxGuildMembers,1);
@@ -182,7 +182,7 @@ begin
 	AIRootAgent = $RetrieveAgent ( "GPLAIRoot" );
 	member_limit = 4;
 
-	if ($IsExpansion(thisagent) != False)
+	if ($IsExpansion() != False)
 		If ( AIRootAgent's "Quest_Number" == #QNumber_Legendary_Heroes )
 			begin
 
@@ -227,7 +227,7 @@ begin
 	$GeneralAttributes(thisagent);
 	AIRootAgent = $RetrieveAgent("GPLAIRoot");
 	member_limit = 4;
-	if ($IsExpansion(thisagent) != False)
+	if ($IsExpansion() != False)
 		If(AIRootAgent's "Quest_Number" == #QNumber_Legendary_Heroes)
 			begin
 				$SetAttribute(ThisAgent, #ATTRIB_MaxGuildMembers, 1);
@@ -269,7 +269,7 @@ begin
 		begin
 			$UpgradeAgentAttributes(thisagent);
 			
-			if ($IsExpansion(thisagent) != False)
+			if ($IsExpansion() != False)
 				If(AIRootAgent's "Quest_Number" == #QNumber_Legendary_Heroes)
 					begin
 						$SetAttribute(ThisAgent, #ATTRIB_MaxGuildMembers, 1);
@@ -922,7 +922,7 @@ begin
 						if ( $ListSize ( bldgs ) >= #Deathmatch_Sewer_Limit )
 							flag = FALSE;
 					end
-			if ($IsExpansion(thisagent) != False)
+			if ($IsExpansion() != False)
 				if( AIRootAgent's "Quest_Number" == #QNumber_Vale_Serpents )
 					begin
 

@@ -76,7 +76,7 @@ begin
 	if ( grave_time > #Gravestone_lifespan_max )
 		grave_time = #gravestone_lifespan_max;
 
-	if ($IsExpansion(thisagent) != FALSE)
+	if ($IsExpansion() != FALSE)
 		if ( thisagent's "title" == "Solarus" )
 			if ( level >= #Solarii_Min_Supernova_Level )
 				$Supernova_Blast ( thisagent, thisagent );
@@ -138,10 +138,10 @@ begin
 				home's "members" -= thisagent;
 		end
 
-	if ($IsExpansion(thisagent)== false)
+	if ($IsExpansion()== false)
 		begin
 			thisagent's "type" = "Waiting_to_die";
-			$Drop_All_Stack_Items(thisAgent);
+			//$Drop_All_Stack_Items(thisAgent);
 			$killthread(thisagent's "activescript");
 			$deletegamepiece(thisagent);
 
@@ -186,7 +186,7 @@ begin
 	if ( $Check_Mausoleum ( thisagent ) == FALSE )	// This check forces the script to bypass the normal death cycle
 		begin														// if a mausoleum inters the hero.
 		
-			$Drop_All_Stack_Items(thisAgent);
+			//$Drop_All_Stack_Items(thisAgent);
 			thisagent's "type" = "Waiting_to_die";
 			$killthread(thisagent's "activescript");
 			$deletegamepiece(thisagent);
@@ -764,7 +764,7 @@ Declare
 	agent		Target;
 
 Begin
-	if ($IsExpansion(thisagent)==False)
+	if ($IsExpansion()==False)
 		begin
 			$GraveStone (ThisAgent);
 			return;

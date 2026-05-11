@@ -9,9 +9,12 @@ declare
 	string unit_name;
 
 begin
+	
+	$GeneralAttributes(thisagent);	
+	
 	unit_name = thisagent's "Title";
 	
-	if ($IsExpansion(thisagent) != False)
+	if ($IsExpansion() != False)
 		begin
 			//See if ThisAgent needs to get a Hall of Champs effector over them
 			If ($GetUnitPlayerNumber (ThisAgent) == #Monster_Player)
@@ -34,11 +37,9 @@ begin
 	thisagent's "num_followers" = 0;
 	thisagent's "isleader" = FALSE;
 
-	if ($IsExpansion(thisagent) != False)
+	//if ($IsExpansion() != False)
 		$check_override_behavior ( thisagent );
 		// Jesse added this override line.
 
 	$NewThread ( ThisAgent's "ActiveScript", #Normal_Cycle, ThisAgent );
-	
-	$GeneralAttributes(thisagent);	
 end

@@ -323,7 +323,7 @@ begin
 
 	dmg = $AttackDamageType_Calculations(attacker, defender);
 	
-	if ($IsExpansion(attacker))
+	if ($IsExpansion())
 		begin
 			if (defender's "title" == "GoblinFortress")
 				$GoblinFortHitSpawn ( defender );
@@ -693,7 +693,7 @@ begin
 
 	if (is_critical)
 		begin
-			if ($IsExpansion(attacker))
+			if ($IsExpansion())
 				begin
 					$Say (Attacker, "VFX_Special2");
 					$CreateSpellUnit (Attacker, "Critical_hit", Defender);

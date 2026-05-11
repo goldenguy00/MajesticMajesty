@@ -218,7 +218,7 @@ begin
 
 	if (AIRootAgent's "Quest_Number" == #QNumber_Day_Reckoning)
 		$advance_to_level(thisagent,4 + $randomnumber(3));
-	if ($IsExpansion(thisagent) != False)
+	if ($IsExpansion() != False)
 		begin
 			if (AIRootAgent's "Quest_Number" == #QNumber_Legendary_Heroes)
 				$advance_to_level(thisAgent,10 + $RandomNumber (10));
@@ -263,7 +263,7 @@ begin
 	if ($isvalidgamepiece(thisagent's "home"))
 		begin
 			home = thisagent's "home";
-			if ($IsExpansion(Thisagent) == True)
+			if ($IsExpansion() == True)
 				begin
 					if (home's "subtype" == "palace")
 						thisagent's "home" = $nullagent();
@@ -376,7 +376,7 @@ function adept_birth(agent thisagent)
 declare
 
 begin
-	if ($IsExpansion(thisagent) == True)
+	if ($IsExpansion() == True)
 		begin
 			$learnspell(thisagent,"Teleport_long");
 			$learnspell(thisagent,"Double_attack");

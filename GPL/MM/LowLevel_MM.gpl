@@ -819,38 +819,14 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-function IsControlled(agent thisagent) is boolean
-
-declare
-
-begin
-	if ($CheckEffector(thisagent, "Charm_icon") == TRUE)
-		return TRUE;
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function IsExpansion(agent thisagent) is boolean
+function IsExpansion() is boolean
 
 declare
 	agent AIRootAgent;
 
 begin
 	AIRootAgent = $RetrieveAgent("GplAIRoot");
-	if ($HasAttribute("Quest_Flag_20", AIRootAgent) == TRUE)
-		return TRUE;
-	return False;
-end
-
-///////////////////////////////////////////////////////////////////////////////
-function IsABuilding(agent thisagent) is boolean
-
-declare
-
-begin
-	if (thisagent's "Type" == "Building" || thisagent's "Type" == "Lair")
-		return TRUE;
-	else
-		return FALSE;
+	return $HasAttribute("Quest_Flag_20", AIRootAgent);
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1451,6 +1427,21 @@ begin
 	return_int = $randomnumber(max - min) + min;
 
 	return return_int;
+end
+
+function Max(integer a, integer b) is integer
+declare
+begin
+	if (a > b)
+		return a;
+	return b;
+end
+function Min(integer a, integer b) is integer
+declare
+begin
+	if (a < b)
+		return a;
+	return b;
 end
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

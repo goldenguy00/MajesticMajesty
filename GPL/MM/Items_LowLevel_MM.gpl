@@ -24,17 +24,17 @@ declare
 
 begin
 	title = thisagent's "Title";
-	$AddAttribute(thisAgent, title, "integer", 0);
+	$SetIntegerSafe(thisAgent, title, 0);
 	
 	$SetDrawEffects( thisagent, "gray", 1 );
 	
 	// prevent loot pile up
-	if (thisagent's "Type" == "Equipment" && $HasAttribute("gold_value", thisagent))
-		begin
-			despawn_time = (60 + thisagent's "gold_value") * 1000;
-			$AddAttribute(thisagent, "DespawnTimer", "function", $DespawnTimer);
-			$RunThread(thisagent's "DespawnTimer", despawn_time, thisagent);
-		end
+	//if (thisagent's "Type" == "Equipment" && $HasAttribute("gold_value", thisagent))
+	//	begin
+	//		despawn_time = (60 + thisagent's "gold_value") * 1000;
+	//		$AddAttribute(thisagent, "DespawnTimer", "function", $DespawnTimer);
+	//		$RunThread(thisagent's "DespawnTimer", despawn_time, thisagent);
+	//	end
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -46,13 +46,13 @@ declare
 	integer stack;
 
 begin
-	title = thisagent's "Title";
-	if ($AddAttribute(thisAgent, title, "integer", 1) == false)
-		begin
-			stack = thisagent's title;
-			if (stack < 1)
-				thisagent's title = 1;		
-		end
+	//title = thisagent's "Title";
+	//if ($AddAttribute(thisAgent, title, "integer", 1) == false)
+	//	begin
+	//		stack = thisagent's title;
+	//		if (stack < 1)
+	//			thisagent's title = 1;		
+	//	end
 
 	$AddAttribute(thisAgent, "TransferScript", "function", $Basic_Stack_Transfer);
 	$SetDrawEffects( thisagent, "gray", 1 );
@@ -83,14 +83,10 @@ begin
 	if (Hero != $NullAgent ())
 		begin
 			itemname = Item's "Title";
-			if ($HasAttribute(itemname, Item))
-				begin
-					stack = Item's itemname;
-					
-					if (stack == 0)
-						stack = 1;
-					$AdjustIntegerSafe(hero, itemname, stack);
-				end
+			stack = $GetIntegerSafe(item, itemname);
+			if (stack < 1)
+				stack = 1;
+			$AdjustIntegerSafe(hero, itemname, stack);
 		end
 	
 end
@@ -104,7 +100,7 @@ declare
 begin
 	if (item == "Nothing" || item == "")
 		return;
-	itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(item), "Override", $Concatenate($MakeInventoryAttribute(item), 0) ); //Creates the item on the ground to apply its .dat attributes to the unit
+	itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(item));//, "Override", $Concatenate($MakeInventoryAttribute(item), 0) ); //Creates the item on the ground to apply its .dat attributes to the unit
 	itemagent's "Owned" = True;
 	(itemagent's "TransferScript")(itemagent, ThisAgent, -1);
 	if ($IsValidGamePiece(itemagent))
@@ -120,7 +116,7 @@ declare
 begin
 	if (item == "Nothing" || item == "")
 		return;
-	itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(item), "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
+	itemagent = $SpawnUnit (thisAgent, $GetInventoryItemAgentType(item));//, "Override", $Concatenate($MakeInventoryAttribute(item), 0) );
 	itemagent's "Owned" = True;
 	itemagent's "num_enchant" = num_enchant;
 	itemagent's "num_upgrade" = num_upgrade;
@@ -133,7 +129,7 @@ end
 function Basic_Equipment_Transfer(agent Item, agent Hero, integer attributeID)
 // This will get called with someone has picked up an equipment item and put it in their inventory.
 declare
-	string itemname, equip_name,  subclass, equip_slot, subtype, upgrade_increase;
+	string itemname, subclass, equip_slot, subtype, upgrade_increase;
 	integer	upgrade_level, num_upgrade, num_enchant;
 
 	string equip_slot_type;
@@ -150,7 +146,6 @@ begin
 	
 	// item properties
 	itemname = Item's "Title";						// WoodenStaff, Crossbow
-	equip_name = itemname + "EQ";					// WoodenStaffEQ, CrossbowEQ
 	subclass = Item's "Subclass";					// Sword, Bow, - Heavy, Light
 	equip_slot = Item's "Equip_Slot";				// RightHand, BodyArmor
 	subtype = Item's "Subtype"; 					// weapon, armor
@@ -158,9 +153,6 @@ begin
 	upgrade_level = Item's "Upgrade_Level"; 		// 0-3 static item tier
 	num_upgrade = Item's "num_upgrade";				// 0-3 target tier	
 	num_enchant = Item's "num_enchant";				// 0-3 target tier
-	stack = $GetIntegerSafe(item, itemname);
-	if (stack < 1)
-		stack = 1;
 
 	// attribute strings
 	_held_equip_level = equip_slot+"Level";			// RightHandLevel
@@ -173,10 +165,9 @@ begin
 	held_equip_level = $GetIntegerSafe(hero, _held_equip_level);
 	equip_slot_type = $GetStringSafe(Hero, _held_equip_type);
 	
-	if (num_upgrade > 0)
+	if (num_upgrade > 0 && upgrade_increase != itemname)
 		begin
 			num_upgrade -= 1;
-			$DeleteGamePiece (Item);
 			$UpgradeAndEquipItem(Hero, upgrade_increase, equip_slot, num_enchant, num_upgrade);
 			return;
 		end
@@ -198,7 +189,7 @@ begin
 			$UnequipItemSlot(Hero, _held_equip_slot);
 
 			// add new EQ version
-			$CreateNewInventoryItem(equip_name, Hero, 1);
+			$CreateNewInventoryItem(itemname, Hero, 1);
 			$SetStringSafe(Hero, _held_equip_slot, itemname);
 			$SetIntegerSafe(Hero, _held_equip_level, Upgrade_Level);
 			$SetIntegerSafe(Hero, _held_equip_en_level, num_enchant);
@@ -219,17 +210,7 @@ begin
 					$setattribute(Hero,#ATTRIB_armor_struct_bonus,upgrade_level);
 					$setattribute(Hero,#ATTRIB_armor_magic_bonus,num_enchant);
 				end
-			stack--;
 		end
-
-	if (stack > 0)
-		begin
-			$AdjustIntegerSafe(Hero, itemname, stack);
-			if ($AgentHasInventoryItem(itemname, hero) == false)
-				$TransferInventoryItem (-1, item, hero);
-		end
-
-	$DeleteGamePiece(item);
 end
 
 
@@ -247,15 +228,8 @@ begin
 	if (inventory_item == "Nothing")
 		return;
 
-	equipment_item = inventory_item + "EQ";
-	if ($AgentHasInventoryItem(equipment_item, thisagent) == true)
-		$DeleteInventoryItem(equipment_item, thisagent);
-
-	if ($AgentHasInventoryItem(inventory_item, thisagent) == false)
-		$CreateNewInventoryItem(inventory_item, thisagent, 1);
-			
-	$AdjustIntegerSafe(thisagent, inventory_item, 1);
-
+	$DeleteInventoryItem(inventory_item, thisagent);
+	
 	armor = $GetIntegerSafe(thisagent, "Armor_Physical_"+equip_slot);
 	mr = $GetIntegerSafe(thisagent, "Armor_Magical_"+equip_slot);
 
@@ -466,14 +440,14 @@ declare
 	integer loot_dropped;
 	
 begin
-	$UnequipItemSlot(thisagent, "Equipment_RightHand");
-	$UnequipItemSlot(thisagent, "Equipment_BodyArmor");
+	//$UnequipItemSlot(thisagent, "Equipment_RightHand");
+	//$UnequipItemSlot(thisagent, "Equipment_BodyArmor");
 	
 	items = $GetInventoryItems(thisAgent);
 	loot_dropped = $ListObjects(thisagent, "loot", 200, loot_on_ground);
 	foreach item in items do
 		begin
-			if ($GetInventoryItemDropType(item) >= 3 && $RandomNumber(100) > 30)
+			if ($GetInventoryItemDropType(item) == 3)
 				begin
 					agentType = $GetInventoryItemAgentType(item);
 					if ($titleinagentlist(agenttype, loot_on_ground))
@@ -491,31 +465,7 @@ begin
 				end
 		end
 end
-///////////////////////////////////////////////////////////////////////////////
-function Drop_All_Stacks_Equipment_Process(agent thisAgent, string unequipname)
 
-declare
-	agent dropped_item;
-	integer stack;
-	string equipname, agentType, itemname;
-
-begin
-	if (unequipname != "Nothing")
-		begin
-			equipname = unequipname + "EQ";
-			agentType = $GetInventoryItemAgentType(unequipname);
-			dropped_item = $SpawnUnit (thisAgent, agentType, "Override", $Concatenate($MakeInventoryAttribute(unequipname), 0) );
-			itemname = dropped_item's "Title";
-			
-			if ($HasAttribute(itemname, thisagent)!=False)
-				begin
-					stack = thisagent's itemname;
-					$AddAttribute(dropped_item, itemname, "integer", stack);
-				end
-					
-			$DeleteInventoryItem(equipname, thisAgent);
-		end
-end
 ///////////////////////////////////////////////////////////////////////////////
 // A special function to drop only items that are marked as immediate drop.
 function Drop_Immediate_Items(agent thisAgent)
@@ -529,7 +479,7 @@ begin
 
 	foreach item in items do
 		begin
-			if ($GetInventoryItemDropType(item) == 2)
+			if ($GetInventoryItemDropType(item) >= 2)
 				begin
 					// Get what type of agent the inventory item will be while it exists on the map
 					agentType = $GetInventoryItemAgentType(item);

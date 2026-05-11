@@ -19,7 +19,7 @@ begin
 //	//$DebugOut("Should I combat wandering monsters?");
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 	
-	if ($IsExpansion(thisagent) == false)
+	if ($IsExpansion() == false)
 		return False;
 	
 	current_best_score = 0;
@@ -80,7 +80,7 @@ Begin
 	chance = thisagent's "TASK_activeChance";
 	if ($randomnumber(100) + 1 > chance) return FALSE;
 	
-	if ($IsExpansion(thisagent) == false)
+	if ($IsExpansion() == false)
 		return False;
 	
 	taskindex = thisagent's "TASK_activeSubset";

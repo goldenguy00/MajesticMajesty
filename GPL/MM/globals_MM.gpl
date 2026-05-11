@@ -89,7 +89,7 @@ expression #Bank_Visit_Duration 26000
 expression #Bank_Interest_Increase 1
 
 //////////////////////ITEM GLOBALS////////////////////
-expression #Item_Chance_Limit 1000000
+expression #Item_Chance_Limit 100
 
 expression #MP_ItemSellPrice_Max 150
 expression #MP_ItemSellPrice_Min 75

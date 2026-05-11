@@ -168,7 +168,7 @@ Begin
 		
 			if ($getattribute(thisagent,#ATTRIB_HasEffectInvisibility) == 0)
 				begin
-					if ($isexpansion(thisagent) == false)
+					if ($isexpansion() == false)
 						return 1;
 					if ($CheckEffector (ThisAgent, "Speed_Tonic_Icon") == False )
 							return 1;
@@ -197,7 +197,7 @@ Begin
 		_Intent == "IDTXT_INTENT_BERSERKING")
 		begin
 		
-			if ($isexpansion(thisagent) == false)
+			if ($isexpansion() == false)
 				return 1;
 			
 			if ($checkeffector (ThisAgent, "Strength_Potion_Icon") == False)

@@ -1896,9 +1896,7 @@ begin
 	thisagent's "activescript" = thisagent's "basicscript";
 	thisagent's "backscript" = thisagent's "basicscript";
 	thisagent's "target" = $Nullagent();
-
-	$SetStringSafe(thisagent, "best_spell", "nothing");
-	$SetAgentSafe(thisagent, "best_target", $Nullagent());
+	$Reset_Best_Spell(thisagent);
 	$SetBooleanSafe(thisagent, "In_Combat", false);
 end
 

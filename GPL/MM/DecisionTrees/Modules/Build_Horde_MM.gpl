@@ -75,15 +75,12 @@ Begin
 			return False;
 		End
 	
-	//This check to see if they already have their max. complement of summons
-	If (ThisAgent's "Num_Followers" >= 5 || $IsHidden(thisagent))
-		return False;
-
 	// the following means: 1 at lvls < 3, 2 at 3 to 4, 3 at 5 to 6, and so on
 	summon_limit = (($getattribute(thisagent,#ATTRIB_experienceLevel) - 1) / 2) + 1;
+	summon_limit = $min(summon_limit, 5);
 
 	//This makes sure the Priestess has an empty slot
-	If (ThisAgent's "Num_Followers" < summon_limit)
+	If (ThisAgent's "Num_Followers" <= summon_limit)
 		begin
 			if ($CanCast(thisagent,"control_undead"))
 				begin
@@ -101,10 +98,33 @@ Begin
 			spell_name = $Spell_List_Summon(thisagent);
 			if (spell_name != "nothing" )
 				begin
-					$Cast (ThisAgent, spell_name, thisagent, "");
-					return True;
+					$UpdateTaskPackage(thisagent, $SummonTask, $isdead, thisagent, "IDTXT_INTENT_CONTROLLINGUNDEAD");
+
+					return $NotDuplicateTask(thisagent);
 				end
 		end
 
 	return False;
 End
+
+function SummonTask(agent thisagent)
+declare
+	integer summon_limit;
+	string spell_name;
+begin
+	// the following means: 1 at lvls < 3, 2 at 3 to 4, 3 at 5 to 6, and so on
+	summon_limit = (($getattribute(thisagent,#ATTRIB_experienceLevel) - 1) / 2) + 1;
+	summon_limit = $min(summon_limit, 5);
+
+	//This makes sure the Priestess has an empty slot
+	If (ThisAgent's "Num_Followers" <= summon_limit)
+		begin
+			//No undead nearby? Go ahead and animate.
+			spell_name = $Spell_List_Summon(thisagent);
+			if (spell_name != "nothing" )
+				begin
+					$Cast (ThisAgent, spell_name, thisagent, "");
+				end
+		end
+	$reset_tasks(thisagent);
+end

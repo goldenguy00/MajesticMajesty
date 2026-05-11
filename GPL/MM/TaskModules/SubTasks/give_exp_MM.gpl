@@ -148,7 +148,7 @@ begin
 	If (ThisAgent's "Title" == "Healer")
 			(ThisAgent's "Reborn_Counter") ++;
 		
-	if ($IsExpansion(thisagent) == True && thisagent's "title" == "gnome" && exp_level == #gnome_hero_level)
+	if ($IsExpansion() == True && thisagent's "title" == "gnome" && exp_level == #gnome_hero_level)
 		begin
 			// change gnome art here!
 			$ChangeUnitType( thisagent, "GnomeChamp" );

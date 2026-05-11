@@ -25,9 +25,9 @@ begin
 	if (xp_mult > 0)
 		xp_amount *= xp_mult;
 
-	if ($isvalidgamepiece(killer))
+	//if ($isvalidgamepiece(killer))
 		if ($IsDead(killer) == False)
-			if (killer's "subtype" == "hero" && $HasAttribute("Total_Item_list", killer))
+			if (killer's "subtype" == "hero")
 				begin
 					killer_exists = true;
 					
@@ -80,9 +80,9 @@ begin
 				end
 		end
 		
-	if (killer_exists)
-		$Item_Stack(thisagent, killer);
-	else
+	//if (killer_exists)
+	//	$Item_Stack(thisagent, killer);
+	//else
 		$Death_Item_Drops(thisagent);
 end
 

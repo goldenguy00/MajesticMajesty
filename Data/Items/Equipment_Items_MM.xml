@@ -42,7 +42,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SHORTSWORD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ShortSword" Value="0"/>
 			</Attributes>
 		</Game>
@@ -90,7 +90,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BROADSWORD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Broadsword" Value="0"/>
 			</Attributes>
 		</Game>
@@ -138,7 +138,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LONGSWORD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Longsword" Value="0"/>
 			</Attributes>
 		</Game>
@@ -186,7 +186,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARSWORD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarSword" Value="0"/>
 			</Attributes>
 		</Game>
@@ -234,7 +234,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HANDAXE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HandAxe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -282,7 +282,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_AXE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Axe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -330,7 +330,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BATTLEAXE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BattleAxe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -378,7 +378,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARAXE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarAxe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -426,7 +426,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CLUB_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Club" Value="0"/>
 			</Attributes>
 		</Game>
@@ -474,7 +474,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CUDGEL_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Cudgel" Value="0"/>
 			</Attributes>
 		</Game>
@@ -522,7 +522,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_TRUNCHEON_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Truncheon" Value="0"/>
 			</Attributes>
 		</Game>
@@ -570,7 +570,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARCLUB_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarClub" Value="0"/>
 			</Attributes>
 		</Game>
@@ -618,7 +618,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_DAGGER_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Dagger" Value="0"/>
 			</Attributes>
 		</Game>
@@ -666,7 +666,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_DIRK_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Dirk" Value="0"/>
 			</Attributes>
 		</Game>
@@ -714,7 +714,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_KRIS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Kris" Value="0"/>
 			</Attributes>
 		</Game>
@@ -762,7 +762,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BLADE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Blade" Value="0"/>
 			</Attributes>
 		</Game>
@@ -810,7 +810,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_THROWINGKNIFE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ThrowingKnife" Value="0"/>
 			</Attributes>
 		</Game>
@@ -858,7 +858,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WINGEDKNIFE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WingedKnife" Value="0"/>
 			</Attributes>
 		</Game>
@@ -906,7 +906,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_FLYINGKNIFE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="FlyingKnife" Value="0"/>
 			</Attributes>
 		</Game>
@@ -954,7 +954,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BATTLEDART_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BattleDart" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1002,7 +1002,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CLAYMORE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Claymore" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1050,7 +1050,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GIANTSWORD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="GiantSword" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1098,7 +1098,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BASTARDSWORD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BastardSword" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1146,7 +1146,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GREATSWORD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="GreatSword" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1194,7 +1194,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BLADESTICK_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Bladestick" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1242,7 +1242,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SCYTHE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Scythe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1290,7 +1290,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BATTLESCYTHE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BattleScythe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1338,7 +1338,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARSCYTHE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarScythe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1386,7 +1386,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BARDICHE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Bardiche" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1434,7 +1434,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_VOULGE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Voulge" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1482,7 +1482,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_POLEAXE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Poleaxe" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1530,7 +1530,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HALBERD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Halberd" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1578,7 +1578,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SHORTSTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ShortStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1626,7 +1626,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LONGSTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LongStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1674,7 +1674,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BATTLESTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BattleStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1722,7 +1722,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARSTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1770,7 +1770,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WOODENSTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WoodenStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1818,7 +1818,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WITHEREDSTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WitheredStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1866,7 +1866,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GNARLEDSTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="GnarledStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1914,7 +1914,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_ELDERSTAFF_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ElderStaff" Value="0"/>
 			</Attributes>
 		</Game>
@@ -1962,7 +1962,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_ROD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Rod" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2010,7 +2010,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_PALEROD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="PaleRod" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2058,7 +2058,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_DUSKROD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="DuskRod" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2106,7 +2106,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_ASHENROD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="AshenRod" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2154,7 +2154,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HAMMER_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Hammer" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2202,7 +2202,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BATTLEHAMMER_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BattleHammer" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2250,7 +2250,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARHAMMER_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarHammer" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2298,7 +2298,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GREATHAMMER_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="GreatHammer" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2346,7 +2346,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_MACE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Mace" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2394,7 +2394,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BATTLEMACE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BattleMace" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2442,7 +2442,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARMACE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarMace" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2490,7 +2490,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GREATMACE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="GreatMace" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2538,7 +2538,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SHORTBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ShortBow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2586,7 +2586,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LONGBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Longbow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2634,7 +2634,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_COMPOSITEBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="CompositeBow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2682,7 +2682,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarBow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2730,7 +2730,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LIGHTCROSSBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LightCrossbow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2778,7 +2778,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CROSSBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Crossbow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2826,7 +2826,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HEAVYCROSSBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HeavyCrossbow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2874,7 +2874,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SIEGECROSSBOW_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SiegeCrossbow" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2922,7 +2922,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_ROBES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Robes" Value="0"/>
 			</Attributes>
 		</Game>
@@ -2970,7 +2970,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SHROUD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Shroud" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3018,7 +3018,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CLOAK_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Cloak" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3066,7 +3066,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_MANTLE_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Mantle" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3114,7 +3114,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SOFTLEATHERARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SoftLeatherArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3162,7 +3162,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LEATHERARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LeatherArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3210,7 +3210,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HARDLEATHERARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HardLeatherArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3258,7 +3258,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_STUDDEDLEATHERARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="StuddedLeatherArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3306,7 +3306,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SCALEMAILARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ScaleMailArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3354,7 +3354,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CHAINMAILARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ChainMailArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3402,7 +3402,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SPLINTMAILARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SplintMailArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3450,7 +3450,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_PLATEMAILARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="PlateMailArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3498,7 +3498,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_PARTIALPLATEARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="PartialPlateArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3546,7 +3546,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LINKEDPLATEARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LinkedPlateArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3594,7 +3594,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_FULLPLATEARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="FullPlateArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3642,7 +3642,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_FIELDPLATEARMOR_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="FieldPlateArmor" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3690,7 +3690,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BUCKLER_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Buckler" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3738,7 +3738,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SMALLSHIELD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SmallShield" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3786,7 +3786,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LARGESHIELD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LargeShield" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3834,7 +3834,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_KITESHIELD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="KiteShield" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3882,7 +3882,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SKULLCAP_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SkullCap" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3930,7 +3930,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HELM_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Helm" Value="0"/>
 			</Attributes>
 		</Game>
@@ -3978,7 +3978,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_FULLHELM_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="FullHelm" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4026,7 +4026,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GREATHELM_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="GreatHelm" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4074,7 +4074,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_FEATHEREDCAP_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="FeatheredCap" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4122,7 +4122,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SOFTLEATHERCAP_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SoftLeatherCap" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4170,7 +4170,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LEATHERCAP_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LeatherCap" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4218,7 +4218,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HARDLEATHERCAP_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HardLeatherCap" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4266,7 +4266,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HOOD_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Hood" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4314,7 +4314,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_COWL_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Cowl" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4362,7 +4362,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CIRCLET_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Circlet" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4410,7 +4410,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CORONET_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Coronet" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4458,7 +4458,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_FELTGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="FeltGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4506,7 +4506,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_THREADEDGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ThreadedGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4554,7 +4554,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_FIBERGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="FiberGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4602,7 +4602,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SILKGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SilkGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4650,7 +4650,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HIDEGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HideGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4698,7 +4698,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LEATHERGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LeatherGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4746,7 +4746,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HARDLEATHERGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HardLeatherGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4794,7 +4794,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_MESHGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="MeshGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4842,7 +4842,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CHAINGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ChainGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4890,7 +4890,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LIGHTPLATEDGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LightPlatedGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4938,7 +4938,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_PLATEDGLOVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="PlatedGloves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -4986,7 +4986,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GAUNTLETS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Gauntlets" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5034,7 +5034,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HIDEBOOTS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HideBoots" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5082,7 +5082,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LEATHERBOOTS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LeatherBoots" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5130,7 +5130,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HARDLEATHERBOOTS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HardLeatherBoots" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5178,7 +5178,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_MESHBOOTS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="MeshBoots" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5226,7 +5226,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_CHAINBOOTS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ChainBoots" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5274,7 +5274,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LIGHTPLATEDBOOTS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LightPlatedBoots" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5322,7 +5322,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_PLATEDBOOTS_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="PlatedBoots" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5370,7 +5370,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_GREAVES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Greaves" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5418,7 +5418,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_TWINESHOES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="TwineShoes" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5466,7 +5466,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SHOES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Shoes" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5514,7 +5514,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_THREADEDSHOES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="ThreadedShoes" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5562,7 +5562,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SILKSHOES_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="SilkShoes" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5610,7 +5610,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_SASH_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Sash" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5658,7 +5658,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_LIGHTBELT_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="LightBelt" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5706,7 +5706,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BELT_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="Belt" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5754,7 +5754,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_MESHBELT_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="MeshBelt" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5802,7 +5802,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_HEAVYBELT_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="HeavyBelt" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5850,7 +5850,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_PLATEDBELT_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="PlatedBelt" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5898,7 +5898,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_BATTLEBELT_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="BattleBelt" Value="0"/>
 			</Attributes>
 		</Game>
@@ -5946,7 +5946,7 @@
 			<Flags value="IsInventoryItem"/>
 			<HelpID value="IDTXT_ITEM_WARBELT_HELP"/>
 			<Attributes>
-				<Attribute ID="CanDropItem" Value="3"/>			
+				<Attribute ID="CanDropItem" Value="0"/>			
 				<Attribute ID="WarBelt" Value="0"/>
 			</Attributes>
 		</Game>

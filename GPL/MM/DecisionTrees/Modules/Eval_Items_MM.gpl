@@ -131,7 +131,7 @@ begin
 	took_anything = false;
 	$ListObjects(target,"Special_Item", 1 ,resources );
 	$ListObjects(target,"Loot", 1 ,loot );
-	$ListObjects(target,"Equipment", 1 ,equipment );
+	//$ListObjects(target,"Equipment", 1 ,equipment );
 	
 	resources = $addlists(resources,loot,equipment);
 	resources << target;
@@ -141,6 +141,7 @@ begin
 			// Else the Special Item is something we want to pick up
 			WhatItem = -1;
 			// Get what type of item it is from its inventory
+			if ($GetBooleanSafe(item, "Owned") == false)
 			If ($AgentHasInventoryItem (WhatItem, item))
 				begin
 					$TransferInventoryItem (WhatItem, item, ThisAgent);
