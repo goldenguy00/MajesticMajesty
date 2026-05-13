@@ -13,8 +13,8 @@ declare
 	integer num_enemies;
 
 begin
-	if (thisagent's "fear" < 10)
-		thisagent's "fear" = 10;
+	if ($GetIntegerSafe(thisagent, "fear") < 10)
+		$SetIntegerSafe(thisagent, "fear", 10);
 	
 	$list_enemies(thisagent,1);
 	
@@ -79,7 +79,7 @@ begin
 
 	if ($isvalidgamepiece(thisagent's "home"))
 		inns << thisagent's "home";
-	thisagent's "Fear" = 100;
+	$SetIntegerSafe(thisagent, "fear", 100);
 	// remove any buildings that are too close from the list
 	foreach inn in inns do
 		begin

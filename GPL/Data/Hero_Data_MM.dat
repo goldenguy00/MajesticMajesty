@@ -1,5 +1,5 @@
 [Adept]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Adept)
@@ -67,7 +67,7 @@
 [end]
 
 [Barbarian]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Barbarian)
@@ -136,7 +136,7 @@
 [end]
 
 [Cultist]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Cultist)
@@ -209,7 +209,7 @@
 [end]
 
 [Dwarf]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Dwarf)
@@ -281,7 +281,7 @@
 [end]
 
 [Elf]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Elf)
@@ -350,7 +350,7 @@
 [end]
 
 [Gnome]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Gnome)
@@ -419,7 +419,7 @@
 [end]
 
 [Healer]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Healer)
@@ -489,7 +489,7 @@
 [end]
 
 [Monk]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Monk)
@@ -559,7 +559,7 @@
 [end]
 
 [Paladin]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Paladin)
@@ -627,7 +627,7 @@
 [end]
 
 [Priestess]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Priestess)
@@ -696,7 +696,7 @@
 [end]
 
 [Ranger]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Ranger)
@@ -767,7 +767,7 @@
 [end]
 
 [Rogue]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Rogue)
@@ -837,7 +837,7 @@
 [end]
 
 [Solarus]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Solarus)
@@ -906,7 +906,7 @@
 [end]
 
 [Warrior]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Warrior)
@@ -974,7 +974,7 @@
 [end]
 
 [Warrior_of_Discord]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Warrior_of_Discord)
@@ -1044,7 +1044,7 @@
 [end]
 
 [Wizard]
-	{hero
+	{Hero_Unit
 		(type	hero)
 		(subtype hero)
 		(title Wizard)

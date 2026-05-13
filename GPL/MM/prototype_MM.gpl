@@ -959,7 +959,7 @@ end
 
 
 
-prototype Hero ()
+prototype Hero_Unit ()
 // Can't hold negative numbers
 declare
 //////////////////////////////////////////Artifact attributes///////////////
@@ -1254,7 +1254,7 @@ declare
 
 
 ///////////////////////////////////////////////////////////////////////////////
-prototype Monster ()
+prototype Monster_unit ()
 
 declare
 	string type;
@@ -1418,88 +1418,6 @@ declare
 
 begin
 end
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-prototype Tax_collector()
-
-declare
-	string type;
-	string subtype;
-	string title;
-	string Original_type;
-
-	agent leader;  					// Chris hackarama so heros can be controlled monsters
-
-	function activeScript;
-	function basicscript; 			// this holds the basic script the taxman
-									// always returns to when done with tasks
-	function backscript;
-
-	agent target;
-	coordinate destination;
-	agent home;
-
-	list hostiles;
-
-	function birthScript;  			// This script will be called once, when the unit is created;
-	function IGdeathScript; 		// This script will be called once, when the unit is killed;
-	function deathScript; 			// This script will be called once, when the unit is killed;
-	integer attacktype;
-
-	string Idle_Action;
-	
-	string IntentExt;
-
-begin
-end
-
-///////////////////////////////////////////////////////////////////////////////
-prototype Caravan()
-
-declare
-	string type;
-	string subtype;
-	string title;
-	string Original_type;
-
-	function activeScript;
-	function basicscript; 		// this holds the basic script the monster
-								// always returns to when done with tasks
-	function backscript;
-
-//	integer num_guards; 		// this is the number of guards this unit currently has
-
-	agent target;
-	coordinate destination;
-	agent home;
-
-	list hostiles;
-
-	function birthScript;  		// This script will be called once, when the unit is created;
-	function IGdeathScript; 	// This script will be called once, when the unit is killed;
-	function deathScript; 		// This script will be called once, when the unit is killed;
-	integer attacktype;
-
-	string Idle_Action;
-	
-	string IntentExt;
-
-begin
-end
-
-
-
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1907,7 +1825,7 @@ begin
 end
 
 ///////////////////////////////////////////////////////////////////////////////
-prototype map_goodie()
+prototype help_sign()
 declare
 	string 	type;
 	string 	subtype;

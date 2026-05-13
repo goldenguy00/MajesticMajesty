@@ -17,6 +17,10 @@ Begin
 			return False;
 		end
 
+	if (thisagent's "running_intent" == "IDTXT_INTENT_TRAVELLINGDISTANT")
+		return false;
+	if ($isnearMapEdge(thisagent))
+		return false;
   	if ($getnearesthiddencoord(thisagent,dest))
 	 	begin
 //			//$DebugOut ("Still Hidden Map to explore!");
@@ -46,7 +50,10 @@ Begin
 //			//$DebugOut ("No, not interested!");
 			return False;
 		end
-
+	if (thisagent's "running_intent" == "IDTXT_INTENT_TRAVELLINGDISTANT")
+		return false;
+	if ($isnearMapEdge(thisagent))
+		return false;
   	if ($getnearesthiddencoord(thisagent,dest))
 		begin
 //			//$DebugOut ("Still Hidden Map to explore!");

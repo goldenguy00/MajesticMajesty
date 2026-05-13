@@ -1,5 +1,5 @@
 [Help_Sign_Toggle_On]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Help_Sign_Toggle_On)
@@ -8,7 +8,7 @@
 [end]
 
 [Help_Sign_Toggle_Off]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Help_Sign_Toggle_Off)
@@ -17,7 +17,7 @@
 [end]
 
 [Help_Sign_Attributes]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Help_Sign_Attributes)
@@ -26,7 +26,7 @@
 [end]
 
 [Help_Sign_Spell_System]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Help_Sign_Spell_System)
@@ -35,7 +35,7 @@
 [end]
 
 [Help_Sign_Library_Spells]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Help_Sign_Library_Spells)
@@ -44,7 +44,7 @@
 [end]
 
 [Available_Books]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Available_Books)
@@ -53,7 +53,7 @@
 [end]
 
 [Options]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Options)
@@ -62,7 +62,7 @@
 [end]
 
 [Research]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Research)
@@ -71,7 +71,7 @@
 [end]
 
 [Services]
-	{map_goodie
+	{help_sign
 		(type color)
 		(subtype color)
 		(title Services)

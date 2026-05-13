@@ -1,6 +1,6 @@
 
 [Stones]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		xx)
 		(title 			Stones)
@@ -46,7 +46,7 @@
 
 
 [Styx]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		xx)
 		(title 			Styx)
@@ -86,7 +86,7 @@
 [end]
 
 [RatmanShaman]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Ratman)
 		(title 			RatmanShaman)
@@ -121,7 +121,7 @@
 [end]
 
 [GoblinOverlord]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Goblin)
 		(title 			GoblinOverlord)
@@ -158,7 +158,7 @@
 [end]
 
 [Abomination]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		xx)
 		(title 			Abomination)
@@ -194,7 +194,7 @@
 [end]
 
 [GreaterGorgon]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		serpent)
 		(title 			GreaterGorgon)
@@ -231,7 +231,7 @@
 
 
 [Medusa]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		animal)
 		(title 			Medusa)
@@ -265,7 +265,7 @@
 
 
 [RatmanChampion]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Ratman)
 		(title 			RatmanChampion)
@@ -308,7 +308,7 @@
 
 
 [RatmanCatapult]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Ratman)
 		(title 			RatmanCatapult)
@@ -348,7 +348,7 @@
 
 
 [Ratman]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Ratman)
 		(title 			Ratman)
@@ -387,7 +387,7 @@
 
 
 [Goblin_Priest]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Goblin)
 		(title 			Goblin_Priest)
@@ -421,7 +421,7 @@
 [end]
 
 [Yeti]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Yeti)
 		(title 			Yeti)
@@ -461,7 +461,7 @@
 
 
 [ShadowBeast]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Undead)
 		(title 			ShadowBeast)
@@ -499,7 +499,7 @@
 
 
 [RhodenKingRat]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		xx)
 		(title 			RhodenKingRat)
@@ -536,7 +536,7 @@
 
 
 [Wendigo]
-	{Monster
+	{Monster_Unit
 		(type 			monster)
 		(subtype 		Animal)
 		(title 			Wendigo)
@@ -575,7 +575,7 @@
 
 
 [Evil_Oculus]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Evil_Oculus)
 		(title Evil_Oculus)
@@ -613,7 +613,7 @@
 
 
 [Dragon]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title Dragon)
@@ -656,7 +656,7 @@
 
 
 [IceDragon]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title IceDragon)
@@ -691,7 +691,7 @@
 [end]
 
 [Dryad]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Dryad)
 		(title Dryad)
@@ -726,7 +726,7 @@
 
 
 [Giant_Eagle]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Animal)
 		(title Giant_Eagle)
@@ -761,7 +761,7 @@
 
 
 [Strangleweed]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title Strangleweed)
@@ -799,7 +799,7 @@
 [end]
 
 [Giant_Rat]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Animal)
 		(title GiantRat)
@@ -833,7 +833,7 @@
 
 
 [Giant_Spider]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype animal)
 		(title Giant_Spider)
@@ -873,7 +873,7 @@
 [end]
 
 [White_Wolf]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Animal)
 		(title White_Wolf)
@@ -907,7 +907,7 @@
 [end]
 
 [Goblin_Fighter]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Goblin)
 		(title Goblin_Fighter)
@@ -940,7 +940,7 @@
 [end]
 
 [Goblin_Archer]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Goblin)
 		(title Goblin_Archer)
@@ -973,7 +973,7 @@
 
 
 [Goblin_Champion]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Goblin)
 		(title Goblin_Champion)
@@ -1008,7 +1008,7 @@
 [end]
 
 [Harpy]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Harpy)
 		(title Harpy)
@@ -1040,7 +1040,7 @@
 [end]
 
 [Daemonwood]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title Daemonwood)
@@ -1078,7 +1078,7 @@
 
 
 [Minotaur]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title Minotaur)
@@ -1115,7 +1115,7 @@
 
 
 [Red_Bear]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Animal)
 		(title Red_Bear)
@@ -1149,7 +1149,7 @@
 [end]
 
 [Rock_Golem]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Golem)
 		(title Rock_Golem)
@@ -1187,7 +1187,7 @@
 [end]
 
 [Rust_Spitter]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Animal)
 		(title Rust_Spitter)
@@ -1219,7 +1219,7 @@
 [end]
 
 [Skeleton]
-	{Monster
+	{Monster_Unit
 		(type mystery)
 		(subtype Undead)
 		(title Skeleton)
@@ -1257,7 +1257,7 @@
 [end]
 
 [Troll]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title Troll)
@@ -1299,7 +1299,7 @@
 
 
 [Vampire]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Undead)
 		(title Vampire)
@@ -1342,7 +1342,7 @@
 [end]
 
 [Werewolf]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype animal)
 		(title Werewolf)
@@ -1379,7 +1379,7 @@
 [end]
 
 [Zombie]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Undead)
 		(title Zombie)
@@ -1416,7 +1416,7 @@
 [end]
 
 [Hooligan]
-	{Monster
+	{Monster_Unit
 		(type	Hooligan)
 		(subtype Hooligan)
 		(title Hooligan)
@@ -1443,7 +1443,7 @@
 [end]
 
 [Black_Phantom]
-	{Monster
+	{Monster_Unit
 		(type						monster)
 		(subtype					Unique)
 		(title						Black_Phantom)
@@ -1485,7 +1485,7 @@
 
 
 [Url_Shekk]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Unique)
 		(title  Url_Shekk)
@@ -1521,7 +1521,7 @@
 [end]
 
 [Dirgo]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Unique)
 		(title  Dirgo)
@@ -1552,7 +1552,7 @@
 [end]
 
 [Rrongol]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Unique)
 		(title  Rrongol)
@@ -1584,7 +1584,7 @@
 
 
 [Liche_Queen]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Unique)
 		(title  Liche_Queen)
@@ -1623,7 +1623,7 @@
 [end]
 
 [Witch_King]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Unique)
 		(title  Witch_King)
@@ -1655,7 +1655,7 @@
 [end]
 
 [Vendral]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Unique)
 		(title  Vendral)
@@ -1692,7 +1692,7 @@
 [end]
 
 [Sanguine_Peasant]
-	{Monster
+	{Monster_Unit
 		(type	monster)
 		(subtype xx)
 		(title Sanguine_Peasant)
@@ -1715,7 +1715,7 @@
 
 
 [Sanguine_Peasant_Female]
-	{Monster
+	{Monster_Unit
 		(type	monster)
 		(subtype xx)
 		(title Sanguine_Peasant)
@@ -1737,7 +1737,7 @@
 [end]
 
 [Gore_Guard]
-	{Monster
+	{Monster_Unit
 		(type	monster)
 		(subtype xx)
 		(title Gore_Guard)
@@ -1772,7 +1772,7 @@
 [end]
 
 [Scarlet_Squire]
-	{Monster
+	{Monster_Unit
 		(type	monster)
 		(subtype xx)
 		(title Scarlet_Squire)
@@ -1808,7 +1808,7 @@
 [end]
 
 [Crimson_Archer]
-	{Monster
+	{Monster_Unit
 		(type	monster)
 		(subtype xx)
 		(title Crimson_Archer)
@@ -1842,7 +1842,7 @@
 [end]
 
 [Maniacal_Arbalest]
-	{Monster
+	{Monster_Unit
 		(type	monster)
 		(subtype xx)
 		(title Maniacal_Arbalest)
@@ -1876,7 +1876,7 @@
 [end]
 
 [Blood_Mage]
-	{Monster
+	{Monster_Unit
 		(type	monster)
 		(subtype xx)
 		(title Blood_Mage)
@@ -1909,7 +1909,7 @@
 [end]
 
 [Spirit_Troll]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title Spirit_Troll)
@@ -1945,7 +1945,7 @@
 [end]
 
 [Minotaur_Lord]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype xx)
 		(title Minotaur_Lord)
@@ -1978,7 +1978,7 @@
 [end]
 
 [Elder_Orbs]
-	{Monster
+	{Monster_Unit
 		(type monster)
 		(subtype Evil_Oculus)
 		(title Elder_Orbs)

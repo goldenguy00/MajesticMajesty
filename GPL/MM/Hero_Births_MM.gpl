@@ -129,13 +129,6 @@ begin
 			$AdjustBaseStat(thisagent,"Wisdom", NewStats);
 		end
 end
-//
-function booster(agent thisagent)
-declare
-begin
-	$specifyname(thisagent, "Boost");
-end
-//
 
 ///////////////////////////////////////////////////////////////////////////////
 function hero_birth(agent thisagent)
@@ -394,6 +387,7 @@ Declare
 	integer base_gold, rnd_gold;
 
 Begin
+	$AddAttribute(thisagent, "IntentEXT", "string", "CARAVAN");
 	$GeneralAttributes(thisagent);
 
 	$manor_bonus(thisagent);
@@ -466,7 +460,7 @@ declare
 	agent home;
 
 begin
-	
+	$AddAttribute(thisagent, "IntentEXT", "string", "TAXCOLLECTOR");
 	$GeneralAttributes(thisagent);
 
 	$manor_bonus(thisagent);
@@ -502,7 +496,7 @@ begin
 	Palace = thisagent's "home";
 	if ($isdead(palace))
 		return;
-	places_to_visit = Palace's "tax_route";
+
 	old_target = thisagent's "target";
 
 
@@ -514,14 +508,7 @@ begin
 			thisagent's "destination" = $locationof(thisagent's "Target");
 			thisagent's "backscript" = $bring_home_goods;
 			thisagent's "Activescript" = $Henchmen_travel_to;
-			if ($isvalidgamepiece(old_target))
-				begin
-					if ($agentinlist(old_target, palace's "tax_route") == false)
-						Palace's "tax_route" << old_target;
-					if ($agentinlist(old_target, palace's "Tax_targets") == true)
-						Palace's "Tax_targets" -= old_target;
-				end
-
+			
 			$hide(thisagent,thisagent's "target");
 		end
 	else
@@ -530,56 +517,47 @@ begin
 				begin
 					// reset the tax list - the tax collectors may be 'stuck'
 					$clearlist(Palace's "tax_route");
-					$clearlist(Places_to_visit);
 				end
 
 	      // look for new taxables
 			// if there's no current list, try to make a new one
-			if ($listsize(places_to_visit) == 0)
+			if ($listsize(Palace's "tax_route") == 0)
 				begin
 					// build a new list of targets to tax
 //					$debugout("Finding taxable buildings");
-					$ListObjects(thisagent,"Building",-1,Places_to_visit,#MyPlayer);
+					$ListObjects(Palace,"Building",-1,Places_to_visit,#MyPlayer);
 
 					// remove non-taxable buildings from the list
 					// remove buildings covered by another collector
 					// remove palace from list
 					foreach bldg in Places_to_visit do
 						begin
-							if (($getattribute(bldg,#ATTRIB_isTaxed) == 1) || ($getattribute(bldg,#ATTRIB_QuickTax) == 1))
-							if (($getattribute(bldg,#ATTRIB_gold) > 0) && (bldg's "title" != "palace"))
-								if ($agentinlist(bldg,palace's "Tax_targets") == FALSE)
-									begin
-
-										new_list << bldg;
-									end
+							if ($isdead(bldg) == false && bldg's "title" != "palace")
+								if ($getattribute(bldg,#ATTRIB_isTaxed) == 1 || $getattribute(bldg,#ATTRIB_QuickTax) == 1)
+									if ($agentinlist(bldg,palace's "Tax_targets") == FALSE)
+										Palace's "tax_route" << bldg;
 						end
-
-					places_to_visit = new_list;
-					Palace's "tax_route" = places_to_visit;
+					
 				end
 					
-			if ($listsize(places_to_visit) > 0)
+			if ($listsize(Palace's "tax_route") > 0)
 				full_list = TRUE;
 			else
 				full_list = FALSE;
 					
 			// temporarily remove buildings that aren't in this tax collector's
 			// tax range
-			$clearlist(new_list);
 			limit = $getattribute(thisagent,#ATTRIB_pickupAmount);
-			foreach bldg in Places_to_visit do
+			foreach bldg in Palace's "tax_route" do
 				begin
 					if ($isdead(bldg) == FALSE)
-						if (($getattribute(bldg,#ATTRIB_isTaxed) == 1) || ($getattribute(bldg,#ATTRIB_QuickTax) == 1))
-							if ($getattribute(bldg,#ATTRIB_gold) >= limit)
+						if ($getattribute(bldg,#ATTRIB_isTaxed) == 1 || $getattribute(bldg,#ATTRIB_QuickTax) == 1)
+							if ($getattribute(bldg,#ATTRIB_gold) > 0 && $getattribute(bldg,#ATTRIB_gold) >= limit)
 								new_list << bldg;
 				end
-					
-			places_to_visit = $sort_by_gold(new_list);
 
 			// if there's no places to tax, go home
-			if ($listsize(places_to_visit) == 0)
+			if ($listsize(new_list) == 0)
 				begin
 //					thisagent's "target" = Palace;
 					thisagent's "target" = $nearest_city_building(thisagent);
@@ -598,16 +576,17 @@ begin
 			else
 				begin
 					palace's "tax_route_dead" = 0;
+					
+					 
 					// pick the next building off the list to tax
-					ThisAgent's "Target" = $ListMember (Places_to_Visit, 1);
+					ThisAgent's "Target" = $sort_by_gold(new_list);
+
 
 					// remove target from the tax_route
-					if ($agentinlist(thisagent's "target", palace's "Tax_route") == true)
-						Palace's "Tax_route" -= thisagent's "Target";
+					Palace's "Tax_route" -= thisagent's "Target";
 
 					// put target on palace's list of covered buildings
-					if ($agentinlist(thisagent's "target", palace's "tax_targets") == false)
-						Palace's "tax_targets" << thisagent's "Target";
+					Palace's "tax_targets" << thisagent's "Target";
 
 					thisagent's "activescript" = $tax_building;
 
@@ -669,9 +648,9 @@ begin
 
 				palace = $GetTruePalace (ThisAgent);
 				
-				if ($agentinlist(thisagent's "target", palace's "tax_route") == false)
+				//if ($agentinlist(thisagent's "target", palace's "tax_route") == false)
 					Palace's "tax_route" << thisagent's "target";
-				if ($agentinlist(thisagent's "target", palace's "Tax_targets") == true)
+				//if ($agentinlist(thisagent's "target", palace's "Tax_targets") == true)
 					Palace's "Tax_targets" -= thisagent's "target";
 
 				thisagent's "activescript" = thisagent's "basicscript";
@@ -683,7 +662,7 @@ begin
 
 end
 ///////////////////////////////////////////////////////////////////////////////
-function Sort_By_Gold(list buildings) is list
+function Sort_By_Gold(list buildings) is agent
 
 declare
 	agent bldg, richest;
@@ -692,8 +671,8 @@ declare
 
 begin
 	// sort the results by number of wins
-	while ($listsize(buildings) > 0) do
-		begin
+	//while ($listsize(buildings) > 0) do
+	//	begin
 			Best_score = -1;
 			//Find the Hero with the most wins
 			Foreach bldg in buildings do
@@ -703,11 +682,11 @@ begin
 						richest = bldg;
 					end
 
-			newl << richest;
-			buildings -= richest;
-		end
+	//		newl << richest;
+	//		buildings -= richest;
+	//	end
 
-	return newl;
+	return richest;
 end
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -717,6 +696,8 @@ declare
 	agent home;
 
 begin
+
+	$AddAttribute(thisagent, "IntentEXT", "string", "PEASANT");
 	$GeneralAttributes(thisagent);
 
 	thisagent's "home" = $getpalace(thisagent);

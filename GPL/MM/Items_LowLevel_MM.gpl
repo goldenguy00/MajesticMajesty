@@ -189,7 +189,7 @@ begin
 			$UnequipItemSlot(Hero, _held_equip_slot);
 
 			// add new EQ version
-			$CreateNewInventoryItem(itemname, Hero, 1);
+			//$CreateNewInventoryItem(itemname, Hero, 1);
 			$SetStringSafe(Hero, _held_equip_slot, itemname);
 			$SetIntegerSafe(Hero, _held_equip_level, Upgrade_Level);
 			$SetIntegerSafe(Hero, _held_equip_en_level, num_enchant);
@@ -228,7 +228,7 @@ begin
 	if (inventory_item == "Nothing")
 		return;
 
-	$DeleteInventoryItem(inventory_item, thisagent);
+	//$DeleteInventoryItem(inventory_item, thisagent);
 	
 	armor = $GetIntegerSafe(thisagent, "Armor_Physical_"+equip_slot);
 	mr = $GetIntegerSafe(thisagent, "Armor_Magical_"+equip_slot);

@@ -88,7 +88,7 @@ Begin
 					Total_Gold -= #Cost_Per_Struct_Upgrade1;
 					Gold += #Cost_Per_Struct_Upgrade1;
 					Upgrade = 1;
-					$adjustattribute(ThisBuilding,#ATTRIB_Strength, #Level_1_weapon_bonus);
+					//$adjustattribute(ThisBuilding,#ATTRIB_Strength, #Level_1_weapon_bonus);
 				end
 
 
@@ -97,14 +97,14 @@ Begin
 					Total_Gold -= #Cost_Per_Struct_Upgrade2;
 					Gold += #Cost_Per_Struct_Upgrade2;
 					Upgrade = 2;
-					$adjustattribute(ThisBuilding,#ATTRIB_Strength, #Level_2_weapon_bonus);
+					//$adjustattribute(ThisBuilding,#ATTRIB_Strength, #Level_2_weapon_bonus);
 				end
 
 			If ($GetAttribute (ThisAgent, What_To_Upgrade) <= 2 && Total_Gold >= #Cost_Per_Struct_Upgrade3 && $GetAttribute (ThisBuilding, #ATTRIB_ResearchWeaponLevel_4) != 0)
 				begin
 					Gold += #Cost_Per_Struct_Upgrade3;
 					Upgrade = 3;
-					$adjustattribute(ThisBuilding,#ATTRIB_Strength, #Level_3_weapon_bonus);
+					//$adjustattribute(ThisBuilding,#ATTRIB_Strength, #Level_3_weapon_bonus);
 				end
 		end
 
